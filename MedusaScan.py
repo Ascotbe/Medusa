@@ -2,6 +2,7 @@ from optparse import OptionParser
 #import Weblogic.WeblogicMain
 import Confluence.ConfluenceMain
 import Struts2.Struts2Main
+import Nginx.Nginx
 Version = '0.04'
 banner='''
                    __  __          _                   ____                  
@@ -51,6 +52,10 @@ def San():
         Confluence.ConfluenceMain.Main(Url)# 调用 Confluence主函数
     except:
         print("ConfluenceExcept")
+    try:
+        Nginx.Nginx.Main(Url)# 调用 Confluence主函数
+    except:
+        print("NginxExcept")
 
 if __name__ == '__main__':
     print(banner)

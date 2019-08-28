@@ -17,49 +17,49 @@ import Weblogic.CVE_2019_2729
 
 def Main(url):
     try:
-        Weblogic.CVE_2014_4210_Main(url)
+        Weblogic.CVE_2014_4210(url)
     except:
         pass
     try:
-        Weblogic.CVE_2016_0638_Main(url)
+        Weblogic.CVE_2016_0638(url)
     except:
         pass
     try:
-        Weblogic.CVE_2016_3510_Main(url)
+        Weblogic.CVE_2016_3510(url)
     except:
         pass
     try:
-        Weblogic.CVE_2017_3248_Main(url)
+        Weblogic.CVE_2017_3248(url)
     except:
         pass
     try:
-        Weblogic.CVE_2017_3506_Main(url)
-    except:
-        pass
-
-    try:
-        Weblogic.CVE_2017_10271_Main(url)
-    except:
-        pass
-    try:
-        Weblogic.CVE_2018_2628_Main(url)
-    except:
-        pass
-    try:
-        Weblogic.CVE_2018_2893_Main(url)
+        Weblogic.CVE_2017_3506(url)
     except:
         pass
 
     try:
-        Weblogic.CVE_2018_2894_Main(url)
+        Weblogic.CVE_2017_10271(url)
     except:
         pass
     try:
-        Weblogic.CVE_2019_2725_Main(url)
+        Weblogic.CVE_2018_2628(url)
     except:
         pass
     try:
-        Weblogic.CVE_2019_2729_Main(url)
+        Weblogic.CVE_2018_2893(url)
+    except:
+        pass
+
+    try:
+        Weblogic.CVE_2018_2894(url)
+    except:
+        pass
+    try:
+        Weblogic.CVE_2019_2725(url)
+    except:
+        pass
+    try:
+        Weblogic.CVE_2019_2729(url)
     except:
         pass
 

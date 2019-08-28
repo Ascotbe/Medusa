@@ -14,7 +14,7 @@ def UrlProcessing(url):
     return res.scheme, res.hostname, res.port
 
 
-def S2_052_Main(arg):
+def S2_052(arg):
 
     scheme, url, port = UrlProcessing(arg)
     if port is None and scheme == 'https':

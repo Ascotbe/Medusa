@@ -1,5 +1,5 @@
 
-[![Ascotb Hacker](https://img.shields.io/badge/Ascotb-Medusa%20Scan-green)](https://github.com/Ascotbe/Medusa)
+[![Ascotb Hacker](https://img.shields.io/badge/Ascotbe-Medusa%20Scan-green)](https://github.com/Ascotbe/Medusa)
 [![Medusa](https://img.shields.io/badge/Version-0.04-red)](https://github.com/Ascotbe/Medusa)
 [![Medusa](https://img.shields.io/badge/LICENSE-GPL-ff69b4)](https://github.com/Ascotbe/Medusa)
 

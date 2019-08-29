@@ -13,7 +13,7 @@
 **请使用者遵守 [中华人民共和国网络安全法](http://www.cac.gov.cn/2016-11/07/c_1119867116.htm)，勿将MedusaScan用于非授权的测试，MedusaScan开发者不负任何连带法律责任。**
 
 - [x] 框架编写
-- [ ] 图片以及图标制作
+- [x] 图片以及图标制作
 - [ ] Struts2漏洞全覆盖
 - [ ] Weblogic漏洞全覆盖
 - [ ] Fofa批量IP收集
@@ -23,6 +23,14 @@
 - [ ] 代理池
 - [ ] 插件持续编写
 
+### 提交意见&BUG
+    欢迎大家提交Issues
+
+### 参与开发
+    等框架完善并且模板写出来后，欢迎大家贡献宝贵的代码
+
+#### 封面作者
+<a href="https://github.com/czkm"><img alt="Release" src="https://avatars2.githubusercontent.com/u/36911813?s=460&v=4"  width="50"></a>
 
 [肥宅博客](https://ascotbe.github.io)   
 
@@ -30,6 +38,3 @@
 [更新日志](/UpDataLog/README.md)
 
 [插件模板]()
-
-#### 封面作者
-<a href="https://github.com/czkm"><img alt="Release" src="https://avatars2.githubusercontent.com/u/36911813?s=460&v=4"  width="50"></a>

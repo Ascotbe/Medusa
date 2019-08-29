@@ -7,4 +7,7 @@
 -
 	添加许可证
 	更新NginxCRLFInjectionVulnerability，NginxDirectoryTraversalVulnerability插件
-	
+2019.8.30
+-
+    添加类合集
+    优化代码结构

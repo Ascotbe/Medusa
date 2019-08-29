@@ -6,8 +6,8 @@
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/LICENSE-GPL-ff69b4"></a>
  </p>
 
-<center><font size="3">美杜莎扫描器</font></center>
--
+<center>美杜莎扫描器</center>
+
     预计9月1号最初版本上线（目前测试版）
 
 **请使用者遵守 [中华人民共和国网络安全法](http://www.cac.gov.cn/2016-11/07/c_1119867116.htm)，勿将MedusaScan用于非授权的测试，MedusaScan开发者不负任何连带法律责任。**

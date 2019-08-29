@@ -1,19 +1,10 @@
 <img src="https://github.com/Ascotbe/Medusa/blob/master/MedusaScan.png?raw=true" width="1500" alt="MedusaScan" /> 
-
-[![Ascotb](https://img.shields.io/badge/Ascotbe-Medusa%20Scan-green)](https://github.com/Ascotbe/Medusa)
-[![python](https://img.shields.io/badge/python-3.6-blueviolet)](https://github.com/Ascotbe/Medusa)
-[![Medusa](https://img.shields.io/badge/Version-0.04-red)](https://github.com/Ascotbe/Medusa)
-[![Medusa](https://img.shields.io/badge/LICENSE-GPL-ff69b4)](https://github.com/Ascotbe/Medusa)
-
-
-
-  <p align="center">
+ <p align="center">
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Ascotbe-Medusa%20Scan-green"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/python-3.6-blueviolet"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Version-0.04-red"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/LICENSE-GPL-ff69b4"></a>
-
-  </p>
+ </p>
 
 
 

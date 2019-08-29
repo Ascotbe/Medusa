@@ -5,6 +5,20 @@
 [![Medusa](https://img.shields.io/badge/Version-0.04-red)](https://github.com/Ascotbe/Medusa)
 [![Medusa](https://img.shields.io/badge/LICENSE-GPL-ff69b4)](https://github.com/Ascotbe/Medusa)
 
+
+
+  <p align="center">
+    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Ascotbe-Medusa%20Scan-green"></a>
+    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/python-3.6-blueviolet"></a>
+    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Version-0.04-red"></a>
+    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/LICENSE-GPL-ff69b4"></a>
+
+  </p>
+
+
+
+
+
 美杜莎扫描器
 -
     预计9月1号最初版本上线（目前测试版）

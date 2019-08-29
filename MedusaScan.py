@@ -31,7 +31,7 @@ help=:  显示在帮助文档中的信息;
 '''
 parser.add_option('-t','--text',type=str,help='The file where the url is located,If you do not enter the location, the default is written to the root directory.',dest='filename')
 parser.add_option('-u','--url',type=str,help="Target url",dest='url')
-#parser.add_option('-p','--port',type=str,help="Target port",dest='port')
+parser.add_option('-a','--agent',type=str,help="Specify a header file or use a random header",dest='agent')
 
 
 
@@ -65,6 +65,8 @@ if __name__ == '__main__':
 
     FileName = options.filename
     Url = options.url
+    Agent=options.agent#判断是否使用随机头，判断写在Class里面
+
     try:
         San(FileName,Url)
     except KeyboardInterrupt as e:

@@ -1,4 +1,4 @@
-<img src="https://github.com/Ascotbe/Medusa/blob/master/MedusaScan.png?raw=true" width="1000" alt="MedusaScan" /> 
+<img src="https://github.com/Ascotbe/Medusa/blob/master/MedusaScan.png?raw=true" width="700" alt="MedusaScan" /> 
 
 [![Ascotb](https://img.shields.io/badge/Ascotbe-Medusa%20Scan-green)](https://github.com/Ascotbe/Medusa)
 [![python](https://img.shields.io/badge/python-3.6-blueviolet)](https://github.com/Ascotbe/Medusa)

@@ -31,5 +31,5 @@
 
 [插件模板]()
 
-### 图片制作
+#### 封面作者
 <a href="https://github.com/czkm"><img alt="Release" src="https://avatars2.githubusercontent.com/u/36911813?s=460&v=4"  width="50"></a>

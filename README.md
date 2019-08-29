@@ -6,7 +6,7 @@
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/LICENSE-GPL-ff69b4"></a>
  </p>
 
-<center>美杜莎扫描器</center>
+<p align="center">美杜莎扫描器</p>
 
     预计9月1号最初版本上线（目前测试版）
 

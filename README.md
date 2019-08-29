@@ -32,4 +32,4 @@
 [插件模板]()
 
 ### 图片制作
-  [坤酱](https://github.com/czkm) 
+  [![坤酱](https://avatars2.githubusercontent.com/u/36911813?s=460&v=4)](https://github.com/czkm)

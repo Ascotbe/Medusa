@@ -2,7 +2,7 @@ from optparse import OptionParser
 #import Weblogic.WeblogicMain
 import Confluence.ConfluenceMain
 import Struts2.Struts2Main
-import Nginx.Nginx
+import Nginx.NginxMain
 import time
 Version = '0.08'
 banner='''
@@ -51,7 +51,7 @@ def San(FileName,Url,Values):
     except:
         print("ConfluenceExcept")
     try:
-        Nginx.Nginx.Main(Url,FileName,Values)# 调用 Confluence主函数
+        Nginx.NginxMain.Main(Url,FileName,Values)# 调用 Confluence主函数
     except:
         print("NginxExcept")
 

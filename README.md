@@ -12,8 +12,20 @@
 
 **请使用者遵守 [中华人民共和国网络安全法](http://www.cac.gov.cn/2016-11/07/c_1119867116.htm)，勿将MedusaScan用于非授权的测试，MedusaScan开发者不负任何连带法律责任。**
 
-
-
+###关于美杜莎扫描器
+	美杜莎扫描器是集漏洞扫描和端口扫描以及敏感信息收集等功能为一体的扫描器
+	
+### 使用说明
+	#下载文件
+	git clone https://github.com/Ascotbe/Medusa.git
+	#安装依赖
+	pip install -r Medusa.txt
+	#使用扫描器
+	python MedusaScan.py -u 192.168.0.1
+	
+### 参数说明
+	(待补充,直接写篇博客)
+	
 ### 提交意见&BUG
     欢迎大家提交Issues
 

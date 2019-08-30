@@ -1,0 +1,3 @@
+fake-useragent
+requests
+urllib

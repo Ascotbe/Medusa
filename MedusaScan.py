@@ -4,7 +4,7 @@ import Confluence.ConfluenceMain
 import Struts2.Struts2Main
 import Nginx.Nginx
 import time
-Version = '0.04'
+Version = '0.08'
 banner='''
                    __  __          _                   ____                  
                   |  \/  | ___  __| |_   _ ___  __ _  / ___|  ___ __ _ _ __  
@@ -37,25 +37,21 @@ parser.add_option('-a','--agent',type=str,help="Specify a header file or use a r
 
 #Port=options.port
 
-def San(FileName,Url):
-    if FileName==None:
-        FileName= time.strftime("%Y-%m-%d", time.localtime())# 获取日期作为文件
-    else:
-        FileName=FileName
+def San(FileName,Url,Values):
     # try:
     #     Weblogic.WeblogicMain.Main(Url)#调用weblogic主函数
     # except:
     #     print("WeblogicSanExcept")
     try:
-        Struts2.Struts2Main.Main(Url,FileName)  # 调用Struts2主函数
+        Struts2.Struts2Main.Main(Url,FileName,Values)  # 调用Struts2主函数
     except:
         print("Struts2SanExcept")
     try:
-        Confluence.ConfluenceMain.Main(Url,FileName)# 调用 Confluence主函数
+        Confluence.ConfluenceMain.Main(Url,FileName,Values)# 调用 Confluence主函数
     except:
         print("ConfluenceExcept")
     try:
-        Nginx.Nginx.Main(Url,FileName)# 调用 Confluence主函数
+        Nginx.Nginx.Main(Url,FileName,Values)# 调用 Confluence主函数
     except:
         print("NginxExcept")
 
@@ -65,10 +61,11 @@ if __name__ == '__main__':
 
     FileName = options.filename
     Url = options.url
-    Agent=options.agent#判断是否使用随机头，判断写在Class里面
+    Values=options.agent#判断是否使用随机头，判断写在Class里面
 
     try:
-        San(FileName,Url)
+        San(FileName,Url,Values)
+        print("Scan is complete, please see the result file")
     except KeyboardInterrupt as e:
         exit(0)
 

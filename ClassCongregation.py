@@ -5,10 +5,17 @@ import time
 
 
 class WriteFile:
-    def Write(vul,FileName):
-        FileNames = FileName + ".txt"
+    def __init__(self,vul,FileName):
+        if FileName == None:
+            self.FileName = time.strftime("%Y-%m-%d", time.localtime())  # 获取日期作为文件
+        else:
+            self.FileName = FileName
+        self.vul=vul
+
+    def Write(self):
+        FileNames = self.FileName + ".txt"#不需要输入后缀，只要名字就好
         with open(FileNames, 'a') as f:  # 如果filename不存在会自动创建， 'w'表示写数据，写之前会清空文件中的原有数据！
-               f.write(vul+ "\n")
+               f.write(self.vul+ "\n")
 
 
 

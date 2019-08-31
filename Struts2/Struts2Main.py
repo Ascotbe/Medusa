@@ -56,6 +56,4 @@ def Main(Url,FileName,Values):
         WriteFile.Write(Medusa)
     except:
         print("[-]S2-057 Scan error")
-    #最后该类扫描结束输出结果语句
-    SanOver="Struts2 Scan completed"
-    WriteFile.Write(SanOver)
+

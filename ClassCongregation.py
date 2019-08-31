@@ -2,9 +2,10 @@
 # _*_ coding: utf-8 _*_
 from fake_useragent import UserAgent
 import time
-
-
-class WriteFile:
+import urllib
+import nmap
+import requests
+class WriteFile:#写入文件类
     def __init__(self,FileName):
         if FileName == None:
             self.FileName = time.strftime("%Y-%m-%d", time.localtime())  # 获取日期作为文件
@@ -14,12 +15,12 @@ class WriteFile:
 
     def Write(self,Medusa):
         FileNames = self.FileName + ".txt"#不需要输入后缀，只要名字就好
-        with open(FileNames, 'a') as f:  # 如果filename不存在会自动创建， 'w'表示写数据，写之前会清空文件中的原有数据！
+        with open(FileNames, 'a',encoding='utf-8') as f:  # 如果filename不存在会自动创建， 'w'表示写数据，写之前会清空文件中的原有数据！
                f.write(Medusa+ "\n")
 
 
 
-class UserAgentS:
+class UserAgentS:#使用随机头类
     def __init__(self,Values):
         self.Values=Values
 
@@ -49,6 +50,32 @@ class UserAgentS:
         except:
             ua = UserAgent()
             return (ua.random)#报错使用随机头
+
+
+class NmapScan:#扫描端口类
+    def __init__(self,Url,Port):
+        if Url.startswith("http"):#记个小知识点：必须带上https://这个头不然urlparse就不能正确提取hostname导致后面运行出差错
+            res = urllib.parse.urlparse(Url)#小知识点2：如果只导入import urllib包使用parse这个类的话会报错，必须在import requests导入这个包才能正常运行
+        else:
+            res = urllib.parse.urlparse('http://%s' % Url)
+        Host=res.hostname
+        self.Host= Host#提取后的网址或者IP
+        if Port==None:
+            self.Port = "1-65535"#如果用户没输入就扫描全端口
+        else:
+            self.Port=Port
+    def ScanPort(self):
+        try:
+            Nmap = nmap.PortScanner()
+            ScanResult = Nmap.scan(self.Host, self.Port, '-sV')
+            FinalResults = "IP:" + self.Host + "\rPort status:\r"
+            for list in ScanResult['scan'][self.Host]['tcp']:
+                FinalResults = FinalResults + "Port:" + str(list) + "     Status:Open\r"  # list为每个tcp列表的值(但是tcp列表里面还有值)
+            NmapScanFileName = "NmapScanOutputFile.txt"
+            with open(NmapScanFileName, 'a', encoding='utf-8') as f:
+                f.write(FinalResults + "\n")#写入单独的扫描结果文件中
+        except:
+            print("Please enter the correct nmap scan command.")
 
 
 # a=UserAgentS("fireFox")

@@ -19,6 +19,4 @@ def Main(Url,FileName,Values):
     except:
         print("[-]NginxCRLFInjectionVulnerability Scan error")
 
-    #最后该类扫描结束输出结果语句
-    SanOver="Nginx Scan completed"
-    WriteFile.Write(SanOver)
+

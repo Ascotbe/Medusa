@@ -15,6 +15,3 @@ def Main(Url,FileName,Values):
     except:
         print("[-]CVE_2019_3396 Scan error")
 
-    #最后该类扫描结束输出结果语句
-    SanOver="Confluence Scan completed"
-    WriteFile.Write(SanOver)

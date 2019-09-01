@@ -2,3 +2,5 @@ fake-useragent
 requests
 urllib
 python-nmap
+PyMySQL
+IPy

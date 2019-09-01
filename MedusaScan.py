@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# _*_ coding: utf-8 _*_
+
 from optparse import OptionParser
 #import Weblogic.WeblogicMain
 import Confluence.ConfluenceMain
@@ -60,7 +63,7 @@ if __name__ == '__main__':
     WriteFile = ClassCongregation.WriteFile(OutFileName)  # 声明调用类集合中的WriteFile类,并传入文件名字(这一步是必须的)
 
     try:
-        if OutFileName==None:
+        if InputFileName==None:
             Urls=Url
             if NmapScanRange != None:
                 NmapScan = ClassCongregation.NmapScan(Url, NmapScanRange)  # 声明调用类集合中的NmapScan类，并传入Url和扫描范围
@@ -73,8 +76,8 @@ if __name__ == '__main__':
                 print("Scan is complete, please see the result file")
             except KeyboardInterrupt as e:
                 exit(0)
-        elif OutFileName!=None:
-            with open(OutFileName, encoding='utf-8') as f:
+        elif InputFileName!=None:
+            with open(InputFileName, encoding='utf-8') as f:
                 for UrlLine in f:
                     Urls=UrlLine
                     if NmapScanRange != None:
@@ -91,7 +94,9 @@ if __name__ == '__main__':
     except:
         print("Please enter the correct file path!")
 
-
-
-
+# from IPy import IP
+# ip = IP('192.168.0.0/28')#后面批量生成C段扫描会用到
+# print(ip.len())#IP个数有多少
+# for x in ip:
+#     print(x)
 

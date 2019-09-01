@@ -78,6 +78,18 @@ class NmapScan:#扫描端口类
             print("Please enter the correct nmap scan command.")
 
 
+class BlastingDB:
+    def __init__(self,DataBaseUserFileName,DataBasePassWrodFileName):
+        self.DataBaseUseFileNamer=DataBaseUserFileName
+        self.DataBasePassWrodFileName = DataBasePassWrodFileName
+    def BoomDB(self):
+        with open(self.DataBaseUserFileName, encoding='utf-8') as f:
+            for UrlLine in f:
+                Urls = UrlLine
+
+
+
+
 # a=UserAgentS("fireFox")
 # b=a.UserAgent()
 # print(b)

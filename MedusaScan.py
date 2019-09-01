@@ -28,10 +28,22 @@ parser.add_option('-u','--url',type=str,help="Target url",dest='url')
 parser.add_option('-a','--agent',type=str,help="Specify a header file or use a random header",dest='agent')
 parser.add_option('-f','--file',type=str,help="Specify bulk scan file batch scan",dest='InputFileName')
 parser.add_option('-n','--nmap',type=str,help="Incoming scan port range (1-65535), use this command to enable nmap scan function by default.",dest='NmapScanRange')
+parser.add_option('-sp','--sqlpass',type=str,help="Please enter an password file.",dest='SqlPasswrod')
+parser.add_option('-su','--sqluser',type=str,help="Please enter an account file.",dest='SqlUser')
 
 
 
-#Port=options.port
+
+def BoomDB(Url,SqlUser,SqlPasswrod):
+    if SqlUser!=None or SqlPasswrod!=None:
+        BlastingDB=ClassCongregation.BlastingDB(SqlUser,SqlPasswrod)
+        if InputFileName == None:
+            BlastingDB.BoomDB(Url)
+        elif InputFileName != None:
+            with open(InputFileName, encoding='utf-8') as f:
+                for UrlLine in f:
+                    Urls=UrlLine
+                    BlastingDB.BoomDB(Url)
 
 def San(OutFileName,Url,Values):
     # try:
@@ -59,7 +71,8 @@ if __name__ == '__main__':
     Url = options.url
     Values=options.agent#判断是否使用随机头，判断写在Class里面
     NmapScanRange=options.NmapScanRange#传入扫描参数
-
+    SqlPasswrod=options.SqlPasswrod#传入爆破数据库的密码文件
+    SqlUser = options.SqlUser#传入爆破数据库的账号文件
     WriteFile = ClassCongregation.WriteFile(OutFileName)  # 声明调用类集合中的WriteFile类,并传入文件名字(这一步是必须的)
 
     try:
@@ -93,6 +106,12 @@ if __name__ == '__main__':
                         exit(0)
     except:
         print("Please enter the correct file path!")
+
+
+    BoomDB(Url, SqlUser, SqlPasswrod)#调用爆破数据库函数
+
+
+
 
 # from IPy import IP
 # ip = IP('192.168.0.0/28')#后面批量生成C段扫描会用到

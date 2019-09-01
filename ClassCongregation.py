@@ -80,7 +80,7 @@ class NmapScan:#扫描端口类
             NmapScanFileName = "NmapScanOutputFile.txt"
             with open(NmapScanFileName, 'a', encoding='utf-8') as f:
                 f.write(FinalResults + "\n")#写入单独的扫描结果文件中
-        except:
+        except IOError:
             print("Please enter the correct nmap scan command.")
 
 
@@ -106,7 +106,7 @@ class BlastingDB:
                                         f.write("Database address:"+Url +"      Account:"+User+"      Passwrod:"+PassWrod+ "\n")  # 写入单独的扫描结果文件中
                                 except Exception as e:
                                     pass
-        except:
+        except IOError:
             print("Input file content format is incorrect")
         try:
             if self.DataBaseUserFileName == None or self.DataBasePasswrodFileName==None:
@@ -125,7 +125,7 @@ class BlastingDB:
                                         f.write("Database address:"+Url +"      Account:"+User+"      Passwrod:"+PassWrod+ "\n")  # 写入单独的扫描结果文件中
                                 except Exception as e:
                                     pass
-        except:
+        except IOError:
             print("Input file content format is incorrect")
 
 

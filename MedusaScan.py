@@ -6,9 +6,7 @@ from optparse import OptionParser
 import Confluence.ConfluenceMain
 import Struts2.Struts2Main
 import Nginx.NginxMain
-import time
 import ClassCongregation
-import nmap
 import Banner
 
 parser = OptionParser()
@@ -74,6 +72,8 @@ if __name__ == '__main__':
     SqlPasswrod=options.SqlPasswrod#传入爆破数据库的密码文件
     SqlUser = options.SqlUser#传入爆破数据库的账号文件
     WriteFile = ClassCongregation.WriteFile(OutFileName)  # 声明调用类集合中的WriteFile类,并传入文件名字(这一步是必须的)
+
+
 
     try:
         if InputFileName==None:

@@ -4,3 +4,4 @@ urllib
 python-nmap
 PyMySQL
 IPy
+scrapy

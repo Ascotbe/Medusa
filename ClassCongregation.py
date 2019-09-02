@@ -6,7 +6,7 @@ import urllib
 import nmap
 import requests
 import pymysql
-
+from scrapy.selector import Selector
 
 def IpProcess(Url):
     if Url.startswith("http"):  # 记个小知识点：必须带上https://这个头不然urlparse就不能正确提取hostname导致后面运行出差错
@@ -130,7 +130,70 @@ class BlastingDB:
 
 
 
+class Proxy:#IP代理池参数
+    def __init__(self):
+        self.HttpIp=[]
+        self.HttpsIp=[]
+    def HttpIpProxy(self):
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
+                          "Chrome/59.0.3071.115 Safari/537.36"}
+        for i in range(1, 100):
+            HttpUrl = 'http://www.xicidaili.com/wt/{0}'.format(i)
+            req = requests.get(url=HttpUrl, headers=headers)
+            selector = Selector(text=req.text)
+            HttpAllTrs = selector.xpath('//*[@id="ip_list"]//tr')
 
+            HttpIpLists = []
+            for tr in HttpAllTrs[1:]:#过滤第一个tr标签里面是其他数据
+                HttpIp = tr.xpath('td[2]/text()').extract()[0]
+                HttpPort = tr.xpath('td[3]/text()').extract()[0]
+                #proxy_type = tr.xpath('td[6]/text()').extract()[0].lower()
+                HttpIpLists.append((HttpIp+':'+HttpPort))#存储到httpIP列表里面
+
+            for ip in HttpIpLists:
+                #print(ip)
+                proxies = {
+                    "http": "http://"+str(ip)#使用代理前面一定要加http://或者https://
+                }
+                try:
+
+                    if requests.get('https://www.baidu.com/', proxies=proxies, timeout=2).status_code == 200:
+                        if ip not in self.HttpsIp:#如果代理IP不在列表里面就传到列表里
+                            self.HttpIp.append(ip)
+                except:
+                    pass
+
+    def HttpsIpProxy(self):
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
+                          "Chrome/59.0.3071.115 Safari/537.36"}
+        for i in range(1, 5):
+            HttpsUrl = 'http://www.xicidaili.com/wn/{0}'.format(i)
+            req = requests.get(url=HttpsUrl, headers=headers)
+            selector = Selector(text=req.text)
+            HttpsAllTrs = selector.xpath('//*[@id="ip_list"]//tr')
+
+            HttpsIpLists = []
+            for tr in HttpsAllTrs[1:]:  # 过滤第一个tr标签里面是其他数据
+                HttpsIp = tr.xpath('td[2]/text()').extract()[0]
+                HttpsPort = tr.xpath('td[3]/text()').extract()[0]
+                # proxy_type = tr.xpath('td[6]/text()').extract()[0].lower()
+                HttpsIpLists.append((HttpsIp + ':' + HttpsPort))  # 存储到httpIP列表里面
+
+            for ip in HttpsIpLists:
+                # print(ip)
+                proxies = {
+                    "https": "https://"+str(ip)
+                }
+                try:
+
+                    if requests.get('https://www.baidu.com/', proxies=proxies, timeout=2).status_code == 200:
+                        if ip not in self.HttpsIp:#如果代理IP不在列表里面就传到列表里
+                            self.HttpsIp.append(ip)
+                except:
+                    pass
+        print(self.HttpsIp)
 
 # a=UBlastingDB("")
 # b=a.UserAgent()

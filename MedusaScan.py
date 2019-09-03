@@ -1,47 +1,55 @@
 #!/usr/bin/env python
 # _*_ coding: utf-8 _*_
 
-from optparse import OptionParser
+
 #import Weblogic.WeblogicMain
 import Confluence.ConfluenceMain
 import Struts2.Struts2Main
 import Nginx.NginxMain
 import ClassCongregation
 import Banner
+import argparse
+import requests
+import os
+parser = argparse.ArgumentParser()#description="xxxxxx")
+##########################################################################################################################################################################
+#舍弃的 OptionParser模块
+#from optparse import OptionParser
+#parser = OptionParser()
+# parser.add_option('-o','--out',type=str,help='The file where the url is located,If you do not enter the location, the default is written to the root directory.',dest='OutFileName')
+# parser.add_option('-u','--url',type=str,help="Target url",dest='url')
+# parser.add_option('-a','--agent',type=str,help="Specify a header file or use a random header",dest='agent')
+# parser.add_option('-f','--file',type=str,help="Specify bulk scan file batch scan",dest='InputFileName')
+# parser.add_option('-n','--nmap',type=str,help="Incoming scan port range (1-65535), use this command to enable nmap scan function by default.",dest='NmapScanRange')
+# parser.add_option('-sp','--sqlpass',type=str,help="Please enter an password file.",dest='SqlPasswrod')
+# parser.add_option('-su','--sqluser',type=str,help="Please enter an account file.",dest='SqlUser')
+##########################################################################################################################################################################
+UrlGroup = parser.add_mutually_exclusive_group()#定义一个互斥参数组
+#UrlGroup .add_argument("-q", "--quiet", action="store_true")#增加到互斥参数组里面去
+parser.add_argument('-o','--OutFileName',type=str,help='The file where the url is located,If you do not enter the location, the default is written to the root directory.')
+parser.add_argument('-u','--url',type=str,help="Target url")
+parser.add_argument('-p','--Proxy',help="Whether to enable the global proxy function",action="store_true")
+parser.add_argument('-a','--agent',type=str,help="Specify a header file or use a random header")
+parser.add_argument('-f','--InputFileName',type=str,help="Specify bulk scan file batch scan")
+parser.add_argument('-n','--NmapScanRange',type=str,help="Incoming scan port range (1-65535), use this command to enable nmap scan function by default.")
+parser.add_argument('-sp','--SqlPasswrod',type=str,help="Please enter an password file.")
+parser.add_argument('-su','--SqlUser',type=str,help="Please enter an account file.")
 
-parser = OptionParser()
-'''
-第一个参数表示option的缩写，以单个中划线引导，例如-f、-d，只能用单个字母，可以使用大写;
-第二个参数表示option的全拼，以两个中划线引导，例如--file、--Opencv_version;
-第一第二个参数可以单独使用，也可以同时使用，但必须保证有其中一个;
-从第三个参数开始是命名参数，是可选参数，常用的几个：
-type=: 表示输入命令行参数的值的类型，默认为string，可以指定为string, int, choice, float，complex其中一种;
-default=: 表示命令参数的默认值；
-metavar=: 显示到帮助文档中用来提示用户输入期望的命令参数；
-dest=：指定参数在options对象中成员的名称，如果没有指定dest参数，将用命令行参数名来对options对象的值进行存取。
-help=:  显示在帮助文档中的信息;
-'''
-parser.add_option('-o','--out',type=str,help='The file where the url is located,If you do not enter the location, the default is written to the root directory.',dest='OutFileName')
-parser.add_option('-u','--url',type=str,help="Target url",dest='url')
-parser.add_option('-a','--agent',type=str,help="Specify a header file or use a random header",dest='agent')
-parser.add_option('-f','--file',type=str,help="Specify bulk scan file batch scan",dest='InputFileName')
-parser.add_option('-n','--nmap',type=str,help="Incoming scan port range (1-65535), use this command to enable nmap scan function by default.",dest='NmapScanRange')
-parser.add_option('-sp','--sqlpass',type=str,help="Please enter an password file.",dest='SqlPasswrod')
-parser.add_option('-su','--sqluser',type=str,help="Please enter an account file.",dest='SqlUser')
 
 
 
-
-def BoomDB(Url,SqlUser,SqlPasswrod):
+def BoomDB(Url,SqlUser,SqlPasswrod,InputFileName):
     if SqlUser!=None or SqlPasswrod!=None:
-        BlastingDB=ClassCongregation.BlastingDB(SqlUser,SqlPasswrod)
-        if InputFileName == None:
+        BlastingDB=ClassCongregation.BlastingDB(SqlUser,SqlPasswrod)#只要其中账号文件或者密码文件不为空的话就开启爆破数据库功能
+        if InputFileName == None:#如果不是批量扫描使用就使用单独的UTL
             BlastingDB.BoomDB(Url)
-        elif InputFileName != None:
+        elif InputFileName != None:#如果是批量扫描就循环传入参数扫描
             with open(InputFileName, encoding='utf-8') as f:
                 for UrlLine in f:
                     Urls=UrlLine
-                    BlastingDB.BoomDB(Url)
+                    BlastingDB.BoomDB(Urls)
+    else:
+        pass
 
 def San(OutFileName,Url,Values):
     # try:
@@ -61,19 +69,57 @@ def San(OutFileName,Url,Values):
     except:
         print("NginxExcept")
 
+def OpenProxy():
+    ProxyFlag=True#设置函数内的标志
+
+    try:#尝试打开文件查看是否有代理池
+        with open("ProxyPool.txt", encoding='utf-8') as f:
+            while ProxyFlag:#判断是否进行运行
+                for ProxyPool in f:#读取代理IP进行测试是否可以使用
+                    ProxyIp=ProxyPool
+                    proxies = {
+                        "http": "http://" + str(ProxyIp)  # 使用代理前面一定要加http://或者https://
+                    }
+                    try:
+
+                        if requests.get('https://www.baidu.com/', proxies=proxies, timeout=2).status_code == 200:
+                            ProxyFlag=False#如果代理能用就重置标志
+                            return (str(ProxyIp))#二次清洗完成的代理IP能用就返回
+                    except:
+                        pass
+    except:
+        HttpProxy=ClassCongregation.Proxy()
+        HttpProxy.HttpIpProxy()#如果不存在该文件就调用爬取类
+        OpenProxy()#接着调用自身
+
+    # HttpsProxy=Proxy.HttpsIpProxy()
+
+
+
 if __name__ == '__main__':
     print(Banner.RandomBanner())#输出随机横幅
-    (options, args) = parser.parse_args()  # options里面存了所有的dest中的值
-    InputFileName = options.InputFileName#批量扫描文件所在位置
-    OutFileName= options.OutFileName#输出最终结果文件名字
-    Url = options.url
-    Values=options.agent#判断是否使用随机头，判断写在Class里面
-    NmapScanRange=options.NmapScanRange#传入扫描参数
-    SqlPasswrod=options.SqlPasswrod#传入爆破数据库的密码文件
-    SqlUser = options.SqlUser#传入爆破数据库的账号文件
+    args = parser.parse_args()
+    InputFileName = args.InputFileName#批量扫描文件所在位置
+    OutFileName= args.OutFileName#输出最终结果文件名字
+    Url = args.url
+    Values=args.agent#判断是否使用随机头，判断写在Class里面
+    NmapScanRange=args.NmapScanRange#传入扫描参数
+    SqlPasswrod=args.SqlPasswrod#传入爆破数据库的密码文件
+    SqlUser = args.SqlUser#传入爆破数据库的账号文件
+    Proxy=args.Proxy#不需要传入参数如果开启只需要-p
     WriteFile = ClassCongregation.WriteFile(OutFileName)  # 声明调用类集合中的WriteFile类,并传入文件名字(这一步是必须的)
 
+    if Url==None and InputFileName==None:#如果找不到URL的话直接退出
+        print("Incorrect input, please enter -h to view help")
+        os._exit(0)#直接退出整个函数
+    elif Url!=None and InputFileName!=None:#如果既输入URL又输入URL文件夹一样退出
+        print("Incorrect input, please enter -h to view help")
+        os._exit(0)#直接退出整个函数
 
+
+    if Proxy:#如果输入了参数表示开启了代理进而调用函数
+        ProxyIp=OpenProxy()
+        print(ProxyIp)
 
     try:
         if InputFileName==None:
@@ -90,25 +136,28 @@ if __name__ == '__main__':
             except KeyboardInterrupt as e:
                 exit(0)
         elif InputFileName!=None:
-            with open(InputFileName, encoding='utf-8') as f:
-                for UrlLine in f:
-                    Urls=UrlLine
-                    if NmapScanRange != None:
-                        NmapScan = ClassCongregation.NmapScan(Url, NmapScanRange)  # 声明调用类集合中的NmapScan类，并传入Url和扫描范围
-                        NmapScan.ScanPort()
-                    try:
-                        San(OutFileName, Urls, Values)
-                        # 最后该类扫描结束输出结果语句
-                        SanOver = Urls + "  Scan completed"
-                        WriteFile.Write(SanOver)
-                        print("Scan is complete, please see the result file")
-                    except KeyboardInterrupt as e:
-                        exit(0)
+            try:
+                with open(InputFileName, encoding='utf-8') as f:
+                    for UrlLine in f:
+                        Urls=UrlLine
+                        if NmapScanRange != None:
+                            NmapScan = ClassCongregation.NmapScan(Url, NmapScanRange)  # 声明调用类集合中的NmapScan类，并传入Url和扫描范围
+                            NmapScan.ScanPort()
+                        try:
+                            San(OutFileName, Urls, Values)
+                            # 最后该类扫描结束输出结果语句
+                            SanOver = Urls + "  Scan completed"
+                            WriteFile.Write(SanOver)
+                            print("Scan is complete, please see the result file")
+                        except KeyboardInterrupt as e:
+                            exit(0)
+            except:
+                print("Please check the file path or the file content is correct")
     except:
         print("Please enter the correct file path!")
 
 
-    BoomDB(Url, SqlUser, SqlPasswrod)#调用爆破数据库函数
+    BoomDB(Url, SqlUser, SqlPasswrod,InputFileName)#调用爆破数据库函数
 
 
 

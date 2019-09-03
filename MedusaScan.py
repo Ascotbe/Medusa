@@ -51,40 +51,44 @@ def BoomDB(Url,SqlUser,SqlPasswrod,InputFileName):
     else:
         pass
 
-def San(OutFileName,Url,Values):
+def San(OutFileName,Url,Values,ProxyIp):
     # try:
     #     Weblogic.WeblogicMain.Main(Url)#调用weblogic主函数
     # except:
     #     print("WeblogicSanExcept")
     try:
-        Struts2.Struts2Main.Main(Url,OutFileName,Values)  # 调用Struts2主函数
+        Struts2.Struts2Main.Main(Url,OutFileName,Values,ProxyIp)  # 调用Struts2主函数
     except:
         print("Struts2SanExcept")
     try:
-        Confluence.ConfluenceMain.Main(Url,OutFileName,Values)# 调用 Confluence主函数
+        Confluence.ConfluenceMain.Main(Url,OutFileName,Values,ProxyIp)# 调用 Confluence主函数
     except:
         print("ConfluenceExcept")
     try:
-        Nginx.NginxMain.Main(Url,OutFileName,Values)# 调用 Confluence主函数
+        Nginx.NginxMain.Main(Url,OutFileName,Values,ProxyIp)# 调用 Confluence主函数
     except:
         print("NginxExcept")
 
 def OpenProxy():
     ProxyFlag=True#设置函数内的标志
-
+    ProxyIpComparison=""
     try:#尝试打开文件查看是否有代理池
         with open("ProxyPool.txt", encoding='utf-8') as f:
             while ProxyFlag:#判断是否进行运行
                 for ProxyPool in f:#读取代理IP进行测试是否可以使用
-                    ProxyIp=ProxyPool
+
+                    ProxyIps=ProxyPool[:-1]#删除换行符号\n
+                    if ProxyIps==ProxyIpComparison:#对当前IP和上个IP进行对比如果相同代表爬取的IP全部不能用就直接跳出不在使用代理
+                        return
+                    ProxyIpComparison = ProxyPool[:-1]
                     proxies = {
-                        "http": "http://" + str(ProxyIp)  # 使用代理前面一定要加http://或者https://
+                        #"http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
+                        "http":"http://" + str(ProxyIps)
                     }
                     try:
-
                         if requests.get('https://www.baidu.com/', proxies=proxies, timeout=2).status_code == 200:
                             ProxyFlag=False#如果代理能用就重置标志
-                            return (str(ProxyIp))#二次清洗完成的代理IP能用就返回
+                            return ProxyIps#二次清洗完成的代理IP能用就返回
                     except:
                         pass
     except:
@@ -116,10 +120,12 @@ if __name__ == '__main__':
         print("Incorrect input, please enter -h to view help")
         os._exit(0)#直接退出整个函数
 
-
+    ProxyIp=None#声明全局变量的ProxyIp值
     if Proxy:#如果输入了参数表示开启了代理进而调用函数
         ProxyIp=OpenProxy()
-        print(ProxyIp)
+        while ProxyIp==None:
+            OpenProxy()#如果传入空值
+
 
     try:
         if InputFileName==None:
@@ -128,7 +134,7 @@ if __name__ == '__main__':
                 NmapScan = ClassCongregation.NmapScan(Url, NmapScanRange)  # 声明调用类集合中的NmapScan类，并传入Url和扫描范围
                 NmapScan.ScanPort()
             try:
-                San(OutFileName, Urls, Values)
+                San(OutFileName, Urls, Values,ProxyIp)
                 # 最后该类扫描结束输出结果语句
                 SanOver = Urls + "  Scan completed"
                 WriteFile.Write(SanOver)
@@ -144,7 +150,7 @@ if __name__ == '__main__':
                             NmapScan = ClassCongregation.NmapScan(Url, NmapScanRange)  # 声明调用类集合中的NmapScan类，并传入Url和扫描范围
                             NmapScan.ScanPort()
                         try:
-                            San(OutFileName, Urls, Values)
+                            San(OutFileName, Urls, Values,ProxyIp)
                             # 最后该类扫描结束输出结果语句
                             SanOver = Urls + "  Scan completed"
                             WriteFile.Write(SanOver)

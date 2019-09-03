@@ -140,7 +140,7 @@ class Proxy:#IP代理池参数
                           "Chrome/59.0.3071.115 Safari/537.36"}
         for i in range(1, 5):
             HttpUrl = 'http://www.xicidaili.com/wt/{0}'.format(i)
-            req = requests.get(url=HttpUrl, headers=headers)
+            req = requests.get(url=HttpUrl, headers=headers,timeout=10)
             selector = Selector(text=req.text)
             HttpAllTrs = selector.xpath('//*[@id="ip_list"]//tr')
 
@@ -163,8 +163,10 @@ class Proxy:#IP代理池参数
                             self.HttpIp.append(ip)
                 except:
                     pass
-        with open("ProxyPool.txt", 'w+', encoding='utf-8') as f:#覆盖的的写入IP代理
-            f.write(str(self.HttpIp))  # 写入单独的扫描结果文件中
+        f = open("ProxyPool.txt", 'w+', encoding='utf-8')  # 覆盖的的写入IP代理
+        f.write(str(self.HttpIp))  # 写入单独的扫描结果文件中
+        f.close()
+
     # def HttpsIpProxy(self):
     #     headers = {
     #         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "

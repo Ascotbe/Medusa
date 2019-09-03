@@ -1,5 +1,5 @@
 import random
-Version = '0.12'
+Version = '0.13'
 Blog="""https://ascotbe.github.io"""
 banner_1='''
  m    m            #                               mmmm                      

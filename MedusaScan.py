@@ -11,6 +11,7 @@ import Banner
 import argparse
 import requests
 import os
+from tqdm import tqdm
 parser = argparse.ArgumentParser()#description="xxxxxx")
 ##########################################################################################################################################################################
 #舍弃的 OptionParser模块
@@ -59,15 +60,15 @@ def San(OutFileName,Url,Values,ProxyIp):
     try:
         Struts2.Struts2Main.Main(Url,OutFileName,Values,ProxyIp)  # 调用Struts2主函数
     except:
-        print("Struts2SanExcept")
+        pass
     try:
         Confluence.ConfluenceMain.Main(Url,OutFileName,Values,ProxyIp)# 调用 Confluence主函数
     except:
-        print("ConfluenceExcept")
+        pass
     try:
         Nginx.NginxMain.Main(Url,OutFileName,Values,ProxyIp)# 调用 Confluence主函数
     except:
-        print("NginxExcept")
+        pass
 
 def OpenProxy():
     ProxyFlag=True#设置函数内的标志
@@ -144,7 +145,8 @@ if __name__ == '__main__':
         elif InputFileName!=None:
             try:
                 with open(InputFileName, encoding='utf-8') as f:
-                    for UrlLine in f:
+                    print("BatchScanProgress")
+                    for UrlLine in tqdm(f):
                         Urls=UrlLine
                         if NmapScanRange != None:
                             NmapScan = ClassCongregation.NmapScan(Url, NmapScanRange)  # 声明调用类集合中的NmapScan类，并传入Url和扫描范围

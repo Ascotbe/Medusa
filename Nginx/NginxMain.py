@@ -12,11 +12,13 @@ def Main(Url,FileName,Values,ProxyIp):
         Medusa=Nginx.NginxDirectoryTraversalVulnerability.NginxDirectoryTraversalVulnerability(Url,RandomAgent,ProxyIp)
         WriteFile.Write(Medusa)
     except:
-        print("[-]NginxDirectoryTraversalVulnerability Scan error")
+        pass
+        #print("[-]NginxDirectoryTraversalVulnerability Scan error")
     try:
         Medusa=Nginx.NginxCRLFInjectionVulnerability.NginxCRLFInjectionVulnerability(Url,RandomAgent,ProxyIp)
         WriteFile.Write(Medusa)
     except:
-        print("[-]NginxCRLFInjectionVulnerability Scan error")
+        pass
+        #print("[-]NginxCRLFInjectionVulnerability Scan error")
 
 

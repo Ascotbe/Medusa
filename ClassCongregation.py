@@ -7,7 +7,7 @@ import nmap
 import requests
 import pymysql
 from scrapy.selector import Selector
-
+from tqdm import tqdm
 def IpProcess(Url):
     if Url.startswith("http"):  # 记个小知识点：必须带上https://这个头不然urlparse就不能正确提取hostname导致后面运行出差错
         res = urllib.parse.urlparse(Url)  # 小知识点2：如果只导入import urllib包使用parse这个类的话会报错，必须在import requests导入这个包才能正常运行
@@ -92,7 +92,8 @@ class BlastingDB:
         try:
             if self.DataBaseUserFileName!=None and self.DataBasePasswrodFileName!=None:
                 with open(self.DataBaseUserFileName, encoding='utf-8') as f:
-                    for UserLine in f:
+                    print("DatabaseBlastingProgress:")
+                    for UserLine in tqdm(f):
                         User = UserLine
                         with open(self.DataBasePasswrodFileName, encoding='utf-8') as f:
                             for PassWrodLine in f:
@@ -111,7 +112,8 @@ class BlastingDB:
         try:
             if self.DataBaseUserFileName == None or self.DataBasePasswrodFileName==None:
                 with open("/Dictionary/MysqlUser.txt", encoding='utf-8') as f:#打开默认的User文件
-                    for UserLine in f:
+                    print("DatabaseBlastingProgress:")
+                    for UserLine in tqdm(f):
                         User = UserLine
                         with open("/Dictionary/MysqlPasswrod.txt", encoding='utf-8') as f:#打开默认的密码文件
                             for PassWrodLine in f:
@@ -138,7 +140,8 @@ class Proxy:#IP代理池参数
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
                           "Chrome/59.0.3071.115 Safari/537.36"}
-        for i in range(1, 5):
+        print("ProxyPoolProgress:")
+        for i in tqdm(range(1, 5)):
             HttpUrl = 'http://www.xicidaili.com/wt/{0}'.format(i)
             req = requests.get(url=HttpUrl, headers=headers,timeout=10)
             selector = Selector(text=req.text)

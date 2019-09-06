@@ -13,5 +13,6 @@ def Main(Url,FileName,Values,ProxyIp):
         Medusa=Confluence.CVE_2019_3396.CVE_2019_3396(Url,RandomAgent,ProxyIp)
         WriteFile.Write(Medusa)
     except:
-        print("[-]CVE_2019_3396 Scan error")
+        pass
+        #print("[-]CVE_2019_3396 Scan error")
 

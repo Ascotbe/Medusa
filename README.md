@@ -27,7 +27,7 @@ cd Medusa
 # 安装依赖
 pip install -r Medusa.txt
 # 使用扫描器
-python MedusaScan.py -u 192.168.0.1
+python3 MedusaScan.py -u 192.168.0.1
 ```	
 
 ### 参数说明

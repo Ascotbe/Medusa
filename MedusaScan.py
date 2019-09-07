@@ -3,9 +3,9 @@
 
 
 #import Weblogic.WeblogicMain
-import Confluence.ConfluenceMain
-import Struts2.Struts2Main
-import Nginx.NginxMain
+import Confluence
+import Struts2
+import Nginx
 import ClassCongregation
 import Banner
 import argparse

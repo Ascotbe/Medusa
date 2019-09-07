@@ -5,3 +5,4 @@ python-nmap
 PyMySQL
 IPy
 scrapy
+tqdm

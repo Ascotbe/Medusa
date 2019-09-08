@@ -11,7 +11,10 @@ import Banner
 import argparse
 import requests
 import os
+import  threading
+import sys, time
 from tqdm import tqdm
+
 parser = argparse.ArgumentParser()#description="xxxxxx")
 ##########################################################################################################################################################################
 #舍弃的 OptionParser模块
@@ -36,7 +39,11 @@ parser.add_argument('-n','--NmapScanRange',type=str,help="Incoming scan port ran
 parser.add_argument('-sp','--SqlPasswrod',type=str,help="Please enter an password file.")
 parser.add_argument('-su','--SqlUser',type=str,help="Please enter an account file.")
 
-
+'''
+在pycharm中设置固定要获取的参数，进行获取
+在XXX.py 中 按住 “alt+shift+f10”  ----选择编辑配置（edit configurations）---script parameters(脚本程序)
+在里面输入参数就可以使用debug调试了
+'''
 
 
 def BoomDB(Url,SqlUser,SqlPasswrod,InputFileName):
@@ -51,6 +58,42 @@ def BoomDB(Url,SqlUser,SqlPasswrod,InputFileName):
                     BlastingDB.BoomDB(Urls)
     else:
         pass
+def InitialScan(InputFileName,Url,NmapScanRange):
+    try:
+        if InputFileName==None:
+            Urls=Url
+            if NmapScanRange != None:
+                NmapScan = ClassCongregation.NmapScan(Url, NmapScanRange)  # 声明调用类集合中的NmapScan类，并传入Url和扫描范围
+                NmapScan.ScanPort()
+            try:
+                San(OutFileName, Urls, Values,ProxyIp)
+                # 最后该类扫描结束输出结果语句
+                SanOver = Urls + "  Scan completed"
+                WriteFile.Write(SanOver)
+                print("Scan is complete, please see the result file")
+            except KeyboardInterrupt as e:
+                exit(0)
+        elif InputFileName!=None:
+            try:
+                with open(InputFileName, encoding='utf-8') as f:
+                    print("BatchScanProgress")
+                    for UrlLine in tqdm(f,ascii=True,desc="IP scanning progress:"):#设置头文件使用的字符类型和开头的名字
+                        Urls=UrlLine
+                        if NmapScanRange != None:
+                            NmapScan = ClassCongregation.NmapScan(Url, NmapScanRange)  # 声明调用类集合中的NmapScan类，并传入Url和扫描范围
+                            NmapScan.ScanPort()
+                        try:
+                            San(OutFileName, Urls, Values,ProxyIp)
+                            # 最后该类扫描结束输出结果语句
+                            SanOver = Urls + "  Scan completed"
+                            WriteFile.Write(SanOver)
+                            print("Scan is complete, please see the result file")
+                        except KeyboardInterrupt as e:
+                            exit(0)
+            except:
+                print("Please check the file path or the file content is correct")
+    except:
+        print("Please enter the correct file path!")
 
 def San(OutFileName,Url,Values,ProxyIp):
     # try:
@@ -72,6 +115,7 @@ def San(OutFileName,Url,Values,ProxyIp):
 
 def OpenProxy():
     ProxyFlag=True#设置函数内的标志
+    RepeatCleaningAgent=False#检查是否是刚爬取的并清洗的IP
     ProxyIpComparison=""
     try:#尝试打开文件查看是否有代理池
         with open("ProxyPool.txt", encoding='utf-8') as f:
@@ -93,9 +137,14 @@ def OpenProxy():
                     except:
                         pass
     except:
-        HttpProxy=ClassCongregation.Proxy()
-        HttpProxy.HttpIpProxy()#如果不存在该文件就调用爬取类
-        OpenProxy()#接着调用自身
+        if RepeatCleaningAgent==False:
+            HttpProxy=ClassCongregation.Proxy()
+            HttpProxy.HttpIpProxy()#如果不存在该文件就调用爬取类
+            RepeatCleaningAgent=True#如果不是第一次爬取，就会进到这个函数里面，然后爬取清洗后再调用自身后把标签重置为真，这样就不会进入死循环
+            OpenProxy()#接着调用自身
+        else:
+            pass
+
 
     # HttpsProxy=Proxy.HttpsIpProxy()
 
@@ -127,47 +176,14 @@ if __name__ == '__main__':
         while ProxyIp==None:
             OpenProxy()#如果传入空值
 
-
-    try:
-        if InputFileName==None:
-            Urls=Url
-            if NmapScanRange != None:
-                NmapScan = ClassCongregation.NmapScan(Url, NmapScanRange)  # 声明调用类集合中的NmapScan类，并传入Url和扫描范围
-                NmapScan.ScanPort()
-            try:
-                San(OutFileName, Urls, Values,ProxyIp)
-                # 最后该类扫描结束输出结果语句
-                SanOver = Urls + "  Scan completed"
-                WriteFile.Write(SanOver)
-                print("Scan is complete, please see the result file")
-            except KeyboardInterrupt as e:
-                exit(0)
-        elif InputFileName!=None:
-            try:
-                with open(InputFileName, encoding='utf-8') as f:
-                    print("BatchScanProgress")
-                    for UrlLine in tqdm(f):
-                        Urls=UrlLine
-                        if NmapScanRange != None:
-                            NmapScan = ClassCongregation.NmapScan(Url, NmapScanRange)  # 声明调用类集合中的NmapScan类，并传入Url和扫描范围
-                            NmapScan.ScanPort()
-                        try:
-                            San(OutFileName, Urls, Values,ProxyIp)
-                            # 最后该类扫描结束输出结果语句
-                            SanOver = Urls + "  Scan completed"
-                            WriteFile.Write(SanOver)
-                            print("Scan is complete, please see the result file")
-                        except KeyboardInterrupt as e:
-                            exit(0)
-            except:
-                print("Please check the file path or the file content is correct")
-    except:
-        print("Please enter the correct file path!")
-
-
-    BoomDB(Url, SqlUser, SqlPasswrod,InputFileName)#调用爆破数据库函数
-
-
+    # InitialScan(InputFileName, Url, NmapScanRange)#初始化san主函数
+    # BoomDB(Url, SqlUser, SqlPasswrod,InputFileName)#调用爆破数据库函数
+    BootScanner=threading.Thread(target=InitialScan,args=(InputFileName, Url, NmapScanRange,))
+    BootBoomDB=threading.Thread(target=InitialScan, args=(Url, SqlUser, SqlPasswrod,InputFileName,))
+    BootScanner.start()
+    BootBoomDB.start()
+    BootScanner.join()
+    BootBoomDB.join()
 
 
 # from IPy import IP

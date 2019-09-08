@@ -2,7 +2,7 @@
  <p align="center">
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Ascotbe-Medusa%20Scan-green"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/python-3.6-blueviolet"></a>
-    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Version-0.15-red"></a>
+    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Version-0.16-red"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/LICENSE-GPL-ff69b4"></a>
  </p>
 
@@ -28,11 +28,21 @@ cd Medusa
 pip install -r Medusa.txt
 # 使用扫描器
 python3 MedusaScan.py -u 192.168.0.1
-```	
-
+```
 ### 参数说明
-	(待补充,直接写篇博客)
-	
+    -u 输入单个目标url（最好使用http://或https://作为开头,并且后面别跟参数
+                        例如:https://www.baidu.com  or https://192.168.0.1
+    -o 你想要输入到那个文件里面，如果没有输入该位置，则默认值将写入根目录
+    -p 是否启用全局代理功能(后面不需要跟参数
+    -a 指定头文件或使用随机头（支持类型(需要小写):firefox,ie,msie,opera,chrome,AppleWebKit,Gecko,safari
+                               输入错误，乱输入，不输入都会默认使用随机header
+    -f 需要批量扫描目标url所在文件名字(-u和-f只能存在一个，并且必须存在一个
+    -n nmap扫描哪些端口(默认1-65535，并且支持批量扫描
+    -sp 爆破数据库的密码字典
+    -su 爆破数据库的用户字典（如果输入-sp和-su并且路径都对，则正常运行
+                              如果输入-sp和-su并且其中一个值为空，则使用默认密码爆破
+
+							  
 ### 提交意见&BUG
     欢迎大家提交Issues
 

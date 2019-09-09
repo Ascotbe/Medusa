@@ -41,7 +41,7 @@ parser.add_argument('-su','--SqlUser',type=str,help="Please enter an account fil
 
 '''
 在pycharm中设置固定要获取的参数，进行获取
-在XXX.py 中 按住 “alt+shift+f10”  ----选择编辑配置（edit configurations）---script parameters(脚本程序)
+在XXX.py 中 按住 “alt+shift+f9”  ----选择编辑配置（edit configurations）---script parameters(脚本程序)
 在里面输入参数就可以使用debug调试了
 '''
 
@@ -58,7 +58,7 @@ def BoomDB(Url,SqlUser,SqlPasswrod,InputFileName):
                     BlastingDB.BoomDB(Urls)
     else:
         pass
-def InitialScan(InputFileName,Url,NmapScanRange):
+def InitialScan(InputFileName,Url,NmapScanRange,ProxyIp):
     try:
         if InputFileName==None:
             Urls=Url
@@ -76,7 +76,6 @@ def InitialScan(InputFileName,Url,NmapScanRange):
         elif InputFileName!=None:
             try:
                 with open(InputFileName, encoding='utf-8') as f:
-                    print("BatchScanProgress")
                     for UrlLine in tqdm(f,ascii=True,desc="IP scanning progress:"):#设置头文件使用的字符类型和开头的名字
                         Urls=UrlLine
                         if NmapScanRange != None:
@@ -114,28 +113,25 @@ def San(OutFileName,Url,Values,ProxyIp):
         pass
 
 def OpenProxy():
-    ProxyFlag=True#设置函数内的标志
     RepeatCleaningAgent=False#检查是否是刚爬取的并清洗的IP
     ProxyIpComparison=""
     try:#尝试打开文件查看是否有代理池
         with open("ProxyPool.txt", encoding='utf-8') as f:
-            while ProxyFlag:#判断是否进行运行
-                for ProxyPool in f:#读取代理IP进行测试是否可以使用
+            for ProxyPool in f:#读取代理IP进行测试是否可以使用
 
-                    ProxyIps=ProxyPool[:-1]#删除换行符号\n
-                    if ProxyIps==ProxyIpComparison:#对当前IP和上个IP进行对比如果相同代表爬取的IP全部不能用就直接跳出不在使用代理
-                        return
-                    ProxyIpComparison = ProxyPool[:-1]
-                    proxies = {
-                        #"http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
-                        "http":"http://" + str(ProxyIps)
-                    }
-                    try:
-                        if requests.get('https://www.baidu.com/', proxies=proxies, timeout=2).status_code == 200:
-                            ProxyFlag=False#如果代理能用就重置标志
-                            return ProxyIps#二次清洗完成的代理IP能用就返回
-                    except:
-                        pass
+                ProxyIps=ProxyPool[:-1]#删除换行符号\n
+                if ProxyIps==ProxyIpComparison:#对当前IP和上个IP进行对比如果相同代表爬取的IP全部不能用就直接跳出不在使用代理
+                    return
+                ProxyIpComparison = ProxyPool[:-1]
+                proxies = {
+                    #"http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
+                    "http":"http://" + str(ProxyIps)
+                }
+                try:
+                    if requests.get('https://www.baidu.com/', proxies=proxies, timeout=2).status_code == 200:
+                        return ProxyIps#二次清洗完成的代理IP能用就返回
+                except:
+                    pass
     except:
         if RepeatCleaningAgent==False:
             HttpProxy=ClassCongregation.Proxy()
@@ -151,7 +147,7 @@ def OpenProxy():
 
 
 if __name__ == '__main__':
-    print(Banner.RandomBanner())#输出随机横幅
+    Banner.RandomBanner()#输出随机横幅
     args = parser.parse_args()
     InputFileName = args.InputFileName#批量扫描文件所在位置
     OutFileName= args.OutFileName#输出最终结果文件名字
@@ -170,16 +166,15 @@ if __name__ == '__main__':
         print("Incorrect input, please enter -h to view help")
         os._exit(0)#直接退出整个函数
 
-    ProxyIp=None#声明全局变量的ProxyIp值
+
     if Proxy:#如果输入了参数表示开启了代理进而调用函数
         ProxyIp=OpenProxy()
-        while ProxyIp==None:
-            OpenProxy()#如果传入空值
+
 
     # InitialScan(InputFileName, Url, NmapScanRange)#初始化san主函数
     # BoomDB(Url, SqlUser, SqlPasswrod,InputFileName)#调用爆破数据库函数
-    BootScanner=threading.Thread(target=InitialScan,args=(InputFileName, Url, NmapScanRange,))
-    BootBoomDB=threading.Thread(target=InitialScan, args=(Url, SqlUser, SqlPasswrod,InputFileName,))
+    BootScanner=threading.Thread(target=InitialScan,args=(InputFileName, Url, NmapScanRange,ProxyIp,))
+    BootBoomDB=threading.Thread(target=BoomDB, args=(Url, SqlUser, SqlPasswrod,InputFileName,))
     BootScanner.start()
     BootBoomDB.start()
     BootScanner.join()

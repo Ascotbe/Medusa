@@ -9,7 +9,7 @@ banner_1='''
  #    # "#mm"  "#m##  "mm"#  "mmm"  "mm"#         "mmm#" "#mm"  "mm"#  #   # 
                                                                                                        
                         Blog  {}  |  V {}                                                                                                                                                                        
-'''
+'''.format(Blog,Version)
 banner_2 = '''
        __  __          _                   ____                  
       |  \/  | ___  __| |_   _ ___  __ _  / ___|  ___ __ _ _ __  
@@ -19,8 +19,7 @@ banner_2 = '''
 
              Blog  {}  |  V {}
 
-
-'''
+'''.format(Blog,Version)
 banner_3 ="""                                                                                                                                                                                                   
                                                                                                                                                                      
 """
@@ -48,9 +47,9 @@ banner_10="""
 def RandomBanner():
     Randoms=random.randint(0,10)
     if(Randoms==1):
-        print(banner_1.format(Blog,Version))
+        print(banner_1)
     elif(Randoms==2):
-        print(banner_2.format(Blog,Version))
+        print(banner_2)
     # elif (Randoms == 3):
     #     print(banner_3.format(Blog, Version))
     # elif (Randoms == 4):
@@ -68,5 +67,5 @@ def RandomBanner():
     # elif (Randoms == 10):
     #     print(banner_10.format(Blog, Version))
     else:
-        print(banner_2.format(Blog,Version))
+        print(banner_2)
 

@@ -138,7 +138,7 @@ class Proxy:#IP代理池参数
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
                           "Chrome/59.0.3071.115 Safari/537.36"}
-        for i in tqdm(range(1, 5),desc="ProxyPoolProgress:",ascii=True):
+        for i in tqdm(range(1,3 ),desc="ProxyPoolProgress",ascii=True):
             HttpUrl = 'http://www.xicidaili.com/wt/{0}'.format(i)
             req = requests.get(url=HttpUrl, headers=headers,timeout=10)
             selector = Selector(text=req.text)
@@ -164,7 +164,7 @@ class Proxy:#IP代理池参数
                 except:
                     pass
         f = open("ProxyPool.txt", 'w+', encoding='utf-8')  # 覆盖的的写入IP代理
-        f.write(str(self.HttpIp))  # 写入单独的扫描结果文件中
+        f.write(str(self.HttpIp)) # 写入单独的扫描结果文件中
         f.close()
 
     # def HttpsIpProxy(self):

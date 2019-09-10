@@ -55,6 +55,6 @@ python3 MedusaScan.py -u 192.168.0.1
 [肥宅博客](https://ascotbe.github.io)   
 
 
-[更新日志](/UpDataLog/README.md)
+[更新日志](/UpDataLog/log.md)
 
 [插件模板]()

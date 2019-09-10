@@ -133,12 +133,11 @@ class BlastingDB:
 class Proxy:#IP代理池参数
     def __init__(self):
         self.HttpIp=[]
-        self.HttpsIp=[]
     def HttpIpProxy(self):
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
                           "Chrome/59.0.3071.115 Safari/537.36"}
-        for i in tqdm(range(1,3 ),desc="ProxyPoolProgress",ascii=True):
+        for i in tqdm(range(1,2),desc="ProxyPoolProgress",ascii=True):
             HttpUrl = 'http://www.xicidaili.com/wt/{0}'.format(i)
             req = requests.get(url=HttpUrl, headers=headers,timeout=10)
             selector = Selector(text=req.text)
@@ -160,12 +159,14 @@ class Proxy:#IP代理池参数
 
                     if requests.get('https://www.baidu.com/', proxies=proxies, timeout=2).status_code == 200:
                         if ip not in self.HttpsIp:#如果代理IP不在列表里面就传到列表里
+                            f = open("ProxyPool.txt", 'a+', encoding='utf-8')
+                            ip=ip+"\r"
+                            f.write(str(ip) ) # 写入单独的扫描结果文件中
+                            f.close()
                             self.HttpIp.append(ip)
                 except:
                     pass
-        f = open("ProxyPool.txt", 'w+', encoding='utf-8')  # 覆盖的的写入IP代理
-        f.write(str(self.HttpIp)) # 写入单独的扫描结果文件中
-        f.close()
+
 
     # def HttpsIpProxy(self):
     #     headers = {

@@ -158,7 +158,7 @@ class Proxy:#IP代理池参数
                 try:
 
                     if requests.get('https://www.baidu.com/', proxies=proxies, timeout=2).status_code == 200:
-                        if ip not in self.HttpsIp:#如果代理IP不在列表里面就传到列表里
+                        if ip not in self.HttpIp:#如果代理IP不在列表里面就传到列表里
                             f = open("ProxyPool.txt", 'a+', encoding='utf-8')
                             ip=ip+"\r"
                             f.write(str(ip) ) # 写入单独的扫描结果文件中

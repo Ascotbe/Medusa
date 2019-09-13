@@ -3,9 +3,11 @@
 
 
 #import Weblogic.WeblogicMain
-import Confluence
-import Struts2
-import Nginx
+from Confluence import ConfluenceMain
+#如果在自己创建的文件夹里面加入__init__.py文件的话就可以是用from 文件夹名 import 文件夹总的文件名来导入文件
+#Struts2Main.Main()这样就导入了文件夹中Struts2Main.py文件中的Main函数
+from Struts2 import Struts2Main
+from Nginx import NginxMain
 import ClassCongregation
 import Banner
 import argparse
@@ -100,20 +102,21 @@ def San(OutFileName,Url,Values,ProxyIp):
     # except:
     #     print("WeblogicSanExcept")
     try:
-        Struts2.Struts2Main.Main(Url,OutFileName,Values,ProxyIp)  # 调用Struts2主函数
+        Struts2Main.Main(Url,OutFileName,Values,ProxyIp)  # 调用Struts2主函数
     except:
         pass
     try:
-        Confluence.ConfluenceMain.Main(Url,OutFileName,Values,ProxyIp)# 调用 Confluence主函数
+        ConfluenceMain.Main(Url,OutFileName,Values,ProxyIp)# 调用 Confluence主函数
     except:
         pass
     try:
-        Nginx.NginxMain.Main(Url,OutFileName,Values,ProxyIp)# 调用 Confluence主函数
+        NginxMain.Main(Url,OutFileName,Values,ProxyIp)# 调用 Confluence主函数
     except:
         pass
 
 def OpenProxy():
-    RepeatCleaningAgent=False#检查是否是刚爬取的并清洗的IP
+    global RepeatCleaningAgent
+    RepeatCleaningAgent = 1#检查是否是刚爬取的并清洗的IP
     ProxyIpComparison=""
     try:#尝试打开文件查看是否有代理池
         with open("ProxyPool.txt", encoding='utf-8') as f:
@@ -133,13 +136,14 @@ def OpenProxy():
                 except:
                     pass
     except:
-        if RepeatCleaningAgent==False:
+        if RepeatCleaningAgent==1:
             HttpProxy=ClassCongregation.Proxy()
             HttpProxy.HttpIpProxy()#如果不存在该文件就调用爬取类
-            RepeatCleaningAgent=True#如果不是第一次爬取，就会进到这个函数里面，然后爬取清洗后再调用自身后把标签重置为真，这样就不会进入死循环
             OpenProxy()#接着调用自身
         else:
             pass
+        RepeatCleaningAgent = 0 #定义全局变量防止出问题
+        # 如果不是第一次爬取，就会进到这个函数里面，然后爬取清洗后再调用自身后把标签重置为真，这样就不会进入死循环
 
 
     # HttpsProxy=Proxy.HttpsIpProxy()

@@ -2,7 +2,7 @@
  <p align="center">
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Ascotbe-Medusa%20Scan-green"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/python-3.6-blueviolet"></a>
-    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Version-0.17-red"></a>
+    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Version-0.18-red"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/LICENSE-GPL-ff69b4"></a>
  </p>
 
@@ -14,7 +14,8 @@
 **请使用者遵守 [中华人民共和国网络安全法](http://www.cac.gov.cn/2016-11/07/c_1119867116.htm)，勿将MedusaScan用于非授权的测试，MedusaScan开发者不负任何连带法律责任。**
 
 ### 关于美杜莎扫描器
-	美杜莎扫描器是集漏洞扫描和端口扫描以及敏感信息收集等功能为一体的扫描器
+	目前扫描器还在开发中，本人每天下班拿出全部娱乐时间（差不多有2小时）来开发
+	各位师傅不嫌弃的话可以点个Star支持下
 	
 ### 使用说明
 

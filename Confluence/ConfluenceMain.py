@@ -10,7 +10,7 @@ def Main(Url,FileName,Values,ProxyIp):
     ua=ClassCongregation.UserAgentS(Values)#传入用户输入用户指定的浏览器头
     RandomAgent=ua.UserAgent()#获取生成的头文件
     try:
-        Medusa=Confluence.CVE_2019_3396.CVE_2019_3396(Url,RandomAgent,ProxyIp)
+        Medusa=Confluence.CVE_2019_3396.medusa(Url,RandomAgent,ProxyIp)
         WriteFile.Write(Medusa)
     except:
         pass

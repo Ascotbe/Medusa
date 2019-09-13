@@ -9,13 +9,13 @@ def Main(Url,FileName,Values,ProxyIp):
     ua=ClassCongregation.UserAgentS(Values)#传入用户输入用户指定的浏览器头
     RandomAgent=ua.UserAgent()#获取生成的头文件
     try:
-        Medusa=Nginx.NginxDirectoryTraversalVulnerability.NginxDirectoryTraversalVulnerability(Url,RandomAgent,ProxyIp)
+        Medusa=Nginx.NginxDirectoryTraversalVulnerability.medusa(Url,RandomAgent,ProxyIp)
         WriteFile.Write(Medusa)
     except:
         pass
         #print("[-]NginxDirectoryTraversalVulnerability Scan error")
     try:
-        Medusa=Nginx.NginxCRLFInjectionVulnerability.NginxCRLFInjectionVulnerability(Url,RandomAgent,ProxyIp)
+        Medusa=Nginx.NginxCRLFInjectionVulnerability.medusa(Url,RandomAgent,ProxyIp)
         WriteFile.Write(Medusa)
     except:
         pass

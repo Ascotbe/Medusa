@@ -17,49 +17,49 @@ def Main(Url,FileName,Values,ProxyIp):
     ua=ClassCongregation.UserAgentS(Values)#传入用户输入用户指定的浏览器头
     RandomAgent=ua.UserAgent()#获取生成的头文件
     try:
-        Medusa=Struts2.S2_001.S2_001(Url,RandomAgent,ProxyIp)
+        Medusa=Struts2.S2_001.medusa(Url,RandomAgent,ProxyIp)
         WriteFile.Write(Medusa)
     except:
         pass
         #print("[-]S2-001 Scan error")
     try:
-        Medusa =Struts2.S2_007.S2_007(Url,RandomAgent,ProxyIp)
+        Medusa =Struts2.S2_007.medusa(Url,RandomAgent,ProxyIp)
         WriteFile.Write(Medusa)
     except:
         pass
         #print("[-]S2-007 Scan error")
     try:
-        Medusa =Struts2.S2_012.S2_012(Url,RandomAgent,ProxyIp)
+        Medusa =Struts2.S2_012.medusa(Url,RandomAgent,ProxyIp)
         WriteFile.Write(Medusa)
     except:
         pass
         #print("[-]S2-012 Scan error")
     try:
-        Medusa =Struts2.S2_013.S2_013(Url,RandomAgent,ProxyIp)
+        Medusa =Struts2.S2_013.medusa(Url,RandomAgent,ProxyIp)
         WriteFile.Write(Medusa)
     except:
         pass
         #print("[-]S2-013 Scan error")
     try:
-        Medusa =Struts2.S2_016.S2_016(Url,RandomAgent,ProxyIp)
+        Medusa =Struts2.S2_016.medusa(Url,RandomAgent,ProxyIp)
         WriteFile.Write(Medusa)
     except:
         pass
         #print("[-]S2-016 Scan error")
     try:
-        Medusa =Struts2.S2_052.S2_052(Url,RandomAgent,ProxyIp)
+        Medusa =Struts2.S2_052.medusa(Url,RandomAgent,ProxyIp)
         WriteFile.Write(Medusa)
     except:
         pass
         #print("[-]S2-052 Scan error")
     try:
-        Medusa =Struts2.S2_053.S2_053(Url,RandomAgent,ProxyIp)
+        Medusa =Struts2.S2_053.medusa(Url,RandomAgent,ProxyIp)
         WriteFile.Write(Medusa)
     except:
         pass
         #print("[-]S2-053 Scan error")
     try:
-        Medusa =Struts2.S2_057.S2_057(Url,RandomAgent,ProxyIp)
+        Medusa =Struts2.S2_057.medusa(Url,RandomAgent,ProxyIp)
         WriteFile.Write(Medusa)
     except:
         pass

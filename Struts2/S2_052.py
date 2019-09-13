@@ -14,7 +14,7 @@ def UrlProcessing(url):
     return res.scheme, res.hostname, res.port
 
 
-def S2_052(Url,RandomAgent,ProxyIp):
+def medusa(Url,RandomAgent,ProxyIp):
 
     scheme, url, port = UrlProcessing(Url)
     if port is None and scheme == 'https':

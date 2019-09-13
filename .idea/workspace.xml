@@ -2,13 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5e736fa8-afea-4d91-9555-609b7381c18b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Banner.py" beforeDir="false" afterPath="$PROJECT_DIR$/Banner.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClassCongregation.py" beforeDir="false" afterPath="$PROJECT_DIR$/ClassCongregation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Confluence/CVE_2019_3396.py" beforeDir="false" afterPath="$PROJECT_DIR$/Confluence/CVE_2019_3396.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Confluence/ConfluenceMain.py" beforeDir="false" afterPath="$PROJECT_DIR$/Confluence/ConfluenceMain.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Dictionary/MysqlPassWrod.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Dictionary/MysqlPassWrod.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MedusaScan.py" beforeDir="false" afterPath="$PROJECT_DIR$/MedusaScan.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nginx/NginxCRLFInjectionVulnerability.py" beforeDir="false" afterPath="$PROJECT_DIR$/Nginx/NginxCRLFInjectionVulnerability.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nginx/NginxDirectoryTraversalVulnerability.py" beforeDir="false" afterPath="$PROJECT_DIR$/Nginx/NginxDirectoryTraversalVulnerability.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nginx/NginxMain.py" beforeDir="false" afterPath="$PROJECT_DIR$/Nginx/NginxMain.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UpDataLog/log.md" beforeDir="false" afterPath="$PROJECT_DIR$/UpDataLog/log.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Struts2/S2_001.py" beforeDir="false" afterPath="$PROJECT_DIR$/Struts2/S2_001.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Struts2/S2_007.py" beforeDir="false" afterPath="$PROJECT_DIR$/Struts2/S2_007.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Struts2/S2_012.py" beforeDir="false" afterPath="$PROJECT_DIR$/Struts2/S2_012.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Struts2/S2_013.py" beforeDir="false" afterPath="$PROJECT_DIR$/Struts2/S2_013.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Struts2/S2_016.py" beforeDir="false" afterPath="$PROJECT_DIR$/Struts2/S2_016.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Struts2/S2_052.py" beforeDir="false" afterPath="$PROJECT_DIR$/Struts2/S2_052.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Struts2/S2_053.py" beforeDir="false" afterPath="$PROJECT_DIR$/Struts2/S2_053.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Struts2/S2_057.py" beforeDir="false" afterPath="$PROJECT_DIR$/Struts2/S2_057.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Struts2/Struts2Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Struts2/Struts2Main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -19,46 +28,64 @@
   <component name="FileEditorManager">
     <leaf>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ClassCongregation.py">
+        <entry file="file://$PROJECT_DIR$/Struts2/S2_012.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="323">
+              <caret line="18" column="10" selection-start-line="18" selection-start-column="10" selection-end-line="18" selection-end-column="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Struts2/S2_013.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="304">
+              <caret line="17" column="10" selection-start-line="17" selection-start-column="10" selection-end-line="17" selection-end-column="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Struts2/S2_016.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="304">
+              <caret line="17" column="10" selection-start-line="17" selection-start-column="10" selection-end-line="17" selection-end-column="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Struts2/S2_052.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="266">
+              <caret line="16" column="10" selection-start-line="16" selection-start-column="10" selection-end-line="16" selection-end-column="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Struts2/S2_053.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="342">
+              <caret line="19" column="10" selection-start-line="19" selection-start-column="10" selection-end-line="19" selection-end-column="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Struts2/S2_057.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="380">
+              <caret line="21" column="10" selection-start-line="21" selection-start-column="10" selection-end-line="21" selection-end-column="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Struts2/Struts2Main.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="437">
-              <caret line="162" column="24" lean-forward="true" selection-start-line="162" selection-start-column="24" selection-end-line="162" selection-end-column="24" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/MedusaScan.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="479">
-              <caret line="108" selection-start-line="108" selection-end-line="108" />
-              <folding>
-                <element signature="e#78#111#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/UpDataLog/log.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="467">
-                <caret line="80" column="19" lean-forward="true" selection-start-line="80" selection-start-column="19" selection-end-line="80" selection-end-column="19" />
-              </first_editor>
-              <second_editor />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/README.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="76">
-                <caret line="4" column="113" selection-start-line="4" selection-start-column="113" selection-end-line="4" selection-end-column="113" />
-              </first_editor>
-              <second_editor />
+              <caret line="64" column="12" lean-forward="true" selection-start-line="64" selection-start-column="12" selection-end-line="64" selection-end-column="12" />
             </state>
           </provider>
         </entry>
@@ -73,29 +100,22 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/2019-09-13.txt">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ProxyPool.txt">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Struts2/Struts2Main.py">
+        <entry file="file://$PROJECT_DIR$/ClassCongregation.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="247">
-              <caret line="21" selection-start-line="21" selection-end-line="21" />
+            <state relative-caret-position="437">
+              <caret line="162" column="24" lean-forward="true" selection-start-line="162" selection-start-column="24" selection-end-line="162" selection-end-column="24" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Struts2/S2_001.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="460">
-              <caret line="58" selection-start-line="58" selection-end-line="58" />
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="304">
+                <caret line="16" column="6" selection-start-line="16" selection-start-column="6" selection-end-line="16" selection-end-column="6" />
+              </first_editor>
+              <second_editor />
             </state>
           </provider>
         </entry>
@@ -111,8 +131,22 @@
         <option value="$PROJECT_DIR$/ClassCongregation.py" />
         <option value="$PROJECT_DIR$/MedusaScan.py" />
         <option value="$PROJECT_DIR$/UpDataLog/log.md" />
-        <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/Banner.py" />
+        <option value="$PROJECT_DIR$/Confluence/CVE_2019_3396.py" />
+        <option value="$PROJECT_DIR$/Confluence/ConfluenceMain.py" />
+        <option value="$PROJECT_DIR$/Nginx/NginxCRLFInjectionVulnerability.py" />
+        <option value="$PROJECT_DIR$/Nginx/NginxDirectoryTraversalVulnerability.py" />
+        <option value="$PROJECT_DIR$/Nginx/NginxMain.py" />
+        <option value="$PROJECT_DIR$/Struts2/S2_001.py" />
+        <option value="$PROJECT_DIR$/Struts2/S2_007.py" />
+        <option value="$PROJECT_DIR$/Struts2/S2_012.py" />
+        <option value="$PROJECT_DIR$/Struts2/S2_013.py" />
+        <option value="$PROJECT_DIR$/Struts2/S2_016.py" />
+        <option value="$PROJECT_DIR$/Struts2/S2_052.py" />
+        <option value="$PROJECT_DIR$/Struts2/S2_053.py" />
+        <option value="$PROJECT_DIR$/Struts2/S2_057.py" />
+        <option value="$PROJECT_DIR$/Struts2/Struts2Main.py" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -136,6 +170,31 @@
             <path>
               <item name="WebVulnerabilityScanner" type="b2602c69:ProjectViewProjectNode" />
               <item name="WebVulnerabilityScanner" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WebVulnerabilityScanner" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WebVulnerabilityScanner" type="462c0819:PsiDirectoryNode" />
+              <item name="Confluence" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WebVulnerabilityScanner" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WebVulnerabilityScanner" type="462c0819:PsiDirectoryNode" />
+              <item name="Dictionary" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WebVulnerabilityScanner" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WebVulnerabilityScanner" type="462c0819:PsiDirectoryNode" />
+              <item name="Nginx" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WebVulnerabilityScanner" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WebVulnerabilityScanner" type="462c0819:PsiDirectoryNode" />
+              <item name="Struts2" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WebVulnerabilityScanner" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WebVulnerabilityScanner" type="462c0819:PsiDirectoryNode" />
+              <item name="UpDataLog" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -203,6 +262,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-1928" y="-8" width="1936" height="1096" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Favorites" side_tool="true" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24973656" />
@@ -305,31 +365,10 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/ClassCongregation.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="162" column="24" lean-forward="true" selection-start-line="162" selection-start-column="24" selection-end-line="162" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydev_imps/_pydev_execfile.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
           <caret line="17" selection-start-line="17" selection-end-line="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Struts2/S2_001.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="460">
-          <caret line="58" selection-start-line="58" selection-end-line="58" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Struts2/Struts2Main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="21" selection-start-line="21" selection-end-line="21" />
         </state>
       </provider>
     </entry>
@@ -349,13 +388,114 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="76">
-            <caret line="4" column="113" selection-start-line="4" selection-start-column="113" selection-end-line="4" selection-end-column="113" />
-          </first_editor>
-          <second_editor />
+    <entry file="file://$PROJECT_DIR$/MedusaScan.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="954">
+          <caret line="97" lean-forward="true" selection-start-line="97" selection-end-line="97" />
+          <folding>
+            <element signature="e#78#111#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Confluence/ConfluenceMain.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="266">
+          <caret line="16" column="45" lean-forward="true" selection-start-line="16" selection-start-column="45" selection-end-line="16" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Confluence/CVE_2019_3396.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="19" column="17" lean-forward="true" selection-start-line="19" selection-start-column="17" selection-end-line="19" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Dictionary/MysqlPasswrod.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Nginx/NginxCRLFInjectionVulnerability.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-273">
+          <caret line="16" column="10" selection-start-line="16" selection-start-column="10" selection-end-line="16" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Nginx/NginxDirectoryTraversalVulnerability.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-57">
+          <caret line="17" column="10" selection-start-line="17" selection-start-column="10" selection-end-line="17" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Nginx/NginxMain.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="17" column="59" selection-start-line="17" selection-start-column="59" selection-end-line="17" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Struts2/S2_001.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="19" column="10" selection-start-line="19" selection-start-column="10" selection-end-line="19" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Struts2/S2_007.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="19" column="10" selection-start-line="19" selection-start-column="10" selection-end-line="19" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Struts2/S2_012.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="18" column="10" selection-start-line="18" selection-start-column="10" selection-end-line="18" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Struts2/S2_013.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="17" column="10" selection-start-line="17" selection-start-column="10" selection-end-line="17" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Struts2/S2_016.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="17" column="10" selection-start-line="17" selection-start-column="10" selection-end-line="17" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Struts2/S2_052.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="266">
+          <caret line="16" column="10" selection-start-line="16" selection-start-column="10" selection-end-line="16" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Struts2/S2_053.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="19" column="10" selection-start-line="19" selection-start-column="10" selection-end-line="19" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Struts2/S2_057.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="380">
+          <caret line="21" column="10" selection-start-line="21" selection-start-column="10" selection-end-line="21" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Struts2/Struts2Main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="64" column="12" lean-forward="true" selection-start-line="64" selection-start-column="12" selection-end-line="64" selection-end-column="12" />
         </state>
       </provider>
     </entry>
@@ -366,13 +506,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MedusaScan.py">
+    <entry file="file://$PROJECT_DIR$/ClassCongregation.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="479">
-          <caret line="108" selection-start-line="108" selection-end-line="108" />
-          <folding>
-            <element signature="e#78#111#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="437">
+          <caret line="162" column="24" lean-forward="true" selection-start-line="162" selection-start-column="24" selection-end-line="162" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="304">
+            <caret line="16" column="6" selection-start-line="16" selection-start-column="6" selection-end-line="16" selection-end-column="6" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>

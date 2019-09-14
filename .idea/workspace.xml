@@ -2,26 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5e736fa8-afea-4d91-9555-609b7381c18b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/InformationDetector/Baidu.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/InformationDetector/BaiduYun.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/InformationDetector/Bing.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/InformationDetector/Github.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/InformationDetector/Google.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/InformationDetector/Tieba.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/InformationDetector/Twitter.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/InformationDetector/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/InformationDisclosure/Druid.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/InformationDisclosure/Git.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/InformationDisclosure/InformationDisclosureMain.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/InformationDisclosure/PhpApc.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/InformationDisclosure/Phpinfo.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/InformationDisclosure/Sftp.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/InformationDisclosure/Svn.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/InformationDisclosure/__init__.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/text.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Dictionary/MysqlPassWrod.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Dictionary/MysqlPassWrod.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MedusaScan.py" beforeDir="false" afterPath="$PROJECT_DIR$/MedusaScan.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -48,26 +32,21 @@
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/MedusaScan.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="313">
-              <caret line="34" column="39" selection-start-line="34" selection-start-column="26" selection-end-line="34" selection-end-column="39" />
+            <state relative-caret-position="315">
+              <caret line="131" column="50" selection-start-line="131" selection-start-column="50" selection-end-line="131" selection-end-column="50" />
             </state>
           </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Medusa.txt">
-          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="494">
-                <caret line="53" column="16" lean-forward="true" selection-start-line="53" selection-start-column="16" selection-end-line="53" selection-end-column="16" />
+              <first_editor relative-caret-position="266">
+                <caret line="32" column="8" lean-forward="true" selection-start-line="32" selection-start-column="8" selection-end-line="32" selection-end-column="8" />
               </first_editor>
               <second_editor />
             </state>
@@ -75,10 +54,28 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Nginx/NginxCRLFInjectionVulnerability.py">
+        <entry file="file://$PROJECT_DIR$/UpDataLog/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor />
+              <second_editor />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Medusa.txt">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/text.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="19">
-              <caret line="16" column="10" selection-start-line="16" selection-start-column="10" selection-end-line="16" selection-end-column="10" />
+            <state relative-caret-position="171">
+              <caret line="9" selection-start-line="9" selection-end-line="21" selection-end-column="21" />
+              <folding>
+                <element signature="e#48#57#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -86,8 +83,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ClassCongregation.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="416">
-              <caret line="160" column="37" selection-start-line="160" selection-start-column="24" selection-end-line="160" selection-end-column="37" />
+            <state relative-caret-position="207">
+              <caret line="161" column="77" lean-forward="true" selection-start-line="161" selection-start-column="77" selection-end-line="161" selection-end-column="77" />
             </state>
           </provider>
         </entry>
@@ -97,20 +94,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="19">
               <caret line="17" column="10" selection-start-line="17" selection-start-column="10" selection-end-line="17" selection-end-column="10" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/InformationDisclosure/__init__.py">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Nginx/NginxMain.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="38">
-              <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -131,7 +114,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/ClassCongregation.py" />
-        <option value="$PROJECT_DIR$/MedusaScan.py" />
         <option value="$PROJECT_DIR$/UpDataLog/log.md" />
         <option value="$PROJECT_DIR$/Banner.py" />
         <option value="$PROJECT_DIR$/Confluence/CVE_2019_3396.py" />
@@ -151,7 +133,6 @@
         <option value="$PROJECT_DIR$/InformationDisclosure/InformationDisclosureMian.py" />
         <option value="$PROJECT_DIR$/InformationDisclosure/Druid.py" />
         <option value="$PROJECT_DIR$/InformationDisclosure/Svn.py" />
-        <option value="$PROJECT_DIR$/text.py" />
         <option value="$PROJECT_DIR$/InformationDisclosure/Git.py" />
         <option value="$PROJECT_DIR$/InformationDisclosure/Sftp.py" />
         <option value="$PROJECT_DIR$/InformationDisclosure/PhpApc.py" />
@@ -168,6 +149,9 @@
         <option value="$PROJECT_DIR$/InformationDetector/BaiduYun.py" />
         <option value="$PROJECT_DIR$/InformationDetector/__init__.py" />
         <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/text.py" />
+        <option value="$PROJECT_DIR$/MedusaScan.py" />
+        <option value="$PROJECT_DIR$/Medusa.txt" />
       </list>
     </option>
   </component>
@@ -205,11 +189,6 @@
             <path>
               <item name="WebVulnerabilityScanner" type="b2602c69:ProjectViewProjectNode" />
               <item name="WebVulnerabilityScanner" type="462c0819:PsiDirectoryNode" />
-              <item name="InformationDisclosure" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="WebVulnerabilityScanner" type="b2602c69:ProjectViewProjectNode" />
-              <item name="WebVulnerabilityScanner" type="462c0819:PsiDirectoryNode" />
               <item name="UpDataLog" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -222,6 +201,11 @@
     <property name="last_opened_file_path" value="D:/ProgramData/Anaconda3" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Administrator\PycharmProjects\WebVulnerabilityScanner" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -329,7 +313,7 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32917964" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3416407" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3997923" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -348,21 +332,6 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/MedusaScan.py</url>
-          <line>121</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/MedusaScan.py</url>
-          <line>122</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/MedusaScan.py</url>
-          <line>127</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/MedusaScan.py</url>
           <line>104</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
@@ -378,7 +347,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/MedusaScan.py</url>
-          <line>137</line>
+          <line>156</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -451,6 +420,11 @@
           <line>42</line>
           <option name="timeStamp" value="23" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/text.py</url>
+          <line>15</line>
+          <option name="timeStamp" value="31" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
@@ -464,16 +438,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/2019-09-13.txt" />
     <entry file="file://$PROJECT_DIR$/ProxyPool.txt" />
-    <entry file="file://$PROJECT_DIR$/UpDataLog/log.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="467">
-            <caret line="80" column="19" lean-forward="true" selection-start-line="80" selection-start-column="19" selection-end-line="80" selection-end-column="19" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Confluence/ConfluenceMain.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="266">
@@ -608,13 +572,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/text.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="456">
-          <caret line="25" selection-start-line="25" selection-end-line="26" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/InformationDetector/Tieba.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -651,19 +608,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Nginx/NginxDirectoryTraversalVulnerability.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="17" column="10" selection-start-line="17" selection-start-column="10" selection-end-line="17" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Nginx/NginxMain.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="38">
           <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/InformationDetector/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/InformationDisclosure/InformationDisclosureMain.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -675,27 +628,56 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/InformationDetector/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
+    <entry file="file://$PROJECT_DIR$/Nginx/NginxDirectoryTraversalVulnerability.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="19">
+          <caret line="17" column="10" selection-start-line="17" selection-start-column="10" selection-end-line="17" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/text.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="9" selection-start-line="9" selection-end-line="21" selection-end-column="21" />
+          <folding>
+            <element signature="e#48#57#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/InformationDetector/BaiduYun.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/ClassCongregation.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="416">
-          <caret line="160" column="37" selection-start-line="160" selection-start-column="24" selection-end-line="160" selection-end-column="37" />
+        <state relative-caret-position="207">
+          <caret line="161" column="77" lean-forward="true" selection-start-line="161" selection-start-column="77" selection-end-line="161" selection-end-column="77" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Medusa.txt">
-      <provider selected="true" editor-type-id="text-editor" />
+    <entry file="file://$PROJECT_DIR$/UpDataLog/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor />
+          <second_editor />
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="494">
-            <caret line="53" column="16" lean-forward="true" selection-start-line="53" selection-start-column="16" selection-end-line="53" selection-end-column="16" />
+          <first_editor relative-caret-position="266">
+            <caret line="32" column="8" lean-forward="true" selection-start-line="32" selection-start-column="8" selection-end-line="32" selection-end-column="8" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/UpDataLog/log.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="209">
+            <caret line="11" column="27" lean-forward="true" selection-start-line="11" selection-start-column="27" selection-end-line="11" selection-end-column="27" />
           </first_editor>
           <second_editor />
         </state>
@@ -703,10 +685,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/MedusaScan.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="313">
-          <caret line="34" column="39" selection-start-line="34" selection-start-column="26" selection-end-line="34" selection-end-column="39" />
+        <state relative-caret-position="315">
+          <caret line="131" column="50" selection-start-line="131" selection-start-column="50" selection-end-line="131" selection-end-column="50" />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Medusa.txt">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
   </component>
   <component name="masterDetails">

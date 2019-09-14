@@ -120,6 +120,25 @@ def OpenProxy():
     ProxyIpComparison=""
     try:#尝试打开文件查看是否有代理池
         with open("ProxyPool.txt", encoding='utf-8') as f:
+            try:
+                FileCreationYime = time.localtime(os.path.getctime("ProxyPool.txt"))  # 获取文件创建时间
+                CurrentTime = time.localtime(time.time())  # 获取当前时间
+                if FileCreationYime.tm_year == CurrentTime.tm_year:  # 判断年份是否相同
+                    if CurrentTime.tm_mon == FileCreationYime.tm_mon:  # 判断月份是否相同
+                        a = FileCreationYime.tm_mday
+                        b = CurrentTime.tm_mday
+                        c = abs(a - b)  # 计算绝对值
+                        if c >= 3:  # 如果大于3天删除
+                            f.close()#关闭打开的文件后删除文件
+                            os.remove("ProxyPool.txt")
+                    else:
+                        f.close()
+                        os.remove("ProxyPool.txt")
+                else:
+                    f.close()
+                    os.remove("ProxyPool.txt")
+            except:
+                pass
             for ProxyPool in f:#读取代理IP进行测试是否可以使用
 
                 ProxyIps=ProxyPool[:-1]#删除换行符号\n

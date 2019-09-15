@@ -6,3 +6,4 @@ PyMySQL
 IPy
 scrapy
 tqdm
+dnspython

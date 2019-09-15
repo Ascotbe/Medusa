@@ -101,7 +101,7 @@ class BlastingDB:
                                     Url=IpProcess(Url)
                                     conn = pymysql.connect(Url, User, PassWrod, 'mysql', 3306)
                                     conn.close()
-                                    BoomDBFileName = "BoomDBOutputFile.txt"
+                                    BoomDBFileName = "/ScanResult/BoomDBOutputFile.txt"
                                     with open(BoomDBFileName, 'a', encoding='utf-8') as fg:
                                         fg.write("Database address:"+Url +"      Account:"+User+"      Passwrod:"+PassWrod+ "\n")  # 写入单独的扫描结果文件中
                                 except Exception as e:
@@ -120,7 +120,7 @@ class BlastingDB:
                                     Url = IpProcess(Url)
                                     conn = pymysql.connect(Url, User, PassWrod, 'mysql', 3306)
                                     conn.close()
-                                    BoomDBFileName = "BoomDBOutputFile.txt"
+                                    BoomDBFileName = "/ScanResult/BoomDBOutputFile.txt"
                                     with open(BoomDBFileName, 'a', encoding='utf-8') as fg:
                                         fg.write("Database address:"+Url +"      Account:"+User+"      Passwrod:"+PassWrod+ "\n")  # 写入单独的扫描结果文件中
                                 except Exception as e:
@@ -159,7 +159,7 @@ class Proxy:#IP代理池参数
 
                     if requests.get('https://www.baidu.com/', proxies=proxies, timeout=2).status_code == 200:
                         if ip not in self.HttpIp:#如果代理IP不在列表里面就传到列表里
-                            f = open("ProxyPool.txt", 'a+', encoding='utf-8')
+                            f = open("/ScanResult/ProxyPool.txt", 'a+', encoding='utf-8')
                             ip=ip+"\r"
                             f.write(str(ip) ) # 写入单独的扫描结果文件中
                             f.close()

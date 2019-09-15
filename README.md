@@ -2,7 +2,7 @@
  <p align="center">
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Ascotbe-Medusa%20Scan-green"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/python-3.6-blueviolet"></a>
-    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Version-0.19-red"></a>
+    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Version-0.19.5-red"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/LICENSE-GPL-ff69b4"></a>
 	<a href="https://github.com/ascotbe/Medusa/stargazers"><img alt="Release" src="https://img.shields.io/github/stars/ascotbe/Medusa.svg"></a>
  </p>
@@ -15,7 +15,7 @@
 
 ### 关于美杜莎扫描器
     最初版本上线，目前扫描器还在开发中，不完善的地方欢迎大家提Issues
-	本人拿出全部娱乐时间（差不多有2小时）来开发，各位师傅不嫌弃的话可以点个Star支持下
+	独自开发更新会比较缓慢，各位师傅不嫌弃的话可以点个Star支持下
 	
 	
 ### 使用说明
@@ -42,6 +42,7 @@ python3 MedusaScan.py -u 192.168.0.1
 |-n    |--NmapScanRange   |1       |nmap扫描哪些端口|默认1-65535，并且支持批量扫描| 
 |-sp    |--SqlPasswrod   |1       |爆破数据库的密码字典|如果输入-sp和-su并且其中一个值为空，则使用默认密码爆破| 
 |-su    |--SqlUser   |1       |爆破数据库的用户字典|无| 
+|-j    |--JavaScript   |0       |通过URL中的JS文件深度爬取里面的URL链接以及子域名|从Threezh1项目中魔改而来| 
 
 ### 提交意见&BUG
     欢迎大家提交Issues

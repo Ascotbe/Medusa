@@ -8,6 +8,7 @@ from Confluence import ConfluenceMain
 #Struts2Main.Main()这样就导入了文件夹中Struts2Main.py文件中的Main函数
 from Struts2 import Struts2Main
 from Nginx import NginxMain
+from InformationDetector import JS
 import ClassCongregation
 import Banner
 import argparse
@@ -40,6 +41,7 @@ parser.add_argument('-f','--InputFileName',type=str,help="Specify bulk scan file
 parser.add_argument('-n','--NmapScanRange',type=str,help="Incoming scan port range (1-65535), use this command to enable nmap scan function by default.")
 parser.add_argument('-sp','--SqlPasswrod',type=str,help="Please enter an password file.")
 parser.add_argument('-su','--SqlUser',type=str,help="Please enter an account file.")
+parser.add_argument('-j','--JavaScript',type=str,help="Used URL to deeply crawl the information in the JS file and the subdomain",action="store_true")
 
 '''
 在pycharm中设置固定要获取的参数，进行获取
@@ -119,9 +121,9 @@ def OpenProxy():
     RepeatCleaningAgent = 1#检查是否是刚爬取的并清洗的IP
     ProxyIpComparison=""
     try:#尝试打开文件查看是否有代理池
-        with open("ProxyPool.txt", encoding='utf-8') as f:
+        with open("/ScanResult/ProxyPool.txt", encoding='utf-8') as f:
             try:
-                FileCreationYime = time.localtime(os.path.getctime("ProxyPool.txt"))  # 获取文件创建时间
+                FileCreationYime = time.localtime(os.path.getctime("/ScanResult/ProxyPool.txt"))  # 获取文件创建时间
                 CurrentTime = time.localtime(time.time())  # 获取当前时间
                 if FileCreationYime.tm_year == CurrentTime.tm_year:  # 判断年份是否相同
                     if CurrentTime.tm_mon == FileCreationYime.tm_mon:  # 判断月份是否相同
@@ -130,13 +132,13 @@ def OpenProxy():
                         c = abs(a - b)  # 计算绝对值
                         if c >= 3:  # 如果大于3天删除
                             f.close()#关闭打开的文件后删除文件
-                            os.remove("ProxyPool.txt")
+                            os.remove("/ScanResult/ProxyPool.txt")
                     else:
                         f.close()
-                        os.remove("ProxyPool.txt")
+                        os.remove("/ScanResult/ProxyPool.txt")
                 else:
                     f.close()
-                    os.remove("ProxyPool.txt")
+                    os.remove("/ScanResult/ProxyPool.txt")
             except:
                 pass
             for ProxyPool in f:#读取代理IP进行测试是否可以使用
@@ -166,7 +168,9 @@ def OpenProxy():
 
 
     # HttpsProxy=Proxy.HttpsIpProxy()
-
+def JSCrawling(Url):
+    urls = JS.find_by_url_deep(args.url)
+    JS.giveresult(urls, args.url)
 
 
 if __name__ == '__main__':
@@ -180,6 +184,7 @@ if __name__ == '__main__':
     SqlPasswrod=args.SqlPasswrod#传入爆破数据库的密码文件
     SqlUser = args.SqlUser#传入爆破数据库的账号文件
     Proxy=args.Proxy#不需要传入参数如果开启只需要-p
+    JavaScript=args.JavaScript#开启深度爬取JS文件中的子域名以及链接
     WriteFile = ClassCongregation.WriteFile(OutFileName)  # 声明调用类集合中的WriteFile类,并传入文件名字(这一步是必须的)
 
     if Url==None and InputFileName==None:#如果找不到URL的话直接退出
@@ -189,19 +194,29 @@ if __name__ == '__main__':
         print("Incorrect input, please enter -h to view help")
         os._exit(0)#直接退出整个函数
 
-
+    ProxyIp=""
     if Proxy:#如果输入了参数表示开启了代理进而调用函数
         ProxyIp=OpenProxy()
 
-
-    # InitialScan(InputFileName, Url, NmapScanRange)#初始化san主函数
-    # BoomDB(Url, SqlUser, SqlPasswrod,InputFileName)#调用爆破数据库函数
-    BootScanner=threading.Thread(target=InitialScan,args=(InputFileName, Url, NmapScanRange,ProxyIp,))
-    BootBoomDB=threading.Thread(target=BoomDB, args=(Url, SqlUser, SqlPasswrod,InputFileName,))
-    BootScanner.start()
-    BootBoomDB.start()
-    BootScanner.join()
-    BootBoomDB.join()
+    if JavaScript:
+        BootJS=threading.Thread(target=JSCrawling,args=(Url,))
+        BootScanner = threading.Thread(target=InitialScan, args=(InputFileName, Url, NmapScanRange, ProxyIp,))
+        BootBoomDB = threading.Thread(target=BoomDB, args=(Url, SqlUser, SqlPasswrod, InputFileName,))
+        BootJS.start()
+        BootScanner.start()
+        BootBoomDB.start()
+        BootScanner.join()
+        BootBoomDB.join()
+        BootJS.join()
+    else:
+        # InitialScan(InputFileName, Url, NmapScanRange)#初始化san主函数
+        # BoomDB(Url, SqlUser, SqlPasswrod,InputFileName)#调用爆破数据库函数
+        BootScanner=threading.Thread(target=InitialScan,args=(InputFileName, Url, NmapScanRange,ProxyIp,))
+        BootBoomDB=threading.Thread(target=BoomDB, args=(Url, SqlUser, SqlPasswrod,InputFileName,))
+        BootScanner.start()
+        BootBoomDB.start()
+        BootScanner.join()
+        BootBoomDB.join()
 
 
 # from IPy import IP

@@ -7,6 +7,7 @@ from Confluence import ConfluenceMain
 #如果在自己创建的文件夹里面加入__init__.py文件的话就可以是用from 文件夹名 import 文件夹总的文件名来导入文件
 #Struts2Main.Main()这样就导入了文件夹中Struts2Main.py文件中的Main函数
 from Struts2 import Struts2Main
+from Apache import ApacheMian
 from Nginx import NginxMain
 from InformationDetector import JS
 import ClassCongregation
@@ -113,6 +114,10 @@ def San(OutFileName,Url,Values,ProxyIp):
         pass
     try:
         NginxMain.Main(Url,OutFileName,Values,ProxyIp)# 调用 Confluence主函数
+    except:
+        pass
+    try:
+        ApacheMian.Main(Url,OutFileName,Values,ProxyIp)  # 调用Apache主函数
     except:
         pass
 

@@ -48,7 +48,8 @@ python3 MedusaScan.py -u 192.168.0.1
     欢迎大家提交Issues
 
 ### 参与开发
-    等框架完善并且模板写出来后，欢迎大家贡献宝贵的代码
+    POC编写文档:
+    https://github.com/Ascotbe/Medusa/VulnerabilityTemplate/v0.1.md
 
 #### 封面作者
 <a href="https://github.com/czkm"><img alt="Release" src="https://avatars2.githubusercontent.com/u/36911813?s=460&v=4"  width="50"></a>
@@ -58,4 +59,4 @@ python3 MedusaScan.py -u 192.168.0.1
 
 [更新日志](/UpDataLog/log.md)
 
-[插件模板]()
+

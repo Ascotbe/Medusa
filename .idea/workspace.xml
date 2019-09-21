@@ -2,13 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5e736fa8-afea-4d91-9555-609b7381c18b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/InformationDetector/sublist3r.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CMS/Acsoft/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CMS/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Apache/ActiveMQ.py" beforeDir="false" afterPath="$PROJECT_DIR$/Apache/ActiveMQ.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Dictionary/MysqlPassWrod.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Dictionary/MysqlPassWrod.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InformationDetector/Subdomain.py" beforeDir="false" afterPath="$PROJECT_DIR$/text.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MedusaScan.py" beforeDir="false" afterPath="$PROJECT_DIR$/MedusaScan.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Medusa.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Medusa.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UpDataLog/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/UpDataLog/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UpDataLog/log.md" beforeDir="false" afterPath="$PROJECT_DIR$/UpDataLog/log.md" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -19,23 +19,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Apache/ActiveMQ.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
-              <caret line="16" column="34" selection-start-line="16" selection-start-column="34" selection-end-line="16" selection-end-column="34" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/MedusaScan.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="247">
-              <caret line="184" column="56" selection-start-line="184" selection-start-column="56" selection-end-line="184" selection-end-column="56" />
-              <folding>
-                <element signature="e#78#115#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="361">
+              <caret line="19" column="17" selection-start-line="19" selection-start-column="17" selection-end-line="19" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -91,11 +79,11 @@
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/text.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="171">
-              <caret line="9" column="27" lean-forward="true" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="27" />
+              <caret line="9" column="27" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="27" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -188,7 +176,6 @@
         <option value="$PROJECT_DIR$/ClassCongregation.py" />
         <option value="$PROJECT_DIR$/InformationDetector/JS.py" />
         <option value="$PROJECT_DIR$/InformationDetector/Subdomain.py" />
-        <option value="$PROJECT_DIR$/Medusa.txt" />
         <option value="$PROJECT_DIR$/InformationDetector/Sublist3r/sublist3r.py" />
         <option value="$PROJECT_DIR$/Apache/ApacheMian.py" />
         <option value="$PROJECT_DIR$/VulnerabilityTemplate/v0.1.md" />
@@ -199,6 +186,7 @@
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/MedusaScan.py" />
         <option value="$PROJECT_DIR$/text.py" />
+        <option value="$PROJECT_DIR$/Medusa.txt" />
       </list>
     </option>
   </component>
@@ -226,7 +214,7 @@
             <path>
               <item name="WebVulnerabilityScanner" type="b2602c69:ProjectViewProjectNode" />
               <item name="WebVulnerabilityScanner" type="462c0819:PsiDirectoryNode" />
-              <item name="Apache" type="462c0819:PsiDirectoryNode" />
+              <item name="CMS" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="WebVulnerabilityScanner" type="b2602c69:ProjectViewProjectNode" />
@@ -236,7 +224,7 @@
             <path>
               <item name="WebVulnerabilityScanner" type="b2602c69:ProjectViewProjectNode" />
               <item name="WebVulnerabilityScanner" type="462c0819:PsiDirectoryNode" />
-              <item name="UpDataLog" type="462c0819:PsiDirectoryNode" />
+              <item name="Nginx" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -408,7 +396,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-1928" y="-8" width="1936" height="1096" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24973656" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -690,13 +677,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/InformationDetector/Sublist3r-master/sublist3r.py" />
     <entry file="file://$PROJECT_DIR$/1.txt" />
-    <entry file="file://$PROJECT_DIR$/Medusa.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="8" column="9" selection-start-line="8" selection-start-column="9" selection-end-line="8" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Apache/ApacheMian.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="171">
@@ -832,23 +812,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MedusaScan.py">
+    <entry file="file://$PROJECT_DIR$/text.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="184" column="56" selection-start-line="184" selection-start-column="56" selection-end-line="184" selection-end-column="56" />
+        <state relative-caret-position="171">
+          <caret line="9" column="27" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="27" />
           <folding>
-            <element signature="e#78#115#0" expanded="true" />
+            <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/text.py">
+    <entry file="file://$PROJECT_DIR$/Medusa.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="171">
-          <caret line="9" column="27" lean-forward="true" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="27" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
+          <caret line="9" column="10" selection-start-line="9" selection-start-column="10" selection-end-line="9" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MedusaScan.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="19" column="17" selection-start-line="19" selection-start-column="17" selection-end-line="19" selection-end-column="17" />
         </state>
       </provider>
     </entry>

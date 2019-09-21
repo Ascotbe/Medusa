@@ -2,7 +2,7 @@
  <p align="center">
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Ascotbe-Medusa%20Scan-green"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/python-3.6-blueviolet"></a>
-    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Version-0.19.5-red"></a>
+    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Version-0.20-red"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/LICENSE-GPL-ff69b4"></a>
 	<a href="https://github.com/ascotbe/Medusa/stargazers"><img alt="Release" src="https://img.shields.io/github/stars/ascotbe/Medusa.svg"></a>
  </p>
@@ -29,7 +29,7 @@ cd Medusa
 # 安装依赖
 pip install -r Medusa.txt
 # 使用扫描器
-python3 MedusaScan.py -u 192.168.0.1
+python3 MedusaScan.py -u www.ascotbe.com
 ```
 ### 参数说明
 |短形式|长形式     |参数个数|作用                              |备注                           |

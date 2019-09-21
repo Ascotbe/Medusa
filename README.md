@@ -43,9 +43,12 @@ python3 MedusaScan.py -u 192.168.0.1
 |-sp    |--SqlPasswrod   |1       |爆破数据库的密码字典|如果输入-sp和-su并且其中一个值为空，则使用默认密码爆破| 
 |-su    |--SqlUser   |1       |爆破数据库的用户字典|无| 
 |-j    |--JavaScript   |0       |通过URL中的JS文件深度爬取里面的URL链接以及子域名|从Threezh1项目中魔改而来| 
+|-s    |--Subdomain   |0       |通过DNS以及各大搜索引擎查找子域名|从Sublist3r魔改而来,不支持IP枚举| 
+|-se    |--SubdomainEnumerate   |0       |包含了-s的功能，并且通过字典枚举(非常耗时|和-s不能同时使用，-s和-se只能存在一个| 
 
 ### 提交意见&BUG
     欢迎大家提交Issues
+    交流Q群690021184
 
 ### 参与开发
     POC编写文档:

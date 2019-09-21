@@ -7,3 +7,4 @@ IPy
 scrapy
 tqdm
 dnspython
+tldextract

@@ -10,7 +10,9 @@ from Struts2 import Struts2Main
 from Apache import ApacheMian
 from Nginx import NginxMain
 from InformationDetector import JS
+from InformationDetector import sublist3r
 import ClassCongregation
+import tldextract#域名处理函数可以识别主域名和后缀
 import Banner
 import argparse
 import requests
@@ -43,7 +45,8 @@ parser.add_argument('-n','--NmapScanRange',type=str,help="Incoming scan port ran
 parser.add_argument('-sp','--SqlPasswrod',type=str,help="Please enter an password file.")
 parser.add_argument('-su','--SqlUser',type=str,help="Please enter an account file.")
 parser.add_argument('-j','--JavaScript',type=str,help="Used URL to deeply crawl the information in the JS file and the subdomain",action="store_true")
-
+parser.add_argument('-s','--Subdomain',type=str,help="Collect subdomains",action="store_true")
+parser.add_argument('-se','--SubdomainEnumerate',type=str,help="Collect subdomains and turn on enumerations",action="store_true")
 '''
 在pycharm中设置固定要获取的参数，进行获取
 在XXX.py 中 按住 “alt+shift+f9”  ----选择编辑配置（edit configurations）---script parameters(脚本程序)
@@ -177,6 +180,14 @@ def JSCrawling(Url):
     urls = JS.find_by_url_deep(args.url)
     JS.giveresult(urls, args.url)
 
+def SubdomainCrawling(Url,SubdomainJudge):#开启子域名函数
+    SubdomainCrawlingUrls= tldextract.extract(Url)
+    SubdomainCrawlingUrl=SubdomainCrawlingUrls.domain+"."+SubdomainCrawlingUrls.suffix
+    savefile= "../ScanResult/Subdomain.txt"
+    if SubdomainJudge=="a":
+        sublist3r.main(SubdomainCrawlingUrl, savefile, silent=False,subbrutes=True)
+    else:
+        sublist3r.main(SubdomainCrawlingUrl, savefile, silent=False, subbrutes=False)
 
 if __name__ == '__main__':
     Banner.RandomBanner()#输出随机横幅
@@ -190,7 +201,10 @@ if __name__ == '__main__':
     SqlUser = args.SqlUser#传入爆破数据库的账号文件
     Proxy=args.Proxy#不需要传入参数如果开启只需要-p
     JavaScript=args.JavaScript#开启深度爬取JS文件中的子域名以及链接
+    SubdomainEnumerate=args.SubdomainEnumerate #开启深度子域名枚举，巨TM耗时间
+    Subdomain=args.Subdomain#开启子域名枚举
     WriteFile = ClassCongregation.WriteFile(OutFileName)  # 声明调用类集合中的WriteFile类,并传入文件名字(这一步是必须的)
+
 
     if Url==None and InputFileName==None:#如果找不到URL的话直接退出
         print("Incorrect input, please enter -h to view help")
@@ -205,23 +219,26 @@ if __name__ == '__main__':
 
     if JavaScript:
         BootJS=threading.Thread(target=JSCrawling,args=(Url,))
-        BootScanner = threading.Thread(target=InitialScan, args=(InputFileName, Url, NmapScanRange, ProxyIp,))
-        BootBoomDB = threading.Thread(target=BoomDB, args=(Url, SqlUser, SqlPasswrod, InputFileName,))
         BootJS.start()
-        BootScanner.start()
-        BootBoomDB.start()
-        BootScanner.join()
-        BootBoomDB.join()
         BootJS.join()
-    else:
-        # InitialScan(InputFileName, Url, NmapScanRange)#初始化san主函数
-        # BoomDB(Url, SqlUser, SqlPasswrod,InputFileName)#调用爆破数据库函数
-        BootScanner=threading.Thread(target=InitialScan,args=(InputFileName, Url, NmapScanRange,ProxyIp,))
-        BootBoomDB=threading.Thread(target=BoomDB, args=(Url, SqlUser, SqlPasswrod,InputFileName,))
-        BootScanner.start()
-        BootBoomDB.start()
-        BootScanner.join()
-        BootBoomDB.join()
+
+    if SubdomainEnumerate==True and Subdomain==True :#对参数判断参数互斥
+        print("Incorrect input, please enter -h to view help")
+    elif SubdomainEnumerate==True:
+        SubdomainJudge = "a"
+        SubdomainCrawling(Url,SubdomainJudge )
+    elif Subdomain==True:
+        SubdomainJudge = "b"
+        SubdomainCrawling(Url, SubdomainJudge)
+
+    # InitialScan(InputFileName, Url, NmapScanRange)#初始化san主函数
+    # BoomDB(Url, SqlUser, SqlPasswrod,InputFileName)#调用爆破数据库函数
+    BootScanner=threading.Thread(target=InitialScan,args=(InputFileName, Url, NmapScanRange,ProxyIp,))
+    BootBoomDB=threading.Thread(target=BoomDB, args=(Url, SqlUser, SqlPasswrod,InputFileName,))
+    BootScanner.start()
+    BootBoomDB.start()
+    BootScanner.join()
+    BootBoomDB.join()
 
 
 # from IPy import IP

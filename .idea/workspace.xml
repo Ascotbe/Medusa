@@ -3,25 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="5e736fa8-afea-4d91-9555-609b7381c18b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMS/Acsoft/Acsoft_GetFileContent_fileread.py" beforeDir="false" afterPath="$PROJECT_DIR$/Cms/Acsoft/Acsoft_GetFileContent_fileread.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMS/Acsoft/Acsoft_GetFile_fileread.py" beforeDir="false" afterPath="$PROJECT_DIR$/Cms/Acsoft/Acsoft_GetFile_fileread.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMS/Acsoft/Acsoft_GetXMLList_fileread.py" beforeDir="false" afterPath="$PROJECT_DIR$/Cms/Acsoft/Acsoft_GetXMLList_fileread.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMS/Acsoft/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/Cms/Acsoft/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMS/Autoset/Autoset_phpmyadmin_unauth.py" beforeDir="false" afterPath="$PROJECT_DIR$/Cms/Autoset/Autoset_phpmyadmin_unauth.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMS/Autoset/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/Cms/Autoset/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMS/Cmseasy/Cmseasy_header_detail_sqli.py" beforeDir="false" afterPath="$PROJECT_DIR$/Cms/Cmseasy/Cmseasy_header_detail_sqli.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMS/Cmseasy/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/Cms/Cmseasy/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMS/Dedecms/Dedecms_download_redirect.py" beforeDir="false" afterPath="$PROJECT_DIR$/Cms/Dedecms/Dedecms_download_redirect.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMS/Dedecms/Dedecms_error_trace_disclosure.py" beforeDir="false" afterPath="$PROJECT_DIR$/Cms/Dedecms/Dedecms_error_trace_disclosure.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMS/Dedecms/Dedecms_recommend_sqli.py" beforeDir="false" afterPath="$PROJECT_DIR$/Cms/Dedecms/Dedecms_recommend_sqli.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMS/Dedecms/Dedecms_search_typeArr_sqli.py" beforeDir="false" afterPath="$PROJECT_DIR$/Cms/Dedecms/Dedecms_search_typeArr_sqli.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMS/Dedecms/Dedecms_version.py" beforeDir="false" afterPath="$PROJECT_DIR$/Cms/Dedecms/Dedecms_version.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMS/Dedecms/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/Cms/Dedecms/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMS/DigitalCampus/Digital_campus_log_disclosure.py" beforeDir="false" afterPath="$PROJECT_DIR$/Cms/DigitalCampus/Digital_campus_log_disclosure.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMS/DigitalCampus/Digital_campus_systemcodelist_sqli.py" beforeDir="false" afterPath="$PROJECT_DIR$/Cms/DigitalCampus/Digital_campus_systemcodelist_sqli.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMS/DigitalCampus/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/Cms/DigitalCampus/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMS/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/Cms/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Dictionary/MysqlPassWrod.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Dictionary/MysqlPassWrod.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/text.py" beforeDir="false" afterPath="$PROJECT_DIR$/text.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -30,32 +13,62 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+    <leaf>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Cms/Eyou/eyou_resetpw.py">
+        <entry file="file://$PROJECT_DIR$/ClassCongregation.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="423">
-              <caret line="48" column="59" selection-start-line="48" selection-start-column="59" selection-end-line="48" selection-end-column="59" />
+            <state relative-caret-position="523">
+              <caret line="165" column="46" selection-start-line="165" selection-start-column="40" selection-end-line="165" selection-end-column="46" />
+              <folding>
+                <element signature="e#46#82#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Cms/Eyou/eyou_user_kw_sqli.py">
+        <entry file="file://$PROJECT_DIR$/Cms/Kingdee/Kingdee_conf_disclosure.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
-              <caret line="36" column="31" lean-forward="true" selection-start-line="36" selection-start-column="31" selection-end-line="36" selection-end-column="31" />
+            <state relative-caret-position="404">
+              <caret line="56" column="50" selection-start-line="56" selection-start-column="50" selection-end-line="56" selection-end-column="50" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Cms/Kingdee/Kingdee_filedownload.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="874">
+              <caret line="47" column="22" selection-start-line="47" selection-start-column="22" selection-end-line="47" selection-end-column="22" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Cms/Kingdee/Kingdee_logoImgServlet_fileread.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="437">
+              <caret line="48" column="40" selection-start-line="48" selection-start-column="40" selection-end-line="48" selection-end-column="40" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Cms/Kingdee/Kingdee_resin_dir_path_disclosure.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="442">
+              <caret line="59" column="16" selection-start-line="59" selection-start-column="16" selection-end-line="59" selection-end-column="16" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Cms/Eyou/eyou_weakpass.py">
+        <entry file="file://$PROJECT_DIR$/Cms/Kxmail/Kxmail_login_server_sqli.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="43">
-              <caret line="50" column="39" selection-start-line="50" selection-start-column="39" selection-end-line="50" selection-end-column="39" />
+            <state relative-caret-position="466">
+              <caret line="62" selection-start-line="62" selection-end-line="62" />
               <folding>
-                <element signature="e#177#190#0" expanded="true" />
+                <element signature="e#263#276#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -84,37 +97,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/InformationDisclosure/Sftp.py" />
-        <option value="$PROJECT_DIR$/InformationDisclosure/PhpApc.py" />
-        <option value="$PROJECT_DIR$/InformationDisclosure/Phpinfo.py" />
-        <option value="$PROJECT_DIR$/InformationDetector/Baidu.com.py" />
-        <option value="$PROJECT_DIR$/InformationDetector/Google.py" />
-        <option value="$PROJECT_DIR$/InformationDetector/Bing.py" />
-        <option value="$PROJECT_DIR$/InformationDetector/Github.py" />
-        <option value="$PROJECT_DIR$/InformationDetector/Tieba.py" />
-        <option value="$PROJECT_DIR$/InformationDetector/Twitter.py" />
-        <option value="$PROJECT_DIR$/InformationDetector/Baidu.py" />
-        <option value="$PROJECT_DIR$/InformationDisclosure/__init__.py" />
-        <option value="$PROJECT_DIR$/InformationDisclosure/InformationDisclosureMain.py" />
-        <option value="$PROJECT_DIR$/InformationDetector/BaiduYun.py" />
-        <option value="$PROJECT_DIR$/InformationDetector/__init__.py" />
-        <option value="$PROJECT_DIR$/InformationDetector/URL_in_JS.text" />
-        <option value="$PROJECT_DIR$/ScanResult.py" />
-        <option value="$PROJECT_DIR$/ClassCongregation.py" />
-        <option value="$PROJECT_DIR$/InformationDetector/JS.py" />
-        <option value="$PROJECT_DIR$/InformationDetector/Subdomain.py" />
-        <option value="$PROJECT_DIR$/InformationDetector/Sublist3r/sublist3r.py" />
-        <option value="$PROJECT_DIR$/Apache/ApacheMian.py" />
-        <option value="$PROJECT_DIR$/VulnerabilityTemplate/v0.1.md" />
-        <option value="$PROJECT_DIR$/InformationDetector/subbrute/subbrute.py" />
-        <option value="$PROJECT_DIR$/Apache/ActiveMQ.py" />
-        <option value="$PROJECT_DIR$/UpDataLog/log.md" />
-        <option value="$PROJECT_DIR$/InformationDetector/sublist3r.py" />
-        <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/MedusaScan.py" />
-        <option value="$PROJECT_DIR$/text.py" />
-        <option value="$PROJECT_DIR$/Medusa.txt" />
-        <option value="$PROJECT_DIR$/Cms/Discuz/discuz_x25_path_disclosure.py" />
         <option value="$PROJECT_DIR$/Cms/Discuz/discuz_forum_message_ssrf.py" />
         <option value="$PROJECT_DIR$/Cms/Acsoft/Acsoft_GetFileContent_fileread.py" />
         <option value="$PROJECT_DIR$/Cms/Acsoft/Acsoft_GetXMLList_fileread.py" />
@@ -135,12 +117,43 @@
         <option value="$PROJECT_DIR$/Cms/Eyou/eyou_resetpw.py" />
         <option value="$PROJECT_DIR$/Cms/Eyou/eyou_user_kw_sqli.py" />
         <option value="$PROJECT_DIR$/Cms/Eyou/eyou_weakpass.py" />
+        <option value="$PROJECT_DIR$/UpDataLog/log.md" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/Cms/Fastmeeting/fastmeeting_download_filedownload.py" />
+        <option value="$PROJECT_DIR$/Cms/Finecms/finecms_uploadfile.py" />
+        <option value="$PROJECT_DIR$/Cms/Foosun/foosun_City_ajax_sqli.py" />
+        <option value="$PROJECT_DIR$/Cms/Fsmcms/fsmcms_columninfo_sqli.py" />
+        <option value="$PROJECT_DIR$/Cms/Fsmcms/fsmcms_p_replydetail_sqli.py" />
+        <option value="$PROJECT_DIR$/Cms/Fsmcms/fsmcms_setup_reinstall.py" />
+        <option value="$PROJECT_DIR$/Cms/Gobetters/gobetters_multi_sqli.py" />
+        <option value="$PROJECT_DIR$/Cms/Gpower/gpower_users_disclosure.py" />
+        <option value="$PROJECT_DIR$/Cms/GowinsoftJw/gowinsoft_jw_multi_sqli.py" />
+        <option value="$PROJECT_DIR$/Cms/Hanweb/hanweb_downfile_filedownload.py" />
+        <option value="$PROJECT_DIR$/Cms/Hanweb/hanweb_readxml_fileread.py" />
+        <option value="$PROJECT_DIR$/Cms/Hanweb/hanweb_VerifyCodeServlet_install.py" />
+        <option value="$PROJECT_DIR$/Cms/Hishop/hishop_productlist_sqli.py" />
+        <option value="$PROJECT_DIR$/Cms/IGenus/igenus_code_exec.py" />
+        <option value="$PROJECT_DIR$/Cms/IGenus/igenus_login_Lang_fileread.py" />
+        <option value="$PROJECT_DIR$/Cms/Inspur/inspur_multi_sqli.py" />
+        <option value="$PROJECT_DIR$/Cms/IGenus/igenus_syslogin_Lang_fileread.py" />
+        <option value="$PROJECT_DIR$/Cms/Inspur/inspur_ecgap_displayNewsPic_sqli.py" />
+        <option value="$PROJECT_DIR$/Cms/Iwms/iwms_bypass_js_delete.py" />
+        <option value="$PROJECT_DIR$/Cms/Jeecg/jeecg_pwd_reset.py" />
+        <option value="$PROJECT_DIR$/Cms/Jeecms/jeecms_fpath_filedownload.py" />
+        <option value="$PROJECT_DIR$/Cms/Joomla/joomla_com_docman_lfi.py" />
+        <option value="$PROJECT_DIR$/Cms/Joomla/joomla_index_list_sqli.py" />
+        <option value="$PROJECT_DIR$/Cms/Jumboecms/jumboecms_slide_id_sqli.py" />
+        <option value="$PROJECT_DIR$/Cms/Kingdee/kingdee_conf_disclosure.py" />
+        <option value="$PROJECT_DIR$/Cms/Kingdee/kingdee_filedownload.py" />
+        <option value="$PROJECT_DIR$/Cms/Kingdee/kingdee_logoImgServlet_fileread.py" />
+        <option value="$PROJECT_DIR$/Cms/Kingdee/kingdee_resin_dir_path_disclosure.py" />
+        <option value="$PROJECT_DIR$/Cms/Kxmail/kxmail_login_server_sqli.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="1">
-    <option name="x" value="640" />
-    <option name="y" value="192" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="670" />
+    <option name="y" value="186" />
     <option name="width" value="1222" />
     <option name="height" value="780" />
   </component>
@@ -152,7 +165,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -168,33 +180,13 @@
             <path>
               <item name="WebVulnerabilityScanner" type="b2602c69:ProjectViewProjectNode" />
               <item name="WebVulnerabilityScanner" type="462c0819:PsiDirectoryNode" />
-              <item name="Cms" type="462c0819:PsiDirectoryNode" />
-              <item name="Eyou" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="WebVulnerabilityScanner" type="b2602c69:ProjectViewProjectNode" />
-              <item name="WebVulnerabilityScanner" type="462c0819:PsiDirectoryNode" />
-              <item name="Confluence" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="WebVulnerabilityScanner" type="b2602c69:ProjectViewProjectNode" />
-              <item name="WebVulnerabilityScanner" type="462c0819:PsiDirectoryNode" />
-              <item name="Nginx" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="WebVulnerabilityScanner" type="b2602c69:ProjectViewProjectNode" />
-              <item name="WebVulnerabilityScanner" type="462c0819:PsiDirectoryNode" />
-              <item name="Struts2" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="WebVulnerabilityScanner" type="b2602c69:ProjectViewProjectNode" />
-              <item name="WebVulnerabilityScanner" type="462c0819:PsiDirectoryNode" />
               <item name="UpDataLog" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -360,8 +352,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="640" y="192" width="1222" height="780" extended-state="0" />
-    <editor active="true" />
+    <frame x="670" y="186" width="1222" height="780" extended-state="0" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22888513" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -481,22 +472,7 @@
           <option name="timeStamp" value="37" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/text.py</url>
-          <line>5</line>
-          <option name="timeStamp" value="38" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/text.py</url>
-          <line>7</line>
-          <option name="timeStamp" value="42" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/text.py</url>
-          <line>8</line>
-          <option name="timeStamp" value="43" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Cms/Discuz/discuz_forum_message_ssrf.py</url>
+          <url>file://$PROJECT_DIR$/Cms/Discuz/Discuz_forum_message_ssrf.py</url>
           <line>8</line>
           <option name="timeStamp" value="44" />
         </line-breakpoint>
@@ -506,7 +482,7 @@
           <option name="timeStamp" value="45" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Cms/Eyou/eyou_admin_id_sqli.py</url>
+          <url>file://$PROJECT_DIR$/Cms/Eyou/Eyou_admin_id_sqli.py</url>
           <line>37</line>
           <option name="timeStamp" value="46" />
         </line-breakpoint>
@@ -514,220 +490,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/InformationDetector/Sublist3r-master/sublist3r.py" />
-    <entry file="file://$PROJECT_DIR$/1.txt" />
-    <entry file="file://$PROJECT_DIR$/VulnerabilityTemplate/v0.1.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="1292">
-            <caret line="68" column="15" selection-start-line="68" selection-start-column="15" selection-end-line="68" selection-end-column="15" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/InformationDetector/subbrute/subbrute.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="406" column="16" selection-start-line="406" selection-start-column="4" selection-end-line="406" selection-end-column="16" />
-          <folding>
-            <element signature="e#173#182#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/InformationDetector/JS.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="467">
-          <caret line="193" selection-start-line="193" selection-end-line="193" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/ProgramData/Anaconda3/envs/wxpy/Lib/threading.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="915" selection-start-line="915" selection-end-line="915" />
-          <folding>
-            <element signature="e#67#85#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/InformationDetector/Subdomain.py" />
-    <entry file="file://$PROJECT_DIR$/InformationDetector/1.txt" />
-    <entry file="file://$PROJECT_DIR$/Apache/ActiveMQ.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="16" column="34" selection-start-line="16" selection-start-column="34" selection-end-line="16" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ScanResult/Subdomain.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Medusa.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="9" column="10" selection-start-line="9" selection-start-column="10" selection-end-line="9" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/InformationDetector/sublist3r.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="16359">
-          <caret line="881" column="23" selection-start-line="881" selection-start-column="10" selection-end-line="881" selection-end-column="23" />
-          <folding>
-            <element signature="e#130#139#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/UpDataLog/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor />
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="950">
-            <caret line="50" column="4" selection-start-line="50" selection-start-column="4" selection-end-line="50" selection-end-column="4" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/InformationDetector/Tieba.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/text.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="9" column="27" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="27" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ClassCongregation.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2204">
-          <caret line="123" column="91" selection-start-line="123" selection-start-column="36" selection-end-line="123" selection-end-column="91" />
-          <folding>
-            <element signature="e#46#82#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Confluence/CVE_2019_3396.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
-          <caret line="2" selection-start-line="2" selection-end-line="4" selection-end-column="15" />
-          <folding>
-            <element signature="e#46#59#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Confluence/ConfluenceMain.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="9" column="34" selection-start-line="9" selection-start-column="34" selection-end-line="9" selection-end-column="34" />
-          <folding>
-            <element signature="e#46#77#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MedusaScan.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="213" column="28" lean-forward="true" selection-start-line="213" selection-start-column="28" selection-end-line="213" selection-end-column="28" />
-          <folding>
-            <element signature="e#78#115#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/UpDataLog/log.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="717">
-            <caret line="109" column="9" selection-start-line="109" selection-start-column="9" selection-end-line="109" selection-end-column="9" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Cms/Discuz/discuz_focus_flashxss.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#161#171#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Cms/Acsoft/Acsoft_GetFile_fileread.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-228" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Cms/Acsoft/Acsoft_GetFileContent_fileread.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="585">
-          <caret line="47" column="28" lean-forward="true" selection-start-line="47" selection-start-column="28" selection-end-line="47" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Cms/Acsoft/Acsoft_GetXMLList_fileread.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="627">
-          <caret line="46" column="13" lean-forward="true" selection-start-line="46" selection-start-column="13" selection-end-line="46" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Cms/Autoset/Autoset_phpmyadmin_unauth.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-308" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Cms/Cmseasy/Cmseasy_header_detail_sqli.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-303" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Cms/Dedecms/Dedecms_download_redirect.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-213" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Cms/Dedecms/Dedecms_error_trace_disclosure.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-213" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Cms/Dedecms/Dedecms_recommend_sqli.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-284" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Cms/Dedecms/Dedecms_search_typeArr_sqli.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-213" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Cms/Dedecms/Dedecms_version.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-194">
-          <caret line="20" column="4" lean-forward="true" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Cms/DigitalCampus/Digital_campus_log_disclosure.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-80">
@@ -742,7 +504,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Cms/Discuz/discuz_forum_message_ssrf.py">
+    <entry file="file://$PROJECT_DIR$/Cms/Discuz/Discuz_forum_message_ssrf.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="647">
           <caret line="50" column="86" lean-forward="true" selection-start-line="50" selection-start-column="86" selection-end-line="50" selection-end-column="86" />
@@ -752,21 +514,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Cms/Discuz/discuz_plugin_ques_sqli.py">
+    <entry file="file://$PROJECT_DIR$/Cms/Discuz/Discuz_plugin_ques_sqli.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="699">
           <caret line="48" column="77" selection-start-line="48" selection-start-column="77" selection-end-line="48" selection-end-column="77" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Cms/Diyou/dyp2p_latesindex_sqli.py">
+    <entry file="file://$PROJECT_DIR$/Cms/Diyou/Dyp2p_latesindex_sqli.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="414">
           <caret line="47" column="11" selection-start-line="47" selection-start-column="11" selection-end-line="47" selection-end-column="11" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Cms/Discuz/discuz_x25_path_disclosure.py">
+    <entry file="file://$PROJECT_DIR$/Cms/Discuz/Discuz_x25_path_disclosure.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="366">
           <caret line="59" column="39" lean-forward="true" selection-start-line="59" selection-start-column="39" selection-end-line="59" selection-end-column="39" />
@@ -776,21 +538,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Cms/Diyou/dyp2p_url_fileread.py">
+    <entry file="file://$PROJECT_DIR$/Cms/Diyou/Dyp2p_url_fileread.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="328">
           <caret line="43" column="27" lean-forward="true" selection-start-line="43" selection-start-column="27" selection-end-line="43" selection-end-column="27" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Cms/Dreamgallery/dreamgallery_album_id_sqli.py">
+    <entry file="file://$PROJECT_DIR$/Cms/Dreamgallery/Dreamgallery_album_id_sqli.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="409">
           <caret line="48" column="57" selection-start-line="48" selection-start-column="57" selection-end-line="48" selection-end-column="57" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Cms/Dswjcms/dswjcms_p2p_multi_sqli.py">
+    <entry file="file://$PROJECT_DIR$/Cms/Dswjcms/Dswjcms_p2p_multi_sqli.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="751">
           <caret line="48" column="53" selection-start-line="48" selection-start-column="53" selection-end-line="48" selection-end-column="53" />
@@ -804,7 +566,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Cms/Ecscms/ecscms_MoreIndex_sqli.py">
+    <entry file="file://$PROJECT_DIR$/Cms/Ecscms/Ecscms_MoreIndex_sqli.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="580">
           <caret line="42" column="25" selection-start-line="42" selection-start-column="25" selection-end-line="42" selection-end-column="25" />
@@ -814,35 +576,35 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Cms/Ecshop/ecshop_flow_orderid_sqli.py">
+    <entry file="file://$PROJECT_DIR$/Cms/Ecshop/Ecshop_flow_orderid_sqli.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="670">
           <caret line="51" column="60" selection-start-line="51" selection-start-column="60" selection-end-line="51" selection-end-column="60" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Cms/Ecshop/ecshop_uc_code_sqli.py">
+    <entry file="file://$PROJECT_DIR$/Cms/Ecshop/Ecshop_uc_code_sqli.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="580">
           <caret line="43" column="27" lean-forward="true" selection-start-line="43" selection-start-column="27" selection-end-line="43" selection-end-column="27" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Cms/Esccms/esccms_selectunitmember_unauth.py">
+    <entry file="file://$PROJECT_DIR$/Cms/Esccms/Esccms_selectunitmember_unauth.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="537">
           <caret line="48" column="68" selection-start-line="48" selection-start-column="68" selection-end-line="48" selection-end-column="68" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Cms/Etmdcp/etmdcp_Load_filedownload.py">
+    <entry file="file://$PROJECT_DIR$/Cms/Etmdcp/Etmdcp_Load_filedownload.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="732">
           <caret line="51" column="26" lean-forward="true" selection-start-line="51" selection-start-column="26" selection-end-line="51" selection-end-column="26" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Cms/Eyou/eyou_admin_id_sqli.py">
+    <entry file="file://$PROJECT_DIR$/Cms/Eyou/Eyou_admin_id_sqli.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="423">
           <caret line="55" column="46" selection-start-line="55" selection-start-column="46" selection-end-line="55" selection-end-column="46" />
@@ -852,26 +614,280 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Cms/Eyou/eyou_resetpw.py">
+    <entry file="file://$PROJECT_DIR$/Cms/Eyou/Eyou_resetpw.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="423">
           <caret line="48" column="59" selection-start-line="48" selection-start-column="59" selection-end-line="48" selection-end-column="59" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Cms/Eyou/eyou_user_kw_sqli.py">
+    <entry file="file://$PROJECT_DIR$/Cms/Eyou/Eyou_user_kw_sqli.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="266">
           <caret line="36" column="31" lean-forward="true" selection-start-line="36" selection-start-column="31" selection-end-line="36" selection-end-column="31" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Cms/Eyou/eyou_weakpass.py">
+    <entry file="file://$PROJECT_DIR$/Cms/Eyou/Eyou_weakpass.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="43">
           <caret line="50" column="39" selection-start-line="50" selection-start-column="39" selection-end-line="50" selection-end-column="39" />
           <folding>
             <element signature="e#177#190#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/UpDataLog/log.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="275">
+            <caret line="101" column="11" lean-forward="true" selection-start-line="101" selection-start-column="11" selection-end-line="101" selection-end-column="11" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="180">
+            <caret line="51" column="5" lean-forward="true" selection-start-line="51" selection-start-column="5" selection-end-line="51" selection-end-column="5" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Cms/Fastmeeting/Fastmeeting_download_filedownload.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="309">
+          <caret line="42" column="58" lean-forward="true" selection-start-line="42" selection-start-column="58" selection-end-line="42" selection-end-column="58" />
+          <folding>
+            <element signature="e#229#242#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Cms/Finecms/Finecms_uploadfile.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="36" column="34" lean-forward="true" selection-start-line="36" selection-start-column="34" selection-end-line="36" selection-end-column="34" />
+          <folding>
+            <element signature="e#187#200#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Cms/Foosun/Foosun_City_ajax_sqli.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="423">
+          <caret line="52" column="50" selection-start-line="52" selection-start-column="50" selection-end-line="52" selection-end-column="50" />
+          <folding>
+            <element signature="e#232#245#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Cms/Fsmcms/Fsmcms_columninfo_sqli.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="371">
+          <caret line="46" column="31" lean-forward="true" selection-start-line="46" selection-start-column="31" selection-end-line="46" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Cms/Fsmcms/Fsmcms_p_replydetail_sqli.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="494">
+          <caret line="50" column="41" selection-start-line="50" selection-start-column="41" selection-end-line="50" selection-end-column="41" />
+          <folding>
+            <element signature="e#234#247#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Cms/Fsmcms/Fsmcms_setup_reinstall.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="423">
+          <caret line="48" column="39" selection-start-line="48" selection-start-column="39" selection-end-line="48" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Cms/GowinsoftJw/Gowinsoft_jw_multi_sqli.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="423">
+          <caret line="55" column="48" selection-start-line="55" selection-start-column="48" selection-end-line="55" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Cms/Gobetters/Gobetters_multi_sqli.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="295">
+          <caret line="61" column="53" selection-start-line="61" selection-start-column="53" selection-end-line="61" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Cms/Gpower/Gpower_users_disclosure.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="532">
+          <caret line="47" column="11" selection-start-line="47" selection-start-column="11" selection-end-line="47" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Cms/Hanweb/Hanweb_downfile_filedownload.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="41" column="13" lean-forward="true" selection-start-line="41" selection-start-column="13" selection-end-line="41" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Cms/Hanweb/Hanweb_VerifyCodeServlet_install.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="67" column="26" lean-forward="true" selection-start-line="67" selection-start-column="26" selection-end-line="67" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Cms/Hanweb/Hanweb_readxml_fileread.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="447">
+          <caret line="49" column="54" selection-start-line="49" selection-start-column="11" selection-end-line="49" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Cms/Hishop/Hishop_productlist_sqli.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="404">
+          <caret line="47" column="11" selection-start-line="47" selection-start-column="11" selection-end-line="47" selection-end-column="11" />
+          <folding>
+            <element signature="e#226#239#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Cms/Inspur/Inspur_multi_sqli.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="385">
+          <caret line="62" column="29" lean-forward="true" selection-start-line="62" selection-start-column="29" selection-end-line="62" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Cms/IGenus/Igenus_code_exec.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="580">
+          <caret line="48" column="66" selection-start-line="48" selection-start-column="66" selection-end-line="48" selection-end-column="66" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Cms/IGenus/Igenus_login_Lang_fileread.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="428">
+          <caret line="47" column="78" selection-start-line="47" selection-start-column="11" selection-end-line="47" selection-end-column="78" />
+          <folding>
+            <element signature="e#193#206#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Cms/IGenus/Igenus_syslogin_Lang_fileread.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="366">
+          <caret line="44" column="27" lean-forward="true" selection-start-line="44" selection-start-column="27" selection-end-line="44" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Cms/Inspur/Inspur_ecgap_displayNewsPic_sqli.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="423">
+          <caret line="48" column="47" selection-start-line="48" selection-start-column="47" selection-end-line="48" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Cms/Iwms/Iwms_bypass_js_delete.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="423">
+          <caret line="47" column="59" selection-start-line="47" selection-start-column="59" selection-end-line="47" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Cms/Jeecms/Jeecms_fpath_filedownload.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="157">
+          <caret line="34" column="5" lean-forward="true" selection-start-line="34" selection-start-column="5" selection-end-line="34" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Cms/Jeecg/Jeecg_pwd_reset.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="47" column="11" selection-start-line="47" selection-start-column="11" selection-end-line="47" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Cms/Joomla/Joomla_com_docman_lfi.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="290">
+          <caret line="41" column="13" lean-forward="true" selection-start-line="41" selection-start-column="13" selection-end-line="41" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Cms/Joomla/Joomla_index_list_sqli.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="41" column="13" lean-forward="true" selection-start-line="41" selection-start-column="13" selection-end-line="41" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Cms/Jumboecms/Jumboecms_slide_id_sqli.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="45" column="87" selection-start-line="45" selection-start-column="87" selection-end-line="45" selection-end-column="87" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ClassCongregation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="523">
+          <caret line="165" column="46" selection-start-line="165" selection-start-column="40" selection-end-line="165" selection-end-column="46" />
+          <folding>
+            <element signature="e#46#82#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Cms/Kingdee/Kingdee_conf_disclosure.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="404">
+          <caret line="56" column="50" selection-start-line="56" selection-start-column="50" selection-end-line="56" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Cms/Kingdee/Kingdee_filedownload.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="874">
+          <caret line="47" column="22" selection-start-line="47" selection-start-column="22" selection-end-line="47" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Cms/Kingdee/Kingdee_logoImgServlet_fileread.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="48" column="40" selection-start-line="48" selection-start-column="40" selection-end-line="48" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Cms/Kingdee/Kingdee_resin_dir_path_disclosure.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="59" column="16" selection-start-line="59" selection-start-column="16" selection-end-line="59" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Cms/Kxmail/Kxmail_login_server_sqli.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="466">
+          <caret line="62" selection-start-line="62" selection-end-line="62" />
+          <folding>
+            <element signature="e#263#276#0" expanded="true" />
           </folding>
         </state>
       </provider>

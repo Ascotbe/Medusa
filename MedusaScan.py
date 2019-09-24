@@ -11,6 +11,7 @@ from Apache import ApacheMian
 from Nginx import NginxMain
 from InformationDetector import JS
 from InformationDetector import sublist3r
+from Php import PhpMain
 import ClassCongregation
 import tldextract#域名处理函数可以识别主域名和后缀
 import Banner
@@ -121,6 +122,10 @@ def San(OutFileName,Url,Values,ProxyIp):
         pass
     try:
         ApacheMian.Main(Url,OutFileName,Values,ProxyIp)  # 调用Apache主函数
+    except:
+        pass
+    try:
+        PhpMain.Main(Url,OutFileName,Values,ProxyIp)  # 调用Php主函数
     except:
         pass
 

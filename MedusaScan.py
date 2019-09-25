@@ -9,6 +9,7 @@ from Confluence import ConfluenceMain
 from Struts2 import Struts2Main
 from Apache import ApacheMian
 from Nginx import NginxMain
+from Cms import CmsMian
 from InformationDetector import JS
 from InformationDetector import sublist3r
 from Php import PhpMain
@@ -126,6 +127,10 @@ def San(OutFileName,Url,Values,ProxyIp):
         pass
     try:
         PhpMain.Main(Url,OutFileName,Values,ProxyIp)  # 调用Php主函数
+    except:
+        pass
+    try:
+        CmsMian.Main(Url,OutFileName,Values,ProxyIp)  # 调用Cms主函数
     except:
         pass
 

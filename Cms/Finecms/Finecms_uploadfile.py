@@ -3,7 +3,8 @@
 '''
 name: FineCMS免费版文件上传漏洞
 referer: http://www.wooyun.org/bugs/wooyun-2015-0105251
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: FineCMS上传页面无限制,可以上传任意文件。
 '''
 import urllib

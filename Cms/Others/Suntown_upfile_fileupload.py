@@ -3,7 +3,8 @@
 '''
 name: suntown未授权任意文件上传漏洞
 referer: http://www.wooyun.org/bugs/wooyun-2010-063656
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件/zhidao/zhidao/search.php中,参数fulltext存在SQL注入。
 '''
 import urllib

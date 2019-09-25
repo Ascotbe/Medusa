@@ -4,7 +4,8 @@
 name: 农友多处时间盲注
 referer: http://www.wooyun.org/bugs/wooyun-2010-091294
          http://www.wooyun.org/bugs/wooyun-2010-0108912
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 时间盲注。
 '''
 import urllib

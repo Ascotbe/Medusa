@@ -3,7 +3,8 @@
 '''
 name: live800 fileDownloadServer文件读取漏洞
 referer: unknown
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 拼接导致的任意文件读取，root权限可读shadow。
 '''
 import urllib

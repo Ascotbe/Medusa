@@ -3,7 +3,8 @@
 '''
 name: 虹安DLP数据泄露防护平台struts2远程命令执行
 referer: http://www.wooyun.org/bugs/wooyun-2015-0131375
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: oshadan "Heimdall DLP数据泄漏防护系统" /dlp/login.do存在struts2远程命令执行漏洞。
 '''
 import urllib

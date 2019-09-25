@@ -3,7 +3,8 @@
 '''
 name: ETMV9数字化校园平台任意下载
 referer: http://www.wooyun.org/bugs/wooyun-2015-0100796
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 该校园平台使用了第三方编辑器CuteEditor，虽然删除了存在任意文件上传的漏洞文件uploader.ashx
         （具体利用可参考白帽子zcgonvh的http://**.**.**.**/bugs/wooyun-2010-061932），与目录遍历漏洞文件browse_Img.asp，但是却忽略了任意文件包含漏洞文件Load.ashx。
 '''

@@ -3,7 +3,8 @@
 '''
 name: 科信邮件系统login.server.php 时间盲注
 referer: http://www.wooyun.org/bugs/wooyun-2010-0122071
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件prog/login.server.php中,参数xjxargs存在SQL注入。
 '''
 #!/usr/bin/env python

@@ -3,7 +3,8 @@
 '''
 name: 五车图书管系统kindaction任意文件遍历
 referer: http://www.wooyun.org/bugs/wooyun-2010-0128686
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件kindaction.action中,参数subkind存在任意文件遍历。
 '''
 

@@ -3,8 +3,8 @@
 '''
 name: 安财软件GetXMLList任意文件读取
 referer: http://www.wooyun.org/bugs/wooyun-2015-0121651
-author: Lucifer
-modify: Ascotbe
+author: Ascotbe
+reference: Lucifer
 description: 文件/WS/WebServiceBase.asmx/GetXMLList中,参数strXMLFileName存在任意文件读取。
 '''
 

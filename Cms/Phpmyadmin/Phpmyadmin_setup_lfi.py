@@ -3,7 +3,8 @@
 '''
 name: PhpMyAdmin2.8.0.3无需登录任意文件包含导致代码执行
 referer: http://www.mottoin.com/87915.html
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件setup.php中,参数configuration经过序列化对象可导致文件包含漏洞。
 '''
 import urllib

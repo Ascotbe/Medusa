@@ -3,7 +3,8 @@
 '''
 name: TPshop eval-stdin.php 代码执行漏洞
 referer: unknown
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件eval-stdin.php存在后门。
 '''
 import urllib

@@ -3,7 +3,8 @@
 '''
 name: dreamgallery album.php SQL注入
 referer: unknown
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件album.php中,参数id存在SQL注入。
 '''
 import urllib

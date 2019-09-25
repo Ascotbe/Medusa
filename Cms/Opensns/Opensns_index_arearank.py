@@ -3,7 +3,8 @@
 '''
 name: opensns index.php 参数arearank注入
 referer: unknown
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件index.php中,参数arearank存在SQL注入。
 '''
 

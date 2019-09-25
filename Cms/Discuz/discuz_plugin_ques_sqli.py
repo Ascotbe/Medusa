@@ -3,7 +3,8 @@
 '''
 name: discuz问卷调查参数orderby注入漏洞
 referer: http://0day5.com/archives/3184/
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件plugin.php中,参数orderby存在SQL注入。
 '''
 import urllib

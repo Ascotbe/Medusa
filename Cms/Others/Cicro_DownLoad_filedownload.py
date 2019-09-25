@@ -3,7 +3,8 @@
 '''
 name: 时光动态网站平台(Cicro 3e WS) 任意文件下载
 referer: http://wooyun.org/bugs/wooyun-2013-035064
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件/servlet/DownLoad,参数filePath未过滤可以下载网站配置文件。
 '''
 

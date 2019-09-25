@@ -3,7 +3,8 @@
 '''
 name: FSMCMS columninfo.jsp文件参数ColumnID SQL注入
 referer: http://www.wooyun.org/bugs/wooyun-2015-0144330
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件columninfo.jsp中,参数ColumnID存在SQL注入。
 '''
 import urllib

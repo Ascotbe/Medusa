@@ -3,7 +3,8 @@
 '''
 name: 汇文软件图书管理系统ajax_get_file.php任意文件读取
 referer: http://www.wooyun.org/bugs/wooyun-2010-0116255
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 漏洞影响5.0版本,漏洞文件位于ajax_get_file.php中,参数filename可以传入"../"来读取配置文件，并成功登陆到后台。'''
 import urllib
 import requests

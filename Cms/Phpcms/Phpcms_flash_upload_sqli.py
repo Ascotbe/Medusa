@@ -3,7 +3,8 @@
 '''
 name: phpcms2008 flash_upload.php SQL注入
 referer: unknown
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件flash_upload.php中,参数modelid存在SQL注入。
 '''
 import urllib

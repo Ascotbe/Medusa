@@ -3,7 +3,8 @@
 '''
 name: fsmcms p_replydetail.jsp注入漏洞
 referer: http://www.wooyun.org/bugs/wooyun-2010-065148
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件/fsmcms/cms/leadermail/p_replydetail.jsp中,参数MailId存在SQL注入。
 '''
 import urllib

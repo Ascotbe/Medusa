@@ -3,7 +3,8 @@
 '''
 name: 九羽数字图书馆struts远程命令执行
 referer: http://www.wooyun.org/bugs/wooyun-2015-0106649
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: google:"background/Main/login.action", 九羽数字图书馆存在struts远程命令执行。
 '''
 import urllib

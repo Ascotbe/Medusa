@@ -3,7 +3,8 @@
 '''
 name: 华飞科技cms绕过JS GETSHELL
 referer: http://www.wooyun.org/bugs/wooyun-2010-083888
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: /admin/User/manageadmin.aspx 禁用JS可以直接访问。
 '''
 import urllib

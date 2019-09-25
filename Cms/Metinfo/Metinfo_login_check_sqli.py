@@ -3,7 +3,8 @@
 '''
 name: metinfo v5.3sql注入漏洞
 referer: http://www.wooyun.org/bugs/wooyun-2015-0100846
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: metinfo /admin/login/login_check.php?langset=cn 的langset 参数没有过滤存在sql注入漏洞。
 '''
 

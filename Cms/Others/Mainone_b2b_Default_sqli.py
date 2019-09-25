@@ -3,7 +3,8 @@
 '''
 name: 铭万事业通用建站系统SQL注入
 referer: http://www.wooyun.org/bugs/wooyun-2010-074974
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: /MessageBoard/Default.aspx文件Page参数存在SQL注入漏洞,获取敏感数据。
 '''
 import urllib

@@ -4,7 +4,8 @@
 name: workyi人才系统多处注入漏洞
 referer: http://www.wooyun.org/bugs/wooyun-2010-0115124
          http://www.wooyun.org/bugs/wooyun-2010-0115157
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 多处存在mssql SQL注入。
 '''
 import urllib

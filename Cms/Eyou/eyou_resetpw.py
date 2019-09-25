@@ -3,7 +3,8 @@
 '''
 name: 亿邮邮件系统重置密码问题暴力破解
 referer: http://www.wooyun.org/bugs/wooyun-2015-0162892
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 亿邮邮件系统找回密码处，如果用户设置问题密码过于简单可被暴力破解。
 '''
 import urllib

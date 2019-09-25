@@ -3,7 +3,8 @@
 '''
 name: Mallbuilder商城系统SQL注入
 referer: http://www.wooyun.org/bugs/wooyun-2015-0152481
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 在7.0+版本中,文件位于目录/pay/api/change_status.php,直接拼接参数造成SQL注入。
 '''
 import urllib

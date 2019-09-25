@@ -3,7 +3,8 @@
 '''
 name: dedecms版本探测
 referer: unknow
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 亿邮邮件系统存在弱口令账户信息泄露，导致非法登录
 '''
 import urllib

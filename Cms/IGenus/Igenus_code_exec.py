@@ -3,7 +3,8 @@
 '''
 name: iGenus邮件系统一处无需登录的任意代码执行
 referer: http://www.wooyun.org/bugs/wooyun-2015-0156126
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: /home/webmail/igenus/include/login_inc.php base64编码未验证可写入shell
 '''
 import urllib

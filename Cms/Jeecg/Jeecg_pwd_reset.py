@@ -3,7 +3,8 @@
 '''
 name: jeecg 重置admin密码
 referer: http://wooyun.jozxing.cc/static/bugs/wooyun-2015-0121463.html
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 未授权可访问初始化方法重置。
 '''
 import urllib

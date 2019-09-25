@@ -3,7 +3,8 @@
 '''
 name: 大汉downfile.jsp 任意文件下载
 referer: http://www.wooyun.org/bugs/wooyun-2015-092339
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件/vc/vc/columncount/downfile.jsp中,参数filename存在任意文件下载。
 '''
 import urllib

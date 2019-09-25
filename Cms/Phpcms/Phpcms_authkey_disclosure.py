@@ -3,7 +3,8 @@
 '''
 name: phpcms authkey泄露
 referer: http://wooyun.org/bugs/wooyun-2015-0105242
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: PHPCMS authkey 泄露漏洞，可引起SQL注入。
 '''
 import urllib

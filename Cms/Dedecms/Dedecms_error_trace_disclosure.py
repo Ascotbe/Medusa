@@ -3,8 +3,9 @@
 '''
 name: dedecms trace爆路径漏洞
 referer: http://0daysec.blog.51cto.com/9327043/1571372
-author: Lucifer
-modify: Ascotbe
+author: Ascotbe
+reference: Lucifer
+
 description: 访问mysql_error_trace.inc,mysql trace报错路径泄露。
 '''
 import urllib

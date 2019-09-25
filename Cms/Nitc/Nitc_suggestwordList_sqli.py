@@ -3,7 +3,8 @@
 '''
 name: NITC营销系统suggestwordList.php SQL注入
 referer: http://wooyun.org/bugs/wooyun-2010-066683
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件/suggestwordList.php中,参数language存在SQL注入。
 '''
 

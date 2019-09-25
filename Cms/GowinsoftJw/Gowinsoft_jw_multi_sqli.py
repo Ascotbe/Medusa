@@ -3,7 +3,8 @@
 '''
 name: 金窗教务系统存在多处SQL注射漏洞
 referer: http://www.wooyun.org/bugs/wooyun-2010-0101234
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 金窗教务系统多处SQL注入。
 '''
 import urllib

@@ -3,7 +3,8 @@
 '''
 name: 大汉VerfiyCodeServlet越权漏洞
 referer: http://www.2cto.com/Article/201507/418593.html
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: /VerifyCodeServlet 可以 创建任意 SESSION的key值,opr_licenceinfo.jsp需要一个SESSION cookie_username 不为空，就可以成功登录。
 '''
 import urllib

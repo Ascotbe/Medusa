@@ -3,7 +3,8 @@
 '''
 name: 乐语客服系统任意文件下载漏洞
 referer: http://www.wooyun.org/bugs/wooyun-2015-0150444
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 乐语客服系统down.jsp文件file参数未过滤导致任意文件下载，可泄露敏感数据
 '''
 

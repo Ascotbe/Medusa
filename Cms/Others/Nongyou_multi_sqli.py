@@ -4,7 +4,8 @@
 name: 农友政务系统多处SQL注入
 referer: http://www.wooyun.org/bugs/wooyun-2010-095250
          http://www.wooyun.org/bugs/wooyun-2010-097690
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 山东农友软件公司政务系统存在多处SQL注入漏洞。
 '''
 import urllib

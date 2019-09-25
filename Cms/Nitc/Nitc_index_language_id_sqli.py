@@ -3,7 +3,8 @@
 '''
 name: NITC营销系统index.php SQL注入
 referer: http://wooyun.org/bugs/wooyun-2015-0152825
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件/index.php中,参数language_id存在SQL注入。
 '''
 

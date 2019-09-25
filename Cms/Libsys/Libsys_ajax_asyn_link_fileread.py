@@ -3,7 +3,8 @@
 '''
 name: 汇文软件图书管理系统ajax_asyn_link.php任意文件读取
 referer: http://www.wooyun.org/bugs/wooyun-2010-067400
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 漏洞影响3.5,4.0,5.0版本,漏洞文件位于ajax_asyn_link.php中,参数url可以传入"../"来读取PHP文件。
 '''
 import urllib

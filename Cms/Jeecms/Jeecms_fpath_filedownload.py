@@ -3,7 +3,8 @@
 '''
 name: jeecms download.jsp 参数fpath任意文件下载
 referer: http://www.wooyun.org/bugs/WooYun-2014-77960
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件download.jsp中,参数fpath存在任意文件下载。
 '''
 import urllib

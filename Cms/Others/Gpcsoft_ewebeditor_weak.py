@@ -3,7 +3,8 @@
 '''
 name: 政府采购系统eweb编辑器默认口令Getshell漏洞
 referer: http://www.wooyun.org/bugs/wooyun-2016-0179879
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 珠海政采软件技术有限公司的政府采购网系统 存在EWEB编辑器默认口令，直接getshell，多省市政府财政单位在用。
 '''
 import urllib

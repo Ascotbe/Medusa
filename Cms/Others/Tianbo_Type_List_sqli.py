@@ -3,7 +3,8 @@
 '''
 name: 天柏在线培训系统Type_List.aspx SQL注入
 referer: http://www.wooyun.org/bugs/wooyun-2015-0144529
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件Type_List.aspx中,参数typeid存在SQL注入。
 '''
 import urllib

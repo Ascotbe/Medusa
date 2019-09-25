@@ -3,7 +3,8 @@
 '''
 name: domino_unauth未授权漏洞
 referer: unknow
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: lotus-domino未授权访问，可以获得用户名和密码hash列表，可通过破解弱口令进入系统
 '''
 import urllib

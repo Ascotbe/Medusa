@@ -3,7 +3,8 @@
 '''
 name: 天柏在线培训系统Class_Info.aspx SQL注入
 referer: http://www.wooyun.org/bugs/wooyun-2010-0147384
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件Class_Info.aspx中,参数courseid存在SQL注入。
 '''
 import urllib

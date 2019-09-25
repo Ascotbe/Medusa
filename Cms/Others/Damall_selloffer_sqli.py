@@ -3,7 +3,8 @@
 '''
 name: DaMall商城系统sql注入
 referer: http://www.wooyun.org/bugs/wooyun-2015-0115170
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: DaMall CMS文件selloffer.html?key参数存在搜索型SQL注入漏洞，可获取敏感信息。
 '''
 import urllib

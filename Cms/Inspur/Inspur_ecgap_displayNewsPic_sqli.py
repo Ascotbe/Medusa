@@ -3,7 +3,8 @@
 '''
 name: 浪潮ECGAP政务审批系统SQL注入漏洞
 referer: http://www.wooyun.org/bugs/wooyun-2010-075562
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 浪潮政务审批平台ECGAP /Broadcast/displayNewsPic.aspx文件中,参数id存在注入,过滤了空格,利用/**/绕过，同时过滤了@@version。
 '''
 import urllib

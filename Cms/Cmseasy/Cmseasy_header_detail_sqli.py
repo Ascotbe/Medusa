@@ -3,8 +3,9 @@
 '''
 name: cmseasy header.php 报错注入
 referer: http://www.wooyun.org/bugs/wooyun-2015-0137013
-author: Lucifer
-modify: Ascotbe
+author: Ascotbe
+reference: Lucifer
+
 description: 文件/coupon/s.php中,参数fids存在SQL注入。
 '''
 import urllib

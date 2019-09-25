@@ -3,7 +3,8 @@
 '''
 name: Designed by Alkawebs SQL Injection
 referer: unknow
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: viewnews.php文件id参数存在注入。
 '''
 

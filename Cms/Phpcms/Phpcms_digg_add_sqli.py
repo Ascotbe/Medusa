@@ -3,7 +3,8 @@
 '''
 name: phpcms digg_add.php SQL注入
 referer: http://www.shangxueba.com/jingyan/2195152.html
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件digg_add.php中,参数digg_mod存在SQL注入。
 '''
 import urllib

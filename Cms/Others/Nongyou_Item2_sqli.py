@@ -3,7 +3,8 @@
 '''
 name: 农友政务系统Item2.aspx SQL注入
 referer: http://wooyun.org/bugs/wooyun-2010-0120498
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件/newsymItemView/Item2.aspx中,参数id存在SQL注入。
 '''
 import urllib

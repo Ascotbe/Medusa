@@ -3,7 +3,8 @@
 '''
 name: 安脉学生管理系统10处SQL注入
 referer: http://www.wooyun.org/bugs/wooyun-2015-0108502
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 10处SQL注入。
 '''
 

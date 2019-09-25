@@ -3,7 +3,8 @@
 '''
 name: 天津神州助平台通用型任意下载
 referer: http://www.wooyun.org/bugs/wooyun-2010-087767
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件/gxwssb/fileDownloadmodel中,参数name存在任意文件下载。
 '''
 import urllib

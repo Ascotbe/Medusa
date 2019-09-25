@@ -3,7 +3,8 @@
 '''
 name: 通元建站系统用户名泄露漏洞
 referer: http://www.wooyun.org/bugs/wooyun-2010-059578
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 未做权限过滤，可以显示所有用户的用户名
 '''
 import urllib

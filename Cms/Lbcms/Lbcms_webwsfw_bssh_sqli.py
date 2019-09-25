@@ -3,7 +3,8 @@
 '''
 name: LBCMS多处SQL注入漏洞
 referer: http://www.wooyun.org/bugs/wooyun-2010-0122653
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 1、/Webwsfw/bssh/?green=1
              2、/Webwsfw/bssh/?object=11
              3、/Webwsfw/bssh/?subsite=1 都存在注入。

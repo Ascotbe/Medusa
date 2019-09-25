@@ -3,7 +3,8 @@
 '''
 name: 铭万B2B SupplyList SQL注入漏洞
 referer: http://www.wooyun.org/bugs/wooyun-2010-0104430
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件SupplyList.aspx中,参数strKeyWord存在SQL注入。
 '''
 import urllib

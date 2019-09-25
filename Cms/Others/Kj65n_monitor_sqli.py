@@ -3,7 +3,8 @@
 '''
 name: kj65n煤矿远程监控系统SQL注入
 referer: http://www.wooyun.org/bugs/wooyun-2010-0148855
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 
 '''
 import urllib

@@ -3,7 +3,8 @@
 '''
 name: IWMS系统后台绕过&整站删除
 referer: http://www.wooyun.org/bugs/wooyun-2010-085284
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 禁用JS可越权查看文件目录,并人容易删除文件。
 '''
 import urllib

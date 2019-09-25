@@ -3,7 +3,8 @@
 '''
 name: IPS Community Suite <= 4.1.12.3 PHP远程代码执行
 referer: https://www.seebug.org/vuldb/ssvid-92096
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: IPS Community Suite "是一款国外比较常见的cms。
     但在其4.1.12.3版本及以下版本，存在PHP代码注入漏洞，该漏洞源于程序未能充分过滤content_class请求参数。
     远程攻击者可利用该漏洞注入并执行任意PHP代码。

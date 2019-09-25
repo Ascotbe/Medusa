@@ -3,7 +3,8 @@
 '''
 name: 易创思教育建站系统未授权访问可查看所有注册用户
 referer: http://www.wooyun.org/bugs/wooyun-2010-086704
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件selectunitmember.aspx未授权访问。
 '''
 import urllib

@@ -3,7 +3,8 @@
 '''
 name: 南大之星信息发布系统DBA SQL注入
 referer: http://wooyun.org/bugs/wooyun-2015-0153651
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 多个文件mid参数存在注入。
 '''
 

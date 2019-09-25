@@ -3,7 +3,8 @@
 '''
 name: 大汉版通JCMS数据库配置文件读取漏洞
 referer: http://www.wooyun.org/bugs/wooyun-2013-046837
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 大汉JCMS内容管理系统由于对文件读取时没有对文件路径进行过滤，导致可以直接直接读取数据库配置文件,
         由于读取xml文件时没有对传进的参数进行过滤,flowcode参数可控,配置文件地址WEB-INF/config/dbconfig.xml,由于控制了文件后缀,只能读取xml文件。
 

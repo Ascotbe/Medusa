@@ -3,7 +3,8 @@
 '''
 name: FSMCMS网站重装漏洞
 referer: http://www.wooyun.org/bugs/wooyun-2010-043380
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 东方文辉网站群内容管理系统FSMCMS网站重装漏洞,网站安装程序在安装之后默认没有删除，也没有限制，可以很容易的恶意把网站重装了。
 '''
 import urllib

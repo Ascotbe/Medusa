@@ -3,7 +3,8 @@
 '''
 name: 南京擎天政务系统 geren_list_page.aspx SQL注入
 referer: http://www.wooyun.org/bugs/wooyun-2014-075253
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件/index_page/geren_list_page.aspx中,参数server存在SQL注入。
 '''
 import urllib

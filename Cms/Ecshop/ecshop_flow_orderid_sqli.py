@@ -3,7 +3,8 @@
 '''
 name: ecshop3.0 flow.php 参数order_id注入
 referer: http://www.wooyun.org/bugs/wooyun-2016-0212882
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件flow.php中,参数order_id存在SQL注入。
 '''
 import urllib

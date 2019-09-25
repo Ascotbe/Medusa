@@ -3,8 +3,9 @@
 '''
 name: Digital-Campus数字校园平台LOG文件泄露
 referer: http://www.wooyun.org/bugs/wooyun-2014-071575
-author: Lucifer
-modify: Ascotbe
+author: Ascotbe
+reference: Lucifer
+
 description: 关键词：intitle:数字校园平台--Digital Campus2.0 Platform。log.txt日志文件泄露，可获取数据库账号等敏感信息。
 '''
 import urllib

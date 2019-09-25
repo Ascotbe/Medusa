@@ -3,7 +3,8 @@
 '''
 name: discuz! X2.5 物理路径泄露漏洞
 referer: http://www.uedbox.com/discuzx25-explosive-path/
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 报错导致路径泄露。
 '''
 import urllib

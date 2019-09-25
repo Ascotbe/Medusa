@@ -3,7 +3,8 @@
 '''
 name: 金蝶AES系统Java web配置文件泄露
 referer: http://www.wooyun.org/bugs/wooyun-2014-083323
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件/WEB-INF/web.xml泄露。
 '''
 import urllib

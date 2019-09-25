@@ -3,7 +3,8 @@
 '''
 name: live800在线客服系统loginAction SQL注入漏洞
 referer: http://www.wooyun.org/bugs/wooyun-2010-0147511
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件/live800/loginAction.jsp中,参数companyLoginName存在时间盲注,导致敏感信息泄露。
 '''
 import urllib

@@ -3,7 +3,8 @@
 '''
 name: 帝友P2P借贷系统任意文件读取漏洞
 referer: http://www.wooyun.org/bugs/wooyun-2013-033114
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 帝友P2P3.0以前存在任意文件读取漏洞，可读取数据库配置文件
 '''
 import urllib

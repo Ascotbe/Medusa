@@ -3,7 +3,8 @@
 '''
 name: Hishop系统productlist.aspx SQL注入
 referer: http://www.wooyun.org/bugs/wooyun-2015-0154499
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: Hishop易分销系统/wapshop/productlist.aspx文件中参数sort存在注入
 '''
 import urllib

@@ -3,7 +3,8 @@
 '''
 name: 北斗星政务PostSuggestion.aspx SQL注入
 referer: http://www.wooyun.org/bugs/wooyun-2010-076739
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: /sssweb/SuggestionCollection/PostSuggestion.aspx ID参数存在SQL注入。
 '''
 import urllib

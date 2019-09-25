@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 # _*_ coding: utf-8 _*_
-import Php.PhpStudyBackdoor
-import Php.PhpstudyPhpmyadminDefaultpwd
-import Php.PhpstudyProbe
+import Cms.Qibocms.Qibocms_js_f_id_sqli
+import Cms.Qibocms.Qibocms_s_fids_sqli
+import Cms.Qibocms.Qibocms_search_code_exec
+import Cms.Qibocms.Qibocms_search_sqli
 import ClassCongregation
 
 def Main(Url,FileName,Values,ProxyIp):
@@ -10,22 +11,26 @@ def Main(Url,FileName,Values,ProxyIp):
     ua=ClassCongregation.UserAgentS(Values)#传入用户输入用户指定的浏览器头
     RandomAgent=ua.UserAgent()#获取生成的头文件
     try:
-        Medusa=Php.PhpStudyBackdoor.medusa(Url,RandomAgent,ProxyIp)
+        Medusa=Cms.Qibocms.Qibocms_js_f_id_sqli.medusa(Url,RandomAgent,ProxyIp)
         WriteFile.Write(Medusa)
     except:
         pass
         #print("[-]NginxDirectoryTraversalVulnerability Scan error")
     try:
-        Medusa=Php.PhpstudyPhpmyadminDefaultpwd.medusa(Url,RandomAgent,ProxyIp)
+        Medusa=Cms.Qibocms.Qibocms_s_fids_sqli.medusa(Url,RandomAgent,ProxyIp)
         WriteFile.Write(Medusa)
     except:
         pass
         #print("[-]NginxDirectoryTraversalVulnerability Scan error")
     try:
-        Medusa=Php.PhpstudyProbe.medusa(Url,RandomAgent,ProxyIp)
+        Medusa=Cms.Qibocms.Qibocms_search_code_exec.medusa(Url,RandomAgent,ProxyIp)
         WriteFile.Write(Medusa)
     except:
         pass
         #print("[-]NginxDirectoryTraversalVulnerability Scan error")
-
-
+    try:
+        Medusa=Cms.Qibocms.Qibocms_search_sqli.medusa(Url,RandomAgent,ProxyIp)
+        WriteFile.Write(Medusa)
+    except:
+        pass
+        #print("[-]NginxDirectoryTraversalVulnerability Scan error")

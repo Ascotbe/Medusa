@@ -2,7 +2,7 @@ import random
 
 #from art import *
 #tprint("Medusa Scan",font=""random)#随机字符串生成
-Version = '0.20'
+Version = '0.21'
 Blog="""https://ascotbe.github.io"""
 banner_1='''
  m    m            #                               mmmm                      

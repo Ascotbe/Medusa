@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 # _*_ coding: utf-8 _*_
-import Php.PhpStudyBackdoor
-import Php.PhpstudyPhpmyadminDefaultpwd
-import Php.PhpstudyProbe
+import Cms.Kingdee.Kingdee_conf_disclosure
+import Cms.Kingdee.Kingdee_filedownload
+import Cms.Kingdee.Kingdee_logoImgServlet_fileread
+import Cms.Kingdee.Kingdee_resin_dir_path_disclosure
 import ClassCongregation
 
 def Main(Url,FileName,Values,ProxyIp):
@@ -10,22 +11,27 @@ def Main(Url,FileName,Values,ProxyIp):
     ua=ClassCongregation.UserAgentS(Values)#传入用户输入用户指定的浏览器头
     RandomAgent=ua.UserAgent()#获取生成的头文件
     try:
-        Medusa=Php.PhpStudyBackdoor.medusa(Url,RandomAgent,ProxyIp)
+        Medusa=Cms.Kingdee.Kingdee_conf_disclosure.medusa(Url,RandomAgent,ProxyIp)
         WriteFile.Write(Medusa)
     except:
         pass
         #print("[-]NginxDirectoryTraversalVulnerability Scan error")
     try:
-        Medusa=Php.PhpstudyPhpmyadminDefaultpwd.medusa(Url,RandomAgent,ProxyIp)
+        Medusa=Cms.Kingdee.Kingdee_filedownload.medusa(Url,RandomAgent,ProxyIp)
         WriteFile.Write(Medusa)
     except:
         pass
         #print("[-]NginxDirectoryTraversalVulnerability Scan error")
     try:
-        Medusa=Php.PhpstudyProbe.medusa(Url,RandomAgent,ProxyIp)
+        Medusa=Cms.Kingdee.Kingdee_logoImgServlet_fileread.medusa(Url,RandomAgent,ProxyIp)
         WriteFile.Write(Medusa)
     except:
         pass
         #print("[-]NginxDirectoryTraversalVulnerability Scan error")
-
+    try:
+        Medusa=Cms.Kingdee.Kingdee_resin_dir_path_disclosure.medusa(Url,RandomAgent,ProxyIp)
+        WriteFile.Write(Medusa)
+    except:
+        pass
+        #print("[-]NginxDirectoryTraversalVulnerability Scan error")
 

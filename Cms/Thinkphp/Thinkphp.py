@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # _*_ coding: utf-8 _*_
-import Php.PhpStudyBackdoor
-import Php.PhpstudyPhpmyadminDefaultpwd
-import Php.PhpstudyProbe
+import Cms.Thinkphp.Onethink_category_sqli
+import Cms.Thinkphp.Thinkphp_code_exec
+import Cms.Thinkphp.Thinkphp_v5_exec
 import ClassCongregation
 
 def Main(Url,FileName,Values,ProxyIp):
@@ -10,22 +10,20 @@ def Main(Url,FileName,Values,ProxyIp):
     ua=ClassCongregation.UserAgentS(Values)#传入用户输入用户指定的浏览器头
     RandomAgent=ua.UserAgent()#获取生成的头文件
     try:
-        Medusa=Php.PhpStudyBackdoor.medusa(Url,RandomAgent,ProxyIp)
+        Medusa=Cms.Thinkphp.Onethink_category_sqli.medusa(Url,RandomAgent,ProxyIp)
         WriteFile.Write(Medusa)
     except:
         pass
         #print("[-]NginxDirectoryTraversalVulnerability Scan error")
     try:
-        Medusa=Php.PhpstudyPhpmyadminDefaultpwd.medusa(Url,RandomAgent,ProxyIp)
+        Medusa=Cms.Thinkphp.Thinkphp_code_exec.medusa(Url,RandomAgent,ProxyIp)
         WriteFile.Write(Medusa)
     except:
         pass
         #print("[-]NginxDirectoryTraversalVulnerability Scan error")
     try:
-        Medusa=Php.PhpstudyProbe.medusa(Url,RandomAgent,ProxyIp)
+        Medusa=Cms.Thinkphp.Thinkphp_v5_exec.medusa(Url,RandomAgent,ProxyIp)
         WriteFile.Write(Medusa)
     except:
         pass
         #print("[-]NginxDirectoryTraversalVulnerability Scan error")
-
-

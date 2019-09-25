@@ -2,7 +2,7 @@
  <p align="center">
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Ascotbe-Medusa%20Scan-green"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/python-3.6-blueviolet"></a>
-    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Version-0.20-red"></a>
+    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Version-0.21-red"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/LICENSE-GPL-ff69b4"></a>
 	<a href="https://github.com/ascotbe/Medusa/stargazers"><img alt="Release" src="https://img.shields.io/github/stars/ascotbe/Medusa.svg"></a>
  </p>
@@ -16,9 +16,8 @@
 ### 关于美杜莎扫描器
     最初版本上线，目前扫描器还在开发中，不完善的地方欢迎大家提Issues
 	独自开发更新会比较缓慢，各位师傅不嫌弃的话可以点个Star支持下
-	
-### 公告
-    由于国庆出差，不定时更新望见谅
+### 功能列表
+    
 ### 使用说明
 
 ```bash
@@ -61,6 +60,6 @@ python3 MedusaScan.py -u www.ascotbe.com
 [肥宅博客](https://ascotbe.github.io)   
 
 
-[更新日志](/UpDataLog/log.md)
+[更新日志](/UpDataLog/README.md)
 
 

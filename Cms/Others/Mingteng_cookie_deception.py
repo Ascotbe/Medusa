@@ -3,7 +3,8 @@
 '''
 name: 明腾cms cookie欺骗漏洞
 referer: unknown
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 存在cookie欺骗漏洞,直接登录后台。
 '''
 import urllib

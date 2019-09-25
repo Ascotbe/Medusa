@@ -3,7 +3,8 @@
 '''
 name: phpcms2008 product.php 代码执行
 referer: http://www.wooyun.org/bugs/WooYun-2011-02984
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件product.php中,参数pagesize存在代码注入。
 '''
 import urllib

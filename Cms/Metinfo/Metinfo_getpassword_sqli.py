@@ -3,7 +3,8 @@
 '''
 name: metinfo5.0 getpassword.php两处时间盲注漏洞
 referer: http://www.wooyun.org/bugs/wooyun-2010-021062
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: member/getpassword.php与admin/admin/getpassword.php文件中,经过base64解码后的值用explode打散后进入到
     SQL语句引起注入。
 '''

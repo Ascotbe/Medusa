@@ -3,7 +3,8 @@
 '''
 name: discuz论坛forum.php参数message SSRF漏洞
 referer: unknown
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: trs infogate插件 blind XML实体注入。
 '''
 import urllib

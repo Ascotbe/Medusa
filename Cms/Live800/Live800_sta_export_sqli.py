@@ -3,7 +3,8 @@
 '''
 name: live800在线客服系统多处SQL注入/GETSHELL漏洞
 referer: http://www.wooyun.org/bugs/wooyun-2010-0177871
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: http://domain/sta/export/referrerSta.jsp，
              http://domain/sta/export/chatTopicSta.jsp，
              http://domain/sta/export/chatHoursSta.jsp，

@@ -3,7 +3,8 @@
 '''
 name: 金蝶协同平台远程信息泄露漏洞
 referer: http://www.wooyun.org/bugs/wooyun-2015-0126353
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 金蝶协同办公系统基于resin引用了漏洞组件导致远程信息泄露。
             受影响系统：
             Caucho Technology Resin v3.1.0 for Windows

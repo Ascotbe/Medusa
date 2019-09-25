@@ -3,7 +3,8 @@
 '''
 name: iGenus邮箱系统管理中心sys/login.php 参数Lang任意文件读取
 referer: http://www.wooyun.org/bugs/WooYun-2015-146923
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: Lang存在遍历，%00截断 8090端口。
 '''
 import urllib

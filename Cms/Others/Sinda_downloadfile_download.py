@@ -3,7 +3,8 @@
 '''
 name: 中农信达监察平台任意文件下载
 referer: http://www.wooyun.org/bugs/wooyun-2014-069864
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: servlet/downloadfile?filename= 文件下载。/hzs/HTMLEditor/upload_img.jsp 任意文件上传。
 '''
 import urllib

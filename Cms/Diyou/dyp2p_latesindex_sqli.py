@@ -3,7 +3,8 @@
 '''
 name: 帝友P2P借贷系统无需登录SQL注入漏洞
 referer: http://www.wooyun.org/bugs/wooyun-2011-150130
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 帝友P2P借贷系统/lates/index.html逾期黑名单搜索处过滤了select和空格，利用/**/和双写select可以绕过
 '''
 import urllib

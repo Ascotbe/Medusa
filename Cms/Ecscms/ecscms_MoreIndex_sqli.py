@@ -3,7 +3,8 @@
 '''
 name: 易创思ECScms MoreIndex SQL注入
 referer: http://www.wooyun.org/bugs/wooyun-2010-088844
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件MoreIndex.aspx中,参数kw存在SQL注入。
 '''
 import urllib

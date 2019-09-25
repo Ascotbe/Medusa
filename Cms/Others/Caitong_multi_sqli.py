@@ -3,7 +3,8 @@
 '''
 name: 北京网达信联电子采购系统多处注入
 referer: http://www.wooyun.org/bugs/wooyun-2010-0122276
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 多处mssql注入。
 '''
 import urllib

@@ -3,7 +3,8 @@
 '''
 name: 亿邮邮箱弱口令列表泄露
 referer: http://wooyun.org/bugs/wooyun-2010-061538
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 亿邮邮件系统存在弱口令账户信息泄露，导致非法登录
 '''
 import urllib

@@ -3,7 +3,8 @@
 '''
 name: 卓繁cms任意文件下载漏洞
 referer: http://www.wooyun.org/bugs/wooyun-2015-54074
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件/index/downLoadFile.action中,参数filePath存在任意文件下载。
 '''
 import urllib

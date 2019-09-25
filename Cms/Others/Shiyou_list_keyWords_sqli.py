@@ -3,7 +3,8 @@
 '''
 name: 师友list.aspx keywords SQL注入
 referer: http://www.wooyun.org/bugs/wooyun-2010-082296
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件/webSchool/list.aspx中,参数keywords存在SQL注入。
 '''
 import urllib

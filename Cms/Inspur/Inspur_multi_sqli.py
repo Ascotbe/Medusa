@@ -3,7 +3,8 @@
 '''
 name: 浪潮行政审批系统十八处注入
 referer: http://www.wooyun.org/bugs/wooyun-2015-0128477
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 多处注入。
 '''
 import urllib

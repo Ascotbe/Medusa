@@ -3,7 +3,8 @@
 '''
 name: live800客服系统downlog任意文件下载
 referer: http://www.wooyun.org/bugs/wooyun-2010-0147322
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: live800客服系统downlog.jsp参数fileName未过滤导致任意文件下载,可下载数据库配置文件
 '''
 import urllib

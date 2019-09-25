@@ -3,7 +3,8 @@
 '''
 name: efuture商业链系统任意文件下载
 referer: http://www.wooyun.org/bugs/wooyun-2014-066881
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: web/login/downloadAct.jsp FilePath参数存在任意文件下载。
 '''
 import urllib

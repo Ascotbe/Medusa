@@ -3,7 +3,8 @@
 '''
 name: iGenus邮箱系统login.php 参数Lang任意文件读取
 referer: http://www.wooyun.org/bugs/WooYun-2015-136712
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: Lang存在遍历，%00截断。
 '''
 import urllib

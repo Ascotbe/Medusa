@@ -3,7 +3,8 @@
 '''
 name: Digital-Campus2.0数字校园平台Sql注射
 referer: http://www.wooyun.org/bugs/wooyun-2010-083652
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 modify: Ascotbe
 description: 1./Code/Common/SystemCodeList.aspx文件中,参数paramValue未过滤导致SQL注入,泄露敏感数据。
              2./Code/Common/UpdateOnLine.aspx文件中,参数UserID未过滤导致SQL注入,泄露敏感数据。

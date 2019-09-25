@@ -3,7 +3,8 @@
 '''
 name: 1039驾校通未授权访问漏洞
 referer: http://www.wooyun.org/bugs/wooyun-2010-0132856
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 1039驾校通通用型系统存在未授权漏洞。
 '''
 import urllib

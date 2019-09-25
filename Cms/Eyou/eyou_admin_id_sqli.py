@@ -3,7 +3,8 @@
 '''
 name: 亿邮Email Defender系统免登陆DBA注入
 referer: http://www.wooyun.org/bugs/wooyun-2015-0135406
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: google关键字"反垃圾邮件网关 - 亿邮通讯", 参数admin_id未经过滤导致SQL注入，DBA权限。
 '''
 import urllib

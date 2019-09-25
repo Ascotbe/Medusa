@@ -3,7 +3,8 @@
 '''
 name: RAP接口平台struts远程代码执行
 referer: http://www.wooyun.org/bugs/wooyun-2015-0159351
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: rap数据接口采用struts漏洞框架。
 '''
 import urllib

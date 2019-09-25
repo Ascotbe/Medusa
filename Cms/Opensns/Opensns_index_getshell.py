@@ -3,7 +3,8 @@
 '''
 name: opensns index.php 前台getshell
 referer: unknown
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件index.php中,参数data base64解码getshell。
 '''
 

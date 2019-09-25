@@ -3,8 +3,9 @@
 '''
 name: 韩国autoset建站程序phpmyadmin任意登录漏洞
 referer: https://www.t00ls.net/viewthread.php?tid=37863&extra=&page=1
-author: Lucifer
-modify: Ascotbe
+author: Ascotbe
+reference: Lucifer
+
 description: /phpmyadmin任意用户名密码登录,通过低权限提权可获取root密码插入shell。
 '''
 import urllib

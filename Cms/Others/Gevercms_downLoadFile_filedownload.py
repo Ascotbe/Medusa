@@ -3,7 +3,8 @@
 '''
 name: 金宇恒内容管理系统通用型任意文件下载漏洞
 referer: http://www.wooyun.org/bugs/wooyun-2010-069009
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件/adminroot/common/downLoadFile.jsp中,参数filepath存在任意文件下载。
 '''
 import urllib

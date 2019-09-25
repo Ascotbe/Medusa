@@ -4,7 +4,8 @@
 name: 菲斯特诺期刊系统多处SQL注入
 referer: http://www.wooyun.org/bugs/wooyun-2015-0125186
          http://www.wooyun.org/bugs/wooyun-2010-0116361
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 菲斯特诺期刊系统多处SQL注入。
 '''
 import urllib

@@ -3,7 +3,8 @@
 '''
 name: 金蝶办公系统任意文件下载
 referer: http://www.wooyun.org/bugs/wooyun-2015-0150077
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 金蝶协同办公系统/oa/fileDownload.do文件参数path未校验存在任意文件下载漏洞，导致泄露敏感信息
 '''
 import urllib

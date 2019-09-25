@@ -3,7 +3,8 @@
 '''
 name: ecshop uc.php参数code SQL注入
 referer: http://www.wooyun.org/bugs/WooYun-2016-174468
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件uc.php中,参数code存在SQL注入。
 '''
 import urllib

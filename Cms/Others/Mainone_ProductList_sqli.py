@@ -3,7 +3,8 @@
 '''
 name: 铭万门户建站系统ProductList SQL注入
 referer: http://www.wooyun.org/bugs/wooyun-2010-0104558
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件/Product/ProductList.aspx参数txtKey存在注入漏洞。
 '''
 import urllib

@@ -3,7 +3,8 @@
 '''
 name: 皓翰数字化校园平台任意文件下载
 referer: http://www.wooyun.org/bugs/wooyun-2015-0103034
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件FileDown.aspx中,参数OldName存在任意文件下载。
 '''
 import urllib

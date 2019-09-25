@@ -3,7 +3,8 @@
 '''
 name: PageAdmin可“伪造”VIEWSTATE执行任意SQL查询&重置管理员密码
 referer: http://www.wooyun.org/bugs/wooyun-2014-061699
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 利用.NET的bug可以伪造viewstate登录到SQL执行页面,添加任意账户并重置管理员密码。
 '''
 import urllib

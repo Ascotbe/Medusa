@@ -3,7 +3,8 @@
 '''
 name: 动科(dkcms)默认数据库漏洞
 referer: http://www.myhack58.com/Article/html/3/62/2013/36692.htm
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: dkcms存在默认数据库,可下载查看敏感数据,FCK编辑器可GETSHELL。
             V2.0   data/dkcm_ssdfhwejkfs.mdb
             V3.1   _data/___dkcms_30_free.mdb

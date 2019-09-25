@@ -3,7 +3,8 @@
 '''
 name: Euse TMS存在多处DBA权限SQL注入
 referer: http://www.wooyun.org/bugs/wooyun-2015-0135012
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 多处存在SQL注入。
 '''
 import urllib

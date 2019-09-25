@@ -3,7 +3,8 @@
 '''
 name: 蓝凌EIS智慧协同平台menu_left_edit.aspx SQL注入
 referer: http://www.wooyun.org/bugs/wooyun-2010-0111278
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件menu_left_edit.aspx中,参数parent_id存在SQL注入。
 '''
 import urllib

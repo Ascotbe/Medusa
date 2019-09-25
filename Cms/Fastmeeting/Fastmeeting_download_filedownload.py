@@ -3,7 +3,8 @@
 '''
 name: 好视通视频会议系统(fastmeeting)任意文件遍历
 referer: http://www.wooyun.org/bugs/wooyun-2010-0143719
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件/dbbackup/adminMgr/download.jsp中,参数fileName存在任意文件下载。
 '''
 import urllib

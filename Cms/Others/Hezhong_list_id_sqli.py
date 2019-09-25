@@ -3,7 +3,8 @@
 '''
 name: 合众商道php系统通用注入
 referer: http://www.wooyun.org/bugs/wooyun-2010-083434
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: inurl:list.php文件id参数存在SQL注入。
 '''
 import urllib

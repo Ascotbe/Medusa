@@ -3,7 +3,8 @@
 '''
 name: 五车图书管系统任意下载
 referer: http://www.wooyun.org/bugs/wooyun-2015-0128591
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: /5clib/kinweblistaction.action文件中,参数filePath未过滤存在任意文件下载。
 '''
 import urllib

@@ -3,7 +3,8 @@
 '''
 name: 汇能群管理系统SQL注入
 referer: http://wooyun.org/bugs/wooyun-2010-0152664
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 链接/main/model/childcatalog/researchinfo_dan.jsp?researchId=1中 researchID未过滤存在SQL注入漏洞
 '''
 import urllib

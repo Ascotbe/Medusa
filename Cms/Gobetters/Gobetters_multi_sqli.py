@@ -3,7 +3,8 @@
 '''
 name: Gobetters视频会议系统SQL注入漏洞
 referer: http://www.wooyun.org/bugs/wooyun-2010-0134733
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: Gobetters视频会议系统多处SQL注入漏洞。
 '''
 import urllib

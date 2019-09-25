@@ -3,7 +3,8 @@
 '''
 name: 连邦行政审批系统越权漏洞
 referer: http://www.wooyun.org/bugs/wooyun-2010-0126218
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 1./workplate/xzsp/kqgl/kqsz/kqsz.aspx（无需登陆直接对系统内的考勤规则进行设置）
              2./workplate/xzsp/lbsxdict/add.aspx（添加联办事项字典）
              3./workplate/base/operation/add.aspx（自定义SQL语句添加）

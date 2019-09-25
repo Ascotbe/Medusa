@@ -3,7 +3,8 @@
 '''
 name: JumboECMS V1.6.1 注入漏洞
 referer: http://www.wooyun.org/bugs/wooyun-2010-062717
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件/plus/slide.aspx参数id存在SQL注入。
 '''
 import urllib

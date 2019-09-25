@@ -3,7 +3,8 @@
 '''
 name: GN SQL Injection
 referer: unknown
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: GN SQL injection。
 '''
 import urllib

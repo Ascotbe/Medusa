@@ -3,8 +3,9 @@
 '''
 name: dedecms search.php SQL注入漏洞
 referer: http://0daysec.blog.51cto.com/9327043/1571372
-author: Lucifer
-modify: Ascotbe
+author: Ascotbe
+reference: Lucifer
+
 description: dedecms /plus/search.php typeArr存在SQL注入，由于有的waf会拦截自行构造EXP。
 '''
 import urllib

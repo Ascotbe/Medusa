@@ -3,7 +3,8 @@
 '''
 name: skytech政务系统越权漏洞
 referer: http://www.wooyun.org/bugs/wooyun-2010-081902
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: skytech政务系统越权漏洞,泄露敏感信息。
 '''
 import urllib

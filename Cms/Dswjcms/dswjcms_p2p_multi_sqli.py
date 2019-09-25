@@ -3,7 +3,8 @@
 '''
 name: Dswjcms p2p网贷系统前台4处sql注入
 referer: http://www.wooyun.org/bugs/wooyun-2015-0141364
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: SQL injection。
 '''
 import urllib

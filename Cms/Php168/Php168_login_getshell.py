@@ -3,7 +3,8 @@
 '''
 name: PHP168 login.php GETSHELL漏洞
 referer: http://wooyun.org/bugs/wooyun-2014-050515
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: Powered by php168 v6或者一下版本v5、v4、v3、v2、v1会搜索到很多很多相关的网站,login.php文件可以把代码写入cache目录中。
 '''
 import urllib

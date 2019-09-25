@@ -3,7 +3,8 @@
 '''
 name: joomla 3.7.0 core SQL注入
 referer: https://www.08sec.com/bobao/15167.html
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: joomla！3.7.0新引入的一个组件”com_fields“，这个组件任何人都可以访问，无需登陆验证。由于对请求数据过滤不严导致sql注入.
 '''
 import urllib

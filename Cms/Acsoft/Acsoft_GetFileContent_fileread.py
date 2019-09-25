@@ -3,8 +3,9 @@
 '''
 name: 安财软件GetFileContent任意文件读取
 referer: http://www.wooyun.org/bugs/wooyun-2015-0121651
-author: Lucifer
-modify: Ascotbe
+author: Ascotbe
+reference: Lucifer
+
 description: 文件/WS/WebService.asmx/GetFileContent中,参数fileName存在任意文件读取。
 '''
 import urllib

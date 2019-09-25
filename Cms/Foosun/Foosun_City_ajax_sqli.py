@@ -3,7 +3,8 @@
 '''
 name: Dotnetcms(风讯cms)SQL注入漏洞
 referer: https://silic.wiki/0day:%E9%A3%8E%E8%BF%85_dotnetcms_2.0-1.0_sql_injection
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件City_ajax.aspx中,参数CityId存在SQL注入。
 '''
 import urllib

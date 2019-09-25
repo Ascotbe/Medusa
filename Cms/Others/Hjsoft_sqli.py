@@ -3,7 +3,8 @@
 '''
 name: 宏景EHR系统多处SQL注入
 referer: http://www.wooyun.org/bugs/wooyun-2014-075122
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 1.由于/pos/posbusiness/train_get_code_tree.jsp页面参数codesetid未安全过滤导致SQL延时注射漏洞
              2.由于/servlet/sys/option/customreport/tree页面参数id未安全过滤导致SQL延时注射漏洞
              3.由于/system/report_orgtree.jsp页面参数report_type未安全过滤导致SQL延时注射漏洞

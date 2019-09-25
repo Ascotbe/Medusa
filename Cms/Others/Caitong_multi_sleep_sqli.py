@@ -8,7 +8,8 @@ referer: http://wooyun.org/bugs/wooyun-2010-0117552
          http://wooyun.org/bugs/wooyun-2010-0117545
          http://wooyun.org/bugs/wooyun-2010-079420
          http://wooyun.org/bugs/wooyun-2010-062918
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 一采通多处时间盲注。
 '''
 

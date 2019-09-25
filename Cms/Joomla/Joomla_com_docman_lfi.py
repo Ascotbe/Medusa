@@ -3,7 +3,8 @@
 '''
 name: joomla组件com_docman本地文件包含
 referer: https://www.exploit-db.com/exploits/37620
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: joomla组件com_docman 文件com_docman/dl2.php中参数file被base64解码后可造成文件包含漏洞。
 '''
 import urllib

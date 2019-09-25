@@ -3,7 +3,8 @@
 '''
 name: 安脉grghjl.aspx 参数stuNo注入
 referer: http://www.wooyun.org/bugs/wooyun-2010-0102420
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件/anmai/Edis/DiathesisAppraise/grghjl.aspx中,参数stuNo存在SQL注入。
 '''
 

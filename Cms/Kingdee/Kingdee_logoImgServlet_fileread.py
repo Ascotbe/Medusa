@@ -3,7 +3,8 @@
 '''
 name: 金蝶EAS任意文件读取
 referer: http://www.wooyun.org/bugs/wooyun-2015-096179
-author: Lucifer
+author: Ascotbe
+reference: Lucifer
 description: 文件/portal/logoImgServlet中,参数type未过滤存在任意文件读取。
 '''
 import urllib

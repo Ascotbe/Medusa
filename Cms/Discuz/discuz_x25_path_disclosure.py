@@ -17,7 +17,7 @@ def UrlProcessing(url):
     else:
         res = urllib.parse.urlparse('http://%s' % url)
     return res.scheme, res.hostname, res.port
-
+#
 payloads = ["/uc_server/control/admin/db.php",
 			"/source/plugin/myrepeats/table/table_myrepeats.php",
 			"/install/include/install_lang.php"]

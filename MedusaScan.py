@@ -219,7 +219,7 @@ if __name__ == '__main__':
     SubdomainEnumerate=args.SubdomainEnumerate #开启深度子域名枚举，巨TM耗时间
     Subdomain=args.Subdomain#开启子域名枚举
     WriteFile = ClassCongregation.WriteFile(OutFileName)  # 声明调用类集合中的WriteFile类,并传入文件名字(这一步是必须的)
-
+    thread_list = []#线程列表，到时候可以一起循环调用
 
     if Url==None and InputFileName==None:#如果找不到URL的话直接退出
         print("Incorrect input, please enter -h to view help")
@@ -231,11 +231,13 @@ if __name__ == '__main__':
     ProxyIp=""
     if Proxy:#如果输入了参数表示开启了代理进而调用函数
         ProxyIp=OpenProxy()
+    else:
+        ProxyIp=None
 
-    if JavaScript:
-        BootJS=threading.Thread(target=JSCrawling,args=(Url,))
-        BootJS.start()
-        BootJS.join()
+    if JavaScript:#判断是否开始JS模块
+        thread_list.append(threading.Thread(target=JSCrawling,args=(Url,)))
+    thread_list.append(threading.Thread(target=InitialScan,args=(InputFileName, Url, NmapScanRange,ProxyIp,)))
+    thread_list.append(threading.Thread(target=BoomDB, args=(Url, SqlUser, SqlPasswrod,InputFileName,)))
 
     if SubdomainEnumerate==True and Subdomain==True :#对参数判断参数互斥
         print("Incorrect input, please enter -h to view help")
@@ -246,14 +248,12 @@ if __name__ == '__main__':
         SubdomainJudge = "b"
         SubdomainCrawling(Url, SubdomainJudge)
 
-    # InitialScan(InputFileName, Url, NmapScanRange)#初始化san主函数
-    # BoomDB(Url, SqlUser, SqlPasswrod,InputFileName)#调用爆破数据库函数
-    BootScanner=threading.Thread(target=InitialScan,args=(InputFileName, Url, NmapScanRange,ProxyIp,))
-    BootBoomDB=threading.Thread(target=BoomDB, args=(Url, SqlUser, SqlPasswrod,InputFileName,))
-    BootScanner.start()
-    BootBoomDB.start()
-    BootScanner.join()
-    BootBoomDB.join()
+    for t in thread_list:#开启列表中的多线程
+        t.setDaemon(True)
+        t.start()
+    for t in thread_list:
+        t.join()
+
 
 
 # from IPy import IP

@@ -8,4 +8,3 @@ scrapy
 tqdm
 dnspython
 tldextract
-hashlib

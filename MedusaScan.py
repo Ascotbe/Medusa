@@ -13,6 +13,7 @@ from Cms import CmsMian
 from InformationDetector import JS
 from InformationDetector import sublist3r
 from Php import PhpMain
+from OA import OaMian
 import ClassCongregation
 import tldextract#域名处理函数可以识别主域名和后缀
 import Banner
@@ -46,9 +47,9 @@ parser.add_argument('-f','--InputFileName',type=str,help="Specify bulk scan file
 parser.add_argument('-n','--NmapScanRange',type=str,help="Incoming scan port range (1-65535), use this command to enable nmap scan function by default.")
 parser.add_argument('-sp','--SqlPasswrod',type=str,help="Please enter an password file.")
 parser.add_argument('-su','--SqlUser',type=str,help="Please enter an account file.")
-parser.add_argument('-j','--JavaScript',type=str,help="Used URL to deeply crawl the information in the JS file and the subdomain",action="store_true")
-parser.add_argument('-s','--Subdomain',type=str,help="Collect subdomains",action="store_true")
-parser.add_argument('-se','--SubdomainEnumerate',type=str,help="Collect subdomains and turn on enumerations",action="store_true")
+parser.add_argument('-j','--JavaScript',help="Used URL to deeply crawl the information in the JS file and the subdomain",action="store_true")
+parser.add_argument('-s','--Subdomain',help="Collect subdomains",action="store_true")
+parser.add_argument('-se','--SubdomainEnumerate',help="Collect subdomains and turn on enumerations",action="store_true")
 '''
 在pycharm中设置固定要获取的参数，进行获取
 在XXX.py 中 按住 “alt+shift+f9”  ----选择编辑配置（edit configurations）---script parameters(脚本程序)
@@ -131,6 +132,10 @@ def San(OutFileName,Url,Values,ProxyIp):
         pass
     try:
         CmsMian.Main(Url,OutFileName,Values,ProxyIp)  # 调用Cms主函数
+    except:
+        pass
+    try:
+        OaMian.Main(Url,OutFileName,Values,ProxyIp)  # 调用OA主函数
     except:
         pass
 

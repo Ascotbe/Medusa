@@ -61,9 +61,6 @@ from Cms.Umail import Umail
 from Cms.Weway import Weway
 from Cms.Wordpress import Wordpress
 
-
-import ClassCongregation
-
 def Main(Url,FileName,Values,ProxyIp):
     try:
         Acsoft.Main(Url,FileName,Values,ProxyIp)

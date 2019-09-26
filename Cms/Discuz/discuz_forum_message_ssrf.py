@@ -13,6 +13,9 @@ import hashlib
 import time
 import datetime
 
+
+
+
 def UrlProcessing(url):
     if url.startswith("http"):#判断是否有http头，如果没有就在下面加入
         res = urllib.parse.urlparse(url)

@@ -12,6 +12,7 @@ from Nginx import NginxMain
 from Cms import CmsMian
 from InformationDetector import JS
 from InformationDetector import sublist3r
+from InformationDisclosure import InformationDisclosureMain
 from Php import PhpMain
 from OA import OaMian
 import ClassCongregation
@@ -149,6 +150,7 @@ def San(OutFileName,Url,Values,ProxyIp):
     PocLists.append(threading.Thread(target=PhpMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))
     PocLists.append(threading.Thread(target=CmsMian.Main, args=(Url, OutFileName, Values, ProxyIp,)))
     PocLists.append(threading.Thread(target=OaMian.Main, args=(Url, OutFileName, Values, ProxyIp,)))
+    PocLists.append(threading.Thread(target=InformationDisclosureMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))
     for t in PocLists:#这边加入进度条的话多线程全部启动就算结束，实则POC还在跑
         t.start()
     for t in tqdm(PocLists,ascii=True,desc="Poc scanning progress:"):#这边加入进度条的话，当多线程结束的时候就代表一个函数结束这样比较直观

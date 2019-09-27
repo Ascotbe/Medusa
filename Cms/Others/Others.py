@@ -3,7 +3,7 @@
 import Cms.Others.Alkawebs_viewnews_sqli
 import Cms.Others.Anmai_grghjl_stuNo_sqli
 import Cms.Others.Anmai_teachingtechnology_sqli
-import Cms.Others.Caitong_multi_sleep_sqli
+
 import Cms.Others.Caitong_multi_sqli
 import Cms.Others.Clib_kindaction_fileread
 import Cms.Others.Clib_kinweblistaction_download
@@ -19,7 +19,7 @@ import Cms.Others.Gxwssb_fileDownloadmodel_download
 import Cms.Others.Gpcsoft_ewebeditor_weak
 import Cms.Others.Haohan_FileDown_filedownload
 import Cms.Others.Hezhong_list_id_sqli
-import Cms.Others.Hjsoft_sqli
+
 import Cms.Others.Hnkj_researchinfo_dan_sqli
 import Cms.Others.Hongan_dlp_struts_exec
 import Cms.Others.Huaficms_bypass_js
@@ -37,7 +37,7 @@ import Cms.Others.Newedos_multi_sqli
 import Cms.Others.Nongyou_Item2_sqli
 import Cms.Others.Nongyou_multi_sqli
 import Cms.Others.Nongyou_ShowLand_sqli
-import Cms.Others.Nongyou_sleep_sqli
+
 import Cms.Others.Rap_interface_struts_exec
 import Cms.Others.Shiyou_list_keyWords_sqli
 import Cms.Others.Sinda_downloadfile_download
@@ -76,12 +76,7 @@ def Main(Url,FileName,Values,ProxyIp):
     except:
         pass
         #print("[-]NginxDirectoryTraversalVulnerability Scan error")
-    try:
-        Medusa=Cms.Others.Caitong_multi_sleep_sqli.medusa(Url,RandomAgent,ProxyIp)
-        WriteFile.Write(Medusa)
-    except:
-        pass
-        #print("[-]NginxDirectoryTraversalVulnerability Scan error")
+
     try:
         Medusa=Cms.Others.Caitong_multi_sqli.medusa(Url,RandomAgent,ProxyIp)
         WriteFile.Write(Medusa)
@@ -175,12 +170,7 @@ def Main(Url,FileName,Values,ProxyIp):
     except:
         pass
         #print("[-]NginxDirectoryTraversalVulnerability Scan error")
-    try:
-        Medusa=Cms.Others.Hjsoft_sqli.medusa(Url,RandomAgent,ProxyIp)
-        WriteFile.Write(Medusa)
-    except:
-        pass
-        #print("[-]NginxDirectoryTraversalVulnerability Scan error")
+
     try:
         Medusa=Cms.Others.Hnkj_researchinfo_dan_sqli.medusa(Url,RandomAgent,ProxyIp)
         WriteFile.Write(Medusa)
@@ -286,12 +276,7 @@ def Main(Url,FileName,Values,ProxyIp):
     except:
         pass
         #print("[-]NginxDirectoryTraversalVulnerability Scan error")
-    try:
-        Medusa=Cms.Others.Nongyou_sleep_sqli.medusa(Url,RandomAgent,ProxyIp)
-        WriteFile.Write(Medusa)
-    except:
-        pass
-        #print("[-]NginxDirectoryTraversalVulnerability Scan error")
+
     try:
         Medusa=Cms.Others.Rap_interface_struts_exec.medusa(Url,RandomAgent,ProxyIp)
         WriteFile.Write(Medusa)

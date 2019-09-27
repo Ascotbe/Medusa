@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # _*_ coding: utf-8 _*_
-import Cms.Metinfo.Metinfo_getpassword_sqli
 import Cms.Metinfo.Metinfo_login_check_sqli
 import ClassCongregation
 
@@ -10,12 +9,6 @@ def Main(Url,FileName,Values,ProxyIp):
     RandomAgent=ua.UserAgent()#获取生成的头文件
     try:
         Medusa=Cms.Metinfo.Metinfo_login_check_sqli.medusa(Url,RandomAgent,ProxyIp)
-        WriteFile.Write(Medusa)
-    except:
-        pass
-        #print("[-]NginxDirectoryTraversalVulnerability Scan error")
-    try:
-        Medusa=Cms.Metinfo.Metinfo_getpassword_sqli.medusa(Url,RandomAgent,ProxyIp)
         WriteFile.Write(Medusa)
     except:
         pass

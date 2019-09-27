@@ -185,9 +185,10 @@ def giveresult(urls, domian):
     subdomains = find_subdomain(urls, domian)
     for subdomain in subdomains:
         content_subdomain += subdomain + "\n"
-    print("JS crawled:Find " + str(len(urls)) + " URL and "+ str(len(subdomains)) + " Subdomain")
-    with open("./ScanResult/URL_in_JS.text", "w", encoding='utf-8') as fobject:#如果不是同级文件要加./来返回上级再能找到目录
+    #print("JS crawled:Find " + str(len(urls)) + " URL and "+ str(len(subdomains)) + " Subdomain")
+    with open("./ScanResult/URL_in_JS.txt", "w", encoding='utf-8') as fobject:#如果不是同级文件要加./来返回上级再能找到目录
         fobject.write(content_url)
-    with open("./ScanResult/Subdomain_in_JS.text", "w", encoding='utf-8') as fobject:
+    with open("./ScanResult/Subdomain_in_JS.txt", "w", encoding='utf-8') as fobject:
         fobject.write(content_subdomain)
 
+#giveresult("www.baidu.com","")

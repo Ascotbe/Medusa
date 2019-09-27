@@ -877,6 +877,6 @@ def main(domain, savefile, silent,subbrutes):
 
 
     return subdomains
-if __name__ == '__main__':
-    savefile= "../ScanResult/Subdomain.txt"
-    main("www.baidu.com", savefile, silent=False, subbrutes=False)
+# if __name__ == '__main__':
+#     savefile= "../ScanResult/Subdomain.txt"
+#     main("www.baidu.com", savefile, silent=False, subbrutes=False)

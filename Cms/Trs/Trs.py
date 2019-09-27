@@ -3,7 +3,6 @@
 import Cms.Trs.Trs_ids_auth_disclosure
 import Cms.Trs.Trs_infogate_register
 import Cms.Trs.Trs_inforadar_disclosure
-import Cms.Trs.Trs_lunwen_papercon_sqli
 import Cms.Trs.Trs_was5_config_disclosure
 import Cms.Trs.Trs_was5_download_templet
 import Cms.Trs.Trs_was40_passwd_disclosure
@@ -34,11 +33,7 @@ def Main(Url,FileName,Values,ProxyIp):
         WriteFile.Write(Medusa)
     except:
         pass
-    try:
-        Medusa =Cms.Trs.Trs_lunwen_papercon_sqli.medusa(Url, RandomAgent, ProxyIp)
-        WriteFile.Write(Medusa)
-    except:
-        pass
+
 
     try:
         Medusa=Cms.Trs.Trs_was5_config_disclosure.medusa(Url,RandomAgent,ProxyIp)

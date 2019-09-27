@@ -2,7 +2,6 @@
 # _*_ coding: utf-8 _*_
 import Cms.Live800.Live800_downlog_filedownload
 import Cms.Live800.Live800_fileDownloadServer_fileread
-import Cms.Live800.Live800_loginAction_sqli
 import Cms.Live800.Live800_sta_export_sqli
 import ClassCongregation
 
@@ -18,12 +17,6 @@ def Main(Url,FileName,Values,ProxyIp):
         #print("[-]NginxDirectoryTraversalVulnerability Scan error")
     try:
         Medusa=Cms.Live800.Live800_fileDownloadServer_fileread.medusa(Url,RandomAgent,ProxyIp)
-        WriteFile.Write(Medusa)
-    except:
-        pass
-        #print("[-]NginxDirectoryTraversalVulnerability Scan error")
-    try:
-        Medusa=Cms.Live800.Live800_loginAction_sqli.medusa(Url,RandomAgent,ProxyIp)
         WriteFile.Write(Medusa)
     except:
         pass

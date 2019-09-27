@@ -77,7 +77,7 @@ class NmapScan:#扫描端口类
             FinalResults = "IP:" + self.Host + "\rPort status:\r"
             for list in ScanResult['scan'][self.Host]['tcp']:
                 FinalResults = FinalResults + "Port:" + str(list) + "     Status:Open\r"  # list为每个tcp列表的值(但是tcp列表里面还有值)
-            NmapScanFileName = "NmapScanOutputFile.txt"
+            NmapScanFileName = "ScanResult/NmapScanOutputFile.txt"
             with open(NmapScanFileName, 'a', encoding='utf-8') as f:
                 f.write(FinalResults + "\n")#写入单独的扫描结果文件中
         except IOError:

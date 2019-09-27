@@ -59,7 +59,7 @@ def medusa(Url,RandomAgent,ProxyIp):
         con = resp.text
         code = resp.status_code
         if code==200 and con.lower().find('configuration file (php.ini) path')!=-1:
-            Medusa = "{} 存在XXX漏洞\r\n漏洞详情:\r\nPayload:{}\r\nPost:{}\r\n".format(url, payload_url,post_data)
+            Medusa = "{} 存在typecho install.php反序列化命令执行漏洞\r\n漏洞详情:\r\nPayload:{}\r\nPost:{}\r\n".format(url, payload_url,post_data)
             return (Medusa)
     except Exception as e:
         pass

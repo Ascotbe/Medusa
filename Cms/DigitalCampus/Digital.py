@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # _*_ coding: utf-8 _*_
 import Cms.DigitalCampus.Digital_campus_log_disclosure
-import Cms.DigitalCampus.Digital_campus_systemcodelist_sqli
 import ClassCongregation
 
 def Main(Url,FileName,Values,ProxyIp):
@@ -9,14 +8,7 @@ def Main(Url,FileName,Values,ProxyIp):
     ua=ClassCongregation.UserAgentS(Values)#传入用户输入用户指定的浏览器头
     RandomAgent=ua.UserAgent()#获取生成的头文件
     try:
-        Medusa=Cms.DigitalCampus.Digital_campus_systemcodelist_sqli.medusa(Url,RandomAgent,ProxyIp)
+        Medusa=Cms.DigitalCampus.Digital_campus_log_disclosure.medusa(Url,RandomAgent,ProxyIp)
         WriteFile.Write(Medusa)
     except:
         pass
-        #print("[-]NginxDirectoryTraversalVulnerability Scan error")
-    try:
-        Medusa=Cms.DigitalCampus.Digital_campus_systemcodelist_sqli.medusa(Url,RandomAgent,ProxyIp)
-        WriteFile.Write(Medusa)
-    except:
-        pass
-        #print("[-]NginxDirectoryTraversalVulnerability Scan error")

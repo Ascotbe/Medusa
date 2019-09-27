@@ -1,8 +1,0 @@
-www.baidu.com 存在eyou邮件系统信息泄露漏洞
-漏洞详情:
-Payload:http://www.baidu.com/weakpass.list
-
-www.baidu.com 存在wordpress display-widgets插件后门漏洞:
-Payload:http://www.baidu.com/wp-content/plugins/display-widgets/geolocation.php
-
-www.baidu.com  Scan completed

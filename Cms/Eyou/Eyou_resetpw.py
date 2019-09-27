@@ -47,7 +47,7 @@ def medusa(Url,RandomAgent,ProxyIp):
         con = resp.text
         code = resp.status_code
         if code==200 and con.lower().find('pw_intensity')!=-1:
-            Medusa = "{} 存在XXX漏洞\r\n漏洞详情:\r\nPayload:{}\r\n".format(url, payload_url)
+            Medusa = "{} 存在亿邮Defender重置密码漏洞\r\n漏洞详情:\r\nPayload:{}\r\n".format(url, payload_url)
             return (Medusa)
     except Exception as e:
         pass

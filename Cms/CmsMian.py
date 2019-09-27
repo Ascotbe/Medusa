@@ -16,7 +16,7 @@ from Cms.Etmdcp import Etmdcp
 from Cms.Eyou import Eyou
 from Cms.Fastmeeting import Fastmeeting
 from Cms.Finecms import Finecms
-from Cms.Foosun import Foosun
+
 from Cms.Fsmcms import Fsmcms
 from Cms.Gobetters import Gobetters
 from Cms.Gowinsoft import Gowinsoft
@@ -31,7 +31,7 @@ from Cms.Jeecms import Jeecms
 from Cms.Joomla import Joomla
 from Cms.Jumboecms import Jumboecms
 from Cms.Kingdee import Kingdee
-from Cms.Kxmail import Kxmail
+
 from Cms.Lbcms import Lbcms
 from Cms.Libsys import Libsys
 from Cms.Live800 import Live800
@@ -126,10 +126,7 @@ def Main(Url,FileName,Values,ProxyIp):
         Finecms.Main(Url,FileName,Values,ProxyIp)
     except:
         pass
-    try:
-        Foosun.Main(Url,FileName,Values,ProxyIp)
-    except:
-        pass
+
     try:
         Fsmcms.Main(Url,FileName,Values,ProxyIp)
     except:
@@ -186,10 +183,7 @@ def Main(Url,FileName,Values,ProxyIp):
         Kingdee.Main(Url,FileName,Values,ProxyIp)
     except:
         pass
-    try:
-        Kxmail.Main(Url,FileName,Values,ProxyIp)
-    except:
-        pass
+
     try:
         Lbcms.Main(Url,FileName,Values,ProxyIp)
     except:

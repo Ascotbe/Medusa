@@ -6,6 +6,9 @@ import InformationDisclosure.Phpinfo
 import InformationDisclosure.PhpApc
 import InformationDisclosure.Sftp
 import InformationDisclosure.Svn
+import InformationDisclosure.JetBrains
+import InformationDisclosure.Options
+import InformationDisclosure.JavaConfigurationFile
 
 import ClassCongregation
 
@@ -40,6 +43,21 @@ def Main(Url,FileName,Values,ProxyIp):
         pass
     try:
         Medusa=InformationDisclosure.Svn.medusa(Url,RandomAgent,ProxyIp)
+        WriteFile.Write(Medusa)
+    except:
+        pass
+    try:
+        Medusa=InformationDisclosure.JetBrains.medusa(Url,RandomAgent,ProxyIp)
+        WriteFile.Write(Medusa)
+    except:
+        pass
+    try:
+        Medusa=InformationDisclosure.Options.medusa(Url,RandomAgent,ProxyIp)
+        WriteFile.Write(Medusa)
+    except:
+        pass
+    try:
+        Medusa=InformationDisclosure.JavaConfigurationFile.medusa(Url,RandomAgent,ProxyIp)
         WriteFile.Write(Medusa)
     except:
         pass

@@ -50,7 +50,7 @@ def medusa(Url,RandomAgent,ProxyIp):
             con = resp.text
             code = resp.status_code
             if  con.lower().find('active internet connections')!=-1:
-                Medusa = "{} 存在XXX漏洞\r\n漏洞详情:\r\nPayload:{}\r\n".format(url, payload_url)
+                Medusa = "{} 存在用友ICC struts2远程命令执行 漏洞\r\n漏洞详情:\r\nPayload:{}\r\n".format(url, payload_url)
                 Medusas.append(str(Medusa))
     except Exception as e:
         pass

@@ -9,6 +9,7 @@ import InformationDisclosure.Svn
 import InformationDisclosure.JetBrains
 import InformationDisclosure.Options
 import InformationDisclosure.JavaConfigurationFile
+import InformationDisclosure.SensitiveFile
 
 import ClassCongregation
 
@@ -18,6 +19,11 @@ def Main(Url,FileName,Values,ProxyIp):
     RandomAgent=ua.UserAgent()#获取生成的头文件
     try:
         Medusa=InformationDisclosure.Druid.medusa(Url,RandomAgent,ProxyIp)
+        WriteFile.Write(Medusa)
+    except:
+        pass
+    try:
+        Medusa=InformationDisclosure.SensitiveFile.medusa(Url,RandomAgent,ProxyIp)
         WriteFile.Write(Medusa)
     except:
         pass

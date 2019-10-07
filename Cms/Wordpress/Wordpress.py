@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # _*_ coding: utf-8 _*_
 import Cms.Wordpress.Wordpress_admin_ajax_filedownload
-import Cms.Wordpress.Wordpress_display_widgets_backdoor
 import Cms.Wordpress.Wordpress_plugin_azonpop_sqli
 import Cms.Wordpress.Wordpress_plugin_mailpress_rce
 import Cms.Wordpress.Wordpress_plugin_ShortCode_lfi
@@ -19,11 +18,6 @@ def Main(Url,FileName,Values,ProxyIp):
     except:
         pass
 
-    try:
-        Medusa=Cms.Wordpress.Wordpress_display_widgets_backdoor.medusa(Url,RandomAgent,ProxyIp)
-        WriteFile.Write(Medusa)
-    except:
-        pass
 
     try:
         Medusa=Cms.Wordpress.Wordpress_plugin_azonpop_sqli.medusa(Url,RandomAgent,ProxyIp)

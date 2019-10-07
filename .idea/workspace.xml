@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e4eeb830-21db-4fc9-a54b-04d1d9456616" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Weblogic/WeblogicDeserializationRemoteCodeExecution.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InformationDisclosure/SensitiveFile.py" beforeDir="false" afterPath="$PROJECT_DIR$/InformationDisclosure/SensitiveFile.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cms/Eyou/Eyou.py" beforeDir="false" afterPath="$PROJECT_DIR$/Cms/Eyou/Eyou.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cms/Eyou/Eyou_weakpass.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cms/Wordpress/Wordpress.py" beforeDir="false" afterPath="$PROJECT_DIR$/Cms/Wordpress/Wordpress.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cms/Wordpress/Wordpress_display_widgets_backdoor.py" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

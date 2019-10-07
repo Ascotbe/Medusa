@@ -3,7 +3,6 @@
 
 import Cms.Eyou.Eyou_resetpw
 import Cms.Eyou.Eyou_user_kw_sqli
-import Cms.Eyou.Eyou_weakpass
 import ClassCongregation
 
 def Main(Url,FileName,Values,ProxyIp):
@@ -18,12 +17,6 @@ def Main(Url,FileName,Values,ProxyIp):
         #print("[-]NginxDirectoryTraversalVulnerability Scan error")
     try:
         Medusa=Cms.Eyou.Eyou_user_kw_sqli.medusa(Url,RandomAgent,ProxyIp)
-        WriteFile.Write(Medusa)
-    except:
-        pass
-        #print("[-]NginxDirectoryTraversalVulnerability Scan error")
-    try:
-        Medusa=Cms.Eyou.Eyou_weakpass.medusa(Url,RandomAgent,ProxyIp)
         WriteFile.Write(Medusa)
     except:
         pass

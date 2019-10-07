@@ -36,7 +36,7 @@ class UserAgentS:#使用随机头类
 
     def UserAgent(self):#使用随机头传入传入参数
         try:
-            ua = UserAgent()
+            ua = UserAgent(verify_ssl=False)
             if self.Values.lower()==None:#如果参数为空使用随机头
                 return (ua.random)
             elif self.Values.lower()=="firefox":#如果是火狐字符串使用火狐头

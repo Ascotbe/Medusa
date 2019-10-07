@@ -43,7 +43,7 @@ SpecialPayload=["/root.txt",
                 "/database.txt"
                 ]
 
-def medusa(Url,RandomAgent,ProxyIp=None):
+def medusa(Url,RandomAgent,ProxyIp):
 
     scheme, url, port = UrlProcessing(Url)
     if port is None and scheme == 'https':
@@ -84,7 +84,7 @@ def medusa(Url,RandomAgent,ProxyIp=None):
         for suffix in suffixs:
             try:
                 payload_url = scheme+"://"+url+payload+suffix
-                print(payload_url)
+
                 headers = {
                     'Accept-Encoding': 'gzip, deflate',
                     'Accept': '*/*',
@@ -97,11 +97,13 @@ def medusa(Url,RandomAgent,ProxyIp=None):
                         "http": "http://" + str(ProxyIp)
                     }
                     resp = requests.head(payload_url, headers=headers, proxies=proxies, timeout=5, verify=False)
+                    resp2 = requests.get(payload_url, headers=headers, proxies=proxies, timeout=5, verify=False)
                 elif ProxyIp==None:
                     resp = requests.head(payload_url,headers=headers, timeout=5, verify=False)
+                    resp2 = requests.get(payload_url, headers=headers, timeout=5, verify=False)
                 con = resp.text
                 code = resp.status_code
-                if code==200:
+                if code==200 and (resp2.headers["Content-Type"] == "application/zip" or resp2.headers["Content-Type"] == "application/x-rar-compressed" or resp2.headers["Content-Type"] == "application/x-gzip" or resp2.headers["Content-Type"] == "application/gzip") :
                     Medusa="{}\r\n".format(payload_url)
                     Medusas.append(str(Medusa))
             except Exception as e:
@@ -109,7 +111,7 @@ def medusa(Url,RandomAgent,ProxyIp=None):
     for Special in SpecialPayload:
         try:
             payload_url = scheme + "://" + url + Special
-            print(payload_url)
+
             headers = {
                 'Accept-Encoding': 'gzip, deflate',
                 'Accept': '*/*',
@@ -122,11 +124,13 @@ def medusa(Url,RandomAgent,ProxyIp=None):
                     "http": "http://" + str(ProxyIp)
                 }
                 resp = requests.head(payload_url, headers=headers, proxies=proxies, timeout=5, verify=False)
+                resp2 = requests.get(payload_url, headers=headers, proxies=proxies, timeout=5, verify=False)
             elif ProxyIp == None:
                 resp = requests.head(payload_url, headers=headers, timeout=5, verify=False)
+                resp2 = requests.get(payload_url, headers=headers, timeout=5, verify=False)
             con = resp.text
             code = resp.status_code
-            if code == 200:
+            if code == 200 and resp2.headers["Content-Type"] == "text/plain":
                 Medusa = "{}\r\n".format(payload_url)
                 Medusas.append(str(Medusa))
         except Exception as e:
@@ -136,8 +140,8 @@ def medusa(Url,RandomAgent,ProxyIp=None):
     try:
         for i in Medusas:
             Medusa=Medusa+i
-        print(Medusa)
+
         return Medusas
     except:
         pass
-medusa("www.baidu.com","Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.75 Safari/537.36")
+medusa("http://wwww.baodu.com/","Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36")

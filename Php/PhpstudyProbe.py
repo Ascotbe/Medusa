@@ -41,7 +41,7 @@ def medusa(Url,RandomAgent,ProxyIp):
         con = resp.text
         code = resp.status_code
         if con.lower().find('php_version')!=-1 and con.lower().find('phpstudy')!=-1:
-            Medusa = "{} 存在XXX漏洞\r\n漏洞详情:\r\nPayload:{}\r\n".format(url, payload_url)
+            Medusa = "{} 存在phpstudy探针泄露漏洞\r\n漏洞详情:\r\nPayload:{}\r\n".format(url, payload_url)
             return (Medusa)
     except Exception as e:
         pass

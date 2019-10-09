@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e4eeb830-21db-4fc9-a54b-04d1d9456616" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Cms/TideFinger.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Cms/cms_finger.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Php/PhpstudyProbe.py" beforeDir="false" afterPath="$PROJECT_DIR$/Php/PhpstudyProbe.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -25,9 +28,17 @@
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Cms" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\代码\PycharmProjects\WebVulnerabilityScanner\Cms" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\代码\PycharmProjects\WebVulnerabilityScanner\Cms" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -41,7 +52,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.SensitiveFile">
+  <component name="RunManager" selected="Python.TideFinger">
     <configuration name="SensitiveFile" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="WebVulnerabilityScanner" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -55,7 +66,28 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/InformationDisclosure/SensitiveFile.py" />
-      <option name="PARAMETERS" value="" />
+      <option name="PARAMETERS" value="-u https://www.freebuf.com/" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TideFinger" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="WebVulnerabilityScanner" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Cms" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Cms/TideFinger.py" />
+      <option name="PARAMETERS" value="-u https://www.freebuf.com/" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -84,8 +116,14 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Python.SensitiveFile" />
+      <item itemvalue="Python.text" />
+      <item itemvalue="Python.TideFinger" />
+    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.TideFinger" />
         <item itemvalue="Python.SensitiveFile" />
         <item itemvalue="Python.text" />
       </list>

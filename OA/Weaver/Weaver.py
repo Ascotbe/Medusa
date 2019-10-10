@@ -4,6 +4,7 @@ import OA.Weaver.Weaver_db_disclosure
 import OA.Weaver.Weaver_download_sqli
 import OA.Weaver.Weaver_filedownload
 import OA.Weaver.Weaver_CommandExecution
+import OA.Weaver.Weaver_WorkflowCenterTreeDataInterfaceInjectionVulnerability
 import ClassCongregation
 
 
@@ -33,3 +34,8 @@ def Main(Url, FileName, Values, ProxyIp):
     except:
         pass
 
+    try:
+        Medusa = OA.Weaver.Weaver_WorkflowCenterTreeDataInterfaceInjectionVulnerability.medusa(Url, RandomAgent, ProxyIp)
+        WriteFile.Write(Medusa)
+    except:
+        pass

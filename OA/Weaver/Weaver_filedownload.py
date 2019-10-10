@@ -2,8 +2,6 @@
 # -*- coding: utf-8 -*-
 '''
 name: 泛微OA downfile.php 任意文件下载漏洞
-referer: 
-author: Lucifer
 description: fileid参数引起的布尔盲注。
 '''
 import urllib

@@ -209,7 +209,7 @@ class Cmsscanner(object):
 
 def getMD5(c):
     m = hashlib.md5()
-    m.update(c.decode('utf-8'))
+    m.update(c.encode("utf-8"))
     psw = m.hexdigest()
     return psw
 

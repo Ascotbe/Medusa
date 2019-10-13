@@ -4,7 +4,7 @@
 
 ### 安装Python环境
 
-当前插件是在Python3.6.x 环境下开发，如果需要使用扫描器或者编写插件首先需要安装Python开发环境，建议使用PyCharm+Anaconda作为开发环境。
+当前插件是在```Python3.6.x ```环境下开发，如果需要使用扫描器或者编写插件首先需要安装```Python```开发环境，建议使用```PyCharm```+```Anaconda```作为开发环境。
 
 <a href="https://www.python.org/downloads/release/python-367/" style="font-size:16px;color:gilt">Python 3.6.7</a>
 
@@ -18,7 +18,7 @@
 
 ### 安装Module
 
-运行Medusa所需要导入的包：
+运行```Medusa```所需要导入的包：
 
 ```
 fake-useragent
@@ -53,7 +53,7 @@ python3 MedusaScan.py -f c：//Ascotbe.txt  (url所在文件路径)
 python3 MedusaScan.py -u https://www.ascotbe.com -sp c：//Password.txt -su c：//Username.txt
 ```
 
-#### 0x04 对目标网站进行JavaScript中的链接爬取
+#### 0x04 对目标网站进行```JavaScript```中的链接爬取
 
 ```bash
 python3 MedusaScan.py -u https://www.ascotbe.com -j
@@ -71,7 +71,7 @@ python3 MedusaScan.py -u https://www.ascotbe.com -s
 python3 MedusaScan.py -u https://www.ascotbe.com -p
 ```
 
-#### 0x06 使用指定Header头
+#### 0x06 使用指定```Header```头
 
 目前支持常见的浏览器，下面列举其中3个，详情请看项目README文档
 
@@ -82,4 +82,8 @@ python3 MedusaScan.py -u https://www.ascotbe.com -a firefox
 python3 MedusaScan.py -u https://www.ascotbe.com -a ie
 python3 MedusaScan.py -u https://www.ascotbe.com -a opera
 ```
+
+## 扫描结果
+
+- 扫描的结果存在根目录中的```ScanResult```文件夹中
 

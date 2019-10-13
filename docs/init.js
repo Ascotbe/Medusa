@@ -1,4 +1,4 @@
-var rootUrl = 'https://cqhttp.cc/docs';
+var rootUrl = 'https://ascotbe.github.io/Medusa';
 
 var versions = [
     { title: 'v1.0', path: '/1.0/' },

@@ -16,6 +16,9 @@
 ### 关于美杜莎扫描器
     最初版本上线，目前扫描器还在开发中，不完善的地方欢迎大家提Issues
 	独自开发更新会比较缓慢，各位师傅不嫌弃的话可以点个Star支持下
+### 使用文档
+    使用前必看！！！
+    https://ascotbe.github.io/Medusa
 
 ### 使用说明
 
@@ -60,9 +63,6 @@ python3 MedusaScan.py -u www.ascotbe.com
     欢迎大家提交Issues
     交流Q群690021184
 
-### 参与开发
-    POC编写文档:
-    https://github.com/Ascotbe/Medusa/VulnerabilityTemplate/v0.1.md
 
 #### 共同开发
 <a href="https://github.com/ZiYuMis"><img alt="Release" src="https://avatars2.githubusercontent.com/u/33992514?s=400&v=4"  width="50"></a>

@@ -318,9 +318,9 @@ if ProxyIp!=None:
 
 - 每个函数必须存在```try```...```except```来保证扫描器正常使用
 
-- ```except```必须要有异常捕获返回值
+- 异常捕获```except```必须要有返回值 
 
-  ```
+  ```python
   except Exception:
       logging.warning(Url)#漏洞的请求url
       _ = VulnerabilityInfo()

@@ -8,15 +8,14 @@
  </p>
 
 <h1 align="center" >美杜莎扫描器</h1>
-
 **请使用者遵守 [中华人民共和国网络安全法](http://www.cac.gov.cn/2016-11/07/c_1119867116.htm)，勿将MedusaScan用于非授权的测试，MedusaScan开发者不负任何连带法律责任。**
 
 ## 关于美杜莎扫描器
     最初版本上线，目前扫描器还在开发中，不完善的地方欢迎大家提Issues
     独自开发更新会比较缓慢，各位师傅不嫌弃的话可以点个Star支持下
-## Demo
+## ​Demo
 
-XXXXXXXXXXXXXXXXXXXX
+
 
 ## 使用说明
 
@@ -46,9 +45,8 @@ python3 MedusaScan.py -u www.ascotbe.com
 | -s     | 0        | 通过DNS以及各大搜索引擎查找子域名                            | 从Sublist3r魔改而来,不支持IP枚举                             |
 | -se    | 0        | 包含了-s的功能，并且通过字典枚举(非常耗时                    | 和-s不能同时使用，-s和-se只能存在一个                        |
 
-## 交(chui)流(B)群
+## 讨论区
 
-```
-690021184
-```
+- 吹B群：690021184
+- GitHub issue:https://github.com/Ascotbe/Medusa/issues
 

@@ -16,21 +16,7 @@
 ### 关于美杜莎扫描器
     最初版本上线，目前扫描器还在开发中，不完善的地方欢迎大家提Issues
 	独自开发更新会比较缓慢，各位师傅不嫌弃的话可以点个Star支持下
-### 功能列表
-    1.CMS漏洞扫描
-    2.各种中间件漏洞扫描
-    3.子域名收集
-    4.JS信息探测
-    5.Nmap端口扫描
-    6.数据库爆破
-    7.随机Header
-    8.使用代理进行扫描
-    9.信息泄露探测
-### 待更新功能
-     基于各大网站进行泄露信息收集
-     目录扫描
-     CMS指纹识别后优先调用前5的CmsPayload
-     自动化XSS测试
+
 ### 使用说明
 
 ```bash
@@ -59,6 +45,17 @@ python3 MedusaScan.py -u www.ascotbe.com
 |-s    |--Subdomain   |0       |通过DNS以及各大搜索引擎查找子域名|从Sublist3r魔改而来,不支持IP枚举| 
 |-se    |--SubdomainEnumerate   |0       |包含了-s的功能，并且通过字典枚举(非常耗时|和-s不能同时使用，-s和-se只能存在一个| 
 
+### 功能列表
+    1.CMS漏洞扫描
+    2.各种中间件漏洞扫描
+    3.子域名收集
+    4.JS信息探测
+    5.Nmap端口扫描
+    6.数据库爆破
+    7.随机Header
+    8.使用代理进行扫描
+    9.信息泄露探测
+
 ### 提交意见&BUG
     欢迎大家提交Issues
     交流Q群690021184
@@ -67,8 +64,6 @@ python3 MedusaScan.py -u www.ascotbe.com
     POC编写文档:
     https://github.com/Ascotbe/Medusa/VulnerabilityTemplate/v0.1.md
 
-#### 封面作者
-<a href="https://github.com/czkm"><img alt="Release" src="https://avatars2.githubusercontent.com/u/36911813?s=460&v=4"  width="50"></a>
 #### 共同开发
 <a href="https://github.com/ZiYuMis"><img alt="Release" src="https://avatars2.githubusercontent.com/u/33992514?s=400&v=4"  width="50"></a>
 <a href="https://github.com/czkm"><img alt="Release" src="https://avatars2.githubusercontent.com/u/36911813?s=460&v=4"  width="50"></a>

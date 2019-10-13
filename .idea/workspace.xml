@@ -2,12 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e4eeb830-21db-4fc9-a54b-04d1d9456616" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/OA/Weaver/Weaver_WorkflowCenterTreeDataInterfaceInjectionVulnerability.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Cms/TideFinger.py" beforeDir="false" afterPath="$PROJECT_DIR$/Cms/TideFinger.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OA/Weaver/Weaver.py" beforeDir="false" afterPath="$PROJECT_DIR$/OA/Weaver/Weaver.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OA/Weaver/Weaver_filedownload.py" beforeDir="false" afterPath="$PROJECT_DIR$/OA/Weaver/Weaver_filedownload.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UpDataLog/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/UpDataLog/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OA/Weaver/Weaver_CommandExecution.py" beforeDir="false" afterPath="$PROJECT_DIR$/OA/Weaver/Weaver_CommandExecution.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OA/Weaver/Weaver_WorkflowCenterTreeDataInterfaceInjectionVulnerability.py" beforeDir="false" afterPath="$PROJECT_DIR$/OA/Weaver/Weaver_WorkflowCenterTreeDataInterfaceInjectionVulnerability.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/text.py" beforeDir="false" afterPath="$PROJECT_DIR$/text.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -90,7 +90,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Cms/TideFinger.py" />
-      <option name="PARAMETERS" value="-u https://www.freebuf.com/" />
+      <option name="PARAMETERS" value="-u http://www.phome.net/" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -180,5 +180,46 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Cms/TideFinger.py</url>
+          <line>209</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Cms/TideFinger.py</url>
+          <line>210</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Cms/TideFinger.py</url>
+          <line>274</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Cms/TideFinger.py</url>
+          <line>353</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Cms/TideFinger.py</url>
+          <line>277</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Cms/TideFinger.py</url>
+          <line>279</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/OA/Weaver/Weaver_WorkflowCenterTreeDataInterfaceInjectionVulnerability.py</url>
+          <line>24</line>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

@@ -4,12 +4,8 @@
     <list default="true" id="e4eeb830-21db-4fc9-a54b-04d1d9456616" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UpDataLog/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/UpDataLog/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VulnerabilityTemplate/v0.1.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/1.0/Home.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/1.0/Home.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/1.0/PocWriting.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/1.0/PocWriting.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/1.0/QuickStart.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/1.0/QuickStart.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/init.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/init.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/1.0/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/1.0/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/master" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

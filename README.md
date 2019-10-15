@@ -69,6 +69,7 @@ python3 MedusaScan.py -u www.ascotbe.com
 <a href="https://github.com/czkm"><img alt="Release" src="https://avatars2.githubusercontent.com/u/36911813?s=460&v=4"  width="50"></a>
 <a href="https://github.com/TrojanAZhen"><img alt="Release" src="https://avatars2.githubusercontent.com/u/15818542?s=460&v=4"  width="50"></a>
 <a href="https://github.com/rabbitmask"><img alt="Release" src="https://avatars0.githubusercontent.com/u/37649548?s=460&v=4"  width="50"></a>
+<a href="https://github.com/dieLion"><img alt="Release" src="https://avatars3.githubusercontent.com/u/56595642?s=460&v=4"  width="50"></a>
 
 [肥宅博客](https://ascotbe.github.io)
 

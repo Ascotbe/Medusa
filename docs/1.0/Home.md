@@ -14,8 +14,7 @@
     最初版本上线，目前扫描器还在开发中，不完善的地方欢迎大家提Issues
     独自开发更新会比较缓慢，各位师傅不嫌弃的话可以点个Star支持下
 ## ​Demo
-
-
+<img alt="Release" src="https://github.com/Ascotbe/Random-img/blob/master/Medusa/demo.gif?raw=true"  >
 
 ## 使用说明
 

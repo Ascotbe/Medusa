@@ -3,7 +3,20 @@
 
 import urllib
 import requests
-
+import logging
+import ClassCongregation
+class VulnerabilityInfo(object):
+    def __init__(self,Medusa):
+        self.info = {}
+        self.info['author'] = "Ascotbe"  # 插件作者
+        self.info['create_date'] = "2019-10-13"  # 插件编辑时间
+        self.info['algroup'] = "JavaConfigurationFile"  # 插件名称
+        self.info['name'] ='Java配置文件泄露漏洞' #漏洞名称
+        self.info['affects'] = "Java"  # 漏洞组件
+        self.info['desc_content'] = ""  # 漏洞描述
+        self.info['rank'] = "高危"  # 漏洞等级
+        self.info['suggest'] = "删除文件或者对对路径限制访问"  # 修复建议
+        self.info['details'] = Medusa  # 结果
 def UrlProcessing(url):
     if url.startswith("http"):#判断是否有http头，如果没有就在下面加入
         res = urllib.parse.urlparse(url)
@@ -42,7 +55,12 @@ def medusa(Url,RandomAgent,ProxyIp):
         con = resp.text
         code = resp.status_code
         if resp.headers["Content-Type"] == "application/xml":
-            Medusa = "{} 存在web.xml配置文件泄露漏洞\r\n漏洞详情:\r\nPayload:{}\r\n".format(url, payload_url)
-            return (Medusa)
-    except Exception as e:
-        pass
+            Medusa = "{} \r\n漏洞详情:\r\nPayload:{}\r\n".format(url, payload_url)
+            _t = VulnerabilityInfo(Medusa)
+            web = ClassCongregation.VulnerabilityDetails(_t.info)
+            web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
+            return (_t.info)
+    except:
+        logging.warning(Url)
+        _ = VulnerabilityInfo('')
+        logging.warning(_.info.get('parameter'))

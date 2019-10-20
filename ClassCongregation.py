@@ -168,11 +168,57 @@ class Proxy:#IP代理池参数
                     pass
 class VulnerabilityDetails:
 
-    def serious(self,medusa):
-        pass
-    def High(self,medusa):
-        pass
-    def Intermediate(self,medusa):
-        pass
-    def Low(self,medusa):
-        pass
+    def __init__(self,medusa):
+
+        try:
+            self.db= pymysql.connect(host="localhost", user="root", password="zhouyuchen", db="medusa", port=3306)
+            self.name=medusa['name']#漏洞名称
+            self.details=medusa['details']# 结果
+            self.affects=medusa['affects']# 漏洞组件
+            self.desc_content=medusa['desc_content']# 漏洞描述
+            self.suggest=medusa['suggest']# 修复建议
+        except:
+            pass
+    def serious(self):
+        try:
+            cur = self.db.cursor()
+            sql_insert = """insert into vulnerability values(4,'{}','{}','严重','{}','{}','{}')""".format(self.name,self.affects,self.suggest,self.desc_content,self.details)
+            cur.execute(sql_insert)
+            # 提交
+            self.db.commit()
+        except:
+            pass
+    def High(self):
+         # 使用cursor()方法获取操作游标
+        try:
+            cur = self.db.cursor()
+            sql_insert = """insert into vulnerability values(4,'{}','{}','高危','{}','{}','{}')""".format(self.name,
+                                                                                                        self.affects,
+                                                                                                        self.suggest,
+                                                                                                        self.desc_content,
+                                                                                                        self.details)
+            cur.execute(sql_insert)
+            # 提交
+            self.db.commit()
+        except:
+            pass
+    def Intermediate(self):
+         # 使用cursor()方法获取操作游标
+        try:
+            cur = self.db.cursor()
+            sql_insert = """insert into vulnerability values(4,'{}','{}','中危','{}','{}','{}')""".format(self.name,self.affects,self.suggest,self.desc_content,self.details)
+            cur.execute(sql_insert)
+            # 提交
+            self.db.commit()
+        except:
+            pass
+    def Low(self):
+         # 使用cursor()方法获取操作游标
+        try:
+            cur = self.db.cursor()
+            sql_insert = """insert into vulnerability values(4,'{}','{}','低危','{}','{}','{}')""".format(self.name,self.affects,self.suggest,self.desc_content,self.details)
+            cur.execute(sql_insert)
+            # 提交
+            self.db.commit()
+        except:
+            pass

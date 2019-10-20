@@ -79,8 +79,8 @@ def medusa(Url,RandomAgent,ProxyIp):
                 '''"text":''') != -1:
             Medusa = "{} 验证数据:\r\nRequests:{}\r\n".format(url,resp.headers)
             _t=VulnerabilityInfo(Medusa)
-            web=ClassCongregation.VulnerabilityDetails()
-            web.High(_t.info) # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
+            web=ClassCongregation.VulnerabilityDetails(_t.info)
+            web.High() # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
             return (_t.info)
     except Exception:
         logging.warning(Url)#漏洞的请求url
@@ -181,8 +181,8 @@ def medusa(Url,RandomAgent,ProxyIp):
                 '''"text":''') != -1:
             Medusa = "{} 验证数据:\r\nRequests:{}\r\n".format(url,resp.headers)
             _t=VulnerabilityInfo(Medusa)
-            web=ClassCongregation.VulnerabilityDetails()
-            web.High(_t.info) # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
+            web=ClassCongregation.VulnerabilityDetails(_t.info)
+            web.High() # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
             return (_t.info)
     except Exception:
         logging.warning(Url)#漏洞的请求url
@@ -270,8 +270,8 @@ if ProxyIp!=None:
                 '''"text":''') != -1:
             Medusa = "{} 验证数据:\r\nRequests:{}\r\n".format(url,resp.headers)
             _t=VulnerabilityInfo(Medusa)
-            web=ClassCongregation.VulnerabilityDetails()
-            web.High(_t.info) # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
+            web=ClassCongregation.VulnerabilityDetails(_t.info)
+            web.High() # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
             return (_t.info)
 ```
 
@@ -325,8 +325,8 @@ if ProxyIp!=None:
   			if code == 200:
   				Medusa = "{} 验证数据:\r\nRequests:{}\r\n".format(url,resp.headers)
               	_t=VulnerabilityInfo(Medusa)
-              	web=ClassCongregation.VulnerabilityDetails()
-              	web.High(_t.info) # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
+              	web=ClassCongregation.VulnerabilityDetails(_t.info)
+              	web.High() # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
                   Medusas.append(str(_t.info))
   		except Exception as e:
               logging.warning(Url)#漏洞的请求url

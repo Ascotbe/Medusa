@@ -8,7 +8,20 @@ description: mysql_config.ini泄露。
 '''
 import urllib
 import requests
-
+import logging
+import ClassCongregation
+class VulnerabilityInfo(object):
+    def __init__(self,Medusa):
+        self.info = {}
+        self.info['author'] = "Ascotbe"  # 插件作者
+        self.info['create_date'] = "2019-10-13"  # 插件编辑时间
+        self.info['algroup'] = "Weaver_db_disclosure"  # 插件名称
+        self.info['name'] ='泛微数据库配置泄露漏洞' #漏洞名称
+        self.info['affects'] = "泛微OA"  # 漏洞组件
+        self.info['desc_content'] = ""  # 漏洞描述
+        self.info['rank'] = "高危"  # 漏洞等级
+        self.info['suggest'] = "尽快升级最新系统"  # 修复建议
+        self.info['details'] = Medusa  # 结果
 def UrlProcessing(url):
     if url.startswith("http"):#判断是否有http头，如果没有就在下面加入
         res = urllib.parse.urlparse(url)
@@ -47,7 +60,12 @@ def medusa(Url,RandomAgent,ProxyIp):
         con = resp.text
         code = resp.status_code
         if  con.lower().find('datapassword')!=-1:
-            Medusa = "{} 存在泛微OA 数据库配置泄露漏洞\r\n漏洞详情:\r\nPayload:{}\r\n".format(url, payload_url)
-            return (Medusa)
-    except Exception as e:
-        pass
+            Medusa = "{} \r\n漏洞详情:\r\nPayload:{}\r\n".format(url, payload_url)
+            _t = VulnerabilityInfo(Medusa)
+            web = ClassCongregation.VulnerabilityDetails(_t.info)
+            web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
+            return (_t.info)
+    except:
+        logging.warning(Url)
+        _ = VulnerabilityInfo('')
+        logging.warning(_.info.get('parameter'))

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # _*_ coding: utf-8 _*_
-import Confluence.CVE_2019_3396
+import Confluence.AtlassianConfluencePathTraversal_and_CommandExecutionVulnerability
 import time
 import ClassCongregation
 
@@ -10,7 +10,7 @@ def Main(Url,FileName,Values,ProxyIp):
     ua=ClassCongregation.UserAgentS(Values)#传入用户输入用户指定的浏览器头
     RandomAgent=ua.UserAgent()#获取生成的头文件
     try:
-        Medusa=Confluence.CVE_2019_3396.medusa(Url,RandomAgent,ProxyIp)
+        Medusa=Confluence.AtlassianConfluencePathTraversal_and_CommandExecutionVulnerability.medusa(Url, RandomAgent, ProxyIp)
         WriteFile.Write(Medusa)
     except:
         pass

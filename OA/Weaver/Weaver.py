@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # _*_ coding: utf-8 _*_
 import OA.Weaver.Weaver_db_disclosure
-import OA.Weaver.Weaver_download_sqli
+import OA.Weaver.Weaver_sqli
 import OA.Weaver.Weaver_filedownload
 import OA.Weaver.Weaver_CommandExecution
 import OA.Weaver.Weaver_WorkflowCenterTreeDataInterfaceInjectionVulnerability
@@ -19,7 +19,7 @@ def Main(Url, FileName, Values, ProxyIp):
         pass
 
     try:
-        Medusa = OA.Weaver.Weaver_download_sqli.medusa(Url, RandomAgent, ProxyIp)
+        Medusa = OA.Weaver.Weaver_sqli.medusa(Url, RandomAgent, ProxyIp)
         WriteFile.Write(Medusa)
     except:
         pass

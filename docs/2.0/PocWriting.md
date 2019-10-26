@@ -18,6 +18,7 @@ import re
 class VulnerabilityInfo(object):
     def __init__(self,Medusa):
         self.info = {}
+        self.info['number']="0" #如果没有CVE或者CNVD编号就填0，CVE编号优先级大于CNVD
         self.info['author'] = "Ascotbe"  # 插件作者
         self.info['createDate'] = "2019-10-13"  # 插件编辑时间
         self.info['algroup'] = "Weaver_WorkflowCenterTreeDataInterfaceInjectionVulnerability"  # 插件名称
@@ -95,6 +96,7 @@ def medusa(Url,RandomAgent,ProxyIp):
 class VulnerabilityInfo(object):
     def __init__(self):
         self.info = {}
+        self.info['number']="0" #如果没有CVE或者CNVD编号就填0，CVE编号优先级大于CNVD
         self.info['author'] = "Ascotbe"  # 插件作者
         self.info['create_date'] = "2019-10-13"  # 插件编辑时间
         self.info['algroup'] = "XXXXXXXXXXXXXXXXXXXX"  # 插件名称
@@ -109,6 +111,7 @@ class VulnerabilityInfo(object):
 
 | 函数名       | 值           | 备注                                                         |
 | :----------- | ------------ | ------------------------------------------------------------ |
+| number       | CVE编号     |  如果没有CVE或者CNVD编号就填0，CVE编号优先级大于CNVD         |
 | author       | 插件作者     |                                                              |
 | create_date  | 插件编辑时间 | 格式为：年-月-日                                             |
 | algroup      | 插件名称     | 要和文件名相同，并且只能英文（所有.都要替换为_               |

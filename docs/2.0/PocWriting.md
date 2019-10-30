@@ -21,6 +21,7 @@ class VulnerabilityInfo(object):
         self.info['number']="0" #如果没有CVE或者CNVD编号就填0，CVE编号优先级大于CNVD
         self.info['author'] = "Ascotbe"  # 插件作者
         self.info['createDate'] = "2019-10-13"  # 插件编辑时间
+        self.info['disclosure']='2019-10-13'#漏洞披露时间，如果不知道就写编写插件的时间
         self.info['algroup'] = "Weaver_WorkflowCenterTreeDataInterfaceInjectionVulnerability"  # 插件名称
         self.info['name'] ='泛微OA_WorkflowCenterTreeData接口注入漏洞' #漏洞名称
         self.info['affects'] = "泛微OA"  # 漏洞组件
@@ -49,7 +50,7 @@ def medusa(Url,RandomAgent,ProxyIp):
     global resp2
     try:
         payload = "/mobile/browser/WorkflowCenterTreeData.jsp?node=wftype_1&scope=2333"
-        payload_url = scheme + "://" + url + payload
+        payload_url = scheme + "://" + url +":"+ str(port)+ payload
 
 
         headers = {
@@ -99,6 +100,7 @@ class VulnerabilityInfo(object):
         self.info['number']="0" #如果没有CVE或者CNVD编号就填0，CVE编号优先级大于CNVD
         self.info['author'] = "Ascotbe"  # 插件作者
         self.info['create_date'] = "2019-10-13"  # 插件编辑时间
+        self.info['disclosure']='2019-10-13'#漏洞披露时间，如果不知道就写编写插件的时间
         self.info['algroup'] = "XXXXXXXXXXXXXXXXXXXX"  # 插件名称
         self.info['name'] ='泛微OA_WorkflowCenterTreeData接口注入漏洞' #漏洞名称
         self.info['affects'] = "该漏洞是哪个组件的，比如这个插件就是叫：泛微OA"  # 漏洞组件
@@ -121,6 +123,7 @@ class VulnerabilityInfo(object):
 | rank         | 漏洞等级     | 分为：严重、高危、中危、低危四个种类                         |
 | suggest      | 修复建议     | 给出缓解措施，或者解决办法                                   |
 | details      | 结果         | 该值为如果扫描结束后确认了漏洞而传入的参数，恒定为Medusa     |
+| disclosure | 披露时间 | 漏洞披露时间，如果不知道就写编写插件的时间 |
 
 ### UrlProcessing函数
 
@@ -153,7 +156,7 @@ def medusa(Url,RandomAgent,ProxyIp):
     global resp2
     try:
         payload = "/mobile/browser/WorkflowCenterTreeData.jsp?node=wftype_1&scope=2333"
-        payload_url = scheme + "://" + url + payload
+        payload_url = scheme + "://" + url +":"+ str(port)+ payload
 
 
         headers = {
@@ -211,7 +214,11 @@ def medusa(Url,RandomAgent,ProxyIp):
 
 ###### 端口
 
-- 函数已经对端口进行处理，当存在特点的端口才需要在```payload_url```中拼接上端口号(例如ActiveMQ的8161端口
+- 函数已经对端口进行处理，当存在特定的端口的时候可以把端口的值改为固定的端口号(例如```ActiveMQ```的```8161```端口
+
+  ```
+  scheme + "://" + url +":8161"+ payload
+  ```
 
 ###### User-Agent
 
@@ -313,7 +320,7 @@ if ProxyIp!=None:
       Medusas=[]
   	for Special in Payloads:
   		try:
-  			payload_url = scheme + "://" + url + Special
+  			payload_url = scheme + "://" + url +":"+ str(port)+ payload
   			headers = {
   				'Accept-Encoding': 'gzip, deflate',
   				'Accept': '*/*',
@@ -352,7 +359,7 @@ if ProxyIp!=None:
 ###### 变量命名规范
 
 - 仅限使用```驼峰命名法``` 、```匈牙利命名法```
-- 默认使用```驼峰命名法```
+- 默认使用```匈牙利命名法```
 
 ###### 判断语句
 
@@ -374,7 +381,7 @@ if ProxyIp!=None:
 
 ###### 禁止使用
 
-- 插件中禁止使用```sys.exit()``` ````os.exit()```这两个函数，会导致主程序结束，如果要结束插件使用```return```即可
+- 插件中禁止使用```sys.exit()``` ```os.exit()```这两个函数，会导致主程序结束，如果要结束插件使用```return```即可
 
 ###### Https
 

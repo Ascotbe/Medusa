@@ -85,9 +85,8 @@ def medusa(Url,RandomAgent,ProxyIp):
             web.High() # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
             return (_t.info)
     except Exception:
-        logging.warning(Url)#漏洞的请求url
-        _ = VulnerabilityInfo('')
-        logging.warning(_.info.get('parameter'))#捕获的插件名称
+        _ = VulnerabilityInfo('').info.get('algroup')
+        _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类传入URL和错误插件名
         
 ```
 
@@ -191,9 +190,8 @@ def medusa(Url,RandomAgent,ProxyIp):
             web.High() # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
             return (_t.info)
     except Exception:
-        logging.warning(Url)#漏洞的请求url
-        _ = VulnerabilityInfo('')
-        logging.warning(_.info.get('parameter'))#捕获的插件名称
+        _ = VulnerabilityInfo('').info.get('algroup')
+        _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类传入URL和错误插件名
 ```
 
 ##### 参数
@@ -339,9 +337,8 @@ if ProxyIp!=None:
               	web.High() # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
                   Medusas.append(str(_t.info))
   		except Exception as e:
-              logging.warning(Url)#漏洞的请求url
-              _ = VulnerabilityInfo('')
-              logging.warning(_.info.get('parameter'))#捕获的插件名称
+                  _ = VulnerabilityInfo('').info.get('algroup')
+                  _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类传入URL和错误插件名
       try:
   		for i in Medusas:
   			Medusa=Medusa+i
@@ -395,12 +392,11 @@ if ProxyIp!=None:
 
   ```python
   except Exception:
-      logging.warning(Url)#漏洞的请求url
-      _ = VulnerabilityInfo()
-      logging.warning(_.info.get('parameter'))#捕获的插件名称
+      _ = VulnerabilityInfo('').info.get('algroup')
+      _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类传入URL和错误插件名
   ```
-
   
+
 
 ###### 清理工作
 

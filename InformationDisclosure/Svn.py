@@ -64,11 +64,10 @@ def medusa(Url,RandomAgent,ProxyIp):
                 _t = VulnerabilityInfo(Medusa)
                 web = ClassCongregation.VulnerabilityDetails(_t.info)
                 web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
-                return (_t.info)
+
         except:
-            logging.warning(Url)
-            _ = VulnerabilityInfo('')
-            logging.warning(_.info.get('parameter'))
+            _ = VulnerabilityInfo('').info.get('algroup')
+            _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类
     _t = VulnerabilityInfo(ReturnList)
     return (_t.info)
 

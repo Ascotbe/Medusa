@@ -67,9 +67,8 @@ def medusa(Url,RandomAgent,ProxyIp):
             web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
             return (_t.info)
     except:
-        logging.warning(Url)
-        _ = VulnerabilityInfo('')
-        logging.warning(_.info.get('parameter'))
+        _ = VulnerabilityInfo('').info.get('algroup')
+        _l=ClassCongregation.ErrorLog().Write(url,_)#调用写入类
 
 
 #medusa("http://112.25.35.64:8161","Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:69.0) Gecko/20100101 Firefox/69.0",)

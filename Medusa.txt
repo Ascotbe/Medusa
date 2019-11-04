@@ -1,3 +1,4 @@
+bs4
 fake-useragent
 requests
 urllib3

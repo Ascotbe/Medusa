@@ -45,7 +45,7 @@ def medusa(Url,RandomAgent,ProxyIp):
         'Content-Type': 'application/x-www-form-urlencoded',
     }
     for payload in list:
-        PayloadUrl = url + ':' + str(port)+payload+'/.svn/entries'
+        PayloadUrl = scheme + '://' +url + ':' + str(port)+payload+'/.svn/entries'
         try:
             s = requests.session()
             if ProxyIp!=None:

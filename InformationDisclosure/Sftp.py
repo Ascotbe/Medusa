@@ -45,7 +45,7 @@ def medusa(Url,RandomAgent,ProxyIp):
         'Content-Type': 'application/x-www-form-urlencoded',
     }
     for payload in list:
-        PayloadUrl = url + ':' + str(port)+payload+'/sftp-config.json'
+        PayloadUrl =scheme + '://' + url + ':' + str(port)+payload+'/sftp-config.json'
         try:
             s = requests.session()
             if ProxyIp!=None:

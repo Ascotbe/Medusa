@@ -46,7 +46,7 @@ def medusa(Url,RandomAgent,ProxyIp):
         'Content-Type': 'application/x-www-form-urlencoded',
     }
     for payload in list:
-        PayloadUrl = url + ':' + payload+'/.git/config'
+        PayloadUrl =scheme + '://' + url + ':' + payload+'/.git/config'
         try:
             s = requests.session()
             if ProxyIp!=None:

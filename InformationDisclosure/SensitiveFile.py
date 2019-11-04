@@ -96,7 +96,7 @@ def medusa(Url,RandomAgent,ProxyIp):
     for payload in payloads:
         for suffix in suffixs:
             try:
-                payload_url = scheme+"://"+url+payload+suffix
+                payload_url = scheme+"://"+url+ ':' + str(port)+payload+suffix
 
                 headers = {
                     'Accept-Encoding': 'gzip, deflate',

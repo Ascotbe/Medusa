@@ -36,7 +36,7 @@ def medusa(Url,RandomAgent,ProxyIp):
     global resp
     global resp2
     try:
-        payload_url = scheme+"://"+url+payload
+        payload_url = scheme+"://"+url+ ':' + str(port)+payload
         headers = {
             'Accept-Encoding': 'gzip, deflate',
             'Accept': '*/*',

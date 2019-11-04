@@ -45,7 +45,7 @@ def medusa(Url,RandomAgent,ProxyIp):
         'Content-Type': 'application/x-www-form-urlencoded',
     }
     for payload in list:
-        PayloadUrl = url + ':' + str(port)+payload+'/apc.php'
+        PayloadUrl = scheme + '://' +url + ':' + str(port)+payload+'/apc.php'
         try:
             s = requests.session()
             if ProxyIp!=None:

@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-'''
-name: 泛微OA downfile.php 任意文件下载漏洞
-description: fileid参数引起的布尔盲注。
-'''
+
 import urllib
 import requests
 import re
@@ -41,7 +38,7 @@ def medusa(Url,RandomAgent,ProxyIp):
     global resp
     global resp2
     try:
-        payload_url = scheme+"://"+url+payload
+        payload_url = scheme+"://"+url+ ':' + str(port)+payload
         headers = {
             'Accept-Encoding': 'gzip, deflate',
             'Accept': '*/*',

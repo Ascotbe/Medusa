@@ -3,41 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="e4eeb830-21db-4fc9-a54b-04d1d9456616" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InformationDisclosure/Druid.py" beforeDir="false" afterPath="$PROJECT_DIR$/InformationDisclosure/Druid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InformationDisclosure/Git.py" beforeDir="false" afterPath="$PROJECT_DIR$/InformationDisclosure/Git.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InformationDisclosure/JavaConfigurationFile.py" beforeDir="false" afterPath="$PROJECT_DIR$/InformationDisclosure/JavaConfigurationFile.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InformationDisclosure/JetBrains.py" beforeDir="false" afterPath="$PROJECT_DIR$/InformationDisclosure/JetBrains.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InformationDisclosure/Options.py" beforeDir="false" afterPath="$PROJECT_DIR$/InformationDisclosure/Options.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InformationDisclosure/PhpApc.py" beforeDir="false" afterPath="$PROJECT_DIR$/InformationDisclosure/PhpApc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InformationDisclosure/Phpinfo.py" beforeDir="false" afterPath="$PROJECT_DIR$/InformationDisclosure/Phpinfo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InformationDisclosure/SensitiveFile.py" beforeDir="false" afterPath="$PROJECT_DIR$/InformationDisclosure/SensitiveFile.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InformationDisclosure/Sftp.py" beforeDir="false" afterPath="$PROJECT_DIR$/InformationDisclosure/Sftp.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InformationDisclosure/Svn.py" beforeDir="false" afterPath="$PROJECT_DIR$/InformationDisclosure/Svn.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OA/OaMian.py" beforeDir="false" afterPath="$PROJECT_DIR$/OA/OaMian.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OA/Ruvar/Ruvar_multi_sqli.py" beforeDir="false" afterPath="$PROJECT_DIR$/OA/Ruvar/Ruvar_multi_sqli.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OA/Ruvar/Ruvar_multi_sqli2.py" beforeDir="false" afterPath="$PROJECT_DIR$/OA/Ruvar/Ruvar_multi_sqli2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OA/Ruvar/Ruvar_multi_sqli3.py" beforeDir="false" afterPath="$PROJECT_DIR$/OA/Ruvar/Ruvar_multi_sqli3.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OA/Weaver/Weaver_CommandExecution.py" beforeDir="false" afterPath="$PROJECT_DIR$/OA/Weaver/Weaver_CommandExecution.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OA/Weaver/Weaver_WorkflowCenterTreeDataInterfaceInjectionVulnerability.py" beforeDir="false" afterPath="$PROJECT_DIR$/OA/Weaver/Weaver_WorkflowCenterTreeDataInterfaceInjectionVulnerability.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OA/Weaver/Weaver_db_disclosure.py" beforeDir="false" afterPath="$PROJECT_DIR$/OA/Weaver/Weaver_db_disclosure.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OA/Weaver/Weaver_filedownload.py" beforeDir="false" afterPath="$PROJECT_DIR$/OA/Weaver/Weaver_filedownload.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OA/Weaver/Weaver_sqli.py" beforeDir="false" afterPath="$PROJECT_DIR$/OA/Weaver/Weaver_sqli.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OA/Yonyou/Yonyou.py" beforeDir="false" afterPath="$PROJECT_DIR$/OA/Yonyou/Seeyou.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OA/Yonyou/Yonyou_a8_logs_disclosure.py" beforeDir="false" afterPath="$PROJECT_DIR$/OA/Yonyou/Seeyou_a8_logs_disclosure.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OA/Yonyou/Yonyou_cm_info_content_sqli.py" beforeDir="false" afterPath="$PROJECT_DIR$/OA/Yonyou/Seeyou_cm_info_content_sqli.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OA/Yonyou/Yonyou_ehr_ELTextFile.py" beforeDir="false" afterPath="$PROJECT_DIR$/OA/Yonyou/Seeyou_ehr_ELTextFile.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OA/Yonyou/Yonyou_fe_treeXml_sqli.py" beforeDir="false" afterPath="$PROJECT_DIR$/OA/Yonyou/Seeyou_fe_treeXml_sqli.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OA/Yonyou/Yonyou_getemaildata_fileread.py" beforeDir="false" afterPath="$PROJECT_DIR$/OA/Yonyou/Seeyou_getemaildata_fileread.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OA/Yonyou/Yonyou_icc_struts2.py" beforeDir="false" afterPath="$PROJECT_DIR$/OA/Yonyou/Seeyou_icc_struts2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OA/Yonyou/Yonyou_multi_union_sqli.py" beforeDir="false" afterPath="$PROJECT_DIR$/OA/Yonyou/Seeyou_multi_union_sqli.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OA/Yonyou/Yonyou_nc_NCFindWeb_fileread.py" beforeDir="false" afterPath="$PROJECT_DIR$/OA/Yonyou/Seeyou_NCFindWeb_fileread.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OA/Yonyou/Yonyou_status_default_pwd.py" beforeDir="false" afterPath="$PROJECT_DIR$/OA/Yonyou/Seeyou_status_default_pwd.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OA/Yonyou/Yonyou_test_sqli.py" beforeDir="false" afterPath="$PROJECT_DIR$/OA/Yonyou/Seeyou_test_sqli.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OA/Yonyou/Yonyou_user_ids_sqli.py" beforeDir="false" afterPath="$PROJECT_DIR$/OA/Yonyou/Seeyou_user_ids_sqli.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Php/PhpStudyBackdoor.py" beforeDir="false" afterPath="$PROJECT_DIR$/Php/PhpStudyBackdoor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Php/PhpstudyPhpmyadminDefaultpwd.py" beforeDir="false" afterPath="$PROJECT_DIR$/Php/PhpstudyPhpmyadminDefaultpwd.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Php/PhpstudyProbe.py" beforeDir="false" afterPath="$PROJECT_DIR$/Php/PhpstudyProbe.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UpDataLog/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/UpDataLog/README.md" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />

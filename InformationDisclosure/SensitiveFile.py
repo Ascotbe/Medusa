@@ -68,8 +68,6 @@ def medusa(Url,RandomAgent,ProxyIp):
     global resp
     global resp2
     Medusas=[]
-    Medusa = "{} 存在敏感文件压缩下载漏洞\r\n漏洞详情:\r\nPayload:".format(url)
-    Medusas.append(str(Medusa))
     #构建特殊Payload并发送到SpecialPayload中
     colon_payload = ""
     unsigned_payload = ""
@@ -117,13 +115,13 @@ def medusa(Url,RandomAgent,ProxyIp):
                 con = resp.text
                 code = resp.status_code
                 if code==200 and (resp2.headers["Content-Type"] == "application/zip" or resp2.headers["Content-Type"] == "application/x-rar-compressed" or resp2.headers["Content-Type"] == "application/x-gzip" or resp2.headers["Content-Type"] == "application/gzip") :
-                    Medusa="{}\r\n".format(payload_url)
+                    Medusa = "{} 存在敏感文件压缩下载漏洞\r\n漏洞详情:\r\nPayload:".format(payload_url)
                     Medusas.append(str(Medusa))
             except Exception as e:
                 pass
     for Special in SpecialPayload:
         try:
-            payload_url = scheme + "://" + url + Special
+            payload_url = scheme + "://" + url +':' + str(port)+ Special
 
             headers = {
                 'Accept-Encoding': 'gzip, deflate',
@@ -144,7 +142,7 @@ def medusa(Url,RandomAgent,ProxyIp):
             con = resp.text
             code = resp.status_code
             if code == 200 and resp2.headers["Content-Type"] == "text/plain":
-                Medusa = "{}\r\n".format(payload_url)
+                Medusa = "{} 存在敏感文件压缩下载漏洞\r\n漏洞详情:\r\nPayload:".format(payload_url)
                 Medusas.append(str(Medusa))
                 _t = VulnerabilityInfo(Medusa)
                 web = ClassCongregation.VulnerabilityDetails(_t.info)
@@ -154,5 +152,7 @@ def medusa(Url,RandomAgent,ProxyIp):
             _ = VulnerabilityInfo('').info.get('algroup')
             _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类
 
-    _t = VulnerabilityInfo(Medusas)
-    return (_t.info)
+    Medusas_str = ''
+    for i in Medusas:
+        Medusas_str = Medusas_str + i
+    return (str(Medusas_str))

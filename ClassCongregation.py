@@ -26,11 +26,9 @@ class WriteFile:#写入文件类
 
 
     def Write(self,Medusa):
-        name = Medusa['name']  # 漏洞名称
-        details = Medusa['details']  # 结果
-        FileNames = os.path.split(os.path.realpath(__file__))[0]+"/ScanResult/"+self.FileName + ".txt"#不需要输入后缀，只要名字就好
-        with open(FileNames, 'a',encoding='utf-8') as f:  # 如果filename不存在会自动创建， 'w'表示写数据，写之前会清空文件中的原有数据！
-               f.write("存在"+name+"\n"+details+ "\n")
+        FileNames = os.path.split(os.path.realpath(__file__))[0]+"\\ScanResult\\"+self.FileName + ".txt"#不需要输入后缀，只要名字就好
+        with open(FileNames, 'w+',encoding='utf-8') as f:  # 如果filename不存在会自动创建， 'w'表示写数据，写之前会清空文件中的原有数据！
+            f.write(Medusa+"\n")
 
 
 
@@ -81,7 +79,7 @@ class NmapScan:#扫描端口类
             FinalResults = "IP:" + self.Host + "\rPort status:\r"
             for list in ScanResult['scan'][self.Host]['tcp']:
                 FinalResults = FinalResults + "Port:" + str(list) + "     Status:Open\r"  # list为每个tcp列表的值(但是tcp列表里面还有值)
-            NmapScanFileName = os.path.split(os.path.realpath(__file__))[0]+"/ScanResult/NmapScanOutputFile.txt"
+            NmapScanFileName = os.path.split(os.path.realpath(__file__))[0]+"\\ScanResult\\NmapScanOutputFile.txt"
             with open(NmapScanFileName, 'a', encoding='utf-8') as f:
                 f.write(FinalResults + "\n")#写入单独的扫描结果文件中
         except IOError:
@@ -105,7 +103,7 @@ class BlastingDB:
                                     Url=IpProcess(Url)
                                     conn = pymysql.connect(Url, User, PassWrod, 'mysql', 3306)
                                     conn.close()
-                                    BoomDBFileName = os.path.split(os.path.realpath(__file__))[0]+"/ScanResult/BoomDBOutputFile.txt"
+                                    BoomDBFileName = os.path.split(os.path.realpath(__file__))[0]+"\\ScanResult\\BoomDBOutputFile.txt"
                                     with open(BoomDBFileName, 'a', encoding='utf-8') as fg:
                                         fg.write("Database address:"+Url +"      Account:"+User+"      Passwrod:"+PassWrod+ "\n")  # 写入单独的扫描结果文件中
                                 except Exception as e:
@@ -114,7 +112,7 @@ class BlastingDB:
             print("Input file content format is incorrect")
         try:
             if self.DataBaseUserFileName == None or self.DataBasePasswrodFileName==None:
-                with open(os.path.split(os.path.realpath(__file__))[0]+"/Dictionary/MysqlUser.txt", encoding='utf-8') as f:#打开默认的User文件
+                with open(os.path.split(os.path.realpath(__file__))[0]+"\\Dictionary\\MysqlUser.txt", encoding='utf-8') as f:#打开默认的User文件
                     for UserLine in tqdm(f,ascii=True,desc="Total progress of the blasting database:"):
                         User = UserLine
                         with open(os.path.split(os.path.realpath(__file__))[0]+"/Dictionary/MysqlPasswrod.txt", encoding='utf-8') as fp:#打开默认的密码文件
@@ -124,7 +122,7 @@ class BlastingDB:
                                     Url = IpProcess(Url)
                                     conn = pymysql.connect(Url, User, PassWrod, 'mysql', 3306)
                                     conn.close()
-                                    BoomDBFileName = os.path.split(os.path.realpath(__file__))[0]+"/ScanResult/BoomDBOutputFile.txt"
+                                    BoomDBFileName = os.path.split(os.path.realpath(__file__))[0]+"\\ScanResult\\BoomDBOutputFile.txt"
                                     with open(BoomDBFileName, 'a', encoding='utf-8') as fg:
                                         fg.write("Database address:"+Url +"      Account:"+User+"      Passwrod:"+PassWrod+ "\n")  # 写入单独的扫描结果文件中
                                 except Exception as e:
@@ -163,7 +161,7 @@ class Proxy:#IP代理池参数
 
                     if requests.get('https://www.baidu.com/', proxies=proxies, timeout=2).status_code == 200:
                         if ip not in self.HttpIp:#如果代理IP不在列表里面就传到列表里
-                            f = open(os.path.split(os.path.realpath(__file__))[0]+"/ScanResult/ProxyPool.txt", 'a+', encoding='utf-8')
+                            f = open(os.path.split(os.path.realpath(__file__))[0]+"\\ScanResult\\ProxyPool.txt", 'a+', encoding='utf-8')
                             ip=ip+"\r"
                             f.write(str(ip) ) # 写入单独的扫描结果文件中
                             f.close()
@@ -231,7 +229,7 @@ class VulnerabilityDetails:
 
 class ErrorLog:
     def __init__(self):
-        filename=os.path.split(os.path.realpath(__file__))[0]+'/my.log'#获取当前文件所在的目录，即父目录
+        filename=os.path.split(os.path.realpath(__file__))[0]+'\\my.log'#获取当前文件所在的目录，即父目录
         #filename=os.path.realpath(__file__)#获取当前文件名
         log_format = '%(asctime)s - %(pathname)s[line:%(lineno)d] - %(levelname)s: %(message)s'
         logging.basicConfig(filename=filename, filemode='a', level=logging.INFO,

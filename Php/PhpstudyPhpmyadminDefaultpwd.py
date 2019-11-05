@@ -64,11 +64,11 @@ def medusa(Url,RandomAgent,ProxyIp):
         con = resp.text
         con2 = resp2.text
         if con2.lower().find('navigation.php')!=-1 and con.lower().find('frame_navigation')!=-1:
-            Medusa = "{} \r\n漏洞详情:\r\nPayload:{}\r\nPost:{}\r\n".format(url, payload_url,post_data)
+            Medusa = "{}存在phpstudy_phpmyadmin默认密码漏洞 \r\n漏洞详情:\r\nPayload:{}\r\nPost:{}\r\n".format(url, payload_url,post_data)
             _t = VulnerabilityInfo(Medusa)
             web = ClassCongregation.VulnerabilityDetails(_t.info)
             web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
-            return (_t.info)
+            return (str(_t.info))
     except:
         _ = VulnerabilityInfo('').info.get('algroup')
         _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类

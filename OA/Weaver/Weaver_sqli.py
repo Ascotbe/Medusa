@@ -10,7 +10,7 @@ class VulnerabilityInfo(object):
         self.info['author'] = "Ascotbe"  # 插件作者
         self.info['create_date'] = "2019-10-13"  # 插件编辑时间
         self.info['algroup'] = "Weaver_sqli"  # 插件名称
-        self.info['name'] ='泛微SQL注入漏洞' #漏洞名称
+        self.info['name'] ='泛微OASQL注入漏洞' #漏洞名称
         self.info['affects'] = "泛微OA"  # 漏洞组件
         self.info['desc_content'] = ""  # 漏洞描述
         self.info['rank'] = "高危"  # 漏洞等级
@@ -57,11 +57,11 @@ def medusa(Url,RandomAgent,ProxyIp):
             resp = requests.get(payload_url, headers=headers, timeout=5, verify=False)
             resp2 = requests.get(payload_url2, headers=headers, timeout=5, verify=False)
         if r"attachment" in str(resp.headers) and r"attachment" not in str(resp2.headers):
-            Medusa = "{} \r\n漏洞详情:\r\nPayload:{}\r\n".format(url, payload_url)
+            Medusa = "{} 存在泛微OASQL注入漏洞\r\n漏洞详情:\r\nPayload:{}\r\n".format(url, payload_url)
             _t = VulnerabilityInfo(Medusa)
             web = ClassCongregation.VulnerabilityDetails(_t.info)
             web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
-            return (_t.info)
+            return (str(_t.info))
     except:
         _ = VulnerabilityInfo('').info.get('algroup')
         _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类

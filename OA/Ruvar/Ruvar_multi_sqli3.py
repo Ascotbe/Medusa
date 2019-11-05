@@ -60,7 +60,7 @@ def medusa(Url,RandomAgent,ProxyIp):
             con = resp.text
             code = resp.status_code
             if  con.lower().find('81dc9bdb52d04dc20036dbd8313ed055')!=-1:
-                Medusa = "{} \r\n漏洞详情:\r\nPayload:{}\r\n".format(url, payload_url)
+                Medusa = "{}存在璐华OA_SQL注入 \r\n漏洞详情:\r\nPayload:{}\r\n".format(url, payload_url)
                 Medusas.append(str(Medusa))
                 _t = VulnerabilityInfo(Medusa)
                 web = ClassCongregation.VulnerabilityDetails(_t.info)
@@ -69,5 +69,7 @@ def medusa(Url,RandomAgent,ProxyIp):
     except:
             _ = VulnerabilityInfo('').info.get('algroup')
             _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类
-    _t = VulnerabilityInfo(Medusas)
-    return (_t.info)
+    Medusas_str = ''
+    for i in Medusas:
+        Medusas_str = Medusas_str + i
+    return (str(Medusas_str))

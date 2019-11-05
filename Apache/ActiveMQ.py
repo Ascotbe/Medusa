@@ -12,7 +12,7 @@ class VulnerabilityInfo(object):
         self.info['author'] = "Ascotbe"  # 插件作者
         self.info['create_date'] = "2019-10-13"  # 插件编辑时间
         self.info['algroup'] = "ActiveMQ"  # 插件名称
-        self.info['name'] ='存在ActiveMQ任意文件写入漏洞（CVE-2016-3088）' #漏洞名称
+        self.info['name'] ='ActiveMQ任意文件写入漏洞（CVE-2016-3088）' #漏洞名称
         self.info['affects'] = "ActiveMQ"  # 漏洞组件
         self.info['desc_content'] = ""  # 漏洞描述
         self.info['rank'] = "高危"  # 漏洞等级
@@ -61,11 +61,11 @@ def medusa(Url,RandomAgent,ProxyIp):
         code = resp.status_code
         resp2=s.get(PayloadUrl, headers=headers, timeout=3).text
         if code==204 and resp2.lower().find('ascotbe@medusa')!=-1  :
-            Medusa = "{} \r\n漏洞详情:\r\nPayload:{}\r\nPUT内容:{}\r\n".format(url, PayloadUrl,PayloadCode)
+            Medusa = "{} 存在ActiveMQ任意文件写入漏洞（CVE-2016-3088）\r\n漏洞详情:\r\nPayload:{}\r\nPUT内容:{}\r\n".format(url, PayloadUrl,PayloadCode)
             _t = VulnerabilityInfo(Medusa)
             web = ClassCongregation.VulnerabilityDetails(_t.info)
             web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
-            return (_t.info)
+            return (str(_t.info))
     except:
         _ = VulnerabilityInfo('').info.get('algroup')
         _l=ClassCongregation.ErrorLog().Write(url,_)#调用写入类

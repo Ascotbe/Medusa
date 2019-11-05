@@ -60,7 +60,7 @@ def medusa(Url,RandomAgent,ProxyIp):
             con = resp.text
             code = resp.status_code
             if code==200 and con.lower().find('repositoryformatversion')!=-1 :
-                Medusa = "{} \r\n漏洞详情:{}\r\n".format(url, PayloadUrl)
+                Medusa = "{} 存在Git版本管理源码泄露漏洞\r\n漏洞详情:{}\r\n".format(url, PayloadUrl)
                 ReturnList.append(Medusa)
                 _t = VulnerabilityInfo(Medusa)
                 web = ClassCongregation.VulnerabilityDetails(_t.info)
@@ -68,7 +68,9 @@ def medusa(Url,RandomAgent,ProxyIp):
         except:
             _ = VulnerabilityInfo('').info.get('algroup')
             _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类
-    _t = VulnerabilityInfo(ReturnList)
-    return (_t.info)
+    Medusas_str = ''
+    for i in ReturnList:
+        Medusas_str = Medusas_str + i
+    return (str(Medusas_str))
 
 

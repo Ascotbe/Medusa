@@ -120,11 +120,11 @@ def medusa(Url,RandomAgent,ProxyIp):
         ceye_content = requests.get(ceyeurl, timeout=3)
         flag = "{}.S2052".format(url)
         if flag in ceye_content:
-            Medusa = "{}\r\n漏洞详情:\r\n影响版本:Struts2_1_2-Struts2_3_33,Struts2_5-Struts2_5_12\r\nPayload:{}\r\nPost:{}\r\n".format(url, payload_url,payload)
+            Medusa = "{}存在Struts2远程代码执行漏洞\r\n漏洞详情:\r\n影响版本:Struts2_1_2-Struts2_3_33,Struts2_5-Struts2_5_12\r\nPayload:{}\r\nPost:{}\r\n".format(url, payload_url,payload)
             _t = VulnerabilityInfo(Medusa)
             web = ClassCongregation.VulnerabilityDetails(_t.info)
             web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
-            return (_t.info)
+            return (str(_t.info))
     except:
         _ = VulnerabilityInfo('').info.get('algroup')
         _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类

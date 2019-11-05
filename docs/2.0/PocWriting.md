@@ -83,7 +83,7 @@ def medusa(Url,RandomAgent,ProxyIp):
             _t=VulnerabilityInfo(Medusa)
             web=ClassCongregation.VulnerabilityDetails(_t.info)
             web.High() # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
-            return (_t.info)
+            return (str(_t.info))
     except Exception:
         _ = VulnerabilityInfo('').info.get('algroup')
         _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类传入URL和错误插件名
@@ -188,7 +188,7 @@ def medusa(Url,RandomAgent,ProxyIp):
             _t=VulnerabilityInfo(Medusa)
             web=ClassCongregation.VulnerabilityDetails(_t.info)
             web.High() # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
-            return (_t.info)
+            return (str(_t.info))
     except Exception:
         _ = VulnerabilityInfo('').info.get('algroup')
         _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类传入URL和错误插件名
@@ -280,31 +280,28 @@ if ProxyIp!=None:
             _t=VulnerabilityInfo(Medusa)
             web=ClassCongregation.VulnerabilityDetails(_t.info)
             web.High() # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
-            return (_t.info)
+            return (str(_t.info))
 ```
 
 ###### 多个payload
 
 - 当一个漏洞脚本存在多个```payload```的时候使用循环来验证漏洞，但是这个漏洞第一次验证存在后续还能验证出漏洞的时候，需要在前面声明```Medusas=[]```来存放
 
-- ```if```判断不使用```return(_t.info)```语句，而是使用```Medusas.append(str(_t.info))```
+- ```if```判断不使用```return(str(_t.info)```语句，而是使用```Medusas.append(str(Medusa))```
 
 - 在后面增加循环
 
   ```python
-  try:
-  	for i in Medusas:
-  		Medusa=Medusa+i
-  	return Medusas
-  except:
-      pass
+  Medusas_str=''
+  for i in Medusas:
+      Medusas_str=Medusas_str+i
+      return (str(Medusas_str))
   ```
-
+  
 - 整体替换如下:
 
   ```python
-  def medusa(Url,RandomAgent,ProxyIp=None):
-  
+  def medusa(Url, RandomAgent, ProxyIp=None):
       scheme, url, port = UrlProcessing(Url)
       if port is None and scheme == 'https':
           port = 443
@@ -314,37 +311,38 @@ if ProxyIp!=None:
           port = port
       global resp
       global resp2
-  	Payloads=['x','xx','xxx','xxxx']
-      Medusas=[]
-  	for Special in Payloads:
-  		try:
-  			payload_url = scheme + "://" + url +":"+ str(port)+ payload
-  			headers = {
-  				'Accept-Encoding': 'gzip, deflate',
-  				'Accept': '*/*',
-  				'User-Agent': RandomAgent,
-  			}
-  			if ProxyIp != None:
-  				...
-  			elif ProxyIp == None:
-  				...
-  			con = resp.text
-  			code = resp.status_code
-  			if code == 200:
-  				Medusa = "{} 验证数据:\r\nRequests:{}\r\n".format(url,resp.headers)
-              	_t=VulnerabilityInfo(Medusa)
-              	web=ClassCongregation.VulnerabilityDetails(_t.info)
-              	web.High() # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
-                  Medusas.append(str(_t.info))
-  		except Exception as e:
-                  _ = VulnerabilityInfo('').info.get('algroup')
-                  _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类传入URL和错误插件名
+      Payloads = ['x', 'xx', 'xxx', 'xxxx']
+  
+  
+      Medusas = []
+  
       try:
-  		for i in Medusas:
-  			Medusa=Medusa+i
-  		return Medusas
+          for Special in Payloads:
+              payload_url = scheme + "://" + url + ":" + str(port) + payload
+              headers = {
+                  'Accept-Encoding': 'gzip, deflate',
+                  'Accept': '*/*',
+                  'User-Agent': RandomAgent,
+              }
+              if ProxyIp != None:
+                  ...
+              elif ProxyIp == None:
+                  ...
+              con = resp.text
+              code = resp.status_code
+              if code == 200:
+                  Medusa = "{}存在XXX漏洞\r\n验证数据:\r\nRequests:{}\r\n".format(url, resp.headers)
+                  _t = VulnerabilityInfo(Medusa)
+                  Medusas.append(str(Medusa))
+                  web = ClassCongregation.VulnerabilityDetails(_t.info)
+                  web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
+          Medusas_str=''
+          for i in Medusas:
+              Medusas_str=Medusas_str+i
+          return (str(Medusas_str))
       except:
-          pass
+          _ = VulnerabilityInfo('').info.get('algroup')
+          _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类
   ```
 
 ## 插件代码规范
@@ -401,3 +399,17 @@ if ProxyIp!=None:
 ###### 清理工作
 
 - 插件写完后需要清除所有的```pirint()```函数，以及不必要的变量
+
+###### 多个Payload的for循环
+
+- 当有多个```payload```需要循环的时候必须把```for```循环放到```try```异常捕获里面循环，这很重要！！！！！
+
+###### 返回值
+
+- ```return```中的值一定要用```str()```来包围起来，如下所示
+
+  ```
+  return（str(Medusa)）
+  ```
+
+  

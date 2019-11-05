@@ -28,6 +28,7 @@ class VulnerabilityInfo(object):
         self.info['desc_content'] = "泛微OA_WorkflowCenterTreeData接口注入漏洞"  # 漏洞描述
         self.info['rank'] = "高危"  # 漏洞等级
         self.info['suggest'] = "尽快升级最新系统"  # 修复建议
+        self.info['version'] = "xxx版本-xxx版本"  # 这边填漏洞影响的版本
         self.info['details'] = Medusa  # 结果
 
 def UrlProcessing(url):
@@ -106,6 +107,7 @@ class VulnerabilityInfo(object):
         self.info['desc_content'] = "漏洞描述，比如在组件的哪个版本，哪个位置，有什么危害，什么地方没写好或者没过滤导致的等"  # 漏洞描述
         self.info['rank'] = "这边写危害等级，比如这个插件就该写:高危"  # 漏洞等级
         self.info['suggest'] = "给出缓解措施，或者解决办法"  # 修复建议
+        self.info['version'] = "xxx版本-xxx版本"  # 这边填漏洞影响的版本
         self.info['details'] = Medusa  # 结果需要传入的恒定不变
 
 ```
@@ -121,8 +123,10 @@ class VulnerabilityInfo(object):
 | desc_content | 漏洞描述     | 漏洞描述，比如在组件的哪个版本，哪个位置，有什么危害，什么地方没写好或者没过滤导致的等 |
 | rank         | 漏洞等级     | 分为：严重、高危、中危、低危四个种类                         |
 | suggest      | 修复建议     | 给出缓解措施，或者解决办法                                   |
-| details      | 结果         | 该值为如果扫描结束后确认了漏洞而传入的参数，恒定为Medusa     |
 | disclosure | 披露时间 | 漏洞披露时间，如果不知道就写编写插件的时间 |
+| version      | 漏洞所影响的版本         | 只要写漏洞所影响的版本范围，适用于那些版本     |
+| disclosure | 披露时间 | 漏洞披露时间，如果不知道就写编写插件的时间 |
+
 
 ### UrlProcessing函数
 

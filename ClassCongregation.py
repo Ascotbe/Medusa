@@ -6,6 +6,7 @@ import urllib
 import nmap
 import requests
 import pymysql
+import sqlite3
 from scrapy.selector import Selector
 from tqdm import tqdm
 import logging
@@ -173,55 +174,84 @@ class VulnerabilityDetails:
     def __init__(self,medusa):
 
         try:
-            self.db= pymysql.connect(host="localhost", user="root", password="zhouyuchen", db="medusa", port=3306)
             self.name=medusa['name']#漏洞名称
             self.details=medusa['details']# 结果
             self.affects=medusa['affects']# 漏洞组件
             self.desc_content=medusa['desc_content']# 漏洞描述
             self.suggest=medusa['suggest']# 修复建议
+            # 如果数据库不存在的话，将会自动创建一个 数据库
+            self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0]+"\\Medusa.db")
+            # 获取所创建数据的游标
+            self.cur = self.con.cursor()
+            # 创建表
+            try:
+                # self.cur.execute("CREATE TABLE Medusa\
+                #             (id INTEGER PRIMARY KEY,\
+                #             name TEXT NOT NULL,\
+                #             affects TEXT NOT NULL,\
+                #             rank TEXT NOT NULL,\
+                #             suggest TEXT NOT NULL,\
+                #             desc_content TEXT NOT NULL,\
+                #             details TEXT NOT NULL)")
+                #如果设置了主键那么就导致主健值不能相同，如果相同就写入报错
+                self.cur.execute("CREATE TABLE Medusa\
+                            (id INTEGER NOT NULL,\
+                            name TEXT NOT NULL,\
+                            affects TEXT NOT NULL,\
+                            rank TEXT NOT NULL,\
+                            suggest TEXT NOT NULL,\
+                            desc_content TEXT NOT NULL,\
+                            details TEXT NOT NULL)")
+            except:
+                pass
         except:
             pass
     def serious(self):
         try:
-            cur = self.db.cursor()
-            sql_insert = """insert into vulnerability values(4,'{}','{}','严重','{}','{}','{}')""".format(self.name,self.affects,self.suggest,self.desc_content,self.details)
-            cur.execute(sql_insert)
+
+            sql_insert = """INSERT INTO Medusa (id,name,affects,rank,suggest,desc_content,details) \
+    VALUES (4,'{}','{}','严重','{}','{}','{}')""".format(self.name,self.affects,self.suggest,self.desc_content,self.details)
+            self.cur.execute(sql_insert)
             # 提交
-            self.db.commit()
+            self.con.commit()
+            self.con.close()
         except:
             pass
     def High(self):
          # 使用cursor()方法获取操作游标
         try:
-            cur = self.db.cursor()
-            sql_insert = """insert into vulnerability values(4,'{}','{}','高危','{}','{}','{}')""".format(self.name,
+            sql_insert = """INSERT INTO Medusa (id,name,affects,rank,suggest,desc_content,details) \
+    VALUES (5,'{}','{}','高危','{}','{}','{}')""".format(self.name,
                                                                                                         self.affects,
                                                                                                         self.suggest,
                                                                                                         self.desc_content,
                                                                                                         self.details)
-            cur.execute(sql_insert)
+            self.cur.execute(sql_insert)
             # 提交
-            self.db.commit()
+            self.con.commit()
+            self.con.close()
         except:
             pass
     def Intermediate(self):
          # 使用cursor()方法获取操作游标
         try:
-            cur = self.db.cursor()
-            sql_insert = """insert into vulnerability values(4,'{}','{}','中危','{}','{}','{}')""".format(self.name,self.affects,self.suggest,self.desc_content,self.details)
-            cur.execute(sql_insert)
+            sql_insert = """INSERT INTO Medusa (id,name,affects,rank,suggest,desc_content,details) \
+    VALUES (4,'{}','{}','中危','{}','{}','{}')""".format(self.name,self.affects,self.suggest,self.desc_content,self.details)
+            self.cur.execute(sql_insert)
             # 提交
-            self.db.commit()
+            self.con.commit()
+            self.con.close()
         except:
             pass
     def Low(self):
          # 使用cursor()方法获取操作游标
         try:
-            cur = self.db.cursor()
-            sql_insert = """insert into vulnerability values(4,'{}','{}','低危','{}','{}','{}')""".format(self.name,self.affects,self.suggest,self.desc_content,self.details)
-            cur.execute(sql_insert)
+            sql_insert = """INSERT INTO Medusa (id,name,affects,rank,suggest,desc_content,details) \
+    VALUES (4,'{}','{}','低危','{}','{}','{}')""".format(self.name,self.affects,self.suggest,self.desc_content,self.details)
+            self.cur.execute(sql_insert)
             # 提交
-            self.db.commit()
+            self.con.commit()
+            self.con.close()
         except:
             pass
 

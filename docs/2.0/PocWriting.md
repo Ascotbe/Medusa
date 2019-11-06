@@ -12,9 +12,7 @@ __author__ = 'Ascotbe'
 __times__ = '2019/10/13 22:12 PM'
 import urllib
 import requests
-import logging
 import ClassCongregation
-import re
 class VulnerabilityInfo(object):
     def __init__(self,Medusa):
         self.info = {}

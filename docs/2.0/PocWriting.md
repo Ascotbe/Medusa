@@ -408,7 +408,7 @@ if ProxyIp!=None:
 
 ###### 返回值
 
-- ```return```中的值一定要用```str()```来包围起来，如下所示
+- 返回的值```return()```一定要用```str()```来包围起来，如下所示
 
   ```
   return（str(Medusa)）

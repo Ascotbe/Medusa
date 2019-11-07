@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e4eeb830-21db-4fc9-a54b-04d1d9456616" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Solr/SolrMian.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Solr/SolrVelocityTemplateRemoteCodeExecutionVulnerability.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Solr/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/2.0/PocWriting.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/2.0/PocWriting.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/text.py" beforeDir="false" afterPath="$PROJECT_DIR$/text.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -58,7 +55,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.Weaver_WorkflowCenterTreeDataInterfaceInjectionVulnerability">
+  <component name="RunManager" selected="Python.text (1)">
     <configuration name="ClassCongregation" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="WebVulnerabilityScanner" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -173,9 +170,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.text (1)" />
         <item itemvalue="Python.Weaver_WorkflowCenterTreeDataInterfaceInjectionVulnerability" />
         <item itemvalue="Python.ClassCongregation" />
-        <item itemvalue="Python.text (1)" />
         <item itemvalue="Python.Seeyou_icc_struts2" />
         <item itemvalue="Python.text" />
       </list>
@@ -294,6 +291,21 @@
           <url>file://$PROJECT_DIR$/ClassCongregation.py</url>
           <line>231</line>
           <option name="timeStamp" value="42" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/text.py</url>
+          <line>25</line>
+          <option name="timeStamp" value="43" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/text.py</url>
+          <line>26</line>
+          <option name="timeStamp" value="44" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/text.py</url>
+          <line>29</line>
+          <option name="timeStamp" value="45" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

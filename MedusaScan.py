@@ -21,7 +21,7 @@ import Banner
 import argparse
 import requests
 import os
-import urllib
+import urllib.parse
 import  threading
 import sys, time
 from tqdm import tqdm
@@ -46,7 +46,7 @@ parser.add_argument('-u','--url',type=str,help="Target url")
 parser.add_argument('-p','--Proxy',help="Whether to enable the global proxy function",action="store_true")
 parser.add_argument('-a','--agent',type=str,help="Specify a header file or use a random header")
 parser.add_argument('-f','--InputFileName',type=str,help="Specify bulk scan file batch scan")
-parser.add_argument('-n','--NmapScanRange',type=str,help="Incoming scan port range (1-65535), use this command to enable nmap scan function by default.")
+parser.add_argument('-t','--ThreadNumber',type=int,help="Set the number of threads, the default number of threads 15.")
 parser.add_argument('-sp','--SqlPasswrod',type=str,help="Please enter an password file.")
 parser.add_argument('-su','--SqlUser',type=str,help="Please enter an account file.")
 parser.add_argument('-j','--JavaScript',help="Used URL to deeply crawl the information in the JS file and the subdomain",action="store_true")
@@ -57,7 +57,7 @@ parser.add_argument('-se','--SubdomainEnumerate',help="Collect subdomains and tu
 在XXX.py 中 按住 “alt+shift+f9”  ----选择编辑配置（edit configurations）---script parameters(脚本程序)
 在里面输入参数就可以使用debug调试了
 '''
-
+thread_list = []#线程列表，到时候可以一起循环调用
 
 def BoomDB(Url,SqlUser,SqlPasswrod,InputFileName):
     if SqlUser!=None or SqlPasswrod!=None:
@@ -71,26 +71,18 @@ def BoomDB(Url,SqlUser,SqlPasswrod,InputFileName):
                     BlastingDB.BoomDB(Urls)
     else:
         pass
-def NampCrawling(InputFileName,Url,NmapScanRange):
-    if InputFileName == None:
-        Urls = Url
-        NmapScan = ClassCongregation.NmapScan(Urls , NmapScanRange)  # 声明调用类集合中的NmapScan类，并传入Url和扫描范围
-        NmapScan.ScanPort()
-    elif InputFileName != None:
-        try:
-            with open(InputFileName, encoding='utf-8') as f:
-                for UrlLine in tqdm(f, ascii=True, desc="IP scanning progress:"):  # 设置头文件使用的字符类型和开头的名字
-                    Urls = UrlLine
-                    NmapScan = ClassCongregation.NmapScan(Urls, NmapScanRange)  # 声明调用类集合中的NmapScan类，并传入Url和扫描范围
-                    NmapScan.ScanPort()
-        except:
-            pass
+
+def NmapScan(url):#Nmap扫描这样就可以开多线程了
+    ClassCongregation.NmapScan(url).ScanPort()#调用Nmap扫描类
+
 def InitialScan(InputFileName,Url,ProxyIp):
     try:
         if InputFileName==None:
             Urls=Url
             try:
                 San(OutFileName, Urls, Values,ProxyIp)
+                thread_list.append(threading.Thread(target=NmapScan, args=(Urls,)))#把Nmap放到多线程中
+
             except KeyboardInterrupt as e:
                 exit(0)
         elif InputFileName!=None:
@@ -100,6 +92,7 @@ def InitialScan(InputFileName,Url,ProxyIp):
                         Urls=UrlLine
                         try:
                             San(OutFileName, Urls, Values,ProxyIp)
+                            thread_list.append(threading.Thread(target=NmapScan, args=(Urls,)))#把Nmap放到多线程中
                         except KeyboardInterrupt as e:
                             exit(0)
             except:
@@ -112,49 +105,15 @@ def San(OutFileName,Url,Values,ProxyIp):
     #     Weblogic.WeblogicMain.Main(Url)#调用weblogic主函数
     # except:
     #     print("WeblogicSanExcept")
-    PocLists=[]
-    # try:
-    #     Struts2Main.Main(Url,OutFileName,Values,ProxyIp)  # 调用Struts2主函数
-    # except:
-    #     pass
-    # try:
-    #     ConfluenceMain.Main(Url,OutFileName,Values,ProxyIp)# 调用 Confluence主函数
-    # except:
-    #     pass
-    # try:
-    #     NginxMain.Main(Url,OutFileName,Values,ProxyIp)# 调用 Confluence主函数
-    # except:
-    #     pass
-    # try:
-    #     ApacheMian.Main(Url,OutFileName,Values,ProxyIp)  # 调用Apache主函数
-    # except:
-    #     pass
-    # try:
-    #     PhpMain.Main(Url,OutFileName,Values,ProxyIp)  # 调用Php主函数
-    # except:
-    #     pass
-    # try:
-    #     CmsMian.Main(Url,OutFileName,Values,ProxyIp)  # 调用Cms主函数
-    # except:
-    #     pass
-    # try:
-    #     OaMian.Main(Url,OutFileName,Values,ProxyIp)  # 调用OA主函数
-    # except:
-    #     pass
-    #POC模块进度条 +使用列表循环的形式调用
-    PocLists.append(threading.Thread(target=Struts2Main.Main, args=(Url,OutFileName,Values,ProxyIp,)))
-    PocLists.append(threading.Thread(target=ConfluenceMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))
-    PocLists.append(threading.Thread(target=NginxMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))
-    PocLists.append(threading.Thread(target=ApacheMian.Main, args=(Url, OutFileName, Values, ProxyIp,)))
-    PocLists.append(threading.Thread(target=CmsMian.Main, args=(Url, OutFileName, Values, ProxyIp,)))
-    PocLists.append(threading.Thread(target=PhpMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))
-    PocLists.append(threading.Thread(target=CmsMian.Main, args=(Url, OutFileName, Values, ProxyIp,)))
-    PocLists.append(threading.Thread(target=OaMian.Main, args=(Url, OutFileName, Values, ProxyIp,)))
-    PocLists.append(threading.Thread(target=InformationDisclosureMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))
-    for t in PocLists:#这边加入进度条的话多线程全部启动就算结束，实则POC还在跑
-        t.start()
-    for t in tqdm(PocLists,ascii=True,desc="Poc scanning progress:"):#这边加入进度条的话，当多线程结束的时候就代表一个函数结束这样比较直观
-        t.join()
+    #POC模块存进多线程池，这样如果批量扫描会变快很多
+    thread_list.append(threading.Thread(target=Struts2Main.Main, args=(Url,OutFileName,Values,ProxyIp,)))# 调用Struts2主函数
+    thread_list.append(threading.Thread(target=ConfluenceMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))# 调用 Confluence主函数
+    thread_list.append(threading.Thread(target=NginxMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))#调用Nginx主函数
+    thread_list.append(threading.Thread(target=ApacheMian.Main, args=(Url, OutFileName, Values, ProxyIp,)))# 调用Apache主函数
+    thread_list.append(threading.Thread(target=PhpMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))# 调用Php主函数
+    thread_list.append(threading.Thread(target=CmsMian.Main, args=(Url, OutFileName, Values, ProxyIp,)))# 调用Cms主函数
+    thread_list.append(threading.Thread(target=OaMian.Main, args=(Url, OutFileName, Values, ProxyIp,)))# 调用OA主函数
+    thread_list.append(threading.Thread(target=InformationDisclosureMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))# 调用信息泄露主函数
 
 def OpenProxy():
     global RepeatCleaningAgent
@@ -233,16 +192,17 @@ if __name__ == '__main__':
     OutFileName= args.OutFileName#输出最终结果文件名字
     Url = args.url
     Values=args.agent#判断是否使用随机头，判断写在Class里面
-    NmapScanRange=args.NmapScanRange#传入扫描参数
     SqlPasswrod=args.SqlPasswrod#传入爆破数据库的密码文件
     SqlUser = args.SqlUser#传入爆破数据库的账号文件
     Proxy=args.Proxy#不需要传入参数如果开启只需要-p
     JavaScript=args.JavaScript#开启深度爬取JS文件中的子域名以及链接
     SubdomainEnumerate=args.SubdomainEnumerate #开启深度子域名枚举，巨TM耗时间
     Subdomain=args.Subdomain#开启子域名枚举
+    ThreadNumber=args.ThreadNumber#要使用的线程数默认15
     WriteFile = ClassCongregation.WriteFile(OutFileName)  # 声明调用类集合中的WriteFile类,并传入文件名字(这一步是必须的)
-    thread_list = []#线程列表，到时候可以一起循环调用
 
+    if ThreadNumber==None:#如果线程数为空，那么默认为15
+        ThreadNumber=15
     if Url==None and InputFileName==None:#如果找不到URL的话直接退出
         print("Incorrect input, please enter -h to view help")
         os._exit(0)#直接退出整个函数
@@ -258,7 +218,7 @@ if __name__ == '__main__':
 
     if JavaScript:#判断是否开始JS模块
         thread_list.append(threading.Thread(target=JSCrawling,args=(Url,)))
-    thread_list.append(threading.Thread(target=InitialScan,args=(InputFileName, Url,ProxyIp,)))
+
     thread_list.append(threading.Thread(target=BoomDB, args=(Url, SqlUser, SqlPasswrod,InputFileName,)))
 
     if SubdomainEnumerate==True and Subdomain==True :#对参数判断参数互斥
@@ -272,13 +232,15 @@ if __name__ == '__main__':
         SubdomainJudge = "b"
         thread_list.append(threading.Thread(target=SubdomainCrawling, args=(Url, SubdomainJudge,)))
         #SubdomainCrawling(Url, SubdomainJudge)
-    if NmapScanRange != None:#判断是否开启Nmap功能
-        #thread_list.append(threading.Thread(target=NampCrawling, args=(InputFileName, Url, NmapScanRange,)))
-        pass
-        #当前Nmap功能无作用先关闭
+    InitialScan(InputFileName, Url, ProxyIp)#最后启动主扫描函数，这样如果多个IP的话优化速度，里面会做url或者url文件的判断
     for t in thread_list:#开启列表中的多线程
         t.setDaemon(True)
         t.start()
+        while True:
+            # 判断正在运行的线程数量,如果小于5则退出while循环,
+            # 进入for循环启动新的进程.否则就一直在while循环进入死循环
+            if (len(threading.enumerate()) < ThreadNumber):
+                break
     for t in tqdm(thread_list,ascii=True,desc="Total progress bar:"):#除POC外功能总进度条
         t.join()
     print("Scan is complete, please see the result file")

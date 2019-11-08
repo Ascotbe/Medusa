@@ -2,7 +2,7 @@
 # _*_ coding: utf-8 _*_
 from fake_useragent import UserAgent
 import time
-import urllib
+import urllib.parse
 import nmap
 import requests
 import pymysql
@@ -66,25 +66,65 @@ class UserAgentS:#使用随机头类
 
 
 class NmapScan:#扫描端口类
-    def __init__(self,Url,Port):
+    def __init__(self,Url):
         Host=IpProcess(Url)#调用IP处理函数
         self.Host= Host#提取后的网址或者IP
-        if Port==None:
-            self.Port = "1-65535"#如果用户没输入就扫描全端口
-        else:
-            self.Port=Port
+        #self.Port = "445"#测试
+        self.Port = "1-65535"#如果用户没输入就扫描全端口
+
     def ScanPort(self):
         try:
             Nmap = nmap.PortScanner()
             ScanResult = Nmap.scan(self.Host, self.Port, '-sV')
-            FinalResults = "IP:" + self.Host + "\rPort status:\r"
-            for list in ScanResult['scan'][self.Host]['tcp']:
-                FinalResults = FinalResults + "Port:" + str(list) + "     Status:Open\r"  # list为每个tcp列表的值(但是tcp列表里面还有值)
-            NmapScanFileName = os.path.split(os.path.realpath(__file__))[0]+"\\ScanResult\\NmapScanOutputFile.txt"
-            with open(NmapScanFileName, 'a', encoding='utf-8') as f:
-                f.write(FinalResults + "\n")#写入单独的扫描结果文件中
+            for port in ScanResult['scan'][self.Host]['tcp']:
+                Nmaps=ScanResult['scan'][self.Host]['tcp'][port]
+                NmapDB(Nmaps,port,self.Host).Write()
         except IOError:
-            print("Please enter the correct nmap scan command.")
+             print("Please enter the correct nmap scan command.")
+
+
+class NmapDB:#NMAP的数据库
+    def __init__(self,Nmap,port,ip):
+        self.state = Nmap['state']  # 端口状态
+        self.reason = Nmap['reason']  # 端口回复
+        self.name = Nmap['name']  #  	服务名称
+        self.product = Nmap['product']  # 服务器类型
+        self.version = Nmap['version']  # 版本
+        self.extrainfo = Nmap['extrainfo']  # 其他信息
+        self.conf = Nmap['conf']  # 配置
+        self.cpe = Nmap['cpe']  # 消息头
+        self.port = port  # 有哪些端口
+        self.ip = ip  # 扫描的目标
+
+        # 如果数据库不存在的话，将会自动创建一个 数据库
+        self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0] + "\\Medusa.db")
+        # 获取所创建数据的游标
+        self.cur = self.con.cursor()
+        # 创建表
+        try:
+            self.cur.execute("CREATE TABLE Nmap\
+                        (ip TEXT,\
+                        port TEXTL,\
+                        state TEXT,\
+                        name TEXT,\
+                        product TEXT,\
+                        reason TEXT,\
+                        version TEXT,\
+                        extrainfo TEXT,\
+                        conf TEXT,\
+                        cpe TEXT)")
+        except:
+            pass
+
+    def Write(self):
+        try:
+            sql_insert = """INSERT INTO Nmap (ip,port,state,name,product,reason,version,extrainfo,conf,cpe) VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')""".format(self.ip,self.port,self.state,self.name,self.product,self.reason,self.version,self.extrainfo,self.conf,self.cpe)
+            self.cur.execute(sql_insert)
+            # 提交
+            self.con.commit()
+            self.con.close()
+        except:
+            pass
 
 
 class BlastingDB:

@@ -2,7 +2,7 @@
  <p align="center">
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Ascotbe-Medusa%20Scan-green"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/python-3.6-blueviolet"></a>
-    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Version-0.35-red"></a>
+    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Version-0.36-red"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/LICENSE-GPL-ff69b4"></a>
 	<a href="https://github.com/ascotbe/Medusa/stargazers"><img alt="Release" src="https://img.shields.io/github/stars/ascotbe/Medusa.svg"></a>
  </p>
@@ -43,7 +43,7 @@ python3 MedusaScan.py -u www.ascotbe.com
 |-p    |--Proxy   |0       |是否启用全局代理功能(后面不需要跟参数      |无 |
 |-a    |--agent   |1       |指定头文件或使用随机头|支持类型(需要小写):firefox,ie,msie,opera,chrome,AppleWebKit,Gecko,safari|
 |-f    |--InputFileName   |1       |需要批量扫描目标url所在文件名字|-u和-f只能存在一个，并且必须存在一个|
-|-n    |--NmapScanRange   |1       |nmap扫描哪些端口|默认1-65535，并且支持批量扫描|
+|-t    |--ThreadNumber   |1       |设置线程数，默认线程数15|
 |-sp    |--SqlPasswrod   |1       |爆破数据库的密码字典|如果输入-sp和-su并且其中一个值为空，则使用默认密码爆破|
 |-su    |--SqlUser   |1       |爆破数据库的用户字典|无|
 |-j    |--JavaScript   |0       |通过URL中的JS文件深度爬取里面的URL链接以及子域名|从Threezh1项目中魔改而来|
@@ -60,10 +60,10 @@ python3 MedusaScan.py -u www.ascotbe.com
     7.随机Header
     8.使用代理进行扫描
     9.信息泄露探测
+    10.OA系统漏洞扫描
 
 ### 提交意见&BUG
     欢迎大家提交Issues
-    交流Q群690021184
 
 
 #### 共同开发

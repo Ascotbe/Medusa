@@ -10,7 +10,7 @@
 '''
 __author__ = 'Ascotbe'
 __times__ = '2019/10/13 22:12 PM'
-import urllib
+import urllib.parse
 import requests
 import ClassCongregation
 class VulnerabilityInfo(object):

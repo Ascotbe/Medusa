@@ -7,9 +7,11 @@ from Confluence import ConfluenceMain
 #如果在自己创建的文件夹里面加入__init__.py文件的话就可以是用from 文件夹名 import 文件夹总的文件名来导入文件
 #Struts2Main.Main()这样就导入了文件夹中Struts2Main.py文件中的Main函数
 from Struts2 import Struts2Main
-from Apache import ApacheMian
+from Apache import ApacheMain
 from Nginx import NginxMain
-from Cms import CmsMian
+from Jenkins import JenkinsMain
+from Cms import CmsMain
+from Solr import SolrMain
 from InformationDetector import JS
 from InformationDetector import sublist3r
 from InformationDisclosure import InformationDisclosureMain
@@ -109,11 +111,13 @@ def San(OutFileName,Url,Values,ProxyIp):
     thread_list.append(threading.Thread(target=Struts2Main.Main, args=(Url,OutFileName,Values,ProxyIp,)))# 调用Struts2主函数
     thread_list.append(threading.Thread(target=ConfluenceMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))# 调用 Confluence主函数
     thread_list.append(threading.Thread(target=NginxMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))#调用Nginx主函数
-    thread_list.append(threading.Thread(target=ApacheMian.Main, args=(Url, OutFileName, Values, ProxyIp,)))# 调用Apache主函数
+    thread_list.append(threading.Thread(target=ApacheMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))# 调用Apache主函数
     thread_list.append(threading.Thread(target=PhpMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))# 调用Php主函数
-    thread_list.append(threading.Thread(target=CmsMian.Main, args=(Url, OutFileName, Values, ProxyIp,)))# 调用Cms主函数
+    thread_list.append(threading.Thread(target=CmsMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))# 调用Cms主函数
     thread_list.append(threading.Thread(target=OaMian.Main, args=(Url, OutFileName, Values, ProxyIp,)))# 调用OA主函数
     thread_list.append(threading.Thread(target=InformationDisclosureMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))# 调用信息泄露主函数
+    thread_list.append(threading.Thread(target=JenkinsMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))  # 调用Jenkins主函数
+    thread_list.append(threading.Thread(target=SolrMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))  # 调用Jenkins主函数
 
 def OpenProxy():
     global RepeatCleaningAgent

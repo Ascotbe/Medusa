@@ -2,24 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e4eeb830-21db-4fc9-a54b-04d1d9456616" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Jenkins/JenkinsMain.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Jenkins/JenkinsRemoteCommandExecutionVulnerability.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Solr/SolrMain.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Jenkins/JenkinsConfigurationErrorCausesUnauthorizedCodeExecutionVulnerability.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Apache/ApacheMian.py" beforeDir="false" afterPath="$PROJECT_DIR$/Apache/ApacheMain.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Banner.py" beforeDir="false" afterPath="$PROJECT_DIR$/Banner.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClassCongregation.py" beforeDir="false" afterPath="$PROJECT_DIR$/ClassCongregation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cms/CmsMian.py" beforeDir="false" afterPath="$PROJECT_DIR$/Cms/CmsMain.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Medusa.db" beforeDir="false" afterPath="$PROJECT_DIR$/Medusa.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Medusa.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Medusa.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MedusaScan.py" beforeDir="false" afterPath="$PROJECT_DIR$/MedusaScan.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OA/Weaver/Weaver_WorkflowCenterTreeDataInterfaceInjectionVulnerability.py" beforeDir="false" afterPath="$PROJECT_DIR$/OA/Weaver/Weaver_WorkflowCenterTreeDataInterfaceInjectionVulnerability.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Solr/SolrMian.py" beforeDir="false" afterPath="$PROJECT_DIR$/Jenkins/JenkinsArbitraryFileReadVulnerability.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Solr/SolrVelocityTemplateRemoteCodeExecutionVulnerability.py" beforeDir="false" afterPath="$PROJECT_DIR$/Solr/SolrVelocityTemplateRemoteCodeExecutionVulnerability.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jenkins/JenkinsMain.py" beforeDir="false" afterPath="$PROJECT_DIR$/Jenkins/JenkinsMain.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UpDataLog/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/UpDataLog/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/2.0/Home.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/2.0/Home.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/2.0/PocWriting.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/2.0/PocWriting.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/my.log" beforeDir="false" afterPath="$PROJECT_DIR$/my.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/text.py" beforeDir="false" afterPath="$PROJECT_DIR$/text.py" afterDir="false" />
     </list>
@@ -73,8 +59,8 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.SolrVelocityTemplateRemoteCodeExecutionVulnerability">
-    <configuration name="ClassCongregation" type="PythonConfigurationType" factoryName="Python" temporary="true">
+  <component name="RunManager" selected="Python.JenkinsConfigurationErrorCausesUnauthorizedCodeExecutionVulnerability">
+    <configuration name="JenkinsConfigurationErrorCausesUnauthorizedCodeExecutionVulnerability" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="WebVulnerabilityScanner" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -82,11 +68,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Jenkins" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/ClassCongregation.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Jenkins/JenkinsConfigurationErrorCausesUnauthorizedCodeExecutionVulnerability.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -182,17 +168,17 @@
     <list>
       <item itemvalue="Python.text (1)" />
       <item itemvalue="Python.Weaver_WorkflowCenterTreeDataInterfaceInjectionVulnerability" />
-      <item itemvalue="Python.ClassCongregation" />
       <item itemvalue="Python.JenkinsRemoteCommandExecutionVulnerability" />
       <item itemvalue="Python.SolrVelocityTemplateRemoteCodeExecutionVulnerability" />
+      <item itemvalue="Python.JenkinsConfigurationErrorCausesUnauthorizedCodeExecutionVulnerability" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.SolrVelocityTemplateRemoteCodeExecutionVulnerability" />
+        <item itemvalue="Python.JenkinsConfigurationErrorCausesUnauthorizedCodeExecutionVulnerability" />
         <item itemvalue="Python.text (1)" />
+        <item itemvalue="Python.SolrVelocityTemplateRemoteCodeExecutionVulnerability" />
         <item itemvalue="Python.JenkinsRemoteCommandExecutionVulnerability" />
         <item itemvalue="Python.Weaver_WorkflowCenterTreeDataInterfaceInjectionVulnerability" />
-        <item itemvalue="Python.ClassCongregation" />
       </list>
     </recent_temporary>
   </component>
@@ -334,6 +320,11 @@
           <url>file://$PROJECT_DIR$/Solr/SolrVelocityTemplateRemoteCodeExecutionVulnerability.py</url>
           <line>116</line>
           <option name="timeStamp" value="48" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Jenkins/JenkinsMain.py</url>
+          <line>2</line>
+          <option name="timeStamp" value="49" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

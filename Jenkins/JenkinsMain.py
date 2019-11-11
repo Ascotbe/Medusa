@@ -2,6 +2,7 @@
 # _*_ coding: utf-8 _*_
 import Jenkins.JenkinsArbitraryFileReadVulnerability
 import Jenkins.JenkinsRemoteCommandExecutionVulnerability
+import Jenkins.JenkinsConfigurationErrorCausesUnauthorizedCodeExecutionVulnerability
 import ClassCongregation
 
 def Main(Url,FileName,Values,ProxyIp):
@@ -18,5 +19,11 @@ def Main(Url,FileName,Values,ProxyIp):
         WriteFile.Write(Medusa)
     except:
         pass
+    try:
+        Medusa=Jenkins.JenkinsConfigurationErrorCausesUnauthorizedCodeExecutionVulnerability.medusa(Url,RandomAgent,ProxyIp)
+        WriteFile.Write(Medusa)
+    except:
+        pass
+
 
 

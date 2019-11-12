@@ -314,10 +314,7 @@ if ProxyIp!=None:
       global resp
       global resp2
       Payloads = ['x', 'xx', 'xxx', 'xxxx']
-  
-  
       Medusas = []
-  
       try:
           for Special in Payloads:
               payload_url = scheme + "://" + url + ":" + str(port) + payload

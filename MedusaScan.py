@@ -24,8 +24,8 @@ import argparse
 import requests
 import os
 import urllib.parse
-import  threading
-import sys, time
+import threading
+import sys,time
 from tqdm import tqdm
 
 parser = argparse.ArgumentParser()#description="xxxxxx")

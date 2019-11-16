@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# _*_ coding: utf-8 _*_
 '''
 path(route, view, kwargs=None, name=None)
 route: 字符串，表示 URL 规则，与之匹配的 URL 会执行对应的第二个参数 view。
@@ -10,7 +12,6 @@ from django.urls import path
 from MedusaWeb import MedusaWeb
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('scan/', MedusaWeb.hello),
     path('api/', MedusaWeb.api),
     path('get/', MedusaWeb.get),
     path('test/', MedusaWeb.test),

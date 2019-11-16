@@ -9,3 +9,4 @@ scrapy ==1.7.3
 tqdm ==4.38.0
 dnspython ==1.16.0
 tldextract ==2.2.2
+Django==2.2.7

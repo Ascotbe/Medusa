@@ -100,3 +100,6 @@
 2019-11-11 21:58:33,156 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:313] - WARNING: JenkinsConfigurationErrorCausesUnauthorizedCodeExecutionVulnerability
 2019-11-11 21:59:09,855 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:312] - INFO: 120.26.60.154
 2019-11-11 21:59:09,855 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:313] - WARNING: JenkinsConfigurationErrorCausesUnauthorizedCodeExecutionVulnerability
+2019-11-16 16:55:49,829 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:312] - INFO: 192.168.183.137
+2019-11-16 16:55:49,851 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:313] - WARNING: SolrVelocityTemplateRemoteCodeExecutionVulnerability
+2019-11-16 17:00:37,557 - D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\utils\autoreload.py[line:222] - INFO: D:\代码\PycharmProjects\WebVulnerabilityScanner\MedusaWeb\urls.py changed, reloading.

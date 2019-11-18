@@ -10,3 +10,6 @@ tqdm ==4.38.0
 dnspython ==1.16.0
 tldextract ==2.2.2
 Django==2.2.7
+Celery==4.3.0
+django_redis==4.10.0
+eventlet==0.25.1

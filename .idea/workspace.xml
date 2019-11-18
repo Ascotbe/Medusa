@@ -2,7 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e4eeb830-21db-4fc9-a54b-04d1d9456616" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Banner.py" beforeDir="false" afterPath="$PROJECT_DIR$/Banner.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Medusa.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Medusa.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MedusaWeb/MedusaWeb.py" beforeDir="false" afterPath="$PROJECT_DIR$/MedusaWeb/MedusaWeb.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MedusaWeb/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/MedusaWeb/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UpDataLog/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/UpDataLog/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/2.0/Home.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/2.0/Home.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my.log" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -36,6 +44,7 @@
       <recent name="D:\代码\PycharmProjects\WebVulnerabilityScanner\Cms" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\代码\PycharmProjects\WebVulnerabilityScanner\MedusaWeb" />
       <recent name="D:\代码\PycharmProjects\WebVulnerabilityScanner" />
       <recent name="D:\代码\PycharmProjects\WebVulnerabilityScanner\OA\Weaver" />
       <recent name="D:\代码\PycharmProjects\WebVulnerabilityScanner\docs" />

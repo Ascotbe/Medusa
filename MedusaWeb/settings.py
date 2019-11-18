@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'app',#celery中的app
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -120,3 +122,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/dev/howto/static-files/
 
 STATIC_URL = '/static/'
+# redis  连接
+CELERY_BROKER_URL = 'redis://127.0.0.1:12345'
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:12345/0'

@@ -3,14 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="e4eeb830-21db-4fc9-a54b-04d1d9456616" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Banner.py" beforeDir="false" afterPath="$PROJECT_DIR$/Banner.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Medusa.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Medusa.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MedusaWeb/MedusaWeb.py" beforeDir="false" afterPath="$PROJECT_DIR$/MedusaWeb/MedusaWeb.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MedusaWeb/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/MedusaWeb/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UpDataLog/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/UpDataLog/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/2.0/Home.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/2.0/Home.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my.log" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -35,7 +27,7 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="Python" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/Cms" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Coolq" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>

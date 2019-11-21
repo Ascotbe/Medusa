@@ -29,6 +29,9 @@ let config = {
                 }
             ]
         },
+		{
+            title: '更新日志', path: '/UpDataLog'
+        },
         {
             title: '其它', type: 'dropdown', items: [
                 {

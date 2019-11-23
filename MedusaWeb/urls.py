@@ -13,7 +13,7 @@ from MedusaWeb.deploy import MedusaWeb#导入文件夹中的文件
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', MedusaWeb.api),
-    path('get/', MedusaWeb.get),
-    path('test/', MedusaWeb.yibu),
+    path('api/', MedusaWeb.api),#测试用
+    path('get/', MedusaWeb.get),#测试用
+    path('global/api', MedusaWeb.global_scan),
 ]

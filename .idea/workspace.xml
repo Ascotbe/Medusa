@@ -2,7 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e4eeb830-21db-4fc9-a54b-04d1d9456616" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/MedusaWeb/deploy/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MedusaWeb/deploy/tasks.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CeleryTask/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CeleryTask/task.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MedusaWeb/MedusaWeb.py" beforeDir="false" afterPath="$PROJECT_DIR$/MedusaWeb/deploy/MedusaWeb.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MedusaWeb/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/MedusaWeb/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MedusaWeb/celery.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MedusaWeb/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/MedusaWeb/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MedusaWeb/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/MedusaWeb/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/manage.py" beforeDir="false" afterPath="$PROJECT_DIR$/manage.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -27,19 +37,19 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="Python" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Coolq" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\代码\PycharmProjects\WebVulnerabilityScanner\Cms" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\代码\PycharmProjects\WebVulnerabilityScanner\MedusaWeb\deploy" />
       <recent name="D:\代码\PycharmProjects\WebVulnerabilityScanner\MedusaWeb" />
+      <recent name="D:\代码\PycharmProjects\WebVulnerabilityScanner\XssFuzz" />
       <recent name="D:\代码\PycharmProjects\WebVulnerabilityScanner" />
       <recent name="D:\代码\PycharmProjects\WebVulnerabilityScanner\OA\Weaver" />
-      <recent name="D:\代码\PycharmProjects\WebVulnerabilityScanner\docs" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\代码\PycharmProjects\WebVulnerabilityScanner\Cms" />
     </key>
   </component>
@@ -331,6 +341,11 @@
           <url>file://$PROJECT_DIR$/MedusaScan.py</url>
           <line>81</line>
           <option name="timeStamp" value="52" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/MedusaWeb/urls.py</url>
+          <line>9</line>
+          <option name="timeStamp" value="53" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

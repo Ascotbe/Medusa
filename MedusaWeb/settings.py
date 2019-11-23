@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/dev/ref/settings/
 """
 
 import os
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -27,7 +26,7 @@ SECRET_KEY = 'p2l_7b8k0+n%4-0dst5&dl=he)im!jvmk0+l$$_86l1e@$_(nl'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -39,8 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app',#celery中的app
-    'django_celery_beat',
+    'MedusaWeb.deploy',
 ]
 
 MIDDLEWARE = [
@@ -122,6 +120,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/dev/howto/static-files/
 
 STATIC_URL = '/static/'
-# redis  连接
-CELERY_BROKER_URL = 'redis://127.0.0.1:12345'
-CELERY_RESULT_BACKEND = 'redis://127.0.0.1:12345/0'
+CELERY_BROKER_URL = 'redis://localhost:6379/1'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'

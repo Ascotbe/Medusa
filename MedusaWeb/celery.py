@@ -1,19 +1,25 @@
-from celery import Celery
+from __future__ import absolute_import, unicode_literals
+import os
+from celery import Celery, platforms
 
-from celery.schedules import crontab
-import time
+# set the default Django settings module for the 'celery' program.
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'MedusaWeb.settings')
 
+app = Celery('MedusaWeb')
 
-# 消息中间件，密码是你redis的密码
-# broker='redis://:123456@127.0.0.1:6379/2' 密码123456
-broker = 'redis://127.0.0.1:12345/0'  # 无密码
-# 任务结果存储
-backend = 'redis://127.0.0.1:12345/1'
-#https://www.cnblogs.com/midworld/p/10960465.html
-# 生成celery对象，'task'相当于key，用于区分celery对象
-# include参数需要指定任务模块
-app = Celery('task', broker=broker, backend=backend,include=['CeleryTask.task'])#这边的值是要导入的文件夹中的文件
+# Using a string here means the worker don't have to serialize
+# the configuration object to child processes.
+# - namespace='CELERY' means all celery-related configuration keys
+#   should have a `CELERY_` prefix.
+app.config_from_object('django.conf:settings', namespace='CELERY')
 
-# 时区
-app.conf.timezone = 'Asia/Shanghai'
+# Load task modules from all registered Django app configs.
+app.autodiscover_tasks()
+
+# 允许root 用户运行celery
+platforms.C_FORCE_ROOT = True
+
+@app.task(bind=True)
+def debug_task(self):
+    print('Request: {0!r}'.format(self.request))
 

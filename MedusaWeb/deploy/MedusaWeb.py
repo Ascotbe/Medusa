@@ -16,7 +16,7 @@ from OA import OaMian
 import ClassCongregation
 import urllib.parse
 import threading
-
+from .tasks import add#导入异步处理中声明过的函数
 import json
 
 
@@ -40,6 +40,11 @@ def test(request):
             # print(concat)
             # print(json_post_data)
     return JsonResponse({"result": 0, "msg": "%s"})#这边会有很长时间的停顿明天再解决
+
+def yibu(request):
+    result = add('2','2')
+    result.ready()
+    return HttpResponse('nenew Django Celery worker run !')
 
 def NmapScan(url):#Nmap扫描这样就可以开多线程了
     ClassCongregation.NmapScan(url).ScanPort()#调用Nmap扫描类

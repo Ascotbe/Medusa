@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import urllib
+import urllib.parse
 import requests
 import logging
 import ClassCongregation

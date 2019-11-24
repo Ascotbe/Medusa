@@ -15,5 +15,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', MedusaWeb.api),#测试用
     path('get/', MedusaWeb.get),#测试用
-    path('global/api', MedusaWeb.global_scan),
+    path('global/api', MedusaWeb.global_scan),#全局扫描
+    path('independent/api', MedusaWeb.independent_scan),#单个API扫描
+    path('result/api', MedusaWeb.result_query),  #数据库查询
 ]

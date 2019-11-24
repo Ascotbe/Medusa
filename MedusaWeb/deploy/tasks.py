@@ -46,7 +46,7 @@ def mian(Url,OutFileName=None,Values=None,ProxyIp=None):
     thread_list.append(threading.Thread(target=OaMian.Main, args=(Url, OutFileName, Values, ProxyIp,)))# 调用OA主函数
     thread_list.append(threading.Thread(target=InformationDisclosureMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))# 调用信息泄露主函数
     thread_list.append(threading.Thread(target=JenkinsMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))  # 调用Jenkins主函数
-    thread_list.append(threading.Thread(target=SolrMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))  # 调用Jenkins主函数
+    thread_list.append(threading.Thread(target=SolrMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))  # 调用Solr主函数
     thread_list.append(threading.Thread(target=JSCrawling, args=(Url,)))
     ThreadNumber=15
     for t in thread_list:#开启列表中的多线程
@@ -57,3 +57,38 @@ def mian(Url,OutFileName=None,Values=None,ProxyIp=None):
             # 进入for循环启动新的进程.否则就一直在while循环进入死循环
             if (len(threading.enumerate()) < ThreadNumber):
                 break
+
+@shared_task
+def independent(url,value):#单个组件扫描接口
+    OutFileName=None
+    Values=None
+    ProxyIp=None
+    if value.find('nmap')!=-1:
+        NmapScan(url)
+    elif value.find('struts')!=-1:
+        Struts2Main.Main(url,OutFileName,Values,ProxyIp)# 调用Struts2主函数
+    elif value.find('confluence')!=-1:
+        ConfluenceMain.Main(url, OutFileName, Values, ProxyIp)  # 调用 Confluence主函数
+    elif value.find('nginx')!=-1:
+        NginxMain.Main(url, OutFileName, Values, ProxyIp)#调用Nginx主函数
+    elif value.find('apache')!=-1:
+        ApacheMain.Main(url, OutFileName, Values, ProxyIp)  # 调用Apache主函数
+    elif value.find('php')!=-1:
+        PhpMain.Main(url, OutFileName, Values, ProxyIp)# 调用Php主函数
+    elif value.find('cms')!=-1:
+        CmsMain.Main(url, OutFileName, Values, ProxyIp)# 调用Cms主函数
+    elif value.find('OA')!=-1:
+        OaMian.Main(url, OutFileName, Values, ProxyIp)# 调用OA主函数
+    elif value.find('information')!=-1:
+        InformationDisclosureMain.Main(url, OutFileName, Values, ProxyIp)# 调用信息泄露主函数
+    elif value.find('jenkins')!=-1:
+        JenkinsMain.Main(url, OutFileName, Values, ProxyIp)  # 调用Jenkins主函数
+    elif value.find('solr')!=-1:
+        SolrMain.Main(url, OutFileName, Values, ProxyIp) # 调用Solr主函数
+    elif value.find('js')!=-1:
+        JSCrawling(url)
+
+@shared_task
+def result(user,pid):
+    ClassCongregation.VulnerabilityInquire(pid).Inquire()#数据库查询，user是用来判断用户的
+

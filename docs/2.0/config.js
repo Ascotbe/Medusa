@@ -39,7 +39,7 @@ let config = {
                 }
             ]
 		
-		}
+		},
         {
             title: '其它', type: 'dropdown', items: [
                 {

@@ -30,8 +30,16 @@ let config = {
             ]
         },
 		{
-            title: '更新日志', path: '/UpDataLog'
-        },
+            title: '更新进度', type: 'dropdown', items: [
+                {
+                    title: '更新日志', path: '/UpDataLog'
+                },
+                {
+                    title: '覆盖插件', path: '/OverlayPlugin'
+                }
+            ]
+		
+		}
         {
             title: '其它', type: 'dropdown', items: [
                 {

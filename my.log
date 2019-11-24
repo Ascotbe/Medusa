@@ -1,0 +1,4 @@
+2019-11-24 19:10:29,536 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:312] - INFO: 192.168.183.137
+2019-11-24 19:10:29,536 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:313] - WARNING: SolrVelocityTemplateRemoteCodeExecutionVulnerability
+2019-11-24 19:10:49,517 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:312] - INFO: 192.168.183.137
+2019-11-24 19:10:49,518 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:313] - WARNING: SolrVelocityTemplateRemoteCodeExecutionVulnerability

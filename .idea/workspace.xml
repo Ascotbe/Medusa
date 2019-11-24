@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e4eeb830-21db-4fc9-a54b-04d1d9456616" name="Default Changelist" comment="" />
+    <list default="true" id="e4eeb830-21db-4fc9-a54b-04d1d9456616" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ClassCongregation.py" beforeDir="false" afterPath="$PROJECT_DIR$/ClassCongregation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Medusa.db" beforeDir="false" afterPath="$PROJECT_DIR$/Medusa.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MedusaWeb/deploy/MedusaWeb.py" beforeDir="false" afterPath="$PROJECT_DIR$/MedusaWeb/deploy/MedusaWeb.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MedusaWeb/deploy/tasks.py" beforeDir="false" afterPath="$PROJECT_DIR$/MedusaWeb/deploy/tasks.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MedusaWeb/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/MedusaWeb/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OA/Weaver/Weaver_CommandExecution.py" beforeDir="false" afterPath="$PROJECT_DIR$/OA/Weaver/Weaver_CommandExecution.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/2.0/UpDataLog.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/2.0/UpDataLog.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my.log" beforeDir="false" afterPath="$PROJECT_DIR$/my.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/text.py" beforeDir="false" afterPath="$PROJECT_DIR$/text.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -322,7 +333,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/text.py</url>
-          <line>4</line>
+          <line>6</line>
           <option name="timeStamp" value="50" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -339,6 +350,11 @@
           <url>file://$PROJECT_DIR$/MedusaWeb/settings.py</url>
           <line>26</line>
           <option name="timeStamp" value="54" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/OA/Weaver/Weaver_CommandExecution.py</url>
+          <line>3</line>
+          <option name="timeStamp" value="55" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -78,7 +78,7 @@ def medusa(Url,RandomAgent,ProxyIp):
         if code == 200 and con.lower().find('''"draggable":''') != -1 and con.lower().find(
                 '''"checked":''') != -1 and con.lower().find('''"id":''') != -1 and con.lower().find(
                 '''"text":''') != -1:
-            Medusa = "{} 验证数据:\r\nRequests:{}\r\n".format(url,resp.headers)
+            Medusa = "{}存在泛微OA_WorkflowCenterTreeData接口注入漏洞\r\n 验证数据:\r\nUrl:{}\r\nPayload:{}\r\n".format(url,payload_url,resp.headers)
             _t=VulnerabilityInfo(Medusa)
             web=ClassCongregation.VulnerabilityDetails(_t.info)
             web.High() # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
@@ -186,7 +186,7 @@ def medusa(Url,RandomAgent,ProxyIp):
         if code == 200 and con.lower().find('''"draggable":''') != -1 and con.lower().find(
                 '''"checked":''') != -1 and con.lower().find('''"id":''') != -1 and con.lower().find(
                 '''"text":''') != -1:
-            Medusa = "{} 验证数据:\r\nRequests:{}\r\n".format(url,resp.headers)
+            Medusa = "{}存在泛微OA_WorkflowCenterTreeData接口注入漏洞\r\n 验证数据:\r\nUrl:{}\r\nPayload:{}\r\n".format(url,payload_url,resp.headers)
             _t=VulnerabilityInfo(Medusa)
             web=ClassCongregation.VulnerabilityDetails(_t.info)
             web.High() # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危

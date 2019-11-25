@@ -239,7 +239,7 @@ class VulnerabilityDetails:
                 #             details TEXT NOT NULL)")
                 #如果设置了主键那么就导致主健值不能相同，如果相同就写入报错
                 self.cur.execute("CREATE TABLE Medusa\
-                            (id INTEGER NOT NULL,\
+                            (id TEXT NOT NULL,\
                             name TEXT NOT NULL,\
                             affects TEXT NOT NULL,\
                             rank TEXT NOT NULL,\
@@ -310,9 +310,17 @@ class VulnerabilityInquire:#还要小BUG
         sql = "select * from Medusa where id ='"+self.id+"'"
         self.cur.execute(sql)
         values = self.cur.fetchall()
-        print(values)
+        json_values={}
+        for i in values:
+            json_values["id"]=i[0]
+            json_values["name"] =i[1]
+            json_values["affects"] =i[2]
+            json_values["rank"] =i[3]
+            json_values["suggest"] =i[4]
+            json_values["desc_content"] =i[5]
+            json_values["details"] =i[6]
         self.con.close()
-
+        return json_values
 
 
 

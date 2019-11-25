@@ -48,3 +48,259 @@
 2019-11-24 22:31:09,050 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:328] - INFO: 192.168.183.137
 2019-11-24 22:31:09,051 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:329] - WARNING: SolrVelocityTemplateRemoteCodeExecutionVulnerability
 2019-11-24 22:31:20,493 - D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\utils\autoreload.py[line:222] - INFO: D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py changed, reloading.
+2019-11-25 21:12:34,398 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:328] - INFO: 192.168.183.137
+2019-11-25 21:12:34,422 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:329] - WARNING: SolrVelocityTemplateRemoteCodeExecutionVulnerability
+2019-11-25 21:12:44,180 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:328] - INFO: 192.168.183.137
+2019-11-25 21:12:44,181 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:329] - WARNING: SolrVelocityTemplateRemoteCodeExecutionVulnerability
+2019-11-25 21:22:57,058 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:328] - INFO: 192.168.183.137
+2019-11-25 21:22:57,072 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:329] - WARNING: SolrVelocityTemplateRemoteCodeExecutionVulnerability
+2019-11-25 21:22:57,072 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:329] - WARNING: SolrVelocityTemplateRemoteCodeExecutionVulnerability
+2019-11-25 21:37:23,078 - D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\utils\autoreload.py[line:222] - INFO: D:\代码\PycharmProjects\WebVulnerabilityScanner\MedusaWeb\deploy\tasks.py changed, reloading.
+2019-11-25 21:37:45,663 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:336] - INFO: 192.168.183.137
+2019-11-25 21:37:45,664 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:337] - WARNING: SolrVelocityTemplateRemoteCodeExecutionVulnerability
+2019-11-25 21:37:49,273 - D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\utils\log.py[line:228] - WARNING: Not Found: /
+2019-11-25 21:37:49,468 - D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\utils\log.py[line:228] - WARNING: Not Found: /favicon.ico
+2019-11-25 21:39:31,357 - D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\utils\log.py[line:228] - ERROR: Internal Server Error: /result/api
+Traceback (most recent call last):
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\core\handlers\base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\core\handlers\base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\代码\PycharmProjects\WebVulnerabilityScanner\MedusaWeb\deploy\MedusaWeb.py", line 37, in result_query
+    return JsonResponse(info)#用JS返回值具体的等查询语句改好写
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\http\response.py", line 581, in __init__
+    'In order to allow non-dict objects to be serialized set the '
+TypeError: In order to allow non-dict objects to be serialized set the safe parameter to False.
+2019-11-25 21:40:31,415 - D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\utils\log.py[line:228] - ERROR: Internal Server Error: /result/api
+Traceback (most recent call last):
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\core\handlers\base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\core\handlers\base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\代码\PycharmProjects\WebVulnerabilityScanner\MedusaWeb\deploy\MedusaWeb.py", line 37, in result_query
+    return JsonResponse(info)#用JS返回值具体的等查询语句改好写
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\http\response.py", line 581, in __init__
+    'In order to allow non-dict objects to be serialized set the '
+TypeError: In order to allow non-dict objects to be serialized set the safe parameter to False.
+2019-11-25 21:41:22,248 - D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\utils\autoreload.py[line:222] - INFO: D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py changed, reloading.
+2019-11-25 21:41:44,673 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:336] - INFO: 192.168.183.137
+2019-11-25 21:41:44,673 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:337] - WARNING: SolrVelocityTemplateRemoteCodeExecutionVulnerability
+2019-11-25 21:42:00,616 - D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\utils\log.py[line:228] - ERROR: Internal Server Error: /result/api
+Traceback (most recent call last):
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\core\handlers\base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\core\handlers\base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\代码\PycharmProjects\WebVulnerabilityScanner\MedusaWeb\deploy\MedusaWeb.py", line 37, in result_query
+    return JsonResponse(info)#用JS返回值具体的等查询语句改好写
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\http\response.py", line 581, in __init__
+    'In order to allow non-dict objects to be serialized set the '
+TypeError: In order to allow non-dict objects to be serialized set the safe parameter to False.
+2019-11-25 21:42:42,979 - D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\utils\autoreload.py[line:222] - INFO: D:\代码\PycharmProjects\WebVulnerabilityScanner\MedusaWeb\deploy\MedusaWeb.py changed, reloading.
+2019-11-25 21:43:05,378 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:336] - INFO: 192.168.183.137
+2019-11-25 21:43:05,378 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:337] - WARNING: SolrVelocityTemplateRemoteCodeExecutionVulnerability
+2019-11-25 21:43:45,487 - D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\utils\log.py[line:228] - ERROR: Internal Server Error: /result/api
+Traceback (most recent call last):
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\core\handlers\base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\core\handlers\base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\代码\PycharmProjects\WebVulnerabilityScanner\MedusaWeb\deploy\MedusaWeb.py", line 38, in result_query
+    return JsonResponse(info)#用JS返回值具体的等查询语句改好写
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\http\response.py", line 581, in __init__
+    'In order to allow non-dict objects to be serialized set the '
+TypeError: In order to allow non-dict objects to be serialized set the safe parameter to False.
+2019-11-25 21:44:28,255 - D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\utils\autoreload.py[line:222] - INFO: D:\代码\PycharmProjects\WebVulnerabilityScanner\MedusaWeb\deploy\tasks.py changed, reloading.
+2019-11-25 21:44:50,638 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:336] - INFO: 192.168.183.137
+2019-11-25 21:44:50,639 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:337] - WARNING: SolrVelocityTemplateRemoteCodeExecutionVulnerability
+2019-11-25 21:44:56,642 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:336] - INFO: 192.168.183.137
+2019-11-25 21:44:56,643 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:337] - WARNING: SolrVelocityTemplateRemoteCodeExecutionVulnerability
+2019-11-25 21:45:14,833 - D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\utils\log.py[line:228] - ERROR: Internal Server Error: /result/api
+Traceback (most recent call last):
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\core\handlers\base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\core\handlers\base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\代码\PycharmProjects\WebVulnerabilityScanner\MedusaWeb\deploy\MedusaWeb.py", line 38, in result_query
+    return JsonResponse(info)#用JS返回值具体的等查询语句改好写
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\http\response.py", line 581, in __init__
+    'In order to allow non-dict objects to be serialized set the '
+TypeError: In order to allow non-dict objects to be serialized set the safe parameter to False.
+2019-11-25 21:48:37,240 - D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\utils\autoreload.py[line:222] - INFO: D:\代码\PycharmProjects\WebVulnerabilityScanner\MedusaWeb\deploy\tasks.py changed, reloading.
+2019-11-25 21:48:59,629 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:336] - INFO: 192.168.183.137
+2019-11-25 21:48:59,630 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:337] - WARNING: SolrVelocityTemplateRemoteCodeExecutionVulnerability
+2019-11-25 21:49:04,193 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:336] - INFO: 192.168.183.137
+2019-11-25 21:49:04,194 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:337] - WARNING: SolrVelocityTemplateRemoteCodeExecutionVulnerability
+2019-11-25 21:49:18,224 - D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\utils\log.py[line:228] - ERROR: Internal Server Error: /result/api
+Traceback (most recent call last):
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\core\handlers\base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\core\handlers\base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\代码\PycharmProjects\WebVulnerabilityScanner\MedusaWeb\deploy\MedusaWeb.py", line 38, in result_query
+    return JsonResponse(info)#用JS返回值具体的等查询语句改好写
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\http\response.py", line 581, in __init__
+    'In order to allow non-dict objects to be serialized set the '
+TypeError: In order to allow non-dict objects to be serialized set the safe parameter to False.
+2019-11-25 21:51:48,261 - D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\utils\autoreload.py[line:222] - INFO: D:\代码\PycharmProjects\WebVulnerabilityScanner\MedusaWeb\deploy\MedusaWeb.py changed, reloading.
+2019-11-25 21:52:10,653 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:336] - INFO: 192.168.183.137
+2019-11-25 21:52:10,654 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:337] - WARNING: SolrVelocityTemplateRemoteCodeExecutionVulnerability
+2019-11-25 21:52:24,843 - D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\utils\log.py[line:228] - ERROR: Internal Server Error: /result/api
+Traceback (most recent call last):
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\core\handlers\base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\core\handlers\base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\代码\PycharmProjects\WebVulnerabilityScanner\MedusaWeb\deploy\MedusaWeb.py", line 38, in result_query
+    return JsonResponse(info,safe=False)#用JS返回值具体的等查询语句改好写
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\http\response.py", line 587, in __init__
+    data = json.dumps(data, cls=encoder, **json_dumps_params)
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\json\__init__.py", line 238, in dumps
+    **kw).encode(obj)
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\json\encoder.py", line 199, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\json\encoder.py", line 257, in iterencode
+    return _iterencode(o, 0)
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\core\serializers\json.py", line 104, in default
+    return super().default(o)
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\json\encoder.py", line 180, in default
+    o.__class__.__name__)
+TypeError: Object of type 'AsyncResult' is not JSON serializable
+2019-11-25 21:52:48,379 - D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\utils\autoreload.py[line:222] - INFO: D:\代码\PycharmProjects\WebVulnerabilityScanner\MedusaWeb\deploy\tasks.py changed, reloading.
+2019-11-25 21:53:10,820 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:336] - INFO: 192.168.183.137
+2019-11-25 21:53:10,821 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:337] - WARNING: SolrVelocityTemplateRemoteCodeExecutionVulnerability
+2019-11-25 21:53:20,525 - D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\utils\log.py[line:228] - ERROR: Internal Server Error: /result/api
+Traceback (most recent call last):
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\core\handlers\base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\core\handlers\base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\代码\PycharmProjects\WebVulnerabilityScanner\MedusaWeb\deploy\MedusaWeb.py", line 38, in result_query
+    return JsonResponse(info,safe=False)#用JS返回值具体的等查询语句改好写
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\http\response.py", line 587, in __init__
+    data = json.dumps(data, cls=encoder, **json_dumps_params)
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\json\__init__.py", line 238, in dumps
+    **kw).encode(obj)
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\json\encoder.py", line 199, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\json\encoder.py", line 257, in iterencode
+    return _iterencode(o, 0)
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\core\serializers\json.py", line 104, in default
+    return super().default(o)
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\json\encoder.py", line 180, in default
+    o.__class__.__name__)
+TypeError: Object of type 'AsyncResult' is not JSON serializable
+2019-11-25 21:55:39,962 - D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\utils\autoreload.py[line:222] - INFO: D:\代码\PycharmProjects\WebVulnerabilityScanner\MedusaWeb\deploy\MedusaWeb.py changed, reloading.
+2019-11-25 21:56:02,357 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:336] - INFO: 192.168.183.137
+2019-11-25 21:56:02,358 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:337] - WARNING: SolrVelocityTemplateRemoteCodeExecutionVulnerability
+2019-11-25 21:56:08,869 - D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\utils\log.py[line:228] - ERROR: Internal Server Error: /result/api
+Traceback (most recent call last):
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\core\handlers\base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\core\handlers\base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\代码\PycharmProjects\WebVulnerabilityScanner\MedusaWeb\deploy\MedusaWeb.py", line 38, in result_query
+    return JsonResponse(info,safe=False)#用JS返回值具体的等查询语句改好写
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\http\response.py", line 587, in __init__
+    data = json.dumps(data, cls=encoder, **json_dumps_params)
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\json\__init__.py", line 238, in dumps
+    **kw).encode(obj)
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\json\encoder.py", line 199, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\json\encoder.py", line 257, in iterencode
+    return _iterencode(o, 0)
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\core\serializers\json.py", line 104, in default
+    return super().default(o)
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\json\encoder.py", line 180, in default
+    o.__class__.__name__)
+TypeError: Object of type 'AsyncResult' is not JSON serializable
+2019-11-25 21:57:21,572 - D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\utils\autoreload.py[line:222] - INFO: D:\代码\PycharmProjects\WebVulnerabilityScanner\MedusaWeb\deploy\MedusaWeb.py changed, reloading.
+2019-11-25 21:57:44,025 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:336] - INFO: 192.168.183.137
+2019-11-25 21:57:44,025 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:337] - WARNING: SolrVelocityTemplateRemoteCodeExecutionVulnerability
+2019-11-25 21:58:59,547 - D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\utils\autoreload.py[line:222] - INFO: D:\代码\PycharmProjects\WebVulnerabilityScanner\MedusaWeb\deploy\tasks.py changed, reloading.
+2019-11-25 21:59:21,954 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:336] - INFO: 192.168.183.137
+2019-11-25 21:59:21,955 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:337] - WARNING: SolrVelocityTemplateRemoteCodeExecutionVulnerability
+2019-11-25 22:02:12,241 - D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\utils\autoreload.py[line:222] - INFO: D:\代码\PycharmProjects\WebVulnerabilityScanner\MedusaWeb\deploy\MedusaWeb.py changed, reloading.
+2019-11-25 22:02:34,671 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:336] - INFO: 192.168.183.137
+2019-11-25 22:02:34,672 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:337] - WARNING: SolrVelocityTemplateRemoteCodeExecutionVulnerability
+2019-11-25 22:03:05,323 - D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\utils\autoreload.py[line:222] - INFO: D:\代码\PycharmProjects\WebVulnerabilityScanner\MedusaWeb\deploy\MedusaWeb.py changed, reloading.
+2019-11-25 22:03:27,832 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:336] - INFO: 192.168.183.137
+2019-11-25 22:03:27,833 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:337] - WARNING: SolrVelocityTemplateRemoteCodeExecutionVulnerability
+2019-11-25 22:03:46,779 - D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\utils\log.py[line:228] - ERROR: Internal Server Error: /result/api
+Traceback (most recent call last):
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\core\handlers\base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\core\handlers\base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\代码\PycharmProjects\WebVulnerabilityScanner\MedusaWeb\deploy\MedusaWeb.py", line 38, in result_query
+    return JsonResponse(info)#用JS返回值具体的等查询语句改好写
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\http\response.py", line 581, in __init__
+    'In order to allow non-dict objects to be serialized set the '
+TypeError: In order to allow non-dict objects to be serialized set the safe parameter to False.
+2019-11-25 22:03:59,892 - D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\utils\autoreload.py[line:222] - INFO: D:\代码\PycharmProjects\WebVulnerabilityScanner\MedusaWeb\deploy\MedusaWeb.py changed, reloading.
+2019-11-25 22:04:22,273 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:336] - INFO: 192.168.183.137
+2019-11-25 22:04:22,273 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:337] - WARNING: SolrVelocityTemplateRemoteCodeExecutionVulnerability
+2019-11-25 22:04:37,420 - D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\utils\autoreload.py[line:222] - INFO: D:\代码\PycharmProjects\WebVulnerabilityScanner\MedusaWeb\deploy\MedusaWeb.py changed, reloading.
+2019-11-25 22:04:59,757 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:336] - INFO: 192.168.183.137
+2019-11-25 22:04:59,757 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:337] - WARNING: SolrVelocityTemplateRemoteCodeExecutionVulnerability
+2019-11-25 22:05:43,372 - D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\utils\autoreload.py[line:222] - INFO: D:\代码\PycharmProjects\WebVulnerabilityScanner\MedusaWeb\deploy\MedusaWeb.py changed, reloading.
+2019-11-25 22:06:05,792 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:336] - INFO: 192.168.183.137
+2019-11-25 22:06:05,793 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:337] - WARNING: SolrVelocityTemplateRemoteCodeExecutionVulnerability
+2019-11-25 22:07:01,877 - D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\utils\autoreload.py[line:222] - INFO: D:\代码\PycharmProjects\WebVulnerabilityScanner\MedusaWeb\deploy\MedusaWeb.py changed, reloading.
+2019-11-25 22:07:24,270 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:336] - INFO: 192.168.183.137
+2019-11-25 22:07:24,270 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:337] - WARNING: SolrVelocityTemplateRemoteCodeExecutionVulnerability
+2019-11-25 22:07:52,060 - D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\utils\autoreload.py[line:222] - INFO: D:\代码\PycharmProjects\WebVulnerabilityScanner\MedusaWeb\deploy\MedusaWeb.py changed, reloading.
+2019-11-25 22:08:14,474 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:336] - INFO: 192.168.183.137
+2019-11-25 22:08:14,475 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:337] - WARNING: SolrVelocityTemplateRemoteCodeExecutionVulnerability
+2019-11-25 22:08:47,463 - D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\utils\log.py[line:228] - ERROR: Internal Server Error: /result/api
+Traceback (most recent call last):
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\core\handlers\base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\core\handlers\base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\代码\PycharmProjects\WebVulnerabilityScanner\MedusaWeb\deploy\MedusaWeb.py", line 38, in result_query
+    return HttpResponse(info,safe=False)#用JS返回值具体的等查询语句改好写
+  File "D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\http\response.py", line 291, in __init__
+    super().__init__(*args, **kwargs)
+TypeError: __init__() got an unexpected keyword argument 'safe'
+2019-11-25 22:08:56,124 - D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\utils\autoreload.py[line:222] - INFO: D:\代码\PycharmProjects\WebVulnerabilityScanner\MedusaWeb\deploy\MedusaWeb.py changed, reloading.
+2019-11-25 22:09:18,550 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:336] - INFO: 192.168.183.137
+2019-11-25 22:09:18,551 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:337] - WARNING: SolrVelocityTemplateRemoteCodeExecutionVulnerability
+2019-11-25 22:14:59,691 - D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\utils\autoreload.py[line:222] - INFO: D:\代码\PycharmProjects\WebVulnerabilityScanner\MedusaWeb\urls.py changed, reloading.
+2019-11-25 22:15:22,208 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:336] - INFO: 192.168.183.137
+2019-11-25 22:15:22,208 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:337] - WARNING: SolrVelocityTemplateRemoteCodeExecutionVulnerability
+2019-11-25 22:20:17,965 - D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\utils\autoreload.py[line:222] - INFO: D:\代码\PycharmProjects\WebVulnerabilityScanner\MedusaWeb\deploy\MedusaWeb.py changed, reloading.
+2019-11-25 22:20:40,336 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:336] - INFO: 192.168.183.137
+2019-11-25 22:20:40,337 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:337] - WARNING: SolrVelocityTemplateRemoteCodeExecutionVulnerability
+2019-11-25 22:21:30,167 - D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\utils\autoreload.py[line:222] - INFO: D:\代码\PycharmProjects\WebVulnerabilityScanner\MedusaWeb\deploy\MedusaWeb.py changed, reloading.
+2019-11-25 22:21:52,603 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:336] - INFO: 192.168.183.137
+2019-11-25 22:21:52,604 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:337] - WARNING: SolrVelocityTemplateRemoteCodeExecutionVulnerability
+2019-11-25 22:22:55,494 - D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\utils\autoreload.py[line:222] - INFO: D:\代码\PycharmProjects\WebVulnerabilityScanner\MedusaWeb\deploy\MedusaWeb.py changed, reloading.
+2019-11-25 22:23:17,883 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:336] - INFO: 192.168.183.137
+2019-11-25 22:23:17,883 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:337] - WARNING: SolrVelocityTemplateRemoteCodeExecutionVulnerability
+2019-11-25 22:23:31,877 - D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\utils\autoreload.py[line:222] - INFO: D:\代码\PycharmProjects\WebVulnerabilityScanner\MedusaWeb\deploy\MedusaWeb.py changed, reloading.
+2019-11-25 22:23:54,251 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:336] - INFO: 192.168.183.137
+2019-11-25 22:23:54,251 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:337] - WARNING: SolrVelocityTemplateRemoteCodeExecutionVulnerability
+2019-11-25 22:24:46,149 - D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\utils\autoreload.py[line:222] - INFO: D:\代码\PycharmProjects\WebVulnerabilityScanner\MedusaWeb\deploy\MedusaWeb.py changed, reloading.

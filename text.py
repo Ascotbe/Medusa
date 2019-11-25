@@ -16,7 +16,15 @@ class VulnerabilityInquire:
 
         self.cur.execute(sql)
         values = self.cur.fetchall()
-        print(values)
+        json_values={}
+        for i in values:
+            json_values["id"]=i[0]
+            json_values["name"] =i[1]
+            json_values["affects"] =i[2]
+            json_values["rank"] =i[3]
+            json_values["suggest"] =i[4]
+            json_values["desc_content"] =i[5]
+            json_values["details"] =i[6]
         self.con.close()
-
-VulnerabilityInquire("5").Inquire()
+        return json_values
+VulnerabilityInquire("6").Inquire()

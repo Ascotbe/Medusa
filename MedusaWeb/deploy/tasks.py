@@ -90,5 +90,6 @@ def independent(url,value):#单个组件扫描接口
 
 @shared_task
 def result(user,pid):
-    ClassCongregation.VulnerabilityInquire(pid).Inquire()#数据库查询，user是用来判断用户的
+    values=ClassCongregation.VulnerabilityInquire(pid).Inquire()#数据库查询，user是用来判断用户的
 
+    return json.dumps(values)

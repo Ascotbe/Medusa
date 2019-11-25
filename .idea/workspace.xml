@@ -7,9 +7,6 @@
       <change beforePath="$PROJECT_DIR$/Medusa.db" beforeDir="false" afterPath="$PROJECT_DIR$/Medusa.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MedusaWeb/deploy/MedusaWeb.py" beforeDir="false" afterPath="$PROJECT_DIR$/MedusaWeb/deploy/MedusaWeb.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MedusaWeb/deploy/tasks.py" beforeDir="false" afterPath="$PROJECT_DIR$/MedusaWeb/deploy/tasks.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MedusaWeb/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/MedusaWeb/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OA/Weaver/Weaver_CommandExecution.py" beforeDir="false" afterPath="$PROJECT_DIR$/OA/Weaver/Weaver_CommandExecution.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/2.0/UpDataLog.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/2.0/UpDataLog.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/my.log" beforeDir="false" afterPath="$PROJECT_DIR$/my.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/text.py" beforeDir="false" afterPath="$PROJECT_DIR$/text.py" afterDir="false" />
     </list>
@@ -355,6 +352,11 @@
           <url>file://$PROJECT_DIR$/OA/Weaver/Weaver_CommandExecution.py</url>
           <line>3</line>
           <option name="timeStamp" value="55" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/MedusaWeb/deploy/MedusaWeb.py</url>
+          <line>6</line>
+          <option name="timeStamp" value="56" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

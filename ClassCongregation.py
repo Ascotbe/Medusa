@@ -122,8 +122,8 @@ class NmapDB:#NMAP的数据库
     def Write(self):
         try:
 
-            sql_insert = """INSERT INTO Nmap (domain,ip,port,state,name,product,reason,version,extrainfo,conf,cpe) VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')""".format(self.domain,self.ip,self.port,self.state,self.name,self.product,self.reason,self.version,self.extrainfo,self.conf,self.cpe)
-            self.cur.execute(sql_insert)
+            #sql_insert = """INSERT INTO Nmap (domain,ip,port,state,name,product,reason,version,extrainfo,conf,cpe) VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')""".format(self.domain,self.ip,self.port,self.state,self.name,self.product,self.reason,self.version,self.extrainfo,self.conf,self.cpe)
+            self.cur.execute("""INSERT INTO Nmap (domain,ip,port,state,name,product,reason,version,extrainfo,conf,cpe) VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')""".format(self.domain,self.ip,self.port,self.state,self.name,self.product,self.reason,self.version,self.extrainfo,self.conf,self.cpe))
             # 提交
             self.con.commit()
             self.con.close()
@@ -253,9 +253,9 @@ class VulnerabilityDetails:
     def serious(self):
         try:
 
-            sql_insert = """INSERT INTO Medusa (id,name,affects,rank,suggest,desc_content,details) \
-    VALUES (4,'{}','{}','严重','{}','{}','{}')""".format(self.name,self.affects,self.suggest,self.desc_content,self.details)
-            self.cur.execute(sql_insert)
+
+            self.cur.execute("""INSERT INTO Medusa (id,name,affects,rank,suggest,desc_content,details) \
+    VALUES (4,'{}','{}','严重','{}','{}','{}')""".format(self.name,self.affects,self.suggest,self.desc_content,self.details))
             # 提交
             self.con.commit()
             self.con.close()
@@ -264,13 +264,12 @@ class VulnerabilityDetails:
     def High(self):
          # 使用cursor()方法获取操作游标
         try:
-            sql_insert = """INSERT INTO Medusa (id,name,affects,rank,suggest,desc_content,details) \
+            self.cur.execute("""INSERT INTO Medusa (id,name,affects,rank,suggest,desc_content,details) \
     VALUES (5,'{}','{}','高危','{}','{}','{}')""".format(self.name,
                                                                                                         self.affects,
                                                                                                         self.suggest,
                                                                                                         self.desc_content,
-                                                                                                        self.details)
-            self.cur.execute(sql_insert)
+                                                                                                        self.details))
             # 提交
             self.con.commit()
             self.con.close()
@@ -279,9 +278,9 @@ class VulnerabilityDetails:
     def Intermediate(self):
          # 使用cursor()方法获取操作游标
         try:
-            sql_insert = """INSERT INTO Medusa (id,name,affects,rank,suggest,desc_content,details) \
-    VALUES (4,'{}','{}','中危','{}','{}','{}')""".format(self.name,self.affects,self.suggest,self.desc_content,self.details)
-            self.cur.execute(sql_insert)
+
+            self.cur.execute("""INSERT INTO Medusa (id,name,affects,rank,suggest,desc_content,details) \
+    VALUES (4,'{}','{}','中危','{}','{}','{}')""".format(self.name,self.affects,self.suggest,self.desc_content,self.details))
             # 提交
             self.con.commit()
             self.con.close()
@@ -290,9 +289,8 @@ class VulnerabilityDetails:
     def Low(self):
          # 使用cursor()方法获取操作游标
         try:
-            sql_insert = """INSERT INTO Medusa (id,name,affects,rank,suggest,desc_content,details) \
-    VALUES (4,'{}','{}','低危','{}','{}','{}')""".format(self.name,self.affects,self.suggest,self.desc_content,self.details)
-            self.cur.execute(sql_insert)
+            self.cur.execute("""INSERT INTO Medusa (id,name,affects,rank,suggest,desc_content,details) \
+    VALUES (4,'{}','{}','低危','{}','{}','{}')""".format(self.name,self.affects,self.suggest,self.desc_content,self.details))
             # 提交
             self.con.commit()
             self.con.close()
@@ -307,8 +305,7 @@ class VulnerabilityInquire:#还要小BUG
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
     def Inquire(self):
-        sql = "select * from Medusa where id ='"+self.id+"'"
-        self.cur.execute(sql)
+        self.cur.execute("select * from Medusa where id ='%s'",self.id)
         values = self.cur.fetchall()
         json_values={}
         for i in values:

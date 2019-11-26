@@ -13,3 +13,4 @@ Django==2.2.7
 Celery==4.3.0
 django_redis==4.10.0
 eventlet==0.25.1
+pyDES==2.0.1

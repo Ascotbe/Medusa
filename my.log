@@ -4229,3 +4229,12 @@ urllib3.exceptions.HeaderParsingError: [MissingHeaderBodySeparatorDefect()], unp
 2019-11-26 11:54:04,949 - D:\代码\Medusa\ClassCongregation.py[line:337] - WARNING: Weaver_DatabaseConfigurationInformationLeaked
 2019-11-26 11:54:11,242 - D:\代码\Medusa\ClassCongregation.py[line:336] - INFO: 46.19.103.15
 2019-11-26 11:54:11,242 - D:\代码\Medusa\ClassCongregation.py[line:337] - WARNING: Weaver_DatabaseConfigurationInformationLeaked
+2019-11-26 22:02:17,877 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:329] - INFO: 192.168.183.137
+2019-11-26 22:02:17,908 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:330] - WARNING: SolrVelocityTemplateRemoteCodeExecutionVulnerability
+2019-11-26 22:02:17,908 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:330] - WARNING: SolrVelocityTemplateRemoteCodeExecutionVulnerability
+2019-11-26 22:05:01,349 - D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\utils\autoreload.py[line:222] - INFO: D:\代码\PycharmProjects\WebVulnerabilityScanner\MedusaWeb\deploy\MedusaWeb.py changed, reloading.
+2019-11-26 22:05:23,797 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:329] - INFO: 192.168.183.137
+2019-11-26 22:05:23,798 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:330] - WARNING: SolrVelocityTemplateRemoteCodeExecutionVulnerability
+2019-11-26 22:23:02,552 - D:\ProgramData\Anaconda3\envs\py3.6\lib\site-packages\django\utils\autoreload.py[line:222] - INFO: D:\代码\PycharmProjects\WebVulnerabilityScanner\MedusaWeb\urls.py changed, reloading.
+2019-11-26 22:23:24,941 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:329] - INFO: 192.168.183.137
+2019-11-26 22:23:24,942 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:330] - WARNING: SolrVelocityTemplateRemoteCodeExecutionVulnerability

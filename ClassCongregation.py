@@ -123,7 +123,7 @@ class NmapDB:#NMAP的数据库
         try:
 
             #sql_insert = """INSERT INTO Nmap (domain,ip,port,state,name,product,reason,version,extrainfo,conf,cpe) VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')""".format(self.domain,self.ip,self.port,self.state,self.name,self.product,self.reason,self.version,self.extrainfo,self.conf,self.cpe)
-            self.cur.execute("""INSERT INTO Nmap (domain,ip,port,state,name,product,reason,version,extrainfo,conf,cpe) VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')""".format(self.domain,self.ip,self.port,self.state,self.name,self.product,self.reason,self.version,self.extrainfo,self.conf,self.cpe))
+            self.cur.execute("""INSERT INTO Nmap (domain,ip,port,state,name,product,reason,version,extrainfo,conf,cpe) VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')""",(self.domain,self.ip,self.port,self.state,self.name,self.product,self.reason,self.version,self.extrainfo,self.conf,self.cpe))
             # 提交
             self.con.commit()
             self.con.close()
@@ -255,7 +255,7 @@ class VulnerabilityDetails:
 
 
             self.cur.execute("""INSERT INTO Medusa (id,name,affects,rank,suggest,desc_content,details) \
-    VALUES (4,'{}','{}','严重','{}','{}','{}')""".format(self.name,self.affects,self.suggest,self.desc_content,self.details))
+    VALUES ('4','%s','%s','严重','%s','%s','%s')""",(self.name,self.affects,self.suggest,self.desc_content,self.details))
             # 提交
             self.con.commit()
             self.con.close()
@@ -265,11 +265,7 @@ class VulnerabilityDetails:
          # 使用cursor()方法获取操作游标
         try:
             self.cur.execute("""INSERT INTO Medusa (id,name,affects,rank,suggest,desc_content,details) \
-    VALUES (5,'{}','{}','高危','{}','{}','{}')""".format(self.name,
-                                                                                                        self.affects,
-                                                                                                        self.suggest,
-                                                                                                        self.desc_content,
-                                                                                                        self.details))
+    VALUES ('4','%s','%s','高危','%s','%s','%s')""",(self.name,self.affects,self.suggest,self.desc_content,self.details))
             # 提交
             self.con.commit()
             self.con.close()
@@ -280,7 +276,7 @@ class VulnerabilityDetails:
         try:
 
             self.cur.execute("""INSERT INTO Medusa (id,name,affects,rank,suggest,desc_content,details) \
-    VALUES (4,'{}','{}','中危','{}','{}','{}')""".format(self.name,self.affects,self.suggest,self.desc_content,self.details))
+    VALUES ('4','%s','%s','中危','%s','%s','%s')""",(self.name,self.affects,self.suggest,self.desc_content,self.details))
             # 提交
             self.con.commit()
             self.con.close()
@@ -290,7 +286,7 @@ class VulnerabilityDetails:
          # 使用cursor()方法获取操作游标
         try:
             self.cur.execute("""INSERT INTO Medusa (id,name,affects,rank,suggest,desc_content,details) \
-    VALUES (4,'{}','{}','低危','{}','{}','{}')""".format(self.name,self.affects,self.suggest,self.desc_content,self.details))
+    VALUES ('4','%s','%s','低危','%s','%s','%s')""",(self.name,self.affects,self.suggest,self.desc_content,self.details))
             # 提交
             self.con.commit()
             self.con.close()
@@ -298,7 +294,7 @@ class VulnerabilityDetails:
             pass
 
 
-class VulnerabilityInquire:#还要小BUG
+class VulnerabilityInquire:
     def __init__(self,pid):#先通过id查，后面要是有用户ID 再运行的时候创建一个用户信息的表或者什么的到时候再说
         self.id=pid
         self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0] + "\\Medusa.db")

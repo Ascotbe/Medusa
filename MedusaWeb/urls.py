@@ -13,8 +13,6 @@ from MedusaWeb.deploy import MedusaWeb#导入文件夹中的文件
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', MedusaWeb.api),#测试用
-    path('get/', MedusaWeb.get),#测试用
     path('api/global/', MedusaWeb.global_scan),#全局扫描
     path('api/independent/', MedusaWeb.independent_scan),#单个API扫描
     path('api/result/', MedusaWeb.result_query),  #数据库查询

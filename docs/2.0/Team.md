@@ -1,12 +1,24 @@
-## 后端
+##### 本工具由`P19e0n team`合力开发
 
-<a href="https://github.com/ZiYuMis"><img alt="Release" src="https://avatars2.githubusercontent.com/u/33992514?s=400&v=4"  width="50"></a><a href="https://github.com/Ascotbe"><img alt="Release" src="https://avatars3.githubusercontent.com/u/33721903?s=460&v=4"  width="50"></a>
+- 名字由来
 
-## 前端
+  ```
+  因为团队里面的都是鸽子，天天咕咕咕！
+  ```
 
-<a href="https://github.com/czkm"><img alt="Release" src="https://avatars2.githubusercontent.com/u/36911813?s=460&v=4"  width="50"></a><a href="https://github.com/dieLion"><img alt="Release" src="https://avatars3.githubusercontent.com/u/56595642?s=460&v=4"  width="50"></a>
+- 名字的意义是为了铭记一点，现在开始谁咕咕咕就一起玩耍~~炖了他熬汤！~~。
 
-## 提供插件小可爱
+- 作为一群喜欢pwn和re的鸽子（们），我们欢迎志同道合的（鸽子）一起鸽 ~~复读机走开~~。
 
-<a href="https://github.com/rabbitmask"><img alt="Release" src="https://avatars0.githubusercontent.com/u/37649548?s=460&v=4"  width="50"></a><a href="https://github.com/P1kAju"><img alt="Release" src="https://avatars3.githubusercontent.com/u/25498052?s=460&v=4"  width="50"></a>
+- 同时，喜欢写 ~~bug~~的小伙伴们也可以加入我们，作为不作不死在开坑路上一去不复返的~~女装~~Ascotbe小同学的领导下，我们会开发很多很好用~~没什么卵用~~的神奇工具。
+
+- 一起努力，一起进步，一起鸽鸽鸽
+
+
+
+
+
+
+
+​																																						by:ZiYuMis
 

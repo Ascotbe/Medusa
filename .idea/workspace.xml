@@ -5,6 +5,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/WebVulnerabilityScanner.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/WebVulnerabilityScanner.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< Updated upstream
       <change beforePath="$PROJECT_DIR$/Banner.py" beforeDir="false" afterPath="$PROJECT_DIR$/Banner.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ClassCongregation.py" beforeDir="false" afterPath="$PROJECT_DIR$/ClassCongregation.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Medusa.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Medusa.txt" afterDir="false" />
@@ -14,6 +15,8 @@
       <change beforePath="$PROJECT_DIR$/docs/2.0/Home.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/2.0/Home.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/2.0/UpDataLog.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/2.0/UpDataLog.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/my.log" beforeDir="false" afterPath="$PROJECT_DIR$/my.log" afterDir="false" />
+=======
+>>>>>>> Stashed changes
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

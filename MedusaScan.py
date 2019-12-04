@@ -16,6 +16,7 @@ from InformationDetector import JS
 from InformationDetector import sublist3r
 from InformationDisclosure import InformationDisclosureMain
 from Rails import RailsMain
+from Kibana import KibanaMain
 from Php import PhpMain
 from OA import OaMian
 import ClassCongregation
@@ -120,6 +121,7 @@ def San(OutFileName,Url,Values,ProxyIp):
     thread_list.append(threading.Thread(target=JenkinsMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))  # 调用Jenkins主函数
     thread_list.append(threading.Thread(target=SolrMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))  # 调用Solr主函数
     thread_list.append(threading.Thread(target=RailsMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))  # 调用RailsMain主函数
+    thread_list.append(threading.Thread(target=KibanaMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))  # 调用KibanaMain主函数
 
 
 def OpenProxy():

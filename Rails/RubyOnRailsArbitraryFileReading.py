@@ -13,6 +13,8 @@ class VulnerabilityInfo(object):
         self.info['number']="CVE-2019-5418" #如果没有CVE或者CNVD编号就填0，CVE编号优先级大于CNVD
         self.info['author'] = "Ascotbe"  # 插件作者
         self.info['create_date'] = "2019-12-3"  # 插件编辑时间
+        self.info['disclosure'] = '2019-3-13'  # 漏洞披露时间，如果不知道就写编写插件的时间
+        self.info['version'] = "Rails<6.0.0.beta3\r\nRails<5.2.2.1\r\nRails<5.1.6.2\r\nRails<5.0.7.2"  # 这边填漏洞影响的版本
         self.info['algroup'] = "RubyOnRailsArbitraryFileReading"  # 插件名称
         self.info['name'] ='RubyOnRails任意文件读取' #漏洞名称
         self.info['affects'] = "Rails"  # 漏洞组件
@@ -28,7 +30,7 @@ def UrlProcessing(url):
         res = urllib.parse.urlparse('http://%s' % url)
     return res.scheme, res.hostname, res.port
 
-def medusa(Url,RandomAgent,ProxyIp=None):
+def medusa(Url,RandomAgent,ProxyIp):
 
     scheme, url, port = UrlProcessing(Url)
     if port is None and scheme == 'https':

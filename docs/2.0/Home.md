@@ -11,9 +11,13 @@
 **请使用者遵守 [中华人民共和国网络安全法](http://www.cac.gov.cn/2016-11/07/c_1119867116.htm)，勿将MedusaScan用于非授权的测试，MedusaScan开发者不负任何连带法律责任。**
 
 ## 关于美杜莎扫描器
-    最初版本上线，目前扫描器还在开发中，不完善的地方欢迎大家提Issues
-    API功能写好后会接入Web页面中去
+
+> 本项目使用 `GPL`协议，未经授权，禁止使用商业用途。
+>
+> 目前主要是更新Web版本，敬请期待~
+
 ## Demo
+
 <img alt="Release" src="https://github.com/Ascotbe/Random-img/blob/master/Medusa/demo.gif?raw=true"  >
 
 ## 使用说明

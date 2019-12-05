@@ -3,6 +3,10 @@
 from django.http import HttpResponse
 from django.http import JsonResponse
 from .tasks import *#导入异步处理中声明过的函数
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+import hashlib
+import ClassCongregation
 import threading
 import json
 
@@ -13,7 +17,11 @@ import json
 #     id = request.GET.get("id")
 #     pid = request.GET.get("pid")
 #     return HttpResponse("获得数据 %s %s"%(id,pid))
-
+def hash_code(s, salt='Asc0e6e'):# 加点盐
+    h = hashlib.sha256()
+    s += salt
+    h.update(s.encode())  # update方法只接收bytes类型
+    return h.hexdigest()
 
 def global_scan(request):
     if request.POST.get("task")=="1":#用户ID保留模块
@@ -44,3 +52,62 @@ def result_query(request):#通过ID查询API
         print(rank)
     info=result.delay(user_token,pid).result
     return HttpResponse(info)#用JS返回值具体的等查询语句改好写
+
+
+def index(request):
+    return render(request,'login/index.html')
+
+def login(request):
+    if request.method == "POST":
+        username = request.POST.get('username', None)
+        password = request.POST.get('password', None)
+        message = "所有字段都必须填写！"
+        if username and password:  # 确保用户名和密码都不为空
+            username = username.strip()
+            # 用户名字符合法性验证
+            # 密码长度验证
+            # 更多的其它验证.....
+            try:
+                hash_passwd=hash_code(password)
+                login_inquire=ClassCongregation.login(username,).logins()#查询数据库中的密码并返回
+                if login_inquire == hash_passwd:
+                    return redirect('/index/')
+                else:
+                    message = "密码不正确！"
+            except:
+                message = "用户名不存在！"
+        return render(request, 'login/login.html', {"message": message})
+    return render(request, 'login/login.html')
+
+def register(request):
+    if request.method == "POST":
+        username = request.POST.get('username', None)
+        password1 = request.POST.get('password1', None)
+        password2 = request.POST.get('password2', None)
+        emil = request.POST.get('emil', None)
+        if password1 != password2:  # 判断两次密码是否相同
+            message = "两次输入的密码不同！"
+            return render(request, 'login/register.html', locals())
+        else:
+            user_presence=ClassCongregation.register(username, password1, emil).register_inquire_user()  # 判断user是否存在
+            emil_presence=ClassCongregation.register(username,password1,emil).register_inquire_emil()#判断emil是否存在
+            if user_presence:  # 用户名唯一
+                message = '用户已经存在，请重新选择用户名！'
+                return render(request, 'login/register.html', locals())
+            elif emil_presence:  # 邮箱地址唯一
+                message = '该邮箱地址已被注册，请使用别的邮箱！'
+                return render(request, 'login/register.html', locals())
+            else:
+                hash_passwd = hash_code(password1)#加密后写入
+                print(hash_passwd)
+                write_presence=ClassCongregation.register(username, hash_passwd, emil).register_write()
+                if write_presence:
+                    return redirect('/login/')  # 注册成功自动跳转到登录页面
+                else:
+                    message="请确保没问题"
+                    return render(request, 'login/register.html', locals())
+    return render(request, 'login/register.html', locals())
+
+def logout(request):
+    pass
+    return redirect('/index/')

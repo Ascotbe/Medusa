@@ -12,6 +12,8 @@ from tqdm import tqdm
 import logging
 import os
 import re
+import hashlib
+from django.db import models
 def IpProcess(Url):
     if Url.startswith("http"):  # 记个小知识点：必须带上https://这个头不然urlparse就不能正确提取hostname导致后面运行出差错
         res = urllib.parse.urlparse(Url)  # 小知识点2：如果只导入import urllib包使用parse这个类的话会报错，必须在import requests导入这个包才能正常运行
@@ -123,7 +125,7 @@ class NmapDB:#NMAP的数据库
         try:
 
             #sql_insert = """INSERT INTO Nmap (domain,ip,port,state,name,product,reason,version,extrainfo,conf,cpe) VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')""".format(self.domain,self.ip,self.port,self.state,self.name,self.product,self.reason,self.version,self.extrainfo,self.conf,self.cpe)
-            self.cur.execute("""INSERT INTO Nmap (domain,ip,port,state,name,product,reason,version,extrainfo,conf,cpe) VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')""",(self.domain,self.ip,self.port,self.state,self.name,self.product,self.reason,self.version,self.extrainfo,self.conf,self.cpe))
+            self.cur.execute("""INSERT INTO Nmap (domain,ip,port,state,name,product,reason,version,extrainfo,conf,cpe) VALUES (?,?,?,?,?,?,?,?,?,?,?)""",(self.domain,self.ip,self.port,self.state,self.name,self.product,self.reason,self.version,self.extrainfo,self.conf,self.cpe,))
             # 提交
             self.con.commit()
             self.con.close()
@@ -255,7 +257,7 @@ class VulnerabilityDetails:
 
 
             self.cur.execute("""INSERT INTO Medusa (id,name,affects,rank,suggest,desc_content,details) \
-    VALUES ('4','%s','%s','严重','%s','%s','%s')""",(self.name,self.affects,self.suggest,self.desc_content,self.details))
+    VALUES ('4',?,?,'严重',?,?,?)""",(self.name,self.affects,self.suggest,self.desc_content,self.details,))
             # 提交
             self.con.commit()
             self.con.close()
@@ -265,7 +267,7 @@ class VulnerabilityDetails:
          # 使用cursor()方法获取操作游标
         try:
             self.cur.execute("""INSERT INTO Medusa (id,name,affects,rank,suggest,desc_content,details) \
-    VALUES ('4','%s','%s','高危','%s','%s','%s')""",(self.name,self.affects,self.suggest,self.desc_content,self.details))
+    VALUES ('4',?,?,'高危',?,?,?)""",(self.name,self.affects,self.suggest,self.desc_content,self.details,))
             # 提交
             self.con.commit()
             self.con.close()
@@ -276,7 +278,7 @@ class VulnerabilityDetails:
         try:
 
             self.cur.execute("""INSERT INTO Medusa (id,name,affects,rank,suggest,desc_content,details) \
-    VALUES ('4','%s','%s','中危','%s','%s','%s')""",(self.name,self.affects,self.suggest,self.desc_content,self.details))
+    VALUES ('4',?,?,'中危',?,?,?)""",(self.name,self.affects,self.suggest,self.desc_content,self.details,))
             # 提交
             self.con.commit()
             self.con.close()
@@ -286,7 +288,7 @@ class VulnerabilityDetails:
          # 使用cursor()方法获取操作游标
         try:
             self.cur.execute("""INSERT INTO Medusa (id,name,affects,rank,suggest,desc_content,details) \
-    VALUES ('4','%s','%s','低危','%s','%s','%s')""",(self.name,self.affects,self.suggest,self.desc_content,self.details))
+    VALUES ('4',?,?,'低危',?,?,?)""",(self.name,self.affects,self.suggest,self.desc_content,self.details,))
             # 提交
             self.con.commit()
             self.con.close()
@@ -301,7 +303,7 @@ class VulnerabilityInquire:
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
     def Inquire(self):
-        self.cur.execute("select * from Medusa where id ='%s'",self.id)
+        self.cur.execute("select * from Medusa where id =?",self.id)
         values = self.cur.fetchall()
         json_values={}
         for i in values:
@@ -315,8 +317,71 @@ class VulnerabilityInquire:
         self.con.close()
         return json_values
 
+class login:#登录
+    def __init__(self,username):
+        self.username=username
+        self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0] + "\\Medusa.db")
+        # 获取所创建数据的游标
+        self.cur = self.con.cursor()
+    def logins(self):#根据数据进行查询用户名和数据库是否相等
+        self.cur.execute("select * from user_info where user =?",(self.username,))
+        values = self.cur.fetchall()
+        try:
+            global passwd
+            for i in values:
+                passwd= i[1]#获取密码
+            if passwd!=None:#判断是否在数据库中
+                self.con.close()
+                return passwd
+        except:
+            return 0
+class register:#注册
+    def __init__(self,username,password,emil):
+        self.username = username  # 用户名
+        self.password = password # 密码
+        self.emil=emil#邮箱
+        self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0] + "\\Medusa.db")
+        # 获取所创建数据的游标
+        self.cur = self.con.cursor()
+        # 创建表
+        try:
+            self.cur.execute("CREATE TABLE user_info(user TEXT PRIMARY KEY,password TEXT NOT NULL,emil TEXT NOT NULL)")
+        except:
+            pass
+    def register_write(self):
+        try:
 
-
+            self.cur.execute("INSERT INTO user_info(user,password,emil)VALUES (?,?,?)",(self.username, self.password , self.emil,))
+            # 提交
+            self.con.commit()
+            self.con.close()
+            return 1#返回真或者假
+        except:
+            return 0
+    def register_inquire_emil(self):#根据数据进行查询判断emil
+        self.cur.execute("select * from user_info where emil =?",(self.emil,))
+        values = self.cur.fetchall()
+        try:
+            global emil
+            for i in values:
+                emil= i[2]#判断传入的邮箱是否在数据库中
+            if str(emil) == str(self.emil):#判断是否在数据库中
+                self.con.close()
+                return 1
+        except:
+            return 0
+    def register_inquire_user(self):#根据数据进行查询判断user
+        self.cur.execute("select * from user_info where user =?",(self.username,))
+        values = self.cur.fetchall()
+        try:
+            global user
+            for i in values:
+                user= i[0]
+            if str(user) == str(self.username):  # 判断是否在数据库中
+                self.con.close()
+                return 1
+        except:
+            return 0
 
 class ErrorLog:
     def __init__(self):

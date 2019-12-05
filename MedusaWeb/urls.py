@@ -9,6 +9,7 @@ name: 用来反向获取 URL。
 '''
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import url, include
 from MedusaWeb.deploy import MedusaWeb#导入文件夹中的文件
 
 urlpatterns = [
@@ -16,4 +17,8 @@ urlpatterns = [
     path('api/global/', MedusaWeb.global_scan),#全局扫描
     path('api/independent/', MedusaWeb.independent_scan),#单个API扫描
     path('api/result/', MedusaWeb.result_query),  #数据库查询
+    path('index/',MedusaWeb.index),
+    path('login/', MedusaWeb.login),
+    path('register/',MedusaWeb.register),
+    path('logout/', MedusaWeb.logout),
 ]

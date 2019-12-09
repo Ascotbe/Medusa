@@ -7,8 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 import hashlib
 import ClassCongregation
-import threading
-import json
+import time
 
 # def api(request):
 #     return JsonResponse({"result": 0, "msg": "执行成功"})
@@ -54,6 +53,10 @@ def result_query(request):#通过ID查询API
     return HttpResponse(info)#用JS返回值具体的等查询语句改好写
 
 
+def verification_session(username,sessionKey_key,sessionKey_time):#用来查询数据库中的session
+    return ClassCongregation.SessionKey(username, sessionKey_key, sessionKey_time).read()
+
+
 def index(request):
     return render(request,'login/index.html')
 
@@ -71,11 +74,12 @@ def login(request):
                 hash_passwd=hash_code(password)
                 login_inquire=ClassCongregation.login(username,).logins()#查询数据库中的密码并返回
                 if login_inquire == hash_passwd:
+                    #a=request.session['csrftoken']
                     return redirect('/index/')
                 else:
-                    message = "密码不正确！"
+                    message = "用户名不存在或密码不正确！"
             except:
-                message = "用户名不存在！"
+                message = "用户名不存在或密码不正确！"
         return render(request, 'login/login.html', {"message": message})
     return render(request, 'login/login.html')
 

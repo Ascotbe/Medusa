@@ -86,7 +86,7 @@ class NmapScan:#扫描端口类
         except IOError:
              print("Please enter the correct nmap scan command.")
 
-
+#为每个任务加个唯一的加密ID然后存入，后面和读取数据库后进行全量端口爆破做铺垫
 class NmapDB:#NMAP的数据库
     def __init__(self,Nmap,port,ip,domain):
         self.state = Nmap['state']  # 端口状态
@@ -132,7 +132,62 @@ class NmapDB:#NMAP的数据库
         except:
             pass
 
+class NmapRead:#读取Nmap扫描后的数据
+    def __init__(self,id):
+        self.id = id  # 每个任务唯一的ID值
+        self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0] + "\\Medusa.db")
+        self.cur = self.con.cursor()
+    def Read(self):
+        try:
+            port_list=[]
+            self.cur.execute("select * from Nmap where id =?", (self.id,))
+            values = self.cur.fetchall()
+            for i in values:
+                if i[3]=="open":
+                    port_list.append(i[2])#发送端口号到列表中
+            self.con.close()
+            return port_list
+        except:
+            pass
 
+class SessionKey:
+    def __init__(self,username,session_key,session_time):
+        self.username=username
+        self.session_key=session_key
+        self.session_time=session_time
+        self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0] + "\\Medusa.db")
+        # 获取所创建数据的游标
+        self.cur = self.con.cursor()
+        # 创建表
+        try:
+            self.cur.execute("CREATE TABLE session_key\
+                        (username TEXT PRIMARY KEY,\
+                        session_key TEXT,\
+                        session_time TEXTL)")
+        except:
+            pass
+    def write(self):#把验证后的两个session写入数据库中
+        try:
+
+            # sql_insert = """INSERT INTO Nmap (domain,ip,port,state,name,product,reason,version,extrainfo,conf,cpe) VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')""".format(self.domain,self.ip,self.port,self.state,self.name,self.product,self.reason,self.version,self.extrainfo,self.conf,self.cpe)
+            self.cur.execute("""INSERT INTO session_key (username,session_key,session_time) VALUES (?,?,?)""",(self.username, self.session_key, self.session_time,))
+            # 提交
+            self.con.commit()
+            self.con.close()
+        except:
+            pass
+    def read(self):#对传入的两个session进行验证
+        try:
+            self.cur.execute("select * from session_key where username =?", (self.username,))
+            values = self.cur.fetchall()
+            for i in values:
+                if i[0]==self.username and self.session_key==i[1] and self.session_time==i[2]:
+                    self.con.close()
+                    return 1
+            self.con.close()
+            return 0
+        except:
+            return 0
 class BlastingDB:
     def __init__(self,DataBaseUserFileName,DataBasePasswrodFileName):
         self.DataBaseUserFileName=DataBaseUserFileName

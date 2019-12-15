@@ -1,67 +1,25 @@
 #!/usr/bin/env python
 # _*_ coding: utf-8 _*_
 
-import Struts2.S2_001
-import Struts2.S2_007
-import Struts2.S2_012
-import Struts2.S2_013
-import Struts2.S2_016
-import Struts2.S2_052
-import Struts2.S2_053
-import Struts2.S2_057
+from Struts2 import S2_001
+from Struts2 import S2_007
+from Struts2 import S2_012
+from Struts2 import S2_013
+from Struts2 import S2_016
+from Struts2 import S2_052
+from Struts2 import S2_053
+from Struts2 import S2_057
 import ClassCongregation
-
+from tqdm import tqdm
 
 def Main(Url,FileName,Values,ProxyIp):
     WriteFile = ClassCongregation.WriteFile(FileName)  # 声明调用类集合中的WriteFile类,并传入文件名字(这一步是必须的)
     ua=ClassCongregation.UserAgentS(Values)#传入用户输入用户指定的浏览器头
     RandomAgent=ua.UserAgent()#获取生成的头文件
+    Medusa = [S2_001.medusa(Url,RandomAgent,ProxyIp),S2_007.medusa(Url,RandomAgent,ProxyIp),S2_012.medusa(Url,RandomAgent,ProxyIp),S2_013.medusa(Url,RandomAgent,ProxyIp),S2_016.medusa(Url,RandomAgent,ProxyIp),S2_052.medusa(Url,RandomAgent,ProxyIp),S2_053.medusa(Url,RandomAgent,ProxyIp),S2_057.medusa(Url,RandomAgent,ProxyIp),]
     try:
-        Medusa=Struts2.S2_001.medusa(Url,RandomAgent,ProxyIp)
-        WriteFile.Write(Medusa)
+        for i in tqdm(Medusa, ascii=True, desc="Struts2 plugin progress:"):
+            WriteFile.Write(str(i))
     except:
         pass
-        #print("[-]S2-001 Scan error")
-    try:
-        Medusa =Struts2.S2_007.medusa(Url,RandomAgent,ProxyIp)
-        WriteFile.Write(Medusa)
-    except:
-        pass
-        #print("[-]S2-007 Scan error")
-    try:
-        Medusa =Struts2.S2_012.medusa(Url,RandomAgent,ProxyIp)
-        WriteFile.Write(Medusa)
-    except:
-        pass
-        #print("[-]S2-012 Scan error")
-    try:
-        Medusa =Struts2.S2_013.medusa(Url,RandomAgent,ProxyIp)
-        WriteFile.Write(Medusa)
-    except:
-        pass
-        #print("[-]S2-013 Scan error")
-    try:
-        Medusa =Struts2.S2_016.medusa(Url,RandomAgent,ProxyIp)
-        WriteFile.Write(Medusa)
-    except:
-        pass
-        #print("[-]S2-016 Scan error")
-    try:
-        Medusa =Struts2.S2_052.medusa(Url,RandomAgent,ProxyIp)
-        WriteFile.Write(Medusa)
-    except:
-        pass
-        #print("[-]S2-052 Scan error")
-    try:
-        Medusa =Struts2.S2_053.medusa(Url,RandomAgent,ProxyIp)
-        WriteFile.Write(Medusa)
-    except:
-        pass
-        #print("[-]S2-053 Scan error")
-    try:
-        Medusa =Struts2.S2_057.medusa(Url,RandomAgent,ProxyIp)
-        WriteFile.Write(Medusa)
-    except:
-        pass
-        #print("[-]S2-057 Scan error")
 

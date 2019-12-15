@@ -6,13 +6,7 @@ from OA.Ruvar import Ruvar
 def Main(Url,FileName,Values,ProxyIp):
     try:
         Seeyou.Main(Url, FileName, Values, ProxyIp)
-    except:
-        pass
-    try:
         Weaver.Main(Url,FileName,Values,ProxyIp)
-    except:
-        pass
-    try:
         Ruvar.Main(Url,FileName,Values,ProxyIp)
     except:
         pass

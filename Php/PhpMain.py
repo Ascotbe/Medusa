@@ -1,31 +1,17 @@
 #!/usr/bin/env python
 # _*_ coding: utf-8 _*_
-import Php.PhpStudyBackdoor
-import Php.PhpstudyPhpmyadminDefaultpwd
-import Php.PhpstudyProbe
+from Php import PhpStudyBackdoor
+from Php import PhpstudyPhpmyadminDefaultpwd
+from Php import PhpstudyProbe
 import ClassCongregation
-
+from tqdm import tqdm
 def Main(Url,FileName,Values,ProxyIp):
     WriteFile = ClassCongregation.WriteFile(FileName)  # 声明调用类集合中的WriteFile类,并传入文件名字(这一步是必须的)
     ua=ClassCongregation.UserAgentS(Values)#传入用户输入用户指定的浏览器头
     RandomAgent=ua.UserAgent()#获取生成的头文件
+    Medusa = [PhpStudyBackdoor.medusa(Url,RandomAgent,ProxyIp),PhpstudyPhpmyadminDefaultpwd.medusa(Url,RandomAgent,ProxyIp),PhpstudyProbe.medusa(Url,RandomAgent,ProxyIp),]
     try:
-        Medusa=Php.PhpStudyBackdoor.medusa(Url,RandomAgent,ProxyIp)
-        WriteFile.Write(Medusa)
+        for i in tqdm(Medusa, ascii=True, desc="PHP plugin progress:"):
+            WriteFile.Write(str(i))
     except:
         pass
-        #print("[-]NginxDirectoryTraversalVulnerability Scan error")
-    try:
-        Medusa=Php.PhpstudyPhpmyadminDefaultpwd.medusa(Url,RandomAgent,ProxyIp)
-        WriteFile.Write(Medusa)
-    except:
-        pass
-        #print("[-]NginxDirectoryTraversalVulnerability Scan error")
-    try:
-        Medusa=Php.PhpstudyProbe.medusa(Url,RandomAgent,ProxyIp)
-        WriteFile.Write(Medusa)
-    except:
-        pass
-        #print("[-]NginxDirectoryTraversalVulnerability Scan error")
-
-

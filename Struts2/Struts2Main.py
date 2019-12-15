@@ -18,7 +18,7 @@ def Main(Url,FileName,Values,ProxyIp):
     RandomAgent=ua.UserAgent()#获取生成的头文件
     Medusa = [S2_001.medusa(Url,RandomAgent,ProxyIp),S2_007.medusa(Url,RandomAgent,ProxyIp),S2_012.medusa(Url,RandomAgent,ProxyIp),S2_013.medusa(Url,RandomAgent,ProxyIp),S2_016.medusa(Url,RandomAgent,ProxyIp),S2_052.medusa(Url,RandomAgent,ProxyIp),S2_053.medusa(Url,RandomAgent,ProxyIp),S2_057.medusa(Url,RandomAgent,ProxyIp),]
     try:
-        for i in tqdm(Medusa, ascii=True, desc="Struts2 plugin progress:"):
+        for i in tqdm(Medusa, ascii=True, desc="Struts2 plugin progress"):
             WriteFile.Write(str(i))
     except:
         pass

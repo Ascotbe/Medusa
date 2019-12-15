@@ -12,7 +12,7 @@ def Main(Url,FileName,Values,ProxyIp):
     RandomAgent=ua.UserAgent()#获取生成的头文件
     Medusa = [JenkinsArbitraryFileReadVulnerability.medusa(Url,RandomAgent,ProxyIp),JenkinsRemoteCommandExecutionVulnerability.medusa(Url,RandomAgent,ProxyIp),JenkinsConfigurationErrorCausesUnauthorizedCodeExecutionVulnerability.medusa(Url,RandomAgent,ProxyIp)]
     try:
-        for i in tqdm(Medusa, ascii=True, desc="Jenkins plugin progress:"):
+        for i in tqdm(Medusa, ascii=True, desc="Jenkins plugin progress"):
             WriteFile.Write(str(i))
     except:
         pass

@@ -31,7 +31,7 @@ apt-get install nmap
 git clone https://github.com/Ascotbe/Medusa.git
 cd Medusa
 # 安装依赖
-pip install -r Medusa.txt
+pip3 install -r Medusa.txt
 # 使用扫描器
 python3 MedusaScan.py -u www.ascotbe.com
 ```

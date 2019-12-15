@@ -9,7 +9,7 @@ def Main(Url,FileName,Values,ProxyIp):
     RandomAgent=ua.UserAgent()#获取生成的头文件
     Medusa = [RubyOnRailsArbitraryFileReading.medusa(Url,RandomAgent,ProxyIp)]
     try:
-        for i in tqdm(Medusa, ascii=True, desc="Rails plugin progress:"):
+        for i in tqdm(Medusa, ascii=True, desc="Rails plugin progress"):
             WriteFile.Write(str(i))
     except:
         pass

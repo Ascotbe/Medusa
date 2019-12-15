@@ -22,7 +22,7 @@ def Main(Url,FileName,Values,ProxyIp):
               PhpApc.medusa(Url,RandomAgent,ProxyIp),Sftp.medusa(Url,RandomAgent,ProxyIp),Svn.medusa(Url,RandomAgent,ProxyIp),JetBrains.medusa(Url,RandomAgent,ProxyIp),
               Options.medusa(Url,RandomAgent,ProxyIp),JavaConfigurationFile.medusa(Url,RandomAgent,ProxyIp)]
     try:
-        for i in tqdm(Medusa, ascii=True, desc="Information Disclosure plugin progress:"):
+        for i in tqdm(Medusa, ascii=True, desc="Information Disclosure plugin progress"):
             WriteFile.Write(str(i))
     except:
         pass

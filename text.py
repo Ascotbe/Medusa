@@ -20,4 +20,21 @@ import sqlite3
 #     h.update(username.encode())
 #     print(h.hexdigest())
 #
-# get_session("ddddddddddddddddddsddddddddddddddasssssssssssssssssssssd")
+def a():
+    print("1")
+    return "ccccc"
+def b():
+    print("2")
+    return "aaaa"
+
+def c():
+    print("3")
+    return "ccsss"
+
+def main():
+    lists=[a(),b(),c()]
+    for i in lists:
+        print(i)
+
+
+main()

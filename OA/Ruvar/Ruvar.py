@@ -11,7 +11,7 @@ def Main(Url,FileName,Values,ProxyIp):
     RandomAgent=ua.UserAgent()#获取生成的头文件
     Medusa = [Ruvar_multi_sqli.medusa(Url,RandomAgent,ProxyIp),Ruvar_multi_sqli2.medusa(Url,RandomAgent,ProxyIp),Ruvar_multi_sqli3.medusa(Url,RandomAgent,ProxyIp)]
     try:
-        for i in tqdm(Medusa, ascii=True, desc="Ruvar plugin progress:"):
+        for i in tqdm(Medusa, ascii=True, desc="Ruvar plugin progress"):
             WriteFile.Write(str(i))
     except:
         pass

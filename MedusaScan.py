@@ -31,18 +31,6 @@ import sys,time
 from tqdm import tqdm
 
 parser = argparse.ArgumentParser()#description="xxxxxx")
-##########################################################################################################################################################################
-#舍弃的 OptionParser模块
-#from optparse import OptionParser
-#parser = OptionParser()
-# parser.add_option('-o','--out',type=str,help='The file where the url is located,If you do not enter the location, the default is written to the root directory.',dest='OutFileName')
-# parser.add_option('-u','--url',type=str,help="Target url",dest='url')
-# parser.add_option('-a','--agent',type=str,help="Specify a header file or use a random header",dest='agent')
-# parser.add_option('-f','--file',type=str,help="Specify bulk scan file batch scan",dest='InputFileName')
-# parser.add_option('-n','--nmap',type=str,help="Incoming scan port range (1-65535), use this command to enable nmap scan function by default.",dest='NmapScanRange')
-# parser.add_option('-sp','--sqlpass',type=str,help="Please enter an password file.",dest='SqlPasswrod')
-# parser.add_option('-su','--sqluser',type=str,help="Please enter an account file.",dest='SqlUser')
-##########################################################################################################################################################################
 UrlGroup = parser.add_mutually_exclusive_group()#定义一个互斥参数组
 #UrlGroup .add_argument("-q", "--quiet", action="store_true")#增加到互斥参数组里面去
 parser.add_argument('-o','--OutFileName',type=str,help='The file where the url is located,If you do not enter the location, the default is written to the root directory.')
@@ -242,7 +230,7 @@ if __name__ == '__main__':
         thread_list.append(threading.Thread(target=SubdomainCrawling, args=(Url, SubdomainJudge,)))
         #SubdomainCrawling(Url, SubdomainJudge)
     InitialScan(InputFileName, Url, ProxyIp)#最后启动主扫描函数，这样如果多个IP的话优化速度，里面会做url或者url文件的判断
-    for t in thread_list:#开启列表中的多线程
+    for t in tqdm(thread_list,ascii=True,desc="Total progress bar"):#开启列表中的多线程
         t.setDaemon(True)
         t.start()
         while True:
@@ -250,7 +238,7 @@ if __name__ == '__main__':
             # 进入for循环启动新的进程.否则就一直在while循环进入死循环
             if (len(threading.enumerate()) < ThreadNumber):
                 break
-    for t in tqdm(thread_list,ascii=True,desc="Total progress bar:"):#除POC外功能总进度条
+    for t in thread_list:#除POC外功能总进度条
         t.join()
     print("Scan is complete, please see the result file")
 

@@ -15,7 +15,7 @@ def Main(Url, FileName, Values, ProxyIp):
     Weaver_db_disclosure.medusa(Url, RandomAgent, ProxyIp),Weaver_sqli.medusa(Url, RandomAgent, ProxyIp),Weaver_filedownload.medusa(Url, RandomAgent, ProxyIp),Weaver_CommandExecution.medusa(Url, RandomAgent, ProxyIp),Weaver_WorkflowCenterTreeDataInterfaceInjectionVulnerability.medusa(Url, RandomAgent, ProxyIp),
     Medusa = [Weaver_db_disclosure.medusa(Url, RandomAgent, ProxyIp),Weaver_sqli.medusa(Url, RandomAgent, ProxyIp),Weaver_filedownload.medusa(Url, RandomAgent, ProxyIp),Weaver_CommandExecution.medusa(Url, RandomAgent, ProxyIp),Weaver_WorkflowCenterTreeDataInterfaceInjectionVulnerability.medusa(Url, RandomAgent, ProxyIp),]
     try:
-        for i in tqdm(Medusa, ascii=True, desc="Weaver plugin progress:"):
+        for i in tqdm(Medusa, ascii=True, desc="Weaver plugin progress"):
             WriteFile.Write(str(i))
     except:
         pass

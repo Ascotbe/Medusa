@@ -12,7 +12,7 @@ def Main(Url,FileName,Values,ProxyIp):
 
     Medusa = [SecCmsRemoteCodeExecutionV6_45.medusa(Url,RandomAgent,ProxyIp),SecCmsRemoteCodeExecutionV6_54.medusa(Url,RandomAgent,ProxyIp),SecCmsRemoteCodeExecutionV6_55.medusa(Url,RandomAgent,ProxyIp), ]
     try:
-        for i in tqdm(Medusa, ascii=True, desc="SecCms plugin progress:"):
+        for i in tqdm(Medusa, ascii=True, desc="SecCms plugin progress"):
             WriteFile.Write(str(i))
     except:
         pass

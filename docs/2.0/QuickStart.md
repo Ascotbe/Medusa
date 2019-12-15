@@ -21,16 +21,22 @@
 运行```Medusa```所需要导入的包：
 
 ```
-fake-useragent
-requests
-urllib3
-python-nmap
-PyMySQL
-IPy
-scrapy
-tqdm
-dnspython
-tldextract
+bs4 ==0.0.1
+fake-useragent ==0.1.11
+requests ==2.22.0
+urllib3 ==1.25.3
+python-nmap ==0.6.1
+PyMySQL ==0.9.3
+IPy ==1.0
+scrapy ==1.7.3
+tqdm ==4.38.0
+dnspython ==1.16.0
+tldextract ==2.2.2
+Django==2.2.7
+Celery==4.3.0
+django_redis==4.10.0
+eventlet==0.25.1
+pyDES==2.0.1
 ```
 
 ## 快速使用

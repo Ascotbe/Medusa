@@ -2,13 +2,12 @@
  <p align="center">
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Ascotbe-Medusa%20Scan-green"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/python-3.6-blueviolet"></a>
-    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Version-0.45-red"></a>
+    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Version-0.46-red"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/LICENSE-GPL-ff69b4"></a>
 	<a href="https://github.com/ascotbe/Medusa/stargazers"><img alt="Release" src="https://img.shields.io/github/stars/ascotbe/Medusa.svg"></a>
  </p>
 
 <h1 align="center" >美杜莎扫描器</h1>
-
 **请使用者遵守 [中华人民共和国网络安全法](http://www.cac.gov.cn/2016-11/07/c_1119867116.htm)，勿将MedusaScan用于非授权的测试，MedusaScan开发者不负任何连带法律责任。**
 
 ### 关于美杜莎扫描器
@@ -65,8 +64,11 @@ python3 MedusaScan.py -u www.ascotbe.com
 ### 提交意见&BUG
     欢迎大家提交Issues
 
+### 团队纳新:cn:
 
-[肥宅博客](https://www.ascotbe.com)
+```
+说白了就是找个几个前端大佬和后端大佬，我自己一个有点时间不够
+```
 
 [更新日志](https://www.ascotbe.com/Medusa/2.0/#/UpDataLog)
 

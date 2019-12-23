@@ -64,10 +64,10 @@ python3 MedusaScan.py -u www.ascotbe.com
 ### 提交意见&BUG
     欢迎大家提交Issues
 
-### 团队纳新:cn:
+### :alarm_clock:团队纳新:alarm_clock:
 
 ```
-说白了就是找个几个前端大佬和后端大佬，我自己一个有点时间不够
+找个几个前端大佬和后端大佬，我自己一个有点时间不够
 ```
 
 [更新日志](https://www.ascotbe.com/Medusa/2.0/#/UpDataLog)

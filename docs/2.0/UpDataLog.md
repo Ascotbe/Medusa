@@ -8,11 +8,10 @@ v0.03
 ```
 
 > 2019.8.29
-
-
-	添加许可证
-	更新NginxCRLFInjectionVulnerability，NginxDirectoryTraversalVulnerability插件
-
+```
+添加许可证
+更新NginxCRLFInjectionVulnerability，NginxDirectoryTraversalVulnerability插件
+```
 > 2019.8.30
 
 ```
@@ -21,11 +20,11 @@ v0.03
 ```
 
 > 2019.8.31
-
-	优化框架结构
-	增加随机头
-	解决写入文件乱码问题
-
+```
+优化框架结构
+增加随机头
+解决写入文件乱码问题
+```
 > 2019.9.1
 
 ```
@@ -407,5 +406,13 @@ v0.45X
 ```
 v0.46
 添加Metinfo任意文件读取漏洞插件
+```
+
+> 2019.12.24
+
+```
+v0.47
+添加MetinfoSQL注入漏洞
+添加Metinfo探针导致信息泄露漏洞
 ```
 

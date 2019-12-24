@@ -65,7 +65,7 @@ python3 MedusaScan.py -u www.ascotbe.com
 ### 提交意见&BUG
     欢迎大家提交Issues
 
-### :alarm_clock:团队纳新:alarm_clock:
+### :alarm_clock:寻基友:alarm_clock:
 
 ```
 找个几个前端大佬和后端大佬，我自己一个有点时间不够

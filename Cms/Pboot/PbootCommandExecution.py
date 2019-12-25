@@ -64,4 +64,3 @@ def medusa(Url,RandomAgent,ProxyIp):
     except Exception:
         _ = VulnerabilityInfo('').info.get('algroup')
         _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类传入URL和错误插件名
-

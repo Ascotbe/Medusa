@@ -21,6 +21,10 @@
 
 <img alt="Release" src="https://github.com/Ascotbe/Random-img/blob/master/Medusa/demo.gif?raw=true"  >
 
+## 复现文档
+
+> `https://www.ascotbe.com/Loophole`
+
 ## 使用说明
 
 ```bash

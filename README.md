@@ -1,4 +1,5 @@
 <img src="https://github.com/Ascotbe/Medusa/blob/master/MedusaScan.png?raw=true" width="1500" alt="MedusaScan" /> 
+
  <p align="center">
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Ascotbe-Medusa%20Scan-green"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/python-3.6-blueviolet"></a>
@@ -8,7 +9,6 @@
  </p>
 
 <h1 align="center" >美杜莎扫描器</h1>
-
 **请使用者遵守 [中华人民共和国网络安全法](http://www.cac.gov.cn/2016-11/07/c_1119867116.htm)，勿将MedusaScan用于非授权的测试，MedusaScan开发者不负任何连带法律责任。**
 
 ### 关于美杜莎扫描器
@@ -21,6 +21,10 @@
 
 ### 使用文档（必看）
 > `https://www.ascotbe.com/Medusa`
+
+### 复现文档
+
+> `https://www.ascotbe.com/Loophole`
 
 ### 使用说明
 

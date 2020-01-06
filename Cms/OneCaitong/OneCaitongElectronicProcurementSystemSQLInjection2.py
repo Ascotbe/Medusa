@@ -69,22 +69,22 @@ def medusa(Url,RandomAgent,ProxyIp):
             }
 
             s = requests.session()
-            if ProxyIp!=None:
-                proxies = {
-                    # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
-                    "http": "http://" + str(ProxyIp)
-                }
-                time0 = time.time()
-                resp = s.get(payload_url,headers=headers, timeout=6, proxies=proxies,verify=False)
-                time1 = time.time()
-                resp2 = s.get(payload_url2, headers=headers, timeout=6, proxies=proxies, verify=False)
-                time2 = time.time()
-            elif ProxyIp==None:
-                time0 = time.time()
-                resp = s.get(payload_url,headers=headers, timeout=6, verify=False)
-                time1 = time.time()
-                resp = s.get(payload_url2, headers=headers, timeout=6, verify=False)
-                time2 = time.time()
+            # if ProxyIp!=None:
+            #     proxies = {
+            #         # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
+            #         "http": "http://" + str(ProxyIp)
+            #     }
+            #     time0 = time.time()
+            #     resp = s.get(payload_url,headers=headers, timeout=6, proxies=proxies,verify=False)
+            #     time1 = time.time()
+            #     resp2 = s.get(payload_url2, headers=headers, timeout=6, proxies=proxies, verify=False)
+            #     time2 = time.time()
+            # elif ProxyIp==None:
+            time0 = time.time()
+            resp = s.get(payload_url,headers=headers, timeout=6, verify=False)
+            time1 = time.time()
+            resp = s.get(payload_url2, headers=headers, timeout=6, verify=False)
+            time2 = time.time()
             con = resp.text
             code = resp.status_code
             code2 = resp2.status_code

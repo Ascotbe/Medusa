@@ -56,14 +56,14 @@ def medusa(Url,RandomAgent,ProxyIp):
         }
 
         s = requests.session()
-        if ProxyIp!=None:
-            proxies = {
-                # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
-                "http": "http://" + str(ProxyIp)
-            }
-            resp = s.post(payload_url,headers=headers, data=payload_data, timeout=6, proxies=proxies,verify=False)
-        elif ProxyIp==None:
-            resp = s.post(payload_url, headers=headers, data=payload_data,timeout=5, verify=False)
+        # if ProxyIp!=None:
+        #     proxies = {
+        #         # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
+        #         "http": "http://" + str(ProxyIp)
+        #     }
+        #     resp = s.post(payload_url,headers=headers, data=payload_data, timeout=6, proxies=proxies,verify=False)
+        # elif ProxyIp==None:
+        resp = s.post(payload_url, headers=headers, data=payload_data,timeout=5, verify=False)
         con=resp.text
         code = resp.status_code
         if code== 200 and con.find('System') != -1 and con.find('Compiler') != -1 and con.find('Build Date') != -1 and con.find('IPv6 Support') != -1 and con.find('Configure Command') != -1:

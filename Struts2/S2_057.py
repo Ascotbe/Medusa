@@ -2,11 +2,8 @@
 # _*_ coding: utf-8 _*_
 
 
-import urllib
+import urllib.parse
 import requests
-
-
-import logging
 import ClassCongregation
 class VulnerabilityInfo(object):
     def __init__(self,Medusa):
@@ -52,16 +49,17 @@ def medusa(Url,RandomAgent,ProxyIp):
         'DNT': '1',
         'Upgrade-Insecure-Requests': '1'
     }
-    s = requests.session()
+
     try:
-        if ProxyIp != None:
-            proxies = {
-                # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
-                "http": "http://" + str(ProxyIp)
-            }
-            resp = s.get(payload_url, headers=headers, proxies=proxies,timeout=5, allow_redirects=False)
-        elif ProxyIp == None:
-            resp = s.get(payload_url,headers=headers, timeout=5,allow_redirects=False)
+        s = requests.session()
+        # if ProxyIp != None:
+        #     proxies = {
+        #         # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
+        #         "http": "http://" + str(ProxyIp)
+        #     }
+        #     resp = s.get(payload_url, headers=headers, proxies=proxies,timeout=5, allow_redirects=False)
+        # elif ProxyIp == None:
+        resp = s.get(payload_url,headers=headers, timeout=5,allow_redirects=False)
         con = resp.headers['Location']
         code = resp.status_code
         if code==302 and con.lower().find('54289')!=-1:

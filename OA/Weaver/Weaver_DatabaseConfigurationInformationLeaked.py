@@ -53,14 +53,14 @@ def medusa(Url,RandomAgent,ProxyIp):
         }
 
         s = requests.session()
-        if ProxyIp!=None:
-            proxies = {
-                # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
-                "http": "http://" + str(ProxyIp)
-            }
-            resp = s.get(payload_url,headers=headers, timeout=6, proxies=proxies,verify=False)
-        elif ProxyIp==None:
-            resp = s.get(payload_url,headers=headers, timeout=6, verify=False)
+        # if ProxyIp!=None:
+        #     proxies = {
+        #         # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
+        #         "http": "http://" + str(ProxyIp)
+        #     }
+        #     resp = s.get(payload_url,headers=headers, timeout=6, proxies=proxies,verify=False)
+        # elif ProxyIp==None:
+        resp = s.get(payload_url,headers=headers, timeout=6, verify=False)
         con=resp.text
         dec=resp.content[10:]
         resph= resp.headers['Set-Cookie']

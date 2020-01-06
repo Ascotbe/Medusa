@@ -47,17 +47,9 @@ def medusa(Url,RandomAgent,ProxyIp):
             'User-Agent': RandomAgent,
             'Connection': 'close',
         }
-        resp=""
         s = requests.session()
 
-        if ProxyIp!=None:
-            proxies = {
-                # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
-                "http": "http://" + str(ProxyIp)
-            }
-            resp = s.put(PayloadUrl, data=PayloadCode, headers=headers, timeout=3, proxies=proxies,verify=False)
-        elif ProxyIp==None:
-            resp = s.put(PayloadUrl, data=PayloadCode, headers=headers, timeout=3,verify=False)
+        resp = s.put(PayloadUrl, data=PayloadCode, headers=headers, timeout=3,verify=False)
         code = resp.status_code
         resp2=s.get(PayloadUrl, headers=headers, timeout=3).text
         if code==204 and resp2.lower().find('ascotbe@medusa')!=-1  :

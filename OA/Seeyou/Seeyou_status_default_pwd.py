@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import urllib
+import urllib.parse
 import requests
 import ClassCongregation
 class VulnerabilityInfo(object):
@@ -49,14 +49,14 @@ def medusa(Url,RandomAgent,ProxyIp):
                 'User-Agent': RandomAgent,
             }
             #s = requests.session()
-            if ProxyIp!=None:
-                proxies = {
-                    # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
-                    "http": "http://" + str(ProxyIp)
-                }
-                resp = requests.post(payload_url, data=post_data, headers=headers, proxies=proxies, timeout=5, verify=False)
-            elif ProxyIp==None:
-                resp = requests.post(payload_url, data=post_data,headers=headers, timeout=5, verify=False)
+            # if ProxyIp!=None:
+            #     proxies = {
+            #         # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
+            #         "http": "http://" + str(ProxyIp)
+            #     }
+            #     resp = requests.post(payload_url, data=post_data, headers=headers, proxies=proxies, timeout=5, verify=False)
+            # elif ProxyIp==None:
+            resp = requests.post(payload_url, data=post_data,headers=headers, timeout=5, verify=False)
             con = resp.text
             code = resp.status_code
             if con.lower().find('a8 management monitor')!=-1 and con.lower().find('connections stack trace')!=-1:

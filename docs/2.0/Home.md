@@ -3,7 +3,7 @@
  <p align="center">
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Ascotbe-Medusa%20Scan-green"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/python-3.6-blueviolet"></a>
-    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Version-0.47-red"></a>
+    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Version-0.49-red"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/LICENSE-GPL-ff69b4"></a>
 	<a href="https://github.com/ascotbe/Medusa/stargazers"><img alt="Release" src="https://img.shields.io/github/stars/ascotbe/Medusa.svg"></a>
  </p>
@@ -43,7 +43,6 @@ python3 MedusaScan.py -u www.ascotbe.com
 | ------ |--------  | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | -u     | 1        | 输入单个目标url（最好使用http://或https://作为开头,并且后面别跟参数 | https://www.baidu.com  or https://192.168.0.1 |
 | -o     | 1        | 你想要输入到那个文件里面，如果没有输入该位置，则默认值将写入根目录 | 无  |
-| -p     | 0        | 是否启用全局代理功能(后面不需要跟参数                        | 无 |
 | -a     | 1        | 指定头文件或使用随机头                                       | 支持类型(需要小写):firefox,ie,msie,opera,chrome,AppleWebKit,Gecko,safari |
 | -f     | 1        | 需要批量扫描目标url所在文件名字                              | -u和-f只能存在一个，并且必须存在一个                         |
 | -t     | 1        |设置线程数，默认线程数15|  无 |

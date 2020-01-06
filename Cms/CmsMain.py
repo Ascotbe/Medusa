@@ -4,7 +4,9 @@
 from Cms.SecCms import SecCms
 from Cms.Metinfo import Metinfo
 from Cms.OneCaitong import OneCaitong
-from Cms.Pboot import  Pboot
+from Cms.Pboot import Pboot
+from Cms.FiveClib import FiveClib
+from Cms._74CMS import _74CMS
 def Main(Url,FileName,Values,ProxyIp):
     try:
         SecCms.Main(Url,FileName,Values,ProxyIp)
@@ -20,5 +22,13 @@ def Main(Url,FileName,Values,ProxyIp):
         pass
     try:
         Pboot.Main(Url,FileName,Values,ProxyIp)
+    except:
+        pass
+    try:
+        FiveClib.Main(Url,FileName,Values,ProxyIp)
+    except:
+        pass
+    try:
+        _74CMS.Main(Url,FileName,Values,ProxyIp)
     except:
         pass

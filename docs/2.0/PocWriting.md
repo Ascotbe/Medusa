@@ -63,8 +63,8 @@ def medusa(Url,RandomAgent,ProxyIp):
                       headers=headers, timeout=6, verify=False)
         con = resp.text
         code = resp.status_code
-        if code == 200 and con.lower().find('''"draggable":''') != -1 and con.lower().find(
-                '''"checked":''') != -1 and con.lower().find('''"id":''') != -1 and con.lower().find(
+        if code == 200 and con.find('''"draggable":''') != -1 and con.find(
+                '''"checked":''') != -1 and con.find('''"id":''') != -1 and con.find(
                 '''"text":''') != -1:
             Medusa = "{}存在泛微OA_WorkflowCenterTreeData接口注入漏洞\r\n 验证数据:\r\nUrl:{}\r\nPayload:{}\r\n".format(url,payload_url,resp.headers)
             _t=VulnerabilityInfo(Medusa)
@@ -161,8 +161,8 @@ def medusa(Url,RandomAgent,ProxyIp):
                       headers=headers, timeout=6, verify=False)
         con = resp.text
         code = resp.status_code
-        if code == 200 and con.lower().find('''"draggable":''') != -1 and con.lower().find(
-                '''"checked":''') != -1 and con.lower().find('''"id":''') != -1 and con.lower().find(
+        if code == 200 and con.find('''"draggable":''') != -1 and con.find(
+                '''"checked":''') != -1 and con.find('''"id":''') != -1 and con.find(
                 '''"text":''') != -1:
             Medusa = "{}存在泛微OA_WorkflowCenterTreeData接口注入漏洞\r\n 验证数据:\r\nUrl:{}\r\nPayload:{}\r\n".format(url,payload_url,resp.headers)
             _t=VulnerabilityInfo(Medusa)
@@ -254,8 +254,8 @@ if ProxyIp!=None:
 - ```if```判断一定要唯一性，唯一的返回状态码，唯一只在该漏洞存在的字符串正常页面不会存在的，如下所示:
 
 ```python
-        if code == 200 and con.lower().find('''"draggable":''') != -1 and con.lower().find(
-                '''"checked":''') != -1 and con.lower().find('''"id":''') != -1 and con.lower().find(
+        if code == 200 and con.find('''"draggable":''') != -1 and con.find(
+                '''"checked":''') != -1 and con.find('''"id":''') != -1 and con.find(
                 '''"text":''') != -1:
             Medusa = "{} 验证数据:\r\nRequests:{}\r\n".format(url,resp.headers)
             _t=VulnerabilityInfo(Medusa)

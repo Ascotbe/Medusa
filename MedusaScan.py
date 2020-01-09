@@ -12,6 +12,7 @@ from Nginx import NginxMain
 from Jenkins import JenkinsMain
 from Cms import CmsMain
 from Solr import SolrMain
+from Citrix import CitrixMain
 from InformationDetector import JS
 from InformationDetector import sublist3r
 from InformationDisclosure import InformationDisclosureMain
@@ -110,6 +111,7 @@ def San(OutFileName,Url,Values,ProxyIp):
     thread_list.append(threading.Thread(target=SolrMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))  # 调用Solr主函数
     thread_list.append(threading.Thread(target=RailsMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))  # 调用RailsMain主函数
     thread_list.append(threading.Thread(target=KibanaMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))  # 调用KibanaMain主函数
+    thread_list.append(threading.Thread(target=CitrixMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))  # 调用CitrixMain主函数
 
 
 def OpenProxy():

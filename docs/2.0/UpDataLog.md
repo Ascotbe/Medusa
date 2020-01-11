@@ -450,5 +450,17 @@ log4j和mongo-express等DNSlog写好在传吧
 
 ```
 更新Phpweb前台任意文件上传漏洞插件
+```
+
+> 2020.1.11
 
 ```
+更新log4j远程命令执行漏洞插件
+更新mongo-express远程代码执行漏洞插件
+修复ActiveMQ任意文件写入漏洞插件
+修复linux下写入文件位置出错问题
+添加内置Dnslog服务器
+添加Dnslog验证类
+修改POC编写文档
+```
+

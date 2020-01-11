@@ -5,11 +5,6 @@
 ```python
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-'''
-注意！只能对oracle数据库起作用
-'''
-__author__ = 'Ascotbe'
-__times__ = '2019/10/13 22:12 PM'
 import urllib.parse
 import requests
 import ClassCongregation
@@ -18,8 +13,8 @@ class VulnerabilityInfo(object):
         self.info = {}
         self.info['number']="0" #如果没有CVE或者CNVD编号就填0，CVE编号优先级大于CNVD
         self.info['author'] = "Ascotbe"  # 插件作者
-        self.info['createDate'] = "2019-10-13"  # 插件编辑时间
-        self.info['disclosure']='2019-10-13'#漏洞披露时间，如果不知道就写编写插件的时间
+        self.info['createDate'] = "2020-10-13"  # 插件编辑时间
+        self.info['disclosure']='2020-10-13'#漏洞披露时间，如果不知道就写编写插件的时间
         self.info['algroup'] = "Weaver_WorkflowCenterTreeDataInterfaceInjectionVulnerability"  # 插件名称
         self.info['name'] ='泛微OA_WorkflowCenterTreeData接口注入漏洞' #漏洞名称
         self.info['affects'] = "泛微OA"  # 漏洞组件
@@ -238,17 +233,6 @@ def medusa(Url,RandomAgent,ProxyIp):
 
 - ~~必须存在如下的```if```..```elif```判断语句，并且里面的值```resp```需要在前面声明全局使用(例:```global resp```~~
 
-```python
-#以下代码均弃用
-if ProxyIp!=None:
-            proxies = {
-                "http": "http://" + str(ProxyIp)
-            }
-            resp = s.post(payload_url,data=payload_post,headers=headers, timeout=6, proxies=proxies,verify=False)
-        elif ProxyIp==None:
-            resp = s.post(payload_url,data=payload_post,headers=headers, timeout=6, verify=False)
-```
-
 ###### 判断漏洞存在
 
 - ```if```判断一定要唯一性，唯一的返回状态码，唯一只在该漏洞存在的字符串正常页面不会存在的，如下所示:
@@ -326,6 +310,28 @@ if ProxyIp!=None:
 
 ![1.png](https://github.com/Ascotbe/Random-img/blob/master/docute/1.png?raw=true)
 
+###### Dnslog使用规范
+
+- 禁止使用如下形式
+
+  ```python
+  from ClassCongregation import Dnslog
+  #使用改方法会导致类初始化2次获取的随机数和判断中所获取的随机数不同
+  Dnslog().dns_host()#获取随机数
+  Dnslog().result()#判断随机数是否请求成功
+  ```
+
+- 应当写成如下形式
+
+  ```python
+  from ClassCongregation import Dnslog
+  dns=Dnslog()#首先初始化
+  dns.dns_host()#获取随机数
+  dns.result()#判断随机数是否请求成功
+  ```
+
+  
+
 ###### 变量命名规范
 
 - 仅限使用```驼峰命名法``` 、```匈牙利命名法```
@@ -387,4 +393,3 @@ if ProxyIp!=None:
   return（str(Medusa)）
   ```
 
-  

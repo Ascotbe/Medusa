@@ -12,8 +12,10 @@ from tqdm import tqdm
 import logging
 import os
 import re
+import json
+import random
+import sys
 import hashlib
-from django.db import models
 def IpProcess(Url):
     if Url.startswith("http"):  # 记个小知识点：必须带上https://这个头不然urlparse就不能正确提取hostname导致后面运行出差错
         res = urllib.parse.urlparse(Url)  # 小知识点2：如果只导入import urllib包使用parse这个类的话会报错，必须在import requests导入这个包才能正常运行
@@ -30,7 +32,11 @@ class WriteFile:#写入文件类
 
 
     def Write(self,Medusa):
-        FileNames = os.path.split(os.path.realpath(__file__))[0]+"\\ScanResult\\"+self.FileName + ".txt"#不需要输入后缀，只要名字就好
+        global FileNames
+        if sys.platform == "win32" or sys.platform == "cygwin":
+            FileNames = os.path.split(os.path.realpath(__file__))[0]+"\\ScanResult\\"+self.FileName + ".txt"#不需要输入后缀，只要名字就好
+        elif sys.platform=="linux" or sys.platform=="darwin":
+            FileNames = os.path.split(os.path.realpath(__file__))[0] + "/ScanResult/" + self.FileName + ".txt"  # 不需要输入后缀，只要名字就好
         with open(FileNames, 'w+',encoding='utf-8') as f:  # 如果filename不存在会自动创建， 'w'表示写数据，写之前会清空文件中的原有数据！
             f.write(Medusa+"\n")
 
@@ -101,7 +107,10 @@ class NmapDB:#NMAP的数据库
         self.ip = ip  # 扫描的目标
         self.domain=domain #域名
         # 如果数据库不存在的话，将会自动创建一个 数据库
-        self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0] + "\\Medusa.db")
+        if sys.platform == "win32" or sys.platform == "cygwin":
+            self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0] + "\\Medusa.db")
+        elif sys.platform=="linux" or sys.platform=="darwin":
+            self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0] + "/Medusa.db")
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表
@@ -135,7 +144,10 @@ class NmapDB:#NMAP的数据库
 class NmapRead:#读取Nmap扫描后的数据
     def __init__(self,id):
         self.id = id  # 每个任务唯一的ID值
-        self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0] + "\\Medusa.db")
+        if sys.platform == "win32" or sys.platform == "cygwin":
+            self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0] + "\\Medusa.db")
+        elif sys.platform=="linux" or sys.platform=="darwin":
+            self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0] + "/Medusa.db")
         self.cur = self.con.cursor()
     def Read(self):
         try:
@@ -155,7 +167,10 @@ class SessionKey:
         self.username=username
         self.session_key=session_key
         self.session_time=session_time
-        self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0] + "\\Medusa.db")
+        if sys.platform == "win32" or sys.platform == "cygwin":
+            self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0] + "\\Medusa.db")
+        elif sys.platform=="linux" or sys.platform=="darwin":
+            self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0] + "/Medusa.db")
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表
@@ -193,6 +208,7 @@ class BlastingDB:
         self.DataBaseUserFileName=DataBaseUserFileName
         self.DataBasePasswrodFileName = DataBasePasswrodFileName
     def BoomDB(self,Url):
+        global BoomDBFileName
         try:
             if self.DataBaseUserFileName!=None and self.DataBasePasswrodFileName!=None:
                 with open(self.DataBaseUserFileName, encoding='utf-8') as f:
@@ -205,7 +221,11 @@ class BlastingDB:
                                     Url=IpProcess(Url)
                                     conn = pymysql.connect(Url, User, PassWrod, 'mysql', 3306)
                                     conn.close()
-                                    BoomDBFileName = os.path.split(os.path.realpath(__file__))[0]+"\\ScanResult\\BoomDBOutputFile.txt"
+                                    if sys.platform == "win32" or sys.platform == "cygwin":
+                                        BoomDBFileName = os.path.split(os.path.realpath(__file__))[
+                                                             0] + "\\ScanResult\\BoomDBOutputFile.txt"
+                                    elif sys.platform == "linux" or sys.platform == "darwin":
+                                        BoomDBFileName = os.path.split(os.path.realpath(__file__))[0]+"/ScanResult/BoomDBOutputFile.txt"
                                     with open(BoomDBFileName, 'a', encoding='utf-8') as fg:
                                         fg.write("Database address:"+Url +"      Account:"+User+"      Passwrod:"+PassWrod+ "\n")  # 写入单独的扫描结果文件中
                                 except Exception as e:
@@ -224,7 +244,11 @@ class BlastingDB:
                                     Url = IpProcess(Url)
                                     conn = pymysql.connect(Url, User, PassWrod, 'mysql', 3306)
                                     conn.close()
-                                    BoomDBFileName = os.path.split(os.path.realpath(__file__))[0]+"\\ScanResult\\BoomDBOutputFile.txt"
+                                    if sys.platform == "win32" or sys.platform == "cygwin":
+                                        BoomDBFileName = os.path.split(os.path.realpath(__file__))[
+                                                             0] + "\\ScanResult\\BoomDBOutputFile.txt"
+                                    elif sys.platform == "linux" or sys.platform == "darwin":
+                                        BoomDBFileName = os.path.split(os.path.realpath(__file__))[0]+"/ScanResult/BoomDBOutputFile.txt"
                                     with open(BoomDBFileName, 'a', encoding='utf-8') as fg:
                                         fg.write("Database address:"+Url +"      Account:"+User+"      Passwrod:"+PassWrod+ "\n")  # 写入单独的扫描结果文件中
                                 except Exception as e:
@@ -263,7 +287,12 @@ class Proxy:#IP代理池参数
 
                     if requests.get('https://www.baidu.com/', proxies=proxies, timeout=2).status_code == 200:
                         if ip not in self.HttpIp:#如果代理IP不在列表里面就传到列表里
-                            f = open(os.path.split(os.path.realpath(__file__))[0]+"\\ScanResult\\ProxyPool.txt", 'a+', encoding='utf-8')
+                            global f
+                            if sys.platform == "win32" or sys.platform == "cygwin":
+                                f = open(os.path.split(os.path.realpath(__file__))[0] + "\\ScanResult\\ProxyPool.txt",
+                                         'a+', encoding='utf-8')
+                            elif sys.platform == "linux" or sys.platform == "darwin":
+                                f = open(os.path.split(os.path.realpath(__file__))[0]+"/ScanResult/ProxyPool.txt", 'a+', encoding='utf-8')
                             ip=ip+"\r"
                             f.write(str(ip) ) # 写入单独的扫描结果文件中
                             f.close()
@@ -281,7 +310,10 @@ class VulnerabilityDetails:
             self.desc_content=medusa['desc_content']# 漏洞描述
             self.suggest=medusa['suggest']# 修复建议
             # 如果数据库不存在的话，将会自动创建一个 数据库
-            self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0]+"\\Medusa.db")
+            if sys.platform == "win32" or sys.platform == "cygwin":
+                self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0] + "\\Medusa.db")
+            elif sys.platform == "linux" or sys.platform == "darwin":
+                self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0]+"/Medusa.db")
             # 获取所创建数据的游标
             self.cur = self.con.cursor()
             # 创建表
@@ -354,7 +386,10 @@ class VulnerabilityDetails:
 class VulnerabilityInquire:
     def __init__(self,pid):#先通过id查，后面要是有用户ID 再运行的时候创建一个用户信息的表或者什么的到时候再说
         self.id=pid
-        self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0] + "\\Medusa.db")
+        if sys.platform == "win32" or sys.platform == "cygwin":
+            self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0] + "\\Medusa.db")
+        elif sys.platform=="linux" or sys.platform=="darwin":
+            self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0] + "/Medusa.db")
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
     def Inquire(self):
@@ -375,7 +410,10 @@ class VulnerabilityInquire:
 class login:#登录
     def __init__(self,username):
         self.username=username
-        self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0] + "\\Medusa.db")
+        if sys.platform == "win32" or sys.platform == "cygwin":
+            self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0] + "\\Medusa.db")
+        elif sys.platform=="linux" or sys.platform=="darwin":
+            self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0] + "/Medusa.db")
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
     def logins(self):#根据数据进行查询用户名和数据库是否相等
@@ -395,7 +433,10 @@ class register:#注册
         self.username = username  # 用户名
         self.password = password # 密码
         self.emil=emil#邮箱
-        self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0] + "\\Medusa.db")
+        if sys.platform == "win32" or sys.platform == "cygwin":
+            self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0] + "\\Medusa.db")
+        elif sys.platform=="linux" or sys.platform=="darwin":
+            self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0] + "/Medusa.db")
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表
@@ -440,7 +481,11 @@ class register:#注册
 
 class ErrorLog:
     def __init__(self):
-        filename=os.path.split(os.path.realpath(__file__))[0]+'\\my.log'#获取当前文件所在的目录，即父目录
+        global filename
+        if sys.platform == "win32" or sys.platform == "cygwin":
+            filename=os.path.split(os.path.realpath(__file__))[0]+'\\my.log'#获取当前文件所在的目录，即父目录
+        elif sys.platform == "linux" or sys.platform == "darwin":
+            filename = os.path.split(os.path.realpath(__file__))[0] + '/my.log'  # 获取当前文件所在的目录，即父目录
         #filename=os.path.realpath(__file__)#获取当前文件名
         log_format = '%(asctime)s - %(pathname)s[line:%(lineno)d] - %(levelname)s: %(message)s'
         logging.basicConfig(filename=filename, filemode='a', level=logging.INFO,
@@ -449,3 +494,33 @@ class ErrorLog:
         logging.info(url)
         logging.warning(name)
 
+class Dnslog:#Dnslog判断
+    def __init__(self):
+        H = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+        salt=""
+        for i in range(15):
+            salt += random.choice(H)
+        self.host=str(salt+".medusa.ascotbe.com")
+    def dns_host(self):
+        return self.host
+    def result(self):
+        try:
+            status = requests.post('http://log.ascotbe.com/api/validate', timeout=2,data=json.dumps({"domain": self.host})).status_code
+            print(self.host)
+            if status == 200:
+                return True
+            else:
+                return False
+        except Exception:
+            ErrorLog().Write(self.host,"Dnslog")
+
+
+class Ysoserial:
+    def __init__(self):
+        system_type=sys.platform
+        if system_type=="win32" or system_type=="cygwin":
+            self.ysoserial=os.path.join(os.path.abspath(os.path.dirname(os.path.abspath(__file__)) + os.path.sep + "."),'Dictionary\\ysoserial-0.0.6-SNAPSHOT-BETA-all.jar')
+        elif system_type=="linux" or system_type=="darwin":
+            self.ysoserial= os.path.join(os.path.abspath(os.path.dirname(os.path.abspath(__file__)) + os.path.sep + "."),'Dictionary/ysoserial-0.0.6-SNAPSHOT-BETA-all.jar')
+    def result(self):
+        return self.ysoserial

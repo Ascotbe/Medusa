@@ -10,7 +10,6 @@
 
 <h1 align="center" >美杜莎扫描器</h1>
 
-
 **请使用者遵守 [中华人民共和国网络安全法](http://www.cac.gov.cn/2016-11/07/c_1119867116.htm)，勿将MedusaScan用于非授权的测试，MedusaScan开发者不负任何连带法律责任。**
 
 ### 关于美杜莎扫描器
@@ -27,6 +26,11 @@
 ### 复现文档
 
 > `https://www.ascotbe.com/Loophole`
+
+## Demo
+
+![demo](https://github.com/Ascotbe/Random-img/blob/master/Medusa/demo.gif?raw=true)
+
 
 ### 使用说明
 

@@ -8,6 +8,8 @@ from Cms.Pboot import Pboot
 from Cms.FiveClib import FiveClib
 from Cms._74CMS import _74CMS
 from Cms.Phpweb import Phpweb
+from Cms.B2Bbuilder import B2Bbuilder
+from Cms.BaijiaCMS import BaijiaCMS
 def Main(Url,FileName,Values,ProxyIp):
     try:
         SecCms.Main(Url,FileName,Values,ProxyIp)
@@ -35,5 +37,13 @@ def Main(Url,FileName,Values,ProxyIp):
         pass
     try:
         Phpweb.Main(Url,FileName,Values,ProxyIp)
+    except:
+        pass
+    try:
+        B2Bbuilder.Main(Url, FileName, Values, ProxyIp)
+    except:
+        pass
+    try:
+        BaijiaCMS.Main(Url, FileName, Values, ProxyIp)
     except:
         pass

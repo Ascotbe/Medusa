@@ -524,3 +524,11 @@ class Ysoserial:
             self.ysoserial= os.path.join(os.path.abspath(os.path.dirname(os.path.abspath(__file__)) + os.path.sep + "."),'Dictionary/ysoserial-0.0.6-SNAPSHOT-BETA-all.jar')
     def result(self):
         return self.ysoserial
+    
+class randoms:
+    def result(self,nub):
+        H = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+        salt = ""
+        for i in range(nub):
+            salt += random.choice(H)
+        return salt

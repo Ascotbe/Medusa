@@ -21,6 +21,7 @@ from Kibana import KibanaMain
 from Php import PhpMain
 from Mongo import MongoMain
 from OA import OaMian
+from Spring import SpringMain
 import ClassCongregation
 import tldextract#域名处理函数可以识别主域名和后缀
 import Banner
@@ -114,7 +115,7 @@ def San(OutFileName,Url,Values,ProxyIp):
     thread_list.append(threading.Thread(target=KibanaMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))  # 调用KibanaMain主函数
     thread_list.append(threading.Thread(target=CitrixMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))  # 调用CitrixMain主函数
     thread_list.append(threading.Thread(target=MongoMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))  # 调用MongoMain主函数
-
+    thread_list.append(threading.Thread(target=SpringMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))  # 调用SpringMain主函数
 
 def OpenProxy():
     global RepeatCleaningAgent

@@ -51,7 +51,7 @@ def medusa(Url,RandomAgent,ProxyIp):
         con = resp.text
         code = resp.status_code
         if code == 200 and con.find("No such file or directory") != -1 :
-            Medusa = "{}存在B2Bbuilder本地包含漏洞\r\n 验证数据:\r\nUrl:{}\r\n返回内容:{}\r\n".format(url,payload_url,resp.text)
+            Medusa = "{}存在B2Bbuilder本地包含漏洞\r\n 验证数据:\r\nUrl:{}\r\n返回内容:{}\r\n".format(url,payload_url,con)
             _t=VulnerabilityInfo(Medusa)
             web=ClassCongregation.VulnerabilityDetails(_t.info)
             web.Intermediate() # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危

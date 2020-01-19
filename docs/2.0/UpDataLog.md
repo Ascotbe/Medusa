@@ -520,11 +520,24 @@ v0.52🌴
 修改主页README文件
 ```
 
-> 2020.1.16
+> 2020.1.18
 
 ```
 v0.53🌴
 添加Spring反射文件下载插件
 添加随机数类
+```
+
+> 2020.1.19
+
+```
+v0.54🌴
+修复B2Bbuilder组件返回内容错误问题
+修复BaijiaCMS组件返回内容错误问题
+添加组件BearAdmin扫描插件
+添加组件BEESCMS扫描插件
+添加组件Bocweb扫描插件
+添加组件BugFree扫描插件
+添加组件BusBookingScript扫描插件
 ```
 

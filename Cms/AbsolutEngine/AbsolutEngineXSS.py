@@ -1,7 +1,8 @@
-
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import requests
 import urllib.parse
-
+import ClassCongregation
 
 class VulnerabilityInfo(object):
     def __init__(self,Medusa):
@@ -13,7 +14,7 @@ class VulnerabilityInfo(object):
         self.info['algroup'] = "AbsolutEngineXSS"  # 插件名称
         self.info['name'] ='AbsolutEngine跨站脚本漏洞' #漏洞名称
         self.info['affects'] = "AbsolutEngine"  # 漏洞组件
-        self.info['desc_content'] = "Absolut Engine跨站脚本漏洞"  # 漏洞描述
+        self.info['desc_content'] = "AbsolutEngine存在跨站脚本漏洞。由于程序未能充分过滤用户提供的输入。攻击者可以利用漏洞来窃取基于cookie的认证证书。"  # 漏洞描述
         self.info['rank'] = "低危"  # 漏洞等级
         self.info['suggest'] = "尽快升级最新系统"  # 修复建议
         self.info['version'] = "1.73"  # 这边填漏洞影响的版本
@@ -49,11 +50,10 @@ def medusa(Url, RandomAgent, ProxyIp):
 
         s = requests.session()
         resp = s.get(payload_url,headers = headers, verify = False, timeout = 6)
-        strContent = resp.text
-        strText = 'root'
-        iRet = strContent.find(strText)
-        if -1 != iRet:
-            Medusa = "{}存在AbsolutEngine跨站脚本漏洞\r\n 验证数据:\r\nUrl:{}\r\nPayload:{}\r\n".format(url,payload_url,resp.headers)
+        con = resp.text
+        code=resp.status_code
+        if con.find("root")!=-1 and code==200:
+            Medusa = "{}存在AbsolutEngine跨站脚本漏洞\r\n 验证数据:\r\nUrl:{}\r\nPayload:{}\r\n".format(url,payload_url,con)
             _t=VulnerabilityInfo(Medusa)
             web=ClassCongregation.VulnerabilityDetails(_t.info)
             web.Low() # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危

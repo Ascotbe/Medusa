@@ -16,7 +16,8 @@ from Cms.BlueCMS import BlueCMS
 from Cms.Bocweb import Bocweb
 from Cms.BugFree import BugFree
 from Cms.BusBookingScript import BusBookingScript
-
+from Cms.AbsolutEngine import AbsolutEngine
+from Cms.AfterLogicWebMail import AfterLogicWebMail
 def Main(Url,FileName,Values,ProxyIp):
     try:
         SecCms.Main(Url,FileName,Values,ProxyIp)
@@ -78,3 +79,13 @@ def Main(Url,FileName,Values,ProxyIp):
         BugFree.Main(Url, FileName, Values, ProxyIp)
     except:
         pass
+    try:
+        AbsolutEngine.Main(Url, FileName, Values, ProxyIp)
+    except:
+        pass
+
+    try:
+        AfterLogicWebMail.Main(Url, FileName, Values, ProxyIp)
+    except:
+        pass
+

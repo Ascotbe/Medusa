@@ -10,7 +10,6 @@
  </p>
 
 <h1 align="center" >美杜莎扫描器</h1>
-
 **请使用者遵守 [中华人民共和国网络安全法](http://www.cac.gov.cn/2016-11/07/c_1119867116.htm)，勿将MedusaScan用于非授权的测试，MedusaScan开发者不负任何连带法律责任。**
 
 ### 关于美杜莎扫描器
@@ -68,7 +67,7 @@ python3 MedusaScan.py -u www.ascotbe.com
 - `Nmap`端口扫描
 - 数据库爆破
 - 随机`Header`
-- 使用代理进行扫描
+- ~~使用代理进行扫描~~
 - 信息泄露探测
 - `OA`系统漏洞扫描
 

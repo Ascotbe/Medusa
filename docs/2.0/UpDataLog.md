@@ -541,3 +541,20 @@ v0.54🌴
 添加组件BusBookingScript扫描插件
 ```
 
+> 2020.1.20
+
+```
+v0.54X🌴
+添加组件AbsolutEngine扫描插件
+添加组件AfterLogicWebMail扫描插件
+```
+
+> 2020.1.21
+
+```
+v0.54XL🌴
+添加组件CuteCMS扫描插件
+添加组件AfterLogicWebMail扫描插件
+添加git代理下载
+```
+

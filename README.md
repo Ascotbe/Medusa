@@ -11,7 +11,6 @@
 
 <h1 align="center" >美杜莎扫描器</h1>
 
-
 **请使用者遵守 [中华人民共和国网络安全法](http://www.cac.gov.cn/2016-11/07/c_1119867116.htm)，勿将MedusaScan用于非授权的测试，MedusaScan开发者不负任何连带法律责任。**
 
 ### 关于美杜莎扫描器
@@ -47,7 +46,25 @@ pip3 install -r Medusa.txt
 # 使用扫描器
 python3 MedusaScan.py -u www.ascotbe.com
 ```
+### 加速下载
+
+```bash
+# 如果下载太慢可以使用代理，需要本地开启SSR，让流量走本地端口，端口为你SSR开的端口
+# 全局代理
+git config --global http.proxy http://127.0.0.1:1080
+git config --global https.proxy https://127.0.0.1:1080
+# 只对github使用代理，国内厂库无影响
+git config --global http.https://github.com.proxy https://127.0.0.1:1080
+git config --global https.https://github.com.proxy https://127.0.0.1:1080
+# 取消代理
+git config --global --unset http.proxy
+git config --global --unset https.proxy
+```
+
+
+
 ### 参数说明
+
 |短形式|长形式     |参数个数|作用                              |备注                           |
 |------|-----------|--------|----------------------------------|-------------------------------|
 |-u    |--url    |1       |输入单个目标url（最好使用http://或https://作为开头,并且后面别跟参数 |https://www.baidu.com  or https://192.168.0.1         |

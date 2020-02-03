@@ -10,7 +10,6 @@
  </p>
 
 <h1 align="center" >美杜莎扫描器</h1>
-
 **请使用者遵守 [中华人民共和国网络安全法](http://www.cac.gov.cn/2016-11/07/c_1119867116.htm)，勿将MedusaScan用于非授权的测试，MedusaScan开发者不负任何连带法律责任。**
 
 ### 关于美杜莎扫描器
@@ -28,7 +27,7 @@
 
 > `https://www.ascotbe.com/Loophole`
 
-## Demo
+### Demo
 
 ![demo](https://github.com/Ascotbe/Random-img/blob/master/Medusa/demo.gif?raw=true)
 
@@ -78,20 +77,12 @@ git config --global --unset https.proxy
 |-s    |--Subdomain   |0       |通过DNS以及各大搜索引擎查找子域名|从Sublist3r魔改而来,不支持IP枚举|
 |-se    |--SubdomainEnumerate   |0       |包含了-s的功能，并且通过字典枚举(非常耗时|和-s不能同时使用，-s和-se只能存在一个|
 
-### 功能列表
-- `CMS`漏洞扫描
-- 各种中间件漏洞扫描
-- 子域名收集
-- `JS`信息探测
-- `Nmap`端口扫描
-- 数据库爆破
-- 随机`Header`
-- ~~使用代理进行扫描~~
-- 信息泄露探测
-- `OA`系统漏洞扫描
-
 ### 提交意见&BUG
     欢迎大家提交Issues
+
+### 感谢贡献
+
+![1111](https://opencollective.com/Medusa/contributors.svg?width=890&button=false)
 
 ### :alarm_clock:寻基友:alarm_clock:
 

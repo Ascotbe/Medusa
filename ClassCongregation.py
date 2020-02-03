@@ -506,7 +506,7 @@ class Dnslog:#Dnslog判断
     def result(self):
         try:
             status = requests.post('http://log.ascotbe.com/api/validate', timeout=2,data=json.dumps({"domain": self.host})).status_code
-            print(self.host)
+            #print(self.host)
             if status == 200:
                 return True
             else:

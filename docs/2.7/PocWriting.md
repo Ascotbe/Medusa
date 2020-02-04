@@ -5,7 +5,6 @@
 ```python
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import urllib.parse
 import requests
 import ClassCongregation
 class VulnerabilityInfo(object):
@@ -24,16 +23,10 @@ class VulnerabilityInfo(object):
         self.info['version'] = "xxx版本-xxx版本"  # 这边填漏洞影响的版本
         self.info['details'] = Medusa  # 结果
 
-def UrlProcessing(url):
-    if url.startswith("http"):#判断是否有http头，如果没有就在下面加入
-        res = urllib.parse.urlparse(url)
-    else:
-        res = urllib.parse.urlparse('http://%s' % url)
-    return res.scheme, res.hostname, res.port
 
 def medusa(Url,RandomAgent,ProxyIp):
 
-    scheme, url, port = UrlProcessing(Url)
+    scheme, url, port = ClassCongregation.UrlProcessing().result(Url)
     if port is None and scheme == 'https':
         port = 443
     elif port is None and scheme == 'http':
@@ -124,12 +117,25 @@ def UrlProcessing(url):
 
 函数对各个部分进行处理，最终我们只需要取得``` scheme``` ,``` port``` , ``` hostname``` 的值返回给调用函数就行
 
+该函数在2.7插件版本中已写入`ClassCongregation`类中，调用只需要如下操作即可
+
+```python
+使用方法一：单独导入
+from ClassCongregation import UrlProcessing
+scheme, url, port = UrlProcessing().result(Url)
+使用方法二：直接导入
+import ClassCongregation
+scheme, url, port = ClassCongregation.UrlProcessing().result(Url)
+```
+
+
+
 ### medusa函数
 
 ```python
 def medusa(Url,RandomAgent,ProxyIp):
 
-    scheme, url, port = UrlProcessing(Url)
+    scheme, url, port = ClassCongregation.UrlProcessing().result(Url)
     if port is None and scheme == 'https':
         port = 443
     elif port is None and scheme == 'http':
@@ -267,7 +273,7 @@ def medusa(Url,RandomAgent,ProxyIp):
 
   ```python
   def medusa(Url, RandomAgent, ProxyIp=None):
-      scheme, url, port = UrlProcessing(Url)
+      scheme, url, port = ClassCongregation.UrlProcessing().result(Url)
       if port is None and scheme == 'https':
           port = 443
       elif port is None and scheme == 'http':

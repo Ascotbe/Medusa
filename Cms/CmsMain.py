@@ -19,6 +19,7 @@ from Cms.BusBookingScript import BusBookingScript
 from Cms.AbsolutEngine import AbsolutEngine
 from Cms.AfterLogicWebMail import AfterLogicWebMail
 from Cms.CuteCMS import CuteCMS
+from Cms.Cyberwisdom import Cyberwisdom
 def Main(Url,FileName,Values,ProxyIp):
     try:
         SecCms.Main(Url,FileName,Values,ProxyIp)
@@ -92,6 +93,11 @@ def Main(Url,FileName,Values,ProxyIp):
 
     try:
         CuteCMS.Main(Url, FileName, Values, ProxyIp)
+    except:
+        pass
+
+    try:
+        Cyberwisdom.Main(Url, FileName, Values, ProxyIp)
     except:
         pass
 

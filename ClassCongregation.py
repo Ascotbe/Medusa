@@ -532,3 +532,10 @@ class randoms:
         for i in range(nub):
             salt += random.choice(H)
         return salt
+class UrlProcessing:
+    def result(self,url):
+        if url.startswith("http"):#判断是否有http头，如果没有就在下面加入
+            res = urllib.parse.urlparse(url)
+        else:
+            res = urllib.parse.urlparse('http://%s' % url)
+        return res.scheme, res.hostname, res.port

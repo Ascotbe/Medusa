@@ -1,7 +1,7 @@
 var rootUrl = 'https://ascotbe.github.io/Medusa';
 
 var versions = [
-    { title: 'v2.0', path: '/2.0/' },
+    { title: 'v2.7', path: '/2.7/' },
 
 ]
 

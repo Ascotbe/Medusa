@@ -13,7 +13,6 @@ from Jenkins import JenkinsMain
 from Cms import CmsMain
 from Solr import SolrMain
 from Citrix import CitrixMain
-from InformationDetector import JS
 from InformationDetector import sublist3r
 from InformationDisclosure import InformationDisclosureMain
 from Rails import RailsMain
@@ -26,11 +25,8 @@ import ClassCongregation
 import tldextract#域名处理函数可以识别主域名和后缀
 import Banner
 import argparse
-import requests
 import os
-import urllib.parse
 import threading
-import sys,time
 from tqdm import tqdm
 
 parser = argparse.ArgumentParser()#description="xxxxxx")
@@ -44,7 +40,6 @@ parser.add_argument('-f','--InputFileName',type=str,help="Specify bulk scan file
 parser.add_argument('-t','--ThreadNumber',type=int,help="Set the number of threads, the default number of threads 15.")
 parser.add_argument('-sp','--SqlPasswrod',type=str,help="Please enter an password file.")
 parser.add_argument('-su','--SqlUser',type=str,help="Please enter an account file.")
-parser.add_argument('-j','--JavaScript',help="Used URL to deeply crawl the information in the JS file and the subdomain",action="store_true")
 parser.add_argument('-s','--Subdomain',help="Collect subdomains",action="store_true")
 parser.add_argument('-se','--SubdomainEnumerate',help="Collect subdomains and turn on enumerations",action="store_true")
 '''
@@ -96,10 +91,6 @@ def InitialScan(InputFileName,Url,ProxyIp):
         print("Please enter the correct file path!")
 
 def San(OutFileName,Url,Values,ProxyIp):
-    # try:
-    #     Weblogic.WeblogicMain.Main(Url)#调用weblogic主函数
-    # except:
-    #     print("WeblogicSanExcept")
     #POC模块存进多线程池，这样如果批量扫描会变快很多
     thread_list.append(threading.Thread(target=Struts2Main.Main, args=(Url,OutFileName,Values,ProxyIp,)))# 调用Struts2主函数
     thread_list.append(threading.Thread(target=ConfluenceMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))# 调用 Confluence主函数
@@ -116,67 +107,6 @@ def San(OutFileName,Url,Values,ProxyIp):
     thread_list.append(threading.Thread(target=CitrixMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))  # 调用CitrixMain主函数
     thread_list.append(threading.Thread(target=MongoMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))  # 调用MongoMain主函数
     thread_list.append(threading.Thread(target=SpringMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))  # 调用SpringMain主函数
-
-def OpenProxy():
-    global RepeatCleaningAgent
-    RepeatCleaningAgent = 1#检查是否是刚爬取的并清洗的IP
-    ProxyIpComparison=""
-    try:#尝试打开文件查看是否有代理池
-        with open("/ScanResult/ProxyPool.txt", encoding='utf-8') as f:
-            try:
-                FileCreationYime = time.localtime(os.path.getctime("/ScanResult/ProxyPool.txt"))  # 获取文件创建时间
-                CurrentTime = time.localtime(time.time())  # 获取当前时间
-                if FileCreationYime.tm_year == CurrentTime.tm_year:  # 判断年份是否相同
-                    if CurrentTime.tm_mon == FileCreationYime.tm_mon:  # 判断月份是否相同
-                        a = FileCreationYime.tm_mday
-                        b = CurrentTime.tm_mday
-                        c = abs(a - b)  # 计算绝对值
-                        if c >= 3:  # 如果大于3天删除
-                            f.close()#关闭打开的文件后删除文件
-                            os.remove("/ScanResult/ProxyPool.txt")
-                    else:
-                        f.close()
-                        os.remove("/ScanResult/ProxyPool.txt")
-                else:
-                    f.close()
-                    os.remove("/ScanResult/ProxyPool.txt")
-            except:
-                pass
-            for ProxyPool in f:#读取代理IP进行测试是否可以使用
-
-                ProxyIps=ProxyPool[:-1]#删除换行符号\n
-                if ProxyIps==ProxyIpComparison:#对当前IP和上个IP进行对比如果相同代表爬取的IP全部不能用就直接跳出不在使用代理
-                    return
-                ProxyIpComparison = ProxyPool[:-1]
-                proxies = {
-                    #"http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
-                    "http":"http://" + str(ProxyIps)
-                }
-                try:
-                    if requests.get('https://www.baidu.com/', proxies=proxies, timeout=2).status_code == 200:
-                        return ProxyIps#二次清洗完成的代理IP能用就返回
-                except:
-                    pass
-    except:
-        if RepeatCleaningAgent==1:
-            HttpProxy=ClassCongregation.Proxy()
-            HttpProxy.HttpIpProxy()#如果不存在该文件就调用爬取类
-            OpenProxy()#接着调用自身
-        else:
-            pass
-        RepeatCleaningAgent = 0 #定义全局变量防止出问题
-        # 如果不是第一次爬取，就会进到这个函数里面，然后爬取清洗后再调用自身后把标签重置为真，这样就不会进入死循环
-
-
-    # HttpsProxy=Proxy.HttpsIpProxy()
-def JSCrawling(Url):
-    if Url.startswith("http"):#判断是否有http头，如果没有就在下面加入
-        res = urllib.parse.urlparse(Url)
-    else:
-        res = urllib.parse.urlparse('http://%s' % Url)
-    Urls=res.scheme+"://"+res.hostname
-    urls = JS.find_by_url_deep(Urls)
-    JS.giveresult(urls,Urls)
 
 def SubdomainCrawling(Url,SubdomainJudge):#开启子域名函数
     SubdomainCrawlingUrls= tldextract.extract(Url)
@@ -197,11 +127,10 @@ if __name__ == '__main__':
     SqlPasswrod=args.SqlPasswrod#传入爆破数据库的密码文件
     SqlUser = args.SqlUser#传入爆破数据库的账号文件
     Proxy=args.Proxy#不需要传入参数如果开启只需要-p
-    JavaScript=args.JavaScript#开启深度爬取JS文件中的子域名以及链接
     SubdomainEnumerate=args.SubdomainEnumerate #开启深度子域名枚举，巨TM耗时间
     Subdomain=args.Subdomain#开启子域名枚举
     ThreadNumber=args.ThreadNumber#要使用的线程数默认15
-    WriteFile = ClassCongregation.WriteFile(OutFileName)  # 声明调用类集合中的WriteFile类,并传入文件名字(这一步是必须的)
+    #WriteFile = ClassCongregation.WriteFile(OutFileName)  # 声明调用类集合中的WriteFile类,并传入文件名字(这一步是必须的)
 
     if ThreadNumber==None:#如果线程数为空，那么默认为15
         ThreadNumber=15
@@ -212,14 +141,10 @@ if __name__ == '__main__':
         print("Incorrect input, please enter -h to view help")
         os._exit(0)#直接退出整个函数
 
-    ProxyIp=""
-    if Proxy:#如果输入了参数表示开启了代理进而调用函数
-        ProxyIp=OpenProxy()
-    else:
-        ProxyIp=None
 
-    if JavaScript:#判断是否开始JS模块
-        thread_list.append(threading.Thread(target=JSCrawling,args=(Url,)))
+    ProxyIp=None
+
+
 
     thread_list.append(threading.Thread(target=BoomDB, args=(Url, SqlUser, SqlPasswrod,InputFileName,)))
 

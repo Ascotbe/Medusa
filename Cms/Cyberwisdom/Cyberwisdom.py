@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # _*_ coding: utf-8 _*_
 from Cms.Cyberwisdom import CyberwisdomArbitraryFileDownloadVulnerability
+from Cms.Cyberwisdom import CyberwisdomArbitraryFileDownloadVulnerability2
 import ClassCongregation
 from tqdm import tqdm
 def Main(Url,FileName,Values,ProxyIp):
@@ -8,6 +9,7 @@ def Main(Url,FileName,Values,ProxyIp):
     ua=ClassCongregation.UserAgentS(Values)#传入用户输入用户指定的浏览器头
     RandomAgent=ua.UserAgent()#获取生成的头文件
     Medusa = [CyberwisdomArbitraryFileDownloadVulnerability.medusa(Url,RandomAgent,ProxyIp),
+              CyberwisdomArbitraryFileDownloadVulnerability2.medusa(Url, RandomAgent, ProxyIp)
               ]
     try:
         for i in tqdm(Medusa, ascii=True, desc="Cyberwisdom plugin progress"):

@@ -18,11 +18,13 @@ from Cms._74CMS import _74CMSSQLInjectionVulnerabilityExists14
 from Cms._74CMS import _74CMSSQLInjectionVulnerabilityExists15
 
 
-import ClassCongregation
+from ClassCongregation import WriteFile,UserAgentS
 from tqdm import tqdm
+
+
 def Main(Url,FileName,Values,ProxyIp):
-    WriteFile = ClassCongregation.WriteFile(FileName)  # 声明调用类集合中的WriteFile类,并传入文件名字(这一步是必须的)
-    ua=ClassCongregation.UserAgentS(Values)#传入用户输入用户指定的浏览器头
+    WriteFiles = WriteFile(FileName)  # 声明调用类集合中的WriteFile类,并传入文件名字(这一步是必须的)
+    ua=UserAgentS(Values)#传入用户输入用户指定的浏览器头
     RandomAgent=ua.UserAgent()#获取生成的头文件
     Medusa = [_74CMSThereIsReflectiveXSSVulnerability.medusa(Url,RandomAgent,ProxyIp),
               _74CMSSQLInjectionVulnerabilityExists.medusa(Url,RandomAgent,ProxyIp),
@@ -42,6 +44,6 @@ def Main(Url,FileName,Values,ProxyIp):
               _74CMSSQLInjectionVulnerabilityExists15.medusa(Url, RandomAgent, ProxyIp),]
     try:
         for i in tqdm(Medusa, ascii=True, desc="74CMS plugin progress"):
-            WriteFile.Write(str(i))
+            WriteFiles.Write(str(i))
     except:
         pass

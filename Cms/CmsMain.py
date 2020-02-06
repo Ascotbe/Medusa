@@ -20,6 +20,7 @@ from Cms.AbsolutEngine import AbsolutEngine
 from Cms.AfterLogicWebMail import AfterLogicWebMail
 from Cms.CuteCMS import CuteCMS
 from Cms.Cyberwisdom import Cyberwisdom
+from Cms.CTSCMS import CTSCMS
 def Main(Url,FileName,Values,ProxyIp):
     try:
         SecCms.Main(Url,FileName,Values,ProxyIp)
@@ -98,6 +99,11 @@ def Main(Url,FileName,Values,ProxyIp):
 
     try:
         Cyberwisdom.Main(Url, FileName, Values, ProxyIp)
+    except:
+        pass
+
+    try:
+        CTSCMS.Main(Url, FileName, Values, ProxyIp)
     except:
         pass
 

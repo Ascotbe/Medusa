@@ -13,7 +13,7 @@ class VulnerabilityInfo(object):
         self.info['algroup'] = "B2BbuilderContainsVulnerabilitiesLocally"  # 插件名称
         self.info['name'] ='B2Bbuilder本地包含漏洞' #漏洞名称
         self.info['affects'] = "B2Bbuilder"  # 漏洞组件
-        self.info['desc_content'] = "B2Bbuilder /footer.php?m=../bbccgg.txt%23 本地包含漏洞。"  # 漏洞描述
+        self.info['desc_content'] = "B2Bbuilder中/footer.php?m=../bbccgg.txt%23本地包含漏洞。"  # 漏洞描述
         self.info['rank'] = "中危"  # 漏洞等级
         self.info['suggest'] = "尽快升级最新系统"  # 修复建议
         self.info['version'] = "无"  # 这边填漏洞影响的版本

@@ -21,6 +21,7 @@ from Cms.AfterLogicWebMail import AfterLogicWebMail
 from Cms.CuteCMS import CuteCMS
 from Cms.Cyberwisdom import Cyberwisdom
 from Cms.CTSCMS import CTSCMS
+from Cms.CMSMS import CMSMS
 def Main(Url,FileName,Values,ProxyIp):
     try:
         SecCms.Main(Url,FileName,Values,ProxyIp)
@@ -107,3 +108,7 @@ def Main(Url,FileName,Values,ProxyIp):
     except:
         pass
 
+    try:
+        CMSMS.Main(Url, FileName, Values, ProxyIp)
+    except:
+        pass

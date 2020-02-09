@@ -22,6 +22,7 @@ from Cms.CuteCMS import CuteCMS
 from Cms.Cyberwisdom import Cyberwisdom
 from Cms.CTSCMS import CTSCMS
 from Cms.CMSMS import CMSMS
+from Cms.Cacti import Cacti
 def Main(Url,FileName,Values,ProxyIp):
     try:
         SecCms.Main(Url,FileName,Values,ProxyIp)
@@ -110,5 +111,10 @@ def Main(Url,FileName,Values,ProxyIp):
 
     try:
         CMSMS.Main(Url, FileName, Values, ProxyIp)
+    except:
+        pass
+
+    try:
+        Cacti.Main(Url, FileName, Values, ProxyIp)
     except:
         pass

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # _*_ coding: utf-8 _*_
-from Cms.Cacti import CactiSQLdatabasefileleakvulnerability
+from Cms.Cacti import CactiSQLdatabasefileleakvulnerability,CactiSQLInjectionVulnerability
 from ClassCongregation import WriteFile,UserAgentS
 from tqdm import tqdm
 def Main(Url,FileName,Values,ProxyIp):
@@ -8,6 +8,7 @@ def Main(Url,FileName,Values,ProxyIp):
     ua=UserAgentS(Values)#传入用户输入用户指定的浏览器头
     RandomAgent=ua.UserAgent()#获取生成的头文件
     Medusa = [CactiSQLdatabasefileleakvulnerability.medusa(Url,RandomAgent,ProxyIp),
+              CactiSQLInjectionVulnerability.medusa(Url, RandomAgent, ProxyIp),
               ]
     try:
         for i in tqdm(Medusa, ascii=True, desc="CuteCMS plugin progress"):

@@ -10,7 +10,7 @@ def Main(Url,FileName,Values,ProxyIp):
     Medusa = [CTSCMSSQLInjectionVulnerability.medusa(Url,RandomAgent,ProxyIp),
               ]
     try:
-        for i in tqdm(Medusa, ascii=True, desc="CuteCMS plugin progress"):
+        for i in tqdm(Medusa, ascii=True, desc="CTSCMS plugin progress"):
             WriteFiles.Write(str(i))
     except:
         pass

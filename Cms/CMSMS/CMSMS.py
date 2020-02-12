@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # _*_ coding: utf-8 _*_
-from Cms.CMSMS import CMSMSDirectoryTraversalVulnerability,CMSMSCrossSiteScriptingVulnerability
+from Cms.CMSMS import CMSMSDirectoryTraversalVulnerability,CMSMSCrossSiteScriptingVulnerability,CMSMSCrossSiteScriptingVulnerability1
 from ClassCongregation import WriteFile,UserAgentS
 from tqdm import tqdm
 def Main(Url,FileName,Values,ProxyIp):
@@ -9,6 +9,7 @@ def Main(Url,FileName,Values,ProxyIp):
     RandomAgent=ua.UserAgent()#获取生成的头文件
     Medusa = [CMSMSDirectoryTraversalVulnerability.medusa(Url,RandomAgent,ProxyIp),
               CMSMSCrossSiteScriptingVulnerability.medusa(Url,RandomAgent,ProxyIp),
+              CMSMSCrossSiteScriptingVulnerability1.medusa(Url,RandomAgent,ProxyIp),
               ]
     try:
         for i in tqdm(Medusa, ascii=True, desc="CuteCMS plugin progress"):

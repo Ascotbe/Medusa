@@ -11,7 +11,7 @@ def Main(Url,FileName,Values,ProxyIp):
               CactiSQLInjectionVulnerability.medusa(Url, RandomAgent, ProxyIp),
               ]
     try:
-        for i in tqdm(Medusa, ascii=True, desc="CuteCMS plugin progress"):
+        for i in tqdm(Medusa, ascii=True, desc="Cacti plugin progress"):
             WriteFiles.Write(str(i))
     except:
         pass

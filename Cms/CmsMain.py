@@ -26,110 +26,41 @@ from Cms.Cacti import Cacti
 from Cms.Destoon import Destoon
 from Cms.DamiCMS import DamiCMS
 from Cms.DaMall import DaMall
+import threading
 def Main(Url,FileName,Values,ProxyIp):
-    try:
-        SecCms.Main(Url,FileName,Values,ProxyIp)
-    except:
-        pass
-    try:
-        Metinfo.Main(Url,FileName,Values,ProxyIp)
-    except:
-        pass
-    try:
-        OneCaitong.Main(Url,FileName,Values,ProxyIp)
-    except:
-        pass
-    try:
-        Pboot.Main(Url,FileName,Values,ProxyIp)
-    except:
-        pass
-    try:
-        FiveClib.Main(Url,FileName,Values,ProxyIp)
-    except:
-        pass
-    try:
-        _74CMS.Main(Url,FileName,Values,ProxyIp)
-    except:
-        pass
-    try:
-        Phpweb.Main(Url,FileName,Values,ProxyIp)
-    except:
-        pass
-    try:
-        B2Bbuilder.Main(Url, FileName, Values, ProxyIp)
-    except:
-        pass
-    try:
-        BaijiaCMS.Main(Url, FileName, Values, ProxyIp)
-    except:
-        pass
-    try:
-        BusBookingScript.Main(Url, FileName, Values, ProxyIp)
-    except:
-        pass
-    try:
-        BearAdmin.Main(Url, FileName, Values, ProxyIp)
-    except:
-        pass
-    try:
-        BEESCMS.Main(Url, FileName, Values, ProxyIp)
-    except:
-        pass
-    try:
-        BlueCMS.Main(Url, FileName, Values, ProxyIp)
-    except:
-        pass
-    try:
-        Bocweb.Main(Url, FileName, Values, ProxyIp)
-    except:
-        pass
-    try:
-        BugFree.Main(Url, FileName, Values, ProxyIp)
-    except:
-        pass
-    try:
-        AbsolutEngine.Main(Url, FileName, Values, ProxyIp)
-    except:
-        pass
-
-    try:
-        AfterLogicWebMail.Main(Url, FileName, Values, ProxyIp)
-    except:
-        pass
-
-    try:
-        CuteCMS.Main(Url, FileName, Values, ProxyIp)
-    except:
-        pass
-
-    try:
-        Cyberwisdom.Main(Url, FileName, Values, ProxyIp)
-    except:
-        pass
-
-    try:
-        CTSCMS.Main(Url, FileName, Values, ProxyIp)
-    except:
-        pass
-
-    try:
-        CMSMS.Main(Url, FileName, Values, ProxyIp)
-    except:
-        pass
-
-    try:
-        Cacti.Main(Url, FileName, Values, ProxyIp)
-    except:
-        pass
-    try:
-        Destoon.Main(Url, FileName, Values, ProxyIp)
-    except:
-        pass
-    try:
-        DamiCMS.Main(Url, FileName, Values, ProxyIp)
-    except:
-        pass
-    try:
-        DaMall.Main(Url, FileName, Values, ProxyIp)
-    except:
-        pass
+    thread_lists=[]
+    thread_lists.append(threading.Thread(target=SecCms.Main, args=(Url,FileName,Values,ProxyIp,)))
+    thread_lists.append(threading.Thread(target=Metinfo.Main, args=(Url, FileName, Values, ProxyIp,)))
+    thread_lists.append(threading.Thread(target=OneCaitong.Main, args=(Url, FileName, Values, ProxyIp,)))
+    thread_lists.append(threading.Thread(target=Pboot.Main, args=(Url, FileName, Values, ProxyIp,)))
+    thread_lists.append(threading.Thread(target=FiveClib.Main, args=(Url, FileName, Values, ProxyIp,)))
+    thread_lists.append(threading.Thread(target=_74CMS.Main, args=(Url, FileName, Values, ProxyIp,)))
+    thread_lists.append(threading.Thread(target=Phpweb.Main, args=(Url, FileName, Values, ProxyIp,)))
+    thread_lists.append(threading.Thread(target=B2Bbuilder.Main, args=(Url, FileName, Values, ProxyIp,)))
+    thread_lists.append(threading.Thread(target=BaijiaCMS.Main, args=(Url, FileName, Values, ProxyIp,)))
+    thread_lists.append(threading.Thread(target=BearAdmin.Main, args=(Url, FileName, Values, ProxyIp,)))
+    thread_lists.append(threading.Thread(target=BEESCMS.Main, args=(Url, FileName, Values, ProxyIp,)))
+    thread_lists.append(threading.Thread(target=BlueCMS.Main, args=(Url, FileName, Values, ProxyIp,)))
+    thread_lists.append(threading.Thread(target=Bocweb.Main, args=(Url, FileName, Values, ProxyIp,)))
+    thread_lists.append(threading.Thread(target=BugFree.Main, args=(Url, FileName, Values, ProxyIp,)))
+    thread_lists.append(threading.Thread(target=BusBookingScript.Main, args=(Url, FileName, Values, ProxyIp,)))
+    thread_lists.append(threading.Thread(target=AbsolutEngine.Main, args=(Url, FileName, Values, ProxyIp,)))
+    thread_lists.append(threading.Thread(target=AfterLogicWebMail.Main, args=(Url, FileName, Values, ProxyIp,)))
+    thread_lists.append(threading.Thread(target=CuteCMS.Main, args=(Url, FileName, Values, ProxyIp,)))
+    thread_lists.append(threading.Thread(target=Cyberwisdom.Main, args=(Url, FileName, Values, ProxyIp,)))
+    thread_lists.append(threading.Thread(target=CTSCMS.Main, args=(Url, FileName, Values, ProxyIp,)))
+    thread_lists.append(threading.Thread(target=CMSMS.Main, args=(Url, FileName, Values, ProxyIp,)))
+    thread_lists.append(threading.Thread(target=Cacti.Main, args=(Url, FileName, Values, ProxyIp,)))
+    thread_lists.append(threading.Thread(target=Destoon.Main, args=(Url, FileName, Values, ProxyIp,)))
+    thread_lists.append(threading.Thread(target=DamiCMS.Main, args=(Url, FileName, Values, ProxyIp,)))
+    thread_lists.append(threading.Thread(target=DaMall.Main, args=(Url, FileName, Values, ProxyIp,)))
+    for t in thread_lists:  # 开启列表中的多线程
+        t.setDaemon(True)
+        t.start()
+        while True:
+            # 判断正在运行的线程数量,如果小于5则退出while循环,
+            # 进入for循环启动新的进程.否则就一直在while循环进入死循环
+            if (len(threading.enumerate()) < 50):
+                break
+    for t in thread_lists:  # 除POC外功能总进度条
+        t.join()

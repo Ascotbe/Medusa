@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 # _*_ coding: utf-8 _*_
 
-import urllib
+import urllib.parse
 import requests
-import logging
 import ClassCongregation
 class VulnerabilityInfo(object):
     def __init__(self,Medusa):
@@ -34,8 +33,7 @@ def medusa(Url,RandomAgent,ProxyIp):
         port = 80
     else:
         port = port
-    global resp
-    global resp2
+
     try:
         payload_url = scheme+"://"+url+ ':' + str(port)
         headers = {
@@ -43,17 +41,7 @@ def medusa(Url,RandomAgent,ProxyIp):
             'Accept': '*/*',
             'User-Agent': RandomAgent,
         }
-        #s = requests.session()
-        if ProxyIp!=None:
-            proxies = {
-                # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
-                "http": "http://" + str(ProxyIp)
-            }
-            resp = requests.options(payload_url, headers=headers, proxies=proxies, timeout=5, verify=False)
-        elif ProxyIp==None:
-            resp = requests.options(payload_url,headers=headers, timeout=5, verify=False)
-        con = resp.text
-        code = resp.status_code
+        resp = requests.options(payload_url,headers=headers, timeout=5, verify=False)
         if r"OPTIONS" in resp.headers['Allow']:
             Medusa = "{}存在options方法开启漏洞 \r\n漏洞详情:\r\nPayload:{}\r\n".format(url, payload_url)
             _t = VulnerabilityInfo(Medusa)

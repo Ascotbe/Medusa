@@ -23,6 +23,9 @@ from Cms.Cyberwisdom import Cyberwisdom
 from Cms.CTSCMS import CTSCMS
 from Cms.CMSMS import CMSMS
 from Cms.Cacti import Cacti
+from Cms.Destoon import Destoon
+from Cms.DamiCMS import DamiCMS
+from Cms.DaMall import DaMall
 def Main(Url,FileName,Values,ProxyIp):
     try:
         SecCms.Main(Url,FileName,Values,ProxyIp)
@@ -116,5 +119,17 @@ def Main(Url,FileName,Values,ProxyIp):
 
     try:
         Cacti.Main(Url, FileName, Values, ProxyIp)
+    except:
+        pass
+    try:
+        Destoon.Main(Url, FileName, Values, ProxyIp)
+    except:
+        pass
+    try:
+        DamiCMS.Main(Url, FileName, Values, ProxyIp)
+    except:
+        pass
+    try:
+        DaMall.Main(Url, FileName, Values, ProxyIp)
     except:
         pass

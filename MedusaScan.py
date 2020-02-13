@@ -160,7 +160,7 @@ if __name__ == '__main__':
         thread_list.append(threading.Thread(target=SubdomainCrawling, args=(Url, SubdomainJudge,)))
         #SubdomainCrawling(Url, SubdomainJudge)
     InitialScan(InputFileName, Url, ProxyIp)#最后启动主扫描函数，这样如果多个IP的话优化速度，里面会做url或者url文件的判断
-    for t in tqdm(thread_list,ascii=True,desc="Total progress bar"):#开启列表中的多线程
+    for t in thread_list:#开启列表中的多线程
         t.setDaemon(True)
         t.start()
         while True:

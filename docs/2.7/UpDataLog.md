@@ -609,5 +609,7 @@ v0.62🌴
 添加DaMall模块插件
 v0.63🌴
 优化CMS主函数扫描模块，替换为多线程提升扫描速度
+v0.63X🌴
+优化InformationDisclosure文件中的插件代码
 ```
 

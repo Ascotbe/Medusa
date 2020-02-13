@@ -1,12 +1,10 @@
 #!/usr/bin/env python
 # _*_ coding: utf-8 _*_
 
-import urllib
 import requests
 import urllib3
-
 urllib3.disable_warnings()
-import logging
+import urllib.parse
 import ClassCongregation
 class VulnerabilityInfo(object):
     def __init__(self,Medusa):
@@ -65,8 +63,6 @@ def medusa(Url,RandomAgent,ProxyIp):
         port = 80
     else:
         port = port
-    global resp
-    global resp2
     Medusas=[]
     #构建特殊Payload并发送到SpecialPayload中
     colon_payload = ""
@@ -102,17 +98,8 @@ def medusa(Url,RandomAgent,ProxyIp):
                     'User-Agent': RandomAgent,
                 }
                 #s = requests.session()
-                if ProxyIp!=None:
-                    proxies = {
-                        # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
-                        "http": "http://" + str(ProxyIp)
-                    }
-                    resp = requests.head(payload_url, headers=headers, proxies=proxies, timeout=5, verify=False)
-                    resp2 = requests.get(payload_url, headers=headers, proxies=proxies, timeout=5, verify=False)
-                elif ProxyIp==None:
-                    resp = requests.head(payload_url,headers=headers, timeout=5, verify=False)
-                    resp2 = requests.get(payload_url, headers=headers, timeout=5, verify=False)
-                con = resp.text
+                resp = requests.head(payload_url,headers=headers, timeout=5, verify=False)
+                resp2 = requests.get(payload_url, headers=headers, timeout=5, verify=False)
                 code = resp.status_code
                 if code==200 and (resp2.headers["Content-Type"] == "application/zip" or resp2.headers["Content-Type"] == "application/x-rar-compressed" or resp2.headers["Content-Type"] == "application/x-gzip" or resp2.headers["Content-Type"] == "application/gzip") :
                     Medusa = "{} 存在敏感文件压缩下载漏洞\r\n漏洞详情:\r\nPayload:".format(payload_url)
@@ -129,17 +116,8 @@ def medusa(Url,RandomAgent,ProxyIp):
                 'User-Agent': RandomAgent,
             }
             # s = requests.session()
-            if ProxyIp != None:
-                proxies = {
-                    # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
-                    "http": "http://" + str(ProxyIp)
-                }
-                resp = requests.head(payload_url, headers=headers, proxies=proxies, timeout=5, verify=False)
-                resp2 = requests.get(payload_url, headers=headers, proxies=proxies, timeout=5, verify=False)
-            elif ProxyIp == None:
-                resp = requests.head(payload_url, headers=headers, timeout=5, verify=False)
-                resp2 = requests.get(payload_url, headers=headers, timeout=5, verify=False)
-            con = resp.text
+            resp = requests.head(payload_url, headers=headers, timeout=5, verify=False)
+            resp2 = requests.get(payload_url, headers=headers, timeout=5, verify=False)
             code = resp.status_code
             if code == 200 and resp2.headers["Content-Type"] == "text/plain":
                 Medusa = "{} 存在敏感文件压缩下载漏洞\r\n漏洞详情:\r\nPayload:".format(payload_url)

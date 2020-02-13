@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 # _*_ coding: utf-8 _*_
 
-import urllib
+import urllib.parse
 import requests
-import logging
 import ClassCongregation
 class VulnerabilityInfo(object):
     def __init__(self,Medusa):
@@ -44,16 +43,7 @@ def medusa(Url,RandomAgent,ProxyIp):
             'User-Agent': RandomAgent,
         }
         #s = requests.session()
-        if ProxyIp!=None:
-            proxies = {
-                # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
-                "http": "http://" + str(ProxyIp)
-            }
-            resp = requests.get(payload_url, headers=headers, proxies=proxies, timeout=5, verify=False)
-        elif ProxyIp==None:
-            resp = requests.get(payload_url,headers=headers, timeout=5, verify=False)
-        con = resp.text
-        code = resp.status_code
+        resp = requests.get(payload_url,headers=headers, timeout=5, verify=False)
         if resp.headers["Content-Type"] == "application/xml":
             Medusa = "{} 存在Java配置文件泄露漏洞\r\n漏洞详情:\r\nPayload:{}\r\n".format(url, payload_url)
             _t = VulnerabilityInfo(Medusa)

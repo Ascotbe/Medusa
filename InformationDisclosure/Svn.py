@@ -1,10 +1,8 @@
-
 #!/usr/bin/env python
 # _*_ coding: utf-8 _*_
 
-import urllib
+import urllib.parse
 import requests
-import logging
 import ClassCongregation
 class VulnerabilityInfo(object):
     def __init__(self,Medusa):
@@ -37,7 +35,6 @@ def medusa(Url,RandomAgent,ProxyIp):
         port = 80
     else:
         port = port
-    global   resp
     headers = {
         'Accept-Encoding': 'gzip, deflate',
         'Accept': '*/*',
@@ -48,14 +45,7 @@ def medusa(Url,RandomAgent,ProxyIp):
         PayloadUrl = scheme + '://' +url + ':' + str(port)+payload+'/.svn/entries'
         try:
             s = requests.session()
-            if ProxyIp!=None:
-                proxies = {
-                    # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
-                    "http": "http://" + str(ProxyIp)
-                }
-                resp = s.get(PayloadUrl, headers=headers, proxies=proxies, timeout=5, verify=False)
-            elif ProxyIp==None:
-                resp = s.get(PayloadUrl,headers=headers, timeout=5, verify=False)
+            resp = s.get(PayloadUrl,headers=headers, timeout=5, verify=False)
             con = resp.text
             code = resp.status_code
             if code==200 and (con.lower().find('svn://')!=-1 or con.lower().find('svn://')!=-1 or con.lower().find('svn://')!=-1):

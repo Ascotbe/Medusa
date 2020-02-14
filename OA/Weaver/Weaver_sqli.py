@@ -35,8 +35,6 @@ def medusa(Url,RandomAgent,ProxyIp):
         port = 80
     else:
         port = port
-    global resp
-    global resp2
     try:
         payload_url = scheme+"://"+url+payload
         payload_url2 = scheme + "://" + url + ':' + str(port)+ payload2

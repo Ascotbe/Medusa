@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import urllib
+import urllib.parse
 import requests
 import ClassCongregation
 class VulnerabilityInfo(object):
@@ -35,8 +35,6 @@ def medusa(Url,RandomAgent,ProxyIp):
         port = 80
     else:
         port = port
-    global resp
-    global resp2
     try:
         payload_url = scheme+"://"+url+ ':' + str(port)+payload
         headers = {

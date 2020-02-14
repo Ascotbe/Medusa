@@ -5,7 +5,6 @@ __author__ = 'Ascotbe'
 __date__ = '2019/10/13 22:12 PM'
 import urllib.parse
 import requests
-import logging
 import ClassCongregation
 import pyDes
 requests.packages.urllib3.disable_warnings()
@@ -39,8 +38,6 @@ def medusa(Url,RandomAgent,ProxyIp):
         port = 80
     else:
         port = port
-    global resp
-    global resp2
     try:
         payload = "/mobile/DBconfigReader.jsp"
         payload_url = scheme + "://" + url +":"+ str(port) + payload

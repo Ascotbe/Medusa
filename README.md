@@ -3,7 +3,7 @@
  <p align="center">
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Ascotbe-Medusa%20Scan-green"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/python-3.6-blueviolet"></a>
-    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Version-0.63-red"></a>
+    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Version-0.64-red"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/LICENSE-GPL-ff69b4"></a>
 	<a href="https://github.com/ascotbe/Medusa/stargazers"><img alt="Release" src="https://img.shields.io/github/stars/ascotbe/Medusa.svg"></a>
 	<a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Plugin-200+-success"></a>
@@ -18,7 +18,7 @@
 
 >本项目使用 `GPL`协议，未经授权，禁止使用商业用途。
 >
->目前主要是更新Web版本，敬请期待~
+>正在构思Web版本，敬请期待~
 >
 >各位师傅不嫌弃的话可以点个Star支持下
 
@@ -79,7 +79,8 @@ git config --global --unset https.proxy
 |-se    |--SubdomainEnumerate   |0       |包含了-s的功能，并且通过字典枚举(非常耗时|和-s不能同时使用，-s和-se只能存在一个|
 
 ### 提交意见&BUG
-    欢迎大家提交Issues
+- 吹B群：**690021184**
+- GitHub issue:https://github.com/Ascotbe/Medusa/issues
 
 ### 感谢贡献
 

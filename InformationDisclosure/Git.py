@@ -9,7 +9,7 @@ class VulnerabilityInfo(object):
         self.info = {}
         self.info['author'] = "Ascotbe"  # 插件作者
         self.info['create_date'] = "2019-10-13"  # 插件编辑时间
-        self.info['algroup'] = "Git_version_management_source_leak_vulnerability"  # 插件名称
+        self.info['algroup'] = "GitVersionManagementSourceLeakVulnerability"  # 插件名称
         self.info['name'] ='Git版本管理源码泄露漏洞' #漏洞名称
         self.info['affects'] = "Git"  # 漏洞组件
         self.info['desc_content'] = ""  # 漏洞描述

@@ -4,7 +4,6 @@
 import urllib.parse
 import requests
 import re
-import logging
 import ClassCongregation
 class VulnerabilityInfo(object):
     def __init__(self,Medusa):
@@ -35,8 +34,6 @@ def medusa(Url,RandomAgent,ProxyIp):
         port = 80
     else:
         port = port
-    global resp
-    global resp2
     try:
         payload_url = scheme+"://"+url+ ':' + str(port)+payload
         headers = {

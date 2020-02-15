@@ -1,15 +1,8 @@
-var rootUrl = 'https://ascotbe.github.io/Medusa';
+var rootUrl = 'https://www.ascotbe.com/Medusa';
 
 var versions = [
-	{title: '文档版本', type: 'dropdown', items: [
-                {
-                    title: 'v2.8', path: '/2.8/'
-                },
-                {
-                     title: 'v2.7', path: '/2.7/'
-                }
-            ]
-	},
+	{ title: 'v2.8', path: '/2.8/' },
+    { title: 'v2.7', path: '/2.7/' },
 ]
 
 var latestVersionIndex = 0;

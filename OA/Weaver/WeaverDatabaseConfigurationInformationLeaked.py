@@ -14,12 +14,14 @@ class VulnerabilityInfo(object):
         self.info['number']="0" #如果没有CVE或者CNVD编号就填0，CVE编号优先级大于CNVD
         self.info['author'] = "Ascotbe"  # 插件作者
         self.info['create_date'] = "2019-10-26"  # 插件编辑时间
-        self.info['algroup'] = "Weaver_DatabaseConfigurationInformationLeaked"  # 插件名称
-        self.info['name'] ='泛微OA_数据库配置信息泄露' #漏洞名称
+        self.info['disclosure'] = '2019-10-13'  # 漏洞披露时间，如果不知道就写编写插件的时间
+        self.info['algroup'] = "WeaverDatabaseConfigurationInformationLeaked"  # 插件名称
+        self.info['name'] ='泛微OA数据库配置信息泄露' #漏洞名称
         self.info['affects'] = "泛微OA"  # 漏洞组件
         self.info['desc_content'] = "攻击者可通过存在漏洞的页面直接获取到数据库配置信息。如果攻击者可直接访问数据库，则可直接获取用户数据，甚至可以直接控制数据库服务器。"  # 漏洞描述
         self.info['rank'] = "中危"  # 漏洞等级
         self.info['suggest'] = "尽快升级最新系统"  # 修复建议
+        self.info['version'] = "无"  # 这边填漏洞影响的版本
         self.info['details'] = Medusa  # 结果
 
 def UrlProcessing(url):
@@ -50,13 +52,6 @@ def medusa(Url,RandomAgent,ProxyIp):
         }
 
         s = requests.session()
-        # if ProxyIp!=None:
-        #     proxies = {
-        #         # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
-        #         "http": "http://" + str(ProxyIp)
-        #     }
-        #     resp = s.get(payload_url,headers=headers, timeout=6, proxies=proxies,verify=False)
-        # elif ProxyIp==None:
         resp = s.get(payload_url,headers=headers, timeout=6, verify=False)
         con=resp.text
         dec=resp.content[10:]
@@ -69,7 +64,7 @@ def medusa(Url,RandomAgent,ProxyIp):
             _t=VulnerabilityInfo(Medusa)
             web=ClassCongregation.VulnerabilityDetails(_t.info)
             web.Intermediate() # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
-            return (str(_t.info))
+            return (str(Medusa))
     except:
         _ = VulnerabilityInfo('').info.get('algroup')
         _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类

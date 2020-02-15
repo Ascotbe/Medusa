@@ -7,10 +7,13 @@ import ClassCongregation
 class VulnerabilityInfo(object):
     def __init__(self,Medusa):
         self.info = {}
+        self.info['number'] = "0"  # 如果没有CVE或者CNVD编号就填0，CVE编号优先级大于CNVD
+        self.info['version'] = "无"  # 这边填漏洞影响的版本
+        self.info['disclosure'] = '2019-10-13'  # 漏洞披露时间，如果不知道就写编写插件的时间
         self.info['author'] = "Ascotbe"  # 插件作者
         self.info['create_date'] = "2019-10-13"  # 插件编辑时间
-        self.info['algroup'] = "Phpstudy_PhpmyadminDefaultpwd"  # 插件名称
-        self.info['name'] ='phpstudy_phpmyadmin默认密码漏洞' #漏洞名称
+        self.info['algroup'] = "PhpstudyPhpmyadminDefaultpwd"  # 插件名称
+        self.info['name'] ='phpstudyphpmyadmin默认密码漏洞' #漏洞名称
         self.info['affects'] = "phpStudy"  # 漏洞组件
         self.info['desc_content'] = ""  # 漏洞描述
         self.info['rank'] = "高危"  # 漏洞等级
@@ -48,14 +51,6 @@ def medusa(Url,RandomAgent,ProxyIp):
             'User-Agent': RandomAgent,
         }
         s = requests.session()
-        # if ProxyIp!=None:
-        #     proxies = {
-        #         # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
-        #         "http": "http://" + str(ProxyIp)
-        #     }
-        #     resp = s.post(payload_url, data=post_data, headers=headers, proxies=proxies, timeout=5, verify=False)
-        #     resp2 = s.get(payload_url, headers=headers, proxies=proxies, timeout=5, verify=False)
-        # elif ProxyIp==None:
         resp = s.post(payload_url, data=post_data,headers=headers, timeout=5, verify=False)
         resp2 = s.get(payload_url, headers=headers, timeout=5, verify=False)
         con = resp.text
@@ -65,7 +60,7 @@ def medusa(Url,RandomAgent,ProxyIp):
             _t = VulnerabilityInfo(Medusa)
             web = ClassCongregation.VulnerabilityDetails(_t.info)
             web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
-            return (str(_t.info))
+            return (str(Medusa))
     except:
         _ = VulnerabilityInfo('').info.get('algroup')
         _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类

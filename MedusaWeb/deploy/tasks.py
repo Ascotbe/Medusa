@@ -8,7 +8,7 @@ from Jenkins import JenkinsMain
 from Cms import CmsMain
 from Solr import SolrMain
 from InformationDetector import JS
-from InformationDisclosure import InformationDisclosureMain
+from InformationLeakage import InformationDisclosureMain
 from Php import PhpMain
 from OA import OaMian
 import ClassCongregation

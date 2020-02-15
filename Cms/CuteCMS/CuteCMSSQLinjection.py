@@ -54,7 +54,7 @@ def medusa(Url,RandomAgent,ProxyIp):
             _t = VulnerabilityInfo(Medusa)
             web = ClassCongregation.VulnerabilityDetails(_t.info)
             web.High()
-            return (str(_t.info))
+            return (str(Medusa))
     except Exception:
         _ = VulnerabilityInfo('').info.get('algroup')
         _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类传入URL和错误插件名

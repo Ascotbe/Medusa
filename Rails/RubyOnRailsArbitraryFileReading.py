@@ -67,7 +67,7 @@ def medusa(Url,RandomAgent,ProxyIp):
             print(Medusa)
             web=ClassCongregation.VulnerabilityDetails(_t.info)
             web.High() # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
-            return (str(_t.info))
+            return (str(Medusa))
     except:
         _ = VulnerabilityInfo('').info.get('algroup')
         _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类

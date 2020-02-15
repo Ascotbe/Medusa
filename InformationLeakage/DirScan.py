@@ -17,14 +17,14 @@ class SensitiveData:
         global DirName
         if sys.platform == "win32" or sys.platform == "cygwin":
             DirName = os.path.split(os.path.realpath(__file__))[
-                          0] + "\\InformationDisclosure\\Dir\\"
+                          0] + "\\Dir\\"
         elif sys.platform == "linux" or sys.platform == "darwin":
-            DirName = os.path.split(os.path.realpath(__file__))[0] + "/InformationDisclosure/Dir/"
+            DirName = os.path.split(os.path.realpath(__file__))[0] + "/Dir/"
 
         FileNames = os.listdir(DirName)
         for FileName in FileNames:
             if not os.path.isdir(FileName):  # 判断是不是文件夹
-                with open(DirName + "/" + FileName, 'r', encoding='UTF-8') as f:
+                with open(DirName + FileName, 'r', encoding='UTF-8') as f:
                     line = f.readline()
                     while line:
                         self.dirs.append(line.replace('\n', ''))  # 删除\n符号
@@ -89,11 +89,11 @@ class SensitiveData:
     def write(self,data):
         global FileNames
         if sys.platform == "win32" or sys.platform == "cygwin":
-            FileNames = os.path.split(os.path.realpath(__file__))[0]+"\\ScanResult\\"+self.url + ".txt"#不需要输入后缀，只要名字就好
+            FileNames = os.path.split(os.path.realpath(__file__))[0]+"\\Target\\"+self.url + ".txt"#不需要输入后缀，只要名字就好
         elif sys.platform=="linux" or sys.platform=="darwin":
-            FileNames = os.path.split(os.path.realpath(__file__))[0] + "/ScanResult/" + self.url + ".txt"  # 不需要输入后缀，只要名字就好
+            FileNames = os.path.split(os.path.realpath(__file__))[0] + "/Target/" + self.url + ".txt"  # 不需要输入后缀，只要名字就好
         with open(FileNames, 'w+',encoding='utf-8') as f:  # 如果filename不存在会自动创建， 'w'表示写数据，写之前会清空文件中的原有数据！
             f.write(data+"\n")
 
 
-SensitiveData().WebDir("www.baidu.com")
+

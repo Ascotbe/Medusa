@@ -14,7 +14,7 @@ from Cms import CmsMain
 from Solr import SolrMain
 from Citrix import CitrixMain
 from InformationDetector import sublist3r
-from InformationDisclosure import InformationDisclosureMain
+#from InformationLeakage import InformationDisclosureMain
 from Rails import RailsMain
 from Kibana import KibanaMain
 from Php import PhpMain
@@ -99,7 +99,7 @@ def San(OutFileName,Url,Values,ProxyIp):
     thread_list.append(threading.Thread(target=PhpMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))# 调用Php主函数
     thread_list.append(threading.Thread(target=CmsMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))# 调用Cms主函数
     thread_list.append(threading.Thread(target=OaMian.Main, args=(Url, OutFileName, Values, ProxyIp,)))# 调用OA主函数
-    thread_list.append(threading.Thread(target=InformationDisclosureMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))# 调用信息泄露主函数
+    #thread_list.append(threading.Thread(target=InformationDisclosureMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))# 调用信息泄露主函数
     thread_list.append(threading.Thread(target=JenkinsMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))  # 调用Jenkins主函数
     thread_list.append(threading.Thread(target=SolrMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))  # 调用Solr主函数
     thread_list.append(threading.Thread(target=RailsMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))  # 调用RailsMain主函数

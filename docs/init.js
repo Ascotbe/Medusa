@@ -1,7 +1,7 @@
 var rootUrl = 'https://www.ascotbe.com/Medusa';
 
 var versions = [
-	{ title: 'v2.8', path: '/2.8/' },
+	{ title: 'v2.9', path: '/Documentation/' },
 ]
 
 var latestVersionIndex = 0;

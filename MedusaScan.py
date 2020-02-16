@@ -129,7 +129,7 @@ if __name__ == '__main__':
     Subdomain=args.Subdomain#开启子域名枚举
     ThreadNumber=args.ThreadNumber#要使用的线程数默认15
 
-    
+
     #暂时关闭NMAP扫描以及数据库爆破功能
 
 

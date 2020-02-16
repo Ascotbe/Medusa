@@ -24,6 +24,7 @@ from Cms.CTSCMS import CTSCMS
 from Cms.CMSMS import CMSMS
 from Cms.Cacti import Cacti
 from Cms.CSDJCMS import CSDJCMS
+from Cms.CraftedWeb import CraftedWeb
 from Cms.Destoon import Destoon
 from Cms.DamiCMS import DamiCMS
 from Cms.DaMall import DaMall
@@ -56,6 +57,7 @@ def Main(Url,FileName,Values,ProxyIp):
     thread_lists.append(threading.Thread(target=DamiCMS.Main, args=(Url, FileName, Values, ProxyIp,)))
     thread_lists.append(threading.Thread(target=DaMall.Main, args=(Url, FileName, Values, ProxyIp,)))
     thread_lists.append(threading.Thread(target=CSDJCMS.Main, args=(Url, FileName, Values, ProxyIp,)))
+    thread_lists.append(threading.Thread(target=CraftedWeb.Main, args=(Url, FileName, Values, ProxyIp,)))
     for t in thread_lists:  # 开启列表中的多线程
         t.setDaemon(True)
         t.start()

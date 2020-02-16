@@ -11,13 +11,13 @@ let config = {
         },
 		{
             title: '插件编写', type: 'dropdown', items: [
-			    {   title: '2.7', path: '/PocVersion/2.7/PocWriting'
+			    {   title: '2.9(当前版本)', path: '/PocVersion/2.9/PocWriting'
                 },
                 {
                     title: '2.8', path: '/PocVersion/2.8/PocWriting'
                 },
 				{
-                    title: '2.9', path: '/PocVersion/2.9/PocWriting'
+                    title: '2.7', path: '/PocVersion/2.7/PocWriting'
                 },
             ]
         },

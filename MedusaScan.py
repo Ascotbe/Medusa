@@ -69,7 +69,8 @@ def InitialScan(ThreadPool,InputFileName,Url,ProxyIp):
             Urls=Url
             try:
                 San(ThreadPool,Url,Values,ProxyIp)
-                ThreadPool.NmapAppend(NmapScan,Urls)#把Nmap放到多线程中
+                # ThreadPool.NmapAppend(NmapScan,Urls)#把Nmap放到多线程中
+                # print("NmapScan component payload successfully loaded")
 
             except KeyboardInterrupt as e:
                 exit(0)
@@ -80,7 +81,8 @@ def InitialScan(ThreadPool,InputFileName,Url,ProxyIp):
                         Urls=UrlLine
                         try:
                             San(ThreadPool,Url,Values,ProxyIp)
-                            ThreadPool.NmapAppend(NmapScan,Urls)#把Nmap放到多线程中
+                            # ThreadPool.NmapAppend(NmapScan,Urls)#把Nmap放到多线程中
+                            # print("NmapScan component payload successfully loaded")
                         except KeyboardInterrupt as e:
                             exit(0)
             except:
@@ -127,6 +129,10 @@ if __name__ == '__main__':
     Subdomain=args.Subdomain#开启子域名枚举
     ThreadNumber=args.ThreadNumber#要使用的线程数默认15
 
+    
+    #暂时关闭NMAP扫描以及数据库爆破功能
+
+
     ThreadPool = ClassCongregation.ThreadPool()#定义一个线程池
     if ThreadNumber==None:#如果线程数为空，那么默认为15
         ThreadNumber=15
@@ -138,7 +144,7 @@ if __name__ == '__main__':
         os._exit(0)#直接退出整个函数
 
     ProxyIp=None
-    #thread_list.append(threading.Thread(target=BoomDB, args=(Url, SqlUser, SqlPasswrod,InputFileName,)))#暂时关闭数据库爆破功能
+    #thread_list.append(threading.Thread(target=BoomDB, args=(Url, SqlUser, SqlPasswrod,InputFileName,)))#数据库爆破功能
 
     if SubdomainEnumerate==True and Subdomain==True :#对参数判断参数互斥
         print("Incorrect input, please enter -h to view help")

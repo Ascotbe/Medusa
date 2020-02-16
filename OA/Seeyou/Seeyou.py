@@ -10,6 +10,7 @@ from OA.Seeyou import SeeyouStatusDefaultPwdVulnerability
 from OA.Seeyou import SeeyouSystemFileArbitraryReadVulnerability
 from OA.Seeyou import SeeyouSystemFrameworkVulnerability
 from OA.Seeyou import SeeyouSystemSQLInjectionVulnerability
+import time
 def Main(ThreadPool,Url,Values,ProxyIp):
     ThreadPool.Append(SeeyouArbitraryFileReadVulnerability.medusa, Url, Values, ProxyIp)
     ThreadPool.Append(SeeyouMultipleSQLInjectionVulnerabilities.medusa, Url, Values, ProxyIp)
@@ -21,5 +22,6 @@ def Main(ThreadPool,Url,Values,ProxyIp):
     ThreadPool.Append(SeeyouSystemFileArbitraryReadVulnerability.medusa, Url, Values, ProxyIp)
     ThreadPool.Append(SeeyouSystemFrameworkVulnerability.medusa, Url, Values, ProxyIp)
     ThreadPool.Append(SeeyouSystemSQLInjectionVulnerability.medusa, Url, Values, ProxyIp)
-    print("Seeyou component payload successfully loaded")
+    print("\033[1;40;32m[ + ] Seeyou component payload successfully loaded\033[0m")
+    time.sleep(0.5)
 

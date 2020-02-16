@@ -7,6 +7,7 @@ from Cms.B2Bbuilder import B2BbuilderSQLInjectionVulnerability
 from Cms.B2Bbuilder import B2BbuilderSQLInjectionVulnerability2
 from Cms.B2Bbuilder import B2BbuilderSQLInjectionVulnerability3
 from Cms.B2Bbuilder import B2BbuilderSQLInjectionVulnerability4
+import time
 def Main(ThreadPool,Url,Values,ProxyIp):
     ThreadPool.Append(B2BbuilderBackgroundCommandExecutionVulnerability.medusa, Url, Values, ProxyIp)
     ThreadPool.Append(B2BbuilderContainsVulnerabilitiesLocally.medusa, Url, Values, ProxyIp)
@@ -15,4 +16,5 @@ def Main(ThreadPool,Url,Values,ProxyIp):
     ThreadPool.Append(B2BbuilderSQLInjectionVulnerability2.medusa, Url, Values, ProxyIp)
     ThreadPool.Append(B2BbuilderSQLInjectionVulnerability3.medusa, Url, Values, ProxyIp)
     ThreadPool.Append(B2BbuilderSQLInjectionVulnerability4.medusa, Url, Values, ProxyIp)
-    print("B2Bbuilder component payload successfully loaded")
+    print("\033[1;40;32m[ + ] B2Bbuilder component payload successfully loaded\033[0m")
+    time.sleep(0.5)

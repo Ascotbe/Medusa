@@ -77,7 +77,7 @@ class SensitiveFile:
             _t = TargetInfo(Medusa, Algroup, Name, Affects)
             web = VulnerabilityDetails(_t.info)
             web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
-            WriteFile(self.TargetDocument).Write(str(Medusa))
+            WriteFile().result(str(self.TargetUrl), str(Medusa))
 
     def Git(self,url):
         Algroup="GitVersionManagementSourceLeakVulnerability"
@@ -93,7 +93,7 @@ class SensitiveFile:
                 _t = TargetInfo(Medusa,Algroup,Name,Affects)
                 web = VulnerabilityDetails(_t.info)
                 web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
-                WriteFile(self.TargetDocument).Write(str(Medusa))
+                WriteFile().result(str(self.TargetUrl), str(Medusa))
         except:
             _l = ErrorLog().Write(url, Name)  # 调用写入类传入URL和错误插件名
     def Java(self,url):
@@ -110,7 +110,7 @@ class SensitiveFile:
                 _t = TargetInfo(Medusa,Algroup,Name,Affects)
                 web = VulnerabilityDetails(_t.info)
                 web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
-                WriteFile(self.TargetDocument).Write(str(Medusa))
+                WriteFile().result(str(self.TargetUrl), str(Medusa))
         except:
             _l = ErrorLog().Write(url, Name)  # 调用写入类传入URL和错误插件名
     def JetBrains(self,url):
@@ -127,7 +127,7 @@ class SensitiveFile:
                 _t = TargetInfo(Medusa,Algroup,Name,Affects)
                 web = VulnerabilityDetails(_t.info)
                 web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
-                WriteFile(self.TargetDocument).Write(str(Medusa))
+                WriteFile().result(str(self.TargetUrl), str(Medusa))
         except:
             _l = ErrorLog().Write(url, Name)  # 调用写入类传入URL和错误插件名
     def PhpApc(self,url):
@@ -144,7 +144,7 @@ class SensitiveFile:
                 _t = TargetInfo(Medusa,Algroup,Name,Affects)
                 web = VulnerabilityDetails(_t.info)
                 web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
-                WriteFile(self.TargetDocument).Write(str(Medusa))
+                WriteFile().result(str(self.TargetUrl), str(Medusa))
         except:
             _l = ErrorLog().Write(url, Name)  # 调用写入类传入URL和错误插件名
     def Sftp(self,url):
@@ -161,7 +161,7 @@ class SensitiveFile:
                 _t = TargetInfo(Medusa,Algroup,Name,Affects)
                 web = VulnerabilityDetails(_t.info)
                 web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
-                WriteFile(self.TargetDocument).Write(str(Medusa))
+                WriteFile().result(str(self.TargetUrl), str(Medusa))
         except:
             _l = ErrorLog().Write(url, Name)  # 调用写入类传入URL和错误插件名
     def Svn(self,url):
@@ -178,7 +178,7 @@ class SensitiveFile:
                 _t = TargetInfo(Medusa,Algroup,Name,Affects)
                 web = VulnerabilityDetails(_t.info)
                 web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
-                WriteFile(self.TargetDocument).Write(str(Medusa))
+                WriteFile().result(str(self.TargetUrl), str(Medusa))
         except:
             _l = ErrorLog().Write(url, Name)  # 调用写入类传入URL和错误插件名
     def PhpInfo(self,url):
@@ -274,7 +274,7 @@ class SensitiveFile:
             _t = TargetInfo(Medusa, Algroup, Name, Affects)
             web = VulnerabilityDetails(_t.info)
             web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
-            WriteFile(self.TargetDocument).Write(str(Medusa))
+            WriteFile().result(str(self.TargetUrl), str(Medusa))
     def CompressedFile(self,url):
         Algroup="SensitiveCompressedFileDownloadVulnerability"
         Name="敏感压缩文件下载漏洞"
@@ -322,7 +322,7 @@ class SensitiveFile:
             _t = TargetInfo(Medusa, Algroup, Name, Affects)
             web = VulnerabilityDetails(_t.info)
             web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
-            WriteFile(self.TargetDocument).Write(str(Medusa))
+            WriteFile().result(str(self.TargetUrl), str(Medusa))
 
     def SensitiveFile(self,url):
         Algroup="SensitiveFileDownloadVulnerability"
@@ -355,10 +355,9 @@ class SensitiveFile:
             _t = TargetInfo(Medusa, Algroup, Name, Affects)
             web = VulnerabilityDetails(_t.info)
             web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
-            WriteFile(self.TargetDocument).Write(str(Medusa))
+            WriteFile().result(str(self.TargetUrl), str(Medusa))
     def Main(self,url):
         scheme, self.TargetUrl, port = UrlProcessing().result(url)  # 获取目标的url
         self.TargetDocument=self.TargetUrl+".txt"#获取目标的文件名字
 
 
-SensitiveFile().Druid("https://www.baidu.com")

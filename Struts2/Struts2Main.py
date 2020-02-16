@@ -9,16 +9,14 @@ from Struts2 import S2_016
 from Struts2 import S2_052
 from Struts2 import S2_053
 from Struts2 import S2_057
-from ClassCongregation import WriteFile,UserAgentS
-from tqdm import tqdm
-def Main(Url,FileName,Values,ProxyIp):
-    WriteFiles = WriteFile(FileName)  # 声明调用类集合中的WriteFile类,并传入文件名字(这一步是必须的)
-    ua=UserAgentS(Values)#传入用户输入用户指定的浏览器头
-    RandomAgent=ua.UserAgent()#获取生成的头文件
-    Medusa = [S2_001.medusa(Url,RandomAgent,ProxyIp),S2_007.medusa(Url,RandomAgent,ProxyIp),S2_012.medusa(Url,RandomAgent,ProxyIp),S2_013.medusa(Url,RandomAgent,ProxyIp),S2_016.medusa(Url,RandomAgent,ProxyIp),S2_052.medusa(Url,RandomAgent,ProxyIp),S2_053.medusa(Url,RandomAgent,ProxyIp),S2_057.medusa(Url,RandomAgent,ProxyIp),]
-    try:
-        for i in tqdm(Medusa, ascii=True, desc="Struts2 plugin progress"):
-            WriteFiles.Write(str(i))
-    except:
-        pass
+def Main(ThreadPool,Url,Values,ProxyIp):
+    ThreadPool.Append(S2_001.medusa, Url, Values, ProxyIp)
+    ThreadPool.Append(S2_007.medusa, Url, Values, ProxyIp)
+    ThreadPool.Append(S2_012.medusa, Url, Values, ProxyIp)
+    ThreadPool.Append(S2_013.medusa, Url, Values, ProxyIp)
+    ThreadPool.Append(S2_016.medusa, Url, Values, ProxyIp)
+    ThreadPool.Append(S2_052.medusa, Url, Values, ProxyIp)
+    ThreadPool.Append(S2_053.medusa, Url, Values, ProxyIp)
+    ThreadPool.Append(S2_057.medusa, Url, Values, ProxyIp)
+    print("Struts2 component payload successfully loaded")
 

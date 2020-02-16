@@ -16,6 +16,7 @@ from Cms._74CMS import _74CMSSQLInjectionVulnerabilityExists12
 from Cms._74CMS import _74CMSSQLInjectionVulnerabilityExists13
 from Cms._74CMS import _74CMSSQLInjectionVulnerabilityExists14
 from Cms._74CMS import _74CMSSQLInjectionVulnerabilityExists15
+import time
 def Main(ThreadPool,Url,Values,ProxyIp):
     ThreadPool.Append(_74CMSThereIsReflectiveXSSVulnerability.medusa, Url, Values, ProxyIp)
     ThreadPool.Append(_74CMSSQLInjectionVulnerabilityExists.medusa, Url, Values, ProxyIp)
@@ -33,4 +34,5 @@ def Main(ThreadPool,Url,Values,ProxyIp):
     ThreadPool.Append(_74CMSSQLInjectionVulnerabilityExists13.medusa, Url, Values, ProxyIp)
     ThreadPool.Append(_74CMSSQLInjectionVulnerabilityExists14.medusa, Url, Values, ProxyIp)
     ThreadPool.Append(_74CMSSQLInjectionVulnerabilityExists15.medusa, Url, Values, ProxyIp)
-    print("74CMS component payload successfully loaded")
+    print("\033[1;40;32m[ + ] 74CMS component payload successfully loaded\033[0m")
+    time.sleep(0.5)

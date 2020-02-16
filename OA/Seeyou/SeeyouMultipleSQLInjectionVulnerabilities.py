@@ -52,15 +52,10 @@ def medusa(Url,RandomAgent,ProxyIp):
             code = resp.status_code
             if  con.lower().find('81dc9bdb52d04dc20036dbd8313ed055')!=-1:
                 Medusa = "{} 存在用友OA多处sql注入漏洞\r\n漏洞详情:\r\nPayload:{}\r\n".format(url, payload_url)
-                Medusas.append(str(Medusa))
+                ClassCongregation.WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
                 _t = VulnerabilityInfo(Medusas)
                 web = ClassCongregation.VulnerabilityDetails(_t.info)
                 web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
         except:
             _ = VulnerabilityInfo('').info.get('algroup')
             _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类
-    if len(Medusas) != 0:
-        result = ""
-        for i in Medusas:
-            result = result + i + "\n"
-        return (str(result))

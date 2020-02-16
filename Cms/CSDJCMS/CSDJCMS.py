@@ -1,21 +1,16 @@
 #!/usr/bin/env python
 # _*_ coding: utf-8 _*_
-from Cms.CSDJCMS import CSDJCMSSQLInjectionVulnerability,CSDJCMSGetshell,CSDJCMSSQLInjectionVulnerability1,CSDJCMSSQLInjectionVulnerability2,CSDJCMSGetshell1,CSDJCMSStoredCrossSiteScriptingVulnerability
-from ClassCongregation import WriteFile,UserAgentS
-from tqdm import tqdm
-def Main(Url,FileName,Values,ProxyIp):
-    WriteFiles = WriteFile(FileName)  # 声明调用类集合中的WriteFile类,并传入文件名字(这一步是必须的)
-    ua=UserAgentS(Values)#传入用户输入用户指定的浏览器头
-    RandomAgent=ua.UserAgent()#获取生成的头文件
-    Medusa = [CSDJCMSSQLInjectionVulnerability.medusa(Url,RandomAgent,ProxyIp),
-              CSDJCMSGetshell.medusa(Url,RandomAgent,ProxyIp),
-              CSDJCMSGetshell1.medusa(Url, RandomAgent, ProxyIp),
-              CSDJCMSSQLInjectionVulnerability1.medusa(Url, RandomAgent, ProxyIp),
-              CSDJCMSSQLInjectionVulnerability2.medusa(Url, RandomAgent, ProxyIp),
-              CSDJCMSStoredCrossSiteScriptingVulnerability.medusa(Url, RandomAgent, ProxyIp),
-              ]
-    try:
-        for i in tqdm(Medusa, ascii=True, desc="CSDJCMS plugin progress"):
-            WriteFiles.Write(str(i))
-    except:
-        pass
+from Cms.CSDJCMS import CSDJCMSSQLInjectionVulnerability
+from Cms.CSDJCMS import CSDJCMSGetshell
+from Cms.CSDJCMS import CSDJCMSSQLInjectionVulnerability1
+from Cms.CSDJCMS import CSDJCMSSQLInjectionVulnerability2
+from Cms.CSDJCMS import CSDJCMSGetshell1
+from Cms.CSDJCMS import CSDJCMSStoredCrossSiteScriptingVulnerability
+def Main(ThreadPool,Url,Values,ProxyIp):
+    ThreadPool.Append(CSDJCMSSQLInjectionVulnerability.medusa, Url, Values, ProxyIp)
+    ThreadPool.Append(CSDJCMSGetshell.medusa, Url, Values, ProxyIp)
+    ThreadPool.Append(CSDJCMSSQLInjectionVulnerability1.medusa, Url, Values, ProxyIp)
+    ThreadPool.Append(CSDJCMSSQLInjectionVulnerability2.medusa, Url, Values, ProxyIp)
+    ThreadPool.Append(CSDJCMSGetshell1.medusa, Url, Values, ProxyIp)
+    ThreadPool.Append(CSDJCMSStoredCrossSiteScriptingVulnerability.medusa, Url, Values, ProxyIp)
+    print("CSDJCMS component payload successfully loaded")

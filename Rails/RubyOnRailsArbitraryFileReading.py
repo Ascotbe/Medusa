@@ -51,26 +51,16 @@ def medusa(Url,RandomAgent,ProxyIp):
         }
 
         s = requests.session()
-        # if ProxyIp!=None:
-        #     proxies = {
-        #         # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
-        #         "http": "http://" + str(ProxyIp)
-        #     }
-        #     resp = s.get(payload_url,headers=headers, timeout=6, proxies=proxies,verify=False)
-        # elif ProxyIp==None:
         resp = s.get(payload_url, headers=headers,timeout=5, verify=False)
         con=resp.text
         code = resp.status_code
         if code== 200 and con.find('root:') != -1 and con.find('bin:') != -1 and con.find('sys:') != -1 and con.find('sync:') != -1 :
             Medusa = "{} 存在任意文件读取漏洞\r\n漏洞地址:\r\n{}\r\n漏洞详情:\r\n{}".format(url,payload_url,con.encode(encoding='utf-8'))
             _t=VulnerabilityInfo(Medusa)
-            print(Medusa)
             web=ClassCongregation.VulnerabilityDetails(_t.info)
             web.High() # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
-            return (str(Medusa))
+            ClassCongregation.WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
     except:
         _ = VulnerabilityInfo('').info.get('algroup')
         _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类
 
-
-#medusa('http://192.168.0.121:3000/','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/4')

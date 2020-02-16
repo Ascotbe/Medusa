@@ -54,14 +54,6 @@ def medusa(Url,RandomAgent,ProxyIp):
     }
     try:
         s = requests.session()
-        # if ProxyIp != None:
-        #     proxies = {
-        #         # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
-        #         "http": "http://" + str(ProxyIp)
-        #     }
-        #     resp = s.get(payload_url, headers=headers,proxies=proxies, timeout=5, verify=False)
-        #
-        # elif ProxyIp == None:
         resp = s.get(payload_url,headers=headers, timeout=5, verify=False)
         con = resp.text
         code = resp.status_code
@@ -70,7 +62,7 @@ def medusa(Url,RandomAgent,ProxyIp):
             _t = VulnerabilityInfo(Medusa)
             web = ClassCongregation.VulnerabilityDetails(_t.info)
             web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
-            return (str(_t.info))
+            ClassCongregation.WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
     except:
         _ = VulnerabilityInfo('').info.get('algroup')
         _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类

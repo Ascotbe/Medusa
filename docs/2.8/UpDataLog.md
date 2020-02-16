@@ -640,5 +640,25 @@ dir为字典目录
 v0.66🌴
 修改插件编写文档，优化编写规范
 对之前所以老的编写不够规范的插件进行一次批量的修复
+v0.66X🌴
+修复JenkinsConfigurationErrorCausesUnauthorizedCodeExecutionVulnerability插件中获取Cookie未设置超时时间，倒是插件卡顿
+```
+
+> 2020.2.16
+
+```
+v0.67🌴
+添加CraftedWeb模块插件
+添加CmsTop模块插件
+v0.68🌴
+删除所有调用主函数中for循环列表
+调价各个调用主函数为发送到多线程池中，由主函数统一调用
+添加线程池类函数
+重写写入文件函数并删除了用户自定义输出文件名
+修改所有插件中的return（str(Medusa))函数为WriteFile().result(str(url),str(Medusa))函数，方便多payload使用
+修改一些插件中的错误问题
+删除原来主函数中的多线程函数
+修改主函数中发送到多线程的函数统一为发送到多线程池中
+修改了主函数中的逻辑结构
 ```
 

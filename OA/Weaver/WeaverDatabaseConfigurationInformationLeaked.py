@@ -64,7 +64,7 @@ def medusa(Url,RandomAgent,ProxyIp):
             _t=VulnerabilityInfo(Medusa)
             web=ClassCongregation.VulnerabilityDetails(_t.info)
             web.Intermediate() # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
-            return (str(Medusa))
+            ClassCongregation.WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
     except:
         _ = VulnerabilityInfo('').info.get('algroup')
         _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类

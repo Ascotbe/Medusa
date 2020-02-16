@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # _*_ coding: utf-8 _*_
 from fake_useragent import UserAgent
-import time
 import urllib.parse
 import nmap
 import requests
@@ -15,7 +14,7 @@ import re
 import json
 import random
 import sys
-import hashlib
+import threading
 def IpProcess(Url):
     if Url.startswith("http"):  # 记个小知识点：必须带上https://这个头不然urlparse就不能正确提取hostname导致后面运行出差错
         res = urllib.parse.urlparse(Url)  # 小知识点2：如果只导入import urllib包使用parse这个类的话会报错，必须在import requests导入这个包才能正常运行
@@ -24,22 +23,14 @@ def IpProcess(Url):
     return (res.hostname)
 
 class WriteFile:#写入文件类
-    def __init__(self,FileName):
-        if FileName == None:
-            self.FileName = time.strftime("%Y-%m-%d", time.localtime())  # 获取日期作为文件
-        else:
-            self.FileName = FileName
-
-
-    def Write(self,Medusa):
-        global FileNames
+    def result(self,TargetName,Medusa):
+        self.FileName=TargetName+"result"
         if sys.platform == "win32" or sys.platform == "cygwin":
-            FileNames = os.path.split(os.path.realpath(__file__))[0]+"\\ScanResult\\"+self.FileName + ".txt"#不需要输入后缀，只要名字就好
+            self.FilePath = os.path.split(os.path.realpath(__file__))[0]+"\\ScanResult\\"+self.FileName + ".txt"#不需要输入后缀，只要名字就好
         elif sys.platform=="linux" or sys.platform=="darwin":
-            FileNames = os.path.split(os.path.realpath(__file__))[0] + "/ScanResult/" + self.FileName + ".txt"  # 不需要输入后缀，只要名字就好
-        with open(FileNames, 'w+',encoding='utf-8') as f:  # 如果filename不存在会自动创建， 'w'表示写数据，写之前会清空文件中的原有数据！
+            self.FilePath = os.path.split(os.path.realpath(__file__))[0] + "/ScanResult/" +self.FileName+ ".txt"  # 不需要输入后缀，只要名字就好
+        with open(self.FilePath, 'w+',encoding='utf-8') as f:  # 如果filename不存在会自动创建， 'w'表示写数据，写之前会清空文件中的原有数据！
             f.write(Medusa+"\n")
-
 
 
 class UserAgentS:#使用随机头类
@@ -539,3 +530,27 @@ class UrlProcessing:
         else:
             res = urllib.parse.urlparse('http://%s' % url)
         return res.scheme, res.hostname, res.port
+
+class ThreadPool:
+    def __init__(self):
+        self.ThreaList=[]#存放线程列表
+        self.text=0#统计线程数
+    def Append(self,plugin,url,Values,ProxyIp):
+        self.text+=1
+        ua = UserAgentS(Values).UserAgent()
+        self.ThreaList.append(threading.Thread(target=plugin, args=(url,ua,ProxyIp)))
+    def SubdomainAppend(self,plugin,Url,SubdomainJudge):
+        self.ThreaList.append(threading.Thread(target=plugin, args=(Url, SubdomainJudge)))
+    def NmapAppend(self,plugin,Url):
+        self.ThreaList.append(threading.Thread(target=plugin, args=(Url)))
+    def Start(self,ThreadNumber):
+        for t in tqdm(self.ThreaList,ascii=True,desc="Medusa scan progress bar"): # 开启列表中的多线程
+            t.setDaemon(True)
+            t.start()
+            while True:
+                # 判断正在运行的线程数量,如果小于5则退出while循环,
+                # 进入for循环启动新的进程.否则就一直在while循环进入死循环
+                if (len(threading.enumerate()) < ThreadNumber):
+                    break
+        for t in self.ThreaList:  # 除POC外功能总进度条
+            t.join()

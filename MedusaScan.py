@@ -70,8 +70,8 @@ def InitialScan(ThreadPool,InputFileName,Url,ProxyIp):
             Urls=Url
             try:
                 San(ThreadPool,Url,Values,ProxyIp)
-                ThreadPool.NmapAppend(NmapScan,Urls)#把Nmap放到多线程中
-                print("\033[1;40;32m[ + ] NmapScan component payload successfully loaded\033[0m")
+                #ThreadPool.NmapAppend(NmapScan,Urls)#把Nmap放到多线程中
+                #print("\033[1;40;32m[ + ] NmapScan component payload successfully loaded\033[0m")
 
             except KeyboardInterrupt as e:
                 exit(0)
@@ -82,8 +82,8 @@ def InitialScan(ThreadPool,InputFileName,Url,ProxyIp):
                         Urls=UrlLine
                         try:
                             San(ThreadPool,Url,Values,ProxyIp)
-                            ThreadPool.NmapAppend(NmapScan,Urls)#把Nmap放到多线程中
-                            print("\033[1;40;32m[ + ] NmapScan component payload successfully loaded\033[0m")
+                            #ThreadPool.NmapAppend(NmapScan,Urls)#把Nmap放到多线程中
+                            #print("\033[1;40;32m[ + ] NmapScan component payload successfully loaded\033[0m")
                         except KeyboardInterrupt as e:
                             exit(0)
             except:
@@ -137,7 +137,7 @@ if __name__ == '__main__':
     ThreadNumber=args.ThreadNumber#要使用的线程数默认15
 
 
-    #暂时关闭数据库爆破功能
+    #暂时关闭NMAPScan和数据库爆破功能
 
 
     ThreadPool = ClassCongregation.ThreadPool()#定义一个线程池

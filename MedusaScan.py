@@ -26,6 +26,7 @@ import tldextract#域名处理函数可以识别主域名和后缀
 import Banner
 import argparse
 import os
+import sys
 from tqdm import tqdm
 
 parser = argparse.ArgumentParser()#description="xxxxxx")
@@ -69,26 +70,26 @@ def InitialScan(ThreadPool,InputFileName,Url,ProxyIp):
             Urls=Url
             try:
                 San(ThreadPool,Url,Values,ProxyIp)
-                # ThreadPool.NmapAppend(NmapScan,Urls)#把Nmap放到多线程中
-                # print("NmapScan component payload successfully loaded")
+                ThreadPool.NmapAppend(NmapScan,Urls)#把Nmap放到多线程中
+                print("\033[1;40;32m[ + ] NmapScan component payload successfully loaded\033[0m")
 
             except KeyboardInterrupt as e:
                 exit(0)
         elif InputFileName!=None:
             try:
                 with open(InputFileName, encoding='utf-8') as f:
-                    for UrlLine in tqdm(f,ascii=True,desc="IP scanning progress:"):#设置头文件使用的字符类型和开头的名字
+                    for UrlLine in tqdm(f,ascii=True,desc="\033[1;40;32m[ + ] IP scanning progress\033[0m"):#设置头文件使用的字符类型和开头的名字
                         Urls=UrlLine
                         try:
                             San(ThreadPool,Url,Values,ProxyIp)
-                            # ThreadPool.NmapAppend(NmapScan,Urls)#把Nmap放到多线程中
-                            # print("NmapScan component payload successfully loaded")
+                            ThreadPool.NmapAppend(NmapScan,Urls)#把Nmap放到多线程中
+                            print("\033[1;40;32m[ + ] NmapScan component payload successfully loaded\033[0m")
                         except KeyboardInterrupt as e:
                             exit(0)
             except:
-                print("Please check the file path or the file content is correct")
+                print("\033[1;40;31m[ ! ] Please check the file path or the file content is correct\033[0m")
     except:
-        print("Please enter the correct file path!")
+        print("\033[1;40;31m[ ! ] Please enter the correct file path!\033[0m")
 
 def San(ThreadPool,Url,Values,ProxyIp):
     #POC模块存进多线程池，这样如果批量扫描会变快很多
@@ -110,7 +111,13 @@ def San(ThreadPool,Url,Values,ProxyIp):
 def SubdomainCrawling(Url,SubdomainJudge):#开启子域名函数
     SubdomainCrawlingUrls= tldextract.extract(Url)
     SubdomainCrawlingUrl=SubdomainCrawlingUrls.domain+"."+SubdomainCrawlingUrls.suffix
-    savefile= "./ScanResult/Subdomain.txt"
+    savefile=""
+    if sys.platform == "win32" or sys.platform == "cygwin":
+        savefile = os.path.split(os.path.realpath(__file__))[
+                            0] + "\\ScanResult\\" + "Subdomain.txt"
+    elif sys.platform == "linux" or sys.platform == "darwin":
+        savefile = os.path.split(os.path.realpath(__file__))[
+                            0] + "/ScanResult/" + "Subdomain.txt"
     if SubdomainJudge=="a":
         sublist3r.main(SubdomainCrawlingUrl, savefile, silent=False,subbrutes=True)
     else:
@@ -130,36 +137,33 @@ if __name__ == '__main__':
     ThreadNumber=args.ThreadNumber#要使用的线程数默认15
 
 
-    #暂时关闭NMAP扫描以及数据库爆破功能
+    #暂时关闭数据库爆破功能
 
 
     ThreadPool = ClassCongregation.ThreadPool()#定义一个线程池
     if ThreadNumber==None:#如果线程数为空，那么默认为15
         ThreadNumber=15
     if Url==None and InputFileName==None:#如果找不到URL的话直接退出
-        print("Incorrect input, please enter -h to view help")
+        print("\033[1;40;31m[ ! ] Incorrect input, please enter -h to view help\033[0m")
         os._exit(0)#直接退出整个函数
     elif Url!=None and InputFileName!=None:#如果既输入URL又输入URL文件夹一样退出
-        print("Incorrect input, please enter -h to view help")
+        print("\033[1;40;31m[ ! ] Incorrect input, please enter -h to view help\033[0m")
         os._exit(0)#直接退出整个函数
 
     ProxyIp=None
     #thread_list.append(threading.Thread(target=BoomDB, args=(Url, SqlUser, SqlPasswrod,InputFileName,)))#数据库爆破功能
 
     if SubdomainEnumerate==True and Subdomain==True :#对参数判断参数互斥
-        print("Incorrect input, please enter -h to view help")
+        print("\033[1;40;31m[ ! ] Incorrect input, please enter -h to view help\033[0m")
     elif SubdomainEnumerate==True:
         SubdomainJudge = "a"
         ThreadPool.SubdomainAppend(SubdomainCrawling, Url,SubdomainJudge) #发送到多线程池中
-        #加入多线程池这样会流畅点
-        #SubdomainCrawling(Url,SubdomainJudge )
     elif Subdomain==True:
         SubdomainJudge = "b"
         ThreadPool.SubdomainAppend(SubdomainCrawling, Url,SubdomainJudge)
-        #SubdomainCrawling(Url, SubdomainJudge)
     InitialScan(ThreadPool,InputFileName, Url, ProxyIp)#最后启动主扫描函数，这样如果多个IP的话优化速度，里面会做url或者url文件的判断
     ThreadPool.Start(ThreadNumber)#启动多线程
-    print("Scan is complete, please see the result file")
+
 
 
 # from IPy import IP

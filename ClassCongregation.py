@@ -544,7 +544,7 @@ class ThreadPool:
     def NmapAppend(self,plugin,Url):
         self.ThreaList.append(threading.Thread(target=plugin, args=(Url)))
     def Start(self,ThreadNumber):
-        for t in tqdm(self.ThreaList,ascii=True,desc="Medusa scan progress bar"): # 开启列表中的多线程
+        for t in tqdm(self.ThreaList,ascii=True,desc="\033[1;40;32m[ + ] Medusa scan progress bar\033[0m"): # 开启列表中的多线程
             t.setDaemon(True)
             t.start()
             while True:
@@ -552,5 +552,4 @@ class ThreadPool:
                 # 进入for循环启动新的进程.否则就一直在while循环进入死循环
                 if (len(threading.enumerate()) < ThreadNumber):
                     break
-        for t in self.ThreaList:  # 除POC外功能总进度条
-            t.join()
+        

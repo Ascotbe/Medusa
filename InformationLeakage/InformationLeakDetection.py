@@ -342,8 +342,7 @@ class SensitiveFile:
             for t in SensitiveFileThreadList:  # 开启列表中的多线程
                 t.setDaemon(True)
                 t.start()
-            for t in SensitiveFileThreadList:
-                t.join()
+            SensitiveFileThreadList.clear()#清空列表
         except:
             _l = ErrorLog().Write(url, Name)  # 调用写入类传入URL和错误插件名
     def SensitiveFileThread(self, urls, Algroup, Name, Affects):

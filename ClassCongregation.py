@@ -552,4 +552,5 @@ class ThreadPool:
                 # 进入for循环启动新的进程.否则就一直在while循环进入死循环
                 if (len(threading.enumerate()) < ThreadNumber):
                     break
-        
+        self.ThreaList.clear()#清空列表，防止多次调用导致重复使用
+        print("\033[1;40;31m[ + ] Scan is complete, please see the result file\033[0m")

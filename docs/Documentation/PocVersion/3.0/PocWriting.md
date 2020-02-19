@@ -66,7 +66,6 @@ def medusa(Url, RandomAgent, ProxyIp=None):
                                                                                                           payload_url,
                                                                                                           rm,rm,head)
             _t = VulnerabilityInfo(Medusa)
-            print(Medusa)
             web = VulnerabilityDetails(_t.info)
             web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
             WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
@@ -181,7 +180,7 @@ def medusa(Url, RandomAgent, ProxyIp=None):
                                                                                                           payload_url,
                                                                                                           rm,rm,head)
             _t = VulnerabilityInfo(Medusa)
-            print(Medusa)
+            
             web = VulnerabilityDetails(_t.info)
             web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
             WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
@@ -299,7 +298,7 @@ def medusa(Url, RandomAgent, ProxyIp=None):
                                                                                                       payload_url,
                                                                                                       rm,rm,head)
         _t = VulnerabilityInfo(Medusa)
-        print(Medusa)
+        
         web = VulnerabilityDetails(_t.info)
         web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
         WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果

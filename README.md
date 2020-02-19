@@ -3,7 +3,7 @@
  <p align="center">
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Ascotbe-Medusa%20Scan-green"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/python-3.6-blueviolet"></a>
-    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Version-0.69-red"></a>
+    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Version-0.70-red"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/LICENSE-GPL-ff69b4"></a>
 	<a href="https://github.com/ascotbe/Medusa/stargazers"><img alt="Release" src="https://img.shields.io/github/stars/ascotbe/Medusa.svg"></a>
 	<a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Plugin-200+-success"></a>
@@ -85,10 +85,10 @@ git config --global --unset https.proxy
 
 ![commit](https://opencollective.com/Medusa/contributors.svg?width=890&button=false)
 
-### :alarm_clock:寻基友:alarm_clock:
+### :alarm_clock:共同开发:alarm_clock:
 
 ```
-找个几个前端大佬和后端大佬，我自己一个有点时间不够
+目前需要前端和后端大佬的支持
 ```
 
 [更新日志](https://www.ascotbe.com/Medusa/2.0/#/UpDataLog)

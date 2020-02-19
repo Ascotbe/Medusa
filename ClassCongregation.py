@@ -495,10 +495,14 @@ class Dnslog:#Dnslog判断
     def dns_host(self):
         return self.host
     def result(self):
+        data=json.dumps({"domain": self.host})
         try:
-            status = requests.post('http://log.ascotbe.com/api/validate', timeout=2,data=json.dumps({"domain": self.host})).status_code
-            #print(self.host)
-            if status == 200:
+            status = requests.post('http://log.ascotbe.com/api/validate', timeout=2,data=data)
+            code=status.status_code
+            print(data)
+            print(code)
+            print(status.text)
+            if code == 200:
                 return True
             else:
                 return False

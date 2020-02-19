@@ -499,9 +499,6 @@ class Dnslog:#Dnslog判断
         try:
             status = requests.post('http://log.ascotbe.com/api/validate', timeout=2,data=data)
             code=status.status_code
-            print(data)
-            print(code)
-            print(status.text)
             if code == 200:
                 return True
             else:

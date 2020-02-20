@@ -5,7 +5,6 @@
 ```python
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 __author__ = 'Ascotbe'
 import requests
 from ClassCongregation import VulnerabilityDetails,UrlProcessing,ErrorLog,WriteFile,randoms
@@ -62,7 +61,7 @@ def medusa(Url, RandomAgent, ProxyIp=None):
         head = resp.headers.get("Location")
         code = resp.status_code
         if code == 201 and head.find("/api/users/")!=-1:
-            Medusa = "{}存在Harbor任意管理员注册漏洞\r\n 验证数据:\r\n漏洞位置:{}\r\n账号:{}\r\n密码:{}\r\n注册账号数量:{}\r\n".format(url,
+            Medusa = "{}存在Harbor任意管理员注册漏洞\r\n验证数据:\r\n漏洞位置:{}\r\n账号:{}\r\n密码:{}\r\n注册账号数量:{}\r\n".format(url,
                                                                                                           payload_url,
                                                                                                           rm,rm,head)
             _t = VulnerabilityInfo(Medusa)

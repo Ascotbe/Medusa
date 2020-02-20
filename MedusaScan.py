@@ -11,7 +11,8 @@ from Apache import ApacheMain
 from Nginx import NginxMain
 from Jenkins import JenkinsMain
 from Cms import CmsMain
-from Solr import SolrMain
+from FastJson import FastJson
+from Harbor import Harbor
 from Citrix import CitrixMain
 from InformationDetector import sublist3r
 #from InformationLeakage import InformationDisclosureMain
@@ -101,12 +102,13 @@ def San(ThreadPool,Url,Values,ProxyIp):
     CmsMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用Cms主函数
     OaMian.Main(ThreadPool,Url,Values,ProxyIp)# 调用OA主函数
     JenkinsMain.Main(ThreadPool,Url,Values,ProxyIp)  # 调用Jenkins主函数
-    SolrMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用Solr主函数
+    Harbor.Main(ThreadPool, Url, Values, ProxyIp)# 调用Harbor主函数
     RailsMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用RailsMain主函数
     KibanaMain.Main(ThreadPool,Url,Values,ProxyIp) # 调用KibanaMain主函数
     CitrixMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用CitrixMain主函数
     MongoMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用MongoMain主函数
     SpringMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用SpringMain主函数
+    FastJson.Main(ThreadPool,Url,Values,ProxyIp)# 调用FastJson主函数
 
 def SubdomainCrawling(Url,SubdomainJudge):#开启子域名函数
     SubdomainCrawlingUrls= tldextract.extract(Url)

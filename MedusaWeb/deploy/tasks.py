@@ -6,7 +6,7 @@ from Apache import ApacheMain
 from Nginx import NginxMain
 from Jenkins import JenkinsMain
 from Cms import CmsMain
-from Solr import SolrMain
+from Apache.Solr import SolrMain
 from InformationDetector import JS
 from InformationLeakage import InformationDisclosureMain
 from Php import PhpMain
@@ -16,7 +16,8 @@ import urllib.parse
 import threading
 
 import json
-import time
+
+
 @shared_task
 def add():
     print("dddddddddddddddddddddddddd")

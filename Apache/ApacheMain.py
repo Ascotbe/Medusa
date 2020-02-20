@@ -1,12 +1,11 @@
 #!/usr/bin/env python
 # _*_ coding: utf-8 _*_
-from Apache.ActiveMQ import ActiveMQArbitraryFileWritingVulnerability
-from Apache.Log4j import Log4jRemoteCommandExecutionVulnerability
-import time
-
+from Apache.Log4j import Log4j
+from Apache.Flink import Flink
+from Apache.ActiveMQ import ActiveMQ
+from Apache.Solr import Solr
 def Main(ThreadPool,Url,Values,ProxyIp):
-    ThreadPool.Append(ActiveMQArbitraryFileWritingVulnerability.medusa,Url,Values,ProxyIp)
-    ThreadPool.Append(Log4jRemoteCommandExecutionVulnerability.medusa, Url, Values, ProxyIp)
-    print("\033[1;40;32m[ + ] Apache component payload successfully loaded\033[0m")
-    time.sleep(0.5)
-
+    Solr.Main(ThreadPool,Url,Values,ProxyIp)
+    ActiveMQ.Main(ThreadPool, Url, Values, ProxyIp)
+    Flink.Main(ThreadPool, Url, Values, ProxyIp)
+    Log4j.Main(ThreadPool, Url, Values, ProxyIp)

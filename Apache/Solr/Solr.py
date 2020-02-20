@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # _*_ coding: utf-8 _*_
-from Solr import SolrVelocityTemplateRemoteCodeExecutionVulnerability
-from Solr import SolrVelocityTemplateRemoteCodeExecutionVulnerability2
-from Solr import SolrRemoteCodeExecutionVulnerability
-from Solr import SolrRemoteCodeExecutionVulnerability2
+from Apache.Solr import SolrVelocityTemplateRemoteCodeExecutionVulnerability
+from Apache.Solr import SolrVelocityTemplateRemoteCodeExecutionVulnerability2
+from Apache.Solr import SolrRemoteCodeExecutionVulnerability
+from Apache.Solr import SolrRemoteCodeExecutionVulnerability2
 import time
 def Main(ThreadPool,Url,Values,ProxyIp):
     ThreadPool.Append(SolrVelocityTemplateRemoteCodeExecutionVulnerability.medusa, Url, Values, ProxyIp)

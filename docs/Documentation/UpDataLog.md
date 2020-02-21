@@ -701,3 +701,16 @@ v0.71.5🌴
 把Flink，slor汇总到Apache模块中
 ```
 
+> 2020.2.21
+
+```
+v0.71.6🌴
+添加CmsTop文件路径泄漏漏洞插件
+v0.71.7🌴
+添加ClassCongregation文件中的Prompt类
+添加ThinkCMF5.0.23和5.0.22远程代码执行插件
+添加ThinkPHP2远程代码执行插件
+添加ThinkPHP5SQL注入插件
+
+```
+

@@ -14,6 +14,7 @@ import re
 import json
 import random
 import sys
+import time
 import threading
 def IpProcess(Url):
     if Url.startswith("http"):  # 记个小知识点：必须带上https://这个头不然urlparse就不能正确提取hostname导致后面运行出差错
@@ -194,7 +195,7 @@ class SessionKey:
             return 0
         except:
             return 0
-class BlastingDB:
+class BlastingDB:#数据库爆破模块，到时候要重写移除这里
     def __init__(self,DataBaseUserFileName,DataBasePasswrodFileName):
         self.DataBaseUserFileName=DataBaseUserFileName
         self.DataBasePasswrodFileName = DataBasePasswrodFileName
@@ -470,7 +471,7 @@ class register:#注册
         except:
             return 0
 
-class ErrorLog:
+class ErrorLog:#报错写入日志
     def __init__(self):
         global filename
         if sys.platform == "win32" or sys.platform == "cygwin":
@@ -517,14 +518,14 @@ class Ysoserial:
     def result(self):
         return self.ysoserial
     
-class randoms:
+class randoms:#生成随机数
     def result(self,nub):
         H = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
         salt = ""
         for i in range(nub):
             salt += random.choice(H)
         return salt
-class UrlProcessing:
+class UrlProcessing:#URL处理函数
     def result(self,url):
         if url.startswith("http"):#判断是否有http头，如果没有就在下面加入
             res = urllib.parse.urlparse(url)
@@ -532,7 +533,7 @@ class UrlProcessing:
             res = urllib.parse.urlparse('http://%s' % url)
         return res.scheme, res.hostname, res.port
 
-class ThreadPool:
+class ThreadPool:#线程池，所有插件都发送过来一起调用
     def __init__(self):
         self.ThreaList=[]#存放线程列表
         self.text=0#统计线程数
@@ -554,4 +555,10 @@ class ThreadPool:
                 if (len(threading.enumerate()) < ThreadNumber):
                     break
         self.ThreaList.clear()#清空列表，防止多次调用导致重复使用
-        print("\033[1;40;31m[ + ] Scan is complete, please see the result file\033[0m")
+        print("\033[1;40;31m[ + ] Scan is complete, please see the ScanResult file\033[0m")
+
+class Prompt:#输出横幅，就是每个组件加载后输出的东西
+    def __init__(self,name):
+        self.name=name
+        print("\033[1;40;32m[ + ] {} component payload successfully loaded\033[0m".format(name))
+        time.sleep(0.5)

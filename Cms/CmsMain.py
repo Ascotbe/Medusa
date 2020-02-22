@@ -28,7 +28,13 @@ from Cms.CmsTop import CmsTop
 from Cms.Destoon import Destoon
 from Cms.DamiCMS import DamiCMS
 from Cms.DaMall import DaMall
+from Cms.Coremail import Coremail
+from Cms.ThinkPHP import ThinkPHP
+from Cms.ThinkCMF import ThinkCMF
 def Main(ThreadPool,Url,Values,ProxyIp):
+    Coremail.Main(ThreadPool, Url, Values, ProxyIp)
+    ThinkPHP.Main(ThreadPool, Url, Values, ProxyIp)
+    ThinkCMF.Main(ThreadPool, Url, Values, ProxyIp)
     SecCms.Main(ThreadPool,Url,Values,ProxyIp)
     Metinfo.Main(ThreadPool,Url,Values,ProxyIp)
     OneCaitong.Main(ThreadPool,Url,Values,ProxyIp)

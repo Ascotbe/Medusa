@@ -4,6 +4,8 @@ from Apache.Log4j import Log4j
 from Apache.Flink import Flink
 from Apache.ActiveMQ import ActiveMQ
 from Apache.Solr import Solr
+from Apache.Tomcat import Tomcat
+
 def Main(ThreadPool,Url,Values,ProxyIp):
     Solr.Main(ThreadPool,Url,Values,ProxyIp)
     ActiveMQ.Main(ThreadPool, Url, Values, ProxyIp)

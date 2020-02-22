@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # _*_ coding: utf-8 _*_
-import time
+from ClassCongregation import Prompt
 from Struts2 import S2_001
 from Struts2 import S2_007
 from Struts2 import S2_012
@@ -18,7 +18,6 @@ def Main(ThreadPool,Url,Values,ProxyIp):
     ThreadPool.Append(S2_052.medusa, Url, Values, ProxyIp)
     ThreadPool.Append(S2_053.medusa, Url, Values, ProxyIp)
     ThreadPool.Append(S2_057.medusa, Url, Values, ProxyIp)
-    print("\033[1;40;32m[ + ] Struts2 component payload successfully loaded\033[0m")
-    time.sleep(0.5)
+    Prompt("Struts2")
 
 

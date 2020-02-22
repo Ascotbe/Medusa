@@ -6,7 +6,7 @@ from Cms.CSDJCMS import CSDJCMSSQLInjectionVulnerability1
 from Cms.CSDJCMS import CSDJCMSSQLInjectionVulnerability2
 from Cms.CSDJCMS import CSDJCMSGetshell1
 from Cms.CSDJCMS import CSDJCMSStoredCrossSiteScriptingVulnerability
-import time
+from ClassCongregation import Prompt
 def Main(ThreadPool,Url,Values,ProxyIp):
     ThreadPool.Append(CSDJCMSSQLInjectionVulnerability.medusa, Url, Values, ProxyIp)
     ThreadPool.Append(CSDJCMSGetshell.medusa, Url, Values, ProxyIp)
@@ -14,5 +14,4 @@ def Main(ThreadPool,Url,Values,ProxyIp):
     ThreadPool.Append(CSDJCMSSQLInjectionVulnerability2.medusa, Url, Values, ProxyIp)
     ThreadPool.Append(CSDJCMSGetshell1.medusa, Url, Values, ProxyIp)
     ThreadPool.Append(CSDJCMSStoredCrossSiteScriptingVulnerability.medusa, Url, Values, ProxyIp)
-    print("\033[1;40;32m[ + ] CSDJCMS component payload successfully loaded\033[0m")
-    time.sleep(0.5)
+    Prompt("CSDJCMS")

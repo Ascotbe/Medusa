@@ -81,7 +81,7 @@ def InitialScan(ThreadPool,InputFileName,Url,ProxyIp):
                 with open(InputFileName, encoding='utf-8') as f:
                     for UrlLine in f:#设置头文件使用的字符类型和开头的名字
                         try:
-                            print("\033[1;40;32m[ + ] In batch scan, the current target is:\033[0m"+"\033[1;40;33m {}\033[0m".format(UrlLine))
+                            print("\033[1;40;32m[ + ] In batch scan, the current target is:\033[0m"+"\033[1;40;33m {}\033[0m".format(UrlLine.replace('\n', '')))
                             San(ThreadPool,UrlLine,Values,ProxyIp)
                             #ThreadPool.NmapAppend(NmapScan,Urls)#把Nmap放到多线程中
                             #print("\033[1;40;32m[ + ] NmapScan component payload successfully loaded\033[0m")

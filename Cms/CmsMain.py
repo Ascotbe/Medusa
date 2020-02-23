@@ -21,10 +21,12 @@ from Cms.CuteCMS import CuteCMS
 from Cms.Cyberwisdom import Cyberwisdom
 from Cms.CTSCMS import CTSCMS
 from Cms.CMSMS import CMSMS
+from Cms.CMSimple import CMSimple
 from Cms.Cacti import Cacti
 from Cms.CSDJCMS import CSDJCMS
 from Cms.CraftedWeb import CraftedWeb
 from Cms.CmsTop import CmsTop
+from Cms.CmsEasy import CmsEasy
 from Cms.Destoon import Destoon
 from Cms.DamiCMS import DamiCMS
 from Cms.DaMall import DaMall
@@ -63,4 +65,6 @@ def Main(ThreadPool,Url,Values,ProxyIp):
     CSDJCMS.Main(ThreadPool,Url,Values,ProxyIp)
     CraftedWeb.Main(ThreadPool,Url,Values,ProxyIp)
     CmsTop.Main(ThreadPool,Url,Values,ProxyIp)
+    CMSimple.Main(ThreadPool,Url,Values,ProxyIp)
+    CmsEasy.Main(ThreadPool,Url,Values,ProxyIp)
 

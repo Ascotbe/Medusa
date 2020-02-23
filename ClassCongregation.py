@@ -563,5 +563,5 @@ class ThreadPool:#线程池，所有插件都发送过来一起调用
 class Prompt:#输出横幅，就是每个组件加载后输出的东西
     def __init__(self,name):
         self.name=name
-        print("\r\033[1;40;32m[ + ] Loading attack module:\033[0m"+"\033[1;40;35m {}\033[0m".format(self.name),end='')#这样能覆盖前面输出的内容
+        print("\r\033[1;40;32m[ + ] Loading attack module:\033[0m"+"\033[1;40;35m {}                \033[0m".format(self.name),end='')#这样能覆盖前面输出的内容
         time.sleep(0.5)

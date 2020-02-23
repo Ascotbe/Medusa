@@ -547,13 +547,16 @@ class ThreadPool:#线程池，所有插件都发送过来一起调用
         self.ThreaList.append(threading.Thread(target=plugin, args=(Url)))
     def Start(self,ThreadNumber):
         for t in tqdm(self.ThreaList,ascii=True,desc="\033[1;40;32m[ + ] Medusa scan progress bar\033[0m"): # 开启列表中的多线程
-            t.setDaemon(True)
+            #t.setDaemon(True)
             t.start()
             while True:
                 # 判断正在运行的线程数量,如果小于5则退出while循环,
                 # 进入for循环启动新的进程.否则就一直在while循环进入死循环
                 if (len(threading.enumerate()) < ThreadNumber):
                     break
+        for p in tqdm(self.ThreaList,ascii=True,desc="\033[1;40;32m[ + ] Medusa cleanup thread progress\033[0m"):
+            p.join()
+            #self.off=t.isAlive()
         self.ThreaList.clear()#清空列表，防止多次调用导致重复使用
         print("\033[1;40;31m[ + ] Scan is complete, please see the ScanResult file\033[0m")
 

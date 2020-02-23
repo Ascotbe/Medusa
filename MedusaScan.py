@@ -79,7 +79,7 @@ def InitialScan(ThreadPool,InputFileName,Url,ProxyIp):
         elif InputFileName!=None:
             try:
                 with open(InputFileName, encoding='utf-8') as f:
-                    for UrlLine in tqdm(f,ascii=True,desc="\033[1;40;32m[ + ] IP scanning progress\033[0m"):#设置头文件使用的字符类型和开头的名字
+                    for UrlLine in tqdm(f,ascii=True,desc="\033[1;40;32m[ + ] IP scanning progress\033[0m\r\n"):#设置头文件使用的字符类型和开头的名字
                         Urls=UrlLine
                         try:
                             San(ThreadPool,Url,Values,ProxyIp)

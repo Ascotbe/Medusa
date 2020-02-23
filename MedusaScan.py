@@ -68,7 +68,6 @@ def NmapScan(url):#Nmap扫描这样就可以开多线程了
 def InitialScan(ThreadPool,InputFileName,Url,ProxyIp):
     try:
         if InputFileName==None:
-            Urls=Url
             try:
                 San(ThreadPool,Url,Values,ProxyIp)
                 #ThreadPool.NmapAppend(NmapScan,Urls)#把Nmap放到多线程中
@@ -79,10 +78,10 @@ def InitialScan(ThreadPool,InputFileName,Url,ProxyIp):
         elif InputFileName!=None:
             try:
                 with open(InputFileName, encoding='utf-8') as f:
-                    for UrlLine in tqdm(f,ascii=True,desc="\033[1;40;32m[ + ] IP scanning progress\033[0m"):#设置头文件使用的字符类型和开头的名字
-                        Urls=UrlLine
+                    for UrlLine in f:#设置头文件使用的字符类型和开头的名字
                         try:
-                            San(ThreadPool,Url,Values,ProxyIp)
+                            print("\033[1;40;32m[ + ] In batch scan, the current target is:\033[0m"+"\033[1;40;33m {}\033[0m".format(UrlLine))
+                            San(ThreadPool,UrlLine,Values,ProxyIp)
                             #ThreadPool.NmapAppend(NmapScan,Urls)#把Nmap放到多线程中
                             #print("\033[1;40;32m[ + ] NmapScan component payload successfully loaded\033[0m")
                         except KeyboardInterrupt as e:

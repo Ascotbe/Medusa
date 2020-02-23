@@ -69,6 +69,7 @@ def InitialScan(ThreadPool,InputFileName,Url,ProxyIp):
     try:
         if InputFileName==None:
             try:
+                print("\033[1;40;32m[ + ] Scanning target domain:\033[0m" + "\033[1;40;33m {}\033[0m".format(Url))
                 San(ThreadPool,Url,Values,ProxyIp)
                 #ThreadPool.NmapAppend(NmapScan,Urls)#把Nmap放到多线程中
                 #print("\033[1;40;32m[ + ] NmapScan component payload successfully loaded\033[0m")

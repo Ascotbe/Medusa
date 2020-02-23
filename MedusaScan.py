@@ -109,6 +109,7 @@ def San(ThreadPool,Url,Values,ProxyIp):
     MongoMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用MongoMain主函数
     SpringMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用SpringMain主函数
     FastJson.Main(ThreadPool,Url,Values,ProxyIp)# 调用FastJson主函数
+    ThreadPool.Start(ThreadNumber)#启动多线程
 
 def SubdomainCrawling(Url,SubdomainJudge):#开启子域名函数
     SubdomainCrawlingUrls= tldextract.extract(Url)
@@ -164,7 +165,7 @@ if __name__ == '__main__':
         SubdomainJudge = "b"
         ThreadPool.SubdomainAppend(SubdomainCrawling, Url,SubdomainJudge)
     InitialScan(ThreadPool,InputFileName, Url, ProxyIp)#最后启动主扫描函数，这样如果多个IP的话优化速度，里面会做url或者url文件的判断
-    ThreadPool.Start(ThreadNumber)#启动多线程
+
 
 
 

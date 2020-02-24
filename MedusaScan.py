@@ -1,8 +1,5 @@
 #!/usr/bin/env python
 # _*_ coding: utf-8 _*_
-
-
-#import Weblogic.WeblogicMain
 from Confluence import ConfluenceMain
 #如果在自己创建的文件夹里面加入__init__.py文件的话就可以是用from 文件夹名 import 文件夹总的文件名来导入文件
 #Struts2Main.Main()这样就导入了文件夹中Struts2Main.py文件中的Main函数
@@ -28,13 +25,12 @@ import Banner
 import argparse
 import os
 import sys
-from tqdm import tqdm
 
 parser = argparse.ArgumentParser()#description="xxxxxx")
-UrlGroup = parser.add_mutually_exclusive_group()#定义一个互斥参数组
+#UrlGroup = parser.add_mutually_exclusive_group()#定义一个互斥参数组
 #UrlGroup .add_argument("-q", "--quiet", action="store_true")#增加到互斥参数组里面去
 parser.add_argument('-u','--url',type=str,help="Target url")
-parser.add_argument('-p','--Proxy',help="Whether to enable the global proxy function",action="store_true")
+#parser.add_argument('-p','--Proxy',help="Whether to enable the global proxy function",action="store_true")
 parser.add_argument('-a','--agent',type=str,help="Specify a header file or use a random header")
 parser.add_argument('-t','--ThreadNumber',type=int,help="Set the number of threads, the default number of threads 15.")
 parser.add_argument('-f','--InputFileName',type=str,help="Specify bulk scan file batch scan")
@@ -134,7 +130,7 @@ if __name__ == '__main__':
     Values=args.agent#判断是否使用随机头，判断写在Class里面
     SqlPasswrod=args.SqlPasswrod#传入爆破数据库的密码文件
     SqlUser = args.SqlUser#传入爆破数据库的账号文件
-    Proxy=args.Proxy#不需要传入参数如果开启只需要-p
+    #Proxy=args.Proxy#不需要传入参数如果开启只需要-p
     SubdomainEnumerate=args.SubdomainEnumerate #开启深度子域名枚举，巨TM耗时间
     Subdomain=args.Subdomain#开启子域名枚举
     ThreadNumber=args.ThreadNumber#要使用的线程数默认15

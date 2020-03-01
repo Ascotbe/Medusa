@@ -11,9 +11,9 @@ class VulnerabilityInfo(object):
         self.info['author'] = "Ascotbe"  # 插件作者
         self.info['create_date'] = "2019-10-13"  # 插件编辑时间
         self.info['disclosure'] = '2019-10-13'  # 漏洞披露时间，如果不知道就写编写插件的时间
-        self.info['algroup'] = "PhpStudyBackdoor"  # 插件名称
-        self.info['name'] ='phpStudyBackdoor脚本漏洞' #漏洞名称
-        self.info['affects'] = "phpStudy"  # 漏洞组件
+        self.info['algroup'] = "PHPStudyBackdoor"  # 插件名称
+        self.info['name'] ='PHPStudyBackdoor脚本漏洞' #漏洞名称
+        self.info['affects'] = "PHPStudy"  # 漏洞组件
         self.info['desc_content'] = ""  # 漏洞描述
         self.info['rank'] = "高危"  # 漏洞等级
         self.info['suggest'] = "尽快升级最新系统"  # 修复建议

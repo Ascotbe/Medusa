@@ -15,7 +15,7 @@ from InformationDetector import sublist3r
 #from InformationLeakage import InformationDisclosureMain
 from Rails import RailsMain
 from Kibana import KibanaMain
-from Php import PhpMain
+from PHPStudy import PHPStudy
 from Mongo import MongoMain
 from OA import OaMian
 from Spring import SpringMain
@@ -94,7 +94,7 @@ def San(ThreadPool,Url,Values,ProxyIp):
     ConfluenceMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用 Confluence主函数
     NginxMain.Main(ThreadPool,Url,Values,ProxyIp)#调用Nginx主函数
     ApacheMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用Apache主函数
-    PhpMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用Php主函数
+    PHPStudy.Main(ThreadPool,Url,Values,ProxyIp)# 调用Php主函数
     CmsMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用Cms主函数
     OaMian.Main(ThreadPool,Url,Values,ProxyIp)# 调用OA主函数
     JenkinsMain.Main(ThreadPool,Url,Values,ProxyIp)  # 调用Jenkins主函数

@@ -1,0 +1,263 @@
+##### Apache
+
+- ##### ActiveMQ
+  - `ActiveMQ` 任意文件写入漏洞（CVE-2016-3088）
+  
+- ##### Flink
+  - `Flink` 未授权命令执行漏洞
+
+- ##### Log4j
+  - `Log4j` 远程命令执行漏洞（CVE-2019-17571）
+
+- ##### Solr
+  - `Solr` <8.2.0远程代码执行漏洞（CVE-2019-0193）
+  - `Solr` <7.1.0远程代码执行漏洞（CVE-2017-12629）
+  - `Solr` 5.x/8.2.0模板远程代码执行漏洞
+  - `Solr` 5.0.0/8.3.1模板远程代码执行漏洞（CVE-2019-17558）
+
+- ##### Tomcat
+  - `Tomcat` 未授权命令执行漏洞（CVE-2020-1938）
+
+##### Citrix
+  - `Citrix` 网关路径遍历漏洞（CVE-2019-19781）
+  - `Citrix` 远程代码执行漏洞（CVE-2019-19781）
+
+##### Cms
+
+- ##### 74CMS
+  - `74CMS ajax_officebuilding.php` SQL注入漏洞
+  - `74CMS street-search.php` SQL注入漏洞
+  - `74CMS wap-company-show.php` SQL注入漏洞
+  - `74CMS ajax_street.php` SQL注入漏洞
+  - `74CMS V3.4.20140709 ajax_common.php` SQL注入漏洞
+  - `74CMS ajax_officebuilding.php` SQL注入漏洞
+  - `74CMS 20140709 ajax_common.php` SQL注入漏洞
+  - `74CMS ajax_user.php` SQL注入漏洞
+  - `74CMS wap_apply.phpresume_id/jobs_id参数` SQL注入漏洞
+  - `74CMS ajax_common.php query参数` SQL注入漏洞
+  - `74CMS ajax_street.php key参数` SQL注入漏洞
+  - `74CMS admin_feedback.php` SQL注入漏洞
+  - `74CMS ajax_user.php act参数` SQL注入漏洞
+  - `74CMS admin_category.php` SQL注入漏洞
+  - `74CMS admin_baiduxml.php` SQL注入漏洞
+  - `74CMS` 反射型XSS漏洞
+
+- ##### AbsolutEngine
+  - `AbsolutEngine` 跨站脚本漏洞（CVE-2014-9434）
+
+- ##### AfterLogicWebMail
+  - `AfterLogicWebMail` 任意文件包含
+
+- ##### B2Bbuilder
+  - `B2Bbuilder` 后台命令执行漏洞
+  - `B2Bbuilder` 本地包含漏洞
+  - `B2Bbuilder` 头部SQL注入漏洞
+  - `B2Bbuilder index.php` SQL注入漏洞
+  - `B2Bbuilder` SQL注入漏洞
+  - `B2Bbuilder add_cart.php` SQL注入漏洞
+  - `B2Bbuilder business_info_list.php` SQL注入漏洞
+
+- ##### BaijiaCMS
+  - `BaijiaCMS` 路径泄露（CVE-2018-10219）
+
+- ##### BearAdmin
+  - `BearAdmin` 任意文件下载（CVE-2018-11413）
+
+- ##### BEESCMS
+  - `BEESCMS` 登录绕过漏洞
+
+- ##### BlueCMS
+  - `BlueCMS` 存在SQL注入漏洞
+  - `BlueCMS` 万能密码登录漏洞
+
+- ##### Bocweb
+  - `Bocweb` 网络系统敏感信息泄露
+
+- ##### BugFree
+  - `BugFree` 文件包含漏洞
+  
+- ##### BusBookingScript
+  - `BusBookingScript` 脚本SQL注入（CVE-2018-12636）
+  
+- ##### Cacti
+  - `Cacti` 任意命令执行漏洞（CVE-2020-8813）
+  - `Cacti` SQL数据库文件泄露漏洞
+  - `Cacti` SQL注入漏洞
+  
+- ##### CmsEasy
+  - `CmsEasy` SQL注入漏洞
+  - `CmsEasy demo.php` <=5.5跨站脚本漏洞
+  - `CmsEasy index.php` <=5.5跨站脚本漏洞
+  
+- ##### CMSimple
+  - `CMSimple`跨站脚本漏洞
+  
+- ##### CMSMS
+  - `CMSMS default_cms_lang` 1.10.11 跨站脚本漏洞（CVE-2014-2092）
+  - `CMSMS docroot` 1.10.11 跨站脚本漏洞（CVE-2014-2092）
+  - `CMSMS` 目录遍历漏洞（CVE-2012-6064）
+  - `CMSMS` 反射型跨站脚本漏洞（CVE-2018-10032）
+  - `CMSMS` 远程代码执行漏洞（CVE-2017-8912）
+  - `CMSMS` 存储型跨站脚本漏洞（CVE-2018-10033）
+
+- ##### CmsTop
+  - `CmsTop` 文件路径泄漏漏洞
+  - `CmsTop` 远程代码执行漏洞
+  - `CmsTop` SQL注入漏洞
+  
+- ##### Coremail
+  - `Coremail` 配置文件泄露漏洞
+
+- ##### CraftedWeb
+  - `CraftedWeb` 跨站脚本漏洞（CVE-2018-12919）
+ 
+- ##### CSDJCMS
+  - `CSDJCMS FileName参数` GetShell漏洞
+  - `CSDJCMS name参数` GetShell漏洞
+  - `CSDJCMS` v2.5 SQL注入漏洞
+  - `CSDJCMS` SQL注入漏洞
+  - `CSDJCMS index.php` SQL注入漏洞
+  - `CSDJCMS` 存储型跨站脚本漏洞
+  
+- ##### CTSCMS
+  - `CTSCMS` SQL注入漏洞  
+  
+- ##### CuteCMS
+  - `CuteCMS` SQL注入漏洞
+
+- ##### Cyberwisdom
+  - `Cyberwisdom download.jsp` 任意文件下载漏洞
+  - `Cyberwisdom downloadFile.jsp` 任意文件下载漏洞
+
+- ##### DaMall
+  - `DaMall` 商城系统sql注入漏洞
+
+- ##### DamiCMS
+  - `DamiCMS` SQL注入漏洞漏洞
+  - `DamiCMS ApiAction.class.php` SQL注入漏洞漏洞
+  - `DamiCMS` 用户资料修改处 SQL注入漏洞漏洞
+
+- ##### Destoon
+  - `Destoon` 前台GetShell漏洞
+  - `Destoon` SQL注入漏洞
+  - `Destoon global.func.php` SQL注入漏洞
+  - `Destoon function_strip_uri` SQL注入漏洞
+
+- ##### FiveClib
+  - `FiveClib` 任意文件下载漏洞
+  - `FiveClib` 任意文件遍历漏洞
+  - `FiveClib` 越权漏洞
+  - `FiveClib` 越权添加管理员
+
+- ##### Metinfo
+  - `Metinfo` 任意文件读取漏洞
+  - `Metinfo` 信息泄露漏洞
+  - `Metinfo` SQL注入漏洞
+
+- ##### OneCaitong
+  - `OneCaitong` SQL注入漏洞
+  - `OneCaitong` SQL注入漏洞
+  - `OneCaitong` 任意文件上传漏洞
+  - `OneCaitong img_save.asp` 处任意文件上传漏洞
+
+- ##### Pboot
+  - `Pboot` 任意命令执行漏洞
+  - `Pboot` 在线留言处SQL注入漏洞
+
+- ##### Phpweb
+  - `Phpweb` 前台任意文件上传漏洞
+  
+- ##### SecCms
+  - `SecCms` 远程代码执行V6_45
+  - `SecCms` 远程代码执行V6_54
+  - `SecCms` 远程代码执行V6_55
+
+- ##### ThinkCMF
+  - `ThinkCMF` 任意命令执行漏洞
+  
+- ##### ThinkPHP
+  - `ThinkPHP` <=5.0.23 任意命令执行漏洞
+  - `ThinkPHP` 2.x 任意命令执行漏洞
+  - `ThinkPHP` 5.0.22/5.1.29 任意命令执行漏洞
+  - `ThinkPHP` SQL注入漏洞
+
+##### Confluence
+  - `Confluence` 路径穿越与命令执行漏洞
+  
+##### Fastjson
+  - `Fastjson` 反序列化远程代码执行漏洞
+  - `Fastjson` <=1.2.47 反序列化远程代码执行漏洞
+  - `Fastjson` 反序列化远程代码执行漏洞
+
+##### Harbor
+  - `Harbor` 任意管理员注册漏洞（CVE-2019-16097）
+
+##### Jenkins
+  - `Jenkins` 任意文件读取漏洞（CVE-2018-1999002）
+  - `Jenkins` 配置错误导致未经授权的代码执行漏洞
+  - `Jenkins` 远程命令执行漏洞（CVE-2018-1000861）
+
+##### Kibana
+  - `Kibana` 任意文件读取漏洞（CVE-2018-17246）
+  - `Kibana` 远程命令执行漏洞（CVE-2019-7609）
+  
+##### Mongo
+  - `Mongo` 远程代码执行漏洞（CVE-2019-10758）
+
+##### Nginx
+  - `Nginx` CRLF注入漏洞
+  - `Nginx` 目录穿越漏洞
+
+##### OA
+
+- ##### Ruvar
+  - `Ruvar flow_get_if_value.aspx` SQL注入漏洞
+  - `Ruvar worklog_template_show.aspx` SQL注入漏洞
+  - `Ruvar OfficeFileDownload.aspx` SQL注入漏洞
+
+- ##### Seeyou
+  - `Seeyou NCFindWeb` 任意文件读取漏洞
+  - `Seeyou` SQL注入漏洞
+  - `Seeyou` 日志信息泄露漏洞
+  - `Seeyou` 文件任意读取漏洞
+  - `Seeyou` user_ids文件SQL注入漏洞
+  - `Seeyou` test文件SQL注入漏洞
+  - `Seeyou` status存在默认密码漏洞
+  - `Seeyou` 系统文件任意读取漏洞
+  - `Seeyou` 系统框架漏洞
+  - `Seeyou cm_info_content_sqli` SQL注入漏洞
+  
+- ##### Weaver
+  - `Weaver` 任意文件下载漏洞
+  - `Weaver` 远程代码执行漏洞
+  - `Weaver` 数据库配置信息泄露漏洞
+  - `Weaver` 数据库配置泄露漏洞
+  - `Weaver` WorkflowCenterTreeData接口注入漏洞
+  - `Weaver` SQL注入漏洞
+  
+##### PHPStudy
+  - `phpstudy` Backdoor脚本漏洞
+  - `phpstudy` phpmyadmin默认密码漏洞
+  - `phpstudy` 探针泄露漏洞
+  
+##### Rails
+  - `Rails` 任意文件读取漏洞（CVE-2019-5418）
+
+##### Spring
+  - `Spring` 反射文件下载漏洞（CVE-2020-5398）
+  
+##### Struts2
+  - `Struts2` S2_001 远程代码执行漏洞
+  - `Struts2` S2_007 远程代码执行漏洞
+  - `Struts2` S2_012 远程代码执行漏洞
+  - `Struts2` S2_013 远程代码执行漏洞
+  - `Struts2` S2_016 远程代码执行漏洞
+  - `Struts2` S2_052 远程代码执行漏洞
+  - `Struts2` S2_053 远程代码执行漏洞
+  - `Struts2` S2_057 远程代码执行漏洞
+
+
+  
+
+
+  

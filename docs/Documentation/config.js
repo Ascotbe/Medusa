@@ -35,6 +35,9 @@ let config = {
                 }
             ]
         },
+		{
+            title: '插件列表', path: '/PluginDirectory'
+        },
         {
             title: 'Web版本', type: 'dropdown', items: [
                 {
@@ -46,9 +49,6 @@ let config = {
             title: '更新进度', type: 'dropdown', items: [
                 {
                     title: '更新日志', path: '/UpDataLog'
-                },
-                {
-                    title: '覆盖插件', path: '/OverlayPlugin'
                 }
             ]
 		

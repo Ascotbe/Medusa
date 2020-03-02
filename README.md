@@ -14,7 +14,7 @@
 
 **请使用者遵守 [中华人民共和国网络安全法](http://www.cac.gov.cn/2016-11/07/c_1119867116.htm)，勿将Medusa项目用于非授权的测试，Medusa项目开发者不负任何连带法律责任。**
 
-### 关于美杜莎扫描器
+### 关于美杜莎
 
 >本项目使用 `GPL`协议，未经授权，禁止使用商业用途。
 >
@@ -28,6 +28,8 @@
 ### 复现文档
 
 > `https://www.ascotbe.com/Loophole`
+
+#### [插件列表](https://www.ascotbe.com/Medusa/Documentation/#/PluginDirectory)&[更新日志](https://www.ascotbe.com/Medusa/Documentation/#/UpDataLog)
 
 ### Demo
 
@@ -50,16 +52,12 @@ python3 MedusaScan.py -u www.ascotbe.com
 ### 加速下载
 
 ```bash
-# 如果下载太慢可以使用代理，需要本地开启SSR，让流量走本地端口，端口为你SSR开的端口
+# 如果下载太慢可以使用代理
 # 全局代理
 git config --global http.proxy http://127.0.0.1:1080
 git config --global https.proxy https://127.0.0.1:1080
-# 只对github使用代理，国内厂库无影响
-git config --global http.https://github.com.proxy https://127.0.0.1:1080
-git config --global https.https://github.com.proxy https://127.0.0.1:1080
-# 取消代理
-git config --global --unset http.proxy
-git config --global --unset https.proxy
+# 国内仓库下载
+git clone https://gitee.com/asc0t6e/Medusa.git
 ```
 
 
@@ -77,7 +75,7 @@ git config --global --unset https.proxy
 |-s    |--Subdomain   |0       |通过DNS以及各大搜索引擎查找子域名|从Sublist3r魔改而来,不支持IP枚举|
 |-se    |--SubdomainEnumerate   |0       |包含了-s的功能，并且通过字典枚举(非常耗时|和-s不能同时使用，-s和-se只能存在一个|
 
-### 提交意见&BUG
+### 提交意见
 - 吹B群：**690021184**
 - GitHub issue:https://github.com/Ascotbe/Medusa/issues
 
@@ -85,12 +83,10 @@ git config --global --unset https.proxy
 
 ![commit](https://opencollective.com/Medusa/contributors.svg?width=890&button=false)
 
-### :alarm_clock:共同开发:alarm_clock:
 
-```
-目前需要前端和后端大佬的支持
-```
 
-[更新日志](https://www.ascotbe.com/Medusa/2.0/#/UpDataLog)
+
+
+
 
 

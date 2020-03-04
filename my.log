@@ -1,0 +1,8 @@
+2020-03-04 12:19:09,661 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:486] - INFO: v.aimsen.com
+2020-03-04 12:19:09,661 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:487] - WARNING: FastjsonDeserializationRemoteCodeExecutionVulnerability2
+2020-03-04 12:19:20,342 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:486] - INFO: v.aimsen.com
+2020-03-04 12:19:20,343 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:487] - WARNING: FastjsonDeserializationRemoteCodeExecutionVulnerability2
+2020-03-04 12:20:46,078 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:486] - INFO: v.aimsen.com
+2020-03-04 12:20:46,079 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:487] - WARNING: FastjsonDeserializationRemoteCodeExecutionVulnerability2
+2020-03-04 12:20:55,695 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:486] - INFO: v.aimsen.com
+2020-03-04 12:20:55,695 - D:\代码\PycharmProjects\WebVulnerabilityScanner\ClassCongregation.py[line:487] - WARNING: FastjsonDeserializationRemoteCodeExecutionVulnerability2

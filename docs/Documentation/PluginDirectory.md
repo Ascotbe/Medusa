@@ -84,6 +84,14 @@
   - `Cacti` SQL数据库文件泄露漏洞
   - `Cacti` SQL注入漏洞
   
+- ##### ChamiloLMS
+  - `ChamiloLMS` 跨站脚本漏洞
+  
+- ##### ChanZhiEPS
+  - `ChanZhiEPS v2.5` SQL注入漏洞
+  - `ChanZhiEPS v2.5.1` SQL注入漏洞
+  - `ChanZhiEPS ` GetShell漏洞
+
 - ##### CmsEasy
   - `CmsEasy` SQL注入漏洞
   - `CmsEasy demo.php` <=5.5跨站脚本漏洞
@@ -110,6 +118,9 @@
 
 - ##### CraftedWeb
   - `CraftedWeb` 跨站脚本漏洞（CVE-2018-12919）
+  
+- ##### CsCMS
+  - `CsCMS` SQL注入漏洞
  
 - ##### CSDJCMS
   - `CSDJCMS FileName参数` GetShell漏洞

@@ -18,6 +18,8 @@ from Cms.BusBookingScript import BusBookingScript
 from Cms.AbsolutEngine import AbsolutEngine
 from Cms.AfterLogicWebMail import AfterLogicWebMail
 from Cms.CuteCMS import CuteCMS
+from Cms.ChamiloLMS import ChamiloLMS
+from Cms.ChanZhiEPS import ChanZhiEPS
 from Cms.Cyberwisdom import Cyberwisdom
 from Cms.CTSCMS import CTSCMS
 from Cms.CMSMS import CMSMS
@@ -26,6 +28,7 @@ from Cms.Cacti import Cacti
 from Cms.CSDJCMS import CSDJCMS
 from Cms.CraftedWeb import CraftedWeb
 from Cms.CmsTop import CmsTop
+from Cms.CsCMS import CsCMS
 from Cms.CmsEasy import CmsEasy
 from Cms.Destoon import Destoon
 from Cms.DamiCMS import DamiCMS
@@ -55,9 +58,12 @@ def Main(ThreadPool,Url,Values,ProxyIp):
     AbsolutEngine.Main(ThreadPool,Url,Values,ProxyIp)
     AfterLogicWebMail.Main(ThreadPool,Url,Values,ProxyIp)
     CuteCMS.Main(ThreadPool,Url,Values,ProxyIp)
+    ChamiloLMS.Main(ThreadPool,Url,Values,ProxyIp)
+    ChanZhiEPS.Main(ThreadPool,Url,Values,ProxyIp)
     Cyberwisdom.Main(ThreadPool,Url,Values,ProxyIp)
     CTSCMS.Main(ThreadPool,Url,Values,ProxyIp)
     CMSMS.Main(ThreadPool,Url,Values,ProxyIp)
+    CsCMS.Main(ThreadPool,Url,Values,ProxyIp)
     Cacti.Main(ThreadPool,Url,Values,ProxyIp)
     Destoon.Main(ThreadPool,Url,Values,ProxyIp)
     DamiCMS.Main(ThreadPool,Url,Values,ProxyIp)

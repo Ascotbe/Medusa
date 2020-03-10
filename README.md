@@ -24,7 +24,7 @@
 
 ### 文档列表
 
-- 使用说明 :`https://www.ascotbe.com/Medusa`<details> <summary> 复现文档`https://www.ascotbe.com/Loophole`</summary></details><details> <summary> 插件列表`https://www.ascotbe.com/Medusa/Documentation/#/PluginDirectory`</summary></details><details> <summary> 更新日志`https://www.ascotbe.com/Medusa/Documentation/#/UpDataLog`</summary></details>
+- 使用说明 <details><summary> 必读文档</summary>`https://www.ascotbe.com/Medusa`</details><details> <summary> 复现文档</summary>`https://www.ascotbe.com/Loophole`</details><details> <summary> 插件列表</summary>`https://www.ascotbe.com/Medusa/Documentation/#/PluginDirectory`</details><details> <summary> 更新日志</summary>`https://www.ascotbe.com/Medusa/Documentation/#/UpDataLog`</details>
 
 
 ### Demo

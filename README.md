@@ -22,14 +22,10 @@
 >
 >各位师傅不嫌弃的话可以点个Star支持下
 
-### 使用文档（必看）
-> `https://www.ascotbe.com/Medusa`
+### 文档列表
 
-### 复现文档
+- 使用说明 :`https://www.ascotbe.com/Medusa`<details> <summary> 复现文档`https://www.ascotbe.com/Loophole`</summary></details><details> <summary> 插件列表`https://www.ascotbe.com/Medusa/Documentation/#/PluginDirectory`</summary></details><details> <summary> 更新日志`https://www.ascotbe.com/Medusa/Documentation/#/UpDataLog`</summary></details>
 
-> `https://www.ascotbe.com/Loophole`
-
-#### [插件列表](https://www.ascotbe.com/Medusa/Documentation/#/PluginDirectory)&[更新日志](https://www.ascotbe.com/Medusa/Documentation/#/UpDataLog)
 
 ### Demo
 

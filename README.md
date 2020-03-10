@@ -23,9 +23,9 @@
 >各位师傅不嫌弃的话可以点个Star支持下
 
 
-### 使用说明
+### 使用文档
  
- <details><summary> 必读文档</summary>`https://www.ascotbe.com/Medusa`</details><details> <summary> 复现文档</summary>`https://www.ascotbe.com/Loophole`</details><details> <summary> 插件列表</summary>`https://www.ascotbe.com/Medusa/Documentation/#/PluginDirectory`</details><details> <summary> 更新日志</summary>`https://www.ascotbe.com/Medusa/Documentation/#/UpDataLog`</details>
+ <details><summary> 必读文档</summary>https://www.ascotbe.com/Medusa</details><details> <summary> 复现文档</summary>https://www.ascotbe.com/Loophole</details><details> <summary> 插件列表</summary>https://www.ascotbe.com/Medusa/Documentation/#/PluginDirectory</details><details> <summary> 更新日志</summary>https://www.ascotbe.com/Medusa/Documentation/#/UpDataLog</details>
 
 
 ### Demo
@@ -76,11 +76,14 @@ git clone https://gitee.com/asc0t6e/Medusa.git
 - 吹B群：**690021184**
 - GitHub issue:https://github.com/Ascotbe/Medusa/issues
 
-### 感谢贡献
+### 贡献人员
 
 ![commit](https://opencollective.com/Medusa/contributors.svg?width=890&button=false)
 
 
+### 时间轴
+
+![star](https://starchart.cc/Ascotbe/Medusa.svg)
 
 
 

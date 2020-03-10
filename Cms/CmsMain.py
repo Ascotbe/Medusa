@@ -33,6 +33,7 @@ from Cms.CmsEasy import CmsEasy
 from Cms.Destoon import Destoon
 from Cms.DamiCMS import DamiCMS
 from Cms.DaMall import DaMall
+from Cms.EasyCMS import EasyCMS
 from Cms.Coremail import Coremail
 from Cms.ThinkPHP import ThinkPHP
 from Cms.ThinkCMF import ThinkCMF

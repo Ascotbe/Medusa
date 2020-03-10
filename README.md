@@ -23,7 +23,9 @@
 >各位师傅不嫌弃的话可以点个Star支持下
 
 
-### 使用说明 <details><summary> 必读文档</summary>`https://www.ascotbe.com/Medusa`</details><details> <summary> 复现文档</summary>`https://www.ascotbe.com/Loophole`</details><details> <summary> 插件列表</summary>`https://www.ascotbe.com/Medusa/Documentation/#/PluginDirectory`</details><details> <summary> 更新日志</summary>`https://www.ascotbe.com/Medusa/Documentation/#/UpDataLog`</details>
+### 使用说明
+ 
+ <details><summary> 必读文档</summary>`https://www.ascotbe.com/Medusa`</details><details> <summary> 复现文档</summary>`https://www.ascotbe.com/Loophole`</details><details> <summary> 插件列表</summary>`https://www.ascotbe.com/Medusa/Documentation/#/PluginDirectory`</details><details> <summary> 更新日志</summary>`https://www.ascotbe.com/Medusa/Documentation/#/UpDataLog`</details>
 
 
 ### Demo

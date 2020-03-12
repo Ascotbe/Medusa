@@ -158,7 +158,8 @@
   - `EasyCMS` 跨站脚本漏洞
   - `EasyCMS` 跨站脚本漏洞（CNVD-2018-08985）
 
-
+- ##### EcoCMS
+  - `EcoCMS` 跨站脚本漏洞（CVE-2010-5046）
 - ##### FiveClib
   - `FiveClib` 任意文件下载漏洞
   - `FiveClib` 任意文件遍历漏洞

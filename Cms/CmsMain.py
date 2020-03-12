@@ -34,6 +34,7 @@ from Cms.Destoon import Destoon
 from Cms.DamiCMS import DamiCMS
 from Cms.DaMall import DaMall
 from Cms.EasyCMS import EasyCMS
+from Cms.EcoCMS import EcoCMS
 from Cms.Coremail import Coremail
 from Cms.ThinkPHP import ThinkPHP
 from Cms.ThinkCMF import ThinkCMF
@@ -74,4 +75,6 @@ def Main(ThreadPool,Url,Values,ProxyIp):
     CmsTop.Main(ThreadPool,Url,Values,ProxyIp)
     CMSimple.Main(ThreadPool,Url,Values,ProxyIp)
     CmsEasy.Main(ThreadPool,Url,Values,ProxyIp)
+    EasyCMS.Main(ThreadPool,Url,Values,ProxyIp)
+    EcoCMS.Main(ThreadPool,Url,Values,ProxyIp)
 

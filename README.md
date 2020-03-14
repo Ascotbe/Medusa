@@ -11,7 +11,6 @@
 
 <h1 align="center" >美杜莎扫描器</h1>
 
-
 **请使用者遵守 [中华人民共和国网络安全法](http://www.cac.gov.cn/2016-11/07/c_1119867116.htm)，勿将Medusa项目用于非授权的测试，Medusa项目开发者不负任何连带法律责任。**
 
 ### 关于美杜莎
@@ -24,9 +23,9 @@
 
 
 ### 使用文档
- 
- <details><summary> 必读文档</summary>https://www.ascotbe.com/Medusa</details><details> <summary> 复现文档</summary>https://www.ascotbe.com/Loophole</details><details> <summary> 插件列表</summary>https://www.ascotbe.com/Medusa/Documentation/#/PluginDirectory</details><details> <summary> 更新日志</summary>https://www.ascotbe.com/Medusa/Documentation/#/UpDataLog</details>
 
+ <details><summary> 必读文档</summary>
+     https://www.ascotbe.com/Medusa</details><details> <summary> 复现文档</summary>https://www.ascotbe.com/Loophole</details><details> <summary> 插件列表</summary>https://www.ascotbe.com/Medusa/Documentation/#/PluginDirectory</details><details> <summary> 更新日志</summary>https://www.ascotbe.com/Medusa/Documentation/#/UpDataLog</details>
 
 ### Demo
 
@@ -61,16 +60,17 @@ git clone https://gitee.com/asc0t6e/Medusa.git
 
 ### 参数说明
 
-|短形式|长形式     |参数个数|作用                              |备注                           |
-|------|-----------|--------|----------------------------------|-------------------------------|
-|-u    |--url    |1       |输入单个目标url（最好使用http://或https://作为开头,并且后面别跟参数 |https://www.baidu.com  or https://192.168.0.1         |
-|-a    |--agent   |1       |指定头文件或使用随机头|支持类型(需要小写):firefox,ie,msie,opera,chrome,AppleWebKit,Gecko,safari|
-|-f    |--InputFileName   |1       |需要批量扫描目标url所在文件名字|-u和-f只能存在一个，并且必须存在一个|
-|-t    |--ThreadNumber   |1       |设置线程数，默认线程数15||
-|-sp    |--SqlPasswrod   |1       |爆破数据库的密码字典|如果输入-sp和-su并且其中一个值为空，则使用默认密码爆破|
-|-su    |--SqlUser   |1       |爆破数据库的用户字典|无|
-|-s    |--Subdomain   |0       |通过DNS以及各大搜索引擎查找子域名|从Sublist3r魔改而来,不支持IP枚举|
-|-se    |--SubdomainEnumerate   |0       |包含了-s的功能，并且通过字典枚举(非常耗时|和-s不能同时使用，-s和-se只能存在一个|
+|命令|参数个数|作用                              |备注                           |
+|------|--------|----------------------------------|-------------------------------|
+|-u    |1       |输入单个目标url（最好使用http://或https://作为开头,并且后面别跟参数 |https://www.baidu.com  or https://192.168.0.1         |
+|-a    |1       |指定头文件或使用随机头|支持类型(需要小写):firefox,ie,msie,opera,chrome,AppleWebKit,Gecko,safari|
+|-f    |1       |需要批量扫描目标url所在文件名字|-u和-f只能存在一个，并且必须存在一个|
+|-m    |1       |针对单独的模块进行扫描比如Struts2、Apache等|具体内容可以通过项目文件夹来输入|
+|-t    |1       |设置线程数，默认线程数15||
+|-sp    |1       |爆破数据库的密码字典|如果输入-sp和-su并且其中一个值为空，则使用默认密码爆破|
+|-su    |1       |爆破数据库的用户字典|无|
+|-s    |0       |通过DNS以及各大搜索引擎查找子域名|从Sublist3r魔改而来,不支持IP枚举|
+|-se    |0       |包含了-s的功能，并且通过字典枚举(非常耗时|和-s不能同时使用，-s和-se只能存在一个|
 
 ### 提交意见
 - 吹B群：**690021184**

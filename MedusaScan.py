@@ -106,6 +106,8 @@ def San(ThreadPool,Url,Values,ProxyIp,Module):
         MongoMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用MongoMain主函数
         SpringMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用SpringMain主函数
         FastJson.Main(ThreadPool,Url,Values,ProxyIp)# 调用FastJson主函数
+    elif Module != None:
+        print("\033[1;40;32m[ + ] Loading attack module:\033[0m"+"\033[1;40;35m {}             \033[0m".format(Module))
     elif Module == "Struts2":
         Struts2Main.Main(ThreadPool, Url, Values, ProxyIp)  # 调用Struts2主函数
     elif Module == "Confluence":

@@ -1,7 +1,7 @@
 from __future__ import absolute_import
 from celery import shared_task
 from Confluence import ConfluenceMain
-from Struts2 import Struts2Main
+from Struts2 import Struts2
 from Apache import ApacheMain
 from Nginx import NginxMain
 from Jenkins import JenkinsMain
@@ -38,7 +38,7 @@ def JSCrawling(Url):
 def mian(Url,OutFileName=None,Values=None,ProxyIp=None):
     thread_list = []
     thread_list.append(threading.Thread(target=NmapScan, args=(Url,)))  # 把Nmap放到多线程中
-    thread_list.append(threading.Thread(target=Struts2Main.Main, args=(Url,OutFileName,Values,ProxyIp,)))# 调用Struts2主函数
+    thread_list.append(threading.Thread(target=Struts2.Main, args=(Url, OutFileName, Values, ProxyIp,)))# 调用Struts2主函数
     thread_list.append(threading.Thread(target=ConfluenceMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))# 调用 Confluence主函数
     thread_list.append(threading.Thread(target=NginxMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))#调用Nginx主函数
     thread_list.append(threading.Thread(target=ApacheMain.Main, args=(Url, OutFileName, Values, ProxyIp,)))# 调用Apache主函数
@@ -67,7 +67,7 @@ def independent(url,value):#单个组件扫描接口
     if value.find('nmap')!=-1:
         NmapScan(url)
     elif value.find('struts')!=-1:
-        Struts2Main.Main(url,OutFileName,Values,ProxyIp)# 调用Struts2主函数
+        Struts2.Main(url, OutFileName, Values, ProxyIp)# 调用Struts2主函数
     elif value.find('confluence')!=-1:
         ConfluenceMain.Main(url, OutFileName, Values, ProxyIp)  # 调用 Confluence主函数
     elif value.find('nginx')!=-1:

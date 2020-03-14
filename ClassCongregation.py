@@ -24,7 +24,7 @@ def IpProcess(Url):
     return (res.hostname)
 LoopholesList=[]#漏洞个数列表
 def NumberOfLoopholes():#漏洞个数输出函数
-    print("\033[1;40;32m[ + ] The number of vulnerabilities scanned was:\033[0m"+"\033[1;40;36m {}             \033[0m".format(len(LoopholesList)))
+    print("\033[1;40;32m[ ! ] The number of vulnerabilities scanned was:\033[0m"+"\033[1;40;36m {}             \033[0m".format(len(LoopholesList)))
 
 class WriteFile:#写入文件类
     def result(self,TargetName,Medusa):
@@ -562,7 +562,7 @@ class ThreadPool:#线程池，所有插件都发送过来一起调用
             p.join()
             #self.off=t.isAlive()
         self.ThreaList.clear()#清空列表，防止多次调用导致重复使用
-        print("\033[1;40;31m[ + ] Scan is complete, please see the ScanResult file\033[0m")
+        print("\033[1;40;31m[ ! ] Scan is complete, please see the ScanResult file\033[0m")
 
 class Prompt:#输出横幅，就是每个组件加载后输出的东西
     def __init__(self,name):

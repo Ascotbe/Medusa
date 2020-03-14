@@ -3,7 +3,7 @@
 from Confluence import ConfluenceMain
 #如果在自己创建的文件夹里面加入__init__.py文件的话就可以是用from 文件夹名 import 文件夹总的文件名来导入文件
 #Struts2Main.Main()这样就导入了文件夹中Struts2Main.py文件中的Main函数
-from Struts2 import Struts2Main
+from Struts2 import Struts2
 from Apache import ApacheMain
 from Nginx import NginxMain
 from Jenkins import JenkinsMain
@@ -93,7 +93,7 @@ def San(ThreadPool,Url,Values,ProxyIp,Module):
     ModName=["Struts2","Confluence","Nginx","Apache","PHPStudy","Cms","Oa","Jenkins","Harbor","Rails","Kibana","Citrix","Mongo","Spring","FastJson"]
     if Module==None:
         print("\033[1;40;32m[ + ] Scanning across modules:\033[0m" + "\033[1;40;35m AllMod             \033[0m")
-        Struts2Main.Main(ThreadPool,Url,Values,ProxyIp)# 调用Struts2主函数
+        Struts2.Main(ThreadPool, Url, Values, ProxyIp)# 调用Struts2主函数
         ConfluenceMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用 Confluence主函数
         NginxMain.Main(ThreadPool,Url,Values,ProxyIp)#调用Nginx主函数
         ApacheMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用Apache主函数
@@ -111,7 +111,7 @@ def San(ThreadPool,Url,Values,ProxyIp,Module):
     if Module != None and Module in ModName:
         print("\033[1;40;32m[ + ] The separate scan module is:\033[0m"+"\033[1;40;35m {}             \033[0m".format(Module))
         if Module == "Struts2":
-            Struts2Main.Main(ThreadPool, Url, Values, ProxyIp)  # 调用Struts2主函数
+            Struts2.Main(ThreadPool, Url, Values, ProxyIp)  # 调用Struts2主函数
         if Module == "Confluence":
             ConfluenceMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用 Confluence主函数
         if Module == "Nginx":

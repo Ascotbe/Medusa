@@ -90,6 +90,7 @@ def InitialScan(ThreadPool,InputFileName,Url,ProxyIp,Module):
 
 def San(ThreadPool,Url,Values,ProxyIp,Module):
     #POC模块存进多线程池，这样如果批量扫描会变快很多
+    ModName=["Struts2","Confluence","Nginx","Apache","PHPStudy","Cms","Oa","Jenkins","Harbor","Rails","Kibana","Citrix","Mongo","Spring","FastJson"]
     if Module==None:
         Struts2Main.Main(ThreadPool,Url,Values,ProxyIp)# 调用Struts2主函数
         ConfluenceMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用 Confluence主函数
@@ -106,38 +107,38 @@ def San(ThreadPool,Url,Values,ProxyIp,Module):
         MongoMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用MongoMain主函数
         SpringMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用SpringMain主函数
         FastJson.Main(ThreadPool,Url,Values,ProxyIp)# 调用FastJson主函数
-    elif Module != None:
+    if Module != None and Module in ModName:
         print("\033[1;40;32m[ + ] Loading attack module:\033[0m"+"\033[1;40;35m {}             \033[0m".format(Module))
-    elif Module == "Struts2":
-        Struts2Main.Main(ThreadPool, Url, Values, ProxyIp)  # 调用Struts2主函数
-    elif Module == "Confluence":
-        ConfluenceMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用 Confluence主函数
-    elif Module == "Nginx":
-        NginxMain.Main(ThreadPool,Url,Values,ProxyIp)#调用Nginx主函数
-    elif Module == "Apache":
-        ApacheMain.Main(ThreadPool, Url, Values, ProxyIp)  # 调用Apache主函数
-    elif Module == "PHPStudy":
-        PHPStudy.Main(ThreadPool,Url,Values,ProxyIp)# 调用Php主函数
-    elif Module == "Cms":
-        CmsMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用Cms主函数
-    elif Module=="Oa":
-        OaMian.Main(ThreadPool,Url,Values,ProxyIp)# 调用OA主函数
-    elif Module=="Jenkins":
-        JenkinsMain.Main(ThreadPool,Url,Values,ProxyIp)  # 调用Jenkins主函数
-    elif Module=="Harbor":
-        Harbor.Main(ThreadPool, Url, Values, ProxyIp)# 调用Harbor主函数
-    elif Module=="Rails":
-        RailsMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用RailsMain主函数
-    elif Module=="Kibana":
-        KibanaMain.Main(ThreadPool,Url,Values,ProxyIp) # 调用KibanaMain主函数
-    elif Module=="Citrix":
-        CitrixMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用CitrixMain主函数
-    elif Module == "Mongo":
-        MongoMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用MongoMain主函数
-    elif Module == "Spring":
-        SpringMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用SpringMain主函数
-    elif Module == "FastJson":
-        FastJson.Main(ThreadPool,Url,Values,ProxyIp)# 调用FastJson主函数
+        if Module == "Struts2":
+            Struts2Main.Main(ThreadPool, Url, Values, ProxyIp)  # 调用Struts2主函数
+        if Module == "Confluence":
+            ConfluenceMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用 Confluence主函数
+        if Module == "Nginx":
+            NginxMain.Main(ThreadPool,Url,Values,ProxyIp)#调用Nginx主函数
+        if Module == "Apache":
+            ApacheMain.Main(ThreadPool, Url, Values, ProxyIp)  # 调用Apache主函数
+        if Module == "PHPStudy":
+            PHPStudy.Main(ThreadPool,Url,Values,ProxyIp)# 调用Php主函数
+        if Module == "Cms":
+            CmsMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用Cms主函数
+        if Module=="Oa":
+            OaMian.Main(ThreadPool,Url,Values,ProxyIp)# 调用OA主函数
+        if Module=="Jenkins":
+            JenkinsMain.Main(ThreadPool,Url,Values,ProxyIp)  # 调用Jenkins主函数
+        if Module=="Harbor":
+            Harbor.Main(ThreadPool, Url, Values, ProxyIp)# 调用Harbor主函数
+        if Module=="Rails":
+            RailsMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用RailsMain主函数
+        if Module=="Kibana":
+            KibanaMain.Main(ThreadPool,Url,Values,ProxyIp) # 调用KibanaMain主函数
+        if Module=="Citrix":
+            CitrixMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用CitrixMain主函数
+        if Module == "Mongo":
+            MongoMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用MongoMain主函数
+        if Module == "Spring":
+            SpringMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用SpringMain主函数
+        if Module == "FastJson":
+            FastJson.Main(ThreadPool,Url,Values,ProxyIp)# 调用FastJson主函数
     else:
         print("\033[1;40;31m[ ! ] Please enter the correct scan module name\033[0m")
         os._exit(0)  # 直接退出整个函数

@@ -13,3 +13,9 @@
 #         t.setDaemon(True)
 #         t.start()
 # medusa("","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36")
+ModName = ["Struts2", "Confluence", "Nginx", "Apache", "PHPStudy", "Cms", "Oa", "Jenkins", "Harbor", "Rails", "Kibana",
+           "Citrix", "Mongo", "Spring", "FastJson"]
+def a(a):
+    if a in ModName:
+        print("dasdasd")
+a("Stts2")

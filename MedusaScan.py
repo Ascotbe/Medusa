@@ -92,8 +92,7 @@ def San(ThreadPool,Url,Values,ProxyIp,Module):
     #POC模块存进多线程池，这样如果批量扫描会变快很多
     ModName=["Struts2","Confluence","Nginx","Apache","PHPStudy","Cms","Oa","Jenkins","Harbor","Rails","Kibana","Citrix","Mongo","Spring","FastJson"]
     if Module==None:
-        print("\033[1;40;32m[ + ] Scanning across modules:\033[0m" + "\033[1;40;35m {}             \033[0m".format(
-            Module))
+        print("\033[1;40;32m[ + ] Scanning across modules:\033[0m" + "\033[1;40;35m AllMod             \033[0m")
         Struts2Main.Main(ThreadPool,Url,Values,ProxyIp)# 调用Struts2主函数
         ConfluenceMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用 Confluence主函数
         NginxMain.Main(ThreadPool,Url,Values,ProxyIp)#调用Nginx主函数
@@ -201,7 +200,7 @@ if __name__ == '__main__':
         SubdomainJudge = "b"
         ThreadPool.SubdomainAppend(SubdomainCrawling, Url,SubdomainJudge)
     InitialScan(ThreadPool,InputFileName, Url, ProxyIp,Module)#最后启动主扫描函数，这样如果多个IP的话优化速度，里面会做url或者url文件的判断
-
+    ClassCongregation.NumberOfLoopholes()#输出扫描结果个数
 
 
 

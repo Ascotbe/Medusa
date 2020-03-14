@@ -22,10 +22,14 @@ def IpProcess(Url):
     else:
         res = urllib.parse.urlparse('http://%s' % Url)
     return (res.hostname)
+LoopholesList=[]#漏洞个数列表
+def NumberOfLoopholes():#漏洞个数输出函数
+    print("\033[1;40;32m[ + ] The number of vulnerabilities scanned was:\033[0m"+"\033[1;40;36m {}             \033[0m".format(len(LoopholesList)))
 
 class WriteFile:#写入文件类
     def result(self,TargetName,Medusa):
         self.FileName=TargetName+"result"
+        LoopholesList.append("1")#每调用一次就往列表中写入一个数字这样可以知道结果又多少个漏洞
         if sys.platform == "win32" or sys.platform == "cygwin":
             self.FilePath = os.path.split(os.path.realpath(__file__))[0]+"\\ScanResult\\"+self.FileName + ".txt"#不需要输入后缀，只要名字就好
         elif sys.platform=="linux" or sys.platform=="darwin":

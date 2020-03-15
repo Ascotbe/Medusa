@@ -33,7 +33,7 @@ post_data = {
     "server": "1",
     "target": "index.php"
 }
-def medusa(Url,RandomAgent,ProxyIp):
+def medusa(Url,RandomAgent,UnixTimestamp):
 
     scheme, url, port = UrlProcessing(Url)
     if port is None and scheme == 'https':
@@ -58,7 +58,7 @@ def medusa(Url,RandomAgent,ProxyIp):
         if con2.lower().find('navigation.php')!=-1 and con.lower().find('frame_navigation')!=-1:
             Medusa = "{}存在phpstudy_phpmyadmin默认密码漏洞 \r\n漏洞详情:\r\nPayload:{}\r\nPost:{}\r\n".format(url, payload_url,post_data)
             _t = VulnerabilityInfo(Medusa)
-            ClassCongregation.VulnerabilityDetails(_t.info, url).Write()  # 传入url和扫描到的数据
+            ClassCongregation.VulnerabilityDetails(_t.info, url,UnixTimestamp).Write()  # 传入url和扫描到的数据
             ClassCongregation.WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
     except:
         _ = VulnerabilityInfo('').info.get('algroup')

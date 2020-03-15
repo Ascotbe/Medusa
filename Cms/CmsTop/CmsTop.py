@@ -4,8 +4,8 @@ from Cms.CmsTop import CmsTopRemoteCodeExecution
 from Cms.CmsTop import CmsTopSQLInjectionVulnerability
 from Cms.CmsTop import CmsTopPathDisclosureVulnerability
 from ClassCongregation import Prompt
-def Main(ThreadPool,Url,Values,ProxyIp):
-    ThreadPool.Append(CmsTopRemoteCodeExecution.medusa, Url, Values, ProxyIp)
-    ThreadPool.Append(CmsTopSQLInjectionVulnerability.medusa, Url, Values, ProxyIp)
-    ThreadPool.Append(CmsTopPathDisclosureVulnerability.medusa, Url, Values, ProxyIp)
+def Main(ThreadPool,Url,Values,UnixTimestamp):
+    ThreadPool.Append(CmsTopRemoteCodeExecution.medusa, Url, Values, UnixTimestamp)
+    ThreadPool.Append(CmsTopSQLInjectionVulnerability.medusa, Url, Values, UnixTimestamp)
+    ThreadPool.Append(CmsTopPathDisclosureVulnerability.medusa, Url, Values, UnixTimestamp)
     Prompt("CmsTop")

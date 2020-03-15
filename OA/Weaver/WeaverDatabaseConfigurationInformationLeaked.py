@@ -31,7 +31,7 @@ def UrlProcessing(url):
         res = urllib.parse.urlparse('http://%s' % url)
     return res.scheme, res.hostname, res.port
 
-def medusa(Url,RandomAgent,ProxyIp):
+def medusa(Url,RandomAgent,UnixTimestamp):
 
     scheme, url, port = UrlProcessing(Url)
     if port is None and scheme == 'https':
@@ -62,7 +62,7 @@ def medusa(Url,RandomAgent,ProxyIp):
             decs=k.decrypt(dec)
             Medusa = "{} 存在泛微OA_数据库配置信息泄露验证数据:\r\nUrl:{}\r\n返回数据:{}\r\n解密数据:{}".format(url,payload_url,con,decs)
             _t=VulnerabilityInfo(Medusa)
-            ClassCongregation.VulnerabilityDetails(_t.info, url).Write()  # 传入url和扫描到的数据
+            ClassCongregation.VulnerabilityDetails(_t.info, url,UnixTimestamp).Write()  # 传入url和扫描到的数据
             ClassCongregation.WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
     except:
         _ = VulnerabilityInfo('').info.get('algroup')

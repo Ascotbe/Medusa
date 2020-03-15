@@ -7,11 +7,11 @@ from OA.Weaver import WeaverDatabaseConfigurationLeakVulnerability
 from OA.Weaver import WeaverWorkflowCenterTreeDataInterfaceInjectionVulnerability
 from OA.Weaver import WeaveSQLInjectionVulnerability
 from ClassCongregation import Prompt
-def Main(ThreadPool,Url,Values,ProxyIp):
-    ThreadPool.Append(WeaverArbitraryFileDownloadVulnerability.medusa, Url, Values, ProxyIp)
-    ThreadPool.Append(WeaverCommandExecution.medusa, Url, Values, ProxyIp)
-    ThreadPool.Append(WeaverDatabaseConfigurationInformationLeaked.medusa,Url,Values,ProxyIp)
-    ThreadPool.Append(WeaverDatabaseConfigurationLeakVulnerability.medusa, Url, Values, ProxyIp)
-    ThreadPool.Append(WeaverWorkflowCenterTreeDataInterfaceInjectionVulnerability.medusa, Url, Values, ProxyIp)
-    ThreadPool.Append(WeaveSQLInjectionVulnerability.medusa, Url, Values, ProxyIp)
+def Main(ThreadPool,Url,Values,UnixTimestamp):
+    ThreadPool.Append(WeaverArbitraryFileDownloadVulnerability.medusa, Url, Values, UnixTimestamp)
+    ThreadPool.Append(WeaverCommandExecution.medusa, Url, Values, UnixTimestamp)
+    ThreadPool.Append(WeaverDatabaseConfigurationInformationLeaked.medusa,Url,Values,UnixTimestamp)
+    ThreadPool.Append(WeaverDatabaseConfigurationLeakVulnerability.medusa, Url, Values, UnixTimestamp)
+    ThreadPool.Append(WeaverWorkflowCenterTreeDataInterfaceInjectionVulnerability.medusa, Url, Values, UnixTimestamp)
+    ThreadPool.Append(WeaveSQLInjectionVulnerability.medusa, Url, Values, UnixTimestamp)
     Prompt("Weaver")

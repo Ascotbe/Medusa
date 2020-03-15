@@ -27,7 +27,7 @@ class VulnerabilityInfo(object):
         self.info['details'] = Medusa  # 结果
 
 
-def medusa(Url, RandomAgent, ProxyIp=None):
+def medusa(Url, RandomAgent, UnixTimestamp):
     scheme, url, port = UrlProcessing().result(Url)
     if port is None and scheme == 'https':
         port = 443
@@ -65,7 +65,7 @@ def medusa(Url, RandomAgent, ProxyIp=None):
                                                                                                           payload_url,
                                                                                                           rm,rm,head)
             _t = VulnerabilityInfo(Medusa)
-            VulnerabilityDetails(_t.info, url).Write()  # 传入url和扫描到的数据
+            VulnerabilityDetails(_t.info, url,UnixTimestamp).Write()  # 传入url和扫描到的数据
             WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
     except Exception:
         _ = VulnerabilityInfo('').info.get('algroup')
@@ -140,7 +140,7 @@ scheme, url, port = ClassCongregation.UrlProcessing().result(Url)
 ### medusa函数
 
 ```python
-def medusa(Url, RandomAgent, ProxyIp=None):
+def medusa(Url, RandomAgent, UnixTimestamp):
     scheme, url, port = UrlProcessing().result(Url)
     if port is None and scheme == 'https':
         port = 443
@@ -178,7 +178,7 @@ def medusa(Url, RandomAgent, ProxyIp=None):
                                                                                                           payload_url,
                                                                                                           rm,rm,head)
             _t = VulnerabilityInfo(Medusa)
-			VulnerabilityDetails(_t.info, url).Write()  # 传入url和扫描到的数据
+			VulnerabilityDetails(_t.info, url,UnixTimestamp).Write()  # 传入url和扫描到的数据
             WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
     except Exception:
         _ = VulnerabilityInfo('').info.get('algroup')
@@ -195,6 +195,11 @@ def medusa(Url, RandomAgent, ProxyIp=None):
 
 - ###### ~~ProxyIp~~（已弃用）
   - ~~扫描器出入的代理，默认是关闭的~~
+  
+- ###### UnixTimestamp
+
+  - 该时间戳参数在`3.2`插件模板中替换了弃用的`ProxyIp`参数
+  - 扫描器传入的时间戳
 
 ##### 注意点:
 
@@ -294,7 +299,7 @@ def medusa(Url, RandomAgent, ProxyIp=None):
                                                                                                       payload_url,
                                                                                                       rm,rm,head)
         _t = VulnerabilityInfo(Medusa)
-    	VulnerabilityDetails(_t.info, url).Write()  # 传入url和扫描到的数据
+    	VulnerabilityDetails(_t.info, url,UnixTimestamp).Write()  # 传入url和扫描到的数据
         WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
     ```
     
@@ -344,7 +349,7 @@ def medusa(Url, RandomAgent, ProxyIp=None):
   - 整体替换如下:
   
     ```python
-    def medusa(Url, RandomAgent, ProxyIp=None):
+    def medusa(Url, RandomAgent,UnixTimestamp):
         scheme, url, port = UrlProcessing().result(Url)
         if port is None and scheme == 'https':
             port = 443
@@ -367,7 +372,7 @@ def medusa(Url, RandomAgent, ProxyIp=None):
                 if code == 200 and con.find(....):
                     Medusa = "{}存在XXX漏洞\r\n验证数据:\r\nRequests:{}\r\n".format(url, con)
                     _t = VulnerabilityInfo(Medusa)
-    				VulnerabilityDetails(_t.info, url).Write()  # 传入url和扫描到的数据
+    				VulnerabilityDetails(_t.info, url,UnixTimestamp).Write()  # 传入url和扫描到的数据
                     web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
             except:
                 _ = VulnerabilityInfo('').info.get('algroup')

@@ -295,9 +295,10 @@ class BlastingDB:#数据库爆破模块，到时候要重写移除这里
 class ReadVulnerability:
     pass
 class VulnerabilityDetails:
-    def __init__(self,medusa,url):
+    def __init__(self,medusa,url,UnixTimestamp):
         try:
             self.url = str(url)  # 目标域名
+            self.unix_timestamp=UnixTimestamp#获取时间戳
             self.name=medusa['name']#漏洞名称
             self.number = medusa['number']  # CVE编号
             self.author = medusa['author'] # 插件作者
@@ -334,15 +335,16 @@ class VulnerabilityDetails:
                             createDate TEXT NOT NULL,\
                             disclosure TEXT NOT NULL,\
                             algroup TEXT NOT NULL,\
-                            version TEXT NOT NULL)")
+                            version TEXT NOT NULL,\
+                            unix_timestamp TEXT NOT NULL)")
             except:
                 pass
         except:
             pass
     def Write(self):
         try:
-            self.cur.execute("""INSERT INTO Medusa (url,name,affects,rank,suggest,desc_content,details,number,author,createDate,disclosure,algroup,version) \
-    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)""",(self.url,self.name,self.affects,self.rank,self.suggest,self.desc_content,self.details,self.number,self.author,self.createDate,self.disclosure,self.algroup,self.version,))
+            self.cur.execute("""INSERT INTO Medusa (url,name,affects,rank,suggest,desc_content,details,number,author,createDate,disclosure,algroup,version,unix_timestamp) \
+    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",(self.url,self.name,self.affects,self.rank,self.suggest,self.desc_content,self.details,self.number,self.author,self.createDate,self.disclosure,self.algroup,self.version,self.unix_timestamp,))
             # 提交
             self.con.commit()
             self.con.close()
@@ -513,10 +515,10 @@ class ThreadPool:#线程池，所有插件都发送过来一起调用
     def __init__(self):
         self.ThreaList=[]#存放线程列表
         self.text=0#统计线程数
-    def Append(self,plugin,url,Values,ProxyIp):
+    def Append(self,plugin,url,Values,UnixTimestamp):
         self.text+=1
         ua = AgentHeader().result(Values)
-        self.ThreaList.append(threading.Thread(target=plugin, args=(url,ua,ProxyIp)))
+        self.ThreaList.append(threading.Thread(target=plugin, args=(url,ua,UnixTimestamp)))
     def SubdomainAppend(self,plugin,Url,SubdomainJudge):
         self.ThreaList.append(threading.Thread(target=plugin, args=(Url, SubdomainJudge)))
     def NmapAppend(self,plugin,Url):
@@ -540,4 +542,4 @@ class Prompt:#输出横幅，就是每个组件加载后输出的东西
     def __init__(self,name):
         self.name=name
         print("\r\033[1;40;32m[ + ] Loading attack module:\033[0m"+"\033[1;40;35m {}             \033[0m".format(self.name),end='')#这样能覆盖前面输出的内容
-        time.sleep(0.3)
+        time.sleep(0.2)

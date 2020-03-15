@@ -3,6 +3,6 @@
 from Apache.Log4j import Log4jRemoteCommandExecutionVulnerability
 from ClassCongregation import Prompt
 
-def Main(ThreadPool,Url,Values,ProxyIp):
-    ThreadPool.Append(Log4jRemoteCommandExecutionVulnerability.medusa,Url,Values,ProxyIp)
+def Main(ThreadPool,Url,Values,UnixTimestamp):
+    ThreadPool.Append(Log4jRemoteCommandExecutionVulnerability.medusa,Url,Values,UnixTimestamp)
     Prompt("Log4j")

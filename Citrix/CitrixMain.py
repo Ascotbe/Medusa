@@ -3,9 +3,9 @@
 from Citrix import CitrixGatewayPathTraversalVulnerability
 from Citrix import CitrixRemoteCodeExecutionVulnerability
 from ClassCongregation import Prompt
-def Main(ThreadPool,Url,Values,ProxyIp):
-    ThreadPool.Append(CitrixRemoteCodeExecutionVulnerability.medusa,Url,Values,ProxyIp)
-    ThreadPool.Append(CitrixGatewayPathTraversalVulnerability.medusa, Url, Values, ProxyIp)
+def Main(ThreadPool,Url,Values,UnixTimestamp):
+    ThreadPool.Append(CitrixRemoteCodeExecutionVulnerability.medusa,Url,Values,UnixTimestamp)
+    ThreadPool.Append(CitrixGatewayPathTraversalVulnerability.medusa, Url, Values, UnixTimestamp)
     Prompt("Citrix")
 
 

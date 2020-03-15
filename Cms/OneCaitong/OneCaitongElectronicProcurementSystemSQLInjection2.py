@@ -33,7 +33,7 @@ def UrlProcessing(url):
         res = urllib.parse.urlparse('http://%s' % url)
     return res.scheme, res.hostname, res.port
 
-def medusa(Url,RandomAgent,ProxyIp):
+def medusa(Url,RandomAgent,UnixTimestamp):
 
     scheme, url, port = UrlProcessing(Url)
     if port is None and scheme == 'https':
@@ -77,7 +77,7 @@ def medusa(Url,RandomAgent,ProxyIp):
             if code2!=0 and code!=0 and ((time1-time0)-(time2-time1)) > 4:
                 Medusa = "{}存在一采通电子采购系统SQL注入漏洞\r\n 验证数据:\r\n返回内容:{}\r\npayload:{}\r\n".format(url,con,payload_url)
                 _t=VulnerabilityInfo(Medusa)
-                ClassCongregation.VulnerabilityDetails(_t.info, url).Write()  # 传入url和扫描到的数据
+                ClassCongregation.VulnerabilityDetails(_t.info, url,UnixTimestamp).Write()  # 传入url和扫描到的数据
                 ClassCongregation.WriteFile().result(str(url), str(Medusa))  # 写入文件，url为目标文件名统一传入，Medusa为结果
         except Exception:
             _ = VulnerabilityInfo('').info.get('algroup')

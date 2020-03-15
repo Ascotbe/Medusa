@@ -2,6 +2,6 @@
 # _*_ coding: utf-8 _*_
 from Cms.ChamiloLMS import ChamiloLMSCrossSiteScriptingVulnerability
 from ClassCongregation import Prompt
-def Main(ThreadPool,Url,Values,ProxyIp):
-    ThreadPool.Append(ChamiloLMSCrossSiteScriptingVulnerability.medusa, Url, Values, ProxyIp)
+def Main(ThreadPool,Url,Values,UnixTimestamp):
+    ThreadPool.Append(ChamiloLMSCrossSiteScriptingVulnerability.medusa, Url, Values, UnixTimestamp)
     Prompt("ChamiloLMS")

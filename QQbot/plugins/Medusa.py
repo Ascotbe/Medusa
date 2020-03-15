@@ -24,7 +24,8 @@ async def _(session: CommandSession):
 
 async def MedusaScan(city: str) -> str:
     Url=city
+    #设置一个时间搓这样可以直接用时间搓查
     ThreadPool =ClassCongregation.ThreadPool()#定义一个线程池
-    Values=ClassCongregation.UserAgentS(None).UserAgent()
+    Values=ClassCongregation.AgentHeader().result("None")
     San(ThreadPool,Url,Values,ProxyIp=None,Module=None)
     return ""

@@ -295,16 +295,26 @@ class BlastingDB:#数据库爆破模块，到时候要重写移除这里
 #                             self.HttpIp.append(ip)
 #                 except:
 #                     pass
+class ReadVulnerability:
+    pass
 class VulnerabilityDetails:
 
-    def __init__(self,medusa):
+    def __init__(self,medusa,url):
 
         try:
+            self.url = str(url)  # 目标域名
             self.name=medusa['name']#漏洞名称
+            self.number = medusa['number']  # CVE编号
+            self.author = medusa['author'] # 插件作者
+            self.createDate = medusa['createDate']  # 插件编辑时间
+            self.algroup = medusa['algroup']  # 插件名称
+            self.rank = medusa['rank'] # 漏洞等级
+            self.disclosure = medusa['disclosure']  # 漏洞披露时间，如果不知道就写编写插件的时间
             self.details=medusa['details']# 结果
             self.affects=medusa['affects']# 漏洞组件
             self.desc_content=medusa['desc_content']# 漏洞描述
             self.suggest=medusa['suggest']# 修复建议
+            self.version = medusa['version']  # 漏洞影响的版本
             # 如果数据库不存在的话，将会自动创建一个 数据库
             if sys.platform == "win32" or sys.platform == "cygwin":
                 self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0] + "\\Medusa.db")
@@ -324,59 +334,34 @@ class VulnerabilityDetails:
                 #             details TEXT NOT NULL)")
                 #如果设置了主键那么就导致主健值不能相同，如果相同就写入报错
                 self.cur.execute("CREATE TABLE Medusa\
-                            (id TEXT NOT NULL,\
+                            (id INTEGER PRIMARY KEY,\
+                            url TEXT NOT NULL,\
                             name TEXT NOT NULL,\
                             affects TEXT NOT NULL,\
                             rank TEXT NOT NULL,\
                             suggest TEXT NOT NULL,\
                             desc_content TEXT NOT NULL,\
-                            details TEXT NOT NULL)")
+                            details TEXT NOT NULL,\
+                            number TEXT NOT NULL,\
+                            author TEXT NOT NULL,\
+                            createDate TEXT NOT NULL,\
+                            disclosure TEXT NOT NULL,\
+                            algroup TEXT NOT NULL,\
+                            version TEXT NOT NULL)")
             except:
-                pass
+                print("asdasd")
+        except:
+            print("d")
+    def Write(self):
+        try:
+            self.cur.execute("""INSERT INTO Medusa (url,name,affects,rank,suggest,desc_content,details,number,author,createDate,disclosure,algroup,version) \
+    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)""",(self.url,self.name,self.affects,self.rank,self.suggest,self.desc_content,self.details,self.number,self.author,self.createDate,self.disclosure,self.algroup,self.version,))
+            # 提交
+            self.con.commit()
+            self.con.close()
         except:
             pass
-    def serious(self):
-        try:
 
-
-            self.cur.execute("""INSERT INTO Medusa (id,name,affects,rank,suggest,desc_content,details) \
-    VALUES ('4',?,?,'严重',?,?,?)""",(self.name,self.affects,self.suggest,self.desc_content,self.details,))
-            # 提交
-            self.con.commit()
-            self.con.close()
-        except:
-            pass
-    def High(self):
-         # 使用cursor()方法获取操作游标
-        try:
-            self.cur.execute("""INSERT INTO Medusa (id,name,affects,rank,suggest,desc_content,details) \
-    VALUES ('4',?,?,'高危',?,?,?)""",(self.name,self.affects,self.suggest,self.desc_content,self.details,))
-            # 提交
-            self.con.commit()
-            self.con.close()
-        except:
-            pass
-    def Intermediate(self):
-         # 使用cursor()方法获取操作游标
-        try:
-
-            self.cur.execute("""INSERT INTO Medusa (id,name,affects,rank,suggest,desc_content,details) \
-    VALUES ('4',?,?,'中危',?,?,?)""",(self.name,self.affects,self.suggest,self.desc_content,self.details,))
-            # 提交
-            self.con.commit()
-            self.con.close()
-        except:
-            pass
-    def Low(self):
-         # 使用cursor()方法获取操作游标
-        try:
-            self.cur.execute("""INSERT INTO Medusa (id,name,affects,rank,suggest,desc_content,details) \
-    VALUES ('4',?,?,'低危',?,?,?)""",(self.name,self.affects,self.suggest,self.desc_content,self.details,))
-            # 提交
-            self.con.commit()
-            self.con.close()
-        except:
-            pass
 
 
 class VulnerabilityInquire:

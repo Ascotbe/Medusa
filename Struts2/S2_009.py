@@ -44,8 +44,7 @@ def medusa(Url,RandomAgent,ProxyIp=None):
         if resilt=="Linux" or resilt=="NoteOS" or resilt=="Windows":
             Medusa = "{} 存在Struts2远程代码执行漏洞\r\n漏洞详情:\r\n版本号:S2-009\r\n返回数据:{}\r\n部署系统:{}\r\n".format(url,con,resilt)
             _t=VulnerabilityInfo(Medusa)
-            web=VulnerabilityDetails(_t.info)
-            web.High() # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
+            VulnerabilityDetails(_t.info, url).Write()  # 传入url和扫描到的数据
             WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
     except Exception:
         _ = VulnerabilityInfo('').info.get('algroup')

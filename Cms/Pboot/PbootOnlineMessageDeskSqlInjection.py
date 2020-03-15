@@ -57,8 +57,7 @@ def medusa(Url,RandomAgent,ProxyIp):
         if code== 200 and con.find('错误信息') != -1 and con.find('''(`content`,`create_time`,`update_time`) VALUES ('1', '1' ,1 and updatexml(1,concat(0x3a,user()),1) )''')!=-1 and con.find('执行SQL发生错误') != -1:
             Medusa = "{} 存在SQL注入漏洞\r\n漏洞地址:\r\n{}\r\n漏洞详情:\r\n{}".format(url,payload_url,con)
             _t=VulnerabilityInfo(Medusa)
-            web=ClassCongregation.VulnerabilityDetails(_t.info)
-            web.Intermediate() # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
+            ClassCongregation.VulnerabilityDetails(_t.info, url).Write()  # 传入url和扫描到的数据
             ClassCongregation.WriteFile().result(str(url), str(Medusa))  # 写入文件，url为目标文件名统一传入，Medusa为结果
     except Exception:
         _ = VulnerabilityInfo('').info.get('algroup')

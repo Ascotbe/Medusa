@@ -53,8 +53,7 @@ def medusa(Url,RandomAgent,ProxyIp):
         if code == 200 and con.find('[driver32]]') !=-1 :
             Medusa = "{}存在AfterLogic_WebMail任意文件包含漏洞\r\n 验证数据:\r\nUrl:{}\r\n返回内容:{}\r\n".format(url,payload_url,con)
             _t=VulnerabilityInfo(Medusa)
-            web=ClassCongregation.VulnerabilityDetails(_t.info)
-            web.High()
+            ClassCongregation.VulnerabilityDetails(_t.info, url).Write()  # 传入url和扫描到的数据
             ClassCongregation.WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
     except Exception:
         _ = VulnerabilityInfo('').info.get('algroup')

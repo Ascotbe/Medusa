@@ -59,8 +59,7 @@ def medusa(Url,RandomAgent,ProxyIp):
         if code==200 and (con.lower().find('system:')!=-1 or con.lower().find('root:')!=-1):
             Medusa = "{} 存在泛微OA远程代码执行漏洞\r\n漏洞详情:\r\nPayload:{}\r\nPost:{}\r\n".format(url, payload_url,post_data)
             _t = VulnerabilityInfo(Medusa)
-            web = ClassCongregation.VulnerabilityDetails(_t.info)
-            web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
+            ClassCongregation.VulnerabilityDetails(_t.info, url).Write()  # 传入url和扫描到的数据
             ClassCongregation.WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
     except:
         _ = VulnerabilityInfo('').info.get('algroup')

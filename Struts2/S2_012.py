@@ -63,8 +63,7 @@ def medusa(Url,RandomAgent,ProxyIp):
         if code==200 and con.lower().find('root')!=-1 and con.lower().find('/bin/bash')!=-1:
             Medusa = "{}存在Struts2远程代码执行漏洞 \r\n漏洞详情:\r\n影响版本:2_1_0-2_3_13\r\nPayload:{}\r\n".format(url, payload_url)
             _t = VulnerabilityInfo(Medusa)
-            web = ClassCongregation.VulnerabilityDetails(_t.info)
-            web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
+            ClassCongregation.VulnerabilityDetails(_t.info, url).Write()  # 传入url和扫描到的数据
             ClassCongregation.WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
     except:
         _ = VulnerabilityInfo('').info.get('algroup')

@@ -100,8 +100,7 @@ def medusa(Url,RandomAgent,ProxyIp):
             if code2 == 200 and con2.lower().find("testvul") != -1:
                 Medusa = "{}存在一采通电子采购系统任意文件上传漏洞\r\n 验证数据:\r\nshell地址:{}\r\n内容:{}\r\n".format(url,payload_url2,con2)
                 _t=VulnerabilityInfo(Medusa)
-                web=ClassCongregation.VulnerabilityDetails(_t.info)
-                web.High() # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
+                ClassCongregation.VulnerabilityDetails(_t.info, url).Write()  # 传入url和扫描到的数据
                 ClassCongregation.WriteFile().result(str(url), str(Medusa))  # 写入文件，url为目标文件名统一传入，Medusa为结果
     except Exception:
         _ = VulnerabilityInfo('').info.get('algroup')

@@ -47,8 +47,7 @@ def medusa(Url,RandomAgent,ProxyIp):
             if code== 200 and con.find('PHP Version') != -1 and con.find('Configure Command') != -1 :
                 Medusa = "{}存在CmsTop远程代码执行漏洞\r\n漏洞地址:\r\n{}\r\n漏洞详情:{}\r\n".format(url,payload_url,con)
                 _t=VulnerabilityInfo(Medusa)
-                web=VulnerabilityDetails(_t.info)
-                web.High() # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
+                ClassCongregation.VulnerabilityDetails(_t.info, url).Write()  # 传入url和扫描到的数据
                 WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
 
         except Exception:

@@ -72,8 +72,7 @@ def medusa(Url,RandomAgent,ProxyIp):
             if con.lower().find("testXQ17") != -1:
                 Medusa = "{}存在一采通电子采购系统SQL注入漏洞\r\n 验证数据:\r\n返回内容:{}\r\npayload:{}\r\n".format(url,con,payload_url)
                 _t=VulnerabilityInfo(Medusa)
-                web=ClassCongregation.VulnerabilityDetails(_t.info)
-                web.High() # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
+                ClassCongregation.VulnerabilityDetails(_t.info, url).Write()  # 传入url和扫描到的数据
                 ClassCongregation.WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
         except Exception:
             _ = VulnerabilityInfo('').info.get('algroup')

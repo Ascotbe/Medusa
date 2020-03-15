@@ -515,7 +515,7 @@ class ThreadPool:#线程池，所有插件都发送过来一起调用
         self.text=0#统计线程数
     def Append(self,plugin,url,Values,ProxyIp):
         self.text+=1
-        ua = UserAgentS(Values).UserAgent()
+        ua = AgentHeader().result(Values)
         self.ThreaList.append(threading.Thread(target=plugin, args=(url,ua,ProxyIp)))
     def SubdomainAppend(self,plugin,Url,SubdomainJudge):
         self.ThreaList.append(threading.Thread(target=plugin, args=(Url, SubdomainJudge)))

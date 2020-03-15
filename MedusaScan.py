@@ -67,8 +67,8 @@ def InitialScan(ThreadPool,InputFileName,Url,ProxyIp,Module,agentHeader):
             try:
                 print("\033[1;40;32m[ + ] Scanning target domain:\033[0m" + "\033[1;40;33m {}\033[0m".format(Url))
                 San(ThreadPool,Url,agentHeader,ProxyIp,Module)
-                #ThreadPool.NmapAppend(NmapScan,Urls)#把Nmap放到多线程中
-                #print("\033[1;40;32m[ + ] NmapScan component payload successfully loaded\033[0m")
+                    #ThreadPool.NmapAppend(NmapScan,Urls)#把Nmap放到多线程中
+                    #print("\033[1;40;32m[ + ] NmapScan component payload successfully loaded\033[0m")
 
             except KeyboardInterrupt as e:
                 exit(0)
@@ -88,58 +88,58 @@ def InitialScan(ThreadPool,InputFileName,Url,ProxyIp,Module,agentHeader):
     except:
         print("\033[1;40;31m[ ! ] Please enter the correct file path!\033[0m")
 
-def San(ThreadPool,Url,Values,ProxyIp,Module):
+def San(ThreadPool,Url,agentHeader,ProxyIp,Module):
     #POC模块存进多线程池，这样如果批量扫描会变快很多
     ModName=["Struts2","Confluence","Nginx","Apache","PHPStudy","Cms","Oa","Jenkins","Harbor","Rails","Kibana","Citrix","Mongo","Spring","FastJson"]
     if Module==None:
         print("\033[1;40;32m[ + ] Scanning across modules:\033[0m" + "\033[1;40;35m AllMod             \033[0m")
-        Struts2.Main(ThreadPool, Url, Values, ProxyIp)# 调用Struts2主函数
-        ConfluenceMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用 Confluence主函数
-        NginxMain.Main(ThreadPool,Url,Values,ProxyIp)#调用Nginx主函数
-        ApacheMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用Apache主函数
-        PHPStudy.Main(ThreadPool,Url,Values,ProxyIp)# 调用Php主函数
-        CmsMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用Cms主函数
-        OaMian.Main(ThreadPool,Url,Values,ProxyIp)# 调用OA主函数
-        JenkinsMain.Main(ThreadPool,Url,Values,ProxyIp)  # 调用Jenkins主函数
-        Harbor.Main(ThreadPool, Url, Values, ProxyIp)# 调用Harbor主函数
-        RailsMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用RailsMain主函数
-        KibanaMain.Main(ThreadPool,Url,Values,ProxyIp) # 调用KibanaMain主函数
-        CitrixMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用CitrixMain主函数
-        MongoMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用MongoMain主函数
-        SpringMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用SpringMain主函数
-        FastJson.Main(ThreadPool,Url,Values,ProxyIp)# 调用FastJson主函数
+       # Struts2.Main(ThreadPool, Url, agentHeader, ProxyIp)# 调用Struts2主函数
+        ConfluenceMain.Main(ThreadPool,Url,agentHeader,ProxyIp)# 调用 Confluence主函数
+        NginxMain.Main(ThreadPool,Url,agentHeader,ProxyIp)#调用Nginx主函数
+        ApacheMain.Main(ThreadPool,Url,agentHeader,ProxyIp)# 调用Apache主函数
+        PHPStudy.Main(ThreadPool,Url,agentHeader,ProxyIp)# 调用Php主函数
+        CmsMain.Main(ThreadPool,Url,agentHeader,ProxyIp)# 调用Cms主函数
+        OaMian.Main(ThreadPool,Url,agentHeader,ProxyIp)# 调用OA主函数
+        JenkinsMain.Main(ThreadPool,Url,agentHeader,ProxyIp)  # 调用Jenkins主函数
+        Harbor.Main(ThreadPool, Url, agentHeader, ProxyIp)# 调用Harbor主函数
+        RailsMain.Main(ThreadPool,Url,agentHeader,ProxyIp)# 调用RailsMain主函数
+        KibanaMain.Main(ThreadPool,Url,agentHeader,ProxyIp) # 调用KibanaMain主函数
+        CitrixMain.Main(ThreadPool,Url,agentHeader,ProxyIp)# 调用CitrixMain主函数
+        MongoMain.Main(ThreadPool,Url,agentHeader,ProxyIp)# 调用MongoMain主函数
+        SpringMain.Main(ThreadPool,Url,agentHeader,ProxyIp)# 调用SpringMain主函数
+        FastJson.Main(ThreadPool,Url,agentHeader,ProxyIp)# 调用FastJson主函数
     if Module != None and Module in ModName:
         print("\033[1;40;32m[ + ] The separate scan module is:\033[0m"+"\033[1;40;35m {}             \033[0m".format(Module))
         if Module == "Struts2":
-            Struts2.Main(ThreadPool, Url, Values, ProxyIp)  # 调用Struts2主函数
+            Struts2.Main(ThreadPool, Url, agentHeader, ProxyIp)  # 调用Struts2主函数
         if Module == "Confluence":
-            ConfluenceMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用 Confluence主函数
+            ConfluenceMain.Main(ThreadPool,Url,agentHeader,ProxyIp)# 调用 Confluence主函数
         if Module == "Nginx":
-            NginxMain.Main(ThreadPool,Url,Values,ProxyIp)#调用Nginx主函数
+            NginxMain.Main(ThreadPool,Url,agentHeader,ProxyIp)#调用Nginx主函数
         if Module == "Apache":
-            ApacheMain.Main(ThreadPool, Url, Values, ProxyIp)  # 调用Apache主函数
+            ApacheMain.Main(ThreadPool, Url, agentHeader, ProxyIp)  # 调用Apache主函数
         if Module == "PHPStudy":
-            PHPStudy.Main(ThreadPool,Url,Values,ProxyIp)# 调用Php主函数
+            PHPStudy.Main(ThreadPool,Url,agentHeader,ProxyIp)# 调用Php主函数
         if Module == "Cms":
-            CmsMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用Cms主函数
+            CmsMain.Main(ThreadPool,Url,agentHeader,ProxyIp)# 调用Cms主函数
         if Module=="Oa":
-            OaMian.Main(ThreadPool,Url,Values,ProxyIp)# 调用OA主函数
+            OaMian.Main(ThreadPool,Url,agentHeader,ProxyIp)# 调用OA主函数
         if Module=="Jenkins":
-            JenkinsMain.Main(ThreadPool,Url,Values,ProxyIp)  # 调用Jenkins主函数
+            JenkinsMain.Main(ThreadPool,Url,agentHeader,ProxyIp)  # 调用Jenkins主函数
         if Module=="Harbor":
-            Harbor.Main(ThreadPool, Url, Values, ProxyIp)# 调用Harbor主函数
+            Harbor.Main(ThreadPool, Url, agentHeader, ProxyIp)# 调用Harbor主函数
         if Module=="Rails":
-            RailsMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用RailsMain主函数
+            RailsMain.Main(ThreadPool,Url,agentHeader,ProxyIp)# 调用RailsMain主函数
         if Module=="Kibana":
-            KibanaMain.Main(ThreadPool,Url,Values,ProxyIp) # 调用KibanaMain主函数
+            KibanaMain.Main(ThreadPool,Url,agentHeader,ProxyIp) # 调用KibanaMain主函数
         if Module=="Citrix":
-            CitrixMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用CitrixMain主函数
+            CitrixMain.Main(ThreadPool,Url,agentHeader,ProxyIp)# 调用CitrixMain主函数
         if Module == "Mongo":
-            MongoMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用MongoMain主函数
+            MongoMain.Main(ThreadPool,Url,agentHeader,ProxyIp)# 调用MongoMain主函数
         if Module == "Spring":
-            SpringMain.Main(ThreadPool,Url,Values,ProxyIp)# 调用SpringMain主函数
+            SpringMain.Main(ThreadPool,Url,agentHeader,ProxyIp)# 调用SpringMain主函数
         if Module == "FastJson":
-            FastJson.Main(ThreadPool,Url,Values,ProxyIp)# 调用FastJson主函数
+            FastJson.Main(ThreadPool,Url,agentHeader,ProxyIp)# 调用FastJson主函数
     else:
         print("\033[1;40;31m[ ! ] Please enter the correct scan module name\033[0m")
         os._exit(0)  # 直接退出整个函数
@@ -175,8 +175,10 @@ if __name__ == '__main__':
     ThreadNumber=args.ThreadNumber#要使用的线程数默认15
 
     if Values==None:#使用随机头
-        Values="None"
-    agentHeader = ClassCongregation.AgentHeader().result(Values)
+        agentHeader="None"
+    else:
+        agentHeader=Values
+
     #暂时关闭NMAPScan和数据库爆破功能
 
     ThreadPool = ClassCongregation.ThreadPool()#定义一个线程池

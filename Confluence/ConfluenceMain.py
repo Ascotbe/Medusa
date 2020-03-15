@@ -2,8 +2,8 @@
 # _*_ coding: utf-8 _*_
 from Confluence import AtlassianConfluencePathTraversalAndCommandExecutionVulnerability
 from ClassCongregation import Prompt
-def Main(ThreadPool,Url,Values,ProxyIp):
-    ThreadPool.Append(AtlassianConfluencePathTraversalAndCommandExecutionVulnerability.medusa,Url,Values,ProxyIp)
+def Main(ThreadPool,Url,Values,UnixTimestamp):
+    ThreadPool.Append(AtlassianConfluencePathTraversalAndCommandExecutionVulnerability.medusa,Url,Values,UnixTimestamp)
     Prompt("Confluence")
 
 

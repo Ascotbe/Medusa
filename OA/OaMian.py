@@ -3,7 +3,7 @@
 from OA.Seeyou import Seeyou
 from OA.Weaver import Weaver
 from OA.Ruvar import Ruvar
-def Main(ThreadPool,Url,Values,ProxyIp):
-    Seeyou.Main(ThreadPool,Url,Values,ProxyIp)
-    Weaver.Main(ThreadPool, Url, Values, ProxyIp)
-    Ruvar.Main(ThreadPool, Url, Values, ProxyIp)
+def Main(ThreadPool,Url,Values,UnixTimestamp):
+    Seeyou.Main(ThreadPool,Url,Values,UnixTimestamp)
+    Weaver.Main(ThreadPool, Url, Values, UnixTimestamp)
+    Ruvar.Main(ThreadPool, Url, Values, UnixTimestamp)

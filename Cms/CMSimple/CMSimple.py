@@ -2,6 +2,6 @@
 # _*_ coding: utf-8 _*_
 from Cms.CMSimple import CMSimpleCrossSiteScriptingVulnerability
 from ClassCongregation import Prompt
-def Main(ThreadPool,Url,Values,ProxyIp):
-    ThreadPool.Append(CMSimpleCrossSiteScriptingVulnerability.medusa, Url, Values, ProxyIp)
+def Main(ThreadPool,Url,Values,UnixTimestamp):
+    ThreadPool.Append(CMSimpleCrossSiteScriptingVulnerability.medusa, Url, Values, UnixTimestamp)
     Prompt("CMSimple")

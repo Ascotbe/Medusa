@@ -5,8 +5,8 @@
 from FastJson import FastjsonDeserializationRemoteCodeExecutionVulnerability
 from FastJson import FastjsonDeserializationRemoteCodeExecutionVulnerability2
 from ClassCongregation import Prompt
-def Main(ThreadPool,Url,Values,ProxyIp):
-    ThreadPool.Append(FastjsonDeserializationRemoteCodeExecutionVulnerability.medusa, Url, Values, ProxyIp)
-    ThreadPool.Append(FastjsonDeserializationRemoteCodeExecutionVulnerability2.medusa, Url, Values, ProxyIp)
+def Main(ThreadPool,Url,Values,UnixTimestamp):
+    ThreadPool.Append(FastjsonDeserializationRemoteCodeExecutionVulnerability.medusa, Url, Values, UnixTimestamp)
+    ThreadPool.Append(FastjsonDeserializationRemoteCodeExecutionVulnerability2.medusa, Url, Values, UnixTimestamp)
     Prompt("FastJson")
 

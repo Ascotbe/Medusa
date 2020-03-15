@@ -63,7 +63,7 @@ def NmapScan(url):#Nmap扫描这样就可以开多线程了
 
 def InitialScan(ThreadPool,InputFileName,Url,ProxyIp,Module,Value):
     try:
-        agentHeader=ClassCongregation.AgentHeader.result(Values=Value)
+        agentHeader=ClassCongregation.AgentHeader().result(Value)
         if InputFileName==None:
             try:
                 print("\033[1;40;32m[ + ] Scanning target domain:\033[0m" + "\033[1;40;33m {}\033[0m".format(Url))

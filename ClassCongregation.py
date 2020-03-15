@@ -38,14 +38,12 @@ class WriteFile:#写入文件类
             f.write(Medusa+"\n")
 
 
-class UserAgentS:#使用随机头类
-    def __init__(self,Values):
-        self.Values=Values
-
-    def UserAgent(self):#使用随机头传入传入参数
+class AgentHeader:#使用随机头类
+    def result(self,Values):#使用随机头传入传入参数
         try:
-            ua = UserAgent(verify_ssl=False)
-            if self.Values.lower()==None:#如果参数为空使用随机头
+            self.Values = Values
+            ua = UserAgent(cache=True)
+            if self.Values.lower()=="None":#如果参数为空使用随机头
                 return (ua.random)
             elif self.Values.lower()=="firefox":#如果是火狐字符串使用火狐头
                 return (ua.firefox)
@@ -66,8 +64,7 @@ class UserAgentS:#使用随机头类
             else:
                 return (ua.random)#如果用户瞎几把乱输使用随机头
         except:
-            ua = UserAgent()
-            return (ua.random)#报错使用随机头
+            return "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.2117.157 Safari/537.36"#报错使用随机头
 
 
 class NmapScan:#扫描端口类

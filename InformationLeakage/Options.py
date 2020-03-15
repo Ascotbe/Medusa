@@ -45,8 +45,7 @@ def medusa(Url,RandomAgent,ProxyIp):
         if r"OPTIONS" in resp.headers['Allow']:
             Medusa = "{}存在options方法开启漏洞 \r\n漏洞详情:\r\nPayload:{}\r\n".format(url, payload_url)
             _t = VulnerabilityInfo(Medusa)
-            web = ClassCongregation.VulnerabilityDetails(_t.info)
-            web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
+            ClassCongregation.VulnerabilityDetails(_t.info, url).Write()  # 传入url和扫描到的数据
             return (str(_t.info))
     except:
         _ = VulnerabilityInfo('').info.get('algroup')

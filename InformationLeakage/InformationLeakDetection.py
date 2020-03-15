@@ -75,8 +75,7 @@ class SensitiveFile:
         if code == 200 and con.lower().find('druid.common') != -1:
             Medusa = "{}存在{}\r\n漏洞详情:{}\r\n".format(urls, Name, con)
             _t = TargetInfo(Medusa, Algroup, Name, Affects)
-            web = VulnerabilityDetails(_t.info)
-            web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
+            VulnerabilityDetails(_t.info, urls).Write()  # 传入url和扫描到的数据
             WriteFile().result(str(self.TargetUrl), str(Medusa))
 
     def Git(self,url):
@@ -91,8 +90,7 @@ class SensitiveFile:
             if code==200 and con.lower().find('repositoryformatversion')!=-1 :
                 Medusa = "{}存在{}\r\n漏洞详情:{}\r\n".format(urls,Name, con)
                 _t = TargetInfo(Medusa,Algroup,Name,Affects)
-                web = VulnerabilityDetails(_t.info)
-                web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
+                VulnerabilityDetails(_t.info, urls).Write()  # 传入url和扫描到的数据
                 WriteFile().result(str(self.TargetUrl), str(Medusa))
         except:
             _l = ErrorLog().Write(url, Name)  # 调用写入类传入URL和错误插件名
@@ -108,8 +106,7 @@ class SensitiveFile:
             if code == 200 and resp.headers["Content-Type"] == "application/xml":
                 Medusa = "{}存在{}\r\n漏洞详情:{}\r\n".format(urls,Name, con)
                 _t = TargetInfo(Medusa,Algroup,Name,Affects)
-                web = VulnerabilityDetails(_t.info)
-                web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
+                VulnerabilityDetails(_t.info, urls).Write()  # 传入url和扫描到的数据
                 WriteFile().result(str(self.TargetUrl), str(Medusa))
         except:
             _l = ErrorLog().Write(url, Name)  # 调用写入类传入URL和错误插件名
@@ -125,8 +122,7 @@ class SensitiveFile:
             if code==200 and con.lower().find('<?xml version=')!=-1 and con.lower().find('project version')!=-1:
                 Medusa = "{}存在{}\r\n漏洞详情:{}\r\n".format(urls,Name, con)
                 _t = TargetInfo(Medusa,Algroup,Name,Affects)
-                web = VulnerabilityDetails(_t.info)
-                web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
+                VulnerabilityDetails(_t.info, urls).Write()  # 传入url和扫描到的数据
                 WriteFile().result(str(self.TargetUrl), str(Medusa))
         except:
             _l = ErrorLog().Write(url, Name)  # 调用写入类传入URL和错误插件名
@@ -142,8 +138,7 @@ class SensitiveFile:
             if code==200 and con.lower().find('apc version')!=-1:
                 Medusa = "{}存在{}\r\n漏洞详情:{}\r\n".format(urls,Name, con)
                 _t = TargetInfo(Medusa,Algroup,Name,Affects)
-                web = VulnerabilityDetails(_t.info)
-                web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
+                VulnerabilityDetails(_t.info, urls).Write()  # 传入url和扫描到的数据
                 WriteFile().result(str(self.TargetUrl), str(Medusa))
         except:
             _l = ErrorLog().Write(url, Name)  # 调用写入类传入URL和错误插件名
@@ -159,8 +154,7 @@ class SensitiveFile:
             if code==200 and con.lower().find('remote_path')!=-1:
                 Medusa = "{}存在{}\r\n漏洞详情:{}\r\n".format(urls,Name, con)
                 _t = TargetInfo(Medusa,Algroup,Name,Affects)
-                web = VulnerabilityDetails(_t.info)
-                web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
+                VulnerabilityDetails(_t.info, urls).Write()  # 传入url和扫描到的数据
                 WriteFile().result(str(self.TargetUrl), str(Medusa))
         except:
             _l = ErrorLog().Write(url, Name)  # 调用写入类传入URL和错误插件名
@@ -176,8 +170,7 @@ class SensitiveFile:
             if code==200 and (con.lower().find('svn://')!=-1 or con.lower().find('svn://')!=-1 or con.lower().find('svn://')!=-1):
                 Medusa = "{}存在{}\r\n漏洞详情:{}\r\n".format(urls,Name, con)
                 _t = TargetInfo(Medusa,Algroup,Name,Affects)
-                web = VulnerabilityDetails(_t.info)
-                web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
+                VulnerabilityDetails(_t.info, urls).Write()  # 传入url和扫描到的数据
                 WriteFile().result(str(self.TargetUrl), str(Medusa))
         except:
             _l = ErrorLog().Write(url, Name)  # 调用写入类传入URL和错误插件名
@@ -272,8 +265,7 @@ class SensitiveFile:
         if code == 200 and con.lower().find('<title>phpinfo()</title>') != -1:
             Medusa = "{}存在{}\r\n漏洞详情:{}\r\n".format(urls, Name, con)
             _t = TargetInfo(Medusa, Algroup, Name, Affects)
-            web = VulnerabilityDetails(_t.info)
-            web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
+            VulnerabilityDetails(_t.info, urls).Write()  # 传入url和扫描到的数据
             WriteFile().result(str(self.TargetUrl), str(Medusa))
     def CompressedFile(self,url):
         Algroup="SensitiveCompressedFileDownloadVulnerability"
@@ -320,8 +312,7 @@ class SensitiveFile:
         if code==200 and (resp.headers["Content-Type"] == "application/zip" or resp.headers["Content-Type"] == "application/x-rar-compressed" or resp.headers["Content-Type"] == "application/x-gzip" or resp.headers["Content-Type"] == "application/gzip") :
             Medusa = "{}存在{}\r\n漏洞详情:{}\r\n".format(urls, Name, con)
             _t = TargetInfo(Medusa, Algroup, Name, Affects)
-            web = VulnerabilityDetails(_t.info)
-            web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
+            VulnerabilityDetails(_t.info, urls).Write()  # 传入url和扫描到的数据
             WriteFile().result(str(self.TargetUrl), str(Medusa))
 
     def SensitiveFile(self,url):
@@ -352,8 +343,7 @@ class SensitiveFile:
         if code == 200 and resp.headers["Content-Type"] == "text/plain":
             Medusa = "{}存在{}\r\n漏洞详情:{}\r\n".format(urls, Name, con)
             _t = TargetInfo(Medusa, Algroup, Name, Affects)
-            web = VulnerabilityDetails(_t.info)
-            web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
+            VulnerabilityDetails(_t.info, urls).Write()  # 传入url和扫描到的数据
             WriteFile().result(str(self.TargetUrl), str(Medusa))
     def Main(self,url):
         scheme, self.TargetUrl, port = UrlProcessing().result(url)  # 获取目标的url

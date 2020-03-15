@@ -61,8 +61,7 @@ def medusa(Url,RandomAgent,ProxyIp):
         if code== 200 and con.find('System') != -1 and con.find('Compiler') != -1 and con.find('Build Date') != -1 and con.find('IPv6 Support') != -1 and con.find('Configure Command') != -1:
             Medusa = "{} 存在远程命令执行漏洞\r\n漏洞地址:\r\n{}\r\n漏洞详情:\r\n{}".format(url,payload_url,con.encode(encoding='utf-8'))
             _t=VulnerabilityInfo(Medusa)
-            web=ClassCongregation.VulnerabilityDetails(_t.info)
-            web.High() # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
+            ClassCongregation.VulnerabilityDetails(_t.info, url).Write()  # 传入url和扫描到的数据
             ClassCongregation.WriteFile().result(str(url), str(Medusa))  # 写入文件，url为目标文件名统一传入，Medusa为结果
     except:
         _ = VulnerabilityInfo('').info.get('algroup')

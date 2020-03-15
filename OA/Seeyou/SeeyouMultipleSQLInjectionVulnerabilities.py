@@ -54,8 +54,7 @@ def medusa(Url,RandomAgent,ProxyIp):
                 Medusa = "{} 存在用友OA多处sql注入漏洞\r\n漏洞详情:\r\nPayload:{}\r\n".format(url, payload_url)
                 ClassCongregation.WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
                 _t = VulnerabilityInfo(Medusas)
-                web = ClassCongregation.VulnerabilityDetails(_t.info)
-                web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
+                ClassCongregation.VulnerabilityDetails(_t.info, url).Write()  # 传入url和扫描到的数据
         except:
             _ = VulnerabilityInfo('').info.get('algroup')
             _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类

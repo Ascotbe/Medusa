@@ -298,9 +298,7 @@ class BlastingDB:#数据库爆破模块，到时候要重写移除这里
 class ReadVulnerability:
     pass
 class VulnerabilityDetails:
-
     def __init__(self,medusa,url):
-
         try:
             self.url = str(url)  # 目标域名
             self.name=medusa['name']#漏洞名称
@@ -324,14 +322,6 @@ class VulnerabilityDetails:
             self.cur = self.con.cursor()
             # 创建表
             try:
-                # self.cur.execute("CREATE TABLE Medusa\
-                #             (id INTEGER PRIMARY KEY,\
-                #             name TEXT NOT NULL,\
-                #             affects TEXT NOT NULL,\
-                #             rank TEXT NOT NULL,\
-                #             suggest TEXT NOT NULL,\
-                #             desc_content TEXT NOT NULL,\
-                #             details TEXT NOT NULL)")
                 #如果设置了主键那么就导致主健值不能相同，如果相同就写入报错
                 self.cur.execute("CREATE TABLE Medusa\
                             (id INTEGER PRIMARY KEY,\
@@ -349,9 +339,9 @@ class VulnerabilityDetails:
                             algroup TEXT NOT NULL,\
                             version TEXT NOT NULL)")
             except:
-                print("asdasd")
+                pass
         except:
-            print("d")
+            pass
     def Write(self):
         try:
             self.cur.execute("""INSERT INTO Medusa (url,name,affects,rank,suggest,desc_content,details,number,author,createDate,disclosure,algroup,version) \

@@ -61,9 +61,8 @@ def BoomDB(Url,SqlUser,SqlPasswrod,InputFileName):
 def NmapScan(url):#Nmap扫描这样就可以开多线程了
     ClassCongregation.NmapScan(url).ScanPort()#调用Nmap扫描类
 
-def InitialScan(ThreadPool,InputFileName,Url,ProxyIp,Module,Value):
+def InitialScan(ThreadPool,InputFileName,Url,ProxyIp,Module,agentHeader):
     try:
-        agentHeader=ClassCongregation.AgentHeader().result(Value)
         if InputFileName==None:
             try:
                 print("\033[1;40;32m[ + ] Scanning target domain:\033[0m" + "\033[1;40;33m {}\033[0m".format(Url))
@@ -177,6 +176,7 @@ if __name__ == '__main__':
 
     if Values==None:#使用随机头
         Values="None"
+    agentHeader = ClassCongregation.AgentHeader().result(Values)
     #暂时关闭NMAPScan和数据库爆破功能
 
     ThreadPool = ClassCongregation.ThreadPool()#定义一个线程池
@@ -200,7 +200,7 @@ if __name__ == '__main__':
     elif Subdomain==True:
         SubdomainJudge = "b"
         ThreadPool.SubdomainAppend(SubdomainCrawling, Url,SubdomainJudge)
-    InitialScan(ThreadPool,InputFileName, Url, ProxyIp,Module,Values)#最后启动主扫描函数，这样如果多个IP的话优化速度，里面会做url或者url文件的判断
+    InitialScan(ThreadPool,InputFileName, Url, ProxyIp,Module,agentHeader)#最后启动主扫描函数，这样如果多个IP的话优化速度，里面会做url或者url文件的判断
     ClassCongregation.NumberOfLoopholes()#输出扫描结果个数
 
 

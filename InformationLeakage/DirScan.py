@@ -2,7 +2,7 @@
 # _*_ coding: utf-8 _*_
 import sys
 import os
-from ClassCongregation import UrlProcessing,UserAgentS
+from ClassCongregation import UrlProcessing,AgentHeader
 import requests
 import threading
 from tqdm import tqdm
@@ -42,7 +42,7 @@ class SensitiveData:
             self.headers = {
                 'Accept-Encoding': 'gzip, deflate',
                 'Accept': '*/*',
-                'User-Agent': UserAgentS("chrome").UserAgent(),
+                'User-Agent': AgentHeader().result("chrome"),
             }
 
             self.threa_list.append(threading.Thread(target=self.resp, args=(payload,self.headers,)))#调用自生的函数，以便开启多线程

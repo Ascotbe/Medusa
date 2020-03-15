@@ -4,7 +4,7 @@ import threading
 import os
 import sys
 import requests
-from ClassCongregation import UserAgentS,ErrorLog,VulnerabilityDetails,WriteFile,UrlProcessing
+from ClassCongregation import AgentHeader,ErrorLog,VulnerabilityDetails,WriteFile,UrlProcessing
 class TargetInfo:
     def __init__(self,Medusa,Algroup,Name,Affects):
         self.info = {}
@@ -32,7 +32,7 @@ class SensitiveFile:
         self.headers = {
             'Accept-Encoding': 'gzip, deflate',
             'Accept': '*/*',
-            'User-Agent': UserAgentS("chrome").UserAgent(),
+            'User-Agent': AgentHeader().result("chrome"),
         }
         global TargetName
         if sys.platform == "win32" or sys.platform == "cygwin":

@@ -16,6 +16,7 @@ from Kibana import KibanaMain
 from PHPStudy import PHPStudy
 from Mongo import MongoMain
 from OA import OaMian
+from Windows import Windows
 from Spring import SpringMain
 import ClassCongregation
 import tldextract#域名处理函数可以识别主域名和后缀
@@ -89,7 +90,7 @@ def InitialScan(ThreadPool,InputFileName,Url,UnixTimestamp,Module,agentHeader):
 
 def San(ThreadPool,Url,agentHeader,UnixTimestamp,Module):
     #POC模块存进多线程池，这样如果批量扫描会变快很多
-    ModName=["Struts2","Confluence","Nginx","Apache","PHPStudy","Cms","Oa","Jenkins","Harbor","Rails","Kibana","Citrix","Mongo","Spring","FastJson"]
+    ModName=["Struts2","Confluence","Nginx","Apache","PHPStudy","Cms","Oa","Jenkins","Harbor","Rails","Kibana","Citrix","Mongo","Spring","FastJson","Windows"]
     if Module==None:
         print("\033[1;40;32m[ + ] Scanning across modules:\033[0m" + "\033[1;40;35m AllMod             \033[0m")
         Struts2.Main(ThreadPool, Url, agentHeader, UnixTimestamp)# 调用Struts2主函数
@@ -107,6 +108,7 @@ def San(ThreadPool,Url,agentHeader,UnixTimestamp,Module):
         MongoMain.Main(ThreadPool,Url,agentHeader,UnixTimestamp)# 调用MongoMain主函数
         SpringMain.Main(ThreadPool,Url,agentHeader,UnixTimestamp)# 调用SpringMain主函数
         FastJson.Main(ThreadPool,Url,agentHeader,UnixTimestamp)# 调用FastJson主函数
+        Windows.Main(ThreadPool,Url,agentHeader,UnixTimestamp)# 调用Windwos主函数
     elif Module != None and Module in ModName:
         print("\033[1;40;32m[ + ] The separate scan module is:\033[0m"+"\033[1;40;35m {}             \033[0m".format(Module))
         if Module == "Struts2":
@@ -139,6 +141,8 @@ def San(ThreadPool,Url,agentHeader,UnixTimestamp,Module):
             SpringMain.Main(ThreadPool,Url,agentHeader,UnixTimestamp)# 调用SpringMain主函数
         if Module == "FastJson":
             FastJson.Main(ThreadPool,Url,agentHeader,UnixTimestamp)# 调用FastJson主函数
+        if Module=="Windows":
+            Windows.Main(ThreadPool, Url, agentHeader, UnixTimestamp)  # 调用Windwos主函数
     else:
         print("\033[1;40;31m[ ! ] Please enter the correct scan module name\033[0m")
         os._exit(0)  # 直接退出整个函数

@@ -291,4 +291,6 @@
 
 
 
-  
+#####  Windows
+
+- `Windows` SMBv3协议漏洞（CVE-2020-0796）

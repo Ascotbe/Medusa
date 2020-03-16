@@ -6,10 +6,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 __author__ = 'Ascotbe'
-import requests
 from ClassCongregation import VulnerabilityDetails,UrlProcessing,ErrorLog,WriteFile,randoms
 import json
-requests.packages.urllib3.disable_warnings()
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 class VulnerabilityInfo(object):
     def __init__(self,Medusa):
         self.info = {}

@@ -5,7 +5,7 @@ import hashlib
 import tldextract
 from nonebot import on_command, CommandSession
 # on_command 装饰器将函数声明为一个命令处理器
-@on_command('Medusa:', aliases=('扫描域名'))
+@on_command('Medusa:',only_to_me=False)
 async def Medusa(session: CommandSession):
     city = session.get('city', prompt='呐呐呐！对方的域名呐？')
     Url = city[7:]
@@ -29,4 +29,4 @@ async def MedusaScan(Url: str,token: str) -> str:
     Values=ClassCongregation.AgentHeader().result("None")
     San(ThreadPool,Url,Values,token,Module=None)
     ThreadPool.Start(30)  # 启动多线程
-    return
+    return ""

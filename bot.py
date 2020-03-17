@@ -3,7 +3,8 @@
 
 import nonebot
 from os import path
-from QQbot import config
+import config
+
 if __name__ == '__main__':
     nonebot.init(config)#使用默认配置初始化 NoneBot 包
     nonebot.load_plugins(

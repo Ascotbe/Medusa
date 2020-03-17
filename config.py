@@ -7,3 +7,5 @@ HOST = '0.0.0.0'
 PORT = 8080
 WeatherKey=""
 TULING_API_KEY = ''
+MedusaWebUser=""
+MedusaWebpasswd=""

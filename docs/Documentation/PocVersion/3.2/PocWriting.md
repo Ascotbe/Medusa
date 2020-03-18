@@ -9,6 +9,7 @@ __author__ = 'Ascotbe'
 from ClassCongregation import VulnerabilityDetails,UrlProcessing,ErrorLog,WriteFile,randoms
 import json
 import urllib3
+import requests
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 class VulnerabilityInfo(object):
     def __init__(self,Medusa):

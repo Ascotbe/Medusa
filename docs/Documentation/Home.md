@@ -16,7 +16,7 @@
 
 > 本项目使用 `GPL`协议，未经授权，禁止使用商业用途。
 >
-> 目前主要是更新Web版本，敬请期待~
+> `Web`版和`Bot`版本都已经在开放中，敬请期待~
 
 ## Demo
 
@@ -40,8 +40,6 @@ pip3 install -r Medusa.txt
 python3 MedusaScan.py -u www.ascotbe.com
 ```
 ## 参数说明
-### 参数说明
-
 | 命令 | 参数个数 | 作用                                                         | 备注                                                         |
 | ---- | -------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | -u   | 1        | 输入单个目标url（最好使用http://或https://作为开头,并且后面别跟参数 | https://www.baidu.com  or https://192.168.0.1                |
@@ -56,6 +54,6 @@ python3 MedusaScan.py -u www.ascotbe.com
 
 ## 讨论区
 
-- 吹B群：690021184
+- 吹B群：690021184（加群请输入暗号：6CF2D42B629E5AA4E6C293B290798878）
 - GitHub issue:https://github.com/Ascotbe/Medusa/issues
 

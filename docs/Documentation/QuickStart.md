@@ -37,9 +37,12 @@ Celery==4.3.0
 django_redis==4.10.0
 eventlet==0.25.1
 pyDES==2.0.1
+nonebot==1.3.1
 ```
 
 ## 快速使用
+
+该工具还在测试阶段，如有问题请提交`issues`，切记本扫描器只用于授权测试
 
 #### 0x01 使用扫描器对单个网站进行扫描
 
@@ -50,13 +53,13 @@ python3 MedusaScan.py -u https://www.ascotbe.com
 #### 0x02 使用扫描器对批量网站扫描
 
 ```bash
-python3 MedusaScan.py -f c：//Ascotbe.txt  (url所在文件路径)
+python3 MedusaScan.py -f Ascotbe.txt  (你的文件，最好放在和MedusaScan同级文件中)
 ```
 
-#### 0x03 对目标网站进行数据库弱口令探测
+#### ~~0x03 对目标网站进行数据库弱口令探测~~
 
 ```bash
-python3 MedusaScan.py -u https://www.ascotbe.com -sp c：//Password.txt -su c：//Username.txt
+python3 MedusaScan.py -u https://www.ascotbe.com -sp c：//Password.txt -su c：//Username.txt (改功能用处不大暂时注释了
 ```
 
 #### 0x04 对目标网站进行`JavaScript`中的链接爬取
@@ -89,8 +92,25 @@ python3 MedusaScan.py -u https://www.ascotbe.com -a ie
 python3 MedusaScan.py -u https://www.ascotbe.com -a opera
 ```
 
+#### 0x07 针对单独模块扫描
+
+该模块所支持的名称请针对根目录文件夹使用，一个文件夹名对应一个模块，并且请注意大小写，实在无法理解请参考[该文件中](https://www.ascotbe.com/Medusa/Documentation/#/PluginDirectory)名称进行使用
+
+```
+python3 MedusaScan.py -u https://www.ascotbe.com -m Struts2
+```
+
+#### 0x08 设置线程数
+
+```
+python3 MedusaScan.py -u https://www.ascotbe.com -t 100
+```
+
+
+
 ## 扫描结果
 
-- 扫描的结果存在根目录中的`ScanResult`文件夹中
-- 目录扫描的结果存在根目录中的`InformationLeakage/Target`文件夹中
+- 扫描结果存在`ScanResult`文件夹中
+- 在`Medusa.db`文件中也存在扫描结果
+- 如果以上文件都不存在说明目标并无扫描出漏洞
 

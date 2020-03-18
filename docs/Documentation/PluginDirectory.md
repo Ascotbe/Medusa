@@ -160,6 +160,13 @@
 
 - ##### EcoCMS
   - `EcoCMS` 跨站脚本漏洞（CVE-2010-5046）
+
+- ##### EnableQ
+  - `EnableQ` 任意文件上传漏洞
+  - `EnableQ ecoCMS的admin.php` SQL注入漏洞
+  - `EnableQ` 全版本通杀SQL注入漏洞
+  - `EnableQ Export.log.inc.php` SQL注入漏洞
+
 - ##### FiveClib
   - `FiveClib` 任意文件下载漏洞
   - `FiveClib` 任意文件遍历漏洞

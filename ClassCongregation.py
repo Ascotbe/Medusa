@@ -11,7 +11,7 @@ from tqdm import tqdm
 import logging
 import os
 import re
-import json
+import base64
 import random
 import sys
 import time
@@ -299,19 +299,20 @@ class VulnerabilityDetails:
     def __init__(self,medusa,url,UnixTimestamp):
         try:
             self.url = str(url)  # 目标域名
-            self.unix_timestamp=UnixTimestamp#获取时间戳
+            self.timestamp=UnixTimestamp#获取时间戳
             self.name=medusa['name']#漏洞名称
             self.number = medusa['number']  # CVE编号
             self.author = medusa['author'] # 插件作者
-            self.createDate = medusa['createDate']  # 插件编辑时间
+            self.create_date = medusa['create_date']  # 插件编辑时间
             self.algroup = medusa['algroup']  # 插件名称
             self.rank = medusa['rank'] # 漏洞等级
             self.disclosure = medusa['disclosure']  # 漏洞披露时间，如果不知道就写编写插件的时间
-            self.details=medusa['details']# 结果
+            self.details=base64.b64encode(medusa['details'].encode(encoding="utf-8"))# 对结果进行编码写入数据库，鬼知道数据里面有什么玩意
             self.affects=medusa['affects']# 漏洞组件
             self.desc_content=medusa['desc_content']# 漏洞描述
             self.suggest=medusa['suggest']# 修复建议
             self.version = medusa['version']  # 漏洞影响的版本
+            print(self.details)
             # 如果数据库不存在的话，将会自动创建一个 数据库
             if sys.platform == "win32" or sys.platform == "cygwin":
                 self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0] + "\\Medusa.db")
@@ -333,19 +334,19 @@ class VulnerabilityDetails:
                             details TEXT NOT NULL,\
                             number TEXT NOT NULL,\
                             author TEXT NOT NULL,\
-                            createDate TEXT NOT NULL,\
+                            create_date TEXT NOT NULL,\
                             disclosure TEXT NOT NULL,\
                             algroup TEXT NOT NULL,\
                             version TEXT NOT NULL,\
-                            unix_timestamp TEXT NOT NULL)")
+                            timestamp TEXT NOT NULL)")
             except:
                 pass
         except:
             pass
     def Write(self):
         try:
-            self.cur.execute("""INSERT INTO Medusa (url,name,affects,rank,suggest,desc_content,details,number,author,createDate,disclosure,algroup,version,unix_timestamp) \
-    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",(self.url,self.name,self.affects,self.rank,self.suggest,self.desc_content,self.details,self.number,self.author,self.createDate,self.disclosure,self.algroup,self.version,self.unix_timestamp,))
+            self.cur.execute("""INSERT INTO Medusa (url,name,affects,rank,suggest,desc_content,details,number,author,create_date,disclosure,algroup,version,timestamp) \
+    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",(self.url,self.name,self.affects,self.rank,self.suggest,self.desc_content,self.details,self.number,self.author,self.create_date,self.disclosure,self.algroup,self.version,self.timestamp,))
             # 提交
             self.con.commit()
             self.con.close()

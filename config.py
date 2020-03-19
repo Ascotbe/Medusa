@@ -1,12 +1,3 @@
-from nonebot.default_config import *
-COMMAND_START = {'', '/', '!', '／', '！'}
-
-SUPERUSERS = {}
-NICKNAME = {'莎酱'}
-HOST = '0.0.0.0'
-PORT = 8080
-WeatherKey=""
-TULING_API_KEY =""
 medusa_web_user=""
 medusa_web_passwd=""
 #没有的可以去ceye中申请，http://ceye.io/

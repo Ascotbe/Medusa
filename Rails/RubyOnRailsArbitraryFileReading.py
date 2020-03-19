@@ -6,7 +6,7 @@ __date__ = '2019/11/29 22:12 PM'
 import urllib.parse
 import requests
 import ClassCongregation
-requests.packages.urllib3.disable_warnings()
+
 class VulnerabilityInfo(object):
     def __init__(self,Medusa):
         self.info = {}

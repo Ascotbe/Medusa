@@ -9,7 +9,7 @@ class VulnerabilityInfo(object):
         self.info = {}
         self.info['number']="CVE-2014-9434" #如果没有CVE或者CNVD编号就填0，CVE编号优先级大于CNVD
         self.info['author'] = "Trans"  # 插件作者
-        self.info['createDate'] = "2020-1-12"  # 插件编辑时间
+        self.info['create_date']  = "2020-1-12"  # 插件编辑时间
         self.info['disclosure']='2015-01-10'#漏洞披露时间，如果不知道就写编写插件的时间
         self.info['algroup'] = "AbsolutEngineXSS"  # 插件名称
         self.info['name'] ='AbsolutEngine跨站脚本漏洞' #漏洞名称

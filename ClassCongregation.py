@@ -16,6 +16,7 @@ import random
 import sys
 import time
 import threading
+from config import dns_log_url,dns_log_key
 def IpProcess(Url):
     if Url.startswith("http"):  # 记个小知识点：必须带上https://这个头不然urlparse就不能正确提取hostname导致后面运行出差错
         res = urllib.parse.urlparse(Url)  # 小知识点2：如果只导入import urllib包使用parse这个类的话会报错，必须在import requests导入这个包才能正常运行
@@ -470,15 +471,20 @@ class Dnslog:#Dnslog判断
         salt=""
         for i in range(15):
             salt += random.choice(H)
-        self.host=str(salt+".medusa.ascotbe.com")
+        self.host=str(salt+"."+dns_log_url)
     def dns_host(self):
-        return self.host
+        return str(self.host)
     def result(self):
-        data=json.dumps({"domain": self.host})
+        #DNS判断后续会有更多的DNS判断，保持准确性
+         return self.ceye_dns()
+    def ceye_dns(self):
         try:
-            status = requests.post('http://log.ascotbe.com/api/validate', timeout=2,data=data)
-            code=status.status_code
-            if code == 200:
+            # status = requests.post('http://log.ascotbe.com/api/validate', timeout=2,data=data)
+            # code=status.status_code
+            # if code == 200:
+            status = requests.get("http://api.ceye.io/v1/records?token="+dns_log_key+"&type=dns&filter=", timeout=6)
+            dns_log_text=status.text
+            if dns_log_text.find(self.host)!=-1:#如果找到Key
                 return True
             else:
                 return False

@@ -15,7 +15,7 @@ class VulnerabilityInfo(object):
         self.info = {}
         self.info['number']="0" #如果没有CVE或者CNVD编号就填0，CVE编号优先级大于CNVD
         self.info['author'] = "Ascotbe"  # 插件作者
-        self.info['createDate'] = "2020-1-5"  # 插件编辑时间
+        self.info['create_date']  = "2020-1-5"  # 插件编辑时间
         self.info['disclosure']='2015-09-06'#漏洞披露时间，如果不知道就写编写插件的时间
         self.info['algroup'] = "OneCaitongElectronicProcurementSystemSQLInjection2"  # 插件名称
         self.info['name'] ='一采通电子采购系统SQL注入2' #漏洞名称

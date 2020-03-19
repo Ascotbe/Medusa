@@ -12,7 +12,7 @@ class VulnerabilityInfo(object):
         self.info = {}
         self.info['number']="0" #如果没有CVE或者CNVD编号就填0，CVE编号优先级大于CNVD
         self.info['author'] = "Ascotbe"  # 插件作者
-        self.info['createDate'] = "2019-12-25"  # 插件编辑时间
+        self.info['create_date']  = "2019-12-25"  # 插件编辑时间
         self.info['disclosure']='2018-12-26'#漏洞披露时间，如果不知道就写编写插件的时间
         self.info['algroup'] = "PbootCommandExecution"  # 插件名称
         self.info['name'] ='Pboot任意命令执行漏洞' #漏洞名称

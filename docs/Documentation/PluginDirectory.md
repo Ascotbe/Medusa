@@ -240,8 +240,8 @@
   - `Ruvar OfficeFileDownload.aspx` SQL注入漏洞
 
 - ##### Tongda
-  - `Tongda /ispirit/interface/gateway.php` 任意文件上传和文件包含漏洞
-
+  - `Tongda /ispirit/interface/gateway.php` 任意文件包含漏洞
+  - `Tongda /ispirit/im/upload.php` 任意文件上传漏洞
 
 - ##### Seeyou
   - `Seeyou NCFindWeb` 任意文件读取漏洞

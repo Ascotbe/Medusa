@@ -53,8 +53,6 @@ vim config.py
 把`dns_log_url`和`dns_log_key`分别改成你的http://ceye.io/ 里面的`Identifier`和`API Token`值
 
 
-
-
 ## 快速使用
 
 该工具还在测试阶段，如有问题请提交`issues`，切记本扫描器只用于授权测试
@@ -67,14 +65,18 @@ python3 MedusaScan.py -u https://www.ascotbe.com
 
 #### 0x02 使用扫描器对批量网站扫描
 
+`Ascotbe.txt`为你存放的文件，最好放在和`MedusaScan.py`文件同目录下，你存放`URL`的文件格式为每一行一个`url`
+
 ```bash
 python3 MedusaScan.py -f Ascotbe.txt  (你的文件，最好放在和MedusaScan同级文件中)
 ```
 
 #### ~~0x03 对目标网站进行数据库弱口令探测~~
 
+该功能用处不大暂时注释了,如果要使用`/Medusa/Password.txt`这个是你文件的路径
+
 ```bash
-python3 MedusaScan.py -u https://www.ascotbe.com -sp c：//Password.txt -su c：//Username.txt (该功能用处不大暂时注释了
+python3 MedusaScan.py -u https://www.ascotbe.com -sp /Medusa/Password.txt -su /Medusa/Username.txt 
 ```
 
 #### 0x04 对目标网站进行JavaScript中的链接爬取
@@ -120,8 +122,6 @@ python3 MedusaScan.py -u https://www.ascotbe.com -m Struts2
 ```
 python3 MedusaScan.py -u https://www.ascotbe.com -t 100
 ```
-
-
 
 ## 扫描结果
 

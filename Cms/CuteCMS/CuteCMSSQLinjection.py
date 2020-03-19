@@ -9,7 +9,7 @@ class VulnerabilityInfo(object):
         self.info = {}
         self.info['number'] = "0"  # 平台漏洞编号，留空
         self.info['author'] = "KpLi0rn"  # 插件作者
-        self.info['createDate'] = "2020-1-19"  # 插件编辑时间
+        self.info['create_date']  = "2020-1-19"  # 插件编辑时间
         self.info['disclosure'] = '2014-01-15'  # 漏洞披露时间，如果不知道就写编写插件的时间
         self.info['algroup'] = "CuteCMSSQLinjection"  # 插件名称
         self.info['name'] = 'CuteCMSSQL注入漏洞'  # 漏洞名称

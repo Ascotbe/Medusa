@@ -8,7 +8,7 @@ class VulnerabilityInfo(object):
         self.info = {}
         self.info['number']="0" 
         self.info['author'] = "Trans"  # 插件作者
-        self.info['createDate'] = "2020-1-18"  # 插件编辑时间
+        self.info['create_date']  = "2020-1-18"  # 插件编辑时间
         self.info['disclosure']='2015-11-25'#漏洞披露时间，如果不知道就写编写插件的时间
         self.info['algroup'] = "AfterLogicWebMailArbitraryFileContains"  # 插件名称
         self.info['name'] ='AfterLogicWebMail任意文件包含' #漏洞名称

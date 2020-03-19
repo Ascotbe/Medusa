@@ -40,10 +40,18 @@ pyDES==2.0.1
 nonebot==1.3.1
 ```
 
-## 添加DNSLOG
 
-由于我搭建的DNSLOG不支持某些协议所以，接下来请使用http://ceye.io/ 中的DNSLOG(等后续会调回来
-打开根目录下的`config.py`文件把`dns_log_url`和`dns_log_key`分别改成你的http://ceye.io/ 里面的`Identifier`和`API Token`值
+## DNSLOG
+
+由于我搭建的`DNSLOG`不支持某些协议所以，接下来请使用http://ceye.io/ 中的`DNSLOG`(等后续会调回来
+
+```
+#打开根目录下的这个文件（Medusa目录
+vim config.py
+```
+
+把`dns_log_url`和`dns_log_key`分别改成你的http://ceye.io/ 里面的`Identifier`和`API Token`值
+
 
 
 

@@ -312,7 +312,6 @@ class VulnerabilityDetails:
             self.desc_content=medusa['desc_content']# 漏洞描述
             self.suggest=medusa['suggest']# 修复建议
             self.version = medusa['version']  # 漏洞影响的版本
-            print(self.details)
             # 如果数据库不存在的话，将会自动创建一个 数据库
             if sys.platform == "win32" or sys.platform == "cygwin":
                 self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0] + "\\Medusa.db")

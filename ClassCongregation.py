@@ -15,7 +15,7 @@ import random
 import sys
 import time
 import threading
-from config import dns_log_url,dns_log_key
+from config import dns_log_url,dns_log_key,debug_mode
 def IpProcess(Url):
     if Url.startswith("http"):  # 记个小知识点：必须带上https://这个头不然urlparse就不能正确提取hostname导致后面运行出差错
         res = urllib.parse.urlparse(Url)  # 小知识点2：如果只导入import urllib包使用parse这个类的话会报错，必须在import requests导入这个包才能正常运行
@@ -537,21 +537,58 @@ class ThreadPool:#线程池，所有插件都发送过来一起调用
     def NmapAppend(self,plugin,Url):
         self.ThreaList.append(threading.Thread(target=plugin, args=(Url)))
     def Start(self,ThreadNumber):
-        for t in tqdm(self.ThreaList,ascii=True,desc="\033[1;40;32m[ + ] Medusa scan progress bar\033[0m"): # 开启列表中的多线程
-            #t.setDaemon(True)
-            t.start()
-            while True:
-                # 判断正在运行的线程数量,如果小于5则退出while循环,
-                # 进入for循环启动新的进程.否则就一直在while循环进入死循环
-                if (len(threading.enumerate()) < ThreadNumber):
-                    break
-        for p in tqdm(self.ThreaList,ascii=True,desc="\033[1;40;32m[ + ] Medusa cleanup thread progress\033[0m"):
-            p.join()
-            #self.off=t.isAlive()
+        if debug_mode:#如果开了debug模式就不显示进度条
+            for t in self.ThreaList:  # 开启列表中的多线程
+                t.start()
+                while True:
+                    # 判断正在运行的线程数量,如果小于5则退出while循环,
+                    # 进入for循环启动新的进程.否则就一直在while循环进入死循环
+                    if (len(threading.enumerate()) < ThreadNumber):
+                        break
+            for p in self.ThreaList:
+                p.join()
+        else:#如果没开Debug就改成进度条形式
+            for t in tqdm(self.ThreaList,ascii=True,desc="\033[1;40;32m[ + ] Medusa scan progress bar\033[0m"): # 开启列表中的多线程
+                t.start()
+                while True:
+                    # 判断正在运行的线程数量,如果小于5则退出while循环,
+                    # 进入for循环启动新的进程.否则就一直在while循环进入死循环
+                    if (len(threading.enumerate()) < ThreadNumber):
+                        break
+            for p in tqdm(self.ThreaList,ascii=True,desc="\033[1;40;32m[ + ] Medusa cleanup thread progress\033[0m"):
+                p.join()
         self.ThreaList.clear()#清空列表，防止多次调用导致重复使用
 
 class Prompt:#输出横幅，就是每个组件加载后输出的东西
     def __init__(self,name):
         self.name=name
-        print("\r\033[1;40;32m[ + ] Loading attack module:\033[0m"+"\033[1;40;35m {}             \033[0m".format(self.name),end='')#这样能覆盖前面输出的内容
-        time.sleep(0.2)
+        if debug_mode:
+            pass
+        else:
+            print("\r\033[1;40;32m[ + ] Loading attack module:\033[0m"+"\033[1;40;35m {}         \033[0m".format(self.name),end='')#这样能覆盖前面输出的内容
+            time.sleep(0.2)
+
+class ErrorHandling:
+    def Outlier(self,error,plugin_name):
+        self.error=str(error)
+        self.plugin_name=plugin_name
+        if debug_mode:
+            self.Process()
+        else:
+            pass
+    def Process(self):
+        if self.error.find("timed out")!=-1:
+            self.ErrorBanner(self.plugin_name,"connection timeout")
+        elif self.error.find("Invalid URL") != -1:
+            self.ErrorBanner(self.plugin_name,"prompts url")
+        elif self.error.find("getaddrinfo failed") != -1:
+            self.ErrorBanner(self.plugin_name,"get addr info failed")
+        elif self.error.find("Invalid header") != -1:
+            self.ErrorBanner(self.plugin_name, "prompts header")
+        else:
+            self.ErrorBanner(self.plugin_name, "unknown")
+
+    def ErrorBanner(self,plugin_name,error):
+        print("\033[1;40;31m[ X ] {} plugin {} error\033[0m".format(plugin_name,error))
+
+

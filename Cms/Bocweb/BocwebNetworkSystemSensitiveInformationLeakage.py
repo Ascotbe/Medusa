@@ -56,6 +56,7 @@ def medusa(Url,RandomAgent,UnixTimestamp):
             _t=VulnerabilityInfo(Medusa)
             ClassCongregation.VulnerabilityDetails(_t.info, url,UnixTimestamp).Write()  # 传入url和扫描到的数据
             ClassCongregation.WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
-    except Exception:
+    except Exception as e:
         _ = VulnerabilityInfo('').info.get('algroup')
+        ClassCongregation.ErrorHandling().Outlier(e, _)
         _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类传入URL和错误插件名

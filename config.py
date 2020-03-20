@@ -4,3 +4,4 @@ medusa_web_passwd=""
 #如果没有改为你的Key会导致有些远程命令执行无法检测
 dns_log_url="XXXXX.ceye.io"
 dns_log_key="XXXXXXXXXXXXXXXXXXXXXXXX"
+debug_mode=False

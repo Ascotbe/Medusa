@@ -64,8 +64,8 @@ git clone https://gitee.com/asc0t6e/Medusa.git
 
 |命令|参数个数|作用                              |备注                           |
 |------|--------|----------------------------------|-------------------------------|
-|-u    |1       |输入单个目标url（最好使用http://或https://作为开头,并且后面别跟参数 |https://www.baidu.com  or https://192.168.0.1         |
-|-a    |1       |指定头文件或使用随机头|支持类型(需要小写):firefox,ie,msie,opera,chrome,AppleWebKit,Gecko,safari|
+|-u    |1       |输入单个目标url（最好使用http://或https://作为开头,并且后面别跟参数 |https://www.ascotbe.com  or https://192.168.0.1         |
+|-a    |1       |指定头文件或使用随机头|具体使用参考使用文档|
 |-f    |1       |需要批量扫描目标url所在文件名字|-u和-f只能存在一个，并且必须存在一个|
 |-m    |1       |针对单独的模块进行扫描比如Struts2、Apache等|具体内容可以通过项目文件夹来输入|
 |-t    |1       |设置线程数，默认线程数15||

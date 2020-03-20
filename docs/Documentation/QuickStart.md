@@ -41,7 +41,11 @@ nonebot==1.3.1
 ```
 
 
-## DNSLOG
+## 配置文件
+
+该小节所指的配置文件是同一个文件
+
+#### 0x01 DNSLOG
 
 由于我搭建的`DNSLOG`不支持某些协议所以，接下来请使用http://ceye.io/ 中的`DNSLOG`(等后续会调回来
 
@@ -52,6 +56,20 @@ vim config.py
 
 把`dns_log_url`和`dns_log_key`分别改成你的http://ceye.io/ 里面的`Identifier`和`API Token`值
 
+#### 0x02 Debug模式
+
+该模式默认是关闭的，如果需要打开请在`config.py`文件中修改参数
+
+```
+#默认情况
+debug_mode=False
+#开启Debug模式
+debug_mode=True
+```
+
+这个模式输出内容不在是进度条和模块加载内容，而变成了每个插件的报错信息
+
+![debug](https://github.com/Ascotbe/Random-img/blob/master/Medusa/0.76Debug.gif?raw=true)
 
 ## 快速使用
 

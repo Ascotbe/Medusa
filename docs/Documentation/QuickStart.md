@@ -99,7 +99,7 @@ python3 MedusaScan.py -u https://www.ascotbe.com -p （该功能暂时弃用后�
 
 #### 0x06 使用指定Header头
 
-支持的参数有：`firefox`,`ie`,`msie`,`opera`,`chrome`,`AppleWebKit`,`Gecko`,`safari `
+支持的参数有：`firefox`，`ie`，`msie`，`opera`，`chrome`，`AppleWebKit`，`Gecko`，`safari `
 
 目前支持常见的浏览器，下面列举其中3个(需要区分大小写)
 
@@ -109,7 +109,7 @@ python3 MedusaScan.py -u https://www.ascotbe.com -a ie
 python3 MedusaScan.py -u https://www.ascotbe.com -a Gecko
 ```
 
-还可以自定义`haeder`参数，
+还可以自定义`haeder`参数，切记需要对自定义的`header`加上双引号包含着`""`，如果你的`header`不合规是不会提示错误的
 
 ```
 python3 MedusaScan.py -u https://www.ascotbe.com -a "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.2117.157 Safari/537.36"

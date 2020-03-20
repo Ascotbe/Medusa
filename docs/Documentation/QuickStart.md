@@ -97,17 +97,25 @@ python3 MedusaScan.py -u https://www.ascotbe.com -s
 python3 MedusaScan.py -u https://www.ascotbe.com -p （该功能暂时弃用后续在更新
 ```
 
-#### 0x06 使用指定`Header`头
+#### 0x06 使用指定Header头
 
-目前支持常见的浏览器，下面列举其中3个，详情请看项目`README`文档
+支持的参数有：`firefox`,`ie`,`msie`,`opera`,`chrome`,`AppleWebKit`,`Gecko`,`safari `
 
-注意：需要区分大小写
+目前支持常见的浏览器，下面列举其中3个(需要区分大小写)
 
 ```
 python3 MedusaScan.py -u https://www.ascotbe.com -a firefox
 python3 MedusaScan.py -u https://www.ascotbe.com -a ie
-python3 MedusaScan.py -u https://www.ascotbe.com -a opera
+python3 MedusaScan.py -u https://www.ascotbe.com -a Gecko
 ```
+
+还可以自定义`haeder`参数，
+
+```
+python3 MedusaScan.py -u https://www.ascotbe.com -a "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.2117.157 Safari/537.36"
+```
+
+
 
 #### 0x07 针对单独模块扫描
 
@@ -125,7 +133,11 @@ python3 MedusaScan.py -u https://www.ascotbe.com -t 100
 
 ## 扫描结果
 
-- 扫描结果存在`ScanResult`文件夹中
-- 在`Medusa.db`文件中也存在扫描结果
-- 如果以上文件都不存在说明目标并无扫描出漏洞
+1.输出`The number of vulnerabilities scanned was:0`就表示未扫描到漏洞
+
+2.``ScanResult`目录中除`Medusa.txt`外无别的文件
+
+3.`Medusa.db`文件中也无新增内容，或者未创建该文件
+
+4.如果以上三点都不存在的话就表示真的没有找到漏洞
 

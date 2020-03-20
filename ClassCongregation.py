@@ -28,6 +28,7 @@ def NumberOfLoopholes():#漏洞个数输出函数以及名称的函数
     for i in LoopholesList:
         time.sleep(0.1)#暂停不然瞬间刷屏
         print("\033[1;40;35m[ ! ] {}\033[0m".format(i))
+    print("\033[1;40;31m[ ! ] Scan is complete, please see the ScanResult file\033[0m")
 
 
 class WriteFile:#写入文件类
@@ -47,6 +48,8 @@ class AgentHeader:#使用随机头类
     def result(self,Values):#使用随机头传入传入参数
         try:
             self.Values = Values
+            if len(Values)>11:
+                return Values
             ua = UserAgent(cache=True)
             if self.Values.lower()=="None":#如果参数为空使用随机头
                 return (ua.random)
@@ -546,7 +549,6 @@ class ThreadPool:#线程池，所有插件都发送过来一起调用
             p.join()
             #self.off=t.isAlive()
         self.ThreaList.clear()#清空列表，防止多次调用导致重复使用
-        print("\033[1;40;31m[ ! ] Scan is complete, please see the ScanResult file\033[0m")
 
 class Prompt:#输出横幅，就是每个组件加载后输出的东西
     def __init__(self,name):

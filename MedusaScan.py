@@ -181,6 +181,7 @@ if __name__ == '__main__':
         agentHeader="None"
     else:
         agentHeader=Values
+        print(agentHeader)
 
     #暂时关闭NMAPScan和数据库爆破功能
 

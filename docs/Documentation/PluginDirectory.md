@@ -154,6 +154,12 @@
   - `Destoon global.func.php` SQL注入漏洞
   - `Destoon function_strip_uri` SQL注入漏洞
   
+- ##### Easethink
+  - `Easethink` Cookie注入漏洞
+  - `Easethink ajax.php` SQL注入漏洞
+  - `Easethink link.php多处` SQL注入漏洞
+  - `Easethink sms.php多处` SQL注入漏洞
+  
 - ##### EasyCMS
   - `EasyCMS` 跨站脚本漏洞
   - `EasyCMS` 跨站脚本漏洞（CNVD-2018-08985）

@@ -36,6 +36,7 @@ from Cms.DaMall import DaMall
 from Cms.EasyCMS import EasyCMS
 from Cms.EnableQ import EnableQ
 from Cms.EcoCMS import EcoCMS
+from Cms.Easethink import Easethink
 from Cms.Coremail import Coremail
 from Cms.ThinkPHP import ThinkPHP
 from Cms.ThinkCMF import ThinkCMF
@@ -79,4 +80,4 @@ def Main(ThreadPool,Url,Values,UnixTimestamp):
     EasyCMS.Main(ThreadPool,Url,Values,UnixTimestamp)
     EcoCMS.Main(ThreadPool,Url,Values,UnixTimestamp)
     EnableQ.Main(ThreadPool,Url,Values,UnixTimestamp)
-
+    Easethink.Main(ThreadPool,Url,Values,UnixTimestamp)

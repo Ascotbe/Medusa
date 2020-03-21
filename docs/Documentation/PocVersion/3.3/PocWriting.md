@@ -74,6 +74,17 @@ def medusa(Url, RandomAgent, UnixTimestamp):
         _l = ErrorLog().Write(url, _)  # 调用写入类传入URL和错误插件名
 ```
 
+### 导入数据包
+
+如果需要导入`ClassCongregation`或者之类的包，最好使用如下方法，这样可以提高代码速度，以及降低打包的体量
+
+```python
+#推荐使用
+from ClassCongregation import VulnerabilityDetails,UrlProcessing,ErrorLog,WriteFile,randoms,ErrorHandling
+#不推荐使用
+import ClassCongregation
+```
+
 ### VulnerabilityInfo函数
 
 ```python
@@ -326,62 +337,60 @@ def medusa(Url, RandomAgent, UnixTimestamp):
   
 - ###### 多个payload
   
-- 当一个漏洞脚本存在多个`payload`的时候使用循环来验证漏洞，但是这个漏洞第一次验证存在后续还能验证出漏洞的时候，需要在前面声明`Medusas=[]`来存放
-  
-- 切记`try...except`一定要在`for`循环里面，这样如果一个`payload`出错后面的代码也已经可以运行
-  
-- `2.8`插件规范版本中加入了写入类，方便循环写入文件
-  
-- `3.1`中添加注意事项
-  
-    - `requests`请求时禁止使用如下方法
+  - 切记`try...except`一定要在`for`循环里面，这样如果一个`payload`出错后面的代码也已经可以运行
+    
+  -  `2.8`插件规范版本中加入了写入类，方便循环写入文件
+    
+  -  `3.1`中添加注意事项
+    
+      -  `requests`请求时禁止使用如下方法
+      
+        ```python
+        s = requests.session()
+        resp = s.get(...)
+        ```
+      
+      - 应当为这种请求
+      
+        ```python
+        resp = requests.get(...)
+        ```
+      
+      - 因为`requests.session()`会进行长连接，导致某些时候数据碰撞报错
+      
+    - 整体替换如下:
     
       ```python
-      s = requests.session()
-      resp = s.get(...)
+      def medusa(Url, RandomAgent,UnixTimestamp):
+          scheme, url, port = UrlProcessing().result(Url)
+          if port is None and scheme == 'https':
+              port = 443
+          elif port is None and scheme == 'http':
+              port = 80
+          else:
+              port = port
+          Payloads = ['x', 'xx', 'xxx', 'xxxx']
+          for payload in Payloads:
+              try:
+                  payload_url = scheme + "://" + url + ":" + str(port) + payload
+                  headers = {
+                      'Accept-Encoding': 'gzip, deflate',
+                      'Accept': '*/*',
+                      'User-Agent': RandomAgent,
+                  }
+                  resp = requests.post(...)
+                  con = resp.text
+                  code = resp.status_code
+                  if code == 200 and con.find(....):
+                      Medusa = "{}存在XXX漏洞\r\n验证数据:\r\nRequests:{}\r\n".format(url, con)
+                      _t = VulnerabilityInfo(Medusa)
+      				VulnerabilityDetails(_t.info, url,UnixTimestamp).Write()  # 传入url和扫描到的数据
+                      web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
+              except Exception as e:
+                  _ = VulnerabilityInfo('').info.get('algroup')
+                  ErrorHandling().Outlier(e, _)
+                  _l = ErrorLog().Write(url, _)  # 调用写入类
       ```
-    
-    - 应当为这种请求
-    
-      ```python
-      resp = requests.get(...)
-      ```
-    
-    - 因为`requests.session()`会进行长连接，导致某些时候数据碰撞报错
-    
-  - 整体替换如下:
-  
-    ```python
-    def medusa(Url, RandomAgent,UnixTimestamp):
-        scheme, url, port = UrlProcessing().result(Url)
-        if port is None and scheme == 'https':
-            port = 443
-        elif port is None and scheme == 'http':
-            port = 80
-        else:
-            port = port
-        Payloads = ['x', 'xx', 'xxx', 'xxxx']
-        for payload in Payloads:
-            try:
-                payload_url = scheme + "://" + url + ":" + str(port) + payload
-                headers = {
-                    'Accept-Encoding': 'gzip, deflate',
-                    'Accept': '*/*',
-                    'User-Agent': RandomAgent,
-                }
-                resp = requests.post(...)
-                con = resp.text
-                code = resp.status_code
-                if code == 200 and con.find(....):
-                    Medusa = "{}存在XXX漏洞\r\n验证数据:\r\nRequests:{}\r\n".format(url, con)
-                    _t = VulnerabilityInfo(Medusa)
-    				VulnerabilityDetails(_t.info, url,UnixTimestamp).Write()  # 传入url和扫描到的数据
-                    web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
-            except Exception as e:
-                _ = VulnerabilityInfo('').info.get('algroup')
-                ErrorHandling().Outlier(e, _)
-                _l = ErrorLog().Write(url, _)  # 调用写入类
-    ```
 
 ## 插件代码规范
 

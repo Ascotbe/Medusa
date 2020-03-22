@@ -28,8 +28,13 @@ def NumberOfLoopholes():#漏洞个数输出函数以及名称的函数
     for i in LoopholesList:
         time.sleep(0.1)#暂停不然瞬间刷屏
         print("\033[1;40;35m[ ! ] {}\033[0m".format(i))
-    print("\033[1;40;31m[ ! ] Scan is complete, please see the ScanResult file\033[0m")
+    LoopholesList.clear()#清空容器这样就不会出问题了
 
+
+def BotNumberOfLoopholes():#机器人用的漏洞个数
+    bot_loopholes_number=len(LoopholesList)
+    LoopholesList.clear()
+    return bot_loopholes_number
 
 class WriteFile:#写入文件类
     def result(self,TargetName,Medusa):
@@ -300,9 +305,37 @@ class BlastingDB:#数据库爆破模块，到时候要重写移除这里
 #                             self.HttpIp.append(ip)
 #                 except:
 #                     pass
-class ReadVulnerability:
-    pass
-class VulnerabilityDetails:
+class BotVulnerabilityInquire:#机器人数据查询
+    def __init__(self, token):  # 先通过id查，后面要是有用户ID 再运行的时候创建一个用户信息的表或者什么的到时候再说
+        self.token = token
+        if sys.platform == "win32" or sys.platform == "cygwin":
+            self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0] + "\\Medusa.db")
+        elif sys.platform == "linux" or sys.platform == "darwin":
+            self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0] + "/Medusa.db")
+        # 获取所创建数据的游标
+        self.cur = self.con.cursor()
+    def Number(self):#用来查询存在漏洞的个数
+        self.cur.execute("select * from Medusa where timestamp =?", (self.token,))
+        values = self.cur.fetchall()
+        Number=len(values)
+        self.con.close()
+        return Number
+
+    def Inquire(self):
+        self.cur.execute("select * from Medusa where timestamp =?", (self.token,))
+        values = self.cur.fetchall()
+        result_list=[]#存放json的返回结果列表用
+
+        for i in values:
+            json_values = {}
+            json_values["url"] = i[1]
+            json_values["name"] = i[2]
+            json_values["details"] = i[7]
+            result_list.append(json_values)
+        self.con.close()
+        return result_list
+
+class VulnerabilityDetails:#所有数据库写入都是用同一个类
     def __init__(self,medusa,url,UnixTimestamp):
         try:
             self.url = str(url)  # 目标域名

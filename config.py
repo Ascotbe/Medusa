@@ -5,3 +5,5 @@ medusa_web_passwd=""
 dns_log_url="XXXXX.ceye.io"
 dns_log_key="XXXXXXXXXXXXXXXXXXXXXXXX"
 debug_mode=False
+whitelist_group_status=False#白名单是否开启
+whitelist_group_list=[]#白名单群ID列表

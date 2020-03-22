@@ -148,6 +148,7 @@ def San(ThreadPool,Url,agentHeader,UnixTimestamp,Module):
         os._exit(0)  # 直接退出整个函数
 
     ThreadPool.Start(ThreadNumber)#启动多线程
+    ClassCongregation.NumberOfLoopholes()  # 输出扫描结果个数
 
 def SubdomainCrawling(Url,SubdomainJudge):#开启子域名函数
     SubdomainCrawlingUrls= tldextract.extract(Url)
@@ -206,8 +207,7 @@ if __name__ == '__main__':
         SubdomainJudge = "b"
         ThreadPool.SubdomainAppend(SubdomainCrawling, Url,SubdomainJudge)
     InitialScan(ThreadPool,InputFileName, Url, UnixTimestamp,Module,agentHeader)#最后启动主扫描函数，这样如果多个IP的话优化速度，里面会做url或者url文件的判断
-    ClassCongregation.NumberOfLoopholes()#输出扫描结果个数
-
+    print("\033[1;40;31m[ ! ] Scan is complete, please see the ScanResult file\033[0m")
 
 
 # from IPy import IP

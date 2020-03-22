@@ -37,7 +37,7 @@ async def Medusa(session: CommandSession):
                 await session.send(message.MessageSegment.at(user_qq_id)+"\r\nToken:" + token + "\r\nKey:"+user_scan_time+"\r\nUrl:" + aims)
                 number_of_scan_results=await MedusaScan(aims,token)
                 if len(str(number_of_scan_results))>0:#扫描成功返回
-                    await session.send(message.MessageSegment.at(user_qq_id)+"\r\nToken:"+ token + "\r\n存在漏洞个数:"+str(number_of_scan_results)+"\r\n如果需要查询结果请参考help中格式！")#艾特用户表示扫描完成科研查询了
+                    await session.send(message.MessageSegment.at(user_qq_id)+ "\r\n存在漏洞个数:"+str(number_of_scan_results)+"\r\n如果需要查询结果请参考help中格式！")#艾特用户表示扫描完成科研查询了
             else:
                 await session.send("呐呐呐！小哥哥域名不合规呐(｡・`ω´･)")
     else:#未开启白名单

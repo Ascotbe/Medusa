@@ -9,7 +9,6 @@ from QQbot.bot_config import WeatherKey
 # 这里 weather 为命令的名字，同时允许使用别名「天气」「天气预报」「查天气」
 @on_command('Weather', aliases=('天气',),only_to_me=False)
 async def weather(session: CommandSession):
-    user_qq_id=session.self_id
     # 从会话状态（session.state）中获取城市名称（city），如果当前不存在，则询问用户
     city = session.get('city', prompt='公子需要查询的城市是什么呢？')
     # 获取城市的天气预报
@@ -20,13 +19,13 @@ async def weather(session: CommandSession):
 
 @weather.args_parser
 async def _(session: CommandSession):
+    stripped_arg = session.current_arg_text.strip()
 
-    session.state[session.current_key] = session.current_arg_text
+    session.state['city'] = stripped_arg  # 把内容复制到里面，可以再上面提取aims参数就行
 
 
 async def get_weather_of_city(city: str) -> str:
     try:
-        city=city[3:]
         header = {
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
             'Accept-Encoding': 'gzip, deflate',

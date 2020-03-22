@@ -53,7 +53,7 @@ def JsonProcessing(database_query_results):#对返回的json进行处理
             details="由于内容过长不予展示"
         else:
             details=str(b64)
-        processing="目标："+i["url"]+"\r\n"+"漏洞名称："+i["name"]+"\r\n"+"目标："+details+"\r\n"
+        processing="目标："+i["url"]+"\r\n"+"漏洞名称："+i["name"]+"\r\n"+"返回内容："+details+"\r\n"
         database_query_results_processing+= processing
     return database_query_results_processing
 

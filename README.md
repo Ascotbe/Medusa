@@ -19,7 +19,11 @@
 
 >本项目使用 `GPL`协议，未经授权，禁止使用商业用途。
 >
->`Web`版和`Bot`版本都已经在开放中，敬请期待~
+>`bash`版已上线
+>
+>`Bot`版本已上线
+>
+>`Web`版开发中，敬请期待~
 >
 >各位师傅不嫌弃的话可以点个Star支持下
 
@@ -34,7 +38,7 @@
 ![demo](https://github.com/Ascotbe/Random-img/blob/master/Medusa/0.76.gif?raw=true)
 
 
-### 使用说明
+### `Bash`版使用说明
 
 ```bash
 # 安装工具(ubuntu
@@ -74,7 +78,22 @@ git clone https://gitee.com/asc0t6e/Medusa.git
 |-s    |0       |通过DNS以及各大搜索引擎查找子域名|从Sublist3r魔改而来,不支持IP枚举|
 |-se    |0       |包含了-s的功能，并且通过字典枚举(非常耗时|和-s不能同时使用，-s和-se只能存在一个|
 
+### `Bot`版使用说明
+
+```
+# 下载文件
+git clone https://github.com/Ascotbe/Medusa.git
+cd Medusa
+# 安装依赖
+pip3 install -r Medusa.txt
+# 后续配置参考比如文档中的机器人模块
+https://www.ascotbe.com/Medusa
+```
+
+
+
 ### 提交意见
+
 - 吹B群：**690021184**（加群请输入暗号：**6CF2D42B629E5AA4E6C293B290798878**）
 - GitHub issue:https://github.com/Ascotbe/Medusa/issues
 

@@ -55,7 +55,7 @@ class AgentHeader:#使用随机头类
             self.Values = Values
             if len(Values)>11:
                 return Values
-            ua = UserAgent(cache=True)
+            ua = UserAgent(verify_ssl=False)
             if self.Values.lower()=="None":#如果参数为空使用随机头
                 return (ua.random)
             elif self.Values.lower()=="firefox":#如果是火狐字符串使用火狐头

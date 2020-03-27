@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import requests
 import urllib.parse
-import ClassCongregation
+from ClassCongregation import VulnerabilityDetails,WriteFile,ErrorLog,ErrorHandling
 class VulnerabilityInfo(object):
     def __init__(self,Medusa):
         self.info = {}
@@ -53,12 +53,11 @@ def medusa(Url,RandomAgent,UnixTimestamp):
         if code == 200 and con.find('[driver32]]') !=-1 :
             Medusa = "{}存在AfterLogic_WebMail任意文件包含漏洞\r\n 验证数据:\r\nUrl:{}\r\n返回内容:{}\r\n".format(url,payload_url,con)
             _t=VulnerabilityInfo(Medusa)
-            ClassCongregation.VulnerabilityDetails(_t.info, url,UnixTimestamp).Write()  # 传入url和扫描到的数据
-            ClassCongregation.WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
+            VulnerabilityDetails(_t.info, url, UnixTimestamp).Write()  # 传入url和扫描到的数据
+            WriteFile().result(str(url), str(Medusa))  # 写入文件，url为目标文件名统一传入，Medusa为结果
     except Exception as e:
         _ = VulnerabilityInfo('').info.get('algroup')
-        ClassCongregation.ErrorHandling().Outlier(e, _)
-        _l = ClassCongregation.ErrorLog().Write(url, _) 
-
+        ErrorHandling().Outlier(e, _)
+        _l = ErrorLog().Write(url, _)  # 调用写入类传入URL和错误插件名
 
 

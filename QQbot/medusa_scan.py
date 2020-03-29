@@ -33,7 +33,7 @@ async def Medusa(session: CommandSession):
     url_refining=tldextract.extract(aims)
     if whitelist_group_status:#开启白名单
         if session.ctx['group_id'] in whitelist_group_list:#获取群ID
-            if url_refining.suffix!="" and url_refining.domain!="":#判断提炼出来的东西是否符合二级域名
+            if url_refining.suffix!="" and url_refining.domain!="" and url_refining.suffix!="gov.cn":#判断提炼出来的东西是否符合二级域名,限制政府网站
                 await session.send(message.MessageSegment.at(user_qq_id)+"\r\nToken:" + token + "\r\nKey:"+user_scan_time+"\r\nUrl:" + aims)
                 number_of_scan_results=await MedusaScan(aims,token)
                 if len(str(number_of_scan_results))>0:#扫描成功返回
@@ -41,7 +41,7 @@ async def Medusa(session: CommandSession):
             else:
                 await session.send("呐呐呐！小哥哥域名不合规呐(｡・`ω´･)")
     else:#未开启白名单
-        if url_refining.suffix != "" and url_refining.domain != "":  # 判断提炼出来的东西是否符合二级域名
+        if url_refining.suffix != "" and url_refining.domain != "" and url_refining.suffix!="gov.cn":  # 判断提炼出来的东西是否符合二级域名
             await session.send(message.MessageSegment.at(
                 user_qq_id) + "\r\nToken:" + token + "\r\nKey:" + user_scan_time + "\r\nUrl:" + aims)
             number_of_scan_results = await MedusaScan(aims, token)

@@ -9,4 +9,4 @@ whitelist_group_status=False#白名单是否开启
 whitelist_group_list=[]#白名单群ID列表
 super_administrator="" #超级管理员,只能一个
 managed_group=[""]#你管理的群列表
-FaceCascadePath="haarcascade_frontalface_default.xml" #人脸识别训练数据
+FaceCascadePath="QQbot/haarcascade_frontalface_default.xml" #人脸识别训练数据

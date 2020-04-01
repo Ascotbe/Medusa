@@ -335,6 +335,84 @@ class BotVulnerabilityInquire:#机器人数据查询
         self.con.close()
         return result_list
 
+class GithubCveApi:#CVE写入表
+    def __init__(self,CveJsonList):
+        try:
+            self.cve_id = CveJsonList["id"]  # 唯一的ID
+            self.cve_name =CveJsonList["name"]  # 名字
+            self.cve_html_url =CveJsonList["html_url"] # 链接
+            self.cve_created_at=CveJsonList["created_at"]  # 创建时间
+            self.cve_updated_at=CveJsonList["updated_at"]  # 更新时间
+            self.cve_pushed_at=CveJsonList["pushed_at"] # push时间
+            self.cve_forks_count=CveJsonList["forks_count"] # fork人数
+            self.cve_watchers_count=CveJsonList["watchers_count"] # star人数
+            self.cve_write_time=str(int(time.time()))#写入时间
+
+
+
+            # 如果数据库不存在的话，将会自动创建一个 数据库
+            if sys.platform == "win32" or sys.platform == "cygwin":
+                self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0] + "\\Medusa.db")
+            elif sys.platform == "linux" or sys.platform == "darwin":
+                self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0]+"/Medusa.db")
+            # 获取所创建数据的游标
+            self.cur = self.con.cursor()
+            # 创建表
+            try:
+                #如果设置了主键那么就导致主健值不能相同，如果相同就写入报错
+                self.cur.execute("CREATE TABLE GithubCVE\
+                            (id INTEGER PRIMARY KEY,\
+                            github_id TEXT NOT NULL,\
+                            name TEXT NOT NULL,\
+                            html_url TEXT NOT NULL,\
+                            created_at TEXT NOT NULL,\
+                            updated_at TEXT NOT NULL,\
+                            pushed_at TEXT NOT NULL,\
+                            forks_count TEXT NOT NULL,\
+                            watchers_count TEXT NOT NULL,\
+                            write_time TEXT NOT NULL,\
+                            update_write_time TEXT NOT NULL)")
+            except:
+                pass
+        except:
+            pass
+    def Write(self):
+        try:
+            self.cur.execute("""INSERT INTO GithubCVE (github_id,name,html_url,created_at,updated_at,pushed_at,forks_count,watchers_count,write_time,update_write_time) \
+    VALUES (?,?,?,?,?,?,?,?,?,?)""",(self.cve_id,self.cve_name,self.cve_html_url,self.cve_created_at,self.cve_updated_at, self.cve_pushed_at, self.cve_forks_count,self.cve_watchers_count,self.cve_write_time,self.cve_write_time,))
+            # 提交
+            self.con.commit()
+            self.con.close()
+        except:
+            pass
+    def Update(self,UpdateTime):
+        self.cve_update_write_time = str(UpdateTime)  # 跟新时间
+        try:
+            self.cur.execute("""UPDATE GithubCVE SET forks_count = ?,updated_at=?,pushed_at=?,watchers_count=?,update_write_time=?  WHERE github_id = ?""", (self.cve_forks_count,self.cve_updated_at,self.cve_pushed_at,self.cve_watchers_count,self.cve_update_write_time,self.cve_id,))
+            # 提交
+            self.con.commit()
+            self.con.close()
+        except:
+            pass
+    def Sekect(self):
+
+        self.cur.execute(
+            """SELECT * FROM GithubCVE WHERE github_id=?""",(self.cve_id,))
+        values = self.cur.fetchall()
+        cve_query_results=None
+        if len(values)==0:
+            cve_query_results=False
+        if len(values)==1:
+            cve_query_results=True
+        # 提交
+        self.con.commit()
+        self.con.close()
+        return cve_query_results
+
+
+
+
+
 class VulnerabilityDetails:#所有数据库写入都是用同一个类
     def __init__(self,medusa,url,UnixTimestamp):
         try:

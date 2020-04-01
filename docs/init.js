@@ -1,7 +1,8 @@
 var rootUrl = 'https://www.ascotbe.com/Medusa';
 
 var versions = [
-	{ title: 'v2.9', path: '/Documentation/' },
+	{ title: '中文', path: '/Documentation/' },
+	{ title: 'English', path: '/EnglishDocumentation/' },
 ]
 
 var latestVersionIndex = 0;
@@ -26,7 +27,7 @@ versions.forEach(function (v) {
 });
 
 config.nav.push({
-    title: '文档版本: ' + versions[currentVersionIndex].title, type: 'dropdown', items: versions
+    title: 'Language: ' + versions[currentVersionIndex].title, type: 'dropdown', items: versions
 });
 
 if (currentVersionIndex > latestVersionIndex) {

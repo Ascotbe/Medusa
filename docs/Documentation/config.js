@@ -1,5 +1,5 @@
 let config = {
-    title: 'MedusaScan 文档',
+    title: 'Medusa文档',
     home: 'Home.md',
     repo: 'Ascotbe/Medusa',
     nav: [

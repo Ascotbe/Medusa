@@ -8,7 +8,6 @@ from Cms.Easethink import YiXiangSQLInjectionVulnerability1
 from Cms.Easethink import YiXiangSQLInjectionVulnerability2
 from Cms.Easethink import YiXiangSQLInjectionVulnerability3
 
-
 from ClassCongregation import Prompt
 def Main(ThreadPool,Url,Values,UnixTimestamp):
     ThreadPool.Append(EasethinkSQLInjectionVulnerability.medusa, Url, Values, UnixTimestamp)

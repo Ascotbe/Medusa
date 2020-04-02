@@ -159,6 +159,10 @@
   - `Easethink ajax.php` SQL注入漏洞
   - `Easethink link.php多处` SQL注入漏洞
   - `Easethink sms.php多处` SQL注入漏洞
+  - `YiXiang ` SQL注入漏洞
+  - `YiXiang subscribe.php` SQL注入漏洞
+  - `YiXiang vote.phpdovote` SQL注入漏洞
+  - `YiXiang ajax.phpcheck_field` SQL注入漏洞
   
 - ##### EasyCMS
   - `EasyCMS` 跨站脚本漏洞

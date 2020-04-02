@@ -8,7 +8,7 @@ import re
 async def ResultsNumber(session: CommandSession):
     message_txt = session.get('MessageTxt', prompt='呐呐呐！Key和Token呐？')
     message_txt_token,message_txt_key=message_txt_re(message_txt)#调用正则进行匹配,返回token和key
-    user_qq_id = session.ctx['user_id']  # 获取用户QQ
+    user_qq_id = session.event['user_id']  # 获取用户QQ
     encrypted_string = str(user_qq_id) + str(message_txt_key.strip())  # 对两个参数进行合并
     token = hashlib.md5(str(encrypted_string).encode("utf-8")).hexdigest()  # 对encrypted_string进行加密
     if token==message_txt_token.strip():#对输入的信息进行加密看看是否本用户使用
@@ -21,7 +21,7 @@ async def ResultsNumber(session: CommandSession):
 async def ResultsContent(session: CommandSession):
     message_txt = session.get('MessageTxt', prompt='呐呐呐！Key和Token呐？')
     message_txt_token,message_txt_key=message_txt_re(message_txt)#调用正则进行匹配,返回token和key
-    user_qq_id = session.ctx['user_id']  # 获取用户QQ
+    user_qq_id = session.event['user_id']  # 获取用户QQ
     encrypted_string = str(user_qq_id) + str(message_txt_key.strip())  # 对两个参数进行合并
     token = hashlib.md5(str(encrypted_string).encode("utf-8")).hexdigest()  # 对encrypted_string进行加密
     if token==message_txt_token.strip():#对输入的信息进行加密看看是否本用户使用

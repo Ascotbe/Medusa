@@ -21,6 +21,6 @@ Token:XXXXXXXXXXXXXXX\r\nKey:XXXXXXXXXX
 
 @on_command('help')
 async def BotHelp(session: CommandSession):
-    user_qq_id = session.ctx['user_id']#获取用户QQ
+    user_qq_id = session.event['user_id']#获取用户QQ
     await session.send(message.MessageSegment.at(user_qq_id) + help_list)
 

@@ -26,13 +26,13 @@ async def Medusa(session: CommandSession):
     aims = session.get('aims', prompt='呐呐呐！对方的域名呐？')#如果用户输入扫描后面跟上空格就能识别了
     #user_url = aims[3:]#去除了@后面的值还有个空格所以要删3个字符
     print(aims)
-    user_qq_id = session.ctx['user_id']#获取用户QQ
+    user_qq_id = session.event['user_id']#获取用户QQ
     user_scan_time=str(int(time.time()))#获取用户扫描时间轴
     encrypted_string=str(user_qq_id)+user_scan_time#对两个参数进行合并
     token = hashlib.md5(str(encrypted_string).encode("utf-8")).hexdigest()  # 对encrypted_string进行加密
     url_refining=tldextract.extract(aims)
     if whitelist_group_status:#开启白名单
-        if session.ctx['group_id'] in whitelist_group_list:#获取群ID
+        if session.event['group_id'] in whitelist_group_list:#获取群ID
             if url_refining.suffix!="" and url_refining.domain!="" and url_refining.suffix!="gov.cn":#判断提炼出来的东西是否符合二级域名,限制政府网站
                 await session.send(message.MessageSegment.at(user_qq_id)+"\r\nToken:" + token + "\r\nKey:"+user_scan_time+"\r\nUrl:" + aims)
                 number_of_scan_results=await MedusaScan(aims,token)

@@ -2,7 +2,7 @@ from nonebot import  on_request, RequestSession,on_notice, NoticeSession,message
 from config import managed_group#导入管理群列表
 @on_request('group')
 async def _(session: RequestSession):
-    if str(session.event['group_id']) in managed_group and session.event['comment'].find("6CF2D42B629E5AA4E6C293B290798878")!=-1:
+    if str(session.event['group_id']) in managed_group and session.event['comment'].strip(" ").find("6CF2D42B629E5AA4E6C293B290798878")!=-1:
         await session.approve()
     await session.reject('呐呐呐!!暗号错啦!!')
 

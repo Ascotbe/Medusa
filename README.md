@@ -2,7 +2,7 @@
 
  <p align="center">
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Ascotbe-Medusa%20Scan-green"></a>
-    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/python-3.6+-blueviolet"></a>
+    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/python-3.7+-blueviolet"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Version-0.77-red"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/LICENSE-GPL-ff69b4"></a>
 	<a href="https://github.com/ascotbe/Medusa/stargazers"><img alt="Release" src="https://img.shields.io/github/stars/ascotbe/Medusa.svg"></a>
@@ -10,7 +10,6 @@
  </p>
 
 <h1 align="center" >美杜莎扫描器</h1>
-
 
 
 **请使用者遵守 [中华人民共和国网络安全法](http://www.cac.gov.cn/2016-11/07/c_1119867116.htm)，勿将Medusa项目用于非授权的测试，Medusa项目开发者不负任何连带法律责任。**
@@ -24,14 +23,19 @@
 >`Bot`版本已上线
 >
 >`Web`版开发中，敬请期待~
->
->各位师傅不嫌弃的话可以点个Star支持下
 
 
 ### 使用文档
 
- <details><summary> 必读文档</summary>
-     https://www.ascotbe.com/Medusa</details><details> <summary> 复现文档</summary>https://www.ascotbe.com/Loophole</details><details> <summary> 插件列表</summary>https://www.ascotbe.com/Medusa/Documentation/#/PluginDirectory</details><details> <summary> 更新日志</summary>https://www.ascotbe.com/Medusa/Documentation/#/UpDataLog</details>
+```
+https://www.ascotbe.com/Medusa
+```
+
+### 漏洞覆盖列表
+
+```
+https://www.ascotbe.com/Medusa/Documentation/#/PluginDirectory
+```
 
 ### Demo
 
@@ -90,12 +94,28 @@ pip3 install -r Medusa.txt
 https://www.ascotbe.com/Medusa
 ```
 
+### 更新日志
 
+```
+https://www.ascotbe.com/Medusa/Documentation/#/UpDataLog
+```
+
+### 复现文档
+
+```
+https://www.ascotbe.com/Loophole
+```
 
 ### 提交意见
 
 - 吹B群：**690021184**（加群请输入暗号：**6CF2D42B629E5AA4E6C293B290798878**）
 - GitHub issue:https://github.com/Ascotbe/Medusa/issues
+
+### 友情链接
+
+- [零组资料库]: http://www.0-sec.org/
+
+  
 
 ### 贡献人员
 

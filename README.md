@@ -11,7 +11,6 @@
 
 <h1 align="center" >美杜莎扫描器</h1>
 
-
 **请使用者遵守 [中华人民共和国网络安全法](http://www.cac.gov.cn/2016-11/07/c_1119867116.htm)，勿将Medusa项目用于非授权的测试，Medusa项目开发者不负任何连带法律责任。**
 
 ### 关于美杜莎
@@ -109,13 +108,11 @@ https://www.ascotbe.com/Loophole
 ### 提交意见
 
 - 吹B群：**690021184**（加群请输入暗号：**6CF2D42B629E5AA4E6C293B290798878**）
-- GitHub issue:https://github.com/Ascotbe/Medusa/issues
+- GitHub issue
 
 ### 友情链接
 
-- [零组资料库]: http://www.0-sec.org/
-
-  
+- [零组资料库](http://www.0-sec.org)
 
 ### 贡献人员
 

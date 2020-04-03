@@ -4,17 +4,7 @@
 
 ### 安装Python环境
 
-当前插件是在`Python3.6.x `环境下开发，如果需要使用扫描器或者编写插件首先需要安装`Python`开发环境，建议使用`PyCharm`+`Anaconda`作为开发环境。
-
-<a href="https://www.python.org/downloads/release/python-367/" style="font-size:16px;color:gilt">Python 3.6.7</a>
-
-<a href="https://repo.anaconda.com/archive/Anaconda3-2019.07-Windows-x86_64.exe" style="font-size:16px;color:gilt">Anaconda for Windows</a>
-
-<a href="https://repo.anaconda.com/archive/Anaconda3-2019.07-MacOSX-x86_64.pkg" style="font-size:16px;color:gilt">Anaconda for Mac</a>
-
-<a href="http://www.jetbrains.com/pycharm/download/download-thanks.html?platform=windows&code=PCC" style="font-size:16px;color:gilt">PyCharm for Windows</a>
-
-<a href="http://www.jetbrains.com/pycharm/download/download-thanks.html?platform=mac&code=PCC" style="font-size:16px;color:gilt">PyCharm for Mac</a>
+当前插件是在`Python3.7.x `环境下开发，低于`3.7`会导致某些功能无法使用，如果需要使用扫描器或者编写插件首先需要安装`Python`开发环境，建议使用`PyCharm`+`Anaconda`作为开发环境。
 
 ### 安装Module
 
@@ -37,7 +27,8 @@ Celery==4.3.0
 django_redis==4.10.0
 eventlet==0.25.1
 pyDES==2.0.1
-nonebot==1.3.1
+nonebot==1.5.0
+nonebot[scheduler]==1.5.0
 ```
 
 

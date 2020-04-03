@@ -53,7 +53,7 @@ async def GithubCveApiSend():
                 AmericanTimeYear, AmericanTimeMonth, AmericanTimeDay = USDate.split("-")
 
                 #判断是不是当天创建的项目
-                if GithubProjectCreatedYear==AmericanTimeYear and AmericanTimeMonth==GithubProjectCreatedMonth and GithubProjectCreatedDay==AmericanTimeDay:
+                if GithubProjectCreatedYear==AmericanTimeYear and AmericanTimeMonth==GithubProjectCreatedMonth:
                     #LocaltimeHour = time.localtime(time.time()).tm_hour#获取当前小时
                     cve_list.append(i)#发送到列表中
         for cve in cve_list:#如果不是就对容器封装然后发送给群

@@ -60,5 +60,5 @@ python3 MedusaScan.py -u www.ascotbe.com
 ## 讨论区
 
 - 吹B群：690021184（加群请输入暗号：6CF2D42B629E5AA4E6C293B290798878）
-- GitHub issue:https://github.com/Ascotbe/Medusa/issues
+- [GitHub issue](https://github.com/Ascotbe/Medusa/issues)
 

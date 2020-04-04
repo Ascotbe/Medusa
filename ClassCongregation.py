@@ -263,48 +263,6 @@ class BlastingDB:#数据库爆破模块，到时候要重写移除这里
             print("Input file content format is incorrect")
 
 
-
-# class Proxy:#IP代理池参数
-#     def __init__(self):
-#         self.HttpIp=[]
-#     def HttpIpProxy(self):
-#         headers = {
-#             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
-#                           "Chrome/59.0.3071.115 Safari/537.36"}
-#         for i in tqdm(range(1,3),desc="ProxyPoolProgress",ascii=True):
-#             HttpUrl = 'http://www.xicidaili.com/wt/{0}'.format(i)
-#             req = requests.get(url=HttpUrl, headers=headers,timeout=10)
-#             selector = Selector(text=req.text)
-#             HttpAllTrs = selector.xpath('//*[@id="ip_list"]//tr')
-#
-#             HttpIpLists = []
-#             for tr in HttpAllTrs[1:]:#过滤第一个tr标签里面是其他数据
-#                 HttpIp = tr.xpath('td[2]/text()').extract()[0]
-#                 HttpPort = tr.xpath('td[3]/text()').extract()[0]
-#                 #proxy_type = tr.xpath('td[6]/text()').extract()[0].lower()
-#                 HttpIpLists.append((HttpIp+':'+HttpPort))#存储到httpIP列表里面
-#
-#             for ip in tqdm(HttpIpLists,ascii=True,desc="Cleaning page %s IP"%i):
-#                 #print(ip)
-#                 proxies = {
-#                     "http": "http://"+str(ip)#使用代理前面一定要加http://或者https://
-#                 }
-#                 try:
-#
-#                     if requests.get('https://www.baidu.com/', proxies=proxies, timeout=2).status_code == 200:
-#                         if ip not in self.HttpIp:#如果代理IP不在列表里面就传到列表里
-#                             global f
-#                             if sys.platform == "win32" or sys.platform == "cygwin":
-#                                 f = open(os.path.split(os.path.realpath(__file__))[0] + "\\ScanResult\\ProxyPool.txt",
-#                                          'a+', encoding='utf-8')
-#                             elif sys.platform == "linux" or sys.platform == "darwin":
-#                                 f = open(os.path.split(os.path.realpath(__file__))[0]+"/ScanResult/ProxyPool.txt", 'a+', encoding='utf-8')
-#                             ip=ip+"\r"
-#                             f.write(str(ip) ) # 写入单独的扫描结果文件中
-#                             f.close()
-#                             self.HttpIp.append(ip)
-#                 except:
-#                     pass
 class BotVulnerabilityInquire:#机器人数据查询
     def __init__(self, token):  # 先通过id查，后面要是有用户ID 再运行的时候创建一个用户信息的表或者什么的到时候再说
         self.token = token

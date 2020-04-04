@@ -1,3 +1,5 @@
+## 启动莎酱
+
 #### 安装docker
 
 不通的系统选择不通的安装方式
@@ -106,6 +108,10 @@ managed_group=[]#你管理的群列表,必须有管理员权限，用来欢迎�
 vim QQbot/bot_config.py
 WeatherKey=""#这边填你聚合API的key
 TULING_API_KEY =""#这边填图灵机器人的key
+bot_email_send=False#是否开启邮箱推送
+bot_email_receiver=["XXX@163.com","XXX@qq.com"]#接收邮件的人
+bot_mail_pass="XXXXXXXX"#你的口令
+bot_mail_user="XXX@163.com"#你的邮箱
 #启动机器人
 python bot.py
 ```
@@ -121,7 +127,7 @@ nohup python bot.py &
 
 #### 使用机器人
 
-在群里@机器人并输入help即可查看帮助文档
+在群里@机器人并输入`help`即可查看帮助文档
 
 #### 查看运行状态
 
@@ -136,3 +142,47 @@ docker start coolq
 docker stop coolq
 ```
 
+## 莎酱的功能
+
+> CVE推送（群
+
+如果你`config.py` 文件中的`monitor_group_list=[""]`值填上了你的群号的话该功能就能够运行，多个群需要隔开参数使用的是列表形式
+
+多个群号示例：`monitor_group_list=["1234565","78979888","12313213"]`
+
+![5](https://github.com/Ascotbe/Random-img/blob/master/Medusa/bot/5.png?raw=true)
+
+
+
+> CVE推送（邮箱
+
+如果要使用该功能需要填写以下数据
+
+- `bot_email_send` ：该参数只有两个值`True`和`False`，默认为`False`，如果需要推送邮件需要改为`True`
+- `bot_email_receiver`：该参数为列表形式，多邮箱可以修改为`bot_email_receiver=["123@163.com","123@qq.com"]`
+- `bot_mail_pass`：你邮箱的`SMTP`服务的`key`，如果不知道在哪里自行百度
+- `bot_mail_user`：你的邮箱
+
+**注意:**只有自己给自己邮箱发送邮件时才会带上图片，否则都只是文本形式
+
+![6](https://github.com/Ascotbe/Random-img/blob/master/Medusa/bot/6.png?raw=true)
+
+> 漏洞扫描
+
+使用该功能只需在群中艾特机器人发送扫描+域名即可
+
+该功能不支持`ip`的形式，不要问为什么
+
+**注意:**在域名前面需要添加上一个空格符
+
+![7](https://github.com/Ascotbe/Random-img/blob/master/Medusa/bot/7.png?raw=true)
+
+> 漏洞查询
+
+使用该功能只需在群中艾特机器人发送查询+`Token`+`Key`即可
+
+每个扫描的数据只能扫描的用户查看，其他用户无法查询
+
+**注意:**在域名前面需要添加上一个空格符
+
+![8](https://github.com/Ascotbe/Random-img/blob/master/Medusa/bot/8.png?raw=true)

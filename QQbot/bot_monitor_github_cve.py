@@ -8,6 +8,7 @@ import config
 from datetime import datetime
 import time
 from pytz import timezone
+from QQbot.bot_emil import SendEamil
 
 cve_list = []  # 存放CVE的容器
 bot=get_bot()
@@ -23,7 +24,8 @@ bot=get_bot()
     # end_date=None,
 )
 async def GithubCveApiSend():
-    CveMessage=""
+    CveGroupMessage=""
+    CveEmailMessage = ""
     try:
         headers = {
             'Accept-Encoding': 'gzip, deflate',
@@ -57,13 +59,18 @@ async def GithubCveApiSend():
                     #LocaltimeHour = time.localtime(time.time()).tm_hour#获取当前小时
                     cve_list.append(i)#发送到列表中
         for cve in cve_list:#如果不是就对容器封装然后发送给群
-            CveMessage=CveMessage+"项目名称："+str(cve["name"])+"\r\n"+"项目地址："+str(cve["html_url"])+"\r\n"+"star："+str(cve["watchers_count"])+"\r\n"+"forks："+str(cve["forks_count"])+"\r\n"
+            CveGroupMessage=CveGroupMessage+"项目名称："+str(cve["name"])+"\r\n"+"项目地址："+str(cve["html_url"])+"\r\n"+"star："+str(cve["watchers_count"])+"\r\n"+"forks："+str(cve["forks_count"])+"\r\n"
+        if config.bot_email_send:  # 判断是否开启该功能
+            for cve_email in cve_list:#用于发送给邮箱的数据
+                CveEmailMessage=CveEmailMessage+"项目名称："+str(cve_email["name"])+"<br>"+"项目地址："+str(cve_email["html_url"])+"<br>"+"star："+str(cve_email["watchers_count"])+"<br>"+"forks："+str(cve_email["forks_count"])+"<br>"
 
         cve_list.clear()#接着清空容器
-        if len(CveMessage)>10:
+        if len(CveGroupMessage)>10:
             for group_monitor_id in config.monitor_group_list:
                 await bot.send_group_msg(group_id=group_monitor_id,
-                                     message='[CQ:emoji,id=127917]来自莎酱最新CVE推送，请查收瞄~\r\n' + CveMessage)  # 对管理的群发送
+                                     message='[CQ:emoji,id=127917]来自莎酱最新CVE推送，请查收瞄~\r\n' +CveGroupMessage)  # 对管理的群发送
+        if len(CveEmailMessage)>10:
+            SendEamil(CveEmailMessage)
     except:
         pass
 

@@ -11,6 +11,7 @@
 
 <h1 align="center" >美杜莎扫描器</h1>
 
+
 **请使用者遵守 [中华人民共和国网络安全法](http://www.cac.gov.cn/2016-11/07/c_1119867116.htm)，勿将Medusa项目用于非授权的测试，Medusa项目开发者不负任何连带法律责任。**
 
 ### 关于美杜莎
@@ -27,13 +28,13 @@
 ### 使用文档
 
 ```
-https://www.ascotbe.com/Medusa
+http://medusa.ascotbe.com
 ```
 
 ### 漏洞覆盖列表
 
 ```
-https://www.ascotbe.com/Medusa/Documentation/#/PluginDirectory
+http://medusa.ascotbe.com/Documentation/#/PluginDirectory
 ```
 
 ### Demo
@@ -96,7 +97,7 @@ https://www.ascotbe.com/Medusa
 ### 更新日志
 
 ```
-https://www.ascotbe.com/Medusa/Documentation/#/UpDataLog
+http://medusa.ascotbe.com/Documentation/#/UpDataLog
 ```
 
 ### 复现文档

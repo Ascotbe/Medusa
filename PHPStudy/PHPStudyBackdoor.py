@@ -53,6 +53,7 @@ def medusa(Url,RandomAgent,UnixTimestamp):
         s = requests.session()
         resp = s.get(payload_url,headers=headers, timeout=5, verify=False)
         if DL.result():
+        # if True:
             Medusa = "{} 存在phpStudyBackdoor脚本漏洞\r\n漏洞详情:\r\nPayload:{}\r\nHeader:{}\r\nDNSLOG内容:{}\r\n".format(url, payload_url,headers,DL.dns_host())
             _t = VulnerabilityInfo(Medusa)
             ClassCongregation.VulnerabilityDetails(_t.info, url,UnixTimestamp).Write()  # 传入url和扫描到的数据
@@ -61,3 +62,6 @@ def medusa(Url,RandomAgent,UnixTimestamp):
         _ = VulnerabilityInfo('').info.get('algroup')
         ClassCongregation.ErrorHandling().Outlier(e, _)
         _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类
+
+
+medusa("www.134.com","dddddddddddddd","1234567")

@@ -413,12 +413,13 @@ class VulnerabilityDetails:#所有数据库写入都是用同一个类
                             disclosure TEXT NOT NULL,\
                             algroup TEXT NOT NULL,\
                             version TEXT NOT NULL,\
-                            timestamp TEXT NOT NULL)")
+                            timestamp TEXT NOT NULL,\
+                            token TEXT)")
             except:
                 pass
         except:
             pass
-    def Write(self):
+    def Write(self):#bash版的写入数据库，机器人版的会替换timetamp为token
         try:
             self.cur.execute("""INSERT INTO Medusa (url,name,affects,rank,suggest,desc_content,details,number,author,create_date,disclosure,algroup,version,timestamp) \
     VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",(self.url,self.name,self.affects,self.rank,self.suggest,self.desc_content,self.details,self.number,self.author,self.create_date,self.disclosure,self.algroup,self.version,self.timestamp,))
@@ -427,32 +428,51 @@ class VulnerabilityDetails:#所有数据库写入都是用同一个类
             self.con.close()
         except:
             pass
+    def WebWrite(self,token):#web版的写入数据库会添加一个新的token字段
+        try:
+            self.cur.execute("""INSERT INTO Medusa (url,name,affects,rank,suggest,desc_content,details,number,author,create_date,disclosure,algroup,version,timestamp,token) \
+    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",(self.url,self.name,self.affects,self.rank,self.suggest,self.desc_content,self.details,self.number,self.author,self.create_date,self.disclosure,self.algroup,self.version,self.timestamp,token,))
+            # 提交
+            self.con.commit()
+            self.con.close()
+        except:
+            pass
 
 
 
-class VulnerabilityInquire:
-    def __init__(self,pid):#先通过id查，后面要是有用户ID 再运行的时候创建一个用户信息的表或者什么的到时候再说
-        self.id=pid
+class VulnerabilityInquire:#数据库查询仅限于web版
+    def __init__(self):
         if sys.platform == "win32" or sys.platform == "cygwin":
             self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0] + "\\Medusa.db")
         elif sys.platform=="linux" or sys.platform=="darwin":
             self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0] + "/Medusa.db")
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
-    def Inquire(self):
-        self.cur.execute("select * from Medusa where id =?",self.id)
+    def Inquire(self,token):
+        self.cur.execute("select * from Medusa where token =?",(str(token),))
         values = self.cur.fetchall()
-        json_values={}
+        result_list = []  # 存放json的返回结果列表用
+
         for i in values:
-            json_values["id"]=i[0]
-            json_values["name"] =i[1]
-            json_values["affects"] =i[2]
-            json_values["rank"] =i[3]
-            json_values["suggest"] =i[4]
-            json_values["desc_content"] =i[5]
-            json_values["details"] =i[6]
+            json_values = {}
+            json_values["url"] = i[1]
+            json_values["name"] = i[2]
+            json_values["affects"] = i[3]
+            json_values["rank"] = i[4]
+            json_values["suggest"] = i[5]
+            json_values["desc_content"] = i[6]
+            json_values["details"] = i[7]
+            json_values["number"] = i[8]
+            json_values["author"] = i[9]
+            json_values["create_date"] = i[10]
+            json_values["disclosure"] = i[11]
+            json_values["algroup"] = i[12]
+            json_values["version"] = i[13]
+            json_values["timestamp"] = i[14]
+            json_values["token"] = i[15]
+            result_list.append(json_values)
         self.con.close()
-        return json_values
+        return result_list
 
 class login:#登录
     def __init__(self,username):

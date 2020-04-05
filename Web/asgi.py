@@ -1,18 +1,16 @@
-#!/usr/bin/env python
-# _*_ coding: utf-8 _*_
 """
-ASGI config for MedusaWeb project.
+ASGI config for web project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
 For more information on this file, see
-https://docs.djangoproject.com/en/dev/howto/deployment/asgi/
+https://docs.djangoproject.com/en/3.0/howto/deployment/asgi/
 """
 
 import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'MedusaWeb.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Web.settings')
 
 application = get_asgi_application()

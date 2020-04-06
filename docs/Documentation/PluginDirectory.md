@@ -168,6 +168,16 @@
   - `EasyCMS` 跨站脚本漏洞
   - `EasyCMS` 跨站脚本漏洞（CNVD-2018-08985）
 
+- ##### EasyTalk
+  - `EasyTalk 2.4` SQL注入漏洞
+  - `EasyTalk 2.5` SQL注入漏洞
+  - `EasyTalk topicaction.class.php` SQL注入漏洞
+  - `EasyTalk settingaction.class.php` SQL注入漏洞
+  - `EasyTalk messageaction.class.php` SQL注入漏洞
+  - `EasyTalk photoaction.class.php` SQL注入漏洞
+  - `EasyTalk appaction.class.php` SQL注入漏洞
+  - `EasyTalk apiaction.class.php username处` SQL注入漏洞
+
 - ##### EcoCMS
   - `EcoCMS` 跨站脚本漏洞（CVE-2010-5046）
 

@@ -372,10 +372,10 @@ class GithubCveApi:#CVE写入表
 
 
 class VulnerabilityDetails:#所有数据库写入都是用同一个类
-    def __init__(self,medusa,url,UnixTimestamp):
+    def __init__(self,medusa,url,token):
         try:
             self.url = str(url)  # 目标域名
-            self.timestamp=UnixTimestamp#获取时间戳
+            self.timestamp=str(int(time.time()))#获取时间戳
             self.name=medusa['name']#漏洞名称
             self.number = medusa['number']  # CVE编号
             self.author = medusa['author'] # 插件作者
@@ -388,6 +388,7 @@ class VulnerabilityDetails:#所有数据库写入都是用同一个类
             self.desc_content=medusa['desc_content']# 漏洞描述
             self.suggest=medusa['suggest']# 修复建议
             self.version = medusa['version']  # 漏洞影响的版本
+            self.token=token#传入的token
             # 如果数据库不存在的话，将会自动创建一个 数据库
             if sys.platform == "win32" or sys.platform == "cygwin":
                 self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0] + "\\Medusa.db")
@@ -413,15 +414,18 @@ class VulnerabilityDetails:#所有数据库写入都是用同一个类
                             disclosure TEXT NOT NULL,\
                             algroup TEXT NOT NULL,\
                             version TEXT NOT NULL,\
-                            timestamp TEXT NOT NULL)")
+                            timestamp TEXT NOT NULL,\
+                            token TEXT NOT NULL)")
             except:
                 pass
         except:
             pass
-    def Write(self):
+    def Write(self):#统一写入
         try:
-            self.cur.execute("""INSERT INTO Medusa (url,name,affects,rank,suggest,desc_content,details,number,author,create_date,disclosure,algroup,version,timestamp) \
-    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",(self.url,self.name,self.affects,self.rank,self.suggest,self.desc_content,self.details,self.number,self.author,self.create_date,self.disclosure,self.algroup,self.version,self.timestamp,))
+            self.cur.execute("""INSERT INTO Medusa (url,name,affects,rank,suggest,desc_content,details,number,author,create_date,disclosure,algroup,version,timestamp,token) \
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", (
+            self.url, self.name, self.affects, self.rank, self.suggest, self.desc_content, self.details, self.number,
+            self.author, self.create_date, self.disclosure, self.algroup, self.version, self.timestamp, self.token,))
             # 提交
             self.con.commit()
             self.con.close()
@@ -430,29 +434,42 @@ class VulnerabilityDetails:#所有数据库写入都是用同一个类
 
 
 
-class VulnerabilityInquire:
-    def __init__(self,pid):#先通过id查，后面要是有用户ID 再运行的时候创建一个用户信息的表或者什么的到时候再说
-        self.id=pid
+class VulnerabilityInquire:#数据库查询仅限于web版
+    def __init__(self):
         if sys.platform == "win32" or sys.platform == "cygwin":
             self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0] + "\\Medusa.db")
         elif sys.platform=="linux" or sys.platform=="darwin":
             self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0] + "/Medusa.db")
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
-    def Inquire(self):
-        self.cur.execute("select * from Medusa where id =?",self.id)
-        values = self.cur.fetchall()
-        json_values={}
-        for i in values:
-            json_values["id"]=i[0]
-            json_values["name"] =i[1]
-            json_values["affects"] =i[2]
-            json_values["rank"] =i[3]
-            json_values["suggest"] =i[4]
-            json_values["desc_content"] =i[5]
-            json_values["details"] =i[6]
-        self.con.close()
-        return json_values
+    def Inquire(self,token):
+        try:
+            self.cur.execute("select * from Medusa where token =?",(str(token),))
+            values = self.cur.fetchall()
+            result_list = []  # 存放json的返回结果列表用
+
+            for i in values:
+                json_values = {}
+                json_values["url"] = i[1]
+                json_values["name"] = i[2]
+                json_values["affects"] = i[3]
+                json_values["rank"] = i[4]
+                json_values["suggest"] = i[5]
+                json_values["desc_content"] = i[6]
+                json_values["details"] = i[7]
+                json_values["number"] = i[8]
+                json_values["author"] = i[9]
+                json_values["create_date"] = i[10]
+                json_values["disclosure"] = i[11]
+                json_values["algroup"] = i[12]
+                json_values["version"] = i[13]
+                json_values["timestamp"] = i[14]
+                json_values["token"] = i[15]
+                result_list.append(json_values)
+            self.con.close()
+            return result_list
+        except:
+            return ""
 
 class login:#登录
     def __init__(self,username):
@@ -475,11 +492,8 @@ class login:#登录
                 return passwd
         except:
             return 0
-class register:#注册
-    def __init__(self,username,password,emil):
-        self.username = username  # 用户名
-        self.password = password # 密码
-        self.emil=emil#邮箱
+class UserTable:#注册
+    def __init__(self):
         if sys.platform == "win32" or sys.platform == "cygwin":
             self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0] + "\\Medusa.db")
         elif sys.platform=="linux" or sys.platform=="darwin":
@@ -488,43 +502,86 @@ class register:#注册
         self.cur = self.con.cursor()
         # 创建表
         try:
-            self.cur.execute("CREATE TABLE user_info(user TEXT PRIMARY KEY,password TEXT NOT NULL,emil TEXT NOT NULL)")
+            self.cur.execute("CREATE TABLE UserInfo\
+                            (id INTEGER PRIMARY KEY,\
+                            username TEXT NOT NULL,\
+                            password TEXT NOT NULL,\
+                            mailbox TEXT NOT NULL,\
+                            token TEXT NOT NULL,\
+                            creation_time TEXT NOT NULL,\
+                            update_time TEXT NOT NULL)")
         except:
             pass
-    def register_write(self):
+    def WriteUser(self,username,password,mailbox,token):#写入新用户
+        CreationTime = str(int(time.time())) # 创建时间
+        self.AccountToken = token  # 生成的token
         try:
-
-            self.cur.execute("INSERT INTO user_info(user,password,emil)VALUES (?,?,?)",(self.username, self.password , self.emil,))
+            self.cur.execute("INSERT INTO UserInfo(username,password,mailbox,token,creation_time,update_time)\
+            VALUES (?,?,?,?,?,?)",(username, password,mailbox,token,CreationTime,CreationTime,))
             # 提交
             self.con.commit()
             self.con.close()
-            return 1#返回真或者假
+            return True
         except:
-            return 0
-    def register_inquire_emil(self):#根据数据进行查询判断emil
-        self.cur.execute("select * from user_info where emil =?",(self.emil,))
-        values = self.cur.fetchall()
+            return False
+    def UpdateUser(self,username,token,password):#更新用户密码token
         try:
-            global emil
-            for i in values:
-                emil= i[2]#判断传入的邮箱是否在数据库中
-            if str(emil) == str(self.emil):#判断是否在数据库中
-                self.con.close()
-                return 1
+            self.cur.execute("""UPDATE UserInfo SET password = ?,token=?,update_time=? WHERE username= ?""", (password,token,str(int(time.time())),username,))
+            # 提交
+            self.con.commit()
+            self.con.close()
         except:
-            return 0
-    def register_inquire_user(self):#根据数据进行查询判断user
-        self.cur.execute("select * from user_info where user =?",(self.username,))
-        values = self.cur.fetchall()
+            pass
+    def CheckUserPresence(self,inquire_user,inquire_mailbox):#查询用户是否存在
         try:
-            global user
-            for i in values:
-                user= i[0]
-            if str(user) == str(self.username):  # 判断是否在数据库中
+            self.cur.execute("select * from UserInfo where username =? and mailbox = ?",(inquire_user,inquire_mailbox,))
+            if self.cur.fetchall():#判断是否有数据
                 self.con.close()
-                return 1
+                return True
+            else:
+                return False
         except:
-            return 0
+            return False
+    def CheckUserToken(self,token):
+        try:
+            self.cur.execute("select * from UserInfo where token =?", (token,))
+            if self.cur.fetchall():#判断是否有数据
+                self.con.close()
+                return True
+            else:
+                return False
+        except:
+            return False
+
+class UserScansWebsiteTable:#用户扫描了哪些网站，时间，模块
+    def __init__(self):
+        if sys.platform == "win32" or sys.platform == "cygwin":
+            self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0] + "\\Medusa.db")
+        elif sys.platform=="linux" or sys.platform=="darwin":
+            self.con = sqlite3.connect(os.path.split(os.path.realpath(__file__))[0] + "/Medusa.db")
+        # 获取所创建数据的游标
+        self.cur = self.con.cursor()
+        # 创建表
+        try:
+            self.cur.execute("CREATE TABLE UserScansWebsite\
+                            (id INTEGER PRIMARY KEY,\
+                            token TEXT NOT NULL,\
+                            url TEXT NOT NULL,\
+                            creation_time TEXT NOT NULL,\
+                            module TEXT NOT NULL)")
+        except:
+            pass
+    def Write(self,token,url,creation_time,module):#写入新用户
+        self.AccountToken = token  # 生成的token
+        try:
+            self.cur.execute("INSERT INTO UserScansWebsite(token,url,creation_time,module)\
+            VALUES (?,?,?,?)",(token,url,creation_time,module,))
+            # 提交
+            self.con.commit()
+            self.con.close()
+        except:
+            pass
+
 
 class ErrorLog:#报错写入日志
     def __init__(self):

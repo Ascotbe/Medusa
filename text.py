@@ -10,3 +10,8 @@
 #             line = f.readline()
 # medusa("","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36")
 #find . -type d -name '__pycache__' | xargs rm -rf
+import ClassCongregation
+#ClassCongregation.AccountInquiry("ttttt").Inquire()
+#ClassCongregation.Register().Write("aaa","2222","25@qq.com","1111111")
+aa=ClassCongregation.UserTable().CheckUserToken("1111111")
+print(aa)

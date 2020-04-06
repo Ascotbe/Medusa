@@ -2,6 +2,7 @@ from nonebot import on_command, CommandSession,message
 
 help_list = """
 [CQ:emoji,id=127773][CQ:emoji,id=127773][CQ:emoji,id=127773][CQ:emoji,id=127773][CQ:emoji,id=127773][CQ:emoji,id=127773][CQ:emoji,id=127773][CQ:emoji,id=127773][CQ:emoji,id=127773][CQ:emoji,id=127773]
+扫描之前请遵守国家法律，任何未授权的扫描都会记录到数据库
 1.天气查询 城市
 [CQ:emoji,id=9757]天气 北京
 2.漏洞扫描
@@ -12,8 +13,6 @@ Token:XXXXXXXXXXXXXXX\r\nKey:XXXXXXXXX
 4.漏洞个数查询
 [CQ:emoji,id=9757]@me 查询个数 
 Token:XXXXXXXXXXXXXXX\r\nKey:XXXXXXXXXX
-5.启动监控(需要超级管理员权限
-6.关闭监控
 """
 
 

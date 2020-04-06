@@ -40,6 +40,7 @@ from Cms.Easethink import Easethink
 from Cms.Coremail import Coremail
 from Cms.ThinkPHP import ThinkPHP
 from Cms.ThinkCMF import ThinkCMF
+from Cms.EasyTalk import EasyTalk
 def Main(ThreadPool,Url,Values,UnixTimestamp):
     Coremail.Main(ThreadPool, Url, Values, UnixTimestamp)
     ThinkPHP.Main(ThreadPool, Url, Values, UnixTimestamp)
@@ -78,6 +79,7 @@ def Main(ThreadPool,Url,Values,UnixTimestamp):
     CMSimple.Main(ThreadPool,Url,Values,UnixTimestamp)
     CmsEasy.Main(ThreadPool,Url,Values,UnixTimestamp)
     EasyCMS.Main(ThreadPool,Url,Values,UnixTimestamp)
+    EasyTalk.Main(ThreadPool,Url,Values,UnixTimestamp)
     EcoCMS.Main(ThreadPool,Url,Values,UnixTimestamp)
     EnableQ.Main(ThreadPool,Url,Values,UnixTimestamp)
     Easethink.Main(ThreadPool,Url,Values,UnixTimestamp)

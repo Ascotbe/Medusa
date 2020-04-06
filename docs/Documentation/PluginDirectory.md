@@ -169,6 +169,7 @@
   - `EasyCMS` 跨站脚本漏洞（CNVD-2018-08985）
 
 - ##### EasyTalk
+  - `EasyTalk ` 任意文件包含漏洞
   - `EasyTalk 2.4` SQL注入漏洞
   - `EasyTalk 2.5` SQL注入漏洞
   - `EasyTalk topicaction.class.php` SQL注入漏洞
@@ -177,6 +178,10 @@
   - `EasyTalk photoaction.class.php` SQL注入漏洞
   - `EasyTalk appaction.class.php` SQL注入漏洞
   - `EasyTalk apiaction.class.php username处` SQL注入漏洞
+  - `EasyTalk commentaction.class.php` SQL注入漏洞
+  - `EasyTalk photoaction.class.php $nowpage` SQL注入漏洞
+  - `EasyTalk spaceaction.class.php` SQL注入漏洞
+
 
 - ##### EcoCMS
   - `EcoCMS` 跨站脚本漏洞（CVE-2010-5046）
@@ -319,8 +324,6 @@
 - `Struts2` S2_046 远程代码执行漏洞
 - `Struts2` S2_048 远程代码执行漏洞
 - `Struts2` S2_Devmode 远程代码执行漏洞
-
-
 
 #####  Windows
 

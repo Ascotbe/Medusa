@@ -32,14 +32,17 @@ async def Medusa(session: CommandSession):
     token = hashlib.md5(str(encrypted_string).encode("utf-8")).hexdigest()  # 对encrypted_string进行加密
     url_refining=tldextract.extract(aims)
     if whitelist_group_status:#开启白名单
-        if session.event['group_id'] in whitelist_group_list:#获取群ID
-            if url_refining.suffix!="" and url_refining.domain!="" and url_refining.suffix!="gov.cn":#判断提炼出来的东西是否符合二级域名,限制政府网站
-                await session.send(message.MessageSegment.at(user_qq_id)+"\r\nToken:" + token + "\r\nKey:"+user_scan_time+"\r\nUrl:" + aims)
-                number_of_scan_results=await MedusaScan(aims,token)
-                if len(str(number_of_scan_results))>0:#扫描成功返回
-                    await session.send(message.MessageSegment.at(user_qq_id)+ "\r\n存在漏洞个数:"+str(number_of_scan_results)+"\r\n如果需要查询结果请参考help中格式！")#艾特用户表示扫描完成科研查询了
+        for whitelist_group in whitelist_group_list:
+            if session.event['group_id'] == whitelist_group:#获取群ID
+                if url_refining.suffix!="" and url_refining.domain!="" and url_refining.suffix!="gov.cn":#判断提炼出来的东西是否符合二级域名,限制政府网站
+                    await session.send(message.MessageSegment.at(user_qq_id)+"\r\nToken:" + token + "\r\nKey:"+user_scan_time+"\r\nUrl:" + aims)
+                    number_of_scan_results=await MedusaScan(aims,token)
+                    if len(str(number_of_scan_results))>0:#扫描成功返回
+                        await session.send(message.MessageSegment.at(user_qq_id)+ "\r\n存在漏洞个数:"+str(number_of_scan_results)+"\r\n如果需要查询结果请参考help中格式！")#艾特用户表示扫描完成科研查询了
+                else:
+                    await session.send("呐呐呐！小哥哥域名不合规呐(｡・`ω´･)")
             else:
-                await session.send("呐呐呐！小哥哥域名不合规呐(｡・`ω´･)")
+                await session.send("呐呐呐！该群未开启扫描功能呐(｡・`ω´･)")
     else:#未开启白名单
         if url_refining.suffix != "" and url_refining.domain != "" and url_refining.suffix!="gov.cn":  # 判断提炼出来的东西是否符合二级域名
             await session.send(message.MessageSegment.at(

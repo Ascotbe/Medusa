@@ -10,9 +10,11 @@
  </p>
 
 <h1 align="center" >Medusa Scan</h1>
+
+
 **请使用者遵守 [中华人民共和国网络安全法](http://www.cac.gov.cn/2016-11/07/c_1119867116.htm)，勿将Medusa项目用于非授权的测试，Medusa项目开发者不负任何连带法律责任。**
 
-## About `Medusa Scan`
+### About `Medusa Scan`
 
 > The project is licensed under `GPL`.Free for non-commercial use.
 >
@@ -21,15 +23,29 @@
 > `Bot` Ver. Online
 >
 > `Web` Ver. Under development
-## Demo
 
-<img alt="Release" src="https://github.com/Ascotbe/Random-img/blob/master/Medusa/0.76.gif?raw=true"  >
 
-## Document
 
-> `https://www.ascotbe.com/Loophole`
+### Instructions for install and use
 
-## Instructions for install and use
+#### Document
+
+```
+http://medusa.ascotbe.com
+```
+
+#### Bug coverage list
+
+```
+http://medusa.ascotbe.com/Documentation/#/PluginDirectory
+```
+
+#### Demo
+
+![demo](https://github.com/Ascotbe/Random-img/blob/master/Medusa/0.76.gif?raw=true)
+
+
+#### `Bash` Ver. instructions for use
 
 ```bash
 # Need nmap(example for ubuntu
@@ -42,7 +58,17 @@ pip3 install -r Medusa.txt
 # Use the scanner
 python3 MedusaScan.py -u www.ascotbe.com
 ```
-## Parameters
+
+#### Git proxy
+
+```bash
+# If download speed too slow when cloning, then you can use proxy. 
+# Global proxy setting
+git config --global http.proxy http://127.0.0.1:1080
+git config --global https.proxy https://127.0.0.1:1080
+```
+
+### Parameters
 
 | Command | Number of parameters | Effect                                                         | Annotation                                                         |
 | ---- | -------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -56,8 +82,50 @@ python3 MedusaScan.py -u www.ascotbe.com
 | -s   | 0        | Subdomain search by DNS and search engine                           | Mod by `Sublist3r`, IP enumerate not support.                             |
 | -se  | 0        | Contains `-s` funcitons, in addtional, enumerate by dictionary(time consuming)                     | can not use this with `-s` at the same time.                         |
 
-## Discussion
 
-- QQ group：690021184（Secret code：6CF2D42B629E5AA4E6C293B290798878）
-- GitHub issue: https://github.com/Ascotbe/Medusa/issues
+### Bug replicate document
+
+
+### `Bot` Ver. document
+
+```bash
+# clone project files
+git clone https://github.com/Ascotbe/Medusa.git
+cd Medusa
+# Install python packages
+pip3 install -r Medusa.txt
+# Configuring look at BOT document
+https://www.ascotbe.com/Medusa
+```
+
+### Updating logs
+
+```
+http://medusa.ascotbe.com/Documentation/#/UpDataLog
+```
+
+### Bug replicate document
+
+```
+https://www.ascotbe.com/Loophole
+```
+
+
+### Discussion
+
+- QQ group：**690021184**（Secret code：**6CF2D42B629E5AA4E6C293B290798878**）
+- GitHub issue
+
+### Friend links
+
+- [零组资料库](http://www.0-sec.org)
+
+### Contributors
+
+![commit](https://opencollective.com/Medusa/contributors.svg?width=890&button=false)
+
+
+### Timeline
+
+![star](https://starchart.cc/Ascotbe/Medusa.svg)
 

@@ -9,123 +9,123 @@
 	<a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Plugin-200+-success"></a>
  </p>
 
-<h1 align="center" >美杜莎扫描器</h1>
+<h1 align="center" >Medusa Scan</h1>
 
 
 **请使用者遵守 [中华人民共和国网络安全法](http://www.cac.gov.cn/2016-11/07/c_1119867116.htm)，勿将Medusa项目用于非授权的测试，Medusa项目开发者不负任何连带法律责任。**
 
-### 关于美杜莎
+### About `Medusa Scan`
 
->本项目使用 `GPL`协议，未经授权，禁止使用商业用途。
+> The project is licensed under `GPL`.Free for non-commercial use.
 >
->`bash`版已上线
+> `bash` Ver. Online
 >
->`Bot`版本已上线
+> `Bot` Ver. Online
 >
->`Web`版开发中，敬请期待~
+> `Web` Ver. Under development
 
+#### **[中文文档](https://github.com/Ascotbe/Medusa/blob/master/README.CN.md) | EnglishDocumentation**
 
-### 使用文档
+### Instructions for install and use
+
+#### Document
 
 ```
 http://medusa.ascotbe.com
 ```
 
-### 漏洞覆盖列表
+#### Bug coverage list
 
 ```
 http://medusa.ascotbe.com/Documentation/#/PluginDirectory
 ```
 
-### Demo
+#### Demo
 
 ![demo](https://github.com/Ascotbe/Random-img/blob/master/Medusa/0.76.gif?raw=true)
 
 
-### `Bash`版使用说明
+#### `Bash` Ver. instructions for use
 
 ```bash
-# 安装工具(ubuntu
+# Need nmap(example for ubuntu
 apt-get install nmap
-# 下载文件
+# clone project files
 git clone https://github.com/Ascotbe/Medusa.git
 cd Medusa
-# 安装依赖
+# Install python packages
 pip3 install -r Medusa.txt
-# 使用扫描器
+# Use the scanner
 python3 MedusaScan.py -u www.ascotbe.com
 ```
-### 加速下载
+
+#### Git proxy
 
 ```bash
-# 如果下载太慢可以使用代理
-# 全局代理
+# If download speed too slow when cloning, then you can use proxy. 
+# Global proxy setting
 git config --global http.proxy http://127.0.0.1:1080
 git config --global https.proxy https://127.0.0.1:1080
-# 国内仓库下载
-git clone https://gitee.com/asc0t6e/Medusa.git
 ```
 
+### Parameters
+
+| Command | Number of parameters | Effect                                                         | Annotation                                                         |
+| ---- | -------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| -u   | 1        | Input single url（Use `http://` or `https://` first better than none, do not use any paremeters follow the url | example : `-u https://www.ascotbe.com` or `-u https://192.168.0.1`           |
+| -a   | 1        | Specify header files or use random headers                                       | When using this feature, please refer to the documentation for this content |
+| -f   | 1        | The filename includes urls that want to scan.                              | `-u` or `-f` must exists one and only one                         |
+| -m   | 1        | Scan for single module,such as: Struts2 or Apache, etc.                  | The module list refers to the list of folders on this project.                           |
+| -t   | 1        | Threads usage setting, default(-t 15)                                    |                                                           None   |
+| -sp  | 1        | Brute-force cracking by password dictionary                                         | If input -sp and -su, scanner use default dictionary when either one of them that value is null.        |
+| -su  | 1        | The dictionary for brute-force database                                         | None                                                           |
+| -s   | 0        | Subdomain search by DNS and search engine                           | Mod by `Sublist3r`, IP enumerate not support.                             |
+| -se  | 0        | Contains `-s` funcitons, in addtional, enumerate by dictionary(time consuming)                     | can not use this with `-s` at the same time.                         |
 
 
-### 参数说明
+### Bug replicate document
 
-|命令|参数个数|作用                              |备注                           |
-|------|--------|----------------------------------|-------------------------------|
-|-u    |1       |输入单个目标url（最好使用http://或https://作为开头,并且后面别跟参数 |https://www.ascotbe.com  or https://192.168.0.1         |
-|-a    |1       |指定头文件或使用随机头|具体使用参考使用文档|
-|-f    |1       |需要批量扫描目标url所在文件名字|-u和-f只能存在一个，并且必须存在一个|
-|-m    |1       |针对单独的模块进行扫描比如Struts2、Apache等|具体内容可以通过项目文件夹来输入|
-|-t    |1       |设置线程数，默认线程数15||
-|-sp    |1       |爆破数据库的密码字典|如果输入-sp和-su并且其中一个值为空，则使用默认密码爆破|
-|-su    |1       |爆破数据库的用户字典|无|
-|-s    |0       |通过DNS以及各大搜索引擎查找子域名|从Sublist3r魔改而来,不支持IP枚举|
-|-se    |0       |包含了-s的功能，并且通过字典枚举(非常耗时|和-s不能同时使用，-s和-se只能存在一个|
 
-### `Bot`版使用说明
+### `Bot` Ver. document
 
-```
-# 下载文件
+```bash
+# clone project files
 git clone https://github.com/Ascotbe/Medusa.git
 cd Medusa
-# 安装依赖
+# Install python packages
 pip3 install -r Medusa.txt
-# 后续配置参考比如文档中的机器人模块
+# Configuring look at BOT document
 https://www.ascotbe.com/Medusa
 ```
 
-### 更新日志
+### Updating logs
 
 ```
 http://medusa.ascotbe.com/Documentation/#/UpDataLog
 ```
 
-### 复现文档
+### Bug replicate document
 
 ```
 https://www.ascotbe.com/Loophole
 ```
 
-### 提交意见
 
-- 吹B群：**690021184**（加群请输入暗号：**6CF2D42B629E5AA4E6C293B290798878**）
+### Discussion
+
+- QQ group：**690021184**（Secret code：**6CF2D42B629E5AA4E6C293B290798878**）
 - GitHub issue
 
-### 友情链接
+### Friend links
 
 - [零组资料库](http://www.0-sec.org)
 
-### 贡献人员
+### Contributors
 
 ![commit](https://opencollective.com/Medusa/contributors.svg?width=890&button=false)
 
 
-### 时间轴
+### Timeline
 
 ![star](https://starchart.cc/Ascotbe/Medusa.svg)
-
-
-
-
-
 

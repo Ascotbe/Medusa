@@ -50,12 +50,12 @@ Change `dns_log_url` and` dns_log_key` to the values of your `Identifier` and` A
 
 This mode is closed by default. If you need to open it, please modify the parameters in the `config.py` file
 
-`` `
+```
 #Default
 debug_mode = False
 #Turn on Debug mode
 debug_mode = True
-`` `
+```
 
 The output content of this mode is not the progress bar and module loading content, but has become the error message of each plugin
 

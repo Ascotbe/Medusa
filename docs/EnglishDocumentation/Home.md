@@ -50,7 +50,7 @@ python3 MedusaScan.py -u www.ascotbe.com
 | -a   | 1        | Specify header files or use random headers                                       | When using this feature, please refer to the documentation for this content |
 | -f   | 1        | The filename includes urls that want to scan.                              | `-u` or `-f` must exists one and only one                         |
 | -m   | 1        | Scan for single module,such as: Struts2 or Apache, etc.                  | The module list refers to the list of folders on this project.                           |
-| -t   | 1        | Threads usage setting, default(-t 15)                                    |                                                           None   | 
+| -t   | 1        | Threads usage setting, default(-t 15)                                    |                                                           None   |
 | -sp  | 1        | Brute-force cracking by password dictionary                                         | If input -sp and -su, scanner use default dictionary when either one of them that value is null.        |
 | -su  | 1        | The dictionary for brute-force database                                         | None                                                           |
 | -s   | 0        | Subdomain search by DNS and search engine                           | Mod by `Sublist3r`, IP enumerate not support.                             |
@@ -59,5 +59,5 @@ python3 MedusaScan.py -u www.ascotbe.com
 ## Discussion
 
 - QQ group：690021184（Secret code：6CF2D42B629E5AA4E6C293B290798878）
-- GitHub issue: https://github.com/Ascotbe/Medusa/issues
+- [GitHub issue](https://github.com/Ascotbe/Medusa/issues)
 

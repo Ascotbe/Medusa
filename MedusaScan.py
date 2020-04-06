@@ -61,12 +61,12 @@ def BoomDB(Url,SqlUser,SqlPasswrod,InputFileName):
 def NmapScan(url):#Nmap扫描这样就可以开多线程了
     ClassCongregation.NmapScan(url).ScanPort()#调用Nmap扫描类
 
-def InitialScan(ThreadPool,InputFileName,Url,UnixTimestamp,Module,agentHeader):
+def InitialScan(ThreadPool,InputFileName,Url,Token,Module,agentHeader):
     try:
         if InputFileName==None:
             try:
                 print("\033[1;40;32m[ + ] Scanning target domain:\033[0m" + "\033[1;40;33m {}\033[0m".format(Url))
-                San(ThreadPool,Url,agentHeader,UnixTimestamp,Module)
+                San(ThreadPool,Url,agentHeader,Token,Module)
                         #ThreadPool.NmapAppend(NmapScan,Urls)#把Nmap放到多线程中
                         #print("\033[1;40;32m[ + ] NmapScan component payload successfully loaded\033[0m")
 
@@ -78,7 +78,7 @@ def InitialScan(ThreadPool,InputFileName,Url,UnixTimestamp,Module,agentHeader):
                     for UrlLine in f:#设置头文件使用的字符类型和开头的名字
                         try:
                             print("\033[1;40;32m[ + ] In batch scan, the current target is:\033[0m"+"\033[1;40;33m {}\033[0m".format(UrlLine.replace('\n', '')))
-                            San(ThreadPool,UrlLine,agentHeader,UnixTimestamp,Module)
+                            San(ThreadPool,UrlLine,agentHeader,Token,Module)
                             #ThreadPool.NmapAppend(NmapScan,Urls)#把Nmap放到多线程中
                             #print("\033[1;40;32m[ + ] NmapScan component payload successfully loaded\033[0m")
                         except KeyboardInterrupt as e:
@@ -88,61 +88,61 @@ def InitialScan(ThreadPool,InputFileName,Url,UnixTimestamp,Module,agentHeader):
     except:
         print("\033[1;40;31m[ ! ] Please enter the correct file path!\033[0m")
 
-def San(ThreadPool,Url,agentHeader,UnixTimestamp,Module):
+def San(ThreadPool,Url,agentHeader,Token,Module):
     #POC模块存进多线程池，这样如果批量扫描会变快很多
     ModName=["Struts2","Confluence","Nginx","Apache","PHPStudy","Cms","Oa","Jenkins","Harbor","Rails","Kibana","Citrix","Mongo","Spring","FastJson","Windows"]
     if Module==None:
         print("\033[1;40;32m[ + ] Scanning across modules:\033[0m" + "\033[1;40;35m AllMod             \033[0m")
-        Struts2.Main(ThreadPool, Url, agentHeader, UnixTimestamp)# 调用Struts2主函数
-        ConfluenceMain.Main(ThreadPool,Url,agentHeader,UnixTimestamp)# 调用 Confluence主函数
-        NginxMain.Main(ThreadPool,Url,agentHeader,UnixTimestamp)#调用Nginx主函数
-        ApacheMain.Main(ThreadPool,Url,agentHeader,UnixTimestamp)# 调用Apache主函数
-        PHPStudy.Main(ThreadPool,Url,agentHeader,UnixTimestamp)# 调用Php主函数
-        CmsMain.Main(ThreadPool,Url,agentHeader,UnixTimestamp)# 调用Cms主函数
-        OaMian.Main(ThreadPool,Url,agentHeader,UnixTimestamp)# 调用OA主函数
-        JenkinsMain.Main(ThreadPool,Url,agentHeader,UnixTimestamp)  # 调用Jenkins主函数
-        Harbor.Main(ThreadPool, Url, agentHeader, UnixTimestamp)# 调用Harbor主函数
-        RailsMain.Main(ThreadPool,Url,agentHeader,UnixTimestamp)# 调用RailsMain主函数
-        KibanaMain.Main(ThreadPool,Url,agentHeader,UnixTimestamp) # 调用KibanaMain主函数
-        CitrixMain.Main(ThreadPool,Url,agentHeader,UnixTimestamp)# 调用CitrixMain主函数
-        MongoMain.Main(ThreadPool,Url,agentHeader,UnixTimestamp)# 调用MongoMain主函数
-        SpringMain.Main(ThreadPool,Url,agentHeader,UnixTimestamp)# 调用SpringMain主函数
-        FastJson.Main(ThreadPool,Url,agentHeader,UnixTimestamp)# 调用FastJson主函数
-        Windows.Main(ThreadPool,Url,agentHeader,UnixTimestamp)# 调用Windwos主函数
+        Struts2.Main(ThreadPool, Url, agentHeader,Token)# 调用Struts2主函数
+        ConfluenceMain.Main(ThreadPool,Url,agentHeader,Token)# 调用 Confluence主函数
+        NginxMain.Main(ThreadPool,Url,agentHeader,Token)#调用Nginx主函数
+        ApacheMain.Main(ThreadPool,Url,agentHeader,Token)# 调用Apache主函数
+        PHPStudy.Main(ThreadPool,Url,agentHeader,Token)# 调用Php主函数
+        CmsMain.Main(ThreadPool,Url,agentHeader,Token)# 调用Cms主函数
+        OaMian.Main(ThreadPool,Url,agentHeader,Token)# 调用OA主函数
+        JenkinsMain.Main(ThreadPool,Url,agentHeader,Token)  # 调用Jenkins主函数
+        Harbor.Main(ThreadPool, Url, agentHeader, Token)# 调用Harbor主函数
+        RailsMain.Main(ThreadPool,Url,agentHeader,Token)# 调用RailsMain主函数
+        KibanaMain.Main(ThreadPool,Url,agentHeader,Token) # 调用KibanaMain主函数
+        CitrixMain.Main(ThreadPool,Url,agentHeader,Token)# 调用CitrixMain主函数
+        MongoMain.Main(ThreadPool,Url,agentHeader,Token)# 调用MongoMain主函数
+        SpringMain.Main(ThreadPool,Url,agentHeader,Token)# 调用SpringMain主函数
+        FastJson.Main(ThreadPool,Url,agentHeader,Token)# 调用FastJson主函数
+        Windows.Main(ThreadPool,Url,agentHeader,Token)# 调用Windwos主函数
     elif Module != None and Module in ModName:
         print("\033[1;40;32m[ + ] The separate scan module is:\033[0m"+"\033[1;40;35m {}             \033[0m".format(Module))
         if Module == "Struts2":
-            Struts2.Main(ThreadPool, Url, agentHeader, UnixTimestamp)  # 调用Struts2主函数
+            Struts2.Main(ThreadPool, Url, agentHeader, Token)  # 调用Struts2主函数
         if Module == "Confluence":
-            ConfluenceMain.Main(ThreadPool,Url,agentHeader,UnixTimestamp)# 调用 Confluence主函数
+            ConfluenceMain.Main(ThreadPool,Url,agentHeader,Token)# 调用 Confluence主函数
         if Module == "Nginx":
-            NginxMain.Main(ThreadPool,Url,agentHeader,UnixTimestamp)#调用Nginx主函数
+            NginxMain.Main(ThreadPool,Url,agentHeader,Token)#调用Nginx主函数
         if Module == "Apache":
-            ApacheMain.Main(ThreadPool, Url, agentHeader, UnixTimestamp)  # 调用Apache主函数
+            ApacheMain.Main(ThreadPool, Url, agentHeader, Token)  # 调用Apache主函数
         if Module == "PHPStudy":
-            PHPStudy.Main(ThreadPool,Url,agentHeader,UnixTimestamp)# 调用Php主函数
+            PHPStudy.Main(ThreadPool,Url,agentHeader,Token)# 调用Php主函数
         if Module == "Cms":
-            CmsMain.Main(ThreadPool,Url,agentHeader,UnixTimestamp)# 调用Cms主函数
+            CmsMain.Main(ThreadPool,Url,agentHeader,Token)# 调用Cms主函数
         if Module=="Oa":
-            OaMian.Main(ThreadPool,Url,agentHeader,UnixTimestamp)# 调用OA主函数
+            OaMian.Main(ThreadPool,Url,agentHeader,Token)# 调用OA主函数
         if Module=="Jenkins":
-            JenkinsMain.Main(ThreadPool,Url,agentHeader,UnixTimestamp)  # 调用Jenkins主函数
+            JenkinsMain.Main(ThreadPool,Url,agentHeader,Token)  # 调用Jenkins主函数
         if Module=="Harbor":
-            Harbor.Main(ThreadPool, Url, agentHeader, UnixTimestamp)# 调用Harbor主函数
+            Harbor.Main(ThreadPool, Url, agentHeader, Token)# 调用Harbor主函数
         if Module=="Rails":
-            RailsMain.Main(ThreadPool,Url,agentHeader,UnixTimestamp)# 调用RailsMain主函数
+            RailsMain.Main(ThreadPool,Url,agentHeader,Token)# 调用RailsMain主函数
         if Module=="Kibana":
-            KibanaMain.Main(ThreadPool,Url,agentHeader,UnixTimestamp) # 调用KibanaMain主函数
+            KibanaMain.Main(ThreadPool,Url,agentHeader,Token) # 调用KibanaMain主函数
         if Module=="Citrix":
-            CitrixMain.Main(ThreadPool,Url,agentHeader,UnixTimestamp)# 调用CitrixMain主函数
+            CitrixMain.Main(ThreadPool,Url,agentHeader,Token)# 调用CitrixMain主函数
         if Module == "Mongo":
-            MongoMain.Main(ThreadPool,Url,agentHeader,UnixTimestamp)# 调用MongoMain主函数
+            MongoMain.Main(ThreadPool,Url,agentHeader,Token)# 调用MongoMain主函数
         if Module == "Spring":
-            SpringMain.Main(ThreadPool,Url,agentHeader,UnixTimestamp)# 调用SpringMain主函数
+            SpringMain.Main(ThreadPool,Url,agentHeader,Token)# 调用SpringMain主函数
         if Module == "FastJson":
-            FastJson.Main(ThreadPool,Url,agentHeader,UnixTimestamp)# 调用FastJson主函数
+            FastJson.Main(ThreadPool,Url,agentHeader,Token)# 调用FastJson主函数
         if Module=="Windows":
-            Windows.Main(ThreadPool, Url, agentHeader, UnixTimestamp)  # 调用Windwos主函数
+            Windows.Main(ThreadPool, Url, agentHeader, Token)  # 调用Windwos主函数
     else:
         print("\033[1;40;31m[ ! ] Please enter the correct scan module name\033[0m")
         os._exit(0)  # 直接退出整个函数
@@ -186,7 +186,7 @@ if __name__ == '__main__':
     #暂时关闭NMAPScan和数据库爆破功能
 
     ThreadPool = ClassCongregation.ThreadPool()#定义一个线程池
-    UnixTimestamp=str(int(time.time()))#获取UNIX时间戳用来写入数据库用
+    Token=str(int(time.time()))+"medusa"#获取赋予的token
     if ThreadNumber==None:#如果线程数为空，那么默认为15
         ThreadNumber=15
     if Url==None and InputFileName==None:#如果找不到URL的话直接退出
@@ -206,7 +206,7 @@ if __name__ == '__main__':
     elif Subdomain==True:
         SubdomainJudge = "b"
         ThreadPool.SubdomainAppend(SubdomainCrawling, Url,SubdomainJudge)
-    InitialScan(ThreadPool,InputFileName, Url, UnixTimestamp,Module,agentHeader)#最后启动主扫描函数，这样如果多个IP的话优化速度，里面会做url或者url文件的判断
+    InitialScan(ThreadPool,InputFileName, Url,Token,Module,agentHeader)#最后启动主扫描函数，这样如果多个IP的话优化速度，里面会做url或者url文件的判断
     print("\033[1;40;31m[ ! ] Scan is complete, please see the ScanResult file\033[0m")
 
 

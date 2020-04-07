@@ -10,11 +10,3 @@
 #             line = f.readline()
 # medusa("","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36")
 #find . -type d -name '__pycache__' | xargs rm -rf
-from enum import Enum
-def addd():
-    print("ddd")
-
-class a(Enum):
-    c=addd()
-
-print(a.c.name)

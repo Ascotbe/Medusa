@@ -120,3 +120,22 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+#celery
+CELERY_RESULT_BACKEND='redis://:medusa@localhost:6379/0'
+BROKER_URL='redis://:medusa@localhost:6379/0'
+'''
+
+CELERY_RESULT_BACKEND='redis://:password@host:port/db'
+host: Redis的服务器的名称或IP地址。例如 localhost:本地主机。
+port: Redis的服务器。默认值是6379
+db: 使用的数据库数,默认值为0
+password: 密码用于连接到数据库。
+
+缓存后端设置
+使用单个memcached服务器：
+CELERY_RESULT_BACKEND='cache+memcached://127.0.0.1:11211/'
+cache : 缓存
+'''
+CELERY_ACCEPT_CONTENT=['json']
+CELERY_TASK_SERIALIZER='json'

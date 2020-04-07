@@ -654,10 +654,10 @@ class ThreadPool:#线程池，所有插件都发送过来一起调用
     def __init__(self):
         self.ThreaList=[]#存放线程列表
         self.text=0#统计线程数
-    def Append(self,plugin,url,Values,UnixTimestamp):
+    def Append(self,plugin,url,Values,Token):
         self.text+=1
         ua = AgentHeader().result(Values)
-        self.ThreaList.append(threading.Thread(target=plugin, args=(url,ua,UnixTimestamp)))
+        self.ThreaList.append(threading.Thread(target=plugin, args=(url,ua,Token)))
     def SubdomainAppend(self,plugin,Url,SubdomainJudge):
         self.ThreaList.append(threading.Thread(target=plugin, args=(Url, SubdomainJudge)))
     def NmapAppend(self,plugin,Url):

@@ -64,4 +64,3 @@ def medusa(Url,RandomAgent,UnixTimestamp):
         _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类
 
 
-medusa("www.134.com","dddddddddddddd","1234567")

@@ -67,6 +67,7 @@ def InitialScan(ThreadPool,InputFileName,Url,Token,Module,agentHeader):
             try:
                 print("\033[1;40;32m[ + ] Scanning target domain:\033[0m" + "\033[1;40;33m {}\033[0m".format(Url))
                 San(ThreadPool,Url,agentHeader,Token,Module)
+                ClassCongregation.NumberOfLoopholes()  # 输出扫描结果个数
                         #ThreadPool.NmapAppend(NmapScan,Urls)#把Nmap放到多线程中
                         #print("\033[1;40;32m[ + ] NmapScan component payload successfully loaded\033[0m")
 
@@ -78,6 +79,7 @@ def InitialScan(ThreadPool,InputFileName,Url,Token,Module,agentHeader):
                     for UrlLine in f:#设置头文件使用的字符类型和开头的名字
                         try:
                             print("\033[1;40;32m[ + ] In batch scan, the current target is:\033[0m"+"\033[1;40;33m {}\033[0m".format(UrlLine.replace('\n', '')))
+                            ClassCongregation.NumberOfLoopholes()  # 输出扫描结果个数
                             San(ThreadPool,UrlLine,agentHeader,Token,Module)
                             #ThreadPool.NmapAppend(NmapScan,Urls)#把Nmap放到多线程中
                             #print("\033[1;40;32m[ + ] NmapScan component payload successfully loaded\033[0m")
@@ -148,7 +150,7 @@ def San(ThreadPool,Url,agentHeader,Token,Module):
         os._exit(0)  # 直接退出整个函数
 
     ThreadPool.Start(ThreadNumber)#启动多线程
-    ClassCongregation.NumberOfLoopholes()  # 输出扫描结果个数
+
 
 def SubdomainCrawling(Url,SubdomainJudge):#开启子域名函数
     SubdomainCrawlingUrls= tldextract.extract(Url)

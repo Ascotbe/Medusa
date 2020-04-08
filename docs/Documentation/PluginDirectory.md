@@ -182,6 +182,12 @@
   - `EasyTalk photoaction.class.php $nowpage` SQL注入漏洞
   - `EasyTalk spaceaction.class.php` SQL注入漏洞
 
+- ##### ECGAP
+  - `ECGAP DocmentDownload.aspx` 等SQL注入漏洞
+  - `ECGAP QAList.aspx` 等SQL注入漏洞
+  - `ECGAP ColumnList.aspx` 等SQL注入漏洞
+  - `ECGAP Log.aspx` 等SQL注入漏洞
+  - `ECGAP displayNewsPic.aspx` SQL注入漏洞
 
 - ##### EcoCMS
   - `EcoCMS` 跨站脚本漏洞（CVE-2010-5046）

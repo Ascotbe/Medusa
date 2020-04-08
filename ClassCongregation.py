@@ -691,7 +691,12 @@ class Prompt:#输出横幅，就是每个组件加载后输出的东西
         if debug_mode:
             pass
         else:
-            print("\r\033[1;40;32m[ + ] Loading attack module:\033[0m"+"\033[1;40;35m {}         \033[0m".format(self.name),end='')#这样能覆盖前面输出的内容
+            # NameLength=len(self.name)
+            # #b = "[ + ] Loading attack module: " 这串字符串len()的值为29所以下面为29
+            # print(os.get_terminal_size().columns)
+            # print("\r\033[1;40;32m[ + ] Loading attack module: \033[0m" + "\033[1;40;35m{}\033[0m".format(self.name).ljust(
+            #     os.get_terminal_size().columns - int((29 +NameLength / 2)) + (29 + NameLength % 2) - 2),"2")
+            print("\r\033[1;40;32m[ + ] Loading attack module: \033[0m"+"\033[1;40;35m{}                     \033[0m".format(self.name),end='')#这样能覆盖前面输出的内容
             time.sleep(0.2)
 
 class ErrorHandling:

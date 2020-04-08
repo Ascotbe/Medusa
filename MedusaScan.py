@@ -43,7 +43,24 @@ parser.add_argument('-se','--SubdomainEnumerate',help="Collect subdomains and tu
 在XXX.py 中 按住 “alt+shift+f9”  ----选择编辑配置（edit configurations）---script parameters(脚本程序)
 在里面输入参数就可以使用debug调试了
 '''
-
+#漏洞哥哥插件的主函数
+MedusaModuleList={
+"Struts2":Struts2.Main,
+"Confluence":ConfluenceMain.Main,
+"Nginx":NginxMain.Main,
+"Apache":ApacheMain.Main,
+"PHPStudy": PHPStudy.Main,
+"Cms": CmsMain.Main,
+"Oa": OaMian.Main,
+"Jenkins": JenkinsMain.Main,
+"Harbor": Harbor.Main,
+"Rails":RailsMain.Main,
+"Kibana":KibanaMain.Main,
+"Citrix":CitrixMain.Main,
+"Mongo":MongoMain.Main,
+"Spring":SpringMain.Main,
+"FastJson":FastJson.Main,
+"Windows":Windows.Main}
 
 def BoomDB(Url,SqlUser,SqlPasswrod,InputFileName):
     if SqlUser!=None or SqlPasswrod!=None:
@@ -92,63 +109,16 @@ def InitialScan(ThreadPool,InputFileName,Url,Token,Module,agentHeader):
 
 def San(ThreadPool,Url,agentHeader,Token,Module):
     #POC模块存进多线程池，这样如果批量扫描会变快很多
-    ModName=["Struts2","Confluence","Nginx","Apache","PHPStudy","Cms","Oa","Jenkins","Harbor","Rails","Kibana","Citrix","Mongo","Spring","FastJson","Windows"]
     if Module==None:
         print("\033[1;40;32m[ + ] Scanning across modules:\033[0m" + "\033[1;40;35m AllMod             \033[0m")
-        Struts2.Main(ThreadPool, Url, agentHeader,Token)# 调用Struts2主函数
-        ConfluenceMain.Main(ThreadPool,Url,agentHeader,Token)# 调用 Confluence主函数
-        NginxMain.Main(ThreadPool,Url,agentHeader,Token)#调用Nginx主函数
-        ApacheMain.Main(ThreadPool,Url,agentHeader,Token)# 调用Apache主函数
-        PHPStudy.Main(ThreadPool,Url,agentHeader,Token)# 调用Php主函数
-        CmsMain.Main(ThreadPool,Url,agentHeader,Token)# 调用Cms主函数
-        OaMian.Main(ThreadPool,Url,agentHeader,Token)# 调用OA主函数
-        JenkinsMain.Main(ThreadPool,Url,agentHeader,Token)  # 调用Jenkins主函数
-        Harbor.Main(ThreadPool, Url, agentHeader, Token)# 调用Harbor主函数
-        RailsMain.Main(ThreadPool,Url,agentHeader,Token)# 调用RailsMain主函数
-        KibanaMain.Main(ThreadPool,Url,agentHeader,Token) # 调用KibanaMain主函数
-        CitrixMain.Main(ThreadPool,Url,agentHeader,Token)# 调用CitrixMain主函数
-        MongoMain.Main(ThreadPool,Url,agentHeader,Token)# 调用MongoMain主函数
-        SpringMain.Main(ThreadPool,Url,agentHeader,Token)# 调用SpringMain主函数
-        FastJson.Main(ThreadPool,Url,agentHeader,Token)# 调用FastJson主函数
-        Windows.Main(ThreadPool,Url,agentHeader,Token)# 调用Windwos主函数
-    elif Module != None and Module in ModName:
-        print("\033[1;40;32m[ + ] The separate scan module is:\033[0m"+"\033[1;40;35m {}             \033[0m".format(Module))
-        if Module == "Struts2":
-            Struts2.Main(ThreadPool, Url, agentHeader, Token)  # 调用Struts2主函数
-        if Module == "Confluence":
-            ConfluenceMain.Main(ThreadPool,Url,agentHeader,Token)# 调用 Confluence主函数
-        if Module == "Nginx":
-            NginxMain.Main(ThreadPool,Url,agentHeader,Token)#调用Nginx主函数
-        if Module == "Apache":
-            ApacheMain.Main(ThreadPool, Url, agentHeader, Token)  # 调用Apache主函数
-        if Module == "PHPStudy":
-            PHPStudy.Main(ThreadPool,Url,agentHeader,Token)# 调用Php主函数
-        if Module == "Cms":
-            CmsMain.Main(ThreadPool,Url,agentHeader,Token)# 调用Cms主函数
-        if Module=="Oa":
-            OaMian.Main(ThreadPool,Url,agentHeader,Token)# 调用OA主函数
-        if Module=="Jenkins":
-            JenkinsMain.Main(ThreadPool,Url,agentHeader,Token)  # 调用Jenkins主函数
-        if Module=="Harbor":
-            Harbor.Main(ThreadPool, Url, agentHeader, Token)# 调用Harbor主函数
-        if Module=="Rails":
-            RailsMain.Main(ThreadPool,Url,agentHeader,Token)# 调用RailsMain主函数
-        if Module=="Kibana":
-            KibanaMain.Main(ThreadPool,Url,agentHeader,Token) # 调用KibanaMain主函数
-        if Module=="Citrix":
-            CitrixMain.Main(ThreadPool,Url,agentHeader,Token)# 调用CitrixMain主函数
-        if Module == "Mongo":
-            MongoMain.Main(ThreadPool,Url,agentHeader,Token)# 调用MongoMain主函数
-        if Module == "Spring":
-            SpringMain.Main(ThreadPool,Url,agentHeader,Token)# 调用SpringMain主函数
-        if Module == "FastJson":
-            FastJson.Main(ThreadPool,Url,agentHeader,Token)# 调用FastJson主函数
-        if Module=="Windows":
-            Windows.Main(ThreadPool, Url, agentHeader, Token)  # 调用Windwos主函数
+        for MedusaModule in MedusaModuleList:
+            MedusaModuleList[MedusaModule](ThreadPool, Url, agentHeader, Token)  # 调用列表里面的值
     else:
-        print("\033[1;40;31m[ ! ] Please enter the correct scan module name\033[0m")
-        os._exit(0)  # 直接退出整个函数
-
+        try:
+            MedusaModuleList[Module](ThreadPool, Url, agentHeader, Token)  # 调用列表里面的值
+        except:  # 如果传入非法字符串会调用出错
+            print("\033[1;40;31m[ ! ] Please enter the correct scan module name\033[0m")
+            os._exit(0)  # 直接退出整个函数
     ThreadPool.Start(ThreadNumber)#启动多线程
 
 

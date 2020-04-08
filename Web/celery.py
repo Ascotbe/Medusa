@@ -6,7 +6,7 @@ from django.conf import settings
 # set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Web.settings')
 
-app = Celery('Medusa', broker='redis://:medusa@localhost:6379/0')#这边要加上redis不然默认是mq的
+app = Celery('Medusa')#这边要加上redis不然默认是mq的
 
 # Using a string here means the worker don't have to serialize
 # the configuration object to child processes.

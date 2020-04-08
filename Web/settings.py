@@ -122,8 +122,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 #celery
-CELERY_RESULT_BACKEND='redis://:medusa@localhost:6379/0'
-BROKER_URL='redis://:medusa@localhost:6379/0'
+CELERY_RESULT_BACKEND='redis://:medusa@localhost:6379/6'
+CELERY_BROKER_URL='redis://:medusa@localhost:6379/6'
 '''
 
 CELERY_RESULT_BACKEND='redis://:password@host:port/db'

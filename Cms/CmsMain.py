@@ -14,8 +14,6 @@ from Cms.BEESCMS import BEESCMS
 from Cms.BlueCMS import BlueCMS
 from Cms.Bocweb import Bocweb
 from Cms.BugFree import BugFree
-from Cms.BusBookingScript import BusBookingScript
-from Cms.AbsolutEngine import AbsolutEngine
 from Cms.AfterLogicWebMail import AfterLogicWebMail
 from Cms.CuteCMS import CuteCMS
 from Cms.ChamiloLMS import ChamiloLMS
@@ -42,6 +40,7 @@ from Cms.Coremail import Coremail
 from Cms.ThinkPHP import ThinkPHP
 from Cms.ThinkCMF import ThinkCMF
 from Cms.EasyTalk import EasyTalk
+from Cms.Drupal import Drupal
 def Main(ThreadPool,Url,Values,UnixTimestamp):
     Coremail.Main(ThreadPool, Url, Values, UnixTimestamp)
     ThinkPHP.Main(ThreadPool, Url, Values, UnixTimestamp)
@@ -60,8 +59,6 @@ def Main(ThreadPool,Url,Values,UnixTimestamp):
     BlueCMS.Main(ThreadPool,Url,Values,UnixTimestamp)
     Bocweb.Main(ThreadPool,Url,Values,UnixTimestamp)
     BugFree.Main(ThreadPool,Url,Values,UnixTimestamp)
-    BusBookingScript.Main(ThreadPool,Url,Values,UnixTimestamp)
-    AbsolutEngine.Main(ThreadPool,Url,Values,UnixTimestamp)
     AfterLogicWebMail.Main(ThreadPool,Url,Values,UnixTimestamp)
     CuteCMS.Main(ThreadPool,Url,Values,UnixTimestamp)
     ChamiloLMS.Main(ThreadPool,Url,Values,UnixTimestamp)
@@ -85,3 +82,4 @@ def Main(ThreadPool,Url,Values,UnixTimestamp):
     EcoCMS.Main(ThreadPool,Url,Values,UnixTimestamp)
     EnableQ.Main(ThreadPool,Url,Values,UnixTimestamp)
     Easethink.Main(ThreadPool,Url,Values,UnixTimestamp)
+    Drupal.Main(ThreadPool,Url,Values,UnixTimestamp)

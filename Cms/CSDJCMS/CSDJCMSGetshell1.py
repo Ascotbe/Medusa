@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import requests
-import ClassCongregation
+from ClassCongregation import UrlProcessing,VulnerabilityDetails,WriteFile,ErrorLog,randoms,ErrorHandling
+
 
 class VulnerabilityInfo(object):
     def __init__(self,Medusa):
@@ -21,7 +22,7 @@ class VulnerabilityInfo(object):
         self.info['details'] = Medusa  # 结果
 
 def medusa(Url, RandomAgent, UnixTimestamp):
-    scheme, url, port = ClassCongregation.UrlProcessing().result(Url)
+    scheme, url, port = UrlProcessing().result(Url)
     if port is None and scheme == 'https':
         port = 443
     elif port is None and scheme == 'http':
@@ -50,11 +51,11 @@ def medusa(Url, RandomAgent, UnixTimestamp):
         if con.find('PHP Version') != -1 and con.find('System'):
             Medusa = "{}存在CSDJCMSGetshell\r\n漏洞地址:\r\n{}\r\n漏洞详情:{}\r\n".format(url, payload_url, con)
             _t = VulnerabilityInfo(Medusa)
-            ClassCongregation.VulnerabilityDetails(_t.info, url,UnixTimestamp).Write()  # 传入url和扫描到的数据
-            ClassCongregation.WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
+            VulnerabilityDetails(_t.info, url,UnixTimestamp).Write()  # 传入url和扫描到的数据
+            WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
     except Exception as e:
         _ = VulnerabilityInfo('').info.get('algroup')
-        ClassCongregation.ErrorHandling().Outlier(e, _)
-        _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类传入URL和错误插件名
+        ErrorHandling().Outlier(e, _)
+        _l = ErrorLog().Write(url, _)  # 调用写入类传入URL和错误插件名
 
 

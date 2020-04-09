@@ -48,7 +48,7 @@ def medusa(Url, RandomAgent, UnixTimestamp):
         s = requests.session()
         resp = s.post(payload_url,data=data,headers=headers, timeout=6, verify=False)
         con = resp.text
-        if con.find('PHP Version') != -1 and con.find('System'):
+        if con.find('PHP Version') != -1 and con.find('System')!=-1 and con.find('Configure Command') != -1:
             Medusa = "{}存在CSDJCMSGetshell\r\n漏洞地址:\r\n{}\r\n漏洞详情:{}\r\n".format(url, payload_url, con)
             _t = VulnerabilityInfo(Medusa)
             VulnerabilityDetails(_t.info, url,UnixTimestamp).Write()  # 传入url和扫描到的数据

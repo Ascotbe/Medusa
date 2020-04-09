@@ -44,7 +44,7 @@ def medusa(Url,RandomAgent,UnixTimestamp):
             resp =requests.get(payload_url, headers=headers, timeout=6, verify=False)
             con = resp.text
             code = resp.status_code
-            if code== 200 and con.find('PHP Version') != -1 and con.find('Configure Command') != -1 :
+            if code== 200 and con.find('PHP Version') != -1 and con.find('Configure Command') != -1 and con.find('System') != -1:
                 Medusa = "{}存在CmsTop远程代码执行漏洞\r\n漏洞地址:\r\n{}\r\n漏洞详情:{}\r\n".format(url,payload_url,con)
                 _t=VulnerabilityInfo(Medusa)
                 VulnerabilityDetails(_t.info, url,UnixTimestamp).Write()  # 传入url和扫描到的数据

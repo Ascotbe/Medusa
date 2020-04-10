@@ -97,11 +97,10 @@ python3 MedusaScan.py -u https://www.ascotbe.com -j
 python3 MedusaScan.py -u https://www.ascotbe.com -s
 ```
 
-#### ~~0x05 Proxy function~~
+#### 0x05 Proxy function
 
 ```bash
-python3 MedusaScan.py -u https://www.ascotbe.com -p 
-#This feature is deprecated now and will be updated in the future
+python3 MedusaScan.py -u https://www.ascotbe.com -p 127.0.0.1:8080
 ```
 
 #### 0x06 Using target Header

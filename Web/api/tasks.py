@@ -1,4 +1,4 @@
-from celery import shared_task
+from Web.celery import app
 from Confluence import ConfluenceMain
 from Struts2 import Struts2
 from Apache import ApacheMain
@@ -35,7 +35,7 @@ MedusaVulnerabilityList={
 "FastJson":FastJson.Main,
 "Windows":Windows.Main}
 
-@shared_task
+@app.tasks
 def MedusaScan(Url,Token,Module,WebScanThreads,Values):
     WebScanThreadPool =ThreadPool()#定义一个线程池
     if Module=="all":

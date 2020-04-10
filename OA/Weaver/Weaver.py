@@ -7,11 +7,11 @@ from OA.Weaver import WeaverDatabaseConfigurationLeakVulnerability
 from OA.Weaver import WeaverWorkflowCenterTreeDataInterfaceInjectionVulnerability
 from OA.Weaver import WeaveSQLInjectionVulnerability
 from ClassCongregation import Prompt
-def Main(ThreadPool,Url,Values,UnixTimestamp):
-    ThreadPool.Append(WeaverArbitraryFileDownloadVulnerability.medusa, Url, Values, UnixTimestamp)
-    ThreadPool.Append(WeaverCommandExecution.medusa, Url, Values, UnixTimestamp)
-    ThreadPool.Append(WeaverDatabaseConfigurationInformationLeaked.medusa,Url,Values,UnixTimestamp)
-    ThreadPool.Append(WeaverDatabaseConfigurationLeakVulnerability.medusa, Url, Values, UnixTimestamp)
-    ThreadPool.Append(WeaverWorkflowCenterTreeDataInterfaceInjectionVulnerability.medusa, Url, Values, UnixTimestamp)
-    ThreadPool.Append(WeaveSQLInjectionVulnerability.medusa, Url, Values, UnixTimestamp)
+def Main(ThreadPool,Url,Values,Token,proxies):
+    ThreadPool.Append(WeaverArbitraryFileDownloadVulnerability.medusa, Url, Values, Token,proxies=proxies)
+    ThreadPool.Append(WeaverCommandExecution.medusa, Url, Values, Token,proxies=proxies)
+    ThreadPool.Append(WeaverDatabaseConfigurationInformationLeaked.medusa,Url,Values,Token,proxies=proxies)
+    ThreadPool.Append(WeaverDatabaseConfigurationLeakVulnerability.medusa, Url, Values, Token,proxies=proxies)
+    ThreadPool.Append(WeaverWorkflowCenterTreeDataInterfaceInjectionVulnerability.medusa, Url, Values, Token,proxies=proxies)
+    ThreadPool.Append(WeaveSQLInjectionVulnerability.medusa, Url, Values, Token,proxies=proxies)
     Prompt("Weaver")

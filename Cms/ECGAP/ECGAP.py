@@ -7,10 +7,10 @@ from Cms.ECGAP import ECGAPSQLInjectionVulnerability3
 from Cms.ECGAP import ECGAPSQLInjectionVulnerability4
 from ClassCongregation import Prompt
 
-def Main(ThreadPool,Url,Values,UnixTimestamp):
-    ThreadPool.Append(ECGAPSQLInjectionVulnerability.medusa, Url, Values, UnixTimestamp)
-    ThreadPool.Append(ECGAPSQLInjectionVulnerability1.medusa, Url, Values, UnixTimestamp)
-    ThreadPool.Append(ECGAPSQLInjectionVulnerability2.medusa, Url, Values, UnixTimestamp)
-    ThreadPool.Append(ECGAPSQLInjectionVulnerability3.medusa, Url, Values, UnixTimestamp)
-    ThreadPool.Append(ECGAPSQLInjectionVulnerability4.medusa, Url, Values, UnixTimestamp)
+def Main(ThreadPool,Url,Values,Token,proxies):
+    ThreadPool.Append(ECGAPSQLInjectionVulnerability.medusa, Url, Values, Token,proxies=proxies)
+    ThreadPool.Append(ECGAPSQLInjectionVulnerability1.medusa, Url, Values, Token,proxies=proxies)
+    ThreadPool.Append(ECGAPSQLInjectionVulnerability2.medusa, Url, Values, Token,proxies=proxies)
+    ThreadPool.Append(ECGAPSQLInjectionVulnerability3.medusa, Url, Values, Token,proxies=proxies)
+    ThreadPool.Append(ECGAPSQLInjectionVulnerability4.medusa, Url, Values, Token,proxies=proxies)
     Prompt("ECGAP")

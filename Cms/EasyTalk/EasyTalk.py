@@ -14,17 +14,17 @@ from Cms.EasyTalk import EasyTalkSQLInjectionVulnerability10
 from Cms.EasyTalk import EasyTalkAnyFileInclusionVulnerability
 
 from ClassCongregation import Prompt
-def Main(ThreadPool,Url,Values,UnixTimestamp):
-    ThreadPool.Append(EasyTalkSQLInjectionVulnerability.medusa, Url, Values, UnixTimestamp)
-    ThreadPool.Append(EasyTalkSQLInjectionVulnerability1.medusa, Url, Values, UnixTimestamp)
-    ThreadPool.Append(EasyTalkSQLInjectionVulnerability2.medusa, Url, Values, UnixTimestamp)
-    ThreadPool.Append(EasyTalkSQLInjectionVulnerability3.medusa, Url, Values, UnixTimestamp)
-    ThreadPool.Append(EasyTalkSQLInjectionVulnerability4.medusa, Url, Values, UnixTimestamp)
-    ThreadPool.Append(EasyTalkSQLInjectionVulnerability5.medusa, Url, Values, UnixTimestamp)
-    ThreadPool.Append(EasyTalkSQLInjectionVulnerability6.medusa, Url, Values, UnixTimestamp)
-    ThreadPool.Append(EasyTalkSQLInjectionVulnerability7.medusa, Url, Values, UnixTimestamp)
-    ThreadPool.Append(EasyTalkSQLInjectionVulnerability8.medusa, Url, Values, UnixTimestamp)
-    ThreadPool.Append(EasyTalkSQLInjectionVulnerability9.medusa, Url, Values, UnixTimestamp)
-    ThreadPool.Append(EasyTalkSQLInjectionVulnerability10.medusa, Url, Values, UnixTimestamp)
-    ThreadPool.Append(EasyTalkAnyFileInclusionVulnerability.medusa, Url, Values, UnixTimestamp)
+def Main(ThreadPool,Url,Values,Token,proxies):
+    ThreadPool.Append(EasyTalkSQLInjectionVulnerability.medusa, Url, Values, Token,proxies=proxies)
+    ThreadPool.Append(EasyTalkSQLInjectionVulnerability1.medusa, Url, Values, Token,proxies=proxies)
+    ThreadPool.Append(EasyTalkSQLInjectionVulnerability2.medusa, Url, Values, Token,proxies=proxies)
+    ThreadPool.Append(EasyTalkSQLInjectionVulnerability3.medusa, Url, Values, Token,proxies=proxies)
+    ThreadPool.Append(EasyTalkSQLInjectionVulnerability4.medusa, Url, Values, Token,proxies=proxies)
+    ThreadPool.Append(EasyTalkSQLInjectionVulnerability5.medusa, Url, Values, Token,proxies=proxies)
+    ThreadPool.Append(EasyTalkSQLInjectionVulnerability6.medusa, Url, Values, Token,proxies=proxies)
+    ThreadPool.Append(EasyTalkSQLInjectionVulnerability7.medusa, Url, Values, Token,proxies=proxies)
+    ThreadPool.Append(EasyTalkSQLInjectionVulnerability8.medusa, Url, Values, Token,proxies=proxies)
+    ThreadPool.Append(EasyTalkSQLInjectionVulnerability9.medusa, Url, Values, Token,proxies=proxies)
+    ThreadPool.Append(EasyTalkSQLInjectionVulnerability10.medusa, Url, Values, Token,proxies=proxies)
+    ThreadPool.Append(EasyTalkAnyFileInclusionVulnerability.medusa, Url, Values, Token,proxies=proxies)
     Prompt("EasyTalk")

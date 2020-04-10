@@ -650,14 +650,24 @@ class UrlProcessing:#URL处理函数
             res = urllib.parse.urlparse('http://%s' % url)
         return res.scheme, res.hostname, res.port
 
+class Proxies:#代理处理函数
+    def result(self, proxies_ip):
+        if proxies_ip==None:
+            return proxies_ip
+        else:
+            return {"http": "http://{}".format(proxies_ip), "https": "https://{}".format(proxies_ip)}
+
+
+
+
 class ThreadPool:#线程池，所有插件都发送过来一起调用
     def __init__(self):
         self.ThreaList=[]#存放线程列表
         self.text=0#统计线程数
-    def Append(self,plugin,url,Values,Token):
+    def Append(self,plugin,url,Values,Token,proxies):
         self.text+=1
         ua = AgentHeader().result(Values)
-        self.ThreaList.append(threading.Thread(target=plugin, args=(url,ua,Token)))
+        self.ThreaList.append(threading.Thread(target=plugin, args=(url,ua,Token,proxies)))
     def SubdomainAppend(self,plugin,Url,SubdomainJudge):
         self.ThreaList.append(threading.Thread(target=plugin, args=(Url, SubdomainJudge)))
     def NmapAppend(self,plugin,Url):

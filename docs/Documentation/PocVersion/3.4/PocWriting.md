@@ -6,7 +6,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 __author__ = 'Ascotbe'
-from ClassCongregation import VulnerabilityDetails,UrlProcessing,ErrorLog,WriteFile,randoms,ErrorHandling
+from ClassCongregation import VulnerabilityDetails,UrlProcessing,ErrorLog,WriteFile,randoms,ErrorHandling,Proxies
 import json
 import urllib3
 import requests
@@ -28,7 +28,8 @@ class VulnerabilityInfo(object):
         self.info['details'] = Medusa  # 结果
 
 
-def medusa(Url, RandomAgent, UnixTimestamp):
+def medusa(Url,RandomAgent,Token,proxies=None):
+    proxies=Proxies().result(proxies)
     scheme, url, port = UrlProcessing().result(Url)
     if port is None and scheme == 'https':
         port = 443
@@ -58,7 +59,7 @@ def medusa(Url, RandomAgent, UnixTimestamp):
         }
 
         data = json.dumps(data)
-        resp = requests.post(payload_url,data=data,headers=headers, timeout=6, verify=False)
+        resp = requests.post(payload_url,data=data,headers=headers, proxies=proxies, timeout=6, verify=False)
         head = resp.headers.get("Location")
         code = resp.status_code
         if code == 201 and head.find("/api/users/")!=-1:
@@ -66,7 +67,7 @@ def medusa(Url, RandomAgent, UnixTimestamp):
                                                                                                           payload_url,
                                                                                                           rm,rm,head)
             _t = VulnerabilityInfo(Medusa)
-            VulnerabilityDetails(_t.info, url,UnixTimestamp).Write()  # 传入url和扫描到的数据
+            VulnerabilityDetails(_t.info, url,Token).Write()  # 传入url和扫描到的数据
             WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
     except Exception as e:
         _ = VulnerabilityInfo('').info.get('algroup')
@@ -153,7 +154,8 @@ scheme, url, port = ClassCongregation.UrlProcessing().result(Url)
 ### medusa函数
 
 ```python
-def medusa(Url, RandomAgent, UnixTimestamp):
+def medusa(Url,RandomAgent,Token,proxies=None):
+    proxies=Proxies().result(proxies)
     scheme, url, port = UrlProcessing().result(Url)
     if port is None and scheme == 'https':
         port = 443
@@ -183,7 +185,7 @@ def medusa(Url, RandomAgent, UnixTimestamp):
         }
 
         data = json.dumps(data)
-        resp = requests.post(payload_url,data=data,headers=headers, timeout=6, verify=False)
+        resp = requests.post(payload_url,data=data,headers=headers, proxies=proxies, timeout=6, verify=False)
         head = resp.headers.get("Location")
         code = resp.status_code
         if code == 201 and head.find("/api/users/")!=-1:
@@ -191,7 +193,7 @@ def medusa(Url, RandomAgent, UnixTimestamp):
                                                                                                           payload_url,
                                                                                                           rm,rm,head)
             _t = VulnerabilityInfo(Medusa)
-			VulnerabilityDetails(_t.info, url,UnixTimestamp).Write()  # 传入url和扫描到的数据
+			VulnerabilityDetails(_t.info, url,Token).Write()  # 传入url和扫描到的数据
             WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
     except Exception as e:
         _ = VulnerabilityInfo('').info.get('algroup')
@@ -207,19 +209,19 @@ def medusa(Url, RandomAgent, UnixTimestamp):
 - ###### RandomAgent
   - 扫描器传入的随机或者自定义的`User-Agent`
 
-- ###### ~~ProxyIp~~（已弃用）
-  - ~~扫描器出入的代理，默认是关闭的~~
+- ###### proxies=None
+  - 扫描器的代理，默认是关闭的
+  - 如果需要代理只需要传入参数即可
   
-- ###### UnixTimestamp
+- ###### Token
 
-  - 该时间戳参数在`3.2`插件模板中替换了弃用的`ProxyIp`参数
-  - 扫描器传入的时间戳
+  - 该参数在`3.4`插件模板中替换`UnixTimestamp`参数
 
 ##### 注意点:
 
 - ###### 端口
 
-  每个url都必须加上一个端口号，这样后续可以针对单个`URL`进行不同的端口服务的全量扫描
+  每个`url`都必须加上一个端口号，这样后续可以针对单个`URL`进行不同的端口服务的全量扫描
 
   ```python
   scheme + "://" + url + ":" + str(port) + payload
@@ -299,11 +301,12 @@ def medusa(Url, RandomAgent, UnixTimestamp):
     id=1&name=xxx
     ```
 
-  - 比如远程执行如果有回显返回回显内容，如果无回显返回DNSlog验证数据内容
+  - 比如远程执行如果有回显返回回显内容，如果无回显返回`DNSlog`验证数据内容
 
-- ###### ~~ProxyIp~~（已弃用）
-  - ~~必须存在如下的`if..elif`判断语句，并且里面的值`resp`需要在前面声明全局使用(例:`global resp`~~
-
+- ###### proxies
+  - 该参数默认是`None`
+- 不管传不传参数都会调用类中的`Proxies().result(proxies)`函数，如果是默认值就还是返回默认值，如果有产生会进行封装，然后返回一个字典
+  
 - ###### 判断漏洞存在
   - `if`判断一定要唯一性，唯一的返回状态码，唯一只在该漏洞存在的字符串正常页面不会存在的，如下所示:
 
@@ -361,7 +364,7 @@ def medusa(Url, RandomAgent, UnixTimestamp):
     - 整体替换如下:
     
       ```python
-      def medusa(Url, RandomAgent,UnixTimestamp):
+      def medusa(Url,RandomAgent,Token,proxies=None):
           scheme, url, port = UrlProcessing().result(Url)
           if port is None and scheme == 'https':
               port = 443
@@ -384,7 +387,7 @@ def medusa(Url, RandomAgent, UnixTimestamp):
                   if code == 200 and con.find(....):
                       Medusa = "{}存在XXX漏洞\r\n验证数据:\r\nRequests:{}\r\n".format(url, con)
                       _t = VulnerabilityInfo(Medusa)
-      				VulnerabilityDetails(_t.info, url,UnixTimestamp).Write()  # 传入url和扫描到的数据
+      				VulnerabilityDetails(_t.info, url,Token).Write()  # 传入url和扫描到的数据
                       web.High()  # serious表示严重，High表示高危，Intermediate表示中危，Low表示低危
               except Exception as e:
                   _ = VulnerabilityInfo('').info.get('algroup')

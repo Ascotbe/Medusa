@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import requests
-from ClassCongregation import VulnerabilityDetails,UrlProcessing,ErrorLog,WriteFile,ErrorHandling
+from ClassCongregation import VulnerabilityDetails,UrlProcessing,ErrorLog,WriteFile,ErrorHandling,Proxies
 class VulnerabilityInfo(object):
     def __init__(self,Medusa):
         self.info = {}
@@ -19,8 +19,8 @@ class VulnerabilityInfo(object):
         self.info['details'] = Medusa  # 结果
 
 
-def medusa(Url,RandomAgent,UnixTimestamp):
-
+def medusa(Url,RandomAgent,Token,proxies=None):
+    proxies=Proxies().result(proxies)
     scheme, url, port = UrlProcessing().result(Url)
     if port is None and scheme == 'https':
         port = 443
@@ -39,14 +39,14 @@ def medusa(Url,RandomAgent,UnixTimestamp):
             "Content-Type": "application/x-www-form-urlencoded"
         }
 
-        resp = requests.get(payload_url,headers=headers, timeout=6, verify=False)
-        resp2 = requests.get(payload_url2, headers=headers, timeout=6, verify=False)
+        resp = requests.get(payload_url,headers=headers, timeout=6,proxies=proxies, verify=False)
+        resp2 = requests.get(payload_url2, headers=headers, timeout=6,proxies=proxies, verify=False)
         code2 = resp2.status_code
         code = resp.status_code
         if code==200 and code2==404:
             Medusa = "{} 存在Struts2远程代码执行漏洞\r\n漏洞详情:\r\n版本号:S2-020\r\n返回数据:{}\r\n".format(url, payload_url)
             _t=VulnerabilityInfo(Medusa)
-            VulnerabilityDetails(_t.info, url,UnixTimestamp).Write()  # 传入url和扫描到的数据
+            VulnerabilityDetails(_t.info, url,Token).Write()  # 传入url和扫描到的数据
             WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
     except Exception as e:
         _ = VulnerabilityInfo('').info.get('algroup')

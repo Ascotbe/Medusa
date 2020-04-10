@@ -4,8 +4,8 @@ from Cms.ChanZhiEPS import ChanZhiEPSSQLInjectionVulnerability
 from Cms.ChanZhiEPS import ChanZhiEPSSQLInjectionVulnerability1
 from Cms.ChanZhiEPS import ChanZhiEPSGetShellVulnerability
 from ClassCongregation import Prompt
-def Main(ThreadPool,Url,Values,UnixTimestamp):
-    ThreadPool.Append(ChanZhiEPSSQLInjectionVulnerability.medusa, Url, Values, UnixTimestamp)
-    ThreadPool.Append(ChanZhiEPSSQLInjectionVulnerability1.medusa, Url, Values, UnixTimestamp)
-    ThreadPool.Append(ChanZhiEPSGetShellVulnerability.medusa, Url, Values, UnixTimestamp)
+def Main(ThreadPool,Url,Values,Token,proxies):
+    ThreadPool.Append(ChanZhiEPSSQLInjectionVulnerability.medusa, Url, Values, Token,proxies=proxies)
+    ThreadPool.Append(ChanZhiEPSSQLInjectionVulnerability1.medusa, Url, Values, Token,proxies=proxies)
+    ThreadPool.Append(ChanZhiEPSGetShellVulnerability.medusa, Url, Values, Token,proxies=proxies)
     Prompt("ChanZhiEPS")

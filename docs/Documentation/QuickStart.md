@@ -100,10 +100,10 @@ python3 MedusaScan.py -u https://www.ascotbe.com -j
 python3 MedusaScan.py -u https://www.ascotbe.com -s
 ```
 
-#### ~~0x05 开启代理功能~~
+#### 0x05 开启代理功能
 
 ```
-python3 MedusaScan.py -u https://www.ascotbe.com -p （该功能暂时弃用后续在更新
+python3 MedusaScan.py -u https://www.ascotbe.com -p 127.0.0.1:8080
 ```
 
 #### 0x06 使用指定Header头

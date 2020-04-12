@@ -1,11 +1,8 @@
 #!/usr/bin/env python
 # _*_ coding: utf-8 _*_
 import threading
-import os
-import time
-import sys
 import requests
-from ClassCongregation import AgentHeader,ErrorLog,VulnerabilityDetails,WriteFile,UrlProcessing
+from ClassCongregation import AgentHeader,ErrorLog,VulnerabilityDetails,WriteFile,UrlProcessing,ErrorHandling,Proxies
 class TargetInfo:
     def __init__(self,Medusa,Algroup,Name,Affects):
         self.info = {}
@@ -28,29 +25,24 @@ class TargetInfo:
 class SensitiveFile:
     def __init__(self):
         self.Thread=[]#多线程列表
-        self.ThreadNumber=20000
         self.TargetList=[]#存放目标URL
-        self.UnixTime=str(int(time.time()))
         self.headers = {
             'Accept-Encoding': 'gzip, deflate',
             'Accept': '*/*',
             'User-Agent': AgentHeader().result("chrome"),
         }
-        global TargetName
-        if sys.platform == "win32" or sys.platform == "cygwin":
-            TargetName = os.path.split(os.path.realpath(__file__))[
-                          0] + "\\Target\\"
-        elif sys.platform == "linux" or sys.platform == "darwin":
-            TargetName = os.path.split(os.path.realpath(__file__))[0] + "/Target/"
-        with open(TargetName + self.TargetDocument, 'r', encoding='UTF-8') as f:
-            line = f.readline()
-            while line:
-                self.TargetList.append(line.replace('\n', ''))  # 删除\n符号
-                line = f.readline()
+        # global TargetName
+        # if sys.platform == "win32" or sys.platform == "cygwin":
+        #     TargetName = os.path.split(os.path.realpath(__file__))[
+        #                   0] + "\\Target\\"
+        # elif sys.platform == "linux" or sys.platform == "darwin":
+        #     TargetName = os.path.split(os.path.realpath(__file__))[0] + "/Target/"
+
+
     def GetRequest(self,url):#get请求模块
-        return requests.get(url,headers=self.headers, timeout=5, verify=False)
+        return requests.get(url,headers=self.headers, timeout=5,proxies=self.proxies, verify=False)
     def PostRequest(self,url,data):#post请求模块
-        return requests.post(url,headers=self.headers,data=data, timeout=5, verify=False)
+        return requests.post(url,headers=self.headers,data=data,proxies=self.proxies, timeout=5, verify=False)
     def Druid(self,url):
         Algroup="DruidMonitoringSystemLeakVulnerability"
         Name="Druid监控系统泄露漏洞"
@@ -61,24 +53,27 @@ class SensitiveFile:
         for payload in list:
             urls = url+ '/druid' + payload
             DruidThreadList.append(threading.Thread(target=self.DruidThread, args=(urls,Algroup,Name,Affects,)))
-        try:
-            for t in DruidThreadList:  # 开启列表中的多线程
-                t.setDaemon(True)
-                t.start()
-            for t in DruidThreadList:
-                t.join()
-        except:
-            _l = ErrorLog().Write(url, Name)  # 调用写入类传入URL和错误插件名
+        for t in DruidThreadList:  # 开启列表中的多线程
+            t.setDaemon(True)
+            t.start()
+        for t in DruidThreadList:
+            t.join()
+
 
     def DruidThread(self,urls,Algroup,Name,Affects):
-        resp=self.GetRequest(urls)
-        con = resp.text
-        code = resp.status_code
-        if code == 200 and con.lower().find('druid.common') != -1:
-            Medusa = "{}存在{}\r\n漏洞详情:{}\r\n".format(urls, Name, con)
-            _t = TargetInfo(Medusa, Algroup, Name, Affects)
-            VulnerabilityDetails(_t.info, urls,self.UnixTime).Write()  # 传入url和扫描到的数据
-            WriteFile().result(str(self.TargetUrl), str(Medusa))
+        try:
+            resp=self.GetRequest(urls)
+            con = resp.text
+            code = resp.status_code
+            if code == 200 and con.lower().find('druid.common') != -1:
+                Medusa = "{}存在{}\r\n漏洞详情:{}\r\n".format(urls, Name, con)
+                _t = TargetInfo(Medusa, Algroup, Name, Affects)
+                VulnerabilityDetails(_t.info, urls,self.Token).Write()  # 传入url和扫描到的数据
+                WriteFile().result(str(self.TargetUrl), str(Medusa))
+        except Exception as e:
+            _l = ErrorLog().Write(urls, Name)  # 调用写入类传入URL和错误插件名
+            _ = TargetInfo('',Algroup,Name,Affects).info.get('algroup')
+            ErrorHandling().Outlier(e, _)
 
     def Git(self,url):
         Algroup="GitVersionManagementSourceLeakVulnerability"
@@ -92,10 +87,12 @@ class SensitiveFile:
             if code==200 and con.lower().find('repositoryformatversion')!=-1 :
                 Medusa = "{}存在{}\r\n漏洞详情:{}\r\n".format(urls,Name, con)
                 _t = TargetInfo(Medusa,Algroup,Name,Affects)
-                VulnerabilityDetails(_t.info, urls, self.UnixTime).Write()  # 传入url和扫描到的数据
+                VulnerabilityDetails(_t.info, urls, self.Token).Write()  # 传入url和扫描到的数据
                 WriteFile().result(str(self.TargetUrl), str(Medusa))
-        except:
+        except Exception as e:
             _l = ErrorLog().Write(url, Name)  # 调用写入类传入URL和错误插件名
+            _ = TargetInfo('', Algroup, Name, Affects).info.get('algroup')
+            ErrorHandling().Outlier(e, _)
     def Java(self,url):
         Algroup="JavaConfigurationFile"
         Name="Java配置文件泄露漏洞"
@@ -108,10 +105,13 @@ class SensitiveFile:
             if code == 200 and resp.headers["Content-Type"] == "application/xml":
                 Medusa = "{}存在{}\r\n漏洞详情:{}\r\n".format(urls,Name, con)
                 _t = TargetInfo(Medusa,Algroup,Name,Affects)
-                VulnerabilityDetails(_t.info, urls,self.UnixTime).Write()  # 传入url和扫描到的数据
+                VulnerabilityDetails(_t.info, urls,self.Token).Write()  # 传入url和扫描到的数据
                 WriteFile().result(str(self.TargetUrl), str(Medusa))
-        except:
+
+        except Exception as e:
             _l = ErrorLog().Write(url, Name)  # 调用写入类传入URL和错误插件名
+            _ = TargetInfo('', Algroup, Name, Affects).info.get('algroup')
+            ErrorHandling().Outlier(e, _)
     def JetBrains(self,url):
         Algroup="JetBrainsFileLeakVulnerability"
         Name="JetBrains文件泄露漏洞"
@@ -124,10 +124,12 @@ class SensitiveFile:
             if code==200 and con.lower().find('<?xml version=')!=-1 and con.lower().find('project version')!=-1:
                 Medusa = "{}存在{}\r\n漏洞详情:{}\r\n".format(urls,Name, con)
                 _t = TargetInfo(Medusa,Algroup,Name,Affects)
-                VulnerabilityDetails(_t.info, urls,self.UnixTime).Write()  # 传入url和扫描到的数据
+                VulnerabilityDetails(_t.info, urls,self.Token).Write()  # 传入url和扫描到的数据
                 WriteFile().result(str(self.TargetUrl), str(Medusa))
-        except:
+        except Exception as e:
             _l = ErrorLog().Write(url, Name)  # 调用写入类传入URL和错误插件名
+            _ = TargetInfo('', Algroup, Name, Affects).info.get('algroup')
+            ErrorHandling().Outlier(e, _)
     def PhpApc(self,url):
         Algroup="PhpApcCachePageInformationDisclosureVulnerability"
         Name="PhpApc缓存页面信息泄露漏洞"
@@ -140,10 +142,12 @@ class SensitiveFile:
             if code==200 and con.lower().find('apc version')!=-1:
                 Medusa = "{}存在{}\r\n漏洞详情:{}\r\n".format(urls,Name, con)
                 _t = TargetInfo(Medusa,Algroup,Name,Affects)
-                VulnerabilityDetails(_t.info, urls,self.UnixTime).Write()  # 传入url和扫描到的数据
+                VulnerabilityDetails(_t.info, urls,self.Token).Write()  # 传入url和扫描到的数据
                 WriteFile().result(str(self.TargetUrl), str(Medusa))
-        except:
+        except Exception as e:
             _l = ErrorLog().Write(url, Name)  # 调用写入类传入URL和错误插件名
+            _ = TargetInfo('', Algroup, Name, Affects).info.get('algroup')
+            ErrorHandling().Outlier(e, _)
     def Sftp(self,url):
         Algroup="SftpInformationDisclosureVulnerability"
         Name="Sftp信息泄露漏洞"
@@ -156,10 +160,12 @@ class SensitiveFile:
             if code==200 and con.lower().find('remote_path')!=-1:
                 Medusa = "{}存在{}\r\n漏洞详情:{}\r\n".format(urls,Name, con)
                 _t = TargetInfo(Medusa,Algroup,Name,Affects)
-                VulnerabilityDetails(_t.info, urls,self.UnixTime).Write()  # 传入url和扫描到的数据
+                VulnerabilityDetails(_t.info, urls,self.Token).Write()  # 传入url和扫描到的数据
                 WriteFile().result(str(self.TargetUrl), str(Medusa))
-        except:
+        except Exception as e:
             _l = ErrorLog().Write(url, Name)  # 调用写入类传入URL和错误插件名
+            _ = TargetInfo('', Algroup, Name, Affects).info.get('algroup')
+            ErrorHandling().Outlier(e, _)
     def Svn(self,url):
         Algroup="SvnVersionManagementSourceCodeLeakVulnerability"
         Name="Svn版本管理源码泄露漏洞"
@@ -172,10 +178,12 @@ class SensitiveFile:
             if code==200 and (con.lower().find('svn://')!=-1 or con.lower().find('svn://')!=-1 or con.lower().find('svn://')!=-1):
                 Medusa = "{}存在{}\r\n漏洞详情:{}\r\n".format(urls,Name, con)
                 _t = TargetInfo(Medusa,Algroup,Name,Affects)
-                VulnerabilityDetails(_t.info, urls,self.UnixTime).Write()  # 传入url和扫描到的数据
+                VulnerabilityDetails(_t.info, urls,self.Token).Write()  # 传入url和扫描到的数据
                 WriteFile().result(str(self.TargetUrl), str(Medusa))
-        except:
+        except Exception as e:
             _l = ErrorLog().Write(url, Name)  # 调用写入类传入URL和错误插件名
+            _ = TargetInfo('', Algroup, Name, Affects).info.get('algroup')
+            ErrorHandling().Outlier(e, _)
     def PhpInfo(self,url):
         Algroup="PhpInfoTestScriptLeakVulnerability"
         Name="PhpInfo测试脚本泄露漏洞"
@@ -252,23 +260,27 @@ class SensitiveFile:
         for payload in list:
             urls = url+ payload
             PhpInfoThreadList.append(threading.Thread(target=self.PhpInfoThread, args=(urls,Algroup,Name,Affects,)))
-        try:
-            for t in PhpInfoThreadList:  # 开启列表中的多线程
-                t.setDaemon(True)
-                t.start()
-            for t in PhpInfoThreadList:
-                t.join()
-        except:
-            _l = ErrorLog().Write(url, Name)  # 调用写入类传入URL和错误插件名
+
+        for t in PhpInfoThreadList:  # 开启列表中的多线程
+            t.setDaemon(True)
+            t.start()
+        for t in PhpInfoThreadList:
+            t.join()
+
     def PhpInfoThread(self,urls,Algroup,Name,Affects):
-        resp=self.GetRequest(urls)
-        con = resp.text
-        code = resp.status_code
-        if code == 200 and con.lower().find('<title>phpinfo()</title>') != -1:
-            Medusa = "{}存在{}\r\n漏洞详情:{}\r\n".format(urls, Name, con)
-            _t = TargetInfo(Medusa, Algroup, Name, Affects)
-            VulnerabilityDetails(_t.info, urls,self.UnixTime).Write()  # 传入url和扫描到的数据
-            WriteFile().result(str(self.TargetUrl), str(Medusa))
+        try:
+            resp=self.GetRequest(urls)
+            con = resp.text
+            code = resp.status_code
+            if code == 200 and con.lower().find('<title>phpinfo()</title>') != -1:
+                Medusa = "{}存在{}\r\n漏洞详情:{}\r\n".format(urls, Name, con)
+                _t = TargetInfo(Medusa, Algroup, Name, Affects)
+                VulnerabilityDetails(_t.info, urls,self.Token).Write()  # 传入url和扫描到的数据
+                WriteFile().result(str(self.TargetUrl), str(Medusa))
+        except Exception as e:
+            _l = ErrorLog().Write(urls, Name)  # 调用写入类传入URL和错误插件名
+            _ = TargetInfo('',Algroup,Name,Affects).info.get('algroup')
+            ErrorHandling().Outlier(e, _)
     def CompressedFile(self,url):
         Algroup="SensitiveCompressedFileDownloadVulnerability"
         Name="敏感压缩文件下载漏洞"
@@ -295,27 +307,30 @@ class SensitiveFile:
                 urls = url + payload+suffix
                 CompressedFileThreadList.append(threading.Thread(target=self.CompressedFileThread, args=(urls, Algroup, Name, Affects,)))
         for suffix in suffixs:#域名加上后缀
-            urls = url + self.TargetUrl + suffix
+            urls = url +"/" +self.TargetUrl + suffix
             CompressedFileThreadList.append(
                 threading.Thread(target=self.CompressedFileThread, args=(urls, Algroup, Name, Affects,)))
-        try:
-            for t in CompressedFileThreadList:  # 开启列表中的多线程
-                t.setDaemon(True)
-                t.start()
-            for t in CompressedFileThreadList:
-                t.join()
-        except:
-            _l = ErrorLog().Write(url, Name)  # 调用写入类传入URL和错误插件名
+
+        for t in CompressedFileThreadList:  # 开启列表中的多线程
+            t.setDaemon(True)
+            t.start()
+        for t in CompressedFileThreadList:
+            t.join()
 
     def CompressedFileThread(self, urls, Algroup, Name, Affects):
-        resp = self.GetRequest(urls)
-        con = resp.text
-        code = resp.status_code
-        if code==200 and (resp.headers["Content-Type"] == "application/zip" or resp.headers["Content-Type"] == "application/x-rar-compressed" or resp.headers["Content-Type"] == "application/x-gzip" or resp.headers["Content-Type"] == "application/gzip") :
-            Medusa = "{}存在{}\r\n漏洞详情:{}\r\n".format(urls, Name, con)
-            _t = TargetInfo(Medusa, Algroup, Name, Affects)
-            VulnerabilityDetails(_t.info, urls,self.UnixTime).Write()  # 传入url和扫描到的数据
-            WriteFile().result(str(self.TargetUrl), str(Medusa))
+        try:
+            resp = self.GetRequest(urls)
+            con = resp.text
+            code = resp.status_code
+            if code==200 and (resp.headers.get("Content-Type")== "application/zip" or resp.headers.get("Content-Type") == "application/x-rar-compressed" or resp.headers.get("Content-Type") == "application/x-gzip" or resp.headers.get("Content-Type") == "application/gzip") :
+                Medusa = "{}存在{}\r\n漏洞详情:{}\r\n".format(urls, Name, con)
+                _t = TargetInfo(Medusa, Algroup, Name, Affects)
+                VulnerabilityDetails(_t.info, urls,self.Token).Write()  # 传入url和扫描到的数据
+                WriteFile().result(str(self.TargetUrl), str(Medusa))
+        except Exception as e:
+            _l = ErrorLog().Write(urls, Name)  # 调用写入类传入URL和错误插件名
+            _ = TargetInfo('',Algroup,Name,Affects).info.get('algroup')
+            ErrorHandling().Outlier(e, _)
 
     def SensitiveFile(self,url):
         Algroup="SensitiveFileDownloadVulnerability"
@@ -331,24 +346,81 @@ class SensitiveFile:
         for payload in payloads:
             urls = url + payload
             SensitiveFileThreadList.append(threading.Thread(target=self.SensitiveFileThread, args=(urls, Algroup, Name, Affects,)))
-        try:
-            for t in SensitiveFileThreadList:  # 开启列表中的多线程
-                t.setDaemon(True)
-                t.start()
-            SensitiveFileThreadList.clear()#清空列表
-        except:
-            _l = ErrorLog().Write(url, Name)  # 调用写入类传入URL和错误插件名
+
+        for t in SensitiveFileThreadList:  # 开启列表中的多线程
+            t.setDaemon(True)
+            t.start()
+        SensitiveFileThreadList.clear()#清空列表
+
     def SensitiveFileThread(self, urls, Algroup, Name, Affects):
-        resp = self.GetRequest(urls)
-        con = resp.text
-        code = resp.status_code
-        if code == 200 and resp.headers["Content-Type"] == "text/plain":
-            Medusa = "{}存在{}\r\n漏洞详情:{}\r\n".format(urls, Name, con)
-            _t = TargetInfo(Medusa, Algroup, Name, Affects)
-            VulnerabilityDetails(_t.info, urls,self.UnixTime).Write()  # 传入url和扫描到的数据
-            WriteFile().result(str(self.TargetUrl), str(Medusa))
-    def Main(self,url):
+        try:
+            resp = self.GetRequest(urls)
+            con = resp.text
+            code = resp.status_code
+            if code == 200 and resp.headers["Content-Type"] == "text/plain":
+                Medusa = "{}存在{}\r\n漏洞详情:{}\r\n".format(urls, Name, con)
+                _t = TargetInfo(Medusa, Algroup, Name, Affects)
+                VulnerabilityDetails(_t.info, urls,self.Token).Write()  # 传入url和扫描到的数据
+                WriteFile().result(str(self.TargetUrl), str(Medusa))
+        except Exception as e:
+            _l = ErrorLog().Write(urls, Name)  # 调用写入类传入URL和错误插件名
+            _ = TargetInfo('',Algroup,Name,Affects).info.get('algroup')
+            ErrorHandling().Outlier(e, _)
+    def File(self,Target,Token,ThreadNumber,proxies=None):
+        self.Token=Token
+        self.proxies = Proxies().result(proxies)
+        with open(Target, 'r', encoding='UTF-8') as f:
+            line = f.readline()
+            while line:
+                self.TargetList.append(line.replace('\n', ''))  # 删除\n符号
+                line = f.readline()
+        for url in self.TargetList:
+            scheme, self.TargetUrl, port = UrlProcessing().result(url)  # 获取目标的url
+            self.Thread.append(threading.Thread(target=self.Druid, args=(url,)))
+            self.Thread.append(threading.Thread(target=self.Git, args=(url,)))
+            self.Thread.append(threading.Thread(target=self.Java, args=(url,)))
+            self.Thread.append(threading.Thread(target=self.JetBrains, args=(url,)))
+            self.Thread.append(threading.Thread(target=self.PhpApc, args=(url,)))
+            self.Thread.append(threading.Thread(target=self.Sftp, args=(url,)))
+            self.Thread.append(threading.Thread(target=self.Svn, args=(url,)))
+            self.Thread.append(threading.Thread(target=self.PhpInfo, args=(url,)))
+            self.Thread.append(threading.Thread(target=self.CompressedFile, args=(url,)))
+            self.Thread.append(threading.Thread(target=self.SensitiveFile, args=(url,)))
+
+        for t in self.Thread:  # 开启总中的多线程
+            t.start()
+            while True:
+                # 判断正在运行的线程数量,如果小于5则退出while循环,
+                # 进入for循环启动新的进程.否则就一直在while循环进入死循环
+                if (len(threading.enumerate()) < ThreadNumber):
+                    break
+        for t in self.Thread:
+            t.join()
+
+    def Domain(self, url,Token,ThreadNumber,proxies=None):
+        self.Token = Token
+        self.proxies = Proxies().result(proxies)
         scheme, self.TargetUrl, port = UrlProcessing().result(url)  # 获取目标的url
-        self.TargetDocument=self.TargetUrl+".txt"#获取目标的文件名字
+
+        self.Thread.append(threading.Thread(target=self.Druid, args=(url,)))
+        self.Thread.append(threading.Thread(target=self.Git, args=(url,)))
+        self.Thread.append(threading.Thread(target=self.Java, args=(url,)))
+        self.Thread.append(threading.Thread(target=self.JetBrains, args=(url,)))
+        self.Thread.append(threading.Thread(target=self.PhpApc, args=(url,)))
+        self.Thread.append(threading.Thread(target=self.Sftp, args=(url,)))
+        self.Thread.append(threading.Thread(target=self.Svn, args=(url,)))
+        self.Thread.append(threading.Thread(target=self.PhpInfo, args=(url,)))
+        self.Thread.append(threading.Thread(target=self.CompressedFile, args=(url,)))
+        self.Thread.append(threading.Thread(target=self.SensitiveFile, args=(url,)))
+
+        for t in self.Thread:  # 开启总中的多线程
+            t.start()
+            while True:
+                # 判断正在运行的线程数量,如果小于5则退出while循环,
+                # 进入for循环启动新的进程.否则就一直在while循环进入死循环
+                if (len(threading.enumerate()) < ThreadNumber):
+                    break
+        for t in self.Thread:
+            t.join()
 
 

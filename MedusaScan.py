@@ -10,7 +10,7 @@ from FastJson import FastJson
 from Harbor import Harbor
 from Citrix import CitrixMain
 from InformationDetector import sublist3r
-#from InformationLeakage import InformationDisclosureMain
+from InformationLeakage.InformationLeakDetection import SensitiveFile#这是个类
 from Rails import RailsMain
 from Kibana import KibanaMain
 from PHPStudy import PHPStudy
@@ -33,6 +33,7 @@ parser.add_argument('-u','--url',type=str,help="Target url")
 parser.add_argument('-m','--Module',type=str,help="Scan an application individually")
 parser.add_argument('-p','--ProxiesIP',type=str,help="Need to enter a proxy IP")
 parser.add_argument('-a','--agent',type=str,help="Specify a header file or use a random header")
+parser.add_argument('-i','--Info',type=str,help="Pass in a file, the content of the file should meet the specifications in the document")
 parser.add_argument('-t','--ThreadNumber',type=int,help="Set the number of threads, the default number of threads 15.")
 parser.add_argument('-f','--InputFileName',type=str,help="Specify bulk scan file batch scan")
 parser.add_argument('-sp','--SqlPasswrod',type=str,help="Please enter an password file.")
@@ -151,6 +152,7 @@ if __name__ == '__main__':
     Subdomain=args.Subdomain#开启子域名枚举
     ThreadNumber=args.ThreadNumber#要使用的线程数默认15
     proxies= args.ProxiesIP#代理的IP
+    InformationProbeFile=args.Info#信息探测文件
     if Values==None:#使用随机头
         agentHeader="None"
     else:
@@ -162,6 +164,17 @@ if __name__ == '__main__':
     Token=str(int(time.time()))+"medusa"#获取赋予的token
     if ThreadNumber==None:#如果线程数为空，那么默认为15
         ThreadNumber=15
+
+    if InformationProbeFile!=None:
+        try:
+            SensitiveFile().File(InformationProbeFile, Token, ThreadNumber, proxies)  # 对文件进行信息探测
+            print("\033[1;40;31m[ ! ] After the information leakage detection is over, check the written file or database!\033[0m")
+            os._exit(0)
+        except:
+            print("\033[1;40;31m[ ! ] File input error, please check!\033[0m")
+            os._exit(0)  # 直接退出整个函数
+
+
     if Url==None and InputFileName==None:#如果找不到URL的话直接退出
         print("\033[1;40;31m[ ! ] Incorrect input, please enter -h to view help\033[0m")
         os._exit(0)#直接退出整个函数
@@ -180,6 +193,7 @@ if __name__ == '__main__':
         SubdomainJudge = "b"
         ThreadPool.SubdomainAppend(SubdomainCrawling, Url,SubdomainJudge)
     InitialScan(ThreadPool,InputFileName, Url,Token,Module,agentHeader,proxies)#最后启动主扫描函数，这样如果多个IP的话优化速度，里面会做url或者url文件的判断
+    SensitiveFile().Domain(Url,Token,ThreadNumber,proxies)#单个url信息探测
     print("\033[1;40;31m[ ! ] Scan is complete, please see the ScanResult file\033[0m")
 
 

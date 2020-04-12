@@ -24,7 +24,8 @@ def UrlProcessing(url):
     return res.scheme, res.hostname, res.port
 
 
-def medusa(Url,RandomAgent,ProxyIp):
+def medusa(Url,RandomAgent,Token,proxies=None):
+    proxies=ClassCongregation.Proxies().result(proxies)
 
     scheme, url, port = UrlProcessing(Url)
     if port is None and scheme == 'https':
@@ -41,12 +42,13 @@ def medusa(Url,RandomAgent,ProxyIp):
             'Accept': '*/*',
             'User-Agent': RandomAgent,
         }
-        resp = requests.options(payload_url,headers=headers, timeout=5, verify=False)
+        resp = requests.options(payload_url,headers=headers,proxies=proxies, timeout=5, verify=False)
         if r"OPTIONS" in resp.headers['Allow']:
             Medusa = "{}存在options方法开启漏洞 \r\n漏洞详情:\r\nPayload:{}\r\n".format(url, payload_url)
             _t = VulnerabilityInfo(Medusa)
-            ClassCongregation.VulnerabilityDetails(_t.info, url).Write()  # 传入url和扫描到的数据
-            return (str(_t.info))
-    except:
+            ClassCongregation.VulnerabilityDetails(_t.info, url, Token).Write()  # 传入url和扫描到的数据
+            ClassCongregation.WriteFile().result(str(url), str(Medusa))  # 写入文件，url为目标文件名统一传入，Medusa为结果
+    except Exception as e:
         _ = VulnerabilityInfo('').info.get('algroup')
-        _l=ClassCongregation.ErrorLog().Write(url,_)#调用写入类
+        ClassCongregation.ErrorHandling().Outlier(e, _)
+        _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类

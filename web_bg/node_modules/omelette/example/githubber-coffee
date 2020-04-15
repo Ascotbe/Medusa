@@ -1,0 +1,24 @@
+#!/usr/bin/env coffee
+
+fs = require "fs"
+omelette = require "../coffee/omelette"
+
+complete = omelette "githubber-coffee <action> <user> <repo>"
+
+complete.on "action", -> @reply ["star", "clone", "update", "push"]
+
+complete.on "user", (action)-> @reply fs.readdirSync "/Users/"
+
+complete.on "repo", (user)-> @reply [
+  "http://github.com/#{user}/helloworld"
+  "http://github.com/#{user}/blabla"
+]
+
+complete.init();
+
+# If you want to setup, you can use `omeletteInstance.setupShellInitFile()` function.
+if ~process.argv.indexOf '--setup'
+  complete.setupShellInitFile()
+
+console.log "Your program's default workflow."
+console.log process.argv

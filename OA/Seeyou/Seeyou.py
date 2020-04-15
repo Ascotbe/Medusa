@@ -11,16 +11,16 @@ from OA.Seeyou import SeeyouSystemFileArbitraryReadVulnerability
 from OA.Seeyou import SeeyouSystemFrameworkVulnerability
 from OA.Seeyou import SeeyouSystemSQLInjectionVulnerability
 from ClassCongregation import Prompt
-def Main(ThreadPool,Url,Values,UnixTimestamp):
-    ThreadPool.Append(SeeyouArbitraryFileReadVulnerability.medusa, Url, Values, UnixTimestamp)
-    ThreadPool.Append(SeeyouMultipleSQLInjectionVulnerabilities.medusa, Url, Values, UnixTimestamp)
-    ThreadPool.Append(SeeyouOALogInformationDisclosureVulnerability.medusa,Url,Values,UnixTimestamp)
-    ThreadPool.Append(SeeyouSeeyouSystemFileArbitraryReadVulnerability2.medusa, Url, Values, UnixTimestamp)
-    ThreadPool.Append(SeeyouSQLInjectionVulnerability2.medusa, Url, Values, UnixTimestamp)
-    ThreadPool.Append(SeeyouSQLInjectionVulnerability3.medusa, Url, Values, UnixTimestamp)
-    ThreadPool.Append(SeeyouStatusDefaultPwdVulnerability.medusa, Url, Values, UnixTimestamp)
-    ThreadPool.Append(SeeyouSystemFileArbitraryReadVulnerability.medusa, Url, Values, UnixTimestamp)
-    ThreadPool.Append(SeeyouSystemFrameworkVulnerability.medusa, Url, Values, UnixTimestamp)
-    ThreadPool.Append(SeeyouSystemSQLInjectionVulnerability.medusa, Url, Values, UnixTimestamp)
+def Main(ThreadPool,Url,Values,Token,proxies):
+    ThreadPool.Append(SeeyouArbitraryFileReadVulnerability.medusa, Url, Values, Token,proxies=proxies)
+    ThreadPool.Append(SeeyouMultipleSQLInjectionVulnerabilities.medusa, Url, Values, Token,proxies=proxies)
+    ThreadPool.Append(SeeyouOALogInformationDisclosureVulnerability.medusa,Url,Values,Token,proxies=proxies)
+    ThreadPool.Append(SeeyouSeeyouSystemFileArbitraryReadVulnerability2.medusa, Url, Values, Token,proxies=proxies)
+    ThreadPool.Append(SeeyouSQLInjectionVulnerability2.medusa, Url, Values, Token,proxies=proxies)
+    ThreadPool.Append(SeeyouSQLInjectionVulnerability3.medusa, Url, Values, Token,proxies=proxies)
+    ThreadPool.Append(SeeyouStatusDefaultPwdVulnerability.medusa, Url, Values, Token,proxies=proxies)
+    ThreadPool.Append(SeeyouSystemFileArbitraryReadVulnerability.medusa, Url, Values, Token,proxies=proxies)
+    ThreadPool.Append(SeeyouSystemFrameworkVulnerability.medusa, Url, Values, Token,proxies=proxies)
+    ThreadPool.Append(SeeyouSystemSQLInjectionVulnerability.medusa, Url, Values, Token,proxies=proxies)
     Prompt("Seeyou")
 

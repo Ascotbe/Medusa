@@ -97,11 +97,10 @@ python3 MedusaScan.py -u https://www.ascotbe.com -j
 python3 MedusaScan.py -u https://www.ascotbe.com -s
 ```
 
-#### ~~0x05 Proxy function~~
+#### 0x05 Proxy function
 
 ```bash
-python3 MedusaScan.py -u https://www.ascotbe.com -p 
-#This feature is deprecated now and will be updated in the future
+python3 MedusaScan.py -u https://www.ascotbe.com -p 127.0.0.1:8080
 ```
 
 #### 0x06 Using target Header
@@ -116,7 +115,7 @@ python3 MedusaScan.py -u https://www.ascotbe.com -a ie
 python3 MedusaScan.py -u https://www.ascotbe.com -a Gecko
 ```
 
-You can also customize the `header` parameter, remember to add double quotes to the custom` header` containing `""`, if your `header` is not compliant, it will not prompt an error
+You can also customize the `header` parameter, remember to add double quotes to the custom` header` containing `" "`, if your `header` is not compliant, it will not prompt an error
 
 ```
 python3 MedusaScan.py -u https://www.ascotbe.com -a "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.2117.157 Safari/537.36"
@@ -126,7 +125,7 @@ python3 MedusaScan.py -u https://www.ascotbe.com -a "Mozilla/5.0 (Windows NT 5.1
 
 #### 0x07 Scanning for single modules
 
-Please use the name supported by the module for the root folder. A folder name corresponds to a module, and please pay attention to capitalization. It is really incomprehensible. Please refer to [in this file] (https://www.ascotbe.com/Medusa / Documentation / # / PluginDirectory) name
+Please use the name supported by the module for the root folder. A folder name corresponds to a module, and please pay attention to capitalization. It is really incomprehensible. Please refer to [in this file](https://www.ascotbe.com/Medusa/Documentation/#/PluginDirectory) name
 
 ```
 python3 MedusaScan.py -u https://www.ascotbe.com -m Struts2
@@ -134,8 +133,40 @@ python3 MedusaScan.py -u https://www.ascotbe.com -m Struts2
 
 #### 0x08 Threads setting
 
+Any function can turn on multi-threading !
+
 ```bash
 python3 MedusaScan.py -u https://www.ascotbe.com -t 100 #100 threads
+```
+
+#### 0x09 sensitive information leakage
+
+Separately detect the domain name or sub-directory in the file, the `target.txt` file indicates the file you need to detect
+
+Documents need to pay attention to several specifications
+
+- Need to fill in `url` and one` url` per line
+
+- `url` needs to bring` http:// `or` https:// `, if both protocols need to be scanned it can be written in two lines
+
+- If different ports in a single `url` correspond to different services, you need to write them. For example, **8080** and **1024** correspond to different services, and if you want to scan all, you need to press the following Written in the form
+
+  ```
+  http://ascotbe.com:1024/test
+  http://ascotbe.com:8080/test
+  ```
+
+- Different subdirectories, such as `test` and` medusa`, also need to be written on separate branches
+
+  ```
+  http://ascotbe.com:1024/test
+  http://ascotbe.com:1024/medusa
+  ```
+
+Then only need to use the following command to detect, if you only want to detect a single `url` regardless of the subdirectory or port and protocol, you do not need to enable this function, the above` -u` parameter already contains the detection function
+
+```bash
+python3 MedusaScan.py -i target.txt
 ```
 
 ## Result

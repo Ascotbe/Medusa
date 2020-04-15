@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import urllib.parse
 import requests
-from ClassCongregation import UrlProcessing,VulnerabilityDetails,WriteFile,ErrorLog,randoms,ErrorHandling
+from ClassCongregation import UrlProcessing,VulnerabilityDetails,WriteFile,ErrorLog,randoms,ErrorHandling,Proxies
 
 class VulnerabilityInfo(object):
     def __init__(self,Medusa):
@@ -20,16 +20,11 @@ class VulnerabilityInfo(object):
         self.info['version'] = "无"  # 这边填漏洞影响的版本
         self.info['details'] = Medusa  # 结果
 
-def UrlProcessing(url):
-    if url.startswith("http"):#判断是否有http头，如果没有就在下面加入
-        res = urllib.parse.urlparse(url)
-    else:
-        res = urllib.parse.urlparse('http://%s' % url)
-    return res.scheme, res.hostname, res.port
 
-def medusa(Url,RandomAgent,UnixTimestamp):
 
-    scheme, url, port = UrlProcessing(Url)
+def medusa(Url,RandomAgent,Token,proxies=None):
+    proxies=Proxies().result(proxies)
+    scheme, url, port =UrlProcessing().result(Url)
     if port is None and scheme == 'https':
         port = 443
     elif port is None and scheme == 'http':
@@ -47,12 +42,12 @@ def medusa(Url,RandomAgent,UnixTimestamp):
         }
 
         s = requests.session()
-        resp = s.get(payload_url,headers=headers, timeout=6, verify=False)
+        resp = s.get(payload_url,headers=headers, timeout=6, proxies=proxies,verify=False)
         con = resp.text
         if con.find("4a8a08f09d37b73795649038408b5f33") != -1:
             Medusa = "{}存在CuteCMSSQL注入漏洞\r\n 验证数据:\r\nUrl:{}\r\nPayload:{}\r\n".format(url,payload_url,con)
             _t = VulnerabilityInfo(Medusa)
-            VulnerabilityDetails(_t.info, url,UnixTimestamp).Write()  # 传入url和扫描到的数据
+            VulnerabilityDetails(_t.info, url,Token).Write()  # 传入url和扫描到的数据
             WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
     except Exception as e:
         _ = VulnerabilityInfo('').info.get('algroup')

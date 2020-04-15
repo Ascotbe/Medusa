@@ -26,7 +26,8 @@ def UrlProcessing(url):
     return res.scheme, res.hostname, res.port
 
 payload="/index.php"
-def medusa(Url,RandomAgent,UnixTimestamp):
+def medusa(Url,RandomAgent,Token,proxies=None):
+    proxies=ClassCongregation.Proxies().result(proxies)
 
     scheme, url, port = UrlProcessing(Url)
     if port is None and scheme == 'https':
@@ -51,12 +52,12 @@ def medusa(Url,RandomAgent,UnixTimestamp):
             'User-Agent': RandomAgent
         }
         s = requests.session()
-        resp = s.get(payload_url,headers=headers, timeout=5, verify=False)
+        resp = s.get(payload_url,headers=headers, timeout=5, proxies=proxies,verify=False)
         if DL.result():
         # if True:
             Medusa = "{} 存在phpStudyBackdoor脚本漏洞\r\n漏洞详情:\r\nPayload:{}\r\nHeader:{}\r\nDNSLOG内容:{}\r\n".format(url, payload_url,headers,DL.dns_host())
             _t = VulnerabilityInfo(Medusa)
-            ClassCongregation.VulnerabilityDetails(_t.info, url,UnixTimestamp).Write()  # 传入url和扫描到的数据
+            ClassCongregation.VulnerabilityDetails(_t.info, url,Token).Write()  # 传入url和扫描到的数据
             ClassCongregation.WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
     except Exception as e:
         _ = VulnerabilityInfo('').info.get('algroup')

@@ -461,3 +461,12 @@ def medusa(Url, RandomAgent, UnixTimestamp):
 ###### 写入函数
 
 - 一定要加入`WriteFile().result(str(url),str(Medusa))`这段代码写入
+
+###### 获取字典
+
+​	比如说这个字典`dict = {'Name': 'Runoob', 'Age': 27}`
+
+- 禁止使用`dict['Name']`这种方式来获取`Name`参数的值
+- 请使用`dict.get('Name')`来获取`Name`参数的值
+
+​	

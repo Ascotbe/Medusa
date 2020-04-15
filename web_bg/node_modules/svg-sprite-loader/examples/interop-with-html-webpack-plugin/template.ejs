@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+<% if (htmlWebpackPlugin.files.sprites) { %>
+  <% for (var spriteFileName in htmlWebpackPlugin.files.sprites) { %>
+    <%= htmlWebpackPlugin.files.sprites[spriteFileName] %>
+  <% } %>
+<% } %>
+
+<svg>
+  <use xlink:href="#twitter"></use>
+</svg>
+
+<svg>
+  <use xlink:href="#facebook"></use>
+</svg>
+
+</body>
+</html>

@@ -3,7 +3,7 @@
 import base64
 from Struts2.CriticalResult import Result
 import requests
-from ClassCongregation import VulnerabilityDetails,UrlProcessing,ErrorLog,WriteFile,ErrorHandling
+from ClassCongregation import VulnerabilityDetails,UrlProcessing,ErrorLog,WriteFile,ErrorHandling,Proxies
 class VulnerabilityInfo(object):
     def __init__(self,Medusa):
         self.info = {}
@@ -21,7 +21,8 @@ class VulnerabilityInfo(object):
         self.info['details'] = Medusa  # 结果
 
 
-def medusa(Url,RandomAgent,UnixTimestamp):
+def medusa(Url,RandomAgent,Token,proxies=None):
+    proxies=Proxies().result(proxies)
 
     scheme, url, port = UrlProcessing().result(Url)
     if port is None and scheme == 'https':
@@ -39,13 +40,13 @@ def medusa(Url,RandomAgent,UnixTimestamp):
             "Content-Type": "application/x-www-form-urlencoded"
         }
 
-        resp = requests.post(payload_url,headers=headers,data=data, timeout=6, verify=False)
+        resp = requests.post(payload_url,headers=headers,data=data,proxies=proxies, timeout=6, verify=False)
         con = resp.text
         resilt=Result(con)
         if resilt=="Linux" or resilt=="NoteOS" or resilt=="Windows":
             Medusa = "{} 存在Struts2远程代码执行漏洞\r\n漏洞详情:\r\n版本号:S2-016\r\n返回数据:{}\r\n".format(url,con,resilt)
             _t=VulnerabilityInfo(Medusa)
-            VulnerabilityDetails(_t.info, url,UnixTimestamp).Write()  # 传入url和扫描到的数据
+            VulnerabilityDetails(_t.info, url,Token).Write()  # 传入url和扫描到的数据
             WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
     except Exception as e:
         _ = VulnerabilityInfo('').info.get('algroup')

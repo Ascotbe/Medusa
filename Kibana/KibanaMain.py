@@ -3,7 +3,7 @@
 from Kibana import KibanaArbitraryFileReadVulnerability
 from Kibana import KibanaRemoteCommandExecutionVulnerability
 from ClassCongregation import Prompt
-def Main(ThreadPool,Url,Values,UnixTimestamp):
-    ThreadPool.Append(KibanaArbitraryFileReadVulnerability.medusa,Url,Values,UnixTimestamp)
-    ThreadPool.Append(KibanaRemoteCommandExecutionVulnerability.medusa, Url, Values, UnixTimestamp)
+def Main(ThreadPool,Url,Values,Token,proxies):
+    ThreadPool.Append(KibanaArbitraryFileReadVulnerability.medusa,Url,Values,Token,proxies=proxies)
+    ThreadPool.Append(KibanaRemoteCommandExecutionVulnerability.medusa, Url, Values, Token,proxies=proxies)
     Prompt("Kibana")

@@ -73,20 +73,20 @@ async def MedusaScan(url: str,token: str) -> str:
     return number_of_scan_results
 
 def BotScan(ThreadPool,url, Values, token):
-    Struts2.Main(ThreadPool, url, Values, token)  # 调用Struts2主函数
-    ConfluenceMain.Main(ThreadPool, url, Values, token)  # 调用 Confluence主函数
-    NginxMain.Main(ThreadPool, url, Values, token)  # 调用Nginx主函数
-    ApacheMain.Main(ThreadPool, url, Values, token)  # 调用Apache主函数
-    PHPStudy.Main(ThreadPool, url, Values, token) # 调用Php主函数
-    CmsMain.Main(ThreadPool, url, Values, token)  # 调用Cms主函数
-    OaMian.Main(ThreadPool, url, Values, token) # 调用OA主函数
-    JenkinsMain.Main(ThreadPool, url, Values, token)  # 调用Jenkins主函数
-    Harbor.Main(ThreadPool, url, Values, token) # 调用Harbor主函数
-    RailsMain.Main(ThreadPool, url, Values, token) # 调用RailsMain主函数
-    KibanaMain.Main(ThreadPool, url, Values, token)  # 调用KibanaMain主函数
-    CitrixMain.Main(ThreadPool, url, Values, token)  # 调用CitrixMain主函数
-    MongoMain.Main(ThreadPool, url, Values, token) # 调用MongoMain主函数
-    SpringMain.Main(ThreadPool, url, Values, token)  # 调用SpringMain主函数
-    FastJson.Main(ThreadPool, url, Values, token)  # 调用FastJson主函数
-    Windows.Main(ThreadPool, url, Values, token)  # 调用Windwos主函数
+    Struts2.Main(ThreadPool, url, Values, token,None)  # 调用Struts2主函数
+    ConfluenceMain.Main(ThreadPool, url, Values, token,None)  # 调用 Confluence主函数
+    NginxMain.Main(ThreadPool, url, Values, token,None)  # 调用Nginx主函数
+    ApacheMain.Main(ThreadPool, url, Values, token,None)  # 调用Apache主函数
+    PHPStudy.Main(ThreadPool, url, Values, token,None) # 调用Php主函数
+    CmsMain.Main(ThreadPool, url, Values, token,None)  # 调用Cms主函数
+    OaMian.Main(ThreadPool, url, Values, token,None) # 调用OA主函数
+    JenkinsMain.Main(ThreadPool, url, Values, token,None)  # 调用Jenkins主函数
+    Harbor.Main(ThreadPool, url, Values, token,None) # 调用Harbor主函数
+    RailsMain.Main(ThreadPool, url, Values, token,None) # 调用RailsMain主函数
+    KibanaMain.Main(ThreadPool, url, Values, token,None)  # 调用KibanaMain主函数
+    CitrixMain.Main(ThreadPool, url, Values, token,None)  # 调用CitrixMain主函数
+    MongoMain.Main(ThreadPool, url, Values, token,None) # 调用MongoMain主函数
+    SpringMain.Main(ThreadPool, url, Values, token,None)  # 调用SpringMain主函数
+    FastJson.Main(ThreadPool, url, Values, token,None)  # 调用FastJson主函数
+    Windows.Main(ThreadPool, url, Values, token,None)  # 调用Windwos主函数
 

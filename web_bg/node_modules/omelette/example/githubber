@@ -1,0 +1,39 @@
+#!/usr/bin/env node
+(function() {
+  var complete, fs, omelette;
+
+  fs = require("fs");
+  omelette = require("../src/omelette");
+  // omelette`githubber|gh
+  //             ${['pull', 'push', 'star']}
+  //             ${() => fs.readdirSync("/Users/")}
+  //             ${({ before }) => [
+  //               `${before}/helloworld`,
+  //               `${before}/blabla`]}
+  //           `.init();
+  complete = omelette("githubber|ghb|gh|g <action> <user> <repo>");
+
+  complete.on("action", function({ reply }) {
+    reply(["star","clone", "update", "push"]);
+  });
+
+  complete.on("user", function({ reply }) {
+    reply(fs.readdirSync("/Users/"));
+  });
+
+  complete.on("repo", function({ before, reply }) {
+    var user = before;
+    reply(["http://github.com/" + user + "/helloworld", "http://github.com/" + user + "/blabla"]);
+  });
+
+  complete.init();
+
+  // If you want to setup, you can use `omeletteInstance.setupShellInitFile()` function.
+  if (~process.argv.indexOf('--setup')) {
+    complete.setupShellInitFile();
+  }
+
+  console.log("Your program's default workflow.");
+  console.log(process.argv);
+
+}).call(this);

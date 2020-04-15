@@ -3,7 +3,7 @@
 from Cms.OneCaitong import OneCaitongElectronicProcurementSystemUploadsArbitraryFiles
 from Cms.OneCaitong import OneCaitongElectronicProcurementSystemUploadsArbitraryFiles2
 from ClassCongregation import Prompt
-def Main(ThreadPool,Url,Values,UnixTimestamp):
-    ThreadPool.Append(OneCaitongElectronicProcurementSystemUploadsArbitraryFiles.medusa, Url, Values, UnixTimestamp)
-    ThreadPool.Append(OneCaitongElectronicProcurementSystemUploadsArbitraryFiles2.medusa, Url, Values, UnixTimestamp)
+def Main(ThreadPool,Url,Values,Token,proxies):
+    ThreadPool.Append(OneCaitongElectronicProcurementSystemUploadsArbitraryFiles.medusa, Url, Values, Token,proxies=proxies)
+    ThreadPool.Append(OneCaitongElectronicProcurementSystemUploadsArbitraryFiles2.medusa, Url, Values, Token,proxies=proxies)
     Prompt("OneCaitong")

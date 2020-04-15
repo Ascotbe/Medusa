@@ -100,10 +100,10 @@ python3 MedusaScan.py -u https://www.ascotbe.com -j
 python3 MedusaScan.py -u https://www.ascotbe.com -s
 ```
 
-#### ~~0x05 开启代理功能~~
+#### 0x05 开启代理功能
 
 ```
-python3 MedusaScan.py -u https://www.ascotbe.com -p （该功能暂时弃用后续在更新
+python3 MedusaScan.py -u https://www.ascotbe.com -p 127.0.0.1:8080
 ```
 
 #### 0x06 使用指定Header头
@@ -136,15 +136,54 @@ python3 MedusaScan.py -u https://www.ascotbe.com -m Struts2
 
 #### 0x08 设置线程数
 
+任何功能都可以开启多线程！
+
 ```
 python3 MedusaScan.py -u https://www.ascotbe.com -t 100
 ```
+
+#### 0x09 敏感信息泄露
+
+单独对文件中的域名或子目录等进行信息探测，`target.txt`文件表示你需要探测的文件
+
+文件需要注意几点规范
+
+- 需要填入`url`并且每一行一个`url`
+
+- `url`需要带上`http://`或者`https://`，如果两个协议都需要扫描可以写成两行
+
+  ```
+  http://ascotbe.com
+  https://ascotbe.com
+  ```
+
+- 如果单个`url`中不同的端口对应不同的服务话，需要都写上，例如**8080**和**1024**分别对应不同的服务，而你想要都扫描到的话需要按下面的形式写
+
+  ```
+  http://ascotbe.com:1024/test
+  http://ascotbe.com:8080/test
+  ```
+
+- 不同的子目录，比如`test`和`medusa`这两个目录，也是需要分行写上
+
+  ```
+  http://ascotbe.com:1024/test
+  http://ascotbe.com:1024/medusa
+  ```
+
+接着只需要使用一下命令即可进行探测，如果只想探测单个`url`不管子目录或者端口以及协议的话就不需要开启该功能，上面`-u`参数就已经包含了该探测功能
+
+```
+python3 MedusaScan.py -i target.txt
+```
+
+
 
 ## 扫描结果
 
 1.输出`The number of vulnerabilities scanned was:0`就表示未扫描到漏洞
 
-2.``ScanResult`目录中除`Medusa.txt`外无别的文件
+2.`ScanResult`目录中除`Medusa.txt`外无别的文件
 
 3.`Medusa.db`文件中也无新增内容，或者未创建该文件
 

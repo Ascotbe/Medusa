@@ -4,8 +4,8 @@ from Cms.CmsEasy import CmsEasyCactiSQLInjectionVulnerability
 from Cms.CmsEasy import CmsEasyCrossSiteScriptingVulnerability
 from Cms.CmsEasy import CmsEasyCrossSiteScriptingVulnerability1
 from ClassCongregation import Prompt
-def Main(ThreadPool,Url,Values,UnixTimestamp):
-    ThreadPool.Append(CmsEasyCrossSiteScriptingVulnerability.medusa, Url, Values, UnixTimestamp)
-    ThreadPool.Append(CmsEasyCrossSiteScriptingVulnerability1.medusa, Url, Values, UnixTimestamp)
-    ThreadPool.Append(CmsEasyCactiSQLInjectionVulnerability.medusa, Url, Values, UnixTimestamp)
+def Main(ThreadPool,Url,Values,Token,proxies):
+    ThreadPool.Append(CmsEasyCrossSiteScriptingVulnerability.medusa, Url, Values, Token,proxies=proxies)
+    ThreadPool.Append(CmsEasyCrossSiteScriptingVulnerability1.medusa, Url, Values, Token,proxies=proxies)
+    ThreadPool.Append(CmsEasyCactiSQLInjectionVulnerability.medusa, Url, Values, Token,proxies=proxies)
     Prompt("CmsEasy")

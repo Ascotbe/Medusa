@@ -31,7 +31,8 @@ def UrlProcessing(url):
         res = urllib.parse.urlparse('http://%s' % url)
     return res.scheme, res.hostname, res.port
 
-def medusa(Url,RandomAgent,UnixTimestamp):
+def medusa(Url,RandomAgent,Token,proxies=None):
+    proxies=ClassCongregation.Proxies().result(proxies)
 
     scheme, url, port = UrlProcessing(Url)
     if port is None and scheme == 'https':
@@ -48,7 +49,7 @@ def medusa(Url,RandomAgent,UnixTimestamp):
             'Content-Type': 'application/x-www-form-urlencoded',
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
         }
-        req = request.Request(payload_url, headers=header)
+        req = request.Request(payload_url, headers=header,)
         response = request.urlopen(req)
         con = response.read().decode('utf8')  # 如果编码报错，去除HTTP Header中的gzip参数即可
         code = response.getcode()
@@ -56,7 +57,7 @@ def medusa(Url,RandomAgent,UnixTimestamp):
                 'Compiler') != -1 and con.find('PHP Version') != -1:
             Medusa = "{} 存在PbootCMS命令执行漏洞\r\n漏洞地址:\r\n{}\r\n漏洞详情:\r\n{}".format(url,payload_url,con)
             _t=VulnerabilityInfo(Medusa)
-            ClassCongregation.VulnerabilityDetails(_t.info, url,UnixTimestamp).Write()  # 传入url和扫描到的数据
+            ClassCongregation.VulnerabilityDetails(_t.info, url,Token).Write()  # 传入url和扫描到的数据
             ClassCongregation.WriteFile().result(str(url), str(Medusa))  # 写入文件，url为目标文件名统一传入，Medusa为结果
     except Exception as e:
         _ = VulnerabilityInfo('').info.get('algroup')

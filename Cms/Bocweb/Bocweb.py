@@ -2,6 +2,6 @@
 # _*_ coding: utf-8 _*_
 from Cms.Bocweb import BocwebNetworkSystemSensitiveInformationLeakage
 from ClassCongregation import Prompt
-def Main(ThreadPool,Url,Values,UnixTimestamp):
-    ThreadPool.Append(BocwebNetworkSystemSensitiveInformationLeakage.medusa, Url, Values, UnixTimestamp)
+def Main(ThreadPool,Url,Values,Token,proxies):
+    ThreadPool.Append(BocwebNetworkSystemSensitiveInformationLeakage.medusa, Url, Values, Token,proxies=proxies)
     Prompt("Bocweb")

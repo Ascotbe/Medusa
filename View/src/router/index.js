@@ -267,24 +267,24 @@ export const asyncRoutes = [
       ]
    },
 
-   // {
-   //   path: '/test',
-   //   component: Layout,
-   //   redirect: '/test/index',
-   //   name: 'index',
-   //   meta: {
-   //     title: 'index',
-   //     icon: 'moon'
-   //   },
-   //   children: [
-   //     {
-   //       path: 'index',
-   //       component: ()=>import('@/views/test/index'),
-   //       name: 'test',
-   //       meta: { title: '测试页面' }
-   //     }
-   //   ]
-   // },
+   {
+     path: '/test',
+     component: Layout,
+     redirect: '/test/index',
+     name: 'index',
+     meta: {
+       title: 'index',
+       icon: 'moon'
+     },
+     children: [
+       {
+         path: 'index',
+         component: ()=>import('@/views/test/index'),
+         name: 'test',
+         meta: { title: '测试页面' }
+       }
+     ]
+   },
 
    {
       path: '/addin',

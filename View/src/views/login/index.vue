@@ -47,8 +47,8 @@
         </el-form-item>
       </el-tooltip>
 
-      <!-- <el-checkbox v-model="checked">请认真阅读并同意服务条款</el-checkbox> -->
-      <el-checkbox :checked="checked" >请认真阅读并同意服务条款</el-checkbox>
+      <!-- <el-checkbox :checked="checked" @change="changed" >请认真阅读并同意服务条款</el-checkbox>-->
+      <el-checkbox @change="changed" v-model="checked">请认真阅读并同意服务条款</el-checkbox>
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
 
       <div style="position:relative">
@@ -157,8 +157,12 @@ export default {
         this.$refs.password.focus()
       })
     },
-    // var that=this;
-      handleLogin() {
+    changed(){
+      var that=this;
+      console.log(that.checked);
+    },
+
+    handleLogin() {
       if(this.checked==true){
       this.$refs.loginForm.validate(valid => {
         if (valid) {

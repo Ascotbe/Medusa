@@ -35,6 +35,7 @@ from Cms.EasyCMS import EasyCMS
 from Cms.EnableQ import EnableQ
 from Cms.EcoCMS import EcoCMS
 from Cms.ECGAP import ECGAP
+from Cms.Ecshop import Ecshop
 from Cms.Easethink import Easethink
 from Cms.Coremail import Coremail
 from Cms.ThinkPHP import ThinkPHP
@@ -79,6 +80,7 @@ def Main(ThreadPool,Url,Values,UnixTimestamp,proxies):
     EasyCMS.Main(ThreadPool,Url,Values,UnixTimestamp,proxies)
     ECGAP.Main(ThreadPool,Url,Values,UnixTimestamp,proxies)
     EasyTalk.Main(ThreadPool,Url,Values,UnixTimestamp,proxies)
+    Ecshop.Main(ThreadPool,Url,Values,UnixTimestamp,proxies)
     EcoCMS.Main(ThreadPool,Url,Values,UnixTimestamp,proxies)
     EnableQ.Main(ThreadPool,Url,Values,UnixTimestamp,proxies)
     Easethink.Main(ThreadPool,Url,Values,UnixTimestamp,proxies)

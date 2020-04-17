@@ -192,6 +192,10 @@
 - ##### EcoCMS
   - `EcoCMS` 跨站脚本漏洞（CVE-2010-5046）
 
+- ##### Ecshop
+  - `Ecshop` SQL注入漏洞
+  - `Ecshop flow.php` SQL注入漏洞
+  - `Ecshop` 信息泄漏漏洞
 - ##### EnableQ
   - `EnableQ` 任意文件上传漏洞
   - `EnableQ ecoCMS的admin.php` SQL注入漏洞

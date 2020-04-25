@@ -2,6 +2,7 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.header import Header
+from ClassCongregation import ErrorLog
 from email.mime.image import MIMEImage
 from config import bot_email_receiver,bot_mail_pass,bot_mail_user
 import sys,os
@@ -63,7 +64,7 @@ def SendEamil(cve_message):
             smtpObj.quit()
             smtpObj.close()
         except smtplib.SMTPException as e:
-            pass
+            ErrorLog().Write("emil", e)
             #print(e)
 
 

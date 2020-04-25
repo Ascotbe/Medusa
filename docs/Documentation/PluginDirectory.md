@@ -280,6 +280,7 @@
 - ##### Tongda
   - `Tongda /ispirit/interface/gateway.php` 任意文件包含漏洞
   - `Tongda /ispirit/im/upload.php` 任意文件上传漏洞
+  - `Tongda ` 任意管理员登录漏洞
 
 - ##### Seeyou
   - `Seeyou NCFindWeb` 任意文件读取漏洞

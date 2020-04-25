@@ -53,7 +53,7 @@ MedusaModuleList={
 "Apache":ApacheMain.Main,
 "PHPStudy": PHPStudy.Main,
 "Cms": CmsMain.Main,
-"Oa": OaMian.Main,
+"OA": OaMian.Main,
 "Jenkins": JenkinsMain.Main,
 "Harbor": Harbor.Main,
 "Rails":RailsMain.Main,

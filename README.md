@@ -1,7 +1,7 @@
-<img src="https://github.com/Ascotbe/Medusa/blob/master/Medusa.png?raw=true" width="1500" alt="MedusaScan" /> 
+<img src="https://github.com/Ascotbe/Medusa/blob/master/Medusa.png?raw=true" width="1500" alt="Medusa" /> 
 
  <p align="center">
-    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Ascotbe-Medusa%20Scan-green"></a>
+    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Ascotbe-Medusa-green"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/python-3.7+-blueviolet"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Version-0.79-red"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/LICENSE-GPL-ff69b4"></a>
@@ -9,12 +9,11 @@
 	<a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Plugin-200+-success"></a>
  </p>
 
-<h1 align="center" >Medusa Scan</h1>
-
+<h1 align="center" >Welcome to Medusa</h1>
 
 **请使用者遵守 [中华人民共和国网络安全法](http://www.cac.gov.cn/2016-11/07/c_1119867116.htm)，勿将Medusa项目用于非授权的测试，Medusa项目开发者不负任何连带法律责任。**
 
-### About `Medusa Scan`
+### :point_right:About `Medusa`
 
 > The project is licensed under `GPL`.Free for non-commercial use.
 >
@@ -26,26 +25,24 @@
 
 #### **[中文文档](https://github.com/Ascotbe/Medusa/blob/master/README.CN.md) | EnglishDocumentation**
 
-### Instructions for install and use
-
-#### Document
+### :bulb:Document
 
 ```
 http://medusa.ascotbe.com
 ```
 
-#### Bug coverage list
+### :mag_right:Bug coverage list
 
 ```
 http://medusa.ascotbe.com/Documentation/#/PluginDirectory
 ```
 
-#### Demo
+### :space_invader:Demo
 
 ![demo](https://github.com/Ascotbe/Random-img/blob/master/Medusa/0.76.gif?raw=true)
 
 
-#### `Bash` Ver. instructions for use
+### :book:`Bash` Ver. instructions for use
 
 ```bash
 # Need nmap(example for ubuntu
@@ -59,7 +56,7 @@ pip3 install -r Medusa.txt
 python3 MedusaScan.py -u www.ascotbe.com
 ```
 
-#### Git proxy
+### :rocket:Git proxy
 
 ```bash
 # If download speed too slow when cloning, then you can use proxy. 
@@ -68,7 +65,7 @@ git config --global http.proxy http://127.0.0.1:1080
 git config --global https.proxy https://127.0.0.1:1080
 ```
 
-### Parameters
+### :clipboard:Parameters
 
 | Command | Number of parameters | Effect                                                         | Annotation                                                         |
 | ---- | -------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -85,10 +82,7 @@ git config --global https.proxy https://127.0.0.1:1080
 | -se  | 0        | Contains `-s` funcitons, in addtional, enumerate by dictionary(time consuming)                     | can not use this with `-s` at the same time.                         |
 
 
-### Bug replicate document
-
-
-### `Bot` Ver. document
+### :green_book:`Bot` Ver. document
 
 ```bash
 # clone project files
@@ -100,34 +94,34 @@ pip3 install -r Medusa.txt
 https://www.ascotbe.com/Medusa
 ```
 
-### Updating logs
+### :four_leaf_clover:Updating logs
 
 ```
 http://medusa.ascotbe.com/Documentation/#/UpDataLog
 ```
 
-### Bug replicate document
+### :open_file_folder:Bug replicate document
 
 ```
 https://www.ascotbe.com/Loophole
 ```
 
 
-### Discussion
+### :green_heart:Discussion
 
 - QQ group：**690021184**（Secret code：**6CF2D42B629E5AA4E6C293B290798878**）
 - GitHub issue
 
-### Friend links
+### :seedling:Friend links
 
 - [零组资料库](http://www.0-sec.org)
 
-### Contributors
+### :palm_tree:Contributors
 
 ![commit](https://opencollective.com/Medusa/contributors.svg?width=890&button=false)
 
 
-### Timeline
+### :checkered_flag:Timeline
 
 ![star](https://starchart.cc/Ascotbe/Medusa.svg)
 

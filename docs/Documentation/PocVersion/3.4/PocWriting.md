@@ -28,7 +28,7 @@ class VulnerabilityInfo(object):
         self.info['details'] = Medusa  # 结果
 
 
-def medusa(Url,RandomAgent,Token,proxies=None):
+def medusa(Url:str,RandomAgent:str,Token:str,proxies:str=None)->None:
     proxies=Proxies().result(proxies)
     scheme, url, port = UrlProcessing().result(Url)
     if port is None and scheme == 'https':
@@ -154,7 +154,7 @@ scheme, url, port = ClassCongregation.UrlProcessing().result(Url)
 ### medusa函数
 
 ```python
-def medusa(Url,RandomAgent,Token,proxies=None):
+def medusa(Url:str,RandomAgent:str,Token:str,proxies:str=None)->None:
     proxies=Proxies().result(proxies)
     scheme, url, port = UrlProcessing().result(Url)
     if port is None and scheme == 'https':
@@ -364,7 +364,7 @@ def medusa(Url,RandomAgent,Token,proxies=None):
     - 整体替换如下:
     
       ```python
-      def medusa(Url,RandomAgent,Token,proxies=None):
+      def medusa(Url:str,RandomAgent:str,Token:str,proxies:str=None)->None:
           scheme, url, port = UrlProcessing().result(Url)
           if port is None and scheme == 'https':
               port = 443

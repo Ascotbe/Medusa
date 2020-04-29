@@ -181,6 +181,10 @@
   - `EasyTalk commentaction.class.php` SQL注入漏洞
   - `EasyTalk photoaction.class.php $nowpage` SQL注入漏洞
   - `EasyTalk spaceaction.class.php` SQL注入漏洞
+  - `EasyTalk delete_cart_goods.php` SQL注入漏洞
+  - `EasyTalk checkorder.php` SQL注入漏洞
+  - `EasyTalk flow.php` SQL注入漏洞
+  - `EasyTalk` Xss漏洞
 
 - ##### ECGAP
   - `ECGAP DocmentDownload.aspx` 等SQL注入漏洞

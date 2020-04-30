@@ -1,4 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><style>
-    .sprite-symbol-usage {display: none;}
-    .sprite-symbol-usage:target {display: inline;}
-  </style><symbol viewBox="0 0 1000 1000" id="facebook"><path d="M990 500c0-270.6-219.4-490-490-490S10 229.4 10 500s219.4 490 490 490 490-219.4 490-490zm-935.5 0C54.5 254 254 54.5 500 54.5S945.5 254 945.5 500 746.1 945.5 500 945.5C254 945.5 54.5 746 54.5 500z" /><path d="M518.8 782.8V500h93.3l14.7-93.7h-108v-47c0-24.5 8-47.8 43.1-47.8h70.2V218h-99.6c-83.7 0-106.6 55.1-106.6 131.6v56.7h-57.5V500h57.5v282.8h92.9z" /></symbol></defs><use id="facebook-usage" xlink:href="#facebook" class="sprite-symbol-usage" /></svg>

@@ -16,6 +16,11 @@ import sys
 import time
 import threading
 from config import dns_log_url,dns_log_key,debug_mode
+#########
+#全局变量
+WriteFileUnixTimestamp=str(int(time.time()))
+#########
+
 def IpProcess(Url):
     if Url.startswith("http"):  # 记个小知识点：必须带上https://这个头不然urlparse就不能正确提取hostname导致后面运行出差错
         res = urllib.parse.urlparse(Url)  # 小知识点2：如果只导入import urllib包使用parse这个类的话会报错，必须在import requests导入这个包才能正常运行
@@ -38,14 +43,14 @@ def BotNumberOfLoopholes():#机器人用的漏洞个数
 
 class WriteFile:#写入文件类
     def result(self,TargetName,Medusa):
-        self.FileName=time.strftime("%Y-%m-%d", time.localtime())+"|"+TargetName
+        self.FileName=time.strftime("%Y-%m-%d", time.localtime())+"_"+TargetName+"_"+WriteFileUnixTimestamp
         regular_match_results = re.search(r'存在([\w\u4e00-\u9fa5!@#$%^*()&-=+_`~/?.,<>\\|\[\]{}]*)',Medusa).group(0)#正则匹配，匹配存在后面的所有字符串，直到换行符结束
         LoopholesList.append(regular_match_results)#每调用一次就往列表中写入存在漏洞的名称漏洞
         if sys.platform == "win32" or sys.platform == "cygwin":
             self.FilePath = os.path.split(os.path.realpath(__file__))[0]+"\\ScanResult\\"+self.FileName + ".txt"#不需要输入后缀，只要名字就好
         elif sys.platform=="linux" or sys.platform=="darwin":
             self.FilePath = os.path.split(os.path.realpath(__file__))[0] + "/ScanResult/" +self.FileName+ ".txt"  # 不需要输入后缀，只要名字就好
-        with open(self.FilePath, 'w+',encoding='utf-8') as f:  # 如果filename不存在会自动创建， 'w'表示写数据，写之前会清空文件中的原有数据！
+        with open(self.FilePath, 'a+',encoding='utf-8') as f:  # 如果filename不存在会自动创建， 'w'表示写数据，写之前会清空文件中的原有数据！
             f.write(Medusa+"\n")
 
 

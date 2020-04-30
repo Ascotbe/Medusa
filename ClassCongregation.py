@@ -38,7 +38,7 @@ def BotNumberOfLoopholes():#机器人用的漏洞个数
 
 class WriteFile:#写入文件类
     def result(self,TargetName,Medusa):
-        self.FileName=TargetName+"result"
+        self.FileName=time.strftime("%Y-%m-%d", time.localtime())+"|"+TargetName
         regular_match_results = re.search(r'存在([\w\u4e00-\u9fa5!@#$%^*()&-=+_`~/?.,<>\\|\[\]{}]*)',Medusa).group(0)#正则匹配，匹配存在后面的所有字符串，直到换行符结束
         LoopholesList.append(regular_match_results)#每调用一次就往列表中写入存在漏洞的名称漏洞
         if sys.platform == "win32" or sys.platform == "cygwin":

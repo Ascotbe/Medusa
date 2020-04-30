@@ -181,6 +181,10 @@
   - `EasyTalk commentaction.class.php` SQL注入漏洞
   - `EasyTalk photoaction.class.php $nowpage` SQL注入漏洞
   - `EasyTalk spaceaction.class.php` SQL注入漏洞
+  - `EasyTalk delete_cart_goods.php` SQL注入漏洞
+  - `EasyTalk checkorder.php` SQL注入漏洞
+  - `EasyTalk flow.php` SQL注入漏洞
+  - `EasyTalk` Xss漏洞
 
 - ##### ECGAP
   - `ECGAP DocmentDownload.aspx` 等SQL注入漏洞
@@ -191,6 +195,13 @@
 
 - ##### EcoCMS
   - `EcoCMS` 跨站脚本漏洞（CVE-2010-5046）
+
+- ##### Ecshop
+  - `Ecshop` 信息泄漏漏洞
+  - `Ecshop` 远程代码执行漏洞
+  - `Ecshop` SQL注入漏洞
+  - `Ecshop flow.php` SQL注入漏洞
+  - `Ecshop category.php` SQL注入漏洞
 
 - ##### EnableQ
   - `EnableQ` 任意文件上传漏洞
@@ -273,6 +284,7 @@
 - ##### Tongda
   - `Tongda /ispirit/interface/gateway.php` 任意文件包含漏洞
   - `Tongda /ispirit/im/upload.php` 任意文件上传漏洞
+  - `Tongda ` 任意管理员登录漏洞
 
 - ##### Seeyou
   - `Seeyou NCFindWeb` 任意文件读取漏洞

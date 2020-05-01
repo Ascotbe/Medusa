@@ -1,38 +1,38 @@
 from Web.celery import app
-from Confluence import ConfluenceMain
-from Struts2 import Struts2
-from Apache import ApacheMain
-from Nginx import NginxMain
-from Jenkins import JenkinsMain
-from Cms import CmsMain
-from FastJson import FastJson
-from Harbor import Harbor
-from Citrix import CitrixMain
-from Rails import RailsMain
-from Kibana import KibanaMain
-from PHPStudy import PHPStudy
-from Mongo import MongoMain
-from OA import OaMian
-from Windows import Windows
-from Spring import SpringMain
-from InformationLeakage.InformationLeakDetection import SensitiveFile
+from Modules.Confluence import Confluence
+from Modules.Struts2 import Struts2
+from Modules.Apache import Apache
+from Modules.Nginx import Nginx
+from Modules.Jenkins import Jenkins
+from Modules.Cms import Cms
+from Modules.FastJson import FastJson
+from Modules.Harbor import Harbor
+from Modules.Citrix import Citrix
+from Modules.Rails import Rails
+from Modules.Kibana import Kibana
+from Modules.PHPStudy import PHPStudy
+from Modules.Mongo import Mongo
+from Modules.OA import Oa
+from Modules.Windows import Windows
+from Modules.Spring import Spring
+from Modules.InformationLeakage.InformationLeakDetection import SensitiveFile
 
 from ClassCongregation import ThreadPool
 MedusaVulnerabilityList={
 "Struts2":Struts2.Main,
-"Confluence":ConfluenceMain.Main,
-"Nginx":NginxMain.Main,
-"Apache":ApacheMain.Main,
+"Confluence":Confluence.Main,
+"Nginx":Nginx.Main,
+"Apache":Apache.Main,
 "PHPStudy": PHPStudy.Main,
-"Cms": CmsMain.Main,
-"OA": OaMian.Main,
-"Jenkins": JenkinsMain.Main,
+"Cms": Cms.Main,
+"OA": Oa.Main,
+"Jenkins": Jenkins.Main,
 "Harbor": Harbor.Main,
-"Rails":RailsMain.Main,
-"Kibana":KibanaMain.Main,
-"Citrix":CitrixMain.Main,
-"Mongo":MongoMain.Main,
-"Spring":SpringMain.Main,
+"Rails":Rails.Main,
+"Kibana":Kibana.Main,
+"Citrix":Citrix.Main,
+"Mongo":Mongo.Main,
+"Spring":Spring.Main,
 "FastJson":FastJson.Main,
 "Windows":Windows.Main}
 

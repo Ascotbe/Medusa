@@ -1,23 +1,24 @@
 #!/usr/bin/env python
 # _*_ coding: utf-8 _*_
-from Confluence import ConfluenceMain
-from Struts2 import Struts2
-from Apache import ApacheMain
-from Nginx import NginxMain
-from Jenkins import JenkinsMain
-from Cms import CmsMain
-from FastJson import FastJson
-from Harbor import Harbor
-from Citrix import CitrixMain
-from InformationDetector import sublist3r
-from InformationLeakage.InformationLeakDetection import SensitiveFile#这是个类
-from Rails import RailsMain
-from Kibana import KibanaMain
-from PHPStudy import PHPStudy
-from Mongo import MongoMain
-from OA import OaMian
-from Windows import Windows
-from Spring import SpringMain
+from Modules.Confluence import Confluence
+from Modules.Struts2 import Struts2
+from Modules.Apache import Apache
+from Modules.Nginx import Nginx
+from Modules.Jenkins import Jenkins
+from Modules.Cms import Cms
+from Modules.FastJson import FastJson
+from Modules.Harbor import Harbor
+from Modules.Citrix import Citrix
+from Modules.InformationDetector import sublist3r
+from Modules.InformationLeakage.InformationLeakDetection import SensitiveFile#这是个类
+from Modules.Rails import Rails
+from Modules.Kibana import Kibana
+from Modules.PHPStudy import PHPStudy
+from Modules.Mongo import Mongo
+from Modules.Liferay import Liferay
+from Modules.OA import Oa
+from Modules.Windows import Windows
+from Modules.Spring import Spring
 import ClassCongregation
 import tldextract#域名处理函数可以识别主域名和后缀
 import Banner
@@ -48,34 +49,24 @@ parser.add_argument('-se','--SubdomainEnumerate',help="Collect subdomains and tu
 #漏洞哥哥插件的主函数
 MedusaModuleList={
 "Struts2":Struts2.Main,
-"Confluence":ConfluenceMain.Main,
-"Nginx":NginxMain.Main,
-"Apache":ApacheMain.Main,
+"Confluence":Confluence.Main,
+"Nginx":Nginx.Main,
+"Apache":Apache.Main,
 "PHPStudy": PHPStudy.Main,
-"Cms": CmsMain.Main,
-"Oa": OaMian.Main,
-"Jenkins": JenkinsMain.Main,
+"Cms": Cms.Main,
+"OA": Oa.Main,
+"Jenkins": Jenkins.Main,
 "Harbor": Harbor.Main,
-"Rails":RailsMain.Main,
-"Kibana":KibanaMain.Main,
-"Citrix":CitrixMain.Main,
-"Mongo":MongoMain.Main,
-"Spring":SpringMain.Main,
+"Rails":Rails.Main,
+"Kibana":Kibana.Main,
+"Citrix":Citrix.Main,
+"Mongo":Mongo.Main,
+"Spring":Spring.Main,
 "FastJson":FastJson.Main,
-"Windows":Windows.Main}
+"Windows":Windows.Main,
+"Liferay":Liferay.Main
+}
 
-def BoomDB(Url,SqlUser,SqlPasswrod,InputFileName):
-    if SqlUser!=None or SqlPasswrod!=None:
-        BlastingDB=ClassCongregation.BlastingDB(SqlUser,SqlPasswrod)#只要其中账号文件或者密码文件不为空的话就开启爆破数据库功能
-        if InputFileName == None:#如果不是批量扫描使用就使用单独的UTL
-            BlastingDB.BoomDB(Url)
-        elif InputFileName != None:#如果是批量扫描就循环传入参数扫描
-            with open(InputFileName, encoding='utf-8') as f:
-                for UrlLine in f:
-                    Urls=UrlLine
-                    BlastingDB.BoomDB(Urls)
-    else:
-        pass
 
 def NmapScan(url):#Nmap扫描这样就可以开多线程了
     ClassCongregation.NmapScan(url).ScanPort()#调用Nmap扫描类
@@ -181,8 +172,6 @@ if __name__ == '__main__':
     elif Url!=None and InputFileName!=None:#如果既输入URL又输入URL文件夹一样退出
         print("\033[1;40;31m[ ! ] Incorrect input, please enter -h to view help\033[0m")
         os._exit(0)#直接退出整个函数
-
-    #thread_list.append(threading.Thread(target=BoomDB, args=(Url, SqlUser, SqlPasswrod,InputFileName,)))#数据库爆破功能
 
     if SubdomainEnumerate==True and Subdomain==True :#对参数判断参数互斥
         print("\033[1;40;31m[ ! ] Incorrect input, please enter -h to view help\033[0m")

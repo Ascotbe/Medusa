@@ -1,4 +1,0 @@
-admin
-mysql
-root
-test

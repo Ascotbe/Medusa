@@ -1,19 +1,19 @@
-<img src="https://github.com/Ascotbe/Medusa/blob/master/Medusa.png?raw=true" width="1500" alt="MedusaScan" /> 
+<img src="https://github.com/Ascotbe/Medusa/blob/master/Medusa.png?raw=true" width="1500" alt="Medusa" /> 
 
  <p align="center">
-    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Ascotbe-Medusa%20Scan-green"></a>
+    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Ascotbe-Medusa-green"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/python-3.7+-blueviolet"></a>
-    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Version-0.79-red"></a>
+    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Version-0.80-red"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/LICENSE-GPL-ff69b4"></a>
 	<a href="https://github.com/ascotbe/Medusa/stargazers"><img alt="Release" src="https://img.shields.io/github/stars/ascotbe/Medusa.svg"></a>
 	<a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Plugin-200+-success"></a>
  </p>
 
-<h1 align="center" >美杜莎扫描器</h1>
+<h1 align="center" >Welcome to Medusa</h1>
 
 **请使用者遵守 [中华人民共和国网络安全法](http://www.cac.gov.cn/2016-11/07/c_1119867116.htm)，勿将Medusa项目用于非授权的测试，Medusa项目开发者不负任何连带法律责任。**
 
-### 关于美杜莎
+### :point_right:关于美杜莎
 
 >本项目使用 `GPL`协议，未经授权，禁止使用商业用途。
 >
@@ -25,24 +25,24 @@
 
 #### **中文文档 |[EnglishDocumentation](https://github.com/Ascotbe/Medusa/blob/master/README.md)**
 
-### 使用文档
+### :bulb:使用文档
 
 ```
 http://medusa.ascotbe.com
 ```
 
-### 漏洞覆盖列表
+### :mag_right:漏洞覆盖列表
 
 ```
 http://medusa.ascotbe.com/Documentation/#/PluginDirectory
 ```
 
-### Demo
+### :space_invader:Demo
 
 ![demo](https://github.com/Ascotbe/Random-img/blob/master/Medusa/0.76.gif?raw=true)
 
 
-### `Bash`版使用说明
+### :book:`Bash`版使用说明
 
 ```bash
 # 安装工具(ubuntu
@@ -55,7 +55,7 @@ pip3 install -r Medusa.txt
 # 使用扫描器
 python3 MedusaScan.py -u www.ascotbe.com
 ```
-### 加速下载
+### :rocket:加速下载
 
 ```bash
 # 如果下载太慢可以使用代理
@@ -68,7 +68,7 @@ git clone https://gitee.com/asc0t6e/Medusa.git
 
 
 
-### 参数说明
+### :clipboard:参数说明
 
 |命令|参数个数|作用                              |备注                           |
 |------|--------|----------------------------------|-------------------------------|
@@ -84,7 +84,7 @@ git clone https://gitee.com/asc0t6e/Medusa.git
 |-s    |0       |通过DNS以及各大搜索引擎查找子域名|从Sublist3r魔改而来,不支持IP枚举|
 |-se    |0       |包含了-s的功能，并且通过字典枚举(非常耗时|和-s不能同时使用，-s和-se只能存在一个|
 
-### `Bot`版使用说明
+### :green_book:`Bot`版使用说明
 
 ```
 # 下载文件
@@ -96,33 +96,33 @@ pip3 install -r Medusa.txt
 https://www.ascotbe.com/Medusa
 ```
 
-### 更新日志
+### :four_leaf_clover:更新日志
 
 ```
 http://medusa.ascotbe.com/Documentation/#/UpDataLog
 ```
 
-### 复现文档
+### :open_file_folder:复现文档
 
 ```
 https://www.ascotbe.com/Loophole
 ```
 
-### 提交意见
+### :green_heart:提交意见
 
 - 吹B群：**690021184**（加群请输入暗号：**6CF2D42B629E5AA4E6C293B290798878**）
 - GitHub issue
 
-### 友情链接
+### :seedling:友情链接
 
 - [零组资料库](http://www.0-sec.org)
 
-### 贡献人员
+### :palm_tree:贡献人员
 
 ![commit](https://opencollective.com/Medusa/contributors.svg?width=890&button=false)
 
 
-### 时间轴
+### :checkered_flag:时间轴
 
 ![star](https://starchart.cc/Ascotbe/Medusa.svg)
 

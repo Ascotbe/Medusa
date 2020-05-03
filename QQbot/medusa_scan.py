@@ -2,22 +2,22 @@ import ClassCongregation
 import time
 import hashlib
 import tldextract
-from Confluence import ConfluenceMain
-from Struts2 import Struts2
-from Apache import ApacheMain
-from Nginx import NginxMain
-from Jenkins import JenkinsMain
-from Cms import CmsMain
-from FastJson import FastJson
-from Harbor import Harbor
-from Citrix import CitrixMain
-from Rails import RailsMain
-from Kibana import KibanaMain
-from PHPStudy import PHPStudy
-from Mongo import MongoMain
-from OA import OaMian
-from Windows import Windows
-from Spring import SpringMain
+from Modules.Confluence import Confluence
+from Modules.Struts2 import Struts2
+from Modules.Apache import Apache
+from Modules.Nginx import Nginx
+from Modules.Jenkins import Jenkins
+from Modules.Cms import Cms
+from Modules.FastJson import FastJson
+from Modules.Harbor import Harbor
+from Modules.Citrix import Citrix
+from Modules.Rails import Rails
+from Modules.Kibana import Kibana
+from Modules.PHPStudy import PHPStudy
+from Modules.Mongo import Mongo
+from Modules.OA import Oa
+from Modules.Windows import Windows
+from Modules.Spring import Spring
 from nonebot import on_command, CommandSession,message
 from config import whitelist_group_list,whitelist_group_status
 # on_command 装饰器将函数声明为一个命令处理器
@@ -74,19 +74,19 @@ async def MedusaScan(url: str,token: str) -> str:
 
 def BotScan(ThreadPool,url, Values, token):
     Struts2.Main(ThreadPool, url, Values, token,None)  # 调用Struts2主函数
-    ConfluenceMain.Main(ThreadPool, url, Values, token,None)  # 调用 Confluence主函数
-    NginxMain.Main(ThreadPool, url, Values, token,None)  # 调用Nginx主函数
-    ApacheMain.Main(ThreadPool, url, Values, token,None)  # 调用Apache主函数
+    Confluence.Main(ThreadPool, url, Values, token,None)  # 调用 Confluence主函数
+    Nginx.Main(ThreadPool, url, Values, token,None)  # 调用Nginx主函数
+    Apache.Main(ThreadPool, url, Values, token,None)  # 调用Apache主函数
     PHPStudy.Main(ThreadPool, url, Values, token,None) # 调用Php主函数
-    CmsMain.Main(ThreadPool, url, Values, token,None)  # 调用Cms主函数
-    OaMian.Main(ThreadPool, url, Values, token,None) # 调用OA主函数
-    JenkinsMain.Main(ThreadPool, url, Values, token,None)  # 调用Jenkins主函数
+    Cms.Main(ThreadPool, url, Values, token,None)  # 调用Cms主函数
+    Oa.Main(ThreadPool, url, Values, token,None) # 调用OA主函数
+    Jenkins.Main(ThreadPool, url, Values, token,None)  # 调用Jenkins主函数
     Harbor.Main(ThreadPool, url, Values, token,None) # 调用Harbor主函数
-    RailsMain.Main(ThreadPool, url, Values, token,None) # 调用RailsMain主函数
-    KibanaMain.Main(ThreadPool, url, Values, token,None)  # 调用KibanaMain主函数
-    CitrixMain.Main(ThreadPool, url, Values, token,None)  # 调用CitrixMain主函数
-    MongoMain.Main(ThreadPool, url, Values, token,None) # 调用MongoMain主函数
-    SpringMain.Main(ThreadPool, url, Values, token,None)  # 调用SpringMain主函数
+    Rails.Main(ThreadPool, url, Values, token,None) # 调用RailsMain主函数
+    Kibana.Main(ThreadPool, url, Values, token,None)  # 调用KibanaMain主函数
+    Citrix.Main(ThreadPool, url, Values, token,None)  # 调用CitrixMain主函数
+    Mongo.Main(ThreadPool, url, Values, token,None) # 调用MongoMain主函数
+    Spring.Main(ThreadPool, url, Values, token,None)  # 调用SpringMain主函数
     FastJson.Main(ThreadPool, url, Values, token,None)  # 调用FastJson主函数
     Windows.Main(ThreadPool, url, Values, token,None)  # 调用Windwos主函数
 

@@ -346,3 +346,7 @@
 #####  Windows
 
 - `Windows` SMBv3协议漏洞（CVE-2020-0796）
+
+##### Liferay
+
+- `Liferay Portal `远程命令执行漏洞（CVE-2020-7961）

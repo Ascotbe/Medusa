@@ -2,11 +2,7 @@
   <div class="login-container">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
 
-      <div class="title-container">
-        <h3 class="title">登陆</h3>
-      </div>
-
-      <img width="450" height="130" src="./Text.png" />
+      <img width="450" height="230" src="./Text.png" />
 
       <el-form-item prop="username">
         <span class="svg-container">

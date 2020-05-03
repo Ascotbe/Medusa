@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-#  gem install github_changelog_generator
-github_changelog_generator -u fgribreau -p node-unidecode

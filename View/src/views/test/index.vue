@@ -1,340 +1,100 @@
 <template>
-  <div class="login-container">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
-
-      <div class="title-container">
-        <h3 class="title">登陆</h3>
-      </div>
-
-      <img width="450" height="130" src="./Text.png" />
-
-      <el-form-item prop="username">
-        <span class="svg-container">
-          <svg-icon icon-class="user" />
-        </span>
-        <el-input
-          ref="username"
-          v-model="loginForm.username"
-          placeholder="Username"
-          name="username"
-          type="text"
-          tabindex="1"
-          autocomplete="on"
-        />
-      </el-form-item>
-
-      <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
-        <el-form-item prop="password">
-          <span class="svg-container">
-            <svg-icon icon-class="password" />
-          </span>
-          <el-input
-            :key="passwordType"
-            ref="password"
-            v-model="loginForm.password"
-            :type="passwordType"
-            placeholder="Password"
-            name="password"
-            tabindex="2"
-            autocomplete="on"
-            @keyup.native="checkCapslock"
-            @blur="capsTooltip = false"
-            @keyup.enter.native="handleLogin"
-          />
-          <span class="show-pwd" @click="showPwd">
-            <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
-          </span>
-        </el-form-item>
-      </el-tooltip>
-
-      <!-- <el-checkbox :checked="checked" @change="changed" >请认真阅读并同意服务条款</el-checkbox>-->
-      <el-checkbox @change="changed" v-model="checked">请认真阅读并同意服务条款</el-checkbox>
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
-
-      <div style="position:relative">
-        <div class="tips">
-          <span>Username : admin</span>
-          <span>Password : any</span>
-        </div>
-        <div class="tips">
-          <span style="margin-right:18px;">Username : editor</span>
-          <span>Password : any</span>
-        </div>
-
-        <el-button class="thirdparty-button" type="primary" @click="showDialog=true">
-          Or connect with
-        </el-button>
-      </div>
-    </el-form>
-
-    <el-dialog title="Or connect with" :visible.sync="showDialog">
-      Can not be simulated on local, so please combine you own business simulation! ! !
-      <br>
-      <br>
-      <br>
-      <social-sign />
-    </el-dialog>
-  </div>
+     <div class="tab-container">
+     <el-tabs v-model="add_plug" style="margin-top:15px;" type="border-card" >
+     <el-tab-pane label="高级扫描">
+     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+       <el-form-item label="添加目标" prop="describe">
+         <el-input type="textarea" v-model="ruleForm.describe" placeholder="每次最多创建200个扫描目标(一行一条),其余部分将被忽略！"></el-input>
+       </el-form-item>
+       <el-form-item label="任务周期" prop="service">
+         <el-input v-model="ruleForm.service"></el-input>
+       </el-form-item>
+       <el-form-item label="抓取时间" prop="thanks">
+         <el-input v-model="ruleForm.thanks"></el-input>
+       </el-form-item>
+       <el-form-item label="分析时间" prop="describe" style="width: 800px;">分钟
+         <el-input type="textarea" v-model="ruleForm.describe"></el-input>
+       </el-form-item>
+       <el-form-item label="漏洞危害" prop="danger">
+         <el-input v-model="ruleForm.danger"></el-input>
+       </el-form-item>
+       <!-- 插件代码考虑是否使用特定的文本域 -->
+       <el-form-item>
+         <el-button type="primary" @click="submitForm('ruleForm')">立即添加</el-button>
+         <el-button @click="resetForm('ruleForm')">重置</el-button>
+       </el-form-item>
+     </el-form>
+     </el-tab-pane>
+     </el-tabs>
+     </div>
 </template>
 
+
 <script>
-import { validUsername } from '@/utils/validate'
-import SocialSign from './components/SocialSignin'
-
-export default {
-  name: 'Login',
-  components: { SocialSign },
-  data() {
-    const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
-      } else {
-        callback()
-      }
-    }
-    const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
-      } else {
-        callback()
-      }
-    }
-    return {
-      loginForm: {
-        username: 'admin',
-        password: '111111'
-      },
-      loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
-      },
-      passwordType: 'password',
-      capsTooltip: false,
-      loading: false,
-      showDialog: false,
-      redirect: undefined,
-      otherQuery: {},
-      checked: false
-    }
-  },
-  watch: {
-    $route: {
-      handler: function(route) {
-        const query = route.query
-        if (query) {
-          this.redirect = query.redirect
-          this.otherQuery = this.getOtherQuery(query)
-        }
-      },
-      immediate: true
-    }
-  },
-  created() {
-    // window.addEventListener('storage', this.afterQRScan)
-  },
-  mounted() {
-    if (this.loginForm.username === '') {
-      this.$refs.username.focus()
-    } else if (this.loginForm.password === '') {
-      this.$refs.password.focus()
-    }
-  },
-  destroyed() {
-    // window.removeEventListener('storage', this.afterQRScan)
-  },
-  methods: {
-    checkCapslock(e) {
-      const { key } = e
-      this.capsTooltip = key && key.length === 1 && (key >= 'A' && key <= 'Z')
-    },
-    showPwd() {
-      if (this.passwordType === 'password') {
-        this.passwordType = ''
-      } else {
-        this.passwordType = 'password'
-      }
-      this.$nextTick(() => {
-        this.$refs.password.focus()
-      })
-    },
-    changed(){
-      var that=this;
-      console.log(that.checked);
-    },
-    
-    handleLogin() {
-      if(this.checked==true){
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          this.loading = true
-          this.$store.dispatch('user/login', this.loginForm)
-            .then(() => {
-              this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
-              this.loading = false
-            })
-            .catch(() => {
-              this.loading = false
-            })
-        } else {
-          console.log('error submit!!')
-          return false
-        }
-      })
-      }
-    },
-    getOtherQuery(query) {
-      return Object.keys(query).reduce((acc, cur) => {
-        if (cur !== 'redirect') {
-          acc[cur] = query[cur]
-        }
-        return acc
-      }, {})
-    }
-    // afterQRScan() {
-    //   if (e.key === 'x-admin-oauth-code') {
-    //     const code = getQueryObject(e.newValue)
-    //     const codeMap = {
-    //       wechat: 'code',
-    //       tencent: 'code'
-    //     }
-    //     const type = codeMap[this.auth_type]
-    //     const codeName = code[type]
-    //     if (codeName) {
-    //       this.$store.dispatch('LoginByThirdparty', codeName).then(() => {
-    //         this.$router.push({ path: this.redirect || '/' })
-    //       })
-    //     } else {
-    //       alert('第三方登录失败')
-    //     }
-    //   }
-    // }
-  }
-}
+   const cityOptions = ['上海', '北京', '广州', '深圳'];
+   export default {
+      data() {
+       return {
+         ruleForm: {
+            name: '',
+            type: '',
+            service: '',
+            thanks: '',
+            describe: '',
+            danger: '',
+            propose: '',
+            code: '',
+            checkboxGroup1: ['上海'],
+            cities: cityOptions
+            },
+             rules: {
+               name: [
+                 { required: true, message: '请输入插件名称', trigger: 'blur' },
+                 { min: 1, max: 15, message: '长度在 1 到 15 个字符', trigger: 'blur' }
+               ],
+               type: [
+                 { required: true, message: '请填写漏洞类型', trigger: 'blur'},
+                 { min: 1, max: 25, message: '长度在 1 到 25 个字符', trigger: 'blur' }
+               ],
+               describe: [
+                 { required: true, message: '请描述漏洞情况', trigger: 'change' }
+               ],
+               danger: [
+                 { required: true, message: '请描述危害', trigger: 'blur' }
+               ],
+               propose: [
+                 {  required: true, message: '请提供建议', trigger: 'blur'}
+               ],
+               code: [
+                 {  required: true, message: '请输入代码', trigger: 'blur'}
+               ],
+             }
+           };
+         },
+         methods: {
+           submitForm(formName) {
+             this.$refs[formName].validate((valid) => {
+               if (valid) {
+                 this.$notify({
+                   title: 'Success',
+                   message: '创建成功',
+                   type: 'success',
+                   duration: 2000
+                 })
+               } else {
+                 this.$notify({
+                   title: 'Success',
+                   message: '创建成功',
+                   type: 'success',
+                   duration: 2000
+                 })
+                 return false;
+               }
+             });
+           },
+           resetForm(formName) {
+             this.$refs[formName].resetFields();
+           }
+         }
+       }
 </script>
-
-<style lang="scss">
-
-// $bg:#283443;
-// $light_gray:#fff;
-// $cursor: #fff;
-$bg:#000000;
-$light_gray:#000;
-$cursor: #000;
-
-@supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
-  .login-container .el-input input {
-    color: $cursor;
-  }
-}
-
-/* reset element-ui css */
-.login-container {
-  .el-input {
-    display: inline-block;
-    height: 47px;
-    width: 85%;
-
-    input {
-      background: transparent;
-      border: 0px;
-      -webkit-appearance: none;
-      border-radius: 0px;
-      padding: 12px 5px 12px 15px;
-      color: $light_gray;
-      height: 47px;
-      caret-color: $cursor;
-
-      &:-webkit-autofill {
-        box-shadow: 0 0 0px 1000px $bg inset !important;
-        -webkit-text-fill-color: $cursor !important;
-      }
-    }
-  }
-
-  .el-form-item {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    // color: #454545;
-
-    color: #000;
-  }
-}
-</style>
-
-<style lang="scss" scoped>
-$bg:#EEEED1;
-$dark_gray:#889aa4;
-$light_gray:#eee;
-
-.login-container {
-  min-height: 100%;
-  width: 100%;
-  background-color: $bg;
-  overflow: hidden;
-
-  .login-form {
-    position: relative;
-    width: 520px;
-    max-width: 100%;
-    padding: 160px 35px 0;
-    margin: 0 auto;
-    overflow: hidden;
-  }
-
-  .tips {
-    font-size: 14px;
-    color: #000;
-    // color: #fff;
-    margin-bottom: 10px;
-
-    span {
-      &:first-of-type {
-        margin-right: 16px;
-      }
-    }
-  }
-
-  .svg-container {
-    padding: 6px 5px 6px 15px;
-    color: #000;
-    vertical-align: middle;
-    width: 30px;
-    display: inline-block;
-  }
-
-  .title-container {
-    position: relative;
-
-    .title {
-      font-size: 26px;
-      color: #000;
-      margin: 0px auto 40px auto;
-      text-align: center;
-      font-weight: bold;
-    }
-  }
-
-  .show-pwd {
-    position: absolute;
-    right: 10px;
-    top: 7px;
-    font-size: 16px;
-    color: $dark_gray;
-    cursor: pointer;
-    user-select: none;
-  }
-
-  .thirdparty-button {
-    position: absolute;
-    right: 0;
-    bottom: 6px;
-  }
-
-  @media only screen and (max-width: 470px) {
-    .thirdparty-button {
-      display: none;
-    }
-  }
-}
-</style>

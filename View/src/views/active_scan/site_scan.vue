@@ -1,6 +1,12 @@
  <template>
    <div class="app-container">
      <div class="filter-container">
+       添加目标：
+       <el-input v-model="listQuery.title" placeholder="请输入目标网址地址（多个域名请使用高级扫描）" style="width: 350px;" class="filter-item" @keyup.enter.native="handleFilter" />
+       <el-button class="filter-item" type="primary">提交</el-button>
+       <el-button class="filter-item" type="primary">高级扫描</el-button>
+     </div>
+     <div class="filter-container">
        资产搜索：
        <el-input v-model="listQuery.title" placeholder="请输入" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
        <el-select v-model="listQuery.importance" placeholder="星级" clearable style="width: 90px" class="filter-item">
@@ -298,7 +304,7 @@
        this.$refs['dataForm'].validate((valid) => {
          if (valid) {
            const tempData = Object.assign({}, this.temp)
-           tempData.timestamp = +new Date(tempData.timestamp) 
+           tempData.timestamp = +new Date(tempData.timestamp)
            updateArticle(tempData).then(() => {
              const index = this.list.findIndex(v => v.id === this.temp.id)
              this.list.splice(index, 1, this.temp)

@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <li :class="{ completed: todo.done, editing: editing }" class="todo">
     <div class="view">
       <input
@@ -79,3 +79,4 @@ export default {
   }
 }
 </script>
+ -->

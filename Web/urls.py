@@ -13,15 +13,35 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+# 官方库
 from django.contrib import admin
-from django.urls import path
-from Web.Api import login,VulnerabilityScanning,VulnerabilityQuery
+
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+# 自己的库
+from Web.api import VulnerabilityScanning, VulnerabilityQuery
+from web_backend_user import views
+from web_backend_user.views import UserViewSet
+
+
+user_list = UserViewSet.as_view({
+    'get': 'list'
+})
+user_detail = UserViewSet.as_view({
+    'get': 'retrieve'
+})
+
+
+router = DefaultRouter()
+router.register(r'users', views.UserViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('Api/Login/', login.index),#登录
-    path('Api/VulnerabilityScanning/', VulnerabilityScanning.register),#扫描
-    path('Api/VulnerabilityQuery/', VulnerabilityQuery.register),#查询
+#    path('api/Login/', login.index),#登录
+    path('api/VulnerabilityScanning/', VulnerabilityScanning.register),  # 扫描 已过时
+    path('api/VulnerabilityQuery/', VulnerabilityQuery.register),  # 查询 已过时
 
 
+    path('', include(router.urls)),  # 根据路由上的地址来出地址
+    path('api/auth/', include('djoser.urls.authtoken')),  # 登陆接口
 ]

@@ -49,8 +49,7 @@ def medusa(Url,RandomAgent,Token,proxies=None):
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
         }
 
-        s = requests.session()
-        resp = s.post(payload_url,headers=headers,data=data, proxies=proxies,timeout=6, verify=False)
+        resp = requests.post(payload_url,headers=headers,data=data, proxies=proxies,timeout=6, verify=False)
         con = resp.text
         code = resp.status_code
         if con.find("System")!=-1 and con.find("Build Date")!=-1:

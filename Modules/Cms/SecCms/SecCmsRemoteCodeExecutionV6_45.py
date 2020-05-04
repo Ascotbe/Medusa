@@ -54,8 +54,8 @@ def medusa(Url,RandomAgent,Token,proxies=None):
             'Referer':payload
         }
 
-        s = requests.session()
-        resp = s.post(payload_url, headers=headers, data=payload_data,proxies=proxies,timeout=5, verify=False)
+
+        resp = requests.post(payload_url, headers=headers, data=payload_data,proxies=proxies,timeout=5, verify=False)
         con=resp.text
         code = resp.status_code
         if code== 500 and con.find('System') != -1 and con.find('Compiler') != -1 and con.find('Build Date') != -1 and con.find('IPv6 Support') != -1 and con.find('Configure Command') != -1:

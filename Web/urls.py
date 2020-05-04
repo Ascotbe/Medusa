@@ -15,6 +15,7 @@ Including another URLconf
 """
 # 官方库
 from django.contrib import admin
+
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 # 自己的库
@@ -39,6 +40,7 @@ urlpatterns = [
 #    path('api/Login/', login.index),#登录
     path('api/VulnerabilityScanning/', VulnerabilityScanning.register),  # 扫描 已过时
     path('api/VulnerabilityQuery/', VulnerabilityQuery.register),  # 查询 已过时
+
 
     path('', include(router.urls)),  # 根据路由上的地址来出地址
     path('api/auth/', include('djoser.urls.authtoken')),  # 登陆接口

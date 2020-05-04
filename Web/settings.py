@@ -38,14 +38,21 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Web.Api',
+
+    'rest_framework',  # 接口包
+    'rest_framework.authtoken',  # 鉴权令牌
+    'djoser',  # 登陆接口包
+
+    'Web.Api',  # 调用BASH版功能的API 后面写入到数据库缓存（暂）然后由后端改写到历史记录中
+    'web_backend_user',  # 用户管理模块 使用Django内置的用户管理和鉴权模式 未完坑
+    'web_backend_scan',  # 扫描模块 还没做
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    #'django.middleware.csrf.CsrfViewMiddleware',#这边是Csrf
+    'django.middleware.csrf.CsrfViewMiddleware',  # 这边是Csrf
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -139,3 +146,21 @@ cache : 缓存
 '''
 CELERY_ACCEPT_CONTENT=['json']
 CELERY_TASK_SERIALIZER='json'
+
+
+# https://www.django-rest-framework.org
+REST_FRAMEWORK = {
+
+    # 翻页
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+
+    # 鉴权类型
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',  # 令牌
+        'rest_framework.authentication.SessionAuthentication',  # 会话
+    ]
+
+}
+
+# TODO: 搞个和前端对接的专有KEY，不持有这个KEY访问某些接口直接阵亡（防爆）

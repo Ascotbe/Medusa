@@ -1,7 +1,6 @@
 import time
 import sys
 import os
-import base64
 import sqlite3
 from ClassCongregation import GetDatabaseFilePath
 class SessionKey:

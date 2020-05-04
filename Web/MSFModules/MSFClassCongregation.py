@@ -230,11 +230,39 @@ class MSFModuleInfo:#返回一个模块的详细信息
         }
         return module_info
 
-#MSFPermanentToken().result("123")
+
+class MSFModuleOptions:#返回一个模块设置需要的参数
+    def __init__(self):
+        self.req = MSFConnection()
+    def result(self,Uid,ModuleType,ModuleName):
+        self.login_api_data = msgpack.packb(["module.options", MSFTokenDataSheet().Inquire(Uid),ModuleType,ModuleName])#分别获取token,模块类型,模块名字
+        self.req.request("POST", "/api", body=self.login_api_data, headers=headers)
+        con = msgpack.unpackb(self.req.getresponse().read())  # 将返回二进制参数进行转码成json
+        print(con)
+
+
+
+class MSFModuleExecute:#返回一个执行的JobID,或者16禁制payload
+    def __init__(self):
+        self.req = MSFConnection()
+    def execute(self,Uid,ModuleType,ModuleName,**kwargs):#这个是启动服务,应该传入完整的字典kwargs
+        self.login_api_data = msgpack.packb(["module.execute", MSFTokenDataSheet().Inquire(Uid),ModuleType,ModuleName,kwargs])#分别获取token,模块类型,模块名字，IP和端口
+        self.req.request("POST", "/api", body=self.login_api_data, headers=headers)
+        con = msgpack.unpackb(self.req.getresponse().read())  # 将返回二进制参数进行转码成json
+        return con
+    def payload(self,Uid,ModuleType,ModuleName,**kwargs):#这个是生成16禁制payload
+        self.login_api_data = msgpack.packb(["module.execute", MSFTokenDataSheet().Inquire(Uid),ModuleType,ModuleName,kwargs])#分别获取token,模块类型,模块名字，IP和端口
+        self.req.request("POST", "/api", body=self.login_api_data, headers=headers)
+        con = msgpack.unpackb(self.req.getresponse().read())  # 将返回二进制参数进行转码成json
+        return con
+
+
+
+#MSFPermanentToken().result("123")#初始化
 # print(MSFTokenList().result())
 # print(MSFTokenDataSheet().Inquire("123"))#获取用户Token
 #print(MSFLoadModuleStats().result("123"))
-# print(MSFJobList().result("123"))
+print(MSFJobList().result("123"))
 # print(MSFGetModuleList().encoders("123"))
 # print(MSFGetModuleList().nops("123"))
 # print(MSFGetModuleList().post("123"))
@@ -242,4 +270,4 @@ class MSFModuleInfo:#返回一个模块的详细信息
 # print(MSFGetModuleList().auxiliary("123"))
 # print(MSFGetModuleList().exploits("123"))
 #print(MSFModuleInfo().result("123","exploit","aix/local/ibstat_path"))
-
+print(MSFModuleExecute().payload("123","exploit","multi/handler",RHOST="192.168.183.138",RPORT="8005",EnableStageEncoding="true"))

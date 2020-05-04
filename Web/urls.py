@@ -15,11 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from Web.Api import login,VulnerabilityScanning,VulnerabilityQuery
+from Web.Api import VulnerabilityScanning,VulnerabilityQuery
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('Api/Login/', login.index),#登录
     path('Api/VulnerabilityScanning/', VulnerabilityScanning.register),#扫描
     path('Api/VulnerabilityQuery/', VulnerabilityQuery.register),#查询
 

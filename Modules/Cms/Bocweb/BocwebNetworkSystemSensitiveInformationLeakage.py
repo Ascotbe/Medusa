@@ -47,8 +47,7 @@ def medusa(Url,RandomAgent,Token,proxies=None):
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
         }
 
-        s = requests.session()
-        resp = s.get(payload_url,headers=headers, timeout=6, proxies=proxies,verify=False)
+        resp = requests.get(payload_url,headers=headers, timeout=6, proxies=proxies,verify=False)
         con = resp.text
         code = resp.status_code
         m = re.findall(r'<br>filename[^<]+BOM Not Found. <br>', resp)

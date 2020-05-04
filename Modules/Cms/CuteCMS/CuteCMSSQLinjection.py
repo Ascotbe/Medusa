@@ -41,8 +41,7 @@ def medusa(Url,RandomAgent,Token,proxies=None):
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
         }
 
-        s = requests.session()
-        resp = s.get(payload_url,headers=headers, timeout=6, proxies=proxies,verify=False)
+        resp = requests.get(payload_url,headers=headers, timeout=6, proxies=proxies,verify=False)
         con = resp.text
         if con.find("4a8a08f09d37b73795649038408b5f33") != -1:
             Medusa = "{}存在CuteCMSSQL注入漏洞\r\n 验证数据:\r\nUrl:{}\r\nPayload:{}\r\n".format(url,payload_url,con)

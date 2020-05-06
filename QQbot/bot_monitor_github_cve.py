@@ -62,7 +62,7 @@ async def GithubCveApiSend():
         for cve in cve_list:#如果不是就对容器封装然后发送给群
             regular_match_results = re.search(r'CVE-\d{4,4}-\d{4,10}',str(cve["name"]), re.I)
             if regular_match_results != None:
-                CveGroupMessage=CveGroupMessage+"项目名称："+str(cve["name"])+"\r\n"+"项目地址："+str(cve["html_url"])
+                CveGroupMessage=CveGroupMessage+"项目名称："+str(cve["name"])+"\r\n"+"项目地址："+str(cve["html_url"])+"\r"
         if config.bot_email_send:  # 判断是否开启该功能
             for cve_email in cve_list:#用于发送给邮箱的数据
                 CveEmailMessage=CveEmailMessage+"项目名称："+str(cve_email["name"])+"<br>"+"项目地址："+str(cve_email["html_url"])+"<br>"+"使用项目前请验证准确性，谨防钓鱼[CQ:emoji,id=128153]"+"<br>"

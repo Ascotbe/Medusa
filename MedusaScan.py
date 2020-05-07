@@ -10,7 +10,7 @@ from Modules.FastJson import FastJson
 from Modules.Harbor import Harbor
 from Modules.Citrix import Citrix
 from Modules.InformationDetector import sublist3r
-from Modules.InformationLeakage.InformationLeakDetection import SensitiveFile#这是个类
+from Modules.InformationLeakage import InformationLeakage
 from Modules.Rails import Rails
 from Modules.Kibana import Kibana
 from Modules.PHPStudy import PHPStudy
@@ -34,11 +34,8 @@ parser.add_argument('-u','--url',type=str,help="Target url")
 parser.add_argument('-m','--Module',type=str,help="Scan an application individually")
 parser.add_argument('-p','--ProxiesIP',type=str,help="Need to enter a proxy IP")
 parser.add_argument('-a','--agent',type=str,help="Specify a header file or use a random header")
-parser.add_argument('-i','--Info',type=str,help="Pass in a file, the content of the file should meet the specifications in the document")
 parser.add_argument('-t','--ThreadNumber',type=int,help="Set the number of threads, the default number of threads 15.")
 parser.add_argument('-f','--InputFileName',type=str,help="Specify bulk scan file batch scan")
-parser.add_argument('-sp','--SqlPasswrod',type=str,help="Please enter an password file.")
-parser.add_argument('-su','--SqlUser',type=str,help="Please enter an account file.")
 parser.add_argument('-s','--Subdomain',help="Collect subdomains",action="store_true")
 parser.add_argument('-se','--SubdomainEnumerate',help="Collect subdomains and turn on enumerations",action="store_true")
 '''
@@ -64,7 +61,8 @@ MedusaModuleList={
 "Spring":Spring.Main,
 "FastJson":FastJson.Main,
 "Windows":Windows.Main,
-"Liferay":Liferay.Main
+"Liferay":Liferay.Main,
+"InformationLeakage":InformationLeakage.Main
 }
 
 
@@ -89,7 +87,7 @@ def InitialScan(ThreadPool,InputFileName,Url,Token,Module,agentHeader,proxies):
                     for UrlLine in f:#设置头文件使用的字符类型和开头的名字
                         try:
                             print("\033[1;40;32m[ + ] In batch scan, the current target is:\033[0m"+"\033[1;40;33m {}\033[0m".format(UrlLine.replace('\n', '')))
-                            San(ThreadPool,UrlLine,agentHeader,Token,Module,proxies)
+                            San(ThreadPool,UrlLine.strip("\r\n"),agentHeader,Token,Module,proxies)
                             ClassCongregation.NumberOfLoopholes()  # 输出扫描结果个数
                             #ThreadPool.NmapAppend(NmapScan,Urls)#把Nmap放到多线程中
                             #print("\033[1;40;32m[ + ] NmapScan component payload successfully loaded\033[0m")
@@ -136,14 +134,11 @@ if __name__ == '__main__':
     InputFileName = args.InputFileName#批量扫描文件所在位置
     Url = args.url
     Values=args.agent#判断是否使用随机头，判断写在Class里面
-    SqlPasswrod=args.SqlPasswrod#传入爆破数据库的密码文件
-    SqlUser = args.SqlUser#传入爆破数据库的账号文件
     Module=args.Module#单独模块扫描功能
     SubdomainEnumerate=args.SubdomainEnumerate #开启深度子域名枚举，巨TM耗时间
     Subdomain=args.Subdomain#开启子域名枚举
     ThreadNumber=args.ThreadNumber#要使用的线程数默认15
     proxies= args.ProxiesIP#代理的IP
-    InformationProbeFile=args.Info#信息探测文件
     if Values==None:#使用随机头
         agentHeader="None"
     else:
@@ -155,16 +150,6 @@ if __name__ == '__main__':
     Token=str(int(time.time()))+"medusa"#获取赋予的token
     if ThreadNumber==None:#如果线程数为空，那么默认为15
         ThreadNumber=15
-
-    if InformationProbeFile!=None:
-        try:
-            SensitiveFile().File(InformationProbeFile, Token, ThreadNumber, proxies)  # 对文件进行信息探测
-            print("\033[1;40;31m[ ! ] After the information leakage detection is over, check the written file or database!\033[0m")
-            os._exit(0)
-        except:
-            print("\033[1;40;31m[ ! ] File input error, please check!\033[0m")
-            os._exit(0)  # 直接退出整个函数
-
 
     if Url==None and InputFileName==None:#如果找不到URL的话直接退出
         print("\033[1;40;31m[ ! ] Incorrect input, please enter -h to view help\033[0m")
@@ -182,7 +167,6 @@ if __name__ == '__main__':
         SubdomainJudge = "b"
         ThreadPool.SubdomainAppend(SubdomainCrawling, Url,SubdomainJudge)
     InitialScan(ThreadPool,InputFileName, Url,Token,Module,agentHeader,proxies)#最后启动主扫描函数，这样如果多个IP的话优化速度，里面会做url或者url文件的判断
-    SensitiveFile().Domain(Url,Token,ThreadNumber,proxies)#单个url信息探测
     print("\033[1;40;31m[ ! ] Scan is complete, please see the ScanResult file\033[0m")
 
 

@@ -4,7 +4,6 @@ from fake_useragent import UserAgent
 import urllib.parse
 import nmap
 import requests
-import pymysql
 import sqlite3
 from tqdm import tqdm
 import logging

@@ -54,8 +54,7 @@ def medusa(Url,RandomAgent,Token,proxies=None):
         'Upgrade-Insecure-Requests': '1'
     }
     try:
-        s = requests.session()
-        resp = s.get(payload_url,headers=headers, timeout=5, proxies=proxies,verify=False)
+        resp = requests.get(payload_url,headers=headers, timeout=5, proxies=proxies,verify=False)
         con = resp.text
         code = resp.status_code
         if code==200 and con.lower().find('root')!=-1 and con.lower().find('/bin/bash')!=-1:

@@ -53,8 +53,7 @@ def medusa(Url,RandomAgent,Token,proxies=None):
     }
 
     try:
-        s = requests.session()
-        resp = s.get(payload_url,headers=headers, proxies=proxies,timeout=5,allow_redirects=False)
+        resp = requests.get(payload_url,headers=headers, proxies=proxies,timeout=5,allow_redirects=False)
         con = resp.headers['Location']
         code = resp.status_code
         if code==302 and con.lower().find('54289')!=-1:

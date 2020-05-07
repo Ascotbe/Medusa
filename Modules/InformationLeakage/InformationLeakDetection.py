@@ -428,4 +428,3 @@ class SensitiveFile:
                 t.join()
         except:
             pass
-

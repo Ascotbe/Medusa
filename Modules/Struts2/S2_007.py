@@ -55,8 +55,7 @@ def medusa(Url,RandomAgent,Token,proxies=None):
     }
 
     try:
-        s = requests.session()
-        resp = s.post(payload_url, data=payload,headers=headers, proxies=proxies,timeout=5, verify=False)
+        resp = requests.post(payload_url, data=payload,headers=headers, proxies=proxies,timeout=5, verify=False)
         con = resp.text
         code = resp.status_code
         if code==200 and con.lower().find('uid')!=-1 and con.lower().find('gid')!=-1 and con.lower().find('groups')!=-1:

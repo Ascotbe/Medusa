@@ -198,11 +198,14 @@
 
 - ##### Ecshop
   - `Ecshop` 跨站脚本漏洞
+  - `Ecshop affiche.php` 跨站脚本漏洞
   - `Ecshop` SQL注入漏洞
   - `Ecshop category.php` SQL注入漏洞
   - `Ecshop delete_cart_goods.php` SQL注入漏洞
   - `Ecshop checkorder.php` SQL注入漏洞
   - `Ecshop flow.php` SQL注入漏洞
+  - `Ecshop alipay.php` SQL注入漏洞
+  - `Ecshop affiche.php` SQL注入漏洞
 
 - ##### EnableQ
   - `EnableQ` 任意文件上传漏洞

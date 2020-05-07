@@ -74,6 +74,28 @@ python3 MedusaScan.py -u https://www.ascotbe.com
 
 `Ascotbe.txt` is the file you store. It is best to put it in the same directory as the` MedusaScan.py` file. The file format you store `URL` is one` url` per line
 
+Documents need to pay attention to several specifications
+
+- Need to fill in `url` and one` url` per line
+
+- `url` needs to bring` http:// `or` https:// `, if both protocols need to be scanned it can be written in two lines
+
+- If different ports in a single `url` correspond to different services, you need to write them. For example, **8080** and **1024** correspond to different services, and if you want to scan all, you need to press the following Written in the form
+
+  ```
+  http://ascotbe.com:1024/test
+  http://ascotbe.com:8080/test
+  ```
+
+- Different subdirectories, such as `test` and` medusa`, also need to be written on separate branches
+
+  ```
+  http://ascotbe.com:1024/test
+  http://ascotbe.com:1024/medusa
+  ```
+
+Next run the following command to start scanning
+
 ```bash
 python3 MedusaScan.py -f Ascotbe.txt #Your files are best placed in the same level as MedusaScan
 ```
@@ -141,33 +163,9 @@ python3 MedusaScan.py -u https://www.ascotbe.com -t 100 #100 threads
 
 #### 0x09 sensitive information leakage
 
-Separately detect the domain name or sub-directory in the file, the `target.txt` file indicates the file you need to detect
+Integrated into the module, the full scan is automatically started, if you need to scan separately, you only need to enter the module name
 
-Documents need to pay attention to several specifications
 
-- Need to fill in `url` and one` url` per line
-
-- `url` needs to bring` http:// `or` https:// `, if both protocols need to be scanned it can be written in two lines
-
-- If different ports in a single `url` correspond to different services, you need to write them. For example, **8080** and **1024** correspond to different services, and if you want to scan all, you need to press the following Written in the form
-
-  ```
-  http://ascotbe.com:1024/test
-  http://ascotbe.com:8080/test
-  ```
-
-- Different subdirectories, such as `test` and` medusa`, also need to be written on separate branches
-
-  ```
-  http://ascotbe.com:1024/test
-  http://ascotbe.com:1024/medusa
-  ```
-
-Then only need to use the following command to detect, if you only want to detect a single `url` regardless of the subdirectory or port and protocol, you do not need to enable this function, the above` -u` parameter already contains the detection function
-
-```bash
-python3 MedusaScan.py -i target.txt
-```
 
 ## Result
 

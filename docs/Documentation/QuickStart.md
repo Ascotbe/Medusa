@@ -76,6 +76,27 @@ python3 MedusaScan.py -u https://www.ascotbe.com
 
 `Ascotbe.txt`为你存放的文件，最好放在和`MedusaScan.py`文件同目录下，你存放`URL`的文件格式为每一行一个`url`
 
+文件需要注意几点规范
+
+- 需要填入`url`并且每一行一个`url`
+
+- `url`需要带上`http://`或者`https://`，如果两个协议都需要扫描可以写成两行
+
+  ```
+  http://ascotbe.com
+  https://ascotbe.com
+  ```
+
+- 如果单个`url`中不同的端口对应不同的服务话，需要都写上，例如**8080**和**1024**分别对应不同的服务，而你想要都扫描到的话需要按下面的形式写
+
+  ```
+  http://ascotbe.com:1024
+  http://ascotbe.com:8080
+  ```
+
+
+接下来运行下面命令即可开始扫描
+
 ```bash
 python3 MedusaScan.py -f Ascotbe.txt  (你的文件，最好放在和MedusaScan同级文件中)
 ```
@@ -144,40 +165,7 @@ python3 MedusaScan.py -u https://www.ascotbe.com -t 100
 
 #### 0x09 敏感信息泄露
 
-单独对文件中的域名或子目录等进行信息探测，`target.txt`文件表示你需要探测的文件
-
-文件需要注意几点规范
-
-- 需要填入`url`并且每一行一个`url`
-
-- `url`需要带上`http://`或者`https://`，如果两个协议都需要扫描可以写成两行
-
-  ```
-  http://ascotbe.com
-  https://ascotbe.com
-  ```
-
-- 如果单个`url`中不同的端口对应不同的服务话，需要都写上，例如**8080**和**1024**分别对应不同的服务，而你想要都扫描到的话需要按下面的形式写
-
-  ```
-  http://ascotbe.com:1024/test
-  http://ascotbe.com:8080/test
-  ```
-
-- 不同的子目录，比如`test`和`medusa`这两个目录，也是需要分行写上
-
-  ```
-  http://ascotbe.com:1024/test
-  http://ascotbe.com:1024/medusa
-  ```
-
-接着只需要使用一下命令即可进行探测，如果只想探测单个`url`不管子目录或者端口以及协议的话就不需要开启该功能，上面`-u`参数就已经包含了该探测功能
-
-```
-python3 MedusaScan.py -i target.txt
-```
-
-
+以集成到模块中，全量扫描自动开启，如果需要单独扫描只需要输入模块名字即可
 
 ## 扫描结果
 

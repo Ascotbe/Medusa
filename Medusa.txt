@@ -16,3 +16,4 @@ eventlet==0.25.1
 pyDES==2.0.1
 nonebot==1.5.0
 nonebot[scheduler]==1.5.0
+typing==3.7.4.1

@@ -406,13 +406,15 @@ class Dnslog:  # Dnslog判断
             # code=status.status_code
             # if code == 200:
             status = requests.get("http://api.ceye.io/v1/records?token=" + dns_log_key + "&type=dns&filter=", timeout=6)
-            dns_log_text = status.text
-            if dns_log_text.find(self.host) != -1:  # 如果找到Key
+            self.dns_log_text = status.text
+            if self.dns_log_text.find(self.host) != -1:  # 如果找到Key
                 return True
             else:
                 return False
         except Exception:
             ErrorLog().Write(self.host, "Dnslog")
+    def dns_text(self):
+        return self.dns_log_text
 
 
 class randoms:  # 生成随机数

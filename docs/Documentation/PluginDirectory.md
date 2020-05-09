@@ -320,8 +320,12 @@
 
 ##### Spring
   - `Spring` 反射文件下载漏洞（CVE-2020-5398）
-  - `Spring` Spring路径遍历漏洞（CVE-2019-3799）
-  - `Spring` Spring路径遍历漏洞（CVE-2020-5405）
+  - `Spring` 路径遍历漏洞（CVE-2019-3799）
+  - `Spring` 路径遍历漏洞（CVE-2020-5405）
+  -  `Spring`Boot框架SPEL表达式注入漏洞（CNVD-2016-04742）
+  -  `Spring`BootH2数据库JNDI注入
+  -  `Spring`DataCommons远程命令执行漏洞（CVE-2018-1273）
+  -  `Spring`SecurityOauth2远程代码执行（CVE-2018-1260）
 
 ##### Struts2
   - `Struts2` S2_001 远程代码执行漏洞

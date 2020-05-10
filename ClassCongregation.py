@@ -56,17 +56,15 @@ def BotNumberOfLoopholes():  # 机器人用的漏洞个数
 class WriteFile:  # 写入文件类
     def result(self, TargetName: str, Medusa: str) -> None:
         self.FileName = time.strftime("%Y-%m-%d", time.localtime()) + "_" + TargetName + "_" + WriteFileUnixTimestamp
+        if sys.platform == "win32" or sys.platform == "cygwin":
+            self.FilePath = GetRootFileLocation().Result()+ "\\ScanResult\\" + self.FileName + ".txt"  # 不需要输入后缀，只要名字就好
+        elif sys.platform == "linux" or sys.platform == "darwin":
+            self.FilePath = GetRootFileLocation().Result() + "/ScanResult/" + self.FileName + ".txt"  # 不需要输入后缀，只要名字就好
+        with open(self.FilePath, 'a+', encoding='utf-8') as f:  # 如果filename不存在会自动创建， 'w'表示写数据，写之前会清空文件中的原有数据！
+            f.write(Medusa + "\n")
         regular_match_results = re.search(r'存在([\w\u4e00-\u9fa5!@#$%^*()&-=+_`~/?.,<>\\|\[\]{}]*)', Medusa).group(
             0)  # 正则匹配，匹配存在后面的所有字符串，直到换行符结束
         LoopholesList.append(regular_match_results)  # 每调用一次就往列表中写入存在漏洞的名称漏洞
-        if sys.platform == "win32" or sys.platform == "cygwin":
-            self.FilePath = os.path.split(os.path.realpath(__file__))[
-                                0] + "\\ScanResult\\" + self.FileName + ".txt"  # 不需要输入后缀，只要名字就好
-        elif sys.platform == "linux" or sys.platform == "darwin":
-            self.FilePath = os.path.split(os.path.realpath(__file__))[
-                                0] + "/ScanResult/" + self.FileName + ".txt"  # 不需要输入后缀，只要名字就好
-        with open(self.FilePath, 'a+', encoding='utf-8') as f:  # 如果filename不存在会自动创建， 'w'表示写数据，写之前会清空文件中的原有数据！
-            f.write(Medusa + "\n")
 
 
 class AgentHeader:  # 使用随机头类
@@ -103,10 +101,10 @@ class AgentHeader:  # 使用随机头类
 class GetDatabaseFilePath:  # 数据库文件路径返回值
     def result(self) -> str:
         if sys.platform == "win32" or sys.platform == "cygwin":
-            DatabaseFilePath = os.path.split(os.path.realpath(__file__))[0] + "\\Medusa.db"
+            DatabaseFilePath = GetRootFileLocation().Result() + "\\Medusa.db"
             return DatabaseFilePath
         elif sys.platform == "linux" or sys.platform == "darwin":
-            DatabaseFilePath = os.path.split(os.path.realpath(__file__))[0] + "/Medusa.db"
+            DatabaseFilePath = GetRootFileLocation().Result() + "/Medusa.db"
             return DatabaseFilePath
 
 
@@ -609,7 +607,7 @@ class ErrorHandling:
 
 
 class GetRootFileLocation:  # 获取当前文件路径类
-    def result(self) -> str:
+    def Result(self) -> str:
         system_type = sys.platform
         if system_type == "win32" or system_type == "cygwin":
             RootFileLocation = os.path.split(os.path.realpath(__file__))[0]
@@ -620,9 +618,9 @@ class GetRootFileLocation:  # 获取当前文件路径类
 
 
 class ExecuteChildprocess:  # 执行子进程类
-    def execute(self, command: List[str]) -> None:
+    def Execute(self, command: List[str]) -> None:
         self.cmd = subprocess.Popen(command, stdout=subprocess.PIPE)
 
-    def read(self) -> bytes:
+    def Read(self) -> bytes:
         text = self.cmd.stdout.read()
         return text

@@ -1,6 +1,6 @@
 import mitmproxy.http
 import mitmproxy.ctx
-from Web.Api.tasks import InformationLeakage
+from Web.Api.Tasks import InformationLeakage
 def request(flow: mitmproxy.http.HTTPFlow)->None:
 
     try:

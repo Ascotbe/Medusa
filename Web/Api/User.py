@@ -1,0 +1,13 @@
+from Web.WebClassCongregation import UserInfo
+a=UserInfo().Write(name="name",show_name="show_name",passwd="passwd",email="img_path",img_path="img_path")
+print(a)
+b=UserInfo().UpdateEmail(name="name",email="imsafasfasfasfth")
+c=UserInfo().UpdateKey(name="name",key="1111111111")
+d=UserInfo().UpdateImgPath(name="name",img_path="222222222222")
+e=UserInfo().UpdateShowName(name="name",show_name="333333333333")
+f=UserInfo().UpdatePasswd(name="name",passwd="4444444444444444444")
+print(b)
+print(c)
+print(d)
+print(e)
+print(f)

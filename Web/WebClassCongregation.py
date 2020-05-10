@@ -2,7 +2,7 @@ import time
 import sys
 import os
 import sqlite3
-from ClassCongregation import GetDatabaseFilePath
+from ClassCongregation import GetDatabaseFilePath,ErrorLog,randoms
 class SessionKey:
     def __init__(self,username,session_key,session_time):
         self.username=username
@@ -97,7 +97,7 @@ class login:#登录
                 return passwd
         except:
             return 0
-class UserTable:#注册
+class UserInfo:#用户表
     def __init__(self):
         self.con = sqlite3.connect(GetDatabaseFilePath().result())
         # 获取所创建数据的游标
@@ -106,77 +106,190 @@ class UserTable:#注册
         try:
             self.cur.execute("CREATE TABLE UserInfo\
                             (id INTEGER PRIMARY KEY,\
-                            username TEXT NOT NULL,\
-                            password TEXT NOT NULL,\
-                            mailbox TEXT NOT NULL,\
-                            token TEXT NOT NULL,\
-                            creation_time TEXT NOT NULL,\
-                            update_time TEXT NOT NULL)")
-        except:
-            pass
-    def WriteUser(self,username,password,mailbox,token):#写入新用户
+                            uid TEXT NOT NULL,\
+                            key TEXT NOT NULL,\
+                            name TEXT NOT NULL,\
+                            show_name TEXT NOT NULL,\
+                            passwd TEXT NOT NULL,\
+                            email TEXT NOT NULL,\
+                            img_path TEXT NOT NULL,\
+                            key_update_time TEXT NOT NULL,\
+                            passwd_update_time TEXT NOT NULL,\
+                            email_update_time TEXT NOT NULL,\
+                            show_name_update_time TEXT NOT NULL,\
+                            img_path_update_time TEXT NOT NULL,\
+                            creation_time TEXT NOT NULL)")
+        except Exception as e:
+            ErrorLog().Write("WebClass_UserInfo_init",e)
+    def WhetherUsersConflict(self,Name,Email):#查询用户是否存在
+        try:
+            self.cur.execute("select * from UserInfo where name =? and email = ?",(Name,Email,))
+            if self.cur.fetchall():#判断是否有数据
+                self.con.close()
+                return True
+            else:
+                return False
+        except Exception as e:
+                ErrorLog().Write("WebClass_UserInfo_WhetherUsersConflict", e)
+    def WhetherTheKeyConflicts(self,Key):#查询用户kEY是否存在
+        try:
+            self.cur.execute("select * from UserInfo where key =?", (Key,))
+            if self.cur.fetchall():  # 判断是否有数据
+                self.con.close()
+                return True
+            else:
+                return False
+        except Exception as e:
+            ErrorLog().Write("WebClass_UserInfo_WhetherTheKeyConflicts", e)
+    def Write(self,**kwargs:str)->bool:#写入新用户
         CreationTime = str(int(time.time())) # 创建时间
-        self.AccountToken = token  # 生成的token
-        try:
-            self.cur.execute("INSERT INTO UserInfo(username,password,mailbox,token,creation_time,update_time)\
-            VALUES (?,?,?,?,?,?)",(username, password,mailbox,token,CreationTime,CreationTime,))
-            # 提交
-            self.con.commit()
-            self.con.close()
-            return True
-        except:
-            return False
-    def UpdateUser(self,username,token,password):#更新用户密码token
-        try:
-            self.cur.execute("""UPDATE UserInfo SET password = ?,token=?,update_time=? WHERE username= ?""", (password,token,str(int(time.time())),username,))
-            # 提交
-            self.con.commit()
-            self.con.close()
-        except:
-            pass
-    def CheckUserPresence(self,inquire_user,inquire_mailbox):#查询用户是否存在
-        try:
-            self.cur.execute("select * from UserInfo where username =? and mailbox = ?",(inquire_user,inquire_mailbox,))
-            if self.cur.fetchall():#判断是否有数据
-                self.con.close()
-                return True
-            else:
-                return False
-        except:
-            return False
-    def CheckUserToken(self,token):
-        try:
-            self.cur.execute("select * from UserInfo where token =?", (token,))
-            if self.cur.fetchall():#判断是否有数据
-                self.con.close()
-                return True
-            else:
-                return False
-        except:
-            return False
+        Uid=randoms().result(100)
+        Name=kwargs.get("name")
+        ShowName=kwargs.get("show_name")
+        Passwd=kwargs.get("passwd")
+        Email=kwargs.get("email")
+        ImgPath=kwargs.get("img_path")
+        Key=randoms().result(40)
+        UserInformationJudgment=self.WhetherUsersConflict(Name,Email)#判断用户是否存在
+        while True:#判断Key否存在
+            if not self.WhetherTheKeyConflicts(Key):#如果未找到就跳出循环进行下去
+                break
+            Key = randoms().result(40)
 
-class UserScansWebsiteTable:#用户扫描了哪些网站，时间，模块
+        if UserInformationJudgment:#如果找到返回False
+            return False
+        elif not UserInformationJudgment:#如果没找到写入数据
+            try:
+                self.cur.execute("INSERT INTO UserInfo(uid,key,name,show_name,passwd,email,img_path,key_update_time,passwd_update_time,email_update_time,show_name_update_time,img_path_update_time,creation_time)\
+                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",(Uid,Key,Name,ShowName, Passwd,Email,ImgPath,CreationTime,CreationTime,CreationTime,CreationTime,CreationTime,CreationTime,))
+                # 提交
+                self.con.commit()
+                self.con.close()
+                return True
+            except Exception as e:
+                ErrorLog().Write("WebClass_UserInfo_Write", e)
+    def UpdatePasswd(self,**kwargs:str)->bool:#更新用户密码
+        Name = kwargs.get("name")
+        Passwd = kwargs.get("passwd")
+        UpdateTime = str(int(time.time()))  # 修改时间
+        if Name!=None and Passwd!=None:
+            try:
+                self.cur.execute("""UPDATE UserInfo SET passwd = ? , passwd_update_time = ? WHERE name= ?""", (Passwd,UpdateTime,Name,))
+                # 提交
+                self.con.commit()
+                self.con.close()
+                return True
+            except Exception as e:
+                ErrorLog().Write("WebClass_UserInfo_UpdatePasswd", e)
+        else:return False
+    def UpdateShowName(self,**kwargs:str)->bool:#更新用户显示名字
+        Name = kwargs.get("name")
+        ShowName = kwargs.get("show_name")
+        UpdateTime = str(int(time.time()))  # 修改时间
+        if Name!=None and ShowName!=None:
+            try:
+                self.cur.execute("""UPDATE UserInfo SET show_name = ? , show_name_update_time = ?WHERE name= ?""", (ShowName,UpdateTime,Name,))
+                # 提交
+                self.con.commit()
+                self.con.close()
+                return True
+            except Exception as e:
+                ErrorLog().Write("WebClass_UserInfo_UpdateShowName", e)
+        else:return False
+    def UpdateEmail(self,**kwargs:str)->bool:#更新用户邮箱
+        Name = kwargs.get("name")
+        Email = kwargs.get("email")
+        UpdateTime = str(int(time.time()))  # 修改时间
+        if Name!=None and Email!=None:
+            try:
+                self.cur.execute("""UPDATE UserInfo SET email = ? , email_update_time = ?WHERE name= ?""", (Email,UpdateTime,Name,))
+                # 提交
+                self.con.commit()
+                self.con.close()
+                return True
+            except Exception as e:
+                ErrorLog().Write("WebClass_UserInfo_UpdateEmail", e)
+        else:return False
+    def UpdateImgPath(self,**kwargs:str)->bool:#更新用户头像路径
+        Name = kwargs.get("name")
+        ImgPath = kwargs.get("img_path")
+        UpdateTime = str(int(time.time()))  # 修改时间
+        if Name!=None and ImgPath!=None:
+            try:
+                self.cur.execute("""UPDATE UserInfo SET img_path = ?, img_path_update_time = ? WHERE name= ?""", (ImgPath,UpdateTime,Name,))
+                # 提交
+                self.con.commit()
+                self.con.close()
+                return True
+            except Exception as e:
+                ErrorLog().Write("WebClass_UserInfo_UpdateImgPath", e)
+        else:return False
+    def UpdateKey(self,**kwargs:str)->bool:#更新用户Key
+        Name = kwargs.get("name")
+        Key= kwargs.get("key")
+        UpdateTime = str(int(time.time()))  # 修改时间
+        if Name!=None and Key!=None:
+            try:
+                self.cur.execute("""UPDATE UserInfo SET key = ? , key_update_time = ?WHERE name= ?""", (Key,UpdateTime,Name,))
+                # 提交
+                self.con.commit()
+                self.con.close()
+                return True
+            except Exception as e:
+                ErrorLog().Write("WebClass_UserInfo_UpdateKey", e)
+        else:return False
+
+
+
+class ActiveScanList:#用户主动扫描相关信息表
     def __init__(self):
         self.con = sqlite3.connect(GetDatabaseFilePath().result())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表
         try:
-            self.cur.execute("CREATE TABLE UserScansWebsite\
-                            (id INTEGER PRIMARY KEY,\
-                            token TEXT NOT NULL,\
+            self.cur.execute("CREATE TABLE ActiveScanList\
+                            (sid INTEGER PRIMARY KEY,\
+                            uid TEXT NOT NULL,\
                             url TEXT NOT NULL,\
+                            key TEXT NOT NULL,\
                             creation_time TEXT NOT NULL,\
+                            proxy TEXT NOT NULL,\
+                            status TEXT NOT NULL,\
                             module TEXT NOT NULL)")
-        except:
-            pass
-    def Write(self,token,url,creation_time,module):#写入新用户
-        self.AccountToken = token  # 生成的token
+        except Exception as e:
+            ErrorLog().Write("WebClass_ActiveScanList_init", e)
+    def Write(self,**kwargs)->int:#写入相关信息
+        CreationTime = str(int(time.time())) # 创建时间
+        Uid=kwargs.get("uid")
+        Url=kwargs.get("url")
+        Key=kwargs.get("key")
+        Proxy=kwargs.get("proxy")
+        Status = kwargs.get("status")
+        Module = kwargs.get("module")
         try:
-            self.cur.execute("INSERT INTO UserScansWebsite(token,url,creation_time,module)\
-            VALUES (?,?,?,?)",(token,url,creation_time,module,))
+            self.cur.execute("INSERT INTO ActiveScanList(uid,url,key,creation_time,proxy,status,module)\
+            VALUES (?,?,?,?,?,?,?)",(Uid,Url,Key,CreationTime,Proxy,Status,Module,))
+            # 提交
+            GetSid=self.cur.lastrowid  # 获取主键的ID值，也就是sid的值
+            self.con.commit()
+            self.con.close()
+            return GetSid#获取主键的ID值，也就是sid的值
+        except Exception as e:
+            ErrorLog().Write("WebClass_ActiveScanList_Write", e)
+    def UpdateStatus(self,Status:str,Sid:int)->bool:#利用主键ID来判断后更新数据
+        try:
+            self.cur.execute("""UPDATE UserInfo SET status = ? WHERE sid= ?""",(Status, str(Sid),))
             # 提交
             self.con.commit()
             self.con.close()
-        except:
-            pass
+            return True
+        except Exception as e:
+            ErrorLog().Write("WebClass_ActiveScanList_UpdateStatus", e)
+            return False
+
+class ScanInformation:#单独网站详细扫描内容
+    pass
+
+class PassiveScanInformation:#用户被动扫描相关信息
+    pass

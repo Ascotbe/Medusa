@@ -24,7 +24,7 @@ class VulnerabilityInfo(object):
         self.info['details'] = Medusa  # 结果
 
 
-def medusa(Url:str,RandomAgent:str,Token:str,proxies:str=None)->None:
+def medusa(Url:str,RandomAgent:str,proxies:str=None,**kwargs)->None:
     proxies=Proxies().result(proxies)
     scheme, url, port = UrlProcessing().result(Url)
     suffixs = [".zip", ".rar", ".tar.gz", ".tgz", ".7z"]
@@ -61,7 +61,7 @@ def medusa(Url:str,RandomAgent:str,Token:str,proxies:str=None)->None:
                         "Content-Type") == "application/gzip"):
                     Medusa = "{}存在敏感压缩文件下载漏洞\r\n验证数据:\r\n漏洞位置:{}\r\n漏洞详情:{}\r\n".format(url,payload_url,con)
                     _t = VulnerabilityInfo(Medusa)
-                    VulnerabilityDetails(_t.info, url,Token).Write()  # 传入url和扫描到的数据
+                    VulnerabilityDetails(_t.info, url,**kwargs).Write()  # 传入url和扫描到的数据
                     WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
             except Exception as e:
                 _ = VulnerabilityInfo('').info.get('algroup')
@@ -81,7 +81,7 @@ def medusa(Url:str,RandomAgent:str,Token:str,proxies:str=None)->None:
             if code==200 and (resp.headers.get("Content-Type")== "application/zip" or resp.headers.get("Content-Type") == "application/x-rar-compressed" or resp.headers.get("Content-Type") == "application/x-gzip" or resp.headers.get("Content-Type") == "application/gzip") :
                 Medusa = "{}存在敏感压缩文件下载漏洞\r\n验证数据:\r\n漏洞位置:{}\r\n漏洞详情:{}\r\n".format(url, payload_url, con)
                 _t = VulnerabilityInfo(Medusa)
-                VulnerabilityDetails(_t.info, url, Token).Write()  # 传入url和扫描到的数据
+                VulnerabilityDetails(_t.info, url, **kwargs).Write()  # 传入url和扫描到的数据
                 WriteFile().result(str(url), str(Medusa))  # 写入文件，url为目标文件名统一传入，Medusa为结果
         except Exception as e:
             _ = VulnerabilityInfo('').info.get('algroup')

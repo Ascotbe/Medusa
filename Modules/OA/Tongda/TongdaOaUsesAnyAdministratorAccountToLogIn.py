@@ -22,7 +22,7 @@ class VulnerabilityInfo(object):
         self.info['details'] = Medusa  # 结果
 
 
-def medusa(Url,RandomAgent,Token,proxies=None):
+def medusa(Url,RandomAgent,proxies=None,**kwargs):
     proxies=Proxies().result(proxies)
     scheme, url, port = UrlProcessing().result(Url)
     if port is None and scheme == 'https':
@@ -60,7 +60,7 @@ def medusa(Url,RandomAgent,Token,proxies=None):
         if code == 200 and (con.find("""<li><a id="on_status_1" href="javascript:""")!=-1 and con.find("""<a id="logout_btn" class="logout" href="javascript""")!=-1 ) or (con.find("通达云市场")!=-1 and con.find("通达OA在线帮助")!=-1 and con.find("注销")!=-1):
             Medusa = "{}存在通达OA任意使用管理员账号登录漏洞\r\n验证数据:\r\n管理员COOKIE:{}\r\n漏洞返回页面:{}\r\n".format(url,head,con)
             _t = VulnerabilityInfo(Medusa)
-            VulnerabilityDetails(_t.info, url,Token).Write()  # 传入url和扫描到的数据
+            VulnerabilityDetails(_t.info, url,**kwargs).Write()  # 传入url和扫描到的数据
             WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
     except Exception as e:
         _ = VulnerabilityInfo('').info.get('algroup')

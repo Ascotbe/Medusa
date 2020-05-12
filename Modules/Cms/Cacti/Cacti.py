@@ -2,7 +2,7 @@
 # _*_ coding: utf-8 _*_
 from Modules.Cms.Cacti import CactiSQLdatabasefileleakvulnerability,CactiSQLInjectionVulnerability
 from ClassCongregation import Prompt
-def Main(ThreadPool,Url,Values,Token,proxies):
-    ThreadPool.Append(CactiSQLdatabasefileleakvulnerability.medusa, Url, Values, Token,proxies=proxies)
-    ThreadPool.Append(CactiSQLInjectionVulnerability.medusa, Url, Values, Token,proxies=proxies)
+def Main(ThreadPool,Url,Values,proxies,**kwargs):
+    ThreadPool.Append(CactiSQLdatabasefileleakvulnerability.medusa, Url,Values,proxies=proxies,**kwargs)
+    ThreadPool.Append(CactiSQLInjectionVulnerability.medusa, Url,Values,proxies=proxies,**kwargs)
     Prompt("Cacti")

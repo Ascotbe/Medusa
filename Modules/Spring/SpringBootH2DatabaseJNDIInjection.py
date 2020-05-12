@@ -24,7 +24,7 @@ class VulnerabilityInfo(object):
         self.info['details'] = Medusa  # 结果
 
 
-def medusa(Url:str,RandomAgent:str,Token:str,proxies:str=None)->None:
+def medusa(Url:str,RandomAgent:str,proxies:str=None,**kwargs)->None:
     proxies=Proxies().result(proxies)
     scheme, url, port = UrlProcessing().result(Url)
     if port is None and scheme == 'https':
@@ -65,7 +65,7 @@ def medusa(Url:str,RandomAgent:str,Token:str,proxies:str=None)->None:
         if DL.result():
             Medusa = "{}存在SpringBootH2数据库JNDI注入漏洞\r\n验证数据:\r\n返回内容:{}\r\nDnsLog:{}\r\nDnsLog数据:{}\r\n".format(url,resp.text,DL.dns_host(),str(DL.dns_text()))
             _t = VulnerabilityInfo(Medusa)
-            VulnerabilityDetails(_t.info, url,Token).Write()  # 传入url和扫描到的数据
+            VulnerabilityDetails(_t.info, url,**kwargs).Write()  # 传入url和扫描到的数据
             WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
     except Exception as e:
         _ = VulnerabilityInfo('').info.get('algroup')

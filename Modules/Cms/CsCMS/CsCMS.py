@@ -2,6 +2,6 @@
 # _*_ coding: utf-8 _*_
 from Modules.Cms.CsCMS import CsCMSSQLInjectionVulnerability
 from ClassCongregation import Prompt
-def Main(ThreadPool,Url,Values,Token,proxies):
-    ThreadPool.Append(CsCMSSQLInjectionVulnerability.medusa, Url, Values, Token,proxies=proxies)
+def Main(ThreadPool,Url,Values,proxies,**kwargs):
+    ThreadPool.Append(CsCMSSQLInjectionVulnerability.medusa, Url,Values,proxies=proxies,**kwargs)
     Prompt("CsCMS")

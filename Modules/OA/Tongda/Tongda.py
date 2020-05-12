@@ -4,9 +4,8 @@ from Modules.OA.Tongda import TongdaOfficeAnywhereArbitraryFileUploadAndFileIncl
 from Modules.OA.Tongda import TongdaOfficeAnywhereArbitraryFileUploadRemoteCommandExecutionVulnerability
 from Modules.OA.Tongda import TongdaOaUsesAnyAdministratorAccountToLogIn
 from ClassCongregation import Prompt
-def Main(ThreadPool,Url,Values,Token,proxies):
-    ThreadPool.Append(TongdaOfficeAnywhereArbitraryFileUploadAndFileInclusionVulnerability.medusa, Url, Values, Token,proxies=proxies)
-    ThreadPool.Append(TongdaOfficeAnywhereArbitraryFileUploadRemoteCommandExecutionVulnerability.medusa, Url, Values,
-                      Token,proxies=proxies)
-    ThreadPool.Append(TongdaOaUsesAnyAdministratorAccountToLogIn.medusa, Url, Values,Token,proxies=proxies)
+def Main(ThreadPool,Url,Values,proxies,**kwargs):
+    ThreadPool.Append(TongdaOfficeAnywhereArbitraryFileUploadAndFileInclusionVulnerability.medusa,Url, Values, proxies = proxies, ** kwargs)
+    ThreadPool.Append(TongdaOfficeAnywhereArbitraryFileUploadRemoteCommandExecutionVulnerability.medusa, Url, Values, proxies = proxies, ** kwargs)
+    ThreadPool.Append(TongdaOaUsesAnyAdministratorAccountToLogIn.medusa, Url, Values, proxies = proxies, ** kwargs)
     Prompt("Tongda")

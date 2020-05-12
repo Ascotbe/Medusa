@@ -3,6 +3,6 @@
 from Modules.Cms.BEESCMS import BEESCMSLoginBypassVulnerability
 from ClassCongregation import Prompt
 
-def Main(ThreadPool,Url,Values,Token,proxies):
-    ThreadPool.Append(BEESCMSLoginBypassVulnerability.medusa, Url, Values, Token,proxies=proxies)
+def Main(ThreadPool,Url,Values,proxies,**kwargs):
+    ThreadPool.Append(BEESCMSLoginBypassVulnerability.medusa, Url,Values,proxies=proxies,**kwargs)
     Prompt("BEESCMS")

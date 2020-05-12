@@ -10,14 +10,14 @@ from Modules.Cms.Ecshop import EcshopCrossSiteScriptingVulnerability1
 from Modules.Cms.Ecshop import EcshopSQLInjectionVulnerability5
 from Modules.Cms.Ecshop import EcshopSQLInjectionVulnerability6
 from ClassCongregation import Prompt
-def Main(ThreadPool,Url,Values,Token,proxies):
-    ThreadPool.Append(EcshopSQLInjectionVulnerability.medusa, Url, Values, Token, proxies=proxies)
-    ThreadPool.Append(EcshopSQLInjectionVulnerability1.medusa, Url, Values, Token, proxies=proxies)
-    ThreadPool.Append(EcshopSQLInjectionVulnerability2.medusa, Url, Values, Token, proxies=proxies)
-    ThreadPool.Append(EcshopSQLInjectionVulnerability3.medusa, Url, Values, Token, proxies=proxies)
-    ThreadPool.Append(EcshopSQLInjectionVulnerability4.medusa, Url, Values, Token, proxies=proxies)
-    ThreadPool.Append(EcshopCrossSiteScriptingVulnerability.medusa, Url, Values, Token, proxies=proxies)
-    ThreadPool.Append(EcshopCrossSiteScriptingVulnerability1.medusa, Url, Values, Token, proxies=proxies)
-    ThreadPool.Append(EcshopSQLInjectionVulnerability5.medusa, Url, Values, Token, proxies=proxies)
-    ThreadPool.Append(EcshopSQLInjectionVulnerability6.medusa, Url, Values, Token, proxies=proxies)
+def Main(ThreadPool,Url,Values,proxies,**kwargs):
+    ThreadPool.Append(EcshopSQLInjectionVulnerability.medusa,Url,Values,proxies=proxies,**kwargs)
+    ThreadPool.Append(EcshopSQLInjectionVulnerability1.medusa, Url,Values,proxies=proxies,**kwargs)
+    ThreadPool.Append(EcshopSQLInjectionVulnerability2.medusa, Url,Values,proxies=proxies,**kwargs)
+    ThreadPool.Append(EcshopSQLInjectionVulnerability3.medusa, Url,Values,proxies=proxies,**kwargs)
+    ThreadPool.Append(EcshopSQLInjectionVulnerability4.medusa, Url,Values,proxies=proxies,**kwargs)
+    ThreadPool.Append(EcshopCrossSiteScriptingVulnerability.medusa, Url,Values,proxies=proxies,**kwargs)
+    ThreadPool.Append(EcshopCrossSiteScriptingVulnerability1.medusa, Url,Values,proxies=proxies,**kwargs)
+    ThreadPool.Append(EcshopSQLInjectionVulnerability5.medusa, Url,Values,proxies=proxies,**kwargs)
+    ThreadPool.Append(EcshopSQLInjectionVulnerability6.medusa, Url,Values,proxies=proxies,**kwargs)
     Prompt("Ecshop")

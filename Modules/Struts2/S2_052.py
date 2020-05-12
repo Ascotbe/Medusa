@@ -19,7 +19,7 @@ class VulnerabilityInfo(object):
         self.info['details'] = Medusa  # 结果
 
 
-def medusa(Url,RandomAgent,Token,proxies=None):
+def medusa(Url,RandomAgent,proxies=None,**kwargs):
     proxies=Proxies().result(proxies)
 
     scheme, url, port = UrlProcessing().result(Url)
@@ -44,7 +44,7 @@ def medusa(Url,RandomAgent,Token,proxies=None):
         if code==500 and con.find("java.security.Provider$Service")!=-1:
             Medusa = "{} 存在Struts2远程代码执行漏洞\r\n漏洞详情:\r\n版本号:S2-052\r\n返回数据:{}\r\n".format(url, payload_url,con)
             _t=VulnerabilityInfo(Medusa)
-            VulnerabilityDetails(_t.info, url,Token).Write()  # 传入url和扫描到的数据
+            VulnerabilityDetails(_t.info, url,**kwargs).Write()  # 传入url和扫描到的数据
             WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
     except Exception as e:
         _ = VulnerabilityInfo('').info.get('algroup')

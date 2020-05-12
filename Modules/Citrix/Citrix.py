@@ -4,9 +4,9 @@ from Modules.Citrix import CitrixGatewayPathTraversalVulnerability
 from Modules.Citrix import CitrixRemoteCodeExecutionVulnerability
 from ClassCongregation import Prompt
 
-def Main(ThreadPool,Url,Values,Token,proxies):
-    ThreadPool.Append(CitrixRemoteCodeExecutionVulnerability.medusa,Url,Values,Token,proxies=proxies)
-    ThreadPool.Append(CitrixGatewayPathTraversalVulnerability.medusa, Url, Values, Token,proxies=proxies)
+def Main(ThreadPool,Url,Values,proxies,**kwargs):
+    ThreadPool.Append(CitrixRemoteCodeExecutionVulnerability.medusa,Url,Values,proxies=proxies,**kwargs)
+    ThreadPool.Append(CitrixGatewayPathTraversalVulnerability.medusa, Url,Values,proxies=proxies,**kwargs)
     Prompt("Citrix")
 
 

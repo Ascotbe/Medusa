@@ -268,7 +268,7 @@ class ActiveScanList:#用户主动扫描网站信息列表,写入父表中的SID
             ErrorLog().Write("WebClass_ActiveScanList_UpdateStatus", e)
             return False
 
-class ScanInformation:#ActiveScanList的子表，单独网站详细扫描内容,写入父表中的SID和UID
+class ScanInformation:#ActiveScanList的子表，单个URL相关漏洞表,写入父表中的SID和UID,以及子表中的SSID，使他们相关连，这个就是一个关系表，关联MEDUSA表和ActiveScanList表
     def __init__(self):
         self.con = sqlite3.connect(GetDatabaseFilePath().result())
         # 获取所创建数据的游标
@@ -276,10 +276,11 @@ class ScanInformation:#ActiveScanList的子表，单独网站详细扫描内容,
         # 创建表
         try:
             self.cur.execute("CREATE TABLE ScanInformation\
-                            (ssid INTEGER PRIMARY KEY,\
+                            (id INTEGER PRIMARY KEY,\
                             sid TEXT NOT NULL,\
                             uid TEXT NOT NULL,\
                             url TEXT NOT NULL,\
+                            ssid TEXT NOT NULL,\
                             creation_time TEXT NOT NULL)")
         except Exception as e:
             ErrorLog().Write("WebClass_ScanInformation_init", e)
@@ -300,22 +301,20 @@ class ScanInformation:#ActiveScanList的子表，单独网站详细扫描内容,
             return False
 
 #验证用户-》读取UID，然后用UID启动扫描，然后在用UID插入各个表中
-class MedusaQuery:#ScanInformation的子表，单个漏洞的详细内容，具体写入表在ClassCongregation文件中，改表是个查询数据表
+class MedusaQuery:#单个漏洞的详细内容查询表，具体写入表在ClassCongregation文件中，改表是个查询数据表
     def __init__(self):
         self.con = sqlite3.connect(GetDatabaseFilePath().result())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
     def Query(self, **kwargs):
         try:
-            Url = kwargs.get("url")
-            Ssid = kwargs.get("ssid")
+            Sid = kwargs.get("sid")
             Uid = kwargs.get("uid")
-            self.cur.execute("select * from Medusa where token =?", (str(token),))
-            values = self.cur.fetchall()
+            self.cur.execute("select * from Medusa where uid =? and sid = ?", (Uid, Sid,))
             result_list = []  # 存放json的返回结果列表用
-
-            for i in values:
+            for i in self.cur.fetchall():
                 json_values = {}
+                json_values["ssid"] = i[0]
                 json_values["url"] = i[1]
                 json_values["name"] = i[2]
                 json_values["affects"] = i[3]
@@ -330,7 +329,8 @@ class MedusaQuery:#ScanInformation的子表，单个漏洞的详细内容，具�
                 json_values["algroup"] = i[12]
                 json_values["version"] = i[13]
                 json_values["timestamp"] = i[14]
-                json_values["token"] = i[15]
+                json_values["sid"] = i[15]
+                json_values["uid"] = i[16]
                 result_list.append(json_values)
             self.con.close()
             return result_list

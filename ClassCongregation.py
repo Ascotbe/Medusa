@@ -94,7 +94,8 @@ class AgentHeader:  # 使用随机头类
                 return (ua.safari)
             else:
                 return (ua.random)  # 如果用户瞎几把乱输使用随机头
-        except:
+        except Exception as e:
+            ErrorLog().Write("Class_AgentHeader_result", e)
             return "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.2117.157 Safari/537.36"  # 报错使用随机头
 
 
@@ -159,8 +160,8 @@ class NmapDB:  # NMAP的数据库
                         extrainfo TEXT,\
                         conf TEXT,\
                         cpe TEXT)")
-        except:
-            pass
+        except Exception as e:
+            ErrorLog().Write("Class_NmapDB_init", e)
 
     def Write(self) -> None:
         try:
@@ -173,8 +174,8 @@ class NmapDB:  # NMAP的数据库
             # 提交
             self.con.commit()
             self.con.close()
-        except:
-            pass
+        except Exception as e:
+            ErrorLog().Write("Class_NmapDB_Write", e)
 
 
 class NmapRead:  # 读取Nmap扫描后的数据
@@ -193,8 +194,8 @@ class NmapRead:  # 读取Nmap扫描后的数据
                     port_list.append(i[2])  # 发送端口号到列表中
             self.con.close()
             return port_list
-        except:
-            pass
+        except Exception as e:
+            ErrorLog().Write("Class_NmapRead_Read", e)
 
 
 class BotVulnerabilityInquire:  # 机器人数据查询
@@ -258,10 +259,10 @@ class GithubCveApi:  # CVE写入表
                             watchers_count TEXT NOT NULL,\
                             write_time TEXT NOT NULL,\
                             update_write_time TEXT NOT NULL)")
-            except:
-                pass
-        except:
-            pass
+            except Exception as e:
+                ErrorLog().Write("Class_GithubCveApi_init_CREATE", e)
+        except Exception as e:
+            ErrorLog().Write("Class_GithubCveApi_init", e)
 
     def Write(self):
         try:
@@ -272,8 +273,8 @@ class GithubCveApi:  # CVE写入表
             # 提交
             self.con.commit()
             self.con.close()
-        except:
-            pass
+        except Exception as e:
+                ErrorLog().Write("Class_GithubCveApi_Write", e)
 
     def Update(self, UpdateTime: str):
         self.cve_update_write_time = str(UpdateTime)  # 跟新时间
@@ -285,8 +286,8 @@ class GithubCveApi:  # CVE写入表
             # 提交
             self.con.commit()
             self.con.close()
-        except:
-            pass
+        except Exception as e:
+            ErrorLog().Write("Class_GithubCveApi_Update", e)
 
     def Sekect(self) -> bool:
 
@@ -305,7 +306,7 @@ class GithubCveApi:  # CVE写入表
 
 
 class VulnerabilityDetails:  # 所有数据库写入都是用同一个类
-    def __init__(self, medusa, url: str, token: str):
+    def __init__(self, medusa, url: str, **kwargs):
         try:
             self.url = str(url)  # 目标域名
             self.timestamp = str(int(time.time()))  # 获取时间戳
@@ -321,7 +322,8 @@ class VulnerabilityDetails:  # 所有数据库写入都是用同一个类
             self.desc_content = medusa['desc_content']  # 漏洞描述
             self.suggest = medusa['suggest']  # 修复建议
             self.version = medusa['version']  # 漏洞影响的版本
-            self.token = token  # 传入的token
+            self.uid = kwargs.get("Uid")  # 传入的用户ID
+            self.sid=kwargs.get("Sid")# 传入的父表SID
             # 如果数据库不存在的话，将会自动创建一个 数据库
             self.con = sqlite3.connect(GetDatabaseFilePath().result())
             # 获取所创建数据的游标
@@ -330,7 +332,7 @@ class VulnerabilityDetails:  # 所有数据库写入都是用同一个类
             try:
                 # 如果设置了主键那么就导致主健值不能相同，如果相同就写入报错
                 self.cur.execute("CREATE TABLE Medusa\
-                            (id INTEGER PRIMARY KEY,\
+                            (ssid INTEGER PRIMARY KEY,\
                             url TEXT NOT NULL,\
                             name TEXT NOT NULL,\
                             affects TEXT NOT NULL,\
@@ -345,25 +347,26 @@ class VulnerabilityDetails:  # 所有数据库写入都是用同一个类
                             algroup TEXT NOT NULL,\
                             version TEXT NOT NULL,\
                             timestamp TEXT NOT NULL,\
-                            token TEXT NOT NULL)")
-            except:
-                pass
-        except:
-            pass
+                            sid TEXT NOT NULL,\
+                            uid TEXT NOT NULL)")
+            except Exception as e:
+                ErrorLog().Write("Class_VulnerabilityDetails_init_CREATE", e)
+        except Exception as e:
+            ErrorLog().Write("Class_VulnerabilityDetails_init", e)
 
     def Write(self):  # 统一写入
         try:
-            self.cur.execute("""INSERT INTO Medusa (url,name,affects,rank,suggest,desc_content,details,number,author,create_date,disclosure,algroup,version,timestamp,token) \
-            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", (
+            self.cur.execute("""INSERT INTO Medusa (url,name,affects,rank,suggest,desc_content,details,number,author,create_date,disclosure,algroup,version,timestamp,sid,uid) \
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", (
                 self.url, self.name, self.affects, self.rank, self.suggest, self.desc_content, self.details,
                 self.number,
                 self.author, self.create_date, self.disclosure, self.algroup, self.version, self.timestamp,
-                self.token,))
+                self.sid,self.uid,))
             # 提交
             self.con.commit()
             self.con.close()
-        except:
-            pass
+        except Exception as e:
+            ErrorLog().Write("Class_VulnerabilityDetails_Write", e)
 
 
 class ErrorLog:  # 报错写入日志
@@ -446,10 +449,12 @@ class ThreadPool:  # 线程池，所有插件都发送过来一起调用
         self.ThreaList = []  # 存放线程列表
         self.text = 0  # 统计线程数
 
-    def Append(self, plugin, url, Values, Token, proxies):
+    def Append(self, plugin, url, Values,proxies,**kwargs):
         self.text += 1
         ua = AgentHeader().result(Values)
-        self.ThreaList.append(threading.Thread(target=plugin, args=(url, ua, Token, proxies)))
+        Uid=kwargs.get("Uid")
+        Sid=kwargs.get("Sid")
+        self.ThreaList.append(threading.Thread(target=plugin, args=(url, ua, proxies,),kwargs={"Uid":Uid,"Sid":Sid}))
 
     def SubdomainAppend(self, plugin, Url, SubdomainJudge):
         self.ThreaList.append(threading.Thread(target=plugin, args=(Url, SubdomainJudge)))

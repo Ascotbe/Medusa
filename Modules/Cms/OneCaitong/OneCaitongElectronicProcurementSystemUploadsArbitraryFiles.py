@@ -31,7 +31,7 @@ def UrlProcessing(url):
         res = urllib.parse.urlparse('http://%s' % url)
     return res.scheme, res.hostname, res.port
 
-def medusa(Url,RandomAgent,Token,proxies=None):
+def medusa(Url,RandomAgent,proxies=None,**kwargs):
     proxies=ClassCongregation.Proxies().result(proxies)
 
     scheme, url, port = UrlProcessing(Url)
@@ -68,7 +68,7 @@ testvul
         if code == 200 and con.lower().find("9d37b73795649038.cer") != -1:
             Medusa = "{}存在一采通电子采购系统任意文件上传漏洞\r\n 验证数据:\r\nshell地址:{}\r\n内容:{}\r\n".format(url,payload_url,shell)
             _t=VulnerabilityInfo(Medusa)
-            ClassCongregation.VulnerabilityDetails(_t.info, url,Token).Write()  # 传入url和扫描到的数据
+            ClassCongregation.VulnerabilityDetails(_t.info, url,**kwargs).Write()  # 传入url和扫描到的数据
             ClassCongregation.WriteFile().result(str(url), str(Medusa))  # 写入文件，url为目标文件名统一传入，Medusa为结果
     except Exception as e:
         _ = VulnerabilityInfo('').info.get('algroup')

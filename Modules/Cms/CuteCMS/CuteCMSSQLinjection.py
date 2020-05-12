@@ -22,7 +22,7 @@ class VulnerabilityInfo(object):
 
 
 
-def medusa(Url,RandomAgent,Token,proxies=None):
+def medusa(Url,RandomAgent,proxies=None,**kwargs):
     proxies=Proxies().result(proxies)
     scheme, url, port =UrlProcessing().result(Url)
     if port is None and scheme == 'https':
@@ -46,7 +46,7 @@ def medusa(Url,RandomAgent,Token,proxies=None):
         if con.find("4a8a08f09d37b73795649038408b5f33") != -1:
             Medusa = "{}存在CuteCMSSQL注入漏洞\r\n 验证数据:\r\nUrl:{}\r\nPayload:{}\r\n".format(url,payload_url,con)
             _t = VulnerabilityInfo(Medusa)
-            VulnerabilityDetails(_t.info, url,Token).Write()  # 传入url和扫描到的数据
+            VulnerabilityDetails(_t.info, url,**kwargs).Write()  # 传入url和扫描到的数据
             WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
     except Exception as e:
         _ = VulnerabilityInfo('').info.get('algroup')

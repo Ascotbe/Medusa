@@ -6,10 +6,10 @@ from Modules.Apache.Solr import SolrRemoteCodeExecutionVulnerability
 from Modules.Apache.Solr import SolrRemoteCodeExecutionVulnerability2
 from ClassCongregation import Prompt
 
-def Main(ThreadPool,Url,Values,Token,proxies):
-    ThreadPool.Append(SolrVelocityTemplateRemoteCodeExecutionVulnerability.medusa, Url, Values, Token,proxies=proxies)
-    ThreadPool.Append(SolrVelocityTemplateRemoteCodeExecutionVulnerability2.medusa, Url, Values, Token,proxies=proxies)
-    ThreadPool.Append(SolrRemoteCodeExecutionVulnerability.medusa, Url, Values,Token,proxies=proxies)
-    ThreadPool.Append(SolrRemoteCodeExecutionVulnerability2.medusa, Url, Values, Token,proxies=proxies)
+def Main(ThreadPool,Url,Values,proxies,**kwargs):
+    ThreadPool.Append(SolrVelocityTemplateRemoteCodeExecutionVulnerability.medusa,Url,Values,proxies=proxies,**kwargs)
+    ThreadPool.Append(SolrVelocityTemplateRemoteCodeExecutionVulnerability2.medusa, Url,Values,proxies=proxies,**kwargs)
+    ThreadPool.Append(SolrRemoteCodeExecutionVulnerability.medusa, Url,Values,proxies=proxies,**kwargs)
+    ThreadPool.Append(SolrRemoteCodeExecutionVulnerability2.medusa,Url,Values,proxies=proxies,**kwargs)
     Prompt("Solr")
 

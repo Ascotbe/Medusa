@@ -5,9 +5,9 @@ from Modules.Cms.Destoon import DestoonSQLInjectionVulnerability2
 from Modules.Cms.Destoon import DestoonSQLInjectionVulnerability3
 from Modules.Cms.Destoon import DestoonFrontDeskGetshellVulnerability
 from ClassCongregation import Prompt
-def Main(ThreadPool,Url,Values,Token,proxies):
-    ThreadPool.Append(DestoonSQLInjectionVulnerability1.medusa, Url, Values, Token,proxies=proxies)
-    ThreadPool.Append(DestoonSQLInjectionVulnerability2.medusa, Url, Values, Token,proxies=proxies)
-    ThreadPool.Append(DestoonSQLInjectionVulnerability3.medusa, Url, Values, Token,proxies=proxies)
-    ThreadPool.Append(DestoonFrontDeskGetshellVulnerability.medusa, Url, Values, Token,proxies=proxies)
+def Main(ThreadPool,Url,Values,proxies,**kwargs):
+    ThreadPool.Append(DestoonSQLInjectionVulnerability1.medusa, Url,Values,proxies=proxies,**kwargs)
+    ThreadPool.Append(DestoonSQLInjectionVulnerability2.medusa, Url,Values,proxies=proxies,**kwargs)
+    ThreadPool.Append(DestoonSQLInjectionVulnerability3.medusa, Url,Values,proxies=proxies,**kwargs)
+    ThreadPool.Append(DestoonFrontDeskGetshellVulnerability.medusa, Url,Values,proxies=proxies,**kwargs)
     Prompt("Destoon")

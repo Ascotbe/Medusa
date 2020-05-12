@@ -3,6 +3,6 @@
 from Modules.Cms.BearAdmin import BearAdminArbitraryFileDownload
 from ClassCongregation import Prompt
 
-def Main(ThreadPool,Url,Values,Token,proxies):
-    ThreadPool.Append(BearAdminArbitraryFileDownload.medusa, Url, Values, Token,proxies=proxies)
+def Main(ThreadPool,Url,Values,proxies,**kwargs):
+    ThreadPool.Append(BearAdminArbitraryFileDownload.medusa, Url,Values,proxies=proxies,**kwargs)
     Prompt("BearAdmin")

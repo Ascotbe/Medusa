@@ -7,10 +7,10 @@ from Modules.Cms.CMSMS import CMSMSRemoteCodeExecutionVulnerability
 from Modules.Cms.CMSMS import CMSMSStoredCrossSiteScriptingVulnerability
 from ClassCongregation import Prompt
 
-def Main(ThreadPool,Url,Values,Token,proxies):
-    ThreadPool.Append(CMSMSCrossSiteScriptingVulnerability.medusa, Url, Values, Token,proxies=proxies)
-    ThreadPool.Append(CMSMSCrossSiteScriptingVulnerability1.medusa, Url, Values, Token,proxies=proxies)
-    ThreadPool.Append(CMSMSReflectiveCrossSiteScriptingVulnerability.medusa, Url, Values, Token,proxies=proxies)
-    ThreadPool.Append(CMSMSRemoteCodeExecutionVulnerability.medusa, Url, Values, Token,proxies=proxies)
-    ThreadPool.Append(CMSMSStoredCrossSiteScriptingVulnerability.medusa, Url, Values, Token,proxies=proxies)
+def Main(ThreadPool,Url,Values,proxies,**kwargs):
+    ThreadPool.Append(CMSMSCrossSiteScriptingVulnerability.medusa, Url,Values,proxies=proxies,**kwargs)
+    ThreadPool.Append(CMSMSCrossSiteScriptingVulnerability1.medusa, Url,Values,proxies=proxies,**kwargs)
+    ThreadPool.Append(CMSMSReflectiveCrossSiteScriptingVulnerability.medusa, Url,Values,proxies=proxies,**kwargs)
+    ThreadPool.Append(CMSMSRemoteCodeExecutionVulnerability.medusa, Url,Values,proxies=proxies,**kwargs)
+    ThreadPool.Append(CMSMSStoredCrossSiteScriptingVulnerability.medusa, Url,Values,proxies=proxies,**kwargs)
     Prompt("CMSMS")

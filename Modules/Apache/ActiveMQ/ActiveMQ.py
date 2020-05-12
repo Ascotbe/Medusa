@@ -3,6 +3,6 @@
 from Modules.Apache.ActiveMQ import ActiveMQArbitraryFileWritingVulnerability
 from ClassCongregation import Prompt
 
-def Main(ThreadPool,Url,Values,UnixTimestamp,proxies):
-    ThreadPool.Append(ActiveMQArbitraryFileWritingVulnerability.medusa,Url,Values,UnixTimestamp,proxies=proxies)
+def Main(ThreadPool,Url,Values,proxies,**kwargs):
+    ThreadPool.Append(ActiveMQArbitraryFileWritingVulnerability.medusa,Url,Values,proxies=proxies,**kwargs)
     Prompt("ActiveMQ")

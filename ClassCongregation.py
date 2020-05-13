@@ -95,7 +95,7 @@ class AgentHeader:  # 使用随机头类
             else:
                 return (ua.random)  # 如果用户瞎几把乱输使用随机头
         except Exception as e:
-            ErrorLog().Write("Class_AgentHeader_result", e)
+            ErrorLog().Write("ClassCongregation_AgentHeader(class)_result(def)", e)
             return "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.2117.157 Safari/537.36"  # 报错使用随机头
 
 
@@ -161,7 +161,7 @@ class NmapDB:  # NMAP的数据库
                         conf TEXT,\
                         cpe TEXT)")
         except Exception as e:
-            ErrorLog().Write("Class_NmapDB_init", e)
+            ErrorLog().Write("ClassCongregation_NmapDB(class)_init(def)", e)
 
     def Write(self) -> None:
         try:
@@ -175,7 +175,7 @@ class NmapDB:  # NMAP的数据库
             self.con.commit()
             self.con.close()
         except Exception as e:
-            ErrorLog().Write("Class_NmapDB_Write", e)
+            ErrorLog().Write("ClassCongregation_NmapDB(class)_Write(def)", e)
 
 
 class NmapRead:  # 读取Nmap扫描后的数据
@@ -195,7 +195,7 @@ class NmapRead:  # 读取Nmap扫描后的数据
             self.con.close()
             return port_list
         except Exception as e:
-            ErrorLog().Write("Class_NmapRead_Read", e)
+            ErrorLog().Write("ClassCongregation_NmapRead(class)_Read(def)", e)
 
 
 class BotVulnerabilityInquire:  # 机器人数据查询
@@ -260,9 +260,9 @@ class GithubCveApi:  # CVE写入表
                             write_time TEXT NOT NULL,\
                             update_write_time TEXT NOT NULL)")
             except Exception as e:
-                ErrorLog().Write("Class_GithubCveApi_init_CREATE", e)
+                ErrorLog().Write("ClassCongregation_GithubCveApi(class)_init(def)_CREATE", e)
         except Exception as e:
-            ErrorLog().Write("Class_GithubCveApi_init", e)
+            ErrorLog().Write("ClassCongregation_GithubCveApi(class)_init(def)", e)
 
     def Write(self):
         try:
@@ -274,7 +274,7 @@ class GithubCveApi:  # CVE写入表
             self.con.commit()
             self.con.close()
         except Exception as e:
-                ErrorLog().Write("Class_GithubCveApi_Write", e)
+                ErrorLog().Write("ClassCongregation_GithubCveApi(class)_Write(def)", e)
 
     def Update(self, UpdateTime: str):
         self.cve_update_write_time = str(UpdateTime)  # 跟新时间
@@ -287,7 +287,7 @@ class GithubCveApi:  # CVE写入表
             self.con.commit()
             self.con.close()
         except Exception as e:
-            ErrorLog().Write("Class_GithubCveApi_Update", e)
+            ErrorLog().Write("ClassCongregation_GithubCveApi(class)_Update(def)", e)
 
     def Sekect(self) -> bool:
 
@@ -350,9 +350,9 @@ class VulnerabilityDetails:  # 所有数据库写入都是用同一个类
                             sid TEXT NOT NULL,\
                             uid TEXT NOT NULL)")
             except Exception as e:
-                ErrorLog().Write("Class_VulnerabilityDetails_init_CREATE", e)
+                ErrorLog().Write("ClassCongregation_VulnerabilityDetails(class)_init(def)_CREATETABLE", e)
         except Exception as e:
-            ErrorLog().Write("Class_VulnerabilityDetails_init", e)
+            ErrorLog().Write("ClassCongregation_VulnerabilityDetails(class)_init(def)", e)
 
     def Write(self):  # 统一写入
         try:
@@ -366,7 +366,7 @@ class VulnerabilityDetails:  # 所有数据库写入都是用同一个类
             self.con.commit()
             self.con.close()
         except Exception as e:
-            ErrorLog().Write("Class_VulnerabilityDetails_Write", e)
+            ErrorLog().Write("ClassCongregation_VulnerabilityDetails(class)_Write(def)", e)
 
 
 class ErrorLog:  # 报错写入日志

@@ -205,7 +205,11 @@
   - `Ecshop checkorder.php` SQL注入漏洞
   - `Ecshop flow.php` SQL注入漏洞
   - `Ecshop alipay.php` SQL注入漏洞
-  - `Ecshop affiche.php` SQL注入漏洞
+  - `Ecshop api.php` SQL注入漏洞
+  - `Ecshop flow.php` SQL注入漏洞
+  - `Ecshop affiliate_ck.php` SQL注入漏洞
+  - `Ecshop shopinfo.php` SQL注入漏洞
+
 
 - ##### EnableQ
   - `EnableQ` 任意文件上传漏洞

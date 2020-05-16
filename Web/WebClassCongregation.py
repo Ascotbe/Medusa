@@ -295,6 +295,26 @@ class ActiveScanList:#用户主动扫描网站信息列表,写入父表中的SID
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_ActiveScanList(class)_Write(def)", e)
             return None
+    def Query(self,**kwargs):#通过UID来查询信息
+        Uid = kwargs.get("uid")
+        try:
+            self.cur.execute("select * from ActiveScanList where uid =? ", (Uid,))
+            result_list = []  # 存放json的返回结果列表用
+            for i in self.cur.fetchall():
+                json_values = {}
+                json_values["url"] = i[2]
+                json_values["creation_time"] = i[3]
+                json_values["proxy"] = i[4]
+                json_values["status"] = i[5]
+                json_values["threads"] = i[6]
+                json_values["module"] = i[7]
+                result_list.append(json_values)
+            self.con.close()
+            return result_list
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_ActiveScanList(class)_Query(def)", e)
+            return None
+
     def UpdateStatus(self,Status:str,Sid:int)->bool:#利用主键ID来判断后更新数据
         try:
             self.cur.execute("""UPDATE UserInfo SET status = ? WHERE sid= ?""",(Status, str(Sid),))
@@ -316,7 +336,6 @@ class ScanInformation:#ActiveScanList的子表，单个URL相关漏洞表,写入
             self.cur.execute("CREATE TABLE ScanInformation\
                             (id INTEGER PRIMARY KEY,\
                             sid TEXT NOT NULL,\
-                            uid TEXT NOT NULL,\
                             url TEXT NOT NULL,\
                             ssid TEXT NOT NULL,\
                             creation_time TEXT NOT NULL)")
@@ -326,10 +345,10 @@ class ScanInformation:#ActiveScanList的子表，单个URL相关漏洞表,写入
         CreationTime = str(int(time.time())) # 创建时间
         Url=kwargs.get("url")
         Ssid=kwargs.get("ssid")
-        Uid = kwargs.get("uid")
+        Sid = kwargs.get("sid")
         try:
-            self.cur.execute("INSERT INTO ScanInformation(sid,uid,url,creation_time)\
-            VALUES (?,?,?,?,?)",(Ssid,Uid,Url,CreationTime,))
+            self.cur.execute("INSERT INTO ScanInformation(sid,url,ssid,creation_time)\
+            VALUES (?,?,?,?)",(Sid,Url,Ssid,CreationTime,))
             # 提交
             self.con.commit()
             self.con.close()

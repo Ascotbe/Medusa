@@ -14,18 +14,18 @@ import json
 """
 {
 	"show_name": "7777777",
-	"username": "nixx",
-	"passwd": "12333333333",
+	"username": "ascotbe",
+	"passwd": "1",
 	"email": "1@qq.com"
 }
 """
 def Registered(request):
     if request.method == "POST":
         try:
-            ShowName = json.loads(request.body)["show_name"]
-            Username=json.loads(request.body)["username"]
-            Passwd=json.loads(request.body)["passwd"]
-            Email=json.loads(request.body)["email"]
+            ShowName = json.loads(request.body).get("show_name")
+            Username=json.loads(request.body).get("username")
+            Passwd=json.loads(request.body).get("passwd")
+            Email=json.loads(request.body).get("email")
             if len(ShowName.strip(" \r\n"))==0 or len(Username.strip(" \r\n"))==0 or len(Passwd.strip(" \r\n"))==0 or len(Email.strip(" \r\n"))==0:#验证数据不为空
                 return JsonResponse({'message': '宝贝数据呢？', 'code': 666, })
             else:

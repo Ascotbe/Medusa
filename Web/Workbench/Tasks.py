@@ -39,20 +39,18 @@ MedusaVulnerabilityList={
 }
 
 @app.task
-def MedusaScan(Url,Token,Module,WebScanThreads,Values):
-    WebScanThreadPool =ThreadPool()#定义一个线程池
+def MedusaScan(Url,Module,ScanThreads,Values,proxies,**kwargs):
+    ScanThreadPool =ThreadPool()#定义一个线程池
     if Module=="all":
         for MedusaVulnerability in MedusaVulnerabilityList:
-            MedusaVulnerabilityList[MedusaVulnerability](WebScanThreadPool, Url, Values, Token)#调用列表里面的值
-        WebScanThreadPool.Start(WebScanThreads)
+            MedusaVulnerabilityList[MedusaVulnerability](ScanThreadPool, Url, Values, proxies,**kwargs)#调用列表里面的值
+
     else:
         try:
-            MedusaVulnerabilityList[Module](WebScanThreadPool, Url, Values, Token)  # 调用列表里面的值
-            WebScanThreadPool.Start(WebScanThreads)
+            MedusaVulnerabilityList[Module](ScanThreadPool, Url, Values, proxies,**kwargs)  # 调用列表里面的值
         except:#如果传入非法字符串会调用出错
             pass
-
-
+    ScanThreadPool.Start(ScanThreads)
 
 
 

@@ -12,8 +12,8 @@ import json
 # UserInfo().QueryTokenCreationTime(name="name",token="token")
 """login
 {
-	"username": "nixx",
-	"passwd": "12333333333",
+	"username": "ascotbe",
+	"passwd": "1"
 }
 """
 def Login(request):#用户登录，每次登录成功都会刷新一次Token

@@ -36,6 +36,8 @@ from Modules.Cms.EnableQ import EnableQ
 from Modules.Cms.EcoCMS import EcoCMS
 from Modules.Cms.ECGAP import ECGAP
 from Modules.Cms.Ecshop import Ecshop
+from Modules.Cms.Emlog import Emlog
+from Modules.Cms.EmpireCMS import EmpireCMS
 from Modules.Cms.Easethink import Easethink
 from Modules.Cms.Coremail import Coremail
 from Modules.Cms.ThinkPHP import ThinkPHP
@@ -80,8 +82,10 @@ def Main(ThreadPool,Url,Values,proxies,**kwargs):
     EasyCMS.Main(ThreadPool,Url,Values,proxies,**kwargs)
     ECGAP.Main(ThreadPool,Url,Values,proxies,**kwargs)
     EasyTalk.Main(ThreadPool,Url,Values,proxies,**kwargs)
+    EmpireCMS.Main(ThreadPool,Url,Values,proxies,**kwargs)
     Ecshop.Main(ThreadPool,Url,Values,proxies,**kwargs)
     EcoCMS.Main(ThreadPool,Url,Values,proxies,**kwargs)
     EnableQ.Main(ThreadPool,Url,Values,proxies,**kwargs)
     Easethink.Main(ThreadPool,Url,Values,proxies,**kwargs)
+    Emlog.Main(ThreadPool,Url,Values,proxies,**kwargs)
     Drupal.Main(ThreadPool,Url,Values,proxies,**kwargs)

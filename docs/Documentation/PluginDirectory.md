@@ -210,6 +210,12 @@
   - `Ecshop affiliate_ck.php` SQL注入漏洞
   - `Ecshop shopinfo.php` SQL注入漏洞
 
+- ##### Emlog
+  - `Emlog` SQL注入漏洞
+
+- ##### Emlog
+  - `EmpireCMS list.php` SQL注入漏洞
+  - `EmpireCMS rate.php` SQL注入漏洞
 
 - ##### EnableQ
   - `EnableQ` 任意文件上传漏洞

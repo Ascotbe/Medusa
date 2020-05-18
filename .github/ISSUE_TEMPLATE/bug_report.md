@@ -1,33 +1,31 @@
 ---
 name: Bug report
-about: Create a report to help us improve
-title: ''
+about: 错误反馈/Bug report / 不使用此模板提交会被close / Will close without this template
+title: [Bug]/[help]/[idea] 选着其中一个来提交/Choose one to submit
 labels: ''
 assignees: ''
 
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+**Describe the bug**||**描述错误**
+A clear and concise description of what the bug is.||清楚简洁地说明错误是什么。
 
-**To Reproduce**
-Steps to reproduce the behavior:
+**To Reproduce**||**重现**
+Steps to reproduce the behavior and paste the relevant data package:||重现行为的步骤，并贴上相关的数据包：
+
 1. Go to '...'
 2. Click on '....'
 3. Scroll down to '....'
 4. See error
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+**Screenshots**||**截图**
+If applicable, add screenshots to help explain your problem.||如果适用，请添加屏幕截图以帮助解释您的问题。
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+**Related system description: **||**相关系统说明:**
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
+ - Detailed system version, kernel and other information||详细的系统版本，内核等信息
+ - Python related version number||Python相关的版本号
+ - Project version number||项目版本号
 
-
-**Additional context**
-Add any other context about the problem here.
+**Additional context**||**其他内容**
+Write relevant content that needs to be added here.||这边写上需要补充的相关内容

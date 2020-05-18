@@ -3,7 +3,7 @@
  <p align="center">
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Ascotbe-Medusa-green"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/python-3.7+-blueviolet"></a>
-    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Version-0.81-red"></a>
+    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Version-0.82-red"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/LICENSE-GPL-ff69b4"></a>
 	<a href="https://github.com/ascotbe/Medusa/stargazers"><img alt="Release" src="https://img.shields.io/github/stars/ascotbe/Medusa.svg"></a>
 	<a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Plugin-200+-success"></a>
@@ -16,6 +16,8 @@
 ### :point_right:About `Medusa`
 
 > The project is licensed under `GPL`.Free for non-commercial use.
+>
+> The project development manpower is insufficient. If you find a problem or have comments, please contact us.
 >
 > `bash` Ver. Online
 >
@@ -73,7 +75,7 @@ git config --global https.proxy https://127.0.0.1:1080
 | -a   | 1        | Specify header files or use random headers                                       | When using this feature, please refer to the documentation for this content |
 | -f   | 1        | The filename includes urls that want to scan.                              | `-u` or `-f` must exists one and only one                         |
 | -p | 1 | You need to fill in the IP of your proxy, if you have a port you need to bring the port | to use BURP as a proxy then you should pass in 127.0.0.1:8080 |
-| -m   | 1        | Scan for single module,such as: Struts2 or Apache, etc.                  | The module list refers to the list of folders on this project.                           |
+| -m   | 1        | Scan for single module,such as: Struts2 or Apache, etc.                  | The specific content can be entered by the corresponding name in the project Modules folder. |
 | -t   | 1        | Threads usage setting, default(-t 15)                                    |                                                           None   |
 | -s   | 0        | Subdomain search by DNS and search engine                           | Mod by `Sublist3r`, IP enumerate not support.                             |
 | -se  | 0        | Contains `-s` funcitons, in addtional, enumerate by dictionary(time consuming)                     | can not use this with `-s` at the same time.                         |
@@ -106,6 +108,9 @@ https://www.ascotbe.com/Loophole
 
 ### :green_heart:Discussion
 
+- If you find that the corresponding vulnerability cannot be scanned by the plug-in, please submit the [Bug] issue
+- If you have any problems that cannot be solved by the documentation, please submit an issue of [help]
+- If you have any good comments or ideas, please submit [idea] issue
 - QQ group：**690021184**（Secret code：**6CF2D42B629E5AA4E6C293B290798878**）
 - GitHub issue
 

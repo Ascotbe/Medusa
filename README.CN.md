@@ -3,11 +3,12 @@
  <p align="center">
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Ascotbe-Medusa-green"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/python-3.7+-blueviolet"></a>
-    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Version-0.81-red"></a>
+    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Version-0.82-red"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/LICENSE-GPL-ff69b4"></a>
 	<a href="https://github.com/ascotbe/Medusa/stargazers"><img alt="Release" src="https://img.shields.io/github/stars/ascotbe/Medusa.svg"></a>
 	<a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Plugin-200+-success"></a>
  </p>
+
 
 <h1 align="center" >Welcome to Medusa</h1>
 
@@ -16,6 +17,8 @@
 ### :point_right:关于美杜莎
 
 >本项目使用 `GPL`协议，未经授权，禁止使用商业用途。
+>
+>项目开发人力不足，如果您发现问题或者有意见欢迎提相关的issue
 >
 >`bash`版已上线
 >
@@ -76,7 +79,7 @@ git clone https://gitee.com/asc0t6e/Medusa.git
 |-a    |1       |指定头文件或使用随机头|具体使用参考使用文档|
 |-f    |1       |需要批量扫描目标url所在文件名字|-u和-f只能存在一个，并且必须存在一个|
 |-p   | 1        | 需要填入你代理的IP，如果有端口的话也需要带上端口             | 以使用BURP作为代理那么就该传入 127.0.0.1:8080                |
-|-m    |1       |针对单独的模块进行扫描比如Struts2、Apache等|具体内容可以通过项目文件夹来输入|
+|-m    |1       |针对单独的模块进行扫描比如Struts2、Apache等|具体内容可以通过项目Modules文件夹中对应名字来输入|
 |-t    |1       |设置线程数，默认线程数15||
 |-s    |0       |通过DNS以及各大搜索引擎查找子域名|从Sublist3r魔改而来,不支持IP枚举|
 |-se    |0       |包含了-s的功能，并且通过字典枚举(非常耗时|和-s不能同时使用，-s和-se只能存在一个|
@@ -107,8 +110,10 @@ https://www.ascotbe.com/Loophole
 
 ### :green_heart:提交意见
 
+- 如果您有发现插件扫描不到对应的漏洞请提交[Bug]类的issue
+- 如果您有任何文档无法解决的问题请提交[help]类的issue
+- 如果您有什么好的意见或者想法请提交[idea]类的issue
 - 吹B群：**690021184**（加群请输入暗号：**6CF2D42B629E5AA4E6C293B290798878**）
-- GitHub issue
 
 ### :seedling:友情链接
 

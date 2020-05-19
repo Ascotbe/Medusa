@@ -50,4 +50,4 @@ def Registered(request):
         except Exception as e:
             ErrorLog().Write("Web_Api_Registered_Registered(def)", e)
     else:
-        return JsonResponse({'message': '请使用Get请求', 'code': 500, })
+        return JsonResponse({'message': '请使用Post请求', 'code': 500, })

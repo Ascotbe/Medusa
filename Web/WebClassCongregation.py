@@ -1,3 +1,5 @@
+# !/usr/bin/env python
+# -*- coding: utf-8 -*-
 import time
 import sqlite3
 from ClassCongregation import GetDatabaseFilePath,ErrorLog,randoms

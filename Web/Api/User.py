@@ -37,6 +37,6 @@ def Login(request):#用户登录，每次登录成功都会刷新一次Token
         except Exception as e:
             ErrorLog().Write("Web_Api_User_LogIn(def)", e)
     else:
-        return JsonResponse({'message': '请使用Get请求', 'code': 500, })
+        return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
 ##更新密码，邮箱等功能后面再加，先能用就行

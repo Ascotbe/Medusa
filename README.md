@@ -112,7 +112,6 @@ https://www.ascotbe.com/Loophole
 - If you have any problems that cannot be solved by the documentation, please submit an issue of [help]
 - If you have any good comments or ideas, please submit [idea] issue
 - QQ group：**690021184**（Secret code：**6CF2D42B629E5AA4E6C293B290798878**）
-- GitHub issue
 
 ### :seedling:Friend links
 

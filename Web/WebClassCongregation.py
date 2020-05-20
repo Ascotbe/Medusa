@@ -5,25 +5,6 @@ import sqlite3
 from ClassCongregation import GetDatabaseFilePath,ErrorLog,randoms
 
 
-
-class login:#登录
-    def __init__(self,username):
-        self.username=username
-        self.con = sqlite3.connect(GetDatabaseFilePath().result())
-        # 获取所创建数据的游标
-        self.cur = self.con.cursor()
-    def logins(self):#根据数据进行查询用户名和数据库是否相等
-        self.cur.execute("select * from user_info where user =?",(self.username,))
-        values = self.cur.fetchall()
-        try:
-            global passwd
-            for i in values:
-                passwd= i[1]#获取密码
-            if passwd!=None:#判断是否在数据库中
-                self.con.close()
-                return passwd
-        except:
-            return 0
 class UserInfo:#用户表
     def __init__(self):
         self.con = sqlite3.connect(GetDatabaseFilePath().result())
@@ -303,14 +284,14 @@ class ActiveScanList:#用户主动扫描网站信息列表,写入父表中的SID
             self.cur.execute("select * from ActiveScanList where uid =? ", (Uid,))
             result_list = []  # 存放json的返回结果列表用
             for i in self.cur.fetchall():
-                json_values = {}
-                json_values["url"] = i[2]
-                json_values["creation_time"] = i[3]
-                json_values["proxy"] = i[4]
-                json_values["status"] = i[5]
-                json_values["threads"] = i[6]
-                json_values["module"] = i[7]
-                result_list.append(json_values)
+                JsonValues = {}
+                JsonValues["url"] = i[2]
+                JsonValues["creation_time"] = i[3]
+                JsonValues["proxy"] = i[4]
+                JsonValues["status"] = i[5]
+                JsonValues["threads"] = i[6]
+                JsonValues["module"] = i[7]
+                result_list.append(JsonValues)
             self.con.close()
             return result_list
         except Exception as e:
@@ -328,69 +309,40 @@ class ActiveScanList:#用户主动扫描网站信息列表,写入父表中的SID
             ErrorLog().Write("Web_WebClassCongregation_ActiveScanList(class)_UpdateStatus(def)", e)
             return False
 
-class ScanInformation:#ActiveScanList的子表，单个URL相关漏洞表,写入父表中的SID和UID,以及子表中的SSID，使他们相关连，这个就是一个关系表，关联MEDUSA表和ActiveScanList表
-    def __init__(self):
-        self.con = sqlite3.connect(GetDatabaseFilePath().result())
-        # 获取所创建数据的游标
-        self.cur = self.con.cursor()
-        # 创建表
-        try:
-            self.cur.execute("CREATE TABLE ScanInformation\
-                            (id INTEGER PRIMARY KEY,\
-                            sid TEXT NOT NULL,\
-                            url TEXT NOT NULL,\
-                            ssid TEXT NOT NULL,\
-                            creation_time TEXT NOT NULL)")
-        except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_ScanInformation(class)_init(def)", e)
-    def Write(self,**kwargs)->bool:#写入相关信息
-        CreationTime = str(int(time.time())) # 创建时间
-        Url=kwargs.get("url")
-        Ssid=kwargs.get("ssid")
-        Sid = kwargs.get("sid")
-        try:
-            self.cur.execute("INSERT INTO ScanInformation(sid,url,ssid,creation_time)\
-            VALUES (?,?,?,?)",(Sid,Url,Ssid,CreationTime,))
-            # 提交
-            self.con.commit()
-            self.con.close()
-            return True#获取主键的ID值，也就是sid的值
-        except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_ScanInformation(class)_Write(def)", e)
-            return False
 
-#验证用户-》读取UID，然后用UID启动扫描，然后在用UID插入各个表中
-class MedusaQuery:#单个漏洞的详细内容查询表，具体写入表在ClassCongregation文件中，改表是个查询数据表
+
+#通过ssid和uid来查询
+class MedusaQuery:#单个漏洞的详细内容查询表，具体写入表在ClassCongregation文件中，该表是个查询数据表
     def __init__(self):
         self.con = sqlite3.connect(GetDatabaseFilePath().result())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
     def Query(self, **kwargs):
         try:
-            Sid = kwargs.get("sid")
+            Ssid = kwargs.get("ssid")
             Uid = kwargs.get("uid")
-            self.cur.execute("select * from Medusa where uid =? and sid = ?", (Uid, Sid,))
+            self.cur.execute("select * from Medusa where uid =? and ssid = ?", (Uid, Ssid,))
             result_list = []  # 存放json的返回结果列表用
             for i in self.cur.fetchall():
-                json_values = {}
-                json_values["ssid"] = i[0]
-                json_values["url"] = i[1]
-                json_values["name"] = i[2]
-                json_values["affects"] = i[3]
-                json_values["rank"] = i[4]
-                json_values["suggest"] = i[5]
-                json_values["desc_content"] = i[6]
-                json_values["details"] = i[7]
-                json_values["number"] = i[8]
-                json_values["author"] = i[9]
-                json_values["create_date"] = i[10]
-                json_values["disclosure"] = i[11]
-                json_values["algroup"] = i[12]
-                json_values["version"] = i[13]
-                json_values["timestamp"] = i[14]
-                json_values["sid"] = i[15]
-                json_values["uid"] = i[16]
-                result_list.append(json_values)
+                JsonValues = {}
+                JsonValues["ssid"] = i[0]
+                JsonValues["url"] = i[1]
+                JsonValues["name"] = i[2]
+                JsonValues["affects"] = i[3]
+                JsonValues["rank"] = i[4]
+                JsonValues["suggest"] = i[5]
+                JsonValues["desc_content"] = i[6]
+                JsonValues["details"] = i[7]
+                JsonValues["number"] = i[8]
+                JsonValues["author"] = i[9]
+                JsonValues["create_date"] = i[10]
+                JsonValues["disclosure"] = i[11]
+                JsonValues["algroup"] = i[12]
+                JsonValues["version"] = i[13]
+                JsonValues["timestamp"] = i[14]
+                JsonValues["sid"] = i[15]
+                JsonValues["uid"] = i[16]
+                result_list.append(JsonValues)
             self.con.close()
             return result_list
         except Exception as e:

@@ -27,7 +27,7 @@ def Registered(request):
             Passwd=json.loads(request.body).get("passwd")
             Email=json.loads(request.body).get("email")
             if len(ShowName.strip(" \r\n"))==0 or len(Username.strip(" \r\n"))==0 or len(Passwd.strip(" \r\n"))==0 or len(Email.strip(" \r\n"))==0:#验证数据不为空
-                return JsonResponse({'message': '宝贝数据呢？', 'code': 666, })
+                return JsonResponse({'message': '宝贝数据呢？💚', 'code': 666, })
             else:
                 VerifyUsername=UserInfo().VerifyUsername(Username)
                 VerifyEmail=UserInfo().VerifyEmail(Email)
@@ -36,7 +36,7 @@ def Registered(request):
 
                 elif (VerifyUsername is None)or(VerifyEmail is None):
 
-                    return JsonResponse({'message': '报错了', 'code': 404, })
+                    return JsonResponse({'message': '报错了🙄', 'code': 404, })
                 elif not VerifyUsername or not VerifyEmail:
                     Token=randoms().result(250)
                     UserWrite=UserInfo().Write(name=Username, show_name=ShowName, token=Token, passwd=Passwd,

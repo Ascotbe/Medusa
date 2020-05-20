@@ -22,7 +22,8 @@ urlpatterns = [
     path('api/vulnerability_scanning/', VulnerabilityScanning.Scan),#扫描
     path('api/active_scan_list_query/', VulnerabilityQuery.ActiveScanListQuery),#主动扫描列表查询
     path('api/registered/', Registered.Registered),#注册
-    path('api/login/', User.Login),#注册
-
+    path('api/login/', User.Login),#登录
+    path('api/scan_information_query/', VulnerabilityQuery.ScanInformationQuery),  #主动扫描关系表
+    path('api/medusa_query/', VulnerabilityQuery.MedusaValueQuery),  # 美杜莎单个漏洞查询
 
 ]

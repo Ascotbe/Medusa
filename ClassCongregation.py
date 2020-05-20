@@ -363,8 +363,11 @@ class VulnerabilityDetails:  # 所有数据库写入都是用同一个类
                 self.author, self.create_date, self.disclosure, self.algroup, self.version, self.timestamp,
                 self.sid,self.uid,))
             # 提交
+            GetSsid = self.cur.lastrowid
             self.con.commit()
             self.con.close()
+            # print(GetSsid)
+            ScanInformation().Write(ssid=GetSsid,url=self.url,sid=self.sid,rank=self.rank,uid=self.uid,name=self.name)#调用web版数据表，写入ScanInformation关系表
         except Exception as e:
             ErrorLog().Write("ClassCongregation_VulnerabilityDetails(class)_Write(def)", e)
 
@@ -629,3 +632,60 @@ class ExecuteChildprocess:  # 执行子进程类
     def Read(self) -> bytes:
         text = self.cmd.stdout.read()
         return text
+
+#这个是web的类先这这边，有点小BUG
+class ScanInformation:#ActiveScanList的子表，单个URL相关漏洞表,写入父表中的SID和UID,以及子表中的SSID，使他们相关连，这个就是一个关系表，关联MEDUSA表和ActiveScanList表
+    def __init__(self):
+        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        # 获取所创建数据的游标
+        self.cur = self.con.cursor()
+        # 创建表
+        try:
+            self.cur.execute("CREATE TABLE ScanInformation\
+                            (id INTEGER PRIMARY KEY,\
+                            sid TEXT NOT NULL,\
+                            url TEXT NOT NULL,\
+                            rank TEXT NOT NULL,\
+                            ssid TEXT NOT NULL,\
+                            uid TEXT NOT NULL,\
+                            name TEXT NOT NULL,\
+                            creation_time TEXT NOT NULL)")
+        except Exception as e:
+            ErrorLog().Write("ClassCongregation_ScanInformation(class)_init(def)", e)
+    def Write(self,**kwargs)->bool:#写入相关信息
+        CreationTime = str(int(time.time())) # 创建时间
+        Url=kwargs.get("url")
+        Ssid=kwargs.get("ssid")
+        Uid = kwargs.get("uid")
+        Sid = kwargs.get("sid")
+        Rank = kwargs.get("rank")
+        Name= kwargs.get("name")
+        try:
+            self.cur.execute("INSERT INTO ScanInformation(sid,url,rank,ssid,uid,name,creation_time)\
+            VALUES (?,?,?,?,?,?,?)",(Sid,Url,Rank,Ssid,Uid,Name,CreationTime,))
+            # 提交
+            self.con.commit()
+            self.con.close()
+            return True#获取主键的ID值，也就是sid的值
+        except Exception as e:
+            ErrorLog().Write("ClassCongregation_ScanInformation(class)_Write(def)", e)
+            return False
+    def Query(self,**kwargs)->str or None:#查询相关表内容
+
+        Uid=kwargs.get("uid")
+        Sid = kwargs.get("sid")
+        try:
+            self.cur.execute("select * from ScanInformation where uid =? and sid = ?", (Uid,Sid,))
+            result_list = []  # 存放json的返回结果列表用
+            for i in self.cur.fetchall():
+                JsonValues = {}
+                JsonValues["url"] = i[2]
+                JsonValues["ssid"] = i[4]
+                JsonValues["rank"] = i[3]
+                JsonValues["name"] = i[6]
+                result_list.append(JsonValues)
+            self.con.close()
+            return result_list
+        except Exception as e:
+            ErrorLog().Write("ClassCongregation_ScanInformation(class)_Query(def)", e)
+            return None

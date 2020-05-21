@@ -213,15 +213,20 @@
 - ##### Emlog
   - `Emlog` SQL注入漏洞
 
-- ##### Emlog
+- ##### EmpireCMS
   - `EmpireCMS list.php` SQL注入漏洞
-  - `EmpireCMS rate.php` SQL注入漏洞
 
 - ##### EnableQ
   - `EnableQ` 任意文件上传漏洞
   - `EnableQ ecoCMS的admin.php` SQL注入漏洞
   - `EnableQ` 全版本通杀SQL注入漏洞
   - `EnableQ Export.log.inc.php` SQL注入漏洞
+
+- ##### EnorthWebpublisherCMS
+  - `EnorthWebpublisherCMS` SQL注入漏洞
+
+- ##### EspCMS
+  - `EspCMS` SQL注入漏洞
 
 - ##### FiveClib
   - `FiveClib` 任意文件下载漏洞

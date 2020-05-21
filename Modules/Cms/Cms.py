@@ -36,7 +36,9 @@ from Modules.Cms.EnableQ import EnableQ
 from Modules.Cms.EcoCMS import EcoCMS
 from Modules.Cms.ECGAP import ECGAP
 from Modules.Cms.Ecshop import Ecshop
+from Modules.Cms.EspCMS import EspCMS
 from Modules.Cms.Emlog import Emlog
+from Modules.Cms.EnorthWebpublisherCMS import EnorthWebpublisherCMS
 from Modules.Cms.EmpireCMS import EmpireCMS
 from Modules.Cms.Easethink import Easethink
 from Modules.Cms.Coremail import Coremail
@@ -87,5 +89,7 @@ def Main(ThreadPool,Url,Values,proxies,**kwargs):
     EcoCMS.Main(ThreadPool,Url,Values,proxies,**kwargs)
     EnableQ.Main(ThreadPool,Url,Values,proxies,**kwargs)
     Easethink.Main(ThreadPool,Url,Values,proxies,**kwargs)
+    EspCMS.Main(ThreadPool,Url,Values,proxies,**kwargs)
     Emlog.Main(ThreadPool,Url,Values,proxies,**kwargs)
+    EnorthWebpublisherCMS.Main(ThreadPool,Url,Values,proxies,**kwargs)
     Drupal.Main(ThreadPool,Url,Values,proxies,**kwargs)

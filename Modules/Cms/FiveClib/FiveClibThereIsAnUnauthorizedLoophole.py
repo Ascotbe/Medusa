@@ -46,8 +46,10 @@ def medusa(Url,RandomAgent,proxies=None,**kwargs):
         payload_url = scheme + "://" + url +":"+ str(port) + payload
         headers = {
             'User-Agent': RandomAgent,
+            'Accept': 'application/json',
+            "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
+            "Accept-Encoding": "gzip, deflate",
             'Content-Type': 'application/x-www-form-urlencoded',
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
         }
         resp = requests.get(payload_url, headers=headers, timeout=6,proxies=proxies,  verify=False)
         con = resp.text

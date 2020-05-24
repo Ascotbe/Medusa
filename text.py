@@ -12,4 +12,5 @@
 #celery -A Web.Workbench.Tasks worker --loglevel=info --pool=solo
 #python3 manage.py runserver 0.0.0.0:9999
 #.\redis-server.exe redis.windows.conf
+# git commit -m  "v0.82.3:palm_tree:"
 #find . -type d -name '__pycache__' | xargs rm -rf

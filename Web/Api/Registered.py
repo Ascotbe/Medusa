@@ -2,14 +2,7 @@ from Web.WebClassCongregation import UserInfo
 from ClassCongregation import ErrorLog,randoms
 from django.http import JsonResponse
 import json
-# UserInfo().Write(name="name",show_name="show_name",token="2222222222222222222222",passwd="passwd",email="img_path",img_path="img_path")
-# UserInfo().UpdateEmail(name="name",email="imsafasfasfasfth")
-# UserInfo().UpdateKey(name="name",key="1111111111")
-# UserInfo().UpdateImgPath(name="name",img_path="222222222222")
-# UserInfo().UpdateShowName(name="name",show_name="333333333333")
-# UserInfo().UpdatePasswd(name="name",passwd="4444444444444444444")
-# UserInfo().UpdateToken(name="name",token="token")
-# UserInfo().QueryTokenCreationTime(name="name",token="token")
+from Web.Workbench.LogRelated import RequestLogRecord
 
 """
 {
@@ -20,6 +13,7 @@ import json
 }
 """
 def Registered(request):
+    RequestLogRecord(request, request_api="registered")
     if request.method == "POST":
         try:
             ShowName = json.loads(request.body).get("show_name")

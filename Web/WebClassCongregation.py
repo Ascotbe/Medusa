@@ -351,3 +351,79 @@ class MedusaQuery:#单个漏洞的详细内容查询表，具体写入表在Clas
 
 class PassiveScanInformation:#用户被动扫描相关信息
     pass
+
+class RequestLog:#操作日志
+    def __init__(self):
+        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        # 获取所创建数据的游标
+        self.cur = self.con.cursor()
+        # 创建表
+        try:
+            self.cur.execute("CREATE TABLE RequestLog\
+                            (id INTEGER PRIMARY KEY,\
+                            request_api TEXT NOT NULL,\
+                            creation_time TEXT NOT NULL,\
+                            header TEXT NOT NULL,\
+                            request_ip TEXT NOT NULL,\
+                            request_method TEXT NOT NULL,\
+                            request_url TEXT NOT NULL,\
+                            post_date TEXT NOT NULL)")
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_RequestRecord(class)_init(def)", e)
+    def Write(self,**kwargs)->bool or None:#写入相关信息,如果写入成功返回Sid值，如果失败返回None
+        CreationTime = str(int(time.time())) # 创建时间
+        RequestApi=kwargs.get("request_api")
+        Header=kwargs.get("header")
+        RequestIp = kwargs.get("request_ip")
+        RequestMethod = kwargs.get("request_method")
+        PostDate = kwargs.get("post_date")
+        RequestUrl = kwargs.get("request_url")
+        try:
+            self.cur.execute("INSERT INTO RequestLog(request_api,creation_time,header,request_ip,request_method,request_url,post_date)\
+            VALUES (?,?,?,?,?,?,?)",(RequestApi,CreationTime,Header,RequestIp,RequestMethod,RequestUrl,PostDate,))
+            # 提交
+            self.con.commit()
+            self.con.close()
+            return True
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_RequestRecord(class)_Write(def)", e)
+            return None
+
+class UserOperationLog:#用户操作日志
+    def __init__(self):
+        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        # 获取所创建数据的游标
+        self.cur = self.con.cursor()
+        # 创建表
+        try:
+            self.cur.execute("CREATE TABLE UserOperationLog\
+                            (id INTEGER PRIMARY KEY,\
+                            uid TEXT NOT NULL,\
+                            request_api TEXT NOT NULL,\
+                            creation_time TEXT NOT NULL,\
+                            header TEXT NOT NULL,\
+                            request_ip TEXT NOT NULL,\
+                            request_method TEXT NOT NULL,\
+                            request_url TEXT NOT NULL,\
+                            post_date TEXT NOT NULL)")
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_UserOperationRecord(class)_init(def)", e)
+    def Write(self,**kwargs)->bool or None:#写入相关信息,如果写入成功返回Sid值，如果失败返回None
+        CreationTime = str(int(time.time())) # 创建时间
+        Uid=kwargs.get("uid")
+        RequestApi=kwargs.get("request_api")
+        Header=kwargs.get("header")
+        RequestIp = kwargs.get("request_ip")
+        RequestMethod = kwargs.get("request_method")
+        PostDate = kwargs.get("post_date")
+        RequestUrl = kwargs.get("request_url")
+        try:
+            self.cur.execute("INSERT INTO UserOperationLog(uid,request_api,creation_time,header,request_ip,request_method,request_url,post_date)\
+            VALUES (?,?,?,?,?,?,?,?)",(Uid,RequestApi,CreationTime,Header,RequestIp,RequestMethod,RequestUrl,PostDate,))
+            # 提交
+            self.con.commit()
+            self.con.close()
+            return True
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_UserOperationRecord(class)_Write(def)", e)
+            return None

@@ -66,7 +66,4 @@ def medusa(Url,RandomAgent,proxies=None,**kwargs):
     except Exception as e:
         _ = VulnerabilityInfo('').info.get('algroup')
         ClassCongregation.ErrorHandling().Outlier(e, _)
-        _l = ClassCongregation.ErrorLog().Write(url, _)  # 调用写入类
-
-
-#medusa('http://192.168.0.146','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/4')
+        _l = ClassCongregation.ErrorLog().Write("Plugin Name:"+_+" || Target Url:"+url,e)#调用写入类

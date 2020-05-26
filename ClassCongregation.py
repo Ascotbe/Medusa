@@ -384,9 +384,9 @@ class ErrorLog:  # 报错写入日志
         logging.basicConfig(filename=filename, filemode='a', level=logging.INFO,
                             format=log_format)  # 初始化配置信息
 
-    def Write(self, url, name):
-        logging.info(url)
-        logging.warning(name)
+    def Write(self, Name, ErrorInfo):
+        logging.info(Name)
+        logging.warning(ErrorInfo)
 
 
 class Dnslog:  # Dnslog判断

@@ -72,7 +72,7 @@ def medusa(Url:str,RandomAgent:str,proxies:str=None,**kwargs)->None:
     except Exception as e:
         _ = VulnerabilityInfo('').info.get('algroup')
         ErrorHandling().Outlier(e, _)
-        _l = ErrorLog().Write(url, _)  # 调用写入类传入URL和错误插件名
+        ErrorLog().Write("Plugin Name:"+_+" || Target Url:"+url,e)  # 调用写入类传入URL和错误插件名
 ```
 
 ### 导入数据包
@@ -198,7 +198,7 @@ def medusa(Url:str,RandomAgent:str,proxies:str=None,**kwargs)->None:
     except Exception as e:
         _ = VulnerabilityInfo('').info.get('algroup')
         ErrorHandling().Outlier(e, _)
-        _l = ErrorLog().Write(url, _)  # 调用写入类传入URL和错误插件名
+        ErrorLog().Write("Plugin Name:"+_+" || Target Url:"+url,e)  # 调用写入类传入URL和错误插件名
 ```
 
 ##### 参数
@@ -392,7 +392,7 @@ def medusa(Url:str,RandomAgent:str,proxies:str=None,**kwargs)->None:
               except Exception as e:
                   _ = VulnerabilityInfo('').info.get('algroup')
                   ErrorHandling().Outlier(e, _)
-                  _l = ErrorLog().Write(url, _)  # 调用写入类
+                  ErrorLog().Write("Plugin Name:"+_+" || Target Url:"+url,e)  # 调用写入类
       ```
 
 ## 插件代码规范

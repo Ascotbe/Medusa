@@ -20,14 +20,14 @@ def Login(request):#用户登录，每次登录成功都会刷新一次Token
                 return JsonResponse({'message': '账号或密码错误', 'code': 604, })
 
             else:
-                while True:#如果查询Token是否冲突了
+                while True:#如果查询确实冲突了
                     Token = randoms().result(250)
                     QueryTokenValidity = UserInfo().QueryTokenValidity(Token)#用来查询Token是否冲突了
                     if not QueryTokenValidity:#如果不冲突的话跳出循环
                         break
                 UpdateToken=UserInfo().UpdateToken(name=Username, token=Token)#接着更新Token
                 if UpdateToken:#如果更新成功了
-                    UserName = UserInfo().QueryUserNameWithToken(Token)  # 如果登录成功后就来查询用户名
+                    UserName = UserInfo().QueryUserNameWithToken(Token)  # 查询UID
                     UserOperationLogRecord(request, request_api="login", uid=UserName)
                     return JsonResponse({'message': Token, 'code': 200, })
         except Exception as e:

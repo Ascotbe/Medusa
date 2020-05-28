@@ -41,6 +41,7 @@ from Modules.Cms.Emlog import Emlog
 from Modules.Cms.EnorthWebpublisherCMS import EnorthWebpublisherCMS
 from Modules.Cms.EmpireCMS import EmpireCMS
 from Modules.Cms.Easethink import Easethink
+from Modules.Cms.EuseTMS import EuseTMS
 from Modules.Cms.Coremail import Coremail
 from Modules.Cms.ThinkPHP import ThinkPHP
 from Modules.Cms.ThinkCMF import ThinkCMF
@@ -92,4 +93,5 @@ def Main(ThreadPool,Url,Values,proxies,**kwargs):
     EspCMS.Main(ThreadPool,Url,Values,proxies,**kwargs)
     Emlog.Main(ThreadPool,Url,Values,proxies,**kwargs)
     EnorthWebpublisherCMS.Main(ThreadPool,Url,Values,proxies,**kwargs)
+    EuseTMS.Main(ThreadPool,Url,Values,proxies,**kwargs)
     Drupal.Main(ThreadPool,Url,Values,proxies,**kwargs)

@@ -1,8 +1,9 @@
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
 import time
+import sys
 import sqlite3
-from ClassCongregation import GetDatabaseFilePath,ErrorLog,randoms
+from ClassCongregation import GetDatabaseFilePath,ErrorLog,randoms,GetRootFileLocation
 
 
 class UserInfo:#用户表
@@ -427,3 +428,22 @@ class UserOperationLog:#用户操作日志
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_UserOperationRecord(class)_Write(def)", e)
             return None
+
+
+class GetTemplateFolderLocation:
+    def Result(self)->str:
+        if sys.platform == "win32" or sys.platform == "cygwin":
+            TemplateFolderLocation = GetRootFileLocation().Result() + "\\Web\\Template\\"
+            return TemplateFolderLocation
+        elif sys.platform == "linux" or sys.platform == "darwin":
+            TemplateFolderLocation = GetRootFileLocation().Result() + "/Web/Template/"
+            return TemplateFolderLocation
+
+class GetDownloadFolderLocation:
+    def Result(self)->str:
+        if sys.platform == "win32" or sys.platform == "cygwin":
+            DownloadFolderLocation = GetRootFileLocation().Result() + "\\Web\\Download\\"
+            return DownloadFolderLocation
+        elif sys.platform == "linux" or sys.platform == "darwin":
+            DownloadFolderLocation = GetRootFileLocation().Result() + "/Web/Download/"
+            return DownloadFolderLocation

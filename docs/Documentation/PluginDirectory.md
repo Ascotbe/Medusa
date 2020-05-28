@@ -228,6 +228,12 @@
 - ##### EspCMS
   - `EspCMS` SQL注入漏洞
 
+- ##### EuseTMS
+  - `EuseTMS StudyCardLFRM.aspx` SQL注入漏洞
+  - `EuseTMS PersonalQuestionsList.aspx` SQL注入漏洞
+  - `EuseTMS CourseCommentList.aspx` SQL注入漏洞
+  - `EuseTMS CourseCommentList.aspx targetid参数` SQL注入漏洞
+
 - ##### FiveClib
   - `FiveClib` 任意文件下载漏洞
   - `FiveClib` 任意文件遍历漏洞

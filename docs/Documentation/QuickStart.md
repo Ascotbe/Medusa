@@ -1,6 +1,18 @@
 ## 环境配置
 
-正所谓磨刀不误砍柴工
+### OS环境配置
+
+> Ubuntu
+
+安装方法没有特殊要求
+
+> CentOS
+
+需要执行`yum install sqlite*`命令来安装**sqlite3.so**库
+
+> Mac OS
+
+安装方法没有特殊要求
 
 ### 安装Python环境
 
@@ -30,6 +42,7 @@ pyDES==2.0.1
 nonebot==1.5.0
 nonebot[scheduler]==1.5.0
 ```
+
 
 
 ## 配置文件

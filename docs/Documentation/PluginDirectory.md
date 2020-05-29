@@ -233,6 +233,9 @@
   - `EuseTMS PersonalQuestionsList.aspx` SQL注入漏洞
   - `EuseTMS CourseCommentList.aspx` SQL注入漏洞
   - `EuseTMS CourseCommentList.aspx targetid参数` SQL注入漏洞
+  - `EuseTMS smartuser.aspx` SQL注入漏洞
+  - `EuseTMS xinqing.aspx` SQL注入漏洞
+  - `EuseTMS download.aspx` SQL注入漏洞
 
 - ##### FiveClib
   - `FiveClib` 任意文件下载漏洞

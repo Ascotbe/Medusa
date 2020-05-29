@@ -1,5 +1,18 @@
 ##  Environment configuration
 
+### OS environment configuration
+
+> Ubuntu
+
+There are no special requirements for the installation method
+
+> CentOS
+
+You need to execute the `yum install sqlite*` command to install the **sqlite3.so** library
+
+> Mac OS
+
+There are no special requirements for the installation method
 
 ### Install Python env
 

@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from Web.Api import VulnerabilityScanning,VulnerabilityQuery,Registered,User
+from Web.Api import VulnerabilityScanning,VulnerabilityQuery,Registered,User,GenerateReport
 
 urlpatterns = [
     #path('admin/', admin.site.urls),
@@ -25,5 +25,8 @@ urlpatterns = [
     path('api/login/', User.Login),#登录
     path('api/scan_information_query/', VulnerabilityQuery.ScanInformationQuery),  #主动扫描关系表
     path('api/medusa_query/', VulnerabilityQuery.MedusaValueQuery),  # 美杜莎单个漏洞查询
+    path('api/generate_word/', GenerateReport.GenerateWord),  # 美杜莎报告生成接口
+    path('api/download_word/', GenerateReport.DownloadWord),  # 美杜莎报告下载接口
+
 
 ]

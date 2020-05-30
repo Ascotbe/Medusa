@@ -318,7 +318,7 @@ class MedusaQuery:#单个漏洞的详细内容查询表，具体写入表在Clas
         self.con = sqlite3.connect(GetDatabaseFilePath().result())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
-    def Query(self, **kwargs):
+    def Query(self, **kwargs)->None or list:
         try:
             Ssid = kwargs.get("ssid")
             Uid = kwargs.get("uid")
@@ -348,6 +348,28 @@ class MedusaQuery:#单个漏洞的详细内容查询表，具体写入表在Clas
             return result_list
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_MedusaQuery(class)_Query(def)", e)
+            return None
+    def QueryBySid(self, **kwargs):#生成word文档数据查询
+        try:
+            Sid = kwargs.get("sid")
+            Uid = kwargs.get("uid")
+            self.cur.execute("select * from Medusa where uid =? and sid = ?", (Uid, Sid,))
+            result_list = []  # 存放json的返回结果列表用
+            url=""
+            for i in self.cur.fetchall():
+                JsonValues = {}
+                url= i[1]
+                JsonValues["vulnerability_name"] = i[2]
+                JsonValues["vulnerability_level"] = i[4]
+                JsonValues["repair_suggestions"] = i[5]
+                JsonValues["vulnerability_description"] = i[6]
+                JsonValues["vulnerability_details"] = i[7]
+                JsonValues["find_the_time"] = i[14]
+                result_list.append(JsonValues)
+            self.con.close()
+            return result_list,url
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_MedusaQuery(class)_QueryBySid(def)", e)
             return None
 
 class PassiveScanInformation:#用户被动扫描相关信息
@@ -428,6 +450,53 @@ class UserOperationLog:#用户操作日志
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_UserOperationRecord(class)_Write(def)", e)
             return None
+
+class ReportGenerationList:#报告生成相关表
+    def __init__(self):
+        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        # 获取所创建数据的游标
+        self.cur = self.con.cursor()
+        # 创建表
+        try:
+            self.cur.execute("CREATE TABLE ReportGenerationList\
+                            (id INTEGER PRIMARY KEY,\
+                            file_name TEXT NOT NULL,\
+                            uid TEXT NOT NULL,\
+                            creation_time TEXT NOT NULL,\
+                            sid TEXT NOT NULL)")
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_ReportGenerationList(class)_init(def)", e)
+
+    def Write(self, **kwargs) -> bool or None:  # 写入相关信息
+        CreationTime = str(int(time.time()))  # 创建时间
+        Uid = kwargs.get("uid")
+        FileName = kwargs.get("file_name")
+        Sid = kwargs.get("sid")
+        try:
+            self.cur.execute("INSERT INTO ReportGenerationList(file_name,uid,creation_time,sid)\
+            VALUES (?,?,?,?)",(FileName, Uid, CreationTime, Sid,))
+            # 提交
+            self.con.commit()
+            self.con.close()
+            return True
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_ReportGenerationList(class)_Write(def)", e)
+            return None
+    def Query(self,**kwargs)->bool or None:#查询该文件是否是该用户所有
+        Uid = kwargs.get("uid")
+        FileName = kwargs.get("file_name")
+        try:
+            self.cur.execute("select * from ReportGenerationList where file_name =? and uid=?", (FileName,Uid,))
+            if self.cur.fetchall():  # 判断是否有数据
+                self.con.close()
+                return True
+            else:
+                return False
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_ReportGenerationList(class)_QueryTokenValidity(def)", e)
+            return None
+
+
 
 
 class GetTemplateFolderLocation:

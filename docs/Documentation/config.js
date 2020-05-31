@@ -52,7 +52,7 @@ let config = {
         {
             title: 'Web版本', type: 'dropdown', items: [
                 {
-                    title: '使用介绍', path: '/WebVersion'
+                    title: '安装说明', path: '/WebVersionInstallation'
                 }
             ]
         },

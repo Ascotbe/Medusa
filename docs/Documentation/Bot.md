@@ -2,13 +2,11 @@
 
 #### 安装docker
 
-不通的系统选择不通的安装方式
+不同的系统选择不通的安装方式
 
 ```bash
 #Ubuntu
 sudo apt install docker.io
-#树莓派
-sudo curl -sSL https://get.docker.com | sh
 ```
 
 #### 拉取coolq仓库

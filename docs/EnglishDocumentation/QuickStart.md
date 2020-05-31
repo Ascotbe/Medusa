@@ -1,6 +1,6 @@
 ##  Environment configuration
 
-### OS environment configuration
+### System environment configuration
 
 > Ubuntu
 

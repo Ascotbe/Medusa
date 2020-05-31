@@ -66,3 +66,15 @@ def DownloadWord(request):#下载word报告
             return JsonResponse({'message': '莎酱被玩坏啦(>^ω^<)喵', 'code': 500, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
+
+
+def upload(request):#文件上传功能
+    print(request.FILES)
+    file_io = request.FILES.get('file', None)
+    print(file_io)
+    if file_io:
+        with open(file_io.name, 'wb') as f:
+            for line in file_io:
+                f.write(line)
+
+    return JsonResponse({'status': 'OK', 'msg': '上传成功'})

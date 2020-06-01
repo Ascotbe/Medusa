@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import time
 import sys
+import base64
 import sqlite3
 from ClassCongregation import GetDatabaseFilePath,ErrorLog,randoms,GetRootFileLocation
 
@@ -333,7 +334,7 @@ class MedusaQuery:#单个漏洞的详细内容查询表，具体写入表在Clas
                 JsonValues["rank"] = i[4]
                 JsonValues["suggest"] = i[5]
                 JsonValues["desc_content"] = i[6]
-                JsonValues["details"] = i[7]
+                JsonValues["details"] = str(base64.b64decode(i[7]),encoding='utf-8')
                 JsonValues["number"] = i[8]
                 JsonValues["author"] = i[9]
                 JsonValues["create_date"] = i[10]

@@ -48,8 +48,6 @@ http://medusa.ascotbe.com/Documentation/#/PluginDirectory
 ### :book:`Bash`版使用说明
 
 ```bash
-# 安装工具(ubuntu
-apt-get install nmap
 # 下载文件
 git clone https://github.com/Ascotbe/Medusa.git
 cd Medusa
@@ -87,13 +85,7 @@ git clone https://gitee.com/asc0t6e/Medusa.git
 ### :green_book:`Bot`版使用说明
 
 ```
-# 下载文件
-git clone https://github.com/Ascotbe/Medusa.git
-cd Medusa
-# 安装依赖
-pip3 install -r Medusa.txt
-# 后续配置参考比如文档中的机器人模块
-https://www.ascotbe.com/Medusa
+http://medusa.ascotbe.com/Documentation/#/Bot
 ```
 
 ### :four_leaf_clover:更新日志

@@ -47,9 +47,7 @@ http://medusa.ascotbe.com/Documentation/#/PluginDirectory
 ### :book:`Bash` Ver. instructions for use
 
 ```bash
-# Need nmap(example for ubuntu
-apt-get install nmap
-# clone project files
+# clone project files(example for ubuntu
 git clone https://github.com/Ascotbe/Medusa.git
 cd Medusa
 # Install python packages
@@ -83,14 +81,9 @@ git config --global https.proxy https://127.0.0.1:1080
 
 ### :green_book:`Bot` Ver. document
 
-```bash
-# clone project files
-git clone https://github.com/Ascotbe/Medusa.git
-cd Medusa
-# Install python packages
-pip3 install -r Medusa.txt
-# Configuring look at BOT document
-https://www.ascotbe.com/Medusa
+```html
+# How to use BOT, please look at the connection
+http://medusa.ascotbe.com/EnglishDocumentation/#/Bot
 ```
 
 ### :four_leaf_clover:Updating logs

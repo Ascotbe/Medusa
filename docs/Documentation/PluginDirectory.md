@@ -382,3 +382,9 @@
 ##### Liferay
 
 - `Liferay Portal `远程命令执行漏洞（CVE-2020-7961）
+
+##### Weblogic
+
+- `WebLogic` XML Decoder反序列化漏洞（CVE-2017-10271）
+- `Weblogic`服务器端请求伪造漏洞（CVE-2014-4210）
+

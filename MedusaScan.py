@@ -16,6 +16,7 @@ from Modules.Kibana import Kibana
 from Modules.PHPStudy import PHPStudy
 from Modules.Mongo import Mongo
 from Modules.Liferay import Liferay
+from Modules.Weblogic import Weblogic
 from Modules.OA import Oa
 from Modules.Windows import Windows
 from Modules.Spring import Spring
@@ -43,7 +44,7 @@ parser.add_argument('-se','--SubdomainEnumerate',help="Collect subdomains and tu
 在XXX.py 中 按住 “alt+shift+f9”  ----选择编辑配置（edit configurations）---script parameters(脚本程序)
 在里面输入参数就可以使用debug调试了
 '''
-#漏洞哥哥插件的主函数
+#漏洞各个插件的主函数
 MedusaModuleList={
 "Struts2":Struts2.Main,
 "Confluence":Confluence.Main,
@@ -62,6 +63,7 @@ MedusaModuleList={
 "FastJson":FastJson.Main,
 "Windows":Windows.Main,
 "Liferay":Liferay.Main,
+"Weblogic":Weblogic.Main,
 "InformationLeakage":InformationLeakage.Main
 }
 

@@ -387,4 +387,4 @@
 
 - `WebLogic` XML Decoder反序列化漏洞（CVE-2017-10271）
 - `Weblogic`服务器端请求伪造漏洞（CVE-2014-4210）
-
+- `Weblogic`任意文件上传漏洞（CVE-2018-2894）

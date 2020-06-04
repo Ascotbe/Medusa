@@ -4,15 +4,17 @@
 
 > Ubuntu
 
-安装方法没有特殊要求
+需要安装`JAVA`环境，且全局变量中可执行`java`命令
 
 > CentOS
 
-需要执行`yum install sqlite*`命令来安装**sqlite3.so**库
+1.需要安装`JAVA`环境，且全局变量中可执行`java`命令
+
+2.需要执行`yum install sqlite*`命令来安装**sqlite3.so**库
 
 > Mac OS
 
-安装方法没有特殊要求
+需要安装`JAVA`环境，且全局变量中可执行`java`命令
 
 ### 安装Python环境
 
@@ -43,8 +45,6 @@ nonebot==1.5.0
 nonebot[scheduler]==1.5.0
 ```
 
-
-
 ## 配置文件
 
 该小节所指的配置文件是同一个文件
@@ -59,6 +59,8 @@ vim config.py
 ```
 
 把`dns_log_url`和`dns_log_key`分别改成你的http://ceye.io/ 里面的`Identifier`和`API Token`值
+
+**注意：**使用脚本的时候确保网络畅通，如果没扫描出来漏洞不妨看看`DNSLOG`数据是否存在
 
 #### 0x02 Debug模式
 

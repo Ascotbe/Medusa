@@ -46,6 +46,8 @@ from Modules.Cms.Coremail import Coremail
 from Modules.Cms.ThinkPHP import ThinkPHP
 from Modules.Cms.ThinkCMF import ThinkCMF
 from Modules.Cms.EasyTalk import EasyTalk
+from Modules.Cms.ExtMail import ExtMail
+from Modules.Cms.ExponentCMS import ExponentCMS
 from Modules.Cms.Drupal import Drupal
 def Main(ThreadPool,Url,Values,proxies,**kwargs):
     Coremail.Main(ThreadPool,Url,Values,proxies,**kwargs)
@@ -94,4 +96,6 @@ def Main(ThreadPool,Url,Values,proxies,**kwargs):
     Emlog.Main(ThreadPool,Url,Values,proxies,**kwargs)
     EnorthWebpublisherCMS.Main(ThreadPool,Url,Values,proxies,**kwargs)
     EuseTMS.Main(ThreadPool,Url,Values,proxies,**kwargs)
+    ExtMail.Main(ThreadPool,Url,Values,proxies,**kwargs)
+    ExponentCMS.Main(ThreadPool,Url,Values,proxies,**kwargs)
     Drupal.Main(ThreadPool,Url,Values,proxies,**kwargs)

@@ -237,6 +237,12 @@
   - `EuseTMS xinqing.aspx` SQL注入漏洞
   - `EuseTMS download.aspx` SQL注入漏洞
 
+- ##### ExponentCMS
+  - `ExponentCMS` 反射型XSS漏洞
+  
+- ##### ExtMail
+  - `ExtMail` SQL注入漏洞
+  
 - ##### FiveClib
   - `FiveClib` 任意文件下载漏洞
   - `FiveClib` 任意文件遍历漏洞

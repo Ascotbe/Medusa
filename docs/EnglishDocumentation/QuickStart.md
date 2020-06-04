@@ -4,15 +4,17 @@
 
 > Ubuntu
 
-There are no special requirements for the installation method
+The `JAVA` environment needs to be installed and the `java` command can be executed in the global variables
 
 > CentOS
 
-You need to execute the `yum install sqlite*` command to install the **sqlite3.so** library
+1.The `JAVA` environment needs to be installed and the `java` command can be executed in the global variables
+
+2.You need to execute the `yum install sqlite*` command to install the **sqlite3.so** library
 
 > Mac OS
 
-There are no special requirements for the installation method
+The `JAVA` environment needs to be installed and the `java` command can be executed in the global variables
 
 ### Install Python env
 
@@ -58,6 +60,8 @@ vim config.py
 ```
 
 Change `dns_log_url` and` dns_log_key` to the values of your `Identifier` and` API Token` at http://ceye.io/
+
+**Note: **When using the script, ensure that the network is unblocked. If the vulnerability is not scanned, you may wish to see if the `DNSLOG` data exists
 
 #### 0x02 Debug mode 
 

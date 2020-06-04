@@ -623,6 +623,25 @@ class GetRootFileLocation:  # 获取当前文件路径类
             RootFileLocation = os.path.split(os.path.realpath(__file__))[0]
             return RootFileLocation
 
+class GetToolFilePath:  # 获取TOOL文件路径类
+    def Result(self) -> str:
+        system_type = sys.platform
+        if system_type == "win32" or system_type == "cygwin":
+            ToolFileLocation = GetRootFileLocation().Result()+"\\Tool\\"
+            return ToolFileLocation
+        elif system_type == "linux" or system_type == "darwin":
+            ToolFileLocation = GetRootFileLocation().Result()+"/Tool/"
+            return ToolFileLocation
+
+class GetTempFilePath:  # 获取Temp文件路径类
+    def Result(self) -> str:
+        system_type = sys.platform
+        if system_type == "win32" or system_type == "cygwin":
+            TempFileLocation = GetRootFileLocation().Result()+"\\Temp\\"
+            return TempFileLocation
+        elif system_type == "linux" or system_type == "darwin":
+            TempFileLocation = GetRootFileLocation().Result()+"/Temp/"
+            return TempFileLocation
 
 class ExecuteChildprocess:  # 执行子进程类
     def Execute(self, command: List[str]) -> None:

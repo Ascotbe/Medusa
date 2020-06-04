@@ -46,7 +46,7 @@ def medusa(Url,RandomAgent,proxies=None,**kwargs):
         resp = requests.get(payload_url,headers=headers, timeout=6, proxies=proxies,verify=False)
         con = resp.text
         if con.find("4a8a08f09d37b73795649038408b5f33") != -1:
-            Medusa = "{}存在CuteCMSSQL注入漏洞\r\n 验证数据:\r\nUrl:{}\r\nPayload:{}\r\n".format(url,payload_url,con)
+            Medusa = "{}存在CuteCMSSQL注入漏洞\r\n漏洞地址:{}\r\n漏洞详情:{}\r\n".format(url,payload_url,con)
             _t = VulnerabilityInfo(Medusa)
             VulnerabilityDetails(_t.info, url,**kwargs).Write()  # 传入url和扫描到的数据
             WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果

@@ -43,13 +43,12 @@ def medusa(Url,RandomAgent,proxies=None,**kwargs):
                 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
                 "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
                 "Accept-Encoding": "gzip, deflate",
-                "Content-Type": "application/json",
             }
             resp =requests.get(payload_url, headers=headers,proxies=proxies, timeout=6, verify=False)
             con = resp.text
             code = resp.status_code
             if code== 200 and con.find('PHP Version') != -1 and con.find('Configure Command') != -1 and con.find('System') != -1:
-                Medusa = "{}存在CmsTop远程代码执行漏洞\r\n漏洞地址:\r\n{}\r\n漏洞详情:{}\r\n".format(url,payload_url,con)
+                Medusa = "{}存在CmsTop远程代码执行漏洞\r\n漏洞地址:{}\r\n漏洞详情:{}\r\n".format(url,payload_url,con)
                 _t=VulnerabilityInfo(Medusa)
                 VulnerabilityDetails(_t.info, url,**kwargs).Write()  # 传入url和扫描到的数据
                 WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果

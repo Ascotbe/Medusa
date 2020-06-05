@@ -391,7 +391,7 @@
 
 ##### Weblogic
 
-- `WebLogic` XML Decoder反序列化漏洞（CVE-2017-10271）
+- `WebLogic` XML Decoder反序列化漏洞（CVE-2017-10271&&CVE-2017-3506)
 - `Weblogic`服务器端请求伪造漏洞（CVE-2014-4210）
 - `Weblogic`任意文件上传漏洞（CVE-2018-2894）
 - `Weblogic`WLS核心组件反序列化命令执行漏洞（CVE-2016-0638）
@@ -399,3 +399,5 @@
 - `Weblogic`反序列化命令执行漏洞（CVE-2018-2628）
 - `Weblogic`反序列化命令执行漏洞（CVE-2017-3248）
 - `Weblogic`反序列化命令执行漏洞（CVE-2018-2893）
+- `Weblogic`反序列化命令执行漏洞（CVE-2019-2725）
+- `Weblogic`反序列化命令执行漏洞（CVE-2018-3191）

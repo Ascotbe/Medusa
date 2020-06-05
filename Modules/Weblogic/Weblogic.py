@@ -8,6 +8,9 @@ from Modules.Weblogic import WeblogicDeserializationCommandExecutionVulnerabilit
 from Modules.Weblogic import WeblogicDeserializationCommandExecutionVulnerability2
 from Modules.Weblogic import WeblogicDeserializationCommandExecutionVulnerability3
 from Modules.Weblogic import WeblogicT3DeserializationCommandExecutionVulnerability
+from Modules.Weblogic import WebLogicRemoteCommandExecutionVulnerability
+from Modules.Weblogic import WebLogicDeserializationRemoteCommandExecutionVulnerability
+
 from ClassCongregation import Prompt
 def Main(ThreadPool,Url,Values,proxies,**kwargs):
     ThreadPool.Append(WeblogicServerSideRequestForgeryVulnerability.medusa,Url, Values, proxies = proxies, ** kwargs)
@@ -25,6 +28,10 @@ def Main(ThreadPool,Url,Values,proxies,**kwargs):
                       proxies=proxies, **kwargs)
 
     ThreadPool.Append(WeblogicT3DeserializationCommandExecutionVulnerability.medusa, Url, Values,
+                      proxies=proxies, **kwargs)
+    ThreadPool.Append(WebLogicRemoteCommandExecutionVulnerability.medusa, Url, Values,
+                      proxies=proxies, **kwargs)
+    ThreadPool.Append(WebLogicDeserializationRemoteCommandExecutionVulnerability.medusa, Url, Values,
                       proxies=proxies, **kwargs)
 
     Prompt("Weblogic")

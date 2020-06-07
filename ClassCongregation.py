@@ -17,7 +17,7 @@ from typing import List, Dict, Tuple, Any
 import threading
 import subprocess
 
-from config import dns_log_url, dns_log_key, debug_mode
+from config import ceye_dnslog_url, ceye_dnslog_key, debug_mode,dnslog_name
 
 #########
 # 全局变量
@@ -391,34 +391,71 @@ class ErrorLog:  # 报错写入日志
 
 class Dnslog:  # Dnslog判断
     def __init__(self):
+        #该网站是通过PHPSESSID来判断dns归属谁的所有可以随机一个这个
+        h = "abcdefghijklmnopqrstuvwxyz0123456789"
+        salt_cookie = ""
+        for i in range(26):
+            salt_cookie += random.choice(h)
+        self.headers = {
+            "Cookie": "PHPSESSID="+salt_cookie
+        }
         H = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
         salt = ""
         for i in range(15):
             salt += random.choice(H)
-        self.host = str(salt + "." + dns_log_url)
+        self.host = str(salt + "." + self.get_dnslog_url())
+
 
     def dns_host(self) -> str:
         return str(self.host)
 
+    def get_dnslog_url(self):
+        if dnslog_name=="dnslog.cn":
+            try:
+                self.dnslog_cn=requests.get("http://www.dnslog.cn/getdomain.php",headers=self.headers,timeout=6).text
+                return self.dnslog_cn
+            except Exception as e:
+                ErrorLog().Write("ClassCongregation_Dnslog(class)_get_dns_log_url(def)", e)
+        elif dnslog_name=="ceye":
+            return ceye_dnslog_url
+
     def result(self) -> bool:
         # DNS判断后续会有更多的DNS判断，保持准确性
-        return self.ceye_dns()
+        if dnslog_name=="dnslog.cn":
+            return self.dnslog_cn_dns()
+        elif dnslog_name=="ceye":
+            return self.ceye_dns()
 
     def ceye_dns(self) -> bool:
         try:
             # status = requests.post('http://log.ascotbe.com/api/validate', timeout=2,data=data)
             # code=status.status_code
             # if code == 200:
-            status = requests.get("http://api.ceye.io/v1/records?token=" + dns_log_key + "&type=dns&filter=", timeout=6)
-            self.dns_log_text = status.text
-            if self.dns_log_text.find(self.host) != -1:  # 如果找到Key
+            status = requests.get("http://api.ceye.io/v1/records?token=" + ceye_dnslog_key + "&type=dns&filter=",timeout=6)
+            self.ceye_dnslog_text = status.text
+            if self.ceye_dnslog_text.find(self.host) != -1:  # 如果找到Key
                 return True
             else:
                 return False
-        except Exception:
-            ErrorLog().Write(self.host, "Dnslog")
+        except Exception as e:
+            ErrorLog().Write(self.host+"|| ceye_dns",e)
+
+    def dnslog_cn_dns(self) -> bool:
+        try:
+            status = requests.get("http://www.dnslog.cn/getrecords.php?t="+self.dnslog_cn,headers=self.headers,  timeout=6)
+            self.dnslog_cn_text = status.text
+            if self.dnslog_cn_text.find(self.host) != -1:  # 如果找到Key
+                return True
+            else:
+                return False
+        except Exception as e:
+            ErrorLog().Write(self.host + "|| dnslog_cn_dns", e)
+
     def dns_text(self):
-        return self.dns_log_text
+        if dnslog_name=="dnslog.cn":
+            return self.dnslog_cn_text
+        elif dnslog_name=="ceye":
+            return self.ceye_dnslog_text
 
 
 class randoms:  # 生成随机数

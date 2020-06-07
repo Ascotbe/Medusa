@@ -24,7 +24,7 @@ The current plug-in is developed under the `Python3.7.x` environment. Below` 3.7
 
 `Medusa` dependent packages：
 
-```
+```python
 bs4 ==0.0.1
 fake-useragent ==0.1.11
 requests ==2.22.0
@@ -43,6 +43,8 @@ eventlet==0.25.1
 pyDES==2.0.1
 nonebot==1.5.0
 nonebot[scheduler]==1.5.0
+typing==3.7.4.1
+docxtpl==0.9.2
 ```
 
 
@@ -52,14 +54,22 @@ The configuration file referred to in this section is the same file
 
 #### 0x01 DNSLOG
 
-My `DNSLOG` does not support some protocols, so please use the` DNSLOG` in http://ceye.io/ (My `DNSLOG` will be available later)
+Since the `DNSLOG` I built does not support certain protocols, there are currently two methods for detecting third-party platforms
+
+> The first method (by default)
+
+The first is the default method, no need to modify, convenient and fast
+
+> The second method
+
+Use `DNSLOG` in http://ceye.io/, this method needs to modify the configuration file
 
 ```
 #Open this file in the root directory (Medusa directory)
 vim config.py
 ```
 
-Change `dns_log_url` and` dns_log_key` to the values of your `Identifier` and` API Token` at http://ceye.io/
+Change `ceye_dnslog_url` and`ceye_dnslog_key` to the values of your `Identifier` and` API Token` at http://ceye.io/ , Then change `dnslog_name` to `ceye`
 
 **Note: **When using the script, ensure that the network is unblocked. If the vulnerability is not scanned, you may wish to see if the `DNSLOG` data exists
 

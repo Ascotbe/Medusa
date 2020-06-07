@@ -24,7 +24,7 @@
 
 运行`Medusa`所需要导入的包：
 
-```
+```python
 bs4 ==0.0.1
 fake-useragent ==0.1.11
 requests ==2.22.0
@@ -43,6 +43,8 @@ eventlet==0.25.1
 pyDES==2.0.1
 nonebot==1.5.0
 nonebot[scheduler]==1.5.0
+typing==3.7.4.1
+docxtpl==0.9.2
 ```
 
 ## 配置文件
@@ -51,14 +53,22 @@ nonebot[scheduler]==1.5.0
 
 #### 0x01 DNSLOG
 
-由于我搭建的`DNSLOG`不支持某些协议所以，接下来请使用http://ceye.io/ 中的`DNSLOG`(等后续会调回来
+由于我搭建的`DNSLOG`不支持某些协议所以目前有两种第三方平台检测方法
+
+> 第一种方法（默认开启）
+
+第一种是默认开启的方法，无需修改，方便快捷
+
+> 第二种方法
+
+使用http://ceye.io/ 中的`DNSLOG`，该方法需要修改配置文件
 
 ```
 #打开根目录下的这个文件（Medusa目录
 vim config.py
 ```
 
-把`dns_log_url`和`dns_log_key`分别改成你的http://ceye.io/ 里面的`Identifier`和`API Token`值
+把`ceye_dnslog_url`和`ceye_dnslog_key`分别改成你的http://ceye.io/ 里面的`Identifier`和`API Token`值，接着把`dnslog_name`改成`ceye`即可
 
 **注意：**使用脚本的时候确保网络畅通，如果没扫描出来漏洞不妨看看`DNSLOG`数据是否存在
 

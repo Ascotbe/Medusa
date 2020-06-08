@@ -17,6 +17,8 @@
 
 - ##### Tomcat
   - `Tomcat` 未授权命令执行漏洞（CVE-2020-1938）
+- ##### Shiro
+  - `Shiro`RememberMe反序列化命令执行漏洞（CVE-2016-4437）
 
 ##### Citrix
   - `Citrix` 网关路径遍历漏洞（CVE-2019-19781）

@@ -18,3 +18,5 @@ nonebot==1.5.0
 nonebot[scheduler]==1.5.0
 typing==3.7.4.1
 docxtpl==0.9.2
+uuid==1.30
+pycryptodome==3.9.7

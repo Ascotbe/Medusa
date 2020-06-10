@@ -119,7 +119,7 @@ class NmapScan:  # 扫描端口类
     def ScanPort(self) -> None:
         try:
             Nmap = nmap.PortScanner()
-            ScanResult = Nmap.scan(self.Host, self.Port, '-sV')
+            ScanResult = Nmap.scan(self.Host, self.Port, '-sS -Pn -n --open --min-hostgroup 4 --min-parallelism 1024 --host-timeout 30 -T4 -v')
             HostAddress = re.compile('{\'([\d.]+)\': {').findall(str(ScanResult['scan']))[0]  # 只能用正则取出ip的值
             for port in ScanResult['scan'][HostAddress]['tcp']:
                 Nmaps = ScanResult['scan'][HostAddress]['tcp'][port]

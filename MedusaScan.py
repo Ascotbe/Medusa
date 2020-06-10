@@ -9,7 +9,6 @@ from Modules.Cms import Cms
 from Modules.FastJson import FastJson
 from Modules.Harbor import Harbor
 from Modules.Citrix import Citrix
-from Modules.InformationDetector import sublist3r
 from Modules.InformationLeakage import InformationLeakage
 from Modules.Rails import Rails
 from Modules.Kibana import Kibana
@@ -21,7 +20,6 @@ from Modules.OA import Oa
 from Modules.Windows import Windows
 from Modules.Spring import Spring
 import ClassCongregation
-import tldextract#域名处理函数可以识别主域名和后缀
 import Banner
 import argparse
 import os
@@ -115,20 +113,14 @@ def San(ThreadPool,Url,agentHeader,Module,proxies,**kwargs):
     ThreadPool.Start(ThreadNumber)#启动多线程
 
 
-def SubdomainCrawling(Url,SubdomainJudge):#开启子域名函数
-    SubdomainCrawlingUrls= tldextract.extract(Url)
-    SubdomainCrawlingUrl=SubdomainCrawlingUrls.domain+"."+SubdomainCrawlingUrls.suffix
-    savefile=""
-    if sys.platform == "win32" or sys.platform == "cygwin":
-        savefile = os.path.split(os.path.realpath(__file__))[
-                            0] + "\\ScanResult\\" + "Subdomain.txt"
-    elif sys.platform == "linux" or sys.platform == "darwin":
-        savefile = os.path.split(os.path.realpath(__file__))[
-                            0] + "/ScanResult/" + "Subdomain.txt"
-    if SubdomainJudge=="a":
-        sublist3r.main(SubdomainCrawlingUrl, savefile, silent=False,subbrutes=True)
-    else:
-        sublist3r.main(SubdomainCrawlingUrl, savefile, silent=False, subbrutes=False)
+# def SubdomainCrawling(Url,SubdomainJudge):#开启子域名函数
+    # if sys.platform == "win32" or sys.platform == "cygwin":
+    #     savefile = os.path.split(os.path.realpath(__file__))[
+    #                         0] + "\\ScanResult\\" + "Subdomain.txt"
+    # elif sys.platform == "linux" or sys.platform == "darwin":
+    #     savefile = os.path.split(os.path.realpath(__file__))[
+    #                         0] + "/ScanResult/" + "Subdomain.txt"
+
 
 if __name__ == '__main__':
     Banner.RandomBanner()#输出随机横幅
@@ -137,7 +129,6 @@ if __name__ == '__main__':
     Url = args.url
     Values=args.agent#判断是否使用随机头，判断写在Class里面
     Module=args.Module#单独模块扫描功能
-    SubdomainEnumerate=args.SubdomainEnumerate #开启深度子域名枚举，巨TM耗时间
     Subdomain=args.Subdomain#开启子域名枚举
     ThreadNumber=args.ThreadNumber#要使用的线程数默认15
     proxies= args.ProxiesIP#代理的IP
@@ -160,14 +151,6 @@ if __name__ == '__main__':
         print("\033[1;40;31m[ ! ] Incorrect input, please enter -h to view help\033[0m")
         os._exit(0)#直接退出整个函数
 
-    if SubdomainEnumerate==True and Subdomain==True :#对参数判断参数互斥
-        print("\033[1;40;31m[ ! ] Incorrect input, please enter -h to view help\033[0m")
-    elif SubdomainEnumerate==True:
-        SubdomainJudge = "a"
-        ThreadPool.SubdomainAppend(SubdomainCrawling, Url,SubdomainJudge) #发送到多线程池中
-    elif Subdomain==True:
-        SubdomainJudge = "b"
-        ThreadPool.SubdomainAppend(SubdomainCrawling, Url,SubdomainJudge)
     InitialScan(ThreadPool,InputFileName, Url,Module,agentHeader,proxies,Sid="123",Uid="MMMMMMMMMMM")#最后启动主扫描函数，这样如果多个IP的话优化速度，里面会做url或者url文件的判断
     print("\033[1;40;31m[ ! ] Scan is complete, please see the ScanResult file\033[0m")
 

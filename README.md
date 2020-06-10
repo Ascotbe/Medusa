@@ -75,9 +75,6 @@ git config --global https.proxy https://127.0.0.1:1080
 | -p | 1 | You need to fill in the IP of your proxy, if you have a port you need to bring the port | to use BURP as a proxy then you should pass in 127.0.0.1:8080 |
 | -m   | 1        | Scan for single module,such as: Struts2 or Apache, etc.                  | The specific content can be entered by the corresponding name in the project Modules folder. |
 | -t   | 1        | Threads usage setting, default(-t 15)                                    |                                                           None   |
-| -s   | 0        | Subdomain search by DNS and search engine                           | Mod by `Sublist3r`, IP enumerate not support.                             |
-| -se  | 0        | Contains `-s` funcitons, in addtional, enumerate by dictionary(time consuming)                     | can not use this with `-s` at the same time.                         |
-
 
 ### :green_book:`Bot` Ver. document
 
@@ -105,10 +102,6 @@ https://www.ascotbe.com/Loophole
 - If you have any problems that cannot be solved by the documentation, please submit an issue of [help]
 - If you have any good comments or ideas, please submit [idea] issue
 - QQ group：**690021184**（Secret code：**6CF2D42B629E5AA4E6C293B290798878**）
-
-### :seedling:Friend links
-
-- [零组资料库](http://www.0-sec.org)
 
 ### :palm_tree:Contributors
 

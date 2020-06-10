@@ -56,8 +56,6 @@ python3 MedusaScan.py -u www.ascotbe.com
 | -t   | 1        | Threads usage setting, default(-t 15)                                    |                                                           None   |
 | -sp  | 1        | Brute-force cracking by password dictionary                                         | If input -sp and -su, scanner use default dictionary when either one of them that value is null.        |
 | -su  | 1        | The dictionary for brute-force database                                         | None                                                           |
-| -s   | 0        | Subdomain search by DNS and search engine                           | Mod by `Sublist3r`, IP enumerate not support.                             |
-| -se  | 0        | Contains `-s` funcitons, in addtional, enumerate by dictionary(time consuming)                     | can not use this with `-s` at the same time.                         |
 
 ## Discussion
 

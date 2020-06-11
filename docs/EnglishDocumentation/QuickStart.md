@@ -137,6 +137,8 @@ python3 MedusaScan.py -u https://www.ascotbe.com -j
 
 #### 0x04 Collect subdomains for the target website
 
+The scan result is in the `ScanResult` directory, only the domain name is supported and the **IP** form is not supported
+
 ```bash
 python3 MedusaScan.py -u https://www.ascotbe.com -s
 ```

@@ -2,7 +2,9 @@ import re
 import requests
 import tldextract
 import json
-from ClassCongregation import ErrorLog,SubdomainTable
+import time
+import sys
+from ClassCongregation import ErrorLog,SubdomainTable,GetRootFileLocation
 TheFirstDataCleaning=[]
 Subdomain=[]
 
@@ -50,12 +52,31 @@ def Sublist3rSubdomainSearch(DomainName:str,Headers:dict,Proxies:str=None)->None
     except Exception as e:
         ErrorLog().Write("SubdomainSearch_Sublist3rSubdomainSearch(def)", e)
 
+def SubdomainWriteFile(TargetName,WriteFileUnixTimestamp,Subdomain):#写到文本中
+    FilePath=""
+    FileName = time.strftime("%Y-%m-%d",
+                             time.localtime()) + "_" + TargetName +"_Subdomain_"+ WriteFileUnixTimestamp
+    if sys.platform == "win32" or sys.platform == "cygwin":
+        FilePath = GetRootFileLocation().Result() + "\\ScanResult\\" + FileName + ".txt"  # 不需要输入后缀，只要名字就好
+    elif sys.platform == "linux" or sys.platform == "darwin":
+        FilePath = GetRootFileLocation().Result() + "/ScanResult/" + FileName + ".txt"  # 不需要输入后缀，只要名字就好
+    with open(FilePath, 'a+', encoding='utf-8') as f:  # 如果filename不存在会自动创建， 'w'表示写数据，写之前会清空文件中的原有数据！
+        f.write(Subdomain + "\n")
+
 def SubdomainSearch(Url:str,RandomAgent:str,proxies=None,**kwargs)->None:#子域名搜索核心函数
     DomainName=GetDomainName(Url)
     Headers=GetHeaders(RandomAgent)
+    WriteFileUnixTimestamp=str(int(time.time()))
     CrtSubdomainSearch(DomainName,Headers,Proxies=proxies)
     Sublist3rSubdomainSearch(DomainName,Headers,Proxies=proxies)
     for i in Subdomain:#循环写入数据库
         SubdomainTable(DomainName,i,**kwargs).Write()
+        SubdomainWriteFile(DomainName,WriteFileUnixTimestamp,i)
+
+
+
+
+
+
 
 

@@ -136,6 +136,8 @@ python3 MedusaScan.py -u https://www.ascotbe.com -j
 
 #### 0x04 对目标网站进行子域名收集
 
+扫描结果在`ScanResult`目录中，只支持域名不支持**IP**形式
+
 ```bash
 python3 MedusaScan.py -u https://www.ascotbe.com -s
 ```

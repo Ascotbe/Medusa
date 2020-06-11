@@ -2,7 +2,7 @@ import re
 import requests
 import tldextract
 import json
-from ClassCongregation import ErrorLog
+from ClassCongregation import ErrorLog,SubdomainTable
 TheFirstDataCleaning=[]
 Subdomain=[]
 
@@ -50,10 +50,12 @@ def Sublist3rSubdomainSearch(DomainName:str,Headers:dict,Proxies:str=None)->None
     except Exception as e:
         ErrorLog().Write("SubdomainSearch_Sublist3rSubdomainSearch(def)", e)
 
-def SubdomainSearch(Url:str,RandomAgent:str,Proxies=None)->None:
+def SubdomainSearch(Url:str,RandomAgent:str,proxies=None,**kwargs)->None:#子域名搜索核心函数
     DomainName=GetDomainName(Url)
     Headers=GetHeaders(RandomAgent)
-    CrtSubdomainSearch(DomainName,Headers,Proxies=Proxies)
-    Sublist3rSubdomainSearch(DomainName,Headers,Proxies=Proxies)
+    CrtSubdomainSearch(DomainName,Headers,Proxies=proxies)
+    Sublist3rSubdomainSearch(DomainName,Headers,Proxies=proxies)
+    for i in Subdomain:#循环写入数据库
+        SubdomainTable(DomainName,i,**kwargs).Write()
 
-SubdomainSearch("www.baidu.com","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36")
+

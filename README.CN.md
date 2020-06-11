@@ -79,6 +79,7 @@ git clone https://gitee.com/asc0t6e/Medusa.git
 |-p   | 1        | 需要填入你代理的IP，如果有端口的话也需要带上端口             | 以使用BURP作为代理那么就该传入 127.0.0.1:8080                |
 |-m    |1       |针对单独的模块进行扫描比如Struts2、Apache等|具体内容可以通过项目Modules文件夹中对应名字来输入|
 |-t    |1       |设置线程数，默认线程数15||
+|-s    |1       |开启子域名探测| |
 
 ### :green_book:`Bot`版使用说明
 

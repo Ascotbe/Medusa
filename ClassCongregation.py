@@ -39,11 +39,11 @@ LoopholesList = []  # 漏洞名称列表
 
 def NumberOfLoopholes():  # 漏洞个数输出函数以及名称的函数
     print(
-        "\033[1;40;32m[ ! ] The number of vulnerabilities scanned was:\033[0m" + "\033[1;40;36m {}             \033[0m".format(
+        "\033[32m[ ! ] The number of vulnerabilities scanned was:\033[0m" + "\033[36m {}             \033[0m".format(
             len(LoopholesList)))
     for i in LoopholesList:
         time.sleep(0.1)  # 暂停不然瞬间刷屏
-        print("\033[1;40;35m[ ! ] {}\033[0m".format(i))
+        print("\033[35m[ ! ] {}\033[0m".format(i))
     LoopholesList.clear()  # 清空容器这样就不会出问题了
 
 
@@ -514,14 +514,14 @@ class ThreadPool:  # 线程池，所有插件都发送过来一起调用
                 p.join()
         else:  # 如果没开Debug就改成进度条形式
             for t in tqdm(self.ThreaList, ascii=True,
-                          desc="\033[1;40;32m[ + ] Medusa scan progress bar\033[0m"):  # 开启列表中的多线程
+                          desc="\033[32m[ + ] Medusa scan progress bar\033[0m"):  # 开启列表中的多线程
                 t.start()
                 while True:
                     # 判断正在运行的线程数量,如果小于5则退出while循环,
                     # 进入for循环启动新的进程.否则就一直在while循环进入死循环
                     if (len(threading.enumerate()) < ThreadNumber):
                         break
-            for p in tqdm(self.ThreaList, ascii=True, desc="\033[1;40;32m[ + ] Medusa cleanup thread progress\033[0m"):
+            for p in tqdm(self.ThreaList, ascii=True, desc="\033[32m[ + ] Medusa cleanup thread progress\033[0m"):
                 p.join()
         self.ThreaList.clear()  # 清空列表，防止多次调用导致重复使用
 
@@ -533,8 +533,8 @@ class Prompt:  # 输出横幅，就是每个组件加载后输出的东西
             pass
         else:
             sizex, sizey = CommandLineWidth().getTerminalSize()
-            prompt = "\033[1;40;32m[ + ] Loading attack module: \033[0m" + "\033[1;40;35m{}\033[0m".format(self.name)
-            PromptSize = sizex - len(prompt) + 28
+            prompt = "\033[32m[ + ] Loading attack module: \033[0m" + "\033[35m{}\033[0m".format(self.name)
+            PromptSize = sizex - len(prompt) + 18#28
             FillString = ""
             for i in range(0, PromptSize):
                 FillString = FillString + " "
@@ -647,7 +647,7 @@ class ErrorHandling:
             self.ErrorBanner(self.plugin_name, "unknown")
 
     def ErrorBanner(self, plugin_name, error):
-        print("\033[1;40;31m[ X ] {} plugin {} error\033[0m".format(plugin_name, error))
+        print("\033[31m[ X ] {} plugin {} error\033[0m".format(plugin_name, error))
 
 
 class GetRootFileLocation:  # 获取当前文件路径类
@@ -744,3 +744,42 @@ class ScanInformation:#ActiveScanList的子表，单个URL相关漏洞表,写入
         except Exception as e:
             ErrorLog().Write("ClassCongregation_ScanInformation(class)_Query(def)", e)
             return None
+
+
+class SubdomainTable:  # 这是一个子域名表
+    def __init__(self,Subdomain:str,url: str, **kwargs):
+        try:
+            self.url = str(url)  # 目标域名
+            self.timestamp = str(int(time.time()))  # 获取时间戳
+            self.subdomain=Subdomain#获取的子域名
+            self.uid = kwargs.get("Uid")  # 传入的用户ID
+            self.sid=kwargs.get("Sid")# 传入的父表SID
+            # 如果数据库不存在的话，将会自动创建一个 数据库
+            self.con = sqlite3.connect(GetDatabaseFilePath().result())
+            # 获取所创建数据的游标
+            self.cur = self.con.cursor()
+            # 创建表
+            try:
+                # 如果设置了主键那么就导致主健值不能相同，如果相同就写入报错
+                self.cur.execute("CREATE TABLE Subdomain\
+                            (id INTEGER PRIMARY KEY,\
+                            url TEXT NOT NULL,\
+                            subdomain TEXT NOT NULL,\
+                            timestamp TEXT NOT NULL,\
+                            sid TEXT NOT NULL,\
+                            uid TEXT NOT NULL)")
+            except Exception as e:
+                ErrorLog().Write("ClassCongregation_SubdomainTable(class)_init(def)_CREATETABLE", e)
+        except Exception as e:
+            ErrorLog().Write("ClassCongregation_SubdomainTable(class)_init(def)", e)
+
+    def Write(self):  # 统一写入
+        try:
+            self.cur.execute("""INSERT INTO Subdomain (url,subdomain,timestamp,sid,uid) \
+            VALUES (?,?,?,?,?)""", (self.url, self.subdomain,self.timestamp,self.sid,self.uid,))
+            # 提交
+            self.con.commit()
+            self.con.close()
+        except Exception as e:
+            ErrorLog().Write("ClassCongregation_SubdomainTable(class)_Write(def)", e)
+

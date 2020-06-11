@@ -126,15 +126,9 @@ python3 MedusaScan.py -u https://www.ascotbe.com
 python3 MedusaScan.py -f Ascotbe.txt  (你的文件，最好放在和MedusaScan同级文件中)
 ```
 
-#### ~~0x03 对目标网站进行数据库弱口令探测~~
+#### ~~0x03 对目标网站进行JavaScript中的链接爬取~~
 
-该功能用处不大暂时注释了,如果要使用`/Medusa/Password.txt`这个是你文件的路径
-
-```bash
-python3 MedusaScan.py -u https://www.ascotbe.com -sp /Medusa/Password.txt -su /Medusa/Username.txt 
-```
-
-#### 0x04 对目标网站进行JavaScript中的链接爬取
+用处不大暂时注释了
 
 ```bash
 python3 MedusaScan.py -u https://www.ascotbe.com -j
@@ -148,7 +142,7 @@ python3 MedusaScan.py -u https://www.ascotbe.com -s
 
 #### 0x05 开启代理功能
 
-```
+```bash
 python3 MedusaScan.py -u https://www.ascotbe.com -p 127.0.0.1:8080
 ```
 
@@ -158,7 +152,7 @@ python3 MedusaScan.py -u https://www.ascotbe.com -p 127.0.0.1:8080
 
 目前支持常见的浏览器，下面列举其中3个(需要区分大小写)
 
-```
+```bash
 python3 MedusaScan.py -u https://www.ascotbe.com -a firefox
 python3 MedusaScan.py -u https://www.ascotbe.com -a ie
 python3 MedusaScan.py -u https://www.ascotbe.com -a Gecko
@@ -166,17 +160,15 @@ python3 MedusaScan.py -u https://www.ascotbe.com -a Gecko
 
 还可以自定义`haeder`参数，切记需要对自定义的`header`加上双引号包含着`""`，如果你的`header`不合规是不会提示错误的
 
-```
+```bash
 python3 MedusaScan.py -u https://www.ascotbe.com -a "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.2117.157 Safari/537.36"
 ```
-
-
 
 #### 0x07 针对单独模块扫描
 
 该模块所支持的名称请针对根目录文件夹使用，一个文件夹名对应一个模块，并且请注意大小写，实在无法理解请参考[该文件中](https://www.ascotbe.com/Medusa/Documentation/#/PluginDirectory)名称进行使用
 
-```
+```bash
 python3 MedusaScan.py -u https://www.ascotbe.com -m Struts2
 ```
 
@@ -184,7 +176,7 @@ python3 MedusaScan.py -u https://www.ascotbe.com -m Struts2
 
 任何功能都可以开启多线程！
 
-```
+```bash
 python3 MedusaScan.py -u https://www.ascotbe.com -t 100
 ```
 

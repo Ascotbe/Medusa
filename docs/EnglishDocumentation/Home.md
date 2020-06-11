@@ -54,8 +54,7 @@ python3 MedusaScan.py -u www.ascotbe.com
 | -i | 1 | A file needs to be passed in, and the content of the file should conform to the specifications in the document | If this function is turned on, the scanning function will not be turned on |
 | -m   | 1        | Scan for single module,such as: Struts2 or Apache, etc.                  | The module list refers to the list of folders on this project.                           |
 | -t   | 1        | Threads usage setting, default(-t 15)                                    |                                                           None   |
-| -sp  | 1        | Brute-force cracking by password dictionary                                         | If input -sp and -su, scanner use default dictionary when either one of them that value is null.        |
-| -su  | 1        | The dictionary for brute-force database                                         | None                                                           |
+|-s    |1       | Enable subdomain detection|None |
 
 ## Discussion
 

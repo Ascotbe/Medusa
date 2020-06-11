@@ -19,11 +19,11 @@ from Modules.Weblogic import Weblogic
 from Modules.OA import Oa
 from Modules.Windows import Windows
 from Modules.Spring import Spring
+from Modules.Subdomain.SubdomainSearch import SubdomainSearch
 import ClassCongregation
 import Banner
 import argparse
 import os
-import sys
 import time
 
 parser = argparse.ArgumentParser()#description="xxxxxx")
@@ -36,7 +36,6 @@ parser.add_argument('-a','--agent',type=str,help="Specify a header file or use a
 parser.add_argument('-t','--ThreadNumber',type=int,help="Set the number of threads, the default number of threads 15.")
 parser.add_argument('-f','--InputFileName',type=str,help="Specify bulk scan file batch scan")
 parser.add_argument('-s','--Subdomain',help="Collect subdomains",action="store_true")
-parser.add_argument('-se','--SubdomainEnumerate',help="Collect subdomains and turn on enumerations",action="store_true")
 '''
 在pycharm中设置固定要获取的参数，进行获取
 在XXX.py 中 按住 “alt+shift+f9”  ----选择编辑配置（edit configurations）---script parameters(脚本程序)
@@ -138,6 +137,7 @@ if __name__ == '__main__':
         agentHeader=Values
 
     #暂时关闭NMAPScan和数据库爆破功能
+    #SubdomainSearch(Url,Values,Proxies=proxies)
 
     ThreadPool = ClassCongregation.ThreadPool()#定义一个线程池
     Token=str(int(time.time()))+"medusa"#获取赋予的token

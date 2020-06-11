@@ -112,15 +112,6 @@ def San(ThreadPool,Url,agentHeader,Module,proxies,**kwargs):
     ThreadPool.Start(ThreadNumber)#启动多线程
 
 
-# def SubdomainCrawling(Url,SubdomainJudge):#开启子域名函数
-    # if sys.platform == "win32" or sys.platform == "cygwin":
-    #     savefile = os.path.split(os.path.realpath(__file__))[
-    #                         0] + "\\ScanResult\\" + "Subdomain.txt"
-    # elif sys.platform == "linux" or sys.platform == "darwin":
-    #     savefile = os.path.split(os.path.realpath(__file__))[
-    #                         0] + "/ScanResult/" + "Subdomain.txt"
-
-
 if __name__ == '__main__':
     Banner.RandomBanner()#输出随机横幅
     args = parser.parse_args()

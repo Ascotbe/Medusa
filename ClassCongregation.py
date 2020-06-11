@@ -539,7 +539,7 @@ class Prompt:  # 输出横幅，就是每个组件加载后输出的东西
             for i in range(0, PromptSize):
                 FillString = FillString + " "
             sys.stdout.write("\r" + prompt + FillString)
-            time.sleep(0.2)
+            time.sleep(0.1)
             sys.stdout.flush()
 
 

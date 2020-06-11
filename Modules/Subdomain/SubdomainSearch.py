@@ -50,7 +50,7 @@ def Sublist3rSubdomainSearch(DomainName:str,Headers:dict,Proxies:str=None)->None
     except Exception as e:
         ErrorLog().Write("SubdomainSearch_Sublist3rSubdomainSearch(def)", e)
 
-def SubdomainSearch(Url:str,RandomAgent:str,Proxies:str=None)->None:
+def SubdomainSearch(Url:str,RandomAgent:str,Proxies=None)->None:
     DomainName=GetDomainName(Url)
     Headers=GetHeaders(RandomAgent)
     CrtSubdomainSearch(DomainName,Headers,Proxies=Proxies)

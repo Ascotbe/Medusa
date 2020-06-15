@@ -20,3 +20,5 @@ typing==3.7.4.1
 docxtpl==0.9.2
 uuid==1.30
 pycryptodome==3.9.7
+PySocks==1.7.1
+django-cors-headers==3.3.0

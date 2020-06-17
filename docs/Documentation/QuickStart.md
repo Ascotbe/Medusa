@@ -20,31 +20,12 @@
 
 当前插件是在`Python3.7.x `环境下开发，低于`3.7`会导致某些功能无法使用，如果需要使用扫描器或者编写插件首先需要安装`Python`开发环境，建议使用`PyCharm`+`Anaconda`作为开发环境。
 
-### 安装Module
+### 安装依赖包
 
-运行`Medusa`所需要导入的包：
+运行`Medusa`所需要的包，在根目录下执行
 
-```python
-bs4 ==0.0.1
-fake-useragent ==0.1.11
-requests ==2.22.0
-urllib3 ==1.25.3
-python-nmap ==0.6.1
-PyMySQL ==0.9.3
-IPy ==1.0
-scrapy ==1.7.3
-tqdm ==4.38.0
-dnspython ==1.16.0
-tldextract ==2.2.2
-Django==2.2.7
-Celery==4.3.0
-django_redis==4.10.0
-eventlet==0.25.1
-pyDES==2.0.1
-nonebot==1.5.0
-nonebot[scheduler]==1.5.0
-typing==3.7.4.1
-docxtpl==0.9.2
+```bash
+pip install -r Medusa.txt
 ```
 
 ## 配置文件
@@ -92,6 +73,8 @@ debug_mode=True
 该工具还在测试阶段，如有问题请提交`issues`，切记本扫描器只用于授权测试
 
 #### 0x01 使用扫描器对单个网站进行扫描
+
+注意：推荐把完整的路径放进去，有些插件需要用到全路径名，比如：`Struts2`
 
 ```bash
 python3 MedusaScan.py -u https://www.ascotbe.com

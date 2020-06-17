@@ -20,31 +20,12 @@ The `JAVA` environment needs to be installed and the `java` command can be execu
 
 The current plug-in is developed under the `Python3.7.x` environment. Below` 3.7`, some functions cannot be used. If you need to use a scanner or write a plug-in, you must first install the `Python` development environment. It is recommended to use` PyCharm` + `Anaconda` as development environment.
 
-### Module install
+### Install dependencies
 
-`Medusa` dependent packages：
+The packages needed to run Medusa are executed in the root directory
 
 ```python
-bs4 ==0.0.1
-fake-useragent ==0.1.11
-requests ==2.22.0
-urllib3 ==1.25.3
-python-nmap ==0.6.1
-PyMySQL ==0.9.3
-IPy ==1.0
-scrapy ==1.7.3
-tqdm ==4.38.0
-dnspython ==1.16.0
-tldextract ==2.2.2
-Django==2.2.7
-Celery==4.3.0
-django_redis==4.10.0
-eventlet==0.25.1
-pyDES==2.0.1
-nonebot==1.5.0
-nonebot[scheduler]==1.5.0
-typing==3.7.4.1
-docxtpl==0.9.2
+pip install -r Medusa.txt
 ```
 
 
@@ -93,6 +74,9 @@ The output content of this mode is not the progress bar and module loading conte
 The tool is still in the testing stage. If you have any questions, please submit `issues`. Remember, this scanner is only use for authorized testing
 
 #### 0x01 Use the scanner to scan a single website
+
+Note: It is recommended to put the complete path, some plugins need to use the full path name, for example: `Struts2`
+
 ```bash
 python3 MedusaScan.py -u https://www.ascotbe.com
 ```

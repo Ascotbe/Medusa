@@ -13,7 +13,7 @@ class VulnerabilityInfo(object):
         self.info['number']="CVE-2017-5638" #如果没有CVE或者CNVD编号就填0，CVE编号优先级大于CNVD
         self.info['author'] = "Ascotbe"  # 插件作者
         self.info['create_date']  = "2020-6-14"  # 插件编辑时间
-        self.info['disclosure']='2020-3-11'#漏洞披露时间，如果不知道就写编写插件的时间
+        self.info['disclosure']='2017-3-19'#漏洞披露时间，如果不知道就写编写插件的时间
         self.info['algroup'] = "Struts2RemoteCodeExecutionVulnerability45"  # 插件名称
         self.info['name'] ='Struts2远程代码执行漏洞45' #漏洞名称
         self.info['affects'] = "Struts2"  # 漏洞组件

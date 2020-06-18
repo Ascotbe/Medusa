@@ -53,7 +53,7 @@ def medusa(Url:str,RandomAgent:str,proxies:str=None,**kwargs)->None:
         resp = requests.post(payload_url, headers=headers, data=data, proxies=proxies, timeout=6, verify=False)
         con = resp.text
         if con.find(RM)!=-1:
-            Medusa = "{}存在WebLogic远程命令执行漏洞\r\n验证数据:\r\n漏洞位置:{}\r\n利用POC:{}\r\n返回数据包:{}\r\n执行命令:{}\r\n".format(
+            Medusa = "{}存在WebLogic远程命令执行漏洞(CVE-2019-2729)\r\n验证数据:\r\n漏洞位置:{}\r\n利用POC:{}\r\n返回数据包:{}\r\n执行命令:{}\r\n".format(
                 url, payload_url, data, con,"echo "+RM,)
             _t = VulnerabilityInfo(Medusa)
             VulnerabilityDetails(_t.info, url, **kwargs).Write()  # 传入url和扫描到的数据

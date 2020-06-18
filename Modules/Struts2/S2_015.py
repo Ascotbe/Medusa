@@ -10,10 +10,10 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 class VulnerabilityInfo(object):
     def __init__(self,Medusa):
         self.info = {}
-        self.info['number']="0" #如果没有CVE或者CNVD编号就填0，CVE编号优先级大于CNVD
+        self.info['number']="CVE-2013-2134" #如果没有CVE或者CNVD编号就填0，CVE编号优先级大于CNVD
         self.info['author'] = "Ascotbe"  # 插件作者
         self.info['create_date']  = "2020-3-14"  # 插件编辑时间
-        self.info['disclosure']='2020-3-11'#漏洞披露时间，如果不知道就写编写插件的时间
+        self.info['disclosure']='2013-6-5'#漏洞披露时间，如果不知道就写编写插件的时间
         self.info['algroup'] = "Struts2RemoteCodeExecutionVulnerability15"  # 插件名称
         self.info['name'] ='Struts2远程代码执行漏洞15' #漏洞名称
         self.info['affects'] = "Struts2"  # 漏洞组件

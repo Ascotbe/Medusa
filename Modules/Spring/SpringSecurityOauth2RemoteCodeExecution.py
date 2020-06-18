@@ -44,7 +44,7 @@ def medusa(Url:str,RandomAgent:str,proxies:str=None,**kwargs)->None:
         resp = requests.get(payload_url,headers=headers, proxies=proxies, timeout=6, verify=False)
         time.sleep(4)
         if DL.result():
-            Medusa = "{}存在SpringSecurityOauth2远程代码执行漏洞\r\n验证数据:\r\n返回内容:{}\r\nDnsLog:{}\r\nDnsLog数据:{}\r\n".format(url,resp.text, DL.dns_host(), str( DL.dns_text()))
+            Medusa = "{}存在SpringSecurityOauth2远程代码执行漏洞(CVE-2018-1260)\r\n验证数据:\r\n返回内容:{}\r\nDnsLog:{}\r\nDnsLog数据:{}\r\n".format(url,resp.text, DL.dns_host(), str( DL.dns_text()))
             _t = VulnerabilityInfo(Medusa)
             VulnerabilityDetails(_t.info, url,**kwargs).Write()  # 传入url和扫描到的数据
             WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果

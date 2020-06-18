@@ -7,7 +7,8 @@ import urllib.parse
 import requests
 import ClassCongregation
 import pyDes
-requests.packages.urllib3.disable_warnings()
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 class VulnerabilityInfo(object):
     def __init__(self,Medusa):
         self.info = {}

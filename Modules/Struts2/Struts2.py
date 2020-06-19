@@ -8,7 +8,7 @@ from Modules.Struts2 import S2_009
 from Modules.Struts2 import S2_015
 from Modules.Struts2 import S2_016
 from Modules.Struts2 import S2_045
-from Modules.Struts2 import S2_046
+#from Modules.Struts2 import S2_046
 from Modules.Struts2 import S2_052
 from Modules.Struts2 import S2_057
 
@@ -22,7 +22,7 @@ def Main(ThreadPool,Url,Values,proxies,**kwargs):
     ThreadPool.Append(S2_016.medusa,Url, Values, proxies = proxies, ** kwargs)
     ThreadPool.Append(S2_057.medusa,Url, Values, proxies = proxies, ** kwargs)
     ThreadPool.Append(S2_052.medusa, Url, Values, proxies = proxies, ** kwargs)
-    ThreadPool.Append(S2_046.medusa,Url, Values, proxies = proxies, ** kwargs)
+   # ThreadPool.Append(S2_046.medusa,Url, Values, proxies = proxies, ** kwargs)
     ThreadPool.Append(S2_045.medusa,Url, Values, proxies = proxies, ** kwargs)
     Prompt("Struts2")
 

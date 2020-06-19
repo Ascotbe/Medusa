@@ -413,6 +413,9 @@ class Dnslog:  # Dnslog判断
         if dnslog_name=="dnslog.cn":
             try:
                 self.dnslog_cn=requests.get("http://www.dnslog.cn/getdomain.php",headers=self.headers,timeout=6).text
+                if self.dnslog_cn=="":#判断是否获取取DNSLOG错误
+                    ErrorLog().Write("ClassCongregation_Dnslog(class)_get_dns_log_url(def)", "GetDnslogError,ResultNone,PleassChangeCeye")
+                    return ""
                 return self.dnslog_cn
             except Exception as e:
                 ErrorLog().Write("ClassCongregation_Dnslog(class)_get_dns_log_url(def)", e)

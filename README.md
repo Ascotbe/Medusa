@@ -41,7 +41,7 @@ http://medusa.ascotbe.com/Documentation/#/PluginDirectory
 
 ### :space_invader:Demo
 
-![demo](https://github.com/Ascotbe/Random-img/blob/master/Medusa/0.76.gif?raw=true)
+![demo](https://github.com/Ascotbe/Random-img/blob/master/Medusa/demo.gif?raw=true)
 
 
 ### :book:`Bash` Ver. instructions for use

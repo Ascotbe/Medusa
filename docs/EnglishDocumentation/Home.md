@@ -24,7 +24,7 @@
 > `Web` Ver. Under development
 ## Demo
 
-<img alt="Release" src="https://github.com/Ascotbe/Random-img/blob/master/Medusa/0.76.gif?raw=true"  >
+<img alt="Release" src="https://github.com/Ascotbe/Random-img/blob/master/Medusa/demo.gif?raw=true"  >
 
 ## Document
 

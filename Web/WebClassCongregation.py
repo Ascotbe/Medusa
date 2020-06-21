@@ -101,26 +101,35 @@ class UserInfo:#用户表
             return None
     def UpdatePasswd(self,**kwargs:str)->bool:#更新用户密码，True表示成功，False表示失败
         Name = kwargs.get("name")
-        Passwd = kwargs.get("passwd")
+        OldPasswd = kwargs.get("old_passwd")
+        NewPasswd = kwargs.get("new_passwd")
         UpdateTime = str(int(time.time()))  # 修改时间
-        if Name!=None and Passwd!=None:
+        if Name!=None and OldPasswd!=None and NewPasswd!=None:
             try:
-                self.cur.execute("""UPDATE UserInfo SET passwd = ? , passwd_update_time = ? WHERE name= ?""", (Passwd,UpdateTime,Name,))
-                # 提交
-                self.con.commit()
-                self.con.close()
-                return True
+                self.cur.execute("select * from UserInfo where name =? and passwd=?", (Name,OldPasswd))
+                if self.cur.fetchall():  # 判断是否有数据
+                    try:#有数据的话就改密码
+                        self.cur.execute("""UPDATE UserInfo SET passwd = ? , passwd_update_time = ? WHERE name= ?""", (NewPasswd,UpdateTime,Name,))
+                        # 提交
+                        self.con.commit()
+                        self.con.close()
+                        return True
+                    except Exception as e:
+                        ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)_UpdatePasswd(def)ChangePassword", e)
+                        return False
+                else:
+                    return False
             except Exception as e:
-                ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)_UpdatePasswd(def)", e)
+                ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)_UpdatePasswd(def)QueryPassword", e)
                 return False
         else:return False
     def UpdateShowName(self,**kwargs:str)->bool:#更新用户显示名字，True表示成功，False表示失败
-        Name = kwargs.get("name")
+        Uid = kwargs.get("uid")
         ShowName = kwargs.get("show_name")
         UpdateTime = str(int(time.time()))  # 修改时间
-        if Name!=None and ShowName!=None:
+        if Uid!=None and ShowName!=None:
             try:
-                self.cur.execute("""UPDATE UserInfo SET show_name = ? , show_name_update_time = ? WHERE name= ?""", (ShowName,UpdateTime,Name,))
+                self.cur.execute("""UPDATE UserInfo SET show_name = ? , show_name_update_time = ? WHERE uid= ?""", (ShowName,UpdateTime,Uid,))
                 # 提交
                 self.con.commit()
                 self.con.close()
@@ -160,12 +169,12 @@ class UserInfo:#用户表
                 return False
         else:return False
     def UpdateKey(self,**kwargs:str)->bool:#更新用户Key，True表示成功，False表示失败
-        Name = kwargs.get("name")
+        Uid = kwargs.get("uid")
         Key= kwargs.get("key")
         UpdateTime = str(int(time.time()))  # 修改时间
-        if Name!=None and Key!=None:
+        if Uid!=None and Key!=None:
             try:
-                self.cur.execute("""UPDATE UserInfo SET key = ? , key_update_time = ? WHERE name= ?""", (Key,UpdateTime,Name,))
+                self.cur.execute("""UPDATE UserInfo SET key = ? , key_update_time = ? WHERE uid= ?""", (Key,UpdateTime,Uid,))
                 # 提交
                 self.con.commit()
                 self.con.close()
@@ -206,20 +215,6 @@ class UserInfo:#用户表
                 ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)_QueryTokenCreationTime(def)", e)
                 return None
         else:return True#报错返回True
-    def TokenAuthentication(self,**kwargs:str)->bool or None:#查询用户Token是否存在,存在返回True,不存在返回False,报错返回None
-        Token= kwargs.get("token")
-        if Token!=None:
-            try:
-                self.cur.execute("select * from UserInfo where token =?", (Token,))
-                if self.cur.fetchall():  # 判断是否有数据
-                    self.con.close()
-                    return True
-                else:
-                    return False
-            except Exception as e:
-                ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)_TokenAuthentication(def)", e)
-                return None
-        else:return False
     def QueryTokenValidity(self,Token:str)->bool or None:#用来查询Token是否重复了
         try:
             self.cur.execute("select * from UserInfo where token =?", (Token,))
@@ -231,15 +226,35 @@ class UserInfo:#用户表
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)_QueryTokenValidity(def)", e)
             return None
-    def QueryUserNameWithToken(self,Token:str):#利用Token反向查用户名
+    def QueryUidWithToken(self,Token:str):#利用Token反向查唯一的UID
         try:
             self.cur.execute("select * from UserInfo where token =?", (Token,))
             for tuple in self.cur.fetchall():
                 return tuple[1]
             return None
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)_QueryTokenValidity(def)", e)
+            ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)_QueryUidWithToken(def)", e)
             return None
+    def QueryUserInfo(self,Token:str):#利用Token,查询完整的用户信息，除了更新时间都有
+        try:
+            self.cur.execute("select * from UserInfo where token =?", (Token,))
+            for tuple in self.cur.fetchall():
+                JsonValues = {}
+                JsonValues["id"] = tuple[0]
+                JsonValues["uid"] = tuple[1]
+                JsonValues["key"] = tuple[2]
+                JsonValues["name"] = tuple[3]
+                JsonValues["token"] = tuple[4]
+                JsonValues["show_name"] = tuple[5]
+                JsonValues["passwd"] = tuple[6]
+                JsonValues["email"] = tuple[7]
+                JsonValues["img_path"] = tuple[8]
+                return JsonValues#由于用户信息不可能有多个的所有这边直接返回
+            return None#如果没查到数据就返回空
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)_QueryUserInfo(def)", e)
+            return None
+
 
 
 

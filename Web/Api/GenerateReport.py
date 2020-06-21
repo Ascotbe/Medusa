@@ -19,13 +19,13 @@ def GenerateWord(request):#生成word文档报告
             #传入Sid和Token来进行创建任务
             Sid=json.loads(request.body)["sid"]
             UserToken=json.loads(request.body)["token"]
-            UserName = UserInfo().QueryUserNameWithToken(UserToken)  # 如果登录成功后就来查询用户名
-            UserOperationLogRecord(request, request_api="generate_word", uid=UserName)
-            if UserName != None:  # 查到了UID
-                VulnerabilityDataList,Url = MedusaQuery().QueryBySid(sid=Sid,uid=UserName)#查询漏洞列表和URL
+            Uid = UserInfo().QueryUidWithToken(UserToken)  # 如果登录成功后就来查询用户名
+            if Uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="generate_word", uid=Uid)#查询到了在计入
+                VulnerabilityDataList,Url = MedusaQuery().QueryBySid(sid=Sid,uid=Uid)#查询漏洞列表和URL
                 WordDownloadFileName=GenerateWordReport(VulnerabilityDataList=VulnerabilityDataList,target_url=Url)
                 if WordDownloadFileName != None:
-                    ReportGenerationList().Write(sid=Sid,uid=UserName,file_name=WordDownloadFileName)#把相关数据写到数据库中
+                    ReportGenerationList().Write(sid=Sid,uid=Uid,file_name=WordDownloadFileName)#把相关数据写到数据库中
                     return JsonResponse({'message': WordDownloadFileName, 'code': 200, })
                 else:
                     return JsonResponse({'message': '报告生成失败了！🐈', 'code': 404, })
@@ -49,10 +49,10 @@ def DownloadWord(request):#下载word报告
             #传入Sid和Token来进行创建任务
             FileName=json.loads(request.body)["file_name"]
             UserToken=json.loads(request.body)["token"]
-            UserName = UserInfo().QueryUserNameWithToken(UserToken)  # 如果登录成功后就来查询用户名
-            UserOperationLogRecord(request, request_api="download_word", uid=UserName)
-            if UserName != None:  # 查到了UID
-                QueryReturnValue=ReportGenerationList().Query(uid=UserName, file_name=FileName)  # 查询是否是该用户的
+            Uid = UserInfo().QueryUidWithToken(UserToken)  # 如果登录成功后就来查询UID
+            UserOperationLogRecord(request, request_api="download_word", uid=Uid)
+            if Uid != None:  # 查到了UID
+                QueryReturnValue=ReportGenerationList().Query(uid=Uid, file_name=FileName)  # 查询是否是该用户的
                 if (QueryReturnValue!=None) and (QueryReturnValue!=False):
                     file = open(GetDownloadFolderLocation().Result()+FileName, 'rb')
                     response = FileResponse(file)

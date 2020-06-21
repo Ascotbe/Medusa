@@ -1,4 +1,4 @@
-当前测试版本只有8个API接口，路径分别如下，只接受POST请求中的JSON格式数据
+当前测试版本只有个API接口，路径分别如下，只接受POST请求中的JSON格式数据
 
 ```
 /api/vulnerability_scanning/
@@ -9,6 +9,10 @@
 /api/medusa_query/
 /api/generate_word/
 /api/download_word/
+/api/user_info/
+/api/update_password/
+/api/update_show_name/
+/api/update_key/
 ```
 
 #### 注册接口
@@ -132,3 +136,57 @@
 
 - `token`登录后返回的**token**
 - `file_name`文件名通过上个接口获得
+
+#### 获取用户个人信息
+
+`/api/user_info/`获取个人详细信息使用
+
+```
+{
+   "token": "XXX"
+}
+```
+
+- `token`登录后返回的**token**
+
+#### 更新用户密码
+
+`/api/update_password/`更新用户密码
+
+```
+{
+	"username": "ascotbe",
+	"old_passwd": "1",
+	"new_passwd": "1111"
+}
+```
+
+- `username`为用户名称，唯一值
+- `old_passwd`该用户以前密码
+- `new_passwd`该用户需要修改的新密码
+
+#### 更新用户显示名称
+
+`/api/update_show_name/`更新用户显示名称
+
+```
+{
+   "token": "xxxxx",
+   "new_show_name": "1"
+}
+```
+
+- `token`登录后返回的**token**
+- `new_show_name`用户需要更新的新显示名
+
+#### 更新用户秘钥
+
+`/api/update_key/`更新用户key
+
+```
+{
+   "token": "xxxxx"
+}
+```
+
+- `token`登录后返回的**token**

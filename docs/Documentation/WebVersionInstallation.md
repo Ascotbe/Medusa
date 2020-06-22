@@ -10,19 +10,19 @@ sudo apt install docker.io
 #### 拉取容器仓库
 
 ```bash
-docker pull ascotbe/medusa:0.83
+docker pull ascotbe/medusa:latest
 ```
 
 #### 启动容器
 
 ```bash
- docker run -d -i -t --name  medusa -p 9999:9999 ascotbe/medusa:0.83
+ docker run -d -i -t --name  medusa -p 9999:9999 ascotbe/medusa:latest
 ```
 
 启动容器后会返回一串字符串
 
 ```bash
-root@iZbp19pfnyuhlghdkeobejZ:~#docker run -d -i -t --name  medusa -p 9999:9999 ascotbe/medusa:0.83
+root@iZbp19pfnyuhlghdkeobejZ:~#docker run -d -i -t --name  medusa -p 9999:9999 ascotbe/medusa:latest
 2638732ee693ee9d4813cc2d2e39eae636de23ecfcbaf619a276e445435425bf
 ```
 

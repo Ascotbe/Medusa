@@ -250,6 +250,13 @@
   - `eYou list_userinfo.php` SQL注入漏洞
   - `eYou ` SQL注入漏洞
 
+- ##### FanWe
+  - `FanWe index.php` SQL注入漏洞
+  - `FanWe goods_list.php` SQL注入漏洞
+  - `FanWe ` SQL注入漏洞
+  - `FanWe ` 登陆接口SQL注入漏洞
+
+
 - ##### FiveClib
   - `FiveClib` 任意文件下载漏洞
   - `FiveClib` 任意文件遍历漏洞

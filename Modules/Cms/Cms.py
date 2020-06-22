@@ -50,6 +50,7 @@ from Modules.Cms.ExtMail import ExtMail
 from Modules.Cms.ExponentCMS import ExponentCMS
 from Modules.Cms.eYou import eYou
 from Modules.Cms.Drupal import Drupal
+from Modules.Cms.FanWe import FanWe
 def Main(ThreadPool,Url,Values,proxies,**kwargs):
     Coremail.Main(ThreadPool,Url,Values,proxies,**kwargs)
     ThinkPHP.Main(ThreadPool,Url,Values,proxies,**kwargs)
@@ -101,3 +102,4 @@ def Main(ThreadPool,Url,Values,proxies,**kwargs):
     ExponentCMS.Main(ThreadPool,Url,Values,proxies,**kwargs)
     Drupal.Main(ThreadPool,Url,Values,proxies,**kwargs)
     eYou.Main(ThreadPool,Url,Values,proxies,**kwargs)
+    FanWe.Main(ThreadPool,Url,Values,proxies,**kwargs)

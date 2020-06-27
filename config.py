@@ -25,7 +25,7 @@ bot_mail_user=""#你的邮箱
 FaceCascadePath="haarcascade_frontalface_default.xml" #人脸识别训练数据
 
 ###################  MsfApi配置位置  ######################
-MsfHost="192.168.183.138"
+MsfHost="127.0.0.1"
 MsfPort="55553"
 MsfUsername="msf"
 MsfPasswd="msf"

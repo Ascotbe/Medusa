@@ -371,14 +371,80 @@ class VulnerabilityDetails:  # 所有数据库写入都是用同一个类
         except Exception as e:
             ErrorLog().Write("ClassCongregation_VulnerabilityDetails(class)_Write(def)", e)
 
+class Exploit:  # 所有漏洞利用使用同一个类
+    def __init__(self, medusa, url: str, **kwargs):
+        try:
+            self.url = str(url)  # 目标域名
+            self.timestamp = str(int(time.time()))  # 获取时间戳
+            self.name = medusa['name']  # 漏洞名称
+            self.number = medusa['number']  # CVE编号
+            self.author = medusa['author']  # 插件作者
+            self.create_date = medusa['create_date']  # 插件编辑时间
+            self.algroup = medusa['algroup']  # 插件名称
+            self.rank = medusa['rank']  # 漏洞等级
+            self.disclosure = medusa['disclosure']  # 漏洞披露时间，如果不知道就写编写插件的时间
+            self.details = base64.b64encode(medusa['details'].encode(encoding="utf-8"))  # 对结果进行编码写入数据库，鬼知道数据里面有什么玩意
+            self.affects = medusa['affects']  # 漏洞组件
+            self.desc_content = medusa['desc_content']  # 漏洞描述
+            self.suggest = medusa['suggest']  # 修复建议
+            self.version = medusa['version']  # 漏洞影响的版本
+            self.uid = kwargs.get("Uid")  # 传入的用户ID
+            self.sid=kwargs.get("Sid")# 传入的父表SID
+            # 如果数据库不存在的话，将会自动创建一个 数据库
+            self.con = sqlite3.connect(GetDatabaseFilePath().result())
+            # 获取所创建数据的游标
+            self.cur = self.con.cursor()
+            # 创建表
+            try:
+                # 如果设置了主键那么就导致主健值不能相同，如果相同就写入报错
+                self.cur.execute("CREATE TABLE Exploit\
+                            (ssid INTEGER PRIMARY KEY,\
+                            url TEXT NOT NULL,\
+                            name TEXT NOT NULL,\
+                            affects TEXT NOT NULL,\
+                            rank TEXT NOT NULL,\
+                            suggest TEXT NOT NULL,\
+                            desc_content TEXT NOT NULL,\
+                            details TEXT NOT NULL,\
+                            number TEXT NOT NULL,\
+                            author TEXT NOT NULL,\
+                            create_date TEXT NOT NULL,\
+                            disclosure TEXT NOT NULL,\
+                            algroup TEXT NOT NULL,\
+                            version TEXT NOT NULL,\
+                            timestamp TEXT NOT NULL,\
+                            sid TEXT NOT NULL,\
+                            uid TEXT NOT NULL)")
+            except Exception as e:
+                ErrorLog().Write("ClassCongregation_Exploit(class)_init(def)_CREATETABLE", e)
+        except Exception as e:
+            ErrorLog().Write("ClassCongregation_Exploit(class)_init(def)", e)
+
+    def Write(self):  # 统一写入
+        try:
+            self.cur.execute("""INSERT INTO Exploit (url,name,affects,rank,suggest,desc_content,details,number,author,create_date,disclosure,algroup,version,timestamp,sid,uid) \
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", (
+                self.url, self.name, self.affects, self.rank, self.suggest, self.desc_content, self.details,
+                self.number,
+                self.author, self.create_date, self.disclosure, self.algroup, self.version, self.timestamp,
+                self.sid,self.uid,))
+            # 提交
+            #GetSsid = self.cur.lastrowid
+            self.con.commit()
+            self.con.close()
+            # print(GetSsid)
+            #ScanInformation().Write(ssid=GetSsid,url=self.url,sid=self.sid,rank=self.rank,uid=self.uid,name=self.name)#调用web版数据表，写入ScanInformation关系表
+        except Exception as e:
+            ErrorLog().Write("ClassCongregation_VulnerabilityDetails(class)_Write(def)", e)
 
 class ErrorLog:  # 报错写入日志
     def __init__(self):
         global filename
+        LogDate=time.strftime("%Y-%m-%d", time.localtime())
         if sys.platform == "win32" or sys.platform == "cygwin":
-            filename = os.path.split(os.path.realpath(__file__))[0] + '\\my.log'  # 获取当前文件所在的目录，即父目录
+            filename = os.path.split(os.path.realpath(__file__))[0] + '\\Log\\'+LogDate+'.log'  # 获取当前文件所在的目录，即父目录
         elif sys.platform == "linux" or sys.platform == "darwin":
-            filename = os.path.split(os.path.realpath(__file__))[0] + '/my.log'  # 获取当前文件所在的目录，即父目录
+            filename = os.path.split(os.path.realpath(__file__))[0] + '/Log/'+LogDate+'.log'  # 获取当前文件所在的目录，即父目录
         # filename=os.path.realpath(__file__)#获取当前文件名
         log_format = '%(asctime)s - %(pathname)s[line:%(lineno)d] - %(levelname)s: %(message)s'
         logging.basicConfig(filename=filename, filemode='a', level=logging.INFO,

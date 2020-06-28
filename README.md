@@ -76,6 +76,9 @@ git config --global https.proxy https://127.0.0.1:1080
 | -m   | 1        | Scan for single module,such as: Struts2 or Apache, etc.                  | The specific content can be entered by the corresponding name in the project Modules folder. |
 | -t   | 1        | Threads usage setting, default(-t 15)                                    |                                                           None   |
 |-s    |1       | Enable subdomain detection| |
+|-l    |0       | List interactive command execution plugins| This function has not been written yet|
+|-e    |1       | You need to use the vulnerability, please use -l to query| |
+|-c    |1       | The command you want to execute, if there are spaces, please use double quotes| |
 
 ### :green_book:`Bot` Ver. document
 

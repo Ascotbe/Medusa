@@ -28,11 +28,11 @@ from Modules.Apache.ActiveMQ import ActiveMQ
 from Modules.Apache.Solr import Solr
 from Modules.Apache.Tomcat import Tomcat
 from Modules.Subdomain.SubdomainSearch import SubdomainSearch
+from Exploit.Exploit import main#命令执行函数
 import ClassCongregation
 import Banner
 import argparse
 import os
-import time
 
 parser = argparse.ArgumentParser()#description="xxxxxx")
 #UrlGroup = parser.add_mutually_exclusive_group()#定义一个互斥参数组
@@ -44,6 +44,9 @@ parser.add_argument('-a','--agent',type=str,help="Specify a header file or use a
 parser.add_argument('-t','--ThreadNumber',type=int,help="Set the number of threads, the default number of threads 15.")
 parser.add_argument('-f','--InputFileName',type=str,help="Specify bulk scan file batch scan")
 parser.add_argument('-s','--Subdomain',help="Collect subdomains",action="store_true")
+parser.add_argument('-l','--List',help="List interactive command execution plugins",action="store_true")
+parser.add_argument('-e','--Exploit',help="You need to use the vulnerability, please use -l to query",type=str)
+parser.add_argument('-c','--Command',help="The command you want to execute, if there are spaces, please use double quotes",type=str)
 '''
 在pycharm中设置固定要获取的参数，进行获取
 在XXX.py 中 按住 “alt+shift+f9”  ----选择编辑配置（edit configurations）---script parameters(脚本程序)
@@ -84,12 +87,12 @@ MedusaModuleList={
 def NmapScan(url):#Nmap扫描这样就可以开多线程了
     ClassCongregation.NmapScan(url).ScanPort()#调用Nmap扫描类
 
-def InitialScan(ThreadPool,InputFileName,Url,Module,agentHeader,proxies,**kwargs):
+def InitialScan(ThreadPool,InputFileName,Url,Module,AgentHeader,Proxies,**kwargs):
     try:
         if InputFileName==None:
             try:
                 print("\033[32m[ + ] Scanning target domain:\033[0m" + "\033[33m {}\033[0m".format(Url))
-                San(ThreadPool,Url,agentHeader,Module,proxies,**kwargs)
+                San(ThreadPool,Url,AgentHeader,Module,Proxies,**kwargs)
                 ClassCongregation.NumberOfLoopholes()  # 输出扫描结果个数
                         #ThreadPool.NmapAppend(NmapScan,Urls)#把Nmap放到多线程中
                         #print("\033[32m[ + ] NmapScan component payload successfully loaded\033[0m")
@@ -102,7 +105,7 @@ def InitialScan(ThreadPool,InputFileName,Url,Module,agentHeader,proxies,**kwargs
                     for UrlLine in f:#设置头文件使用的字符类型和开头的名字
                         try:
                             print("\033[32m[ + ] In batch scan, the current target is:\033[0m"+"\033[33m {}\033[0m".format(UrlLine.replace('\n', '')))
-                            San(ThreadPool,UrlLine.strip("\r\n"),agentHeader,Module,proxies,**kwargs)
+                            San(ThreadPool,UrlLine.strip("\r\n"),AgentHeader,Module,Proxies,**kwargs)
                             ClassCongregation.NumberOfLoopholes()  # 输出扫描结果个数
                             #ThreadPool.NmapAppend(NmapScan,Urls)#把Nmap放到多线程中
                             #print("\033[32m[ + ] NmapScan component payload successfully loaded\033[0m")
@@ -113,15 +116,15 @@ def InitialScan(ThreadPool,InputFileName,Url,Module,agentHeader,proxies,**kwargs
     except:
         print("\033[31m[ ! ] Please enter the correct file path!\033[0m")
 
-def San(ThreadPool,Url,agentHeader,Module,proxies,**kwargs):
+def San(ThreadPool,Url,AgentHeader,Module,Proxies,**kwargs):
     #POC模块存进多线程池，这样如果批量扫描会变快很多
     if Module==None:
         print("\033[32m[ + ] Scanning across modules:\033[0m" + "\033[35m AllMod             \033[0m")
         for MedusaModule in MedusaModuleList:
-            MedusaModuleList[MedusaModule](ThreadPool, Url, agentHeader, proxies,**kwargs)  # 调用列表里面的值
+            MedusaModuleList[MedusaModule](ThreadPool, Url, AgentHeader, Proxies,**kwargs)  # 调用列表里面的值
     else:
         try:
-            MedusaModuleList[Module](ThreadPool, Url, agentHeader,proxies,**kwargs)  # 调用列表里面的值
+            MedusaModuleList[Module](ThreadPool, Url, AgentHeader,Proxies,**kwargs)  # 调用列表里面的值
         except:  # 如果传入非法字符串会调用出错
             print("\033[31m[ ! ] Please enter the correct scan module name\033[0m")
             os._exit(0)  # 直接退出整个函数
@@ -133,20 +136,15 @@ if __name__ == '__main__':
     args = parser.parse_args()
     InputFileName = args.InputFileName#批量扫描文件所在位置
     Url = args.url
-    Values=args.agent#判断是否使用随机头，判断写在Class里面
+    AgentHeader=args.agent#判断是否使用随机头，判断写在Class里面
     Module=args.Module#单独模块扫描功能
     Subdomain=args.Subdomain#开启子域名枚举
     ThreadNumber=args.ThreadNumber#要使用的线程数默认15
-    proxies= args.ProxiesIP#代理的IP
-    if Values==None:#使用随机头
-        agentHeader="None"
-    else:
-        agentHeader=Values
+    Proxies= args.ProxiesIP#代理的IP
+    ExploitList = args.List  # 列出所有可以交互使用的poc
+    Exploit = args.Exploit  # 利用那个可以交互的poc
+    Command= args.Command  # poc 所执行的命令
 
-    #暂时关闭NMAPScan和数据库爆破功能
-
-    ThreadPool = ClassCongregation.ThreadPool()#定义一个线程池
-    Token=str(int(time.time()))+"medusa"#获取赋予的token
     if ThreadNumber==None:#如果线程数为空，那么默认为15
         ThreadNumber=15
 
@@ -157,10 +155,23 @@ if __name__ == '__main__':
         print("\033[31m[ ! ] Incorrect input, please enter -h to view help\033[0m")
         os._exit(0)#直接退出整个函数
 
-    if Subdomain:#如果传入-s启动子域名探测
-        ThreadPool.Append(SubdomainSearch, Url, Values, proxies=proxies,Sid="123",Uid="MMMMMMMMMMM")
+    #暂时关闭NMAPScan和数据库爆破功能
+    #Token=str(int(time.time()))+"medusa"#获取赋予的token
+    if ExploitList==True:
+        pass#调用列表函数，暂定未写
+        os._exit(0)  # 直接退出整个函数
+    if Exploit!=None and Command!=None:
+        main(Exploit=Exploit,Url=Url,AgentHeader=AgentHeader,Command=Command,Proxies=Proxies,Sid="Soryu Asuka Langley",Uid="Ayanami Rei") #启动子进程永真方式调用exp
+        os._exit(0)  # 直接退出整个函数
 
-    InitialScan(ThreadPool,InputFileName, Url,Module,agentHeader,proxies,Sid="123",Uid="MMMMMMMMMMM")#最后启动主扫描函数，这样如果多个IP的话优化速度，里面会做url或者url文件的判断
+    ThreadPool = ClassCongregation.ThreadPool()#定义一个线程池
+
+
+
+    if Subdomain:#如果传入-s启动子域名探测
+        ThreadPool.Append(SubdomainSearch, Url, AgentHeader, proxies=Proxies,Sid="Soryu Asuka Langley",Uid="Ayanami Rei")
+
+    InitialScan(ThreadPool,InputFileName, Url,Module,AgentHeader,Proxies,Sid="Soryu Asuka Langley",Uid="Ayanami Rei")#最后启动主扫描函数，这样如果多个IP的话优化速度，里面会做url或者url文件的判断
     print("\033[31m[ ! ] Scan is complete, please see the ScanResult file\033[0m")
 
 

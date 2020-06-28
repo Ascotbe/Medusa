@@ -169,6 +169,14 @@ python3 MedusaScan.py -u https://www.ascotbe.com -t 100
 
 以集成到模块中，全量扫描自动开启，如果需要单独扫描只需要输入模块名字即可
 
+#### 0x10 交互式命令执行
+
+该功能可以对特定的插件执行传入指定的命令
+
+```python
+python3 MedusaScan.py -u http://127.0.0.1:7001 -e CVE-2019-2729 -c "echo Ayanami Rei"
+```
+
 ## 扫描结果
 
 1.输出`The number of vulnerabilities scanned was:0`就表示未扫描到漏洞

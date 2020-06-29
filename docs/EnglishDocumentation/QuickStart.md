@@ -175,7 +175,7 @@ Integrated into the module, the full scan is automatically started, if you need 
 
 This function can execute the specified command for a specific plugin
 
-```python
+```bash
 python3 MedusaScan.py -u http://127.0.0.1:7001 -e CVE-2019-2729 -c "echo Ayanami Rei"
 ```
 

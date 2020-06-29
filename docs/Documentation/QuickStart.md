@@ -173,7 +173,7 @@ python3 MedusaScan.py -u https://www.ascotbe.com -t 100
 
 该功能可以对特定的插件执行传入指定的命令
 
-```python
+```bash
 python3 MedusaScan.py -u http://127.0.0.1:7001 -e CVE-2019-2729 -c "echo Ayanami Rei"
 ```
 

@@ -1,6 +1,5 @@
 > 目前已知问题
 
-- **Struts2**模块扫描不到漏洞问题（后续重写
 
 - **FastJson**只可扫描`www.ascotbe.com:12345`或者`www.ascotbe.com`这样域名下的漏洞，无法扫描`www.ascotbe.com/aaaa/XXXXX`这类目录下漏洞（后续代理扫描可以扫到
 - 枚举多端口后异步扫描（后续添加

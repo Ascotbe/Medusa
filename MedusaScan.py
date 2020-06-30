@@ -47,6 +47,9 @@ parser.add_argument('-s','--Subdomain',help="Collect subdomains",action="store_t
 parser.add_argument('-l','--List',help="List interactive command execution plugins",action="store_true")
 parser.add_argument('-e','--Exploit',help="You need to use the vulnerability, please use -l to query",type=str)
 parser.add_argument('-c','--Command',help="The command you want to execute, if there are spaces, please use double quotes",type=str)
+parser.add_argument('-os','--OperatingSystem',help="Target operating system [windows/linux]",type=str)
+
+
 '''
 在pycharm中设置固定要获取的参数，进行获取
 在XXX.py 中 按住 “alt+shift+f9”  ----选择编辑配置（edit configurations）---script parameters(脚本程序)
@@ -144,6 +147,7 @@ if __name__ == '__main__':
     ExploitList = args.List  # 列出所有可以交互使用的poc
     Exploit = args.Exploit  # 利用那个可以交互的poc
     Command= args.Command  # poc 所执行的命令
+    OperatingSystem = args.OperatingSystem  # 目标系统
 
     if ThreadNumber==None:#如果线程数为空，那么默认为15
         ThreadNumber=15
@@ -161,7 +165,7 @@ if __name__ == '__main__':
         pass#调用列表函数，暂定未写
         os._exit(0)  # 直接退出整个函数
     if Exploit!=None and Command!=None:
-        main(Exploit=Exploit,Url=Url,AgentHeader=AgentHeader,Command=Command,Proxies=Proxies,Sid="Soryu Asuka Langley",Uid="Ayanami Rei") #启动子进程永真方式调用exp
+        main(Exploit=Exploit,Url=Url,AgentHeader=AgentHeader,Command=Command,Proxies=Proxies,OperatingSystem=OperatingSystem,Sid="Soryu Asuka Langley",Uid="Ayanami Rei") #启动子进程永真方式调用exp
         os._exit(0)  # 直接退出整个函数
 
     ThreadPool = ClassCongregation.ThreadPool()#定义一个线程池

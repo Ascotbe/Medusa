@@ -79,6 +79,7 @@ git config --global https.proxy https://127.0.0.1:1080
 |-l    |0       | List interactive command execution plugins| This function has not been written yet|
 |-e    |1       | You need to use the vulnerability, please use -l to query| |
 |-c    |1       | The command you want to execute, if there are spaces, please use double quotes| |
+|-os    |1       | Target operating system [windows/linux]| Parameter lower case |
 
 ### :green_book:`Bot` Ver. document
 

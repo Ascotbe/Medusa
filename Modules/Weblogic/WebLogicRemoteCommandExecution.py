@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 __author__ = 'Ascotbe'
-from ClassCongregation import VulnerabilityDetails,UrlProcessing,ErrorLog,WriteFile,ErrorHandling,Proxies,randoms,Exploit
+from ClassCongregation import VulnerabilityDetails,UrlProcessing,ErrorLog,WriteFile,ErrorHandling,Proxies,randoms,Exploit,ExploitOutput
 import urllib3
 import base64
 import requests
@@ -93,8 +93,7 @@ def exploit(Url:str,RandomAgent:str,proxies:str=None,**kwargs)->None:
 
         resp = requests.post(payload_url, headers=headers, data=data, proxies=proxies, timeout=6, verify=False)
         con=resp.text
-        print("\033[32m[ + ] Command sent successfully, please refer to the returned data packet\033[0m")
-        print("\033[36m[ + ] Return packet：\033[0m"+con)
+        ExploitOutput().Banner(OutputData=con)
         _t = VulnerabilityInfo(con)
         Exploit(_t.info, url, **kwargs).Write()  # 传入url和扫描到的数据
     except Exception as e:

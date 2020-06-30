@@ -854,3 +854,10 @@ class SubdomainTable:  # 这是一个子域名表
         except Exception as e:
             ErrorLog().Write("ClassCongregation_SubdomainTable(class)_Write(def)", e)
 
+class ExploitOutput:#命令执行内容处理
+    def Banner(self,**kwargs):
+        print("\033[32m[ + ] Command sent successfully, please refer to the returned data packet\033[0m")
+        if kwargs.get("OutputData")==None:
+            print("\033[36m[ + ] Return packet：The vulnerability is command execution without echo\033[0m")
+        else:
+            print("\033[36m[ + ] Return packet：\033[0m"+kwargs.get("OutputData"))

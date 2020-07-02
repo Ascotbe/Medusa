@@ -57,9 +57,6 @@ python3 MedusaScan.py -u www.ascotbe.com
 |-s    |1       | Enable subdomain detection|None |
 |-l    |0       | List interactive command execution plugins| This function has not been written yet|
 |-e    |1       | You need to use the vulnerability, please use -l to query| |
-|-c    |1       | The command you want to execute, if there are spaces, please use double quotes| |
-|-os    |1       | Target operating system [windows/linux]| Parameter lower case |
-
 
 ## Discussion
 

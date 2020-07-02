@@ -82,8 +82,6 @@ git clone https://gitee.com/asc0t6e/Medusa.git
 |-s    |1       |开启子域名探测| |
 |-l    |0       |列出可以交互的插件| 该功能暂时没写 |
 |-e    |1       |您需要使用那个漏洞，具体请使用-l查询| |
-|-c    |1       |您要执行的命令，如果有空格，请使用双引号| |
-|-os    |1       |目标操作系统[windows / linux] | 参数小写|
 
 ### :green_book:`Bot`版使用说明
 

@@ -173,10 +173,39 @@ Integrated into the module, the full scan is automatically started, if you need 
 
 #### 0x10 Interactive command execution
 
-This function can execute the specified command for a specific plugin
+Call the plug-in that can perform command execution interaction, you can use the `-l` (not yet written) parameter view
 
 ```bash
-python3 MedusaScan.py -u http://127.0.0.1:7001 -e CVE-2019-2729 -c "echo Ayanami Rei"
+python3 MedusaScan.py -u http://127.0.0.1:7001 -e CVE-2019-2729
+```
+
+After the call is successful, you need to enter the target operating system first, and then enter the executed command. If the execution is changed without echo, it will output `Return packet: The vulnerability is command execution without echo`, if not, it will be returned. Explicit execution.
+
+If you need to log out, please enter `QuitMedusa` to exit the command execution.
+
+```bash
+ascotbe@orange$ python3 MedusaScan.py -u http://127.0.0.1:7001 -e CVE-2019-2729
+
+
+
+  ___ __ __   ______   ______   __  __   ______   ________      
+ /__//_//_/\ /_____/\ /_____/\ /_/\/_/\ /_____/\ /_______/\     
+ \::\| \| \ \\::::_\/_\:::_ \ \\:\ \:\ \\::::_\/_\::: _  \ \    
+  \:.      \ \\:\/___/\\:\ \ \ \\:\ \:\ \\:\/___/\\::(_)  \ \   
+   \:.\-/\  \ \\::___\/_\:\ \ \ \\:\ \:\ \\_::._\:\\:: __  \ \  
+    \. \  \  \ \\:\____/\\:\/.:| |\:\_\:\ \ /____\:\\:.\ \  \ \ 
+     \__\/ \__\/ \_____\/ \____/_/ \_____\/ \_____\/ \__\/\__\/ 
+                                                                
+ 
+                                                                                   
+          Blog  https://www.ascotbe.com  |  v0.86    
+
+[ + ] Please enter the target operating system [windows / linux]: Windows
+[ + ] Please enter the command to be executed: echo Ayanami Rei
+[ + ] Command sent successfully, please refer to the returned data packet
+[ + ] Return packet：Ayanami Rei
+[ + ] Please enter the command to be executed: QuitMedusa
+[ ! ] Command execution call has ended~ 
 ```
 
 ## Result

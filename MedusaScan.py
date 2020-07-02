@@ -46,10 +46,6 @@ parser.add_argument('-f','--InputFileName',type=str,help="Specify bulk scan file
 parser.add_argument('-s','--Subdomain',help="Collect subdomains",action="store_true")
 parser.add_argument('-l','--List',help="List interactive command execution plugins",action="store_true")
 parser.add_argument('-e','--Exploit',help="You need to use the vulnerability, please use -l to query",type=str)
-parser.add_argument('-c','--Command',help="The command you want to execute, if there are spaces, please use double quotes",type=str)
-parser.add_argument('-os','--OperatingSystem',help="Target operating system [windows/linux]",type=str)
-
-
 '''
 在pycharm中设置固定要获取的参数，进行获取
 在XXX.py 中 按住 “alt+shift+f9”  ----选择编辑配置（edit configurations）---script parameters(脚本程序)
@@ -146,9 +142,6 @@ if __name__ == '__main__':
     Proxies= args.ProxiesIP#代理的IP
     ExploitList = args.List  # 列出所有可以交互使用的poc
     Exploit = args.Exploit  # 利用那个可以交互的poc
-    Command= args.Command  # poc 所执行的命令
-    OperatingSystem = args.OperatingSystem  # 目标系统
-
     if ThreadNumber==None:#如果线程数为空，那么默认为15
         ThreadNumber=15
 
@@ -161,11 +154,13 @@ if __name__ == '__main__':
 
     #暂时关闭NMAPScan和数据库爆破功能
     #Token=str(int(time.time()))+"medusa"#获取赋予的token
+    Sid="Soryu Asuka Langley"
+    Uid = "Ayanami Rei"
     if ExploitList==True:
         pass#调用列表函数，暂定未写
         os._exit(0)  # 直接退出整个函数
-    if Exploit!=None and Command!=None:
-        main(Exploit=Exploit,Url=Url,AgentHeader=AgentHeader,Command=Command,Proxies=Proxies,OperatingSystem=OperatingSystem,Sid="Soryu Asuka Langley",Uid="Ayanami Rei") #启动子进程永真方式调用exp
+    if Exploit!=None:
+        main(Exploit=Exploit,Url=Url,AgentHeader=AgentHeader,Proxies=Proxies,Sid=Sid,Uid=Uid) #启动子进程永真方式调用exp
         os._exit(0)  # 直接退出整个函数
 
     ThreadPool = ClassCongregation.ThreadPool()#定义一个线程池
@@ -173,9 +168,9 @@ if __name__ == '__main__':
 
 
     if Subdomain:#如果传入-s启动子域名探测
-        ThreadPool.Append(SubdomainSearch, Url, AgentHeader, proxies=Proxies,Sid="Soryu Asuka Langley",Uid="Ayanami Rei")
+        ThreadPool.Append(SubdomainSearch, Url, AgentHeader, proxies=Proxies,Sid=Sid,Uid=Uid)
 
-    InitialScan(ThreadPool,InputFileName, Url,Module,AgentHeader,Proxies,Sid="Soryu Asuka Langley",Uid="Ayanami Rei")#最后启动主扫描函数，这样如果多个IP的话优化速度，里面会做url或者url文件的判断
+    InitialScan(ThreadPool,InputFileName, Url,Module,AgentHeader,Proxies,Sid=Sid,Uid=Uid)#最后启动主扫描函数，这样如果多个IP的话优化速度，里面会做url或者url文件的判断
     print("\033[31m[ ! ] Scan is complete, please see the ScanResult file\033[0m")
 
 

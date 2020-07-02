@@ -854,6 +854,24 @@ class SubdomainTable:  # 这是一个子域名表
             ErrorLog().Write("ClassCongregation_SubdomainTable(class)_Write(def)", e)
 
 class ExploitOutput:#命令执行内容处理
+    def Command(self):#子进程无法使用imput函数
+        #print("\033[32m[ + ] Please enter the command to be executed: \033[0m")
+        Command=input("\033[32m[ + ] Please enter the command to be executed: \033[0m")
+        if Command=="QuitMedusa":
+            print("\033[33m[ ! ] Command execution call has ended~ \033[0m")
+            os._exit(0)  # 直接退出整个函数
+        elif Command!=None:
+            return str(Command)
+        else:
+            print("\033[31m[ ! ] Command cannot be empty! \033[0m")
+
+    def OperatingSystem(self):
+        OperatingSystem=input("\033[33m[ + ] Please enter the target operating system [windows / linux]: \033[0m").lower()#转换成小写
+
+        if OperatingSystem != None and OperatingSystem==("windows" or"linux"):
+            return str(OperatingSystem)
+        else:
+            print("\033[31m[ ! ] Please enter windows or linux! \033[0m")
     def Banner(self,**kwargs):
         print("\033[32m[ + ] Command sent successfully, please refer to the returned data packet\033[0m")
         if kwargs.get("OutputData")==None:

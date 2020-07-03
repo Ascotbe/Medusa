@@ -405,3 +405,6 @@
 - `Weblogic`反序列化命令执行漏洞（CVE-2018-3191）
 - `WebLogic`远程命令执行（CVE-2019-2729）
 - `Weblogic`反序列化远程命令执行漏洞（CVE-2019-2890）
+
+##### Dubbo
+- `Dubbo` Provider默认反序列漏洞（CVE-2020-1948）

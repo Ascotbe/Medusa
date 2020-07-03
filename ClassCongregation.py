@@ -865,6 +865,8 @@ class ExploitOutput:#命令执行内容处理
         else:
             print("\033[31m[ ! ] Command cannot be empty! \033[0m")
 
+    def Deserialization(self):
+        pass
     def OperatingSystem(self):
         OperatingSystem=input("\033[33m[ + ] Please enter the target operating system [windows / linux]: \033[0m").lower()#转换成小写
 

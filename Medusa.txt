@@ -23,3 +23,4 @@ pycryptodome==3.9.7
 PySocks==1.7.1
 django-cors-headers==3.3.0
 django-simple-captcha==0.5.12
+dubbo-py==0.2.2

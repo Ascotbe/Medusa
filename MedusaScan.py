@@ -13,6 +13,7 @@ from Modules.Rails import Rails
 from Modules.Kibana import Kibana
 from Modules.PHPStudy import PHPStudy
 from Modules.Mongo import Mongo
+from Modules.Dubbo import Dubbo
 from Modules.Liferay import Liferay
 from Modules.Weblogic import Weblogic
 from Modules.OA.Seeyou import Seeyou
@@ -46,6 +47,8 @@ parser.add_argument('-f','--InputFileName',type=str,help="Specify bulk scan file
 parser.add_argument('-s','--Subdomain',help="Collect subdomains",action="store_true")
 parser.add_argument('-l','--List',help="List interactive command execution plugins",action="store_true")
 parser.add_argument('-e','--Exploit',help="You need to use the vulnerability, please use -l to query",type=str)
+#parser.add_argument('-d','--Deserialization',help="You need to use the vulnerability, please use -l to query",type=str)
+
 '''
 在pycharm中设置固定要获取的参数，进行获取
 在XXX.py 中 按住 “alt+shift+f9”  ----选择编辑配置（edit configurations）---script parameters(脚本程序)
@@ -79,6 +82,7 @@ MedusaModuleList={
 "Tongda":Tongda.Main,
 "Weaver":Weaver.Main,
 "Weblogic":Weblogic.Main,
+"Dubbo":Dubbo.Main,
 "InformationLeakage":InformationLeakage.Main
 }
 

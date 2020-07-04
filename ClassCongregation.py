@@ -866,7 +866,11 @@ class ExploitOutput:#命令执行内容处理
             print("\033[31m[ ! ] Command cannot be empty! \033[0m")
 
     def Deserialization(self):
-        pass
+        LoadExploitURL=input("\033[32m[ + ] Please enter the exploit URL to be loaded \033[0m"+"\033[31m[Prohibit adding http or https ]\033[0m"+"\033[32m: \033[0m")
+        if LoadExploitURL != None:
+            return str(LoadExploitURL)
+        else:
+            print("\033[31m[ ! ] Please refer to the following example :\033[0m"+"\033[36m 127.0.0.1:80/exp \033[0m" )
     def OperatingSystem(self):
         OperatingSystem=input("\033[33m[ + ] Please enter the target operating system [windows / linux]: \033[0m").lower()#转换成小写
 

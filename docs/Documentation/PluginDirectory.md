@@ -408,3 +408,6 @@
 
 ##### Dubbo
 - `Dubbo` Provider默认反序列漏洞（CVE-2020-1948）
+
+##### BIG-IP
+- `BIG-IP` 远程代码执行漏洞（CVE-2020-5902）

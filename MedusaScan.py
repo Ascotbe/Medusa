@@ -27,6 +27,7 @@ from Modules.Apache.Flink import Flink
 from Modules.Apache.Log4j import Log4j
 from Modules.Apache.ActiveMQ import ActiveMQ
 from Modules.Apache.Solr import Solr
+from Modules.BIG_IP import BIG_IP
 from Modules.Apache.Tomcat import Tomcat
 from Modules.Subdomain.SubdomainSearch import SubdomainSearch
 from Exploit.Exploit import main#命令执行函数
@@ -83,6 +84,7 @@ MedusaModuleList={
 "Weaver":Weaver.Main,
 "Weblogic":Weblogic.Main,
 "Dubbo":Dubbo.Main,
+"BIG-IP":BIG_IP.Main,
 "InformationLeakage":InformationLeakage.Main
 }
 

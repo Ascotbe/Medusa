@@ -474,6 +474,8 @@ class Dnslog:  # Dnslog判断
         try:
             self.host = str(salt + "." + self.get_dnslog_url())
         except Exception as e:
+            print("\033[31m[ ! ] Unable to get dnslog, please replace ceye! \033[0m")
+            self.host=""
             ErrorLog().Write("ClassCongregation_Dnslog(class)_init_(def)", e)
 
     def dns_host(self) -> str:

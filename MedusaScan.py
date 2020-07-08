@@ -172,8 +172,8 @@ if __name__ == '__main__':
     elif Exploit!=None or Deserialization!=None:
         main(Exploit=Exploit,Deserialization=Deserialization,Url=Url,AgentHeader=AgentHeader,Proxies=Proxies,Sid=Sid,Uid=Uid) #启动子进程永真方式调用exp
 
-
-    ThreadPool = ClassCongregation.ThreadPool()#定义一个线程池
+    ThreadPool=ClassCongregation.ProcessPool()#定义一个进程池
+    #ThreadPool = ClassCongregation.ThreadPool()#定义一个线程池
 
 
 

@@ -13,6 +13,7 @@ import base64
 import random
 import sys
 import time
+import multiprocessing
 from typing import List, Dict, Tuple, Any
 import threading
 import subprocess
@@ -596,6 +597,50 @@ class ThreadPool:  # 线程池，所有插件都发送过来一起调用
             for p in tqdm(self.ThreaList, ascii=True, desc="\033[32m[ + ] Medusa cleanup thread progress\033[0m"):
                 p.join()
         self.ThreaList.clear()  # 清空列表，防止多次调用导致重复使用
+
+class ProcessPool:  # 进程池，解决pythonGIL锁问题，单核跳舞实在难受
+    def __init__(self):
+        self.ProcessList=[]#创建进程列表
+        self.CountList = []  # 用来计数判断进程数
+        self.text = 0  # 统计线程数
+
+    def Append(self, Plugin, Url, Values,proxies,**kwargs):
+        self.text += 1
+        ua = AgentHeader().result(Values)
+        Uid=kwargs.get("Uid")
+        Sid=kwargs.get("Sid")
+        self.ProcessList.append(multiprocessing.Process(target=Plugin, args=(Url, ua, proxies,),kwargs={"Uid":Uid,"Sid":Sid}))
+
+    def SubdomainAppend(self, Plugin, Url, SubdomainJudge):
+        self.ProcessList.append(multiprocessing.Process(target=Plugin, args=(Url, SubdomainJudge)))
+
+    def NmapAppend(self, Plugin, Url):
+        self.ProcessList.append(multiprocessing.Process(target=Plugin, args=(Url)))
+
+    def Start(self, ProcessNumber):
+        if debug_mode:  # 如果开了debug模式就不显示进度条
+            for t in self.ProcessList:  # 开启列表中的多进程
+                t.start()
+                self.CountList.append(t)#发送到容器中用于判断
+                while True:
+                    # 判断正在运行的线程数量,如果小于5则退出while循环,
+                    # 进入for循环启动新的进程.否则就一直在while循环进入死循环
+                    if len([p for p in self.CountList if p.exitcode is None])<ProcessNumber:
+                        break
+            for p in self.ProcessList:
+                p.join()
+        else:  # 如果没开Debug就改成进度条形式
+            for t in tqdm(self.ProcessList, ascii=True,
+                          desc="\033[32m[ + ] Medusa scan progress bar\033[0m"):  # 开启列表中的多线程
+                t.start()
+                while True:
+                    # 判断正在运行的线程数量,如果小于5则退出while循环,
+                    # 进入for循环启动新的进程.否则就一直在while循环进入死循环
+                    if len([p for p in self.CountList if p.exitcode is None]) < ProcessNumber:
+                        break
+            for p in tqdm(self.ProcessList, ascii=True, desc="\033[32m[ + ] Medusa cleanup thread progress\033[0m"):
+                p.join()
+        self.ProcessList.clear()  # 清空列表，防止多次调用导致重复使用
 
 
 class Prompt:  # 输出横幅，就是每个组件加载后输出的东西

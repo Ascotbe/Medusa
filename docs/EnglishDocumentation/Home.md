@@ -3,7 +3,7 @@
  <p align="center">
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Ascotbe-Medusa-green"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/python-3.7+-blueviolet"></a>
-    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Version-0.86-red"></a>
+    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Version-0.87-red"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/LICENSE-GPL-ff69b4"></a>
 	<a href="https://github.com/ascotbe/Medusa/stargazers"><img alt="Release" src="https://img.shields.io/github/stars/ascotbe/Medusa.svg"></a>
 	<a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Plugin-200+-success"></a>
@@ -53,7 +53,7 @@ python3 MedusaScan.py -u www.ascotbe.com
 | -p | 1 | You need to fill in the IP of your proxy, if you have a port you need to bring the port | to use BURP as a proxy then you should pass in 127.0.0.1:8080 |
 | -i | 1 | A file needs to be passed in, and the content of the file should conform to the specifications in the document | If this function is turned on, the scanning function will not be turned on |
 | -m   | 1        | Scan for single module,such as: Struts2 or Apache, etc.                  | The module list refers to the list of folders on this project.                           |
-| -t   | 1        | Threads usage setting, default(-t 15)                                    |                                                           None   |
+| -t   | 1        | Processes usage setting, default(-t 15)                                      |                                                           None   |
 |-s    |1       | Enable subdomain detection|None |
 |-l    |0       | List interactive command execution plugins| This function has not been written yet|
 |-e    |1       | You need to use the vulnerability, please use -l to query| |

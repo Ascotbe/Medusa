@@ -157,9 +157,9 @@ python3 MedusaScan.py -u https://www.ascotbe.com -a "Mozilla/5.0 (Windows NT 5.1
 python3 MedusaScan.py -u https://www.ascotbe.com -m Struts2
 ```
 
-#### 0x08 设置线程数
+#### 0x08 设置进程数
 
-任何功能都可以开启多线程！
+开启多进程功能，默认是15个进程，进程越多越快，当某个插件有利用for循环的话会在进程中启动多线程！
 
 ```bash
 python3 MedusaScan.py -u https://www.ascotbe.com -t 100

@@ -9,12 +9,12 @@ from Modules.Cms.Easethink import YiXiangSQLInjectionVulnerability2
 from Modules.Cms.Easethink import YiXiangSQLInjectionVulnerability3
 
 from ClassCongregation import Prompt
-def Main(ThreadPool,Url,Values,proxies,**kwargs):
-    ThreadPool.Append(EasethinkSQLInjectionVulnerability.medusa, Url,Values,proxies=proxies,**kwargs)
-    ThreadPool.Append(EasethinkSQLInjectionVulnerability1.medusa, Url,Values,proxies=proxies,**kwargs)
-    ThreadPool.Append(EasethinkCookieInjectionVulnerability.medusa, Url,Values,proxies=proxies,**kwargs)
-    ThreadPool.Append(YiXiangSQLInjectionVulnerability.medusa, Url,Values,proxies=proxies,**kwargs)
-    ThreadPool.Append(YiXiangSQLInjectionVulnerability1.medusa, Url,Values,proxies=proxies,**kwargs)
-    ThreadPool.Append(YiXiangSQLInjectionVulnerability2.medusa, Url,Values,proxies=proxies,**kwargs)
-    ThreadPool.Append(YiXiangSQLInjectionVulnerability3.medusa, Url,Values,proxies=proxies,**kwargs)
+def Main(Pool,Url,Values,proxies,**kwargs):
+    Pool.Append(EasethinkSQLInjectionVulnerability.medusa, Url,Values,proxies=proxies,**kwargs)
+    Pool.Append(EasethinkSQLInjectionVulnerability1.medusa, Url,Values,proxies=proxies,**kwargs)
+    Pool.Append(EasethinkCookieInjectionVulnerability.medusa, Url,Values,proxies=proxies,**kwargs)
+    Pool.Append(YiXiangSQLInjectionVulnerability.medusa, Url,Values,proxies=proxies,**kwargs)
+    Pool.Append(YiXiangSQLInjectionVulnerability1.medusa, Url,Values,proxies=proxies,**kwargs)
+    Pool.Append(YiXiangSQLInjectionVulnerability2.medusa, Url,Values,proxies=proxies,**kwargs)
+    Pool.Append(YiXiangSQLInjectionVulnerability3.medusa, Url,Values,proxies=proxies,**kwargs)
     Prompt("Easethink")

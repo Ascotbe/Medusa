@@ -3,7 +3,7 @@
 from Modules.Cms.Pboot import PbootCommandExecution
 from Modules.Cms.Pboot import PbootOnlineMessageDeskSqlInjection
 from ClassCongregation import Prompt
-def Main(ThreadPool,Url,Values,proxies,**kwargs):
-    ThreadPool.Append(PbootCommandExecution.medusa, Url,Values,proxies=proxies,**kwargs)
-    ThreadPool.Append(PbootOnlineMessageDeskSqlInjection.medusa, Url,Values,proxies=proxies,**kwargs)
+def Main(Pool,Url,Values,proxies,**kwargs):
+    Pool.Append(PbootCommandExecution.medusa, Url,Values,proxies=proxies,**kwargs)
+    Pool.Append(PbootOnlineMessageDeskSqlInjection.medusa, Url,Values,proxies=proxies,**kwargs)
     Prompt("Pboot")

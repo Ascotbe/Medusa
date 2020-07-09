@@ -199,36 +199,6 @@ class NmapRead:  # 读取Nmap扫描后的数据
             ErrorLog().Write("ClassCongregation_NmapRead(class)_Read(def)", e)
 
 
-class BotVulnerabilityInquire:  # 机器人数据查询
-    def __init__(self, token: str):  # 先通过id查，后面要是有用户ID 再运行的时候创建一个用户信息的表或者什么的到时候再说
-        self.token = token
-
-        self.con = sqlite3.connect(GetDatabaseFilePath().result())
-        # 获取所创建数据的游标
-        self.cur = self.con.cursor()
-
-    def Number(self) -> int:  # 用来查询存在漏洞的个数
-        self.cur.execute("select * from Medusa where timestamp =?", (self.token,))
-        values = self.cur.fetchall()
-        Number = len(values)
-        self.con.close()
-        return Number
-
-    def Inquire(self):
-        self.cur.execute("select * from Medusa where timestamp =?", (self.token,))
-        values = self.cur.fetchall()
-        result_list = []  # 存放json的返回结果列表用
-
-        for i in values:
-            json_values = {}
-            json_values["url"] = i[1]
-            json_values["name"] = i[2]
-            json_values["details"] = i[7]
-            result_list.append(json_values)
-        self.con.close()
-        return result_list
-
-
 class GithubCveApi:  # CVE写入表
     def __init__(self, CveJsonList: Any):
         try:
@@ -556,7 +526,7 @@ class Proxies:  # 代理处理函数
         else:
             return {"http": "http://{}".format(proxies_ip), "https": "https://{}".format(proxies_ip)}
 
-class ThreadPool:  # 线程池，所有插件都发送过来一起调用
+class ThreadPool:  # 线程池，适用于单个插件
     def __init__(self):
         self.ThreaList = []  # 存放线程列表
         self.text = 0  # 统计线程数
@@ -568,34 +538,16 @@ class ThreadPool:  # 线程池，所有插件都发送过来一起调用
         Sid=kwargs.get("Sid")
         self.ThreaList.append(threading.Thread(target=plugin, args=(url, ua, proxies,),kwargs={"Uid":Uid,"Sid":Sid}))
 
-    def SubdomainAppend(self, plugin, Url, SubdomainJudge):
-        self.ThreaList.append(threading.Thread(target=plugin, args=(Url, SubdomainJudge)))
-
-    def NmapAppend(self, plugin, Url):
-        self.ThreaList.append(threading.Thread(target=plugin, args=(Url)))
-
-    def Start(self, ThreadNumber):
-        if debug_mode:  # 如果开了debug模式就不显示进度条
-            for t in self.ThreaList:  # 开启列表中的多线程
-                t.start()
-                while True:
-                    # 判断正在运行的线程数量,如果小于5则退出while循环,
-                    # 进入for循环启动新的进程.否则就一直在while循环进入死循环
-                    if (len(threading.enumerate()) < ThreadNumber):
-                        break
-            for p in self.ThreaList:
-                p.join()
-        else:  # 如果没开Debug就改成进度条形式
-            for t in tqdm(self.ThreaList, ascii=True,
-                          desc="\033[32m[ + ] Medusa scan progress bar\033[0m"):  # 开启列表中的多线程
-                t.start()
-                while True:
-                    # 判断正在运行的线程数量,如果小于5则退出while循环,
-                    # 进入for循环启动新的进程.否则就一直在while循环进入死循环
-                    if (len(threading.enumerate()) < ThreadNumber):
-                        break
-            for p in tqdm(self.ThreaList, ascii=True, desc="\033[32m[ + ] Medusa cleanup thread progress\033[0m"):
-                p.join()
+    def Start(self):
+        for t in self.ThreaList:  # 开启列表中的多线程
+            t.start()
+            # while True:
+            #     # 判断正在运行的线程数量,如果小于5则退出while循环,
+            #     # 进入for循环启动新的进程.否则就一直在while循环进入死循环
+            #     if (len(threading.enumerate()) < ThreadNumber):
+            #         break
+        for p in self.ThreaList:
+            p.join()
         self.ThreaList.clear()  # 清空列表，防止多次调用导致重复使用
 
 class ProcessPool:  # 进程池，解决pythonGIL锁问题，单核跳舞实在难受
@@ -610,9 +562,6 @@ class ProcessPool:  # 进程池，解决pythonGIL锁问题，单核跳舞实在�
         Uid=kwargs.get("Uid")
         Sid=kwargs.get("Sid")
         self.ProcessList.append(multiprocessing.Process(target=Plugin, args=(Url, ua, proxies,),kwargs={"Uid":Uid,"Sid":Sid}))
-
-    def SubdomainAppend(self, Plugin, Url, SubdomainJudge):
-        self.ProcessList.append(multiprocessing.Process(target=Plugin, args=(Url, SubdomainJudge)))
 
     def NmapAppend(self, Plugin, Url):
         self.ProcessList.append(multiprocessing.Process(target=Plugin, args=(Url)))

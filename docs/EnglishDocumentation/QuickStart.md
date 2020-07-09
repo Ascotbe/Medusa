@@ -159,12 +159,12 @@ Please use the name supported by the module for the root folder. A folder name c
 python3 MedusaScan.py -u https://www.ascotbe.com -m Struts2
 ```
 
-#### 0x08 Threads setting
+#### 0x08 Processes setting
 
-Any function can turn on multi-threading !
+Turn on the multi-process function, the default is 15 processes, the more processes, the faster, when a plugin uses the for loop, it will start multi-threading in the process!
 
 ```bash
-python3 MedusaScan.py -u https://www.ascotbe.com -t 100 #100 threads
+python3 MedusaScan.py -u https://www.ascotbe.com -t 100 #100 processes
 ```
 
 #### 0x09 sensitive information leakage

@@ -3,7 +3,7 @@
 from Modules.Cms.Cyberwisdom import CyberwisdomArbitraryFileDownloadVulnerability
 from Modules.Cms.Cyberwisdom import CyberwisdomArbitraryFileDownloadVulnerability2
 from ClassCongregation import Prompt
-def Main(ThreadPool,Url,Values,proxies,**kwargs):
-    ThreadPool.Append(CyberwisdomArbitraryFileDownloadVulnerability.medusa, Url,Values,proxies=proxies,**kwargs)
-    ThreadPool.Append(CyberwisdomArbitraryFileDownloadVulnerability2.medusa, Url,Values,proxies=proxies,**kwargs)
+def Main(Pool,Url,Values,proxies,**kwargs):
+    Pool.Append(CyberwisdomArbitraryFileDownloadVulnerability.medusa, Url,Values,proxies=proxies,**kwargs)
+    Pool.Append(CyberwisdomArbitraryFileDownloadVulnerability2.medusa, Url,Values,proxies=proxies,**kwargs)
     Prompt("Cyberwisdom")

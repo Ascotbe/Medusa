@@ -3,6 +3,6 @@
 from Modules.Apache.Flink import FlinkUnauthorizedCommandExecutionVulnerability
 from ClassCongregation import Prompt
 
-def Main(ThreadPool,Url,Values,proxies,**kwargs):
-    ThreadPool.Append(FlinkUnauthorizedCommandExecutionVulnerability.medusa,Url,Values,proxies=proxies,**kwargs)
+def Main(Pool,Url,Values,proxies,**kwargs):
+    Pool.Append(FlinkUnauthorizedCommandExecutionVulnerability.medusa,Url,Values,proxies=proxies,**kwargs)
     Prompt("Flink")

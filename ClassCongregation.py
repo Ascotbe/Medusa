@@ -531,21 +531,18 @@ class ThreadPool:  # 线程池，适用于单个插件
         self.ThreaList = []  # 存放线程列表
         self.text = 0  # 统计线程数
 
-    def Append(self, plugin, url, Values,proxies,**kwargs):
+    def Append(self, plugin,**kwargs):
         self.text += 1
-        ua = AgentHeader().result(Values)
-        Uid=kwargs.get("Uid")
-        Sid=kwargs.get("Sid")
-        self.ThreaList.append(threading.Thread(target=plugin, args=(url, ua, proxies,),kwargs={"Uid":Uid,"Sid":Sid}))
+        self.ThreaList.append(threading.Thread(target=plugin,kwargs=kwargs))
 
-    def Start(self):
+    def Start(self,ThreadNumber):
         for t in self.ThreaList:  # 开启列表中的多线程
             t.start()
-            # while True:
-            #     # 判断正在运行的线程数量,如果小于5则退出while循环,
-            #     # 进入for循环启动新的进程.否则就一直在while循环进入死循环
-            #     if (len(threading.enumerate()) < ThreadNumber):
-            #         break
+            while True:
+                # 判断正在运行的线程数量,如果小于5则退出while循环,
+                # 进入for循环启动新的进程.否则就一直在while循环进入死循环
+                if (len(threading.enumerate()) < ThreadNumber):
+                    break
         for p in self.ThreaList:
             p.join()
         self.ThreaList.clear()  # 清空列表，防止多次调用导致重复使用

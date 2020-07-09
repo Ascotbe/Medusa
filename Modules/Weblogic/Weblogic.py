@@ -13,29 +13,29 @@ from Modules.Weblogic import WebLogicDeserializationRemoteCommandExecutionVulner
 from Modules.Weblogic import WeblogicDeserializationCommandExecutionVulnerability4
 from Modules.Weblogic import WebLogicRemoteCommandExecution
 from ClassCongregation import Prompt
-def Main(ThreadPool,Url,Values,proxies,**kwargs):
-    ThreadPool.Append(WeblogicServerSideRequestForgeryVulnerability.medusa,Url, Values, proxies = proxies, ** kwargs)
-    ThreadPool.Append(WebLogicXMLDecoderDeserializationVulnerability.medusa, Url, Values, proxies=proxies, **kwargs)
-    ThreadPool.Append(WeblogicArbitraryFileUploadVulnerability.medusa, Url, Values, proxies=proxies, **kwargs)
-    ThreadPool.Append(WeblogicWLSCoreComponentsDeserializationCommandExecutionVulnerability.medusa, Url, Values, proxies=proxies, **kwargs)
+def Main(Pool,Url,Values,proxies,**kwargs):
+    Pool.Append(WeblogicServerSideRequestForgeryVulnerability.medusa,Url, Values, proxies = proxies, ** kwargs)
+    Pool.Append(WebLogicXMLDecoderDeserializationVulnerability.medusa, Url, Values, proxies=proxies, **kwargs)
+    Pool.Append(WeblogicArbitraryFileUploadVulnerability.medusa, Url, Values, proxies=proxies, **kwargs)
+    Pool.Append(WeblogicWLSCoreComponentsDeserializationCommandExecutionVulnerability.medusa, Url, Values, proxies=proxies, **kwargs)
 
-    ThreadPool.Append(WeblogicDeserializationCommandExecutionVulnerability.medusa, Url, Values,
-                      proxies=proxies, **kwargs)
-
-    ThreadPool.Append(WeblogicDeserializationCommandExecutionVulnerability2.medusa, Url, Values,
+    Pool.Append(WeblogicDeserializationCommandExecutionVulnerability.medusa, Url, Values,
                       proxies=proxies, **kwargs)
 
-    ThreadPool.Append(WeblogicDeserializationCommandExecutionVulnerability3.medusa, Url, Values,
+    Pool.Append(WeblogicDeserializationCommandExecutionVulnerability2.medusa, Url, Values,
                       proxies=proxies, **kwargs)
 
-    ThreadPool.Append(WeblogicT3DeserializationCommandExecutionVulnerability.medusa, Url, Values,
+    Pool.Append(WeblogicDeserializationCommandExecutionVulnerability3.medusa, Url, Values,
                       proxies=proxies, **kwargs)
-    ThreadPool.Append(WebLogicRemoteCommandExecutionVulnerability.medusa, Url, Values,
+
+    Pool.Append(WeblogicT3DeserializationCommandExecutionVulnerability.medusa, Url, Values,
                       proxies=proxies, **kwargs)
-    ThreadPool.Append(WebLogicDeserializationRemoteCommandExecutionVulnerability.medusa, Url, Values,
+    Pool.Append(WebLogicRemoteCommandExecutionVulnerability.medusa, Url, Values,
                       proxies=proxies, **kwargs)
-    ThreadPool.Append(WeblogicDeserializationCommandExecutionVulnerability4.medusa, Url, Values,
+    Pool.Append(WebLogicDeserializationRemoteCommandExecutionVulnerability.medusa, Url, Values,
                       proxies=proxies, **kwargs)
-    ThreadPool.Append(WebLogicRemoteCommandExecution.medusa, Url, Values,
+    Pool.Append(WeblogicDeserializationCommandExecutionVulnerability4.medusa, Url, Values,
+                      proxies=proxies, **kwargs)
+    Pool.Append(WebLogicRemoteCommandExecution.medusa, Url, Values,
                       proxies=proxies, **kwargs)
     Prompt("Weblogic")

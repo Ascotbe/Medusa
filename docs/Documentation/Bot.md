@@ -164,23 +164,3 @@ docker stop coolq
 **注意:**只有自己给自己邮箱发送邮件时才会带上图片，否则都只是文本形式
 
 ![6](https://github.com/Ascotbe/Random-img/blob/master/Medusa/bot/6.png?raw=true)
-
-> 漏洞扫描
-
-使用该功能只需在群中艾特机器人发送扫描+域名即可
-
-该功能不支持`ip`的形式，不要问为什么
-
-**注意:**在域名前面需要添加上一个空格符
-
-![7](https://github.com/Ascotbe/Random-img/blob/master/Medusa/bot/7.png?raw=true)
-
-> 漏洞查询
-
-使用该功能只需在群中艾特机器人发送查询+`Token`+`Key`即可
-
-每个扫描的数据只能扫描的用户查看，其他用户无法查询
-
-**注意:**在域名前面需要添加上一个空格符
-
-![8](https://github.com/Ascotbe/Random-img/blob/master/Medusa/bot/8.png?raw=true)

@@ -92,12 +92,12 @@ MedusaModuleList={
 def NmapScan(url):#Nmap扫描这样就可以开多线程了
     ClassCongregation.NmapScan(url).ScanPort()#调用Nmap扫描类
 
-def InitialScan(ThreadPool,InputFileName,Url,Module,AgentHeader,Proxies,**kwargs):
+def InitialScan(Pool,InputFileName,Url,Module,AgentHeader,Proxies,**kwargs):
     try:
         if InputFileName==None:
             try:
                 print("\033[32m[ + ] Scanning target domain:\033[0m" + "\033[33m {}\033[0m".format(Url))
-                San(ThreadPool,Url,AgentHeader,Module,Proxies,**kwargs)
+                San(Pool,Url,AgentHeader,Module,Proxies,**kwargs)
                 ClassCongregation.NumberOfLoopholes()  # 输出扫描结果个数
                         #ThreadPool.NmapAppend(NmapScan,Urls)#把Nmap放到多线程中
                         #print("\033[32m[ + ] NmapScan component payload successfully loaded\033[0m")
@@ -110,7 +110,7 @@ def InitialScan(ThreadPool,InputFileName,Url,Module,AgentHeader,Proxies,**kwargs
                     for UrlLine in f:#设置头文件使用的字符类型和开头的名字
                         try:
                             print("\033[32m[ + ] In batch scan, the current target is:\033[0m"+"\033[33m {}\033[0m".format(UrlLine.replace('\n', '')))
-                            San(ThreadPool,UrlLine.strip("\r\n"),AgentHeader,Module,Proxies,**kwargs)
+                            San(Pool,UrlLine.strip("\r\n"),AgentHeader,Module,Proxies,**kwargs)
                             ClassCongregation.NumberOfLoopholes()  # 输出扫描结果个数
                             #ThreadPool.NmapAppend(NmapScan,Urls)#把Nmap放到多线程中
                             #print("\033[32m[ + ] NmapScan component payload successfully loaded\033[0m")
@@ -121,19 +121,19 @@ def InitialScan(ThreadPool,InputFileName,Url,Module,AgentHeader,Proxies,**kwargs
     except:
         print("\033[31m[ ! ] Please enter the correct file path!\033[0m")
 
-def San(ThreadPool,Url,AgentHeader,Module,Proxies,**kwargs):
-    #POC模块存进多线程池，这样如果批量扫描会变快很多
+def San(Pool,Url,AgentHeader,Module,Proxies,**kwargs):
+    #POC模块存进多进程池，这样如果批量扫描会变快很多
     if Module==None:
         print("\033[32m[ + ] Scanning across modules:\033[0m" + "\033[35m AllMod             \033[0m")
         for MedusaModule in MedusaModuleList:
-            MedusaModuleList[MedusaModule](ThreadPool, Url, AgentHeader, Proxies,**kwargs)  # 调用列表里面的值
+            MedusaModuleList[MedusaModule](Pool, Url, AgentHeader, Proxies,**kwargs)  # 调用列表里面的值
     else:
         try:
-            MedusaModuleList[Module](ThreadPool, Url, AgentHeader,Proxies,**kwargs)  # 调用列表里面的值
+            MedusaModuleList[Module](Pool, Url, AgentHeader,Proxies,**kwargs)  # 调用列表里面的值
         except:  # 如果传入非法字符串会调用出错
             print("\033[31m[ ! ] Please enter the correct scan module name\033[0m")
             os._exit(0)  # 直接退出整个函数
-    ThreadPool.Start(ThreadNumber)#启动多线程
+    Pool.Start(ThreadNumber)#启动多进程
 
 
 if __name__ == '__main__':
@@ -172,15 +172,15 @@ if __name__ == '__main__':
     elif Exploit!=None or Deserialization!=None:
         main(Exploit=Exploit,Deserialization=Deserialization,Url=Url,AgentHeader=AgentHeader,Proxies=Proxies,Sid=Sid,Uid=Uid) #启动子进程永真方式调用exp
 
-    ThreadPool=ClassCongregation.ProcessPool()#定义一个进程池
+    Pool=ClassCongregation.ProcessPool()#定义一个进程池
     #ThreadPool = ClassCongregation.ThreadPool()#定义一个线程池
 
 
 
     if Subdomain:#如果传入-s启动子域名探测
-        ThreadPool.Append(SubdomainSearch, Url, AgentHeader, proxies=Proxies,Sid=Sid,Uid=Uid)
+        Pool.Append(SubdomainSearch, Url, AgentHeader, proxies=Proxies,Sid=Sid,Uid=Uid)
 
-    InitialScan(ThreadPool,InputFileName, Url,Module,AgentHeader,Proxies,Sid=Sid,Uid=Uid)#最后启动主扫描函数，这样如果多个IP的话优化速度，里面会做url或者url文件的判断
+    InitialScan(Pool,InputFileName, Url,Module,AgentHeader,Proxies,Sid=Sid,Uid=Uid)#最后启动主扫描函数，这样如果多个IP的话优化速度，里面会做url或者url文件的判断
     print("\033[31m[ ! ] Scan is complete, please see the ScanResult file\033[0m")
 
 

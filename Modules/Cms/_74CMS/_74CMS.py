@@ -10,14 +10,14 @@ from Modules.Cms._74CMS import _74CMSSQLInjectionVulnerabilityExists9
 from Modules.Cms._74CMS import _74CMSSQLInjectionVulnerabilityExists12
 from Modules.Cms._74CMS import _74CMSSQLInjectionVulnerabilityExists14
 from ClassCongregation import Prompt
-def Main(ThreadPool,Url,Values,proxies,**kwargs):
-    ThreadPool.Append(_74CMSSQLInjectionVulnerabilityExists.medusa, Url,Values,proxies=proxies,**kwargs)
-    ThreadPool.Append(_74CMSSQLInjectionVulnerabilityExists4.medusa, Url,Values,proxies=proxies,**kwargs)
-    ThreadPool.Append(_74CMSSQLInjectionVulnerabilityExists5.medusa, Url,Values,proxies=proxies,**kwargs)
-    ThreadPool.Append(_74CMSSQLInjectionVulnerabilityExists6.medusa, Url,Values,proxies=proxies,**kwargs)
-    ThreadPool.Append(_74CMSSQLInjectionVulnerabilityExists7.medusa, Url,Values,proxies=proxies,**kwargs)
-    ThreadPool.Append(_74CMSSQLInjectionVulnerabilityExists8.medusa, Url,Values,proxies=proxies,**kwargs)
-    ThreadPool.Append(_74CMSSQLInjectionVulnerabilityExists9.medusa, Url,Values,proxies=proxies,**kwargs)
-    ThreadPool.Append(_74CMSSQLInjectionVulnerabilityExists12.medusa, Url,Values,proxies=proxies,**kwargs)
-    ThreadPool.Append(_74CMSSQLInjectionVulnerabilityExists14.medusa, Url,Values,proxies=proxies,**kwargs)
+def Main(Pool,Url,Values,proxies,**kwargs):
+    Pool.Append(_74CMSSQLInjectionVulnerabilityExists.medusa, Url,Values,proxies=proxies,**kwargs)
+    Pool.Append(_74CMSSQLInjectionVulnerabilityExists4.medusa, Url,Values,proxies=proxies,**kwargs)
+    Pool.Append(_74CMSSQLInjectionVulnerabilityExists5.medusa, Url,Values,proxies=proxies,**kwargs)
+    Pool.Append(_74CMSSQLInjectionVulnerabilityExists6.medusa, Url,Values,proxies=proxies,**kwargs)
+    Pool.Append(_74CMSSQLInjectionVulnerabilityExists7.medusa, Url,Values,proxies=proxies,**kwargs)
+    Pool.Append(_74CMSSQLInjectionVulnerabilityExists8.medusa, Url,Values,proxies=proxies,**kwargs)
+    Pool.Append(_74CMSSQLInjectionVulnerabilityExists9.medusa, Url,Values,proxies=proxies,**kwargs)
+    Pool.Append(_74CMSSQLInjectionVulnerabilityExists12.medusa, Url,Values,proxies=proxies,**kwargs)
+    Pool.Append(_74CMSSQLInjectionVulnerabilityExists14.medusa, Url,Values,proxies=proxies,**kwargs)
     Prompt("74CMS")

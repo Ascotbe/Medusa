@@ -11,16 +11,16 @@ from Modules.OA.Seeyou import SeeyouSystemFileArbitraryReadVulnerability
 from Modules.OA.Seeyou import SeeyouSystemFrameworkVulnerability
 from Modules.OA.Seeyou import SeeyouSystemSQLInjectionVulnerability
 from ClassCongregation import Prompt
-def Main(ThreadPool,Url,Values,proxies,**kwargs):
-    ThreadPool.Append(SeeyouArbitraryFileReadVulnerability.medusa, Url, Values, proxies = proxies, ** kwargs)
-    ThreadPool.Append(SeeyouMultipleSQLInjectionVulnerabilities.medusa, Url, Values, proxies = proxies, ** kwargs)
-    ThreadPool.Append(SeeyouOALogInformationDisclosureVulnerability.medusa,Url, Values, proxies = proxies, ** kwargs)
-    ThreadPool.Append(SeeyouSeeyouSystemFileArbitraryReadVulnerability2.medusa,Url, Values, proxies = proxies, ** kwargs)
-    ThreadPool.Append(SeeyouSQLInjectionVulnerability2.medusa,Url, Values, proxies = proxies, ** kwargs)
-    ThreadPool.Append(SeeyouSQLInjectionVulnerability3.medusa,Url, Values, proxies = proxies, ** kwargs)
-    ThreadPool.Append(SeeyouStatusDefaultPwdVulnerability.medusa, Url, Values, proxies = proxies, ** kwargs)
-    ThreadPool.Append(SeeyouSystemFileArbitraryReadVulnerability.medusa,Url, Values, proxies = proxies, ** kwargs)
-    ThreadPool.Append(SeeyouSystemFrameworkVulnerability.medusa, Url, Values, proxies = proxies, ** kwargs)
-    ThreadPool.Append(SeeyouSystemSQLInjectionVulnerability.medusa,Url, Values, proxies = proxies, ** kwargs)
+def Main(Pool,Url,Values,proxies,**kwargs):
+    Pool.Append(SeeyouArbitraryFileReadVulnerability.medusa, Url, Values, proxies = proxies, ** kwargs)
+    Pool.Append(SeeyouMultipleSQLInjectionVulnerabilities.medusa, Url, Values, proxies = proxies, ** kwargs)
+    Pool.Append(SeeyouOALogInformationDisclosureVulnerability.medusa,Url, Values, proxies = proxies, ** kwargs)
+    Pool.Append(SeeyouSeeyouSystemFileArbitraryReadVulnerability2.medusa,Url, Values, proxies = proxies, ** kwargs)
+    Pool.Append(SeeyouSQLInjectionVulnerability2.medusa,Url, Values, proxies = proxies, ** kwargs)
+    Pool.Append(SeeyouSQLInjectionVulnerability3.medusa,Url, Values, proxies = proxies, ** kwargs)
+    Pool.Append(SeeyouStatusDefaultPwdVulnerability.medusa, Url, Values, proxies = proxies, ** kwargs)
+    Pool.Append(SeeyouSystemFileArbitraryReadVulnerability.medusa,Url, Values, proxies = proxies, ** kwargs)
+    Pool.Append(SeeyouSystemFrameworkVulnerability.medusa, Url, Values, proxies = proxies, ** kwargs)
+    Pool.Append(SeeyouSystemSQLInjectionVulnerability.medusa,Url, Values, proxies = proxies, ** kwargs)
     Prompt("Seeyou")
 

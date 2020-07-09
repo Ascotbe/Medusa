@@ -3,6 +3,6 @@
 from Modules.Cms.EmpireCMS import EmpireCMSSQLInjectionVulnerability
 from ClassCongregation import Prompt
 
-def Main(ThreadPool,Url,Values,proxies,**kwargs):
-    ThreadPool.Append(EmpireCMSSQLInjectionVulnerability.medusa, Url,Values,proxies=proxies,**kwargs)
+def Main(Pool,Url,Values,proxies,**kwargs):
+    Pool.Append(EmpireCMSSQLInjectionVulnerability.medusa, Url,Values,proxies=proxies,**kwargs)
     Prompt("EmpireCMS")

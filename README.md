@@ -74,7 +74,7 @@ git config --global https.proxy https://127.0.0.1:1080
 | -f   | 1        | The filename includes urls that want to scan.                              | `-u` or `-f` must exists one and only one                         |
 | -p | 1 | You need to fill in the IP of your proxy, if you have a port you need to bring the port | to use BURP as a proxy then you should pass in 127.0.0.1:8080 |
 | -m   | 1        | Scan for single module,such as: Struts2 or Apache, etc.                  | The specific content can be entered by the corresponding name in the project Modules folder. |
-| -t   | 1        | Threads usage setting, default(-t 15)                                    |                                                           None   |
+| -t   | 1        | Processes usage setting, default(-t 15)                                    |                                                           None   |
 |-s    |1       | Enable subdomain detection| |
 |-l    |0       | List interactive command execution plugins| This function has not been written yet|
 |-e    |1       | You need to use the vulnerability, please use -l to query| |

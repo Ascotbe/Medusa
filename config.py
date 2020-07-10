@@ -11,6 +11,9 @@ ceye_dnslog_key="XXXXXXXXXXXXXXXXXXXXXXXX"
 ###################  Debug模式切换位置  ####################
 debug_mode=False
 
+###################  线程数配置位置  ######################
+thread_number=15 #默认线程数
+
 ###################  机器人信息配置位置 ####################
 whitelist_group_status=False#白名单是否开启
 whitelist_group_list=[]#白名单群ID列表
@@ -24,8 +27,4 @@ bot_mail_pass=""#你的口令
 bot_mail_user=""#你的邮箱
 FaceCascadePath="haarcascade_frontalface_default.xml" #人脸识别训练数据
 
-###################  MsfApi配置位置  ######################
-MsfHost="127.0.0.1"
-MsfPort="55553"
-MsfUsername="msf"
-MsfPasswd="msf"
+###################  敏感文件扫描字典配置位置  ######################

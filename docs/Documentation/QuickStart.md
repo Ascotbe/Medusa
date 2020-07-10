@@ -68,6 +68,14 @@ debug_mode=True
 
 ![debug](https://github.com/Ascotbe/Random-img/blob/master/Medusa/0.76Debug.gif?raw=true)
 
+#### 0x03 多线程数
+
+由于重构把之前的多线程替换为多进程，单个插件中的for循环替换成多线程，所以默认线程数为**15**，如果需要修改，把配置文件中的`thread_number`值修改为你需要的线程数
+
+```
+thread_number=15 #默认线程数
+```
+
 ## 快速使用
 
 该工具还在测试阶段，如有问题请提交`issues`，切记本扫描器只用于授权测试

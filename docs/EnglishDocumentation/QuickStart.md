@@ -69,6 +69,16 @@ The output content of this mode is not the progress bar and module loading conte
 
 ![debug](https://github.com/Ascotbe/Random-img/blob/master/Medusa/0.76Debug.gif?raw=true)
 
+#### 0x03 Multithreading
+
+Because the refactoring replaces the previous multi-threads with multi-processes, the for loop in a single plugin is replaced with multi-threads, so the default number of threads is **15**. If you need to modify, change the value of `thread_number` in the configuration file to The number of threads you need
+
+```
+thread_number=15 #Default number of threads
+```
+
+
+
 ## Quick start
 
 The tool is still in the testing stage. If you have any questions, please submit `issues`. Remember, this scanner is only use for authorized testing

@@ -98,11 +98,10 @@ def InitialScan(Pool,InputFileName,Url,Module,AgentHeader,Proxies,**kwargs):
             try:
                 print("\033[32m[ + ] Scanning target domain:\033[0m" + "\033[33m {}\033[0m".format(Url))
                 San(Pool,Url,AgentHeader,Module,Proxies,**kwargs)
-                ClassCongregation.NumberOfLoopholes()  # 输出扫描结果个数
+                ClassCongregation.NumberOfLoopholes().Result(ClassCongregation.WriteFile().GetFileName(Url))   # 输出扫描结果个数
                         #ThreadPool.NmapAppend(NmapScan,Urls)#把Nmap放到多线程中
                         #print("\033[32m[ + ] NmapScan component payload successfully loaded\033[0m")
-
-            except KeyboardInterrupt as e:
+            except Exception as e:
                 exit(0)
         elif InputFileName!=None:
             try:
@@ -111,7 +110,8 @@ def InitialScan(Pool,InputFileName,Url,Module,AgentHeader,Proxies,**kwargs):
                         try:
                             print("\033[32m[ + ] In batch scan, the current target is:\033[0m"+"\033[33m {}\033[0m".format(UrlLine.replace('\n', '')))
                             San(Pool,UrlLine.strip("\r\n"),AgentHeader,Module,Proxies,**kwargs)
-                            ClassCongregation.NumberOfLoopholes()  # 输出扫描结果个数
+                            ClassCongregation.NumberOfLoopholes().Result(
+                                ClassCongregation.WriteFile().GetFileName(Url))  # 输出扫描结果个数
                             #ThreadPool.NmapAppend(NmapScan,Urls)#把Nmap放到多线程中
                             #print("\033[32m[ + ] NmapScan component payload successfully loaded\033[0m")
                         except KeyboardInterrupt as e:
@@ -175,13 +175,12 @@ if __name__ == '__main__':
     Pool=ClassCongregation.ProcessPool()#定义一个进程池
     #ThreadPool = ClassCongregation.ThreadPool()#定义一个线程池
 
-
-
     if Subdomain:#如果传入-s启动子域名探测
         Pool.Append(SubdomainSearch, Url, AgentHeader, proxies=Proxies,Sid=Sid,Uid=Uid)
 
     InitialScan(Pool,InputFileName, Url,Module,AgentHeader,Proxies,Sid=Sid,Uid=Uid)#最后启动主扫描函数，这样如果多个IP的话优化速度，里面会做url或者url文件的判断
     print("\033[31m[ ! ] Scan is complete, please see the ScanResult file\033[0m")
+
 
 
 # from IPy import IP

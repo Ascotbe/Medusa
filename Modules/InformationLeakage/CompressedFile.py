@@ -90,7 +90,8 @@ def task(**kwargs):
     try:
         resp = requests.get(payload_url, headers=headers, proxies=proxies, timeout=6, verify=False)
         con = resp.text
-        bin=resp.content
+        bin=resp.content[:30]
+        bt=resp.content
         code = resp.status_code
         if code == 200 and (bin.find(b"PK\x03\x04") != -1 or bin.find(b"7z\xbc\xaf\'\x1c") != -1 or bin.find(
                 b"BZh") != -1 or bin.find(b"\x1f\x8b") != -1 or bin.find(b"\xfd7zXZ\x00\x00") != -1 or bin.find(
@@ -99,7 +100,7 @@ def task(**kwargs):
                 b"\x1d\x90") != -1 or bin.find(b"\x1d\xa0") != -1 or bin.find(b"SQLite format 3") != -1):
             Medusa = "{}存在敏感压缩文件下载漏洞\r\n验证数据:\r\n漏洞位置:{}\r\n漏洞详情:{}\r\n文件名:{}\r\n文件二进制数据{}\r\n".format(url, payload_url,
                                                                                                        con, file_name,
-                                                                                                       bin)
+                                                                                                       bt)
             _t = VulnerabilityInfo(Medusa)
             VulnerabilityDetails(_t.info, url, Uid=kwargs.get("Uid"),Sid=kwargs.get("Sid")).Write()   # 传入url和扫描到的数据
             WriteFile().result(str(url), str(Medusa))  # 写入文件，url为目标文件名统一传入，Medusa为结果

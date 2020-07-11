@@ -98,4 +98,3 @@ def exploit(Url: str, RandomAgent: str, proxies: str = None, **kwargs) -> None:
         ErrorHandling().Outlier(e, _)
         ErrorLog().Write("Plugin Name:" + _ + " || Target Url:" + url +" || Exploit", e)  # 调用写入类传入URL和错误插件名
 
-medusa("http://192.168.0.142","22")

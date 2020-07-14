@@ -56,18 +56,22 @@ class NumberOfLoopholes:
             self.FilePath = GetRootFileLocation().Result() + "\\Temp\\" + FileName + ".txt"  # 不需要输入后缀，只要名字就好
         elif sys.platform == "linux" or sys.platform == "darwin":
             self.FilePath = GetRootFileLocation().Result() + "/Temp/" + FileName + ".txt"  # 不需要输入后缀，只要名字就好
+        try:
+            with open(self.FilePath, encoding='utf-8') as f:
+                for i in f:  # 设置头文件使用的字符类型和开头的名字
+                    LoopholesList.append(i.strip("\r\n"))#传到列表里面
+            print(
+                "\033[32m[ ! ] The number of vulnerabilities scanned was:\033[0m" + "\033[36m {}             \033[0m".format(
+                    len(LoopholesList)))
+            for i in LoopholesList:
+                time.sleep(0.1)  # 暂停不然瞬间刷屏
+                print("\033[35m[ ! ] {}\033[0m".format(i))
+            LoopholesList.clear()  # 清空容器这样就不会出问题了
+        except Exception as e:
+            ErrorLog().Write("NumberOfLoopholes(class)_Result(def)", e)
+            print("\033[32m[ ! ] The number of vulnerabilities scanned was:\033[0m" + "\033[36m {}             \033[0m".format(
+                    len(LoopholesList)))
 
-        with open(self.FilePath, encoding='utf-8') as f:
-            for i in f:  # 设置头文件使用的字符类型和开头的名字
-                LoopholesList.append(i.strip("\r\n"))#传到列表里面
-
-        print(
-            "\033[32m[ ! ] The number of vulnerabilities scanned was:\033[0m" + "\033[36m {}             \033[0m".format(
-                len(LoopholesList)))
-        for i in LoopholesList:
-            time.sleep(0.1)  # 暂停不然瞬间刷屏
-            print("\033[35m[ ! ] {}\033[0m".format(i))
-        LoopholesList.clear()  # 清空容器这样就不会出问题了
 
 
 class WriteFile:  # 写入文件类
@@ -81,9 +85,14 @@ class WriteFile:  # 写入文件类
             f.write(Medusa + "\n")
         NumberOfLoopholes().WriteVulnerabilityName(self.FileName,Medusa)#把扫描到的漏洞全发送到这个函数中，然后把文件名也发送过去
     def GetFileName(self,Url):
-        scheme,url, port = UrlProcessing().result(Url)
-        self.result(url,"存在")
-        return self.FileName
+        try:#会无法获取到一些数据导致报错，如果报错就返回空支付串
+            scheme,url, port = UrlProcessing().result(Url)
+            if self.FileName ==None:
+                return ""
+            self.result(url,"存在")
+            return self.FileName
+        except:
+            return ""
 
 class AgentHeader:  # 使用随机头类
     def result(self, Values: str) -> str:  # 使用随机头传入传入参数
@@ -884,7 +893,7 @@ class ExploitOutput:#命令执行内容处理
     def OperatingSystem(self):
         OperatingSystem=input("\033[33m[ + ] Please enter the target operating system [windows / linux]: \033[0m").lower()#转换成小写
 
-        if OperatingSystem != None and OperatingSystem==("windows" or"linux"):
+        if OperatingSystem != None and (OperatingSystem=="windows" or OperatingSystem=="linux"):
             return str(OperatingSystem)
         else:
             print("\033[31m[ ! ] Please enter windows or linux! \033[0m")

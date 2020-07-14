@@ -102,7 +102,7 @@ def InitialScan(Pool,InputFileName,Url,Module,AgentHeader,Proxies,**kwargs):
                         #ThreadPool.NmapAppend(NmapScan,Urls)#把Nmap放到多线程中
                         #print("\033[32m[ + ] NmapScan component payload successfully loaded\033[0m")
             except Exception as e:
-                exit(0)
+                ClassCongregation.ErrorLog().Write("InitialScan(def)SingleTarget", e)
         elif InputFileName!=None:
             try:
                 with open(InputFileName, encoding='utf-8') as f:
@@ -110,16 +110,18 @@ def InitialScan(Pool,InputFileName,Url,Module,AgentHeader,Proxies,**kwargs):
                         try:
                             print("\033[32m[ + ] In batch scan, the current target is:\033[0m"+"\033[33m {}\033[0m".format(UrlLine.replace('\n', '')))
                             San(Pool,UrlLine.strip("\r\n"),AgentHeader,Module,Proxies,**kwargs)
-                            ClassCongregation.NumberOfLoopholes().Result(
-                                ClassCongregation.WriteFile().GetFileName(Url))  # 输出扫描结果个数
+                            ClassCongregation.NumberOfLoopholes().Result(ClassCongregation.WriteFile().GetFileName(Url))  # 输出扫描结果个数
                             #ThreadPool.NmapAppend(NmapScan,Urls)#把Nmap放到多线程中
                             #print("\033[32m[ + ] NmapScan component payload successfully loaded\033[0m")
-                        except KeyboardInterrupt as e:
-                            exit(0)
-            except:
+                        except Exception as e:
+                            ClassCongregation.ErrorLog().Write("InitialScan(def)CyclicError", e)
+            except Exception as e:
+                ClassCongregation.ErrorLog().Write("InitialScan(def)ErrorReadingFile", e)
                 print("\033[31m[ ! ] Please check the file path or the file content is correct\033[0m")
-    except:
+    except Exception as e:
+        ClassCongregation.ErrorLog().Write("InitialScan(def)functionCallError", e)
         print("\033[31m[ ! ] Please enter the correct file path!\033[0m")
+
 
 def San(Pool,Url,AgentHeader,Module,Proxies,**kwargs):
     #POC模块存进多进程池，这样如果批量扫描会变快很多

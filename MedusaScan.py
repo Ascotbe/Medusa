@@ -29,6 +29,7 @@ from Modules.Apache.ActiveMQ import ActiveMQ
 from Modules.Apache.Solr import Solr
 from Modules.BIG_IP import BIG_IP
 from Modules.Apache.Tomcat import Tomcat
+import tldextract
 from Modules.Subdomain.SubdomainSearch import SubdomainSearch
 from Exploit.Exploit import main#命令执行函数
 import ClassCongregation
@@ -151,6 +152,10 @@ if __name__ == '__main__':
     ExploitList = args.List  # 列出所有可以交互使用的poc
     Exploit = args.Exploit  # 利用那个可以交互的poc
     Deserialization=args.Deserialization#获取反序列化插件
+    GOV=tldextract.extract(Url)
+    if GOV.suffix.lower() == "gov.cn":#禁止扫描
+        print("\033[31m[ ! ] 扫描你🐎的国家网站呢？\033[0m")
+        os._exit(0)  # 直接退出整个函数
     if ThreadNumber==None:#如果线程数为空，那么默认为15
         ThreadNumber=15
 

@@ -21,8 +21,6 @@
 >
 > `bash` Ver. Online
 >
-> `Bot` Ver. Online
->
 > `Web` Ver. Under development
 
 #### **[中文文档](https://github.com/Ascotbe/Medusa/blob/master/README.CN.md) | EnglishDocumentation**
@@ -79,12 +77,6 @@ git config --global https.proxy https://127.0.0.1:1080
 |-l    |0       | List interactive command execution plugins| This function has not been written yet|
 |-e    |1       | You need to use the vulnerability, please use -l to query| |
 
-### :green_book:`Bot` Ver. document
-
-```html
-# How to use BOT, please look at the connection
-http://medusa.ascotbe.com/EnglishDocumentation/#/Bot
-```
 
 ### :four_leaf_clover:Updating logs
 

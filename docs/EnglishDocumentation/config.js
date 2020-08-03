@@ -9,10 +9,8 @@ let config = {
 		{
             title: 'QuickStart', path: '/QuickStart'
         },
-		{
-            title: 'Bot', path: '/Bot'
-        },
-		        {
+
+        {
             title: 'FunctionDetails', path: '/FunctionDetails'
         },
 		{

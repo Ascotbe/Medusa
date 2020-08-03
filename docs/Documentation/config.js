@@ -10,9 +10,6 @@ let config = {
             title: '快速入门', path: '/QuickStart'
         },
 		{
-            title: '机器人模块', path: '/Bot'
-        },
-		{
             title: '插件编写', type: 'dropdown', items: [
 				{   title: '3.7(当前版本)', path: '/PocVersion/3.7/PocWriting'
                 },

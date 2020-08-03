@@ -19,8 +19,6 @@
 >
 > `bash` Ver. Online
 >
-> `Bot` Ver. Online
->
 > `Web` Ver. Under development
 ## Demo
 

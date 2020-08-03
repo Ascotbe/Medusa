@@ -98,6 +98,10 @@ def InitialScan(Pool,InputFileName,Url,Module,AgentHeader,Proxies,**kwargs):
         if InputFileName==None:
             try:
                 print("\033[32m[ + ] Scanning target domain:\033[0m" + "\033[33m {}\033[0m".format(Url))
+                GOV = tldextract.extract(Url)
+                if GOV.suffix.lower() == "gov.cn":  # 禁止扫描
+                    print("\033[31m[ ! ] 扫描你🐎的国家网站呢？\033[0m")
+                    os._exit(0)  # 直接退出整个函数
                 San(Pool,Url,AgentHeader,Module,Proxies,**kwargs)
                 ClassCongregation.NumberOfLoopholes().Result(ClassCongregation.WriteFile().GetFileName(Url))   # 输出扫描结果个数
                         #ThreadPool.NmapAppend(NmapScan,Urls)#把Nmap放到多线程中
@@ -109,8 +113,13 @@ def InitialScan(Pool,InputFileName,Url,Module,AgentHeader,Proxies,**kwargs):
                 with open(InputFileName, encoding='utf-8') as f:
                     for UrlLine in f:#设置头文件使用的字符类型和开头的名字
                         try:
+                            Url=UrlLine.strip("\r\n")
                             print("\033[32m[ + ] In batch scan, the current target is:\033[0m"+"\033[33m {}\033[0m".format(UrlLine.replace('\n', '')))
-                            San(Pool,UrlLine.strip("\r\n"),AgentHeader,Module,Proxies,**kwargs)
+                            GOV = tldextract.extract(Url)
+                            if GOV.suffix.lower() == "gov.cn":  # 禁止扫描
+                                print("\033[31m[ ! ] 扫描你🐎的国家网站呢？\033[0m")
+                                os._exit(0)  # 直接退出整个函数
+                            San(Pool,Url,AgentHeader,Module,Proxies,**kwargs)
                             ClassCongregation.NumberOfLoopholes().Result(ClassCongregation.WriteFile().GetFileName(Url))  # 输出扫描结果个数
                             #ThreadPool.NmapAppend(NmapScan,Urls)#把Nmap放到多线程中
                             #print("\033[32m[ + ] NmapScan component payload successfully loaded\033[0m")
@@ -152,10 +161,7 @@ if __name__ == '__main__':
     ExploitList = args.List  # 列出所有可以交互使用的poc
     Exploit = args.Exploit  # 利用那个可以交互的poc
     Deserialization=args.Deserialization#获取反序列化插件
-    GOV=tldextract.extract(Url)
-    if GOV.suffix.lower() == "gov.cn":#禁止扫描
-        print("\033[31m[ ! ] 扫描你🐎的国家网站呢？\033[0m")
-        os._exit(0)  # 直接退出整个函数
+
     if ThreadNumber==None:#如果线程数为空，那么默认为15
         ThreadNumber=15
 

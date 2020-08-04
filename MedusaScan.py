@@ -40,11 +40,11 @@ import os
 parser = argparse.ArgumentParser()#description="xxxxxx")
 #UrlGroup = parser.add_mutually_exclusive_group()#定义一个互斥参数组
 #UrlGroup .add_argument("-q", "--quiet", action="store_true")#增加到互斥参数组里面去
-parser.add_argument('-u','--url',type=str,help="Target url")
+parser.add_argument('-u','--Url',type=str,help="Target url")
 parser.add_argument('-m','--Module',type=str,help="Scan an application individually")
 parser.add_argument('-p','--ProxiesIP',type=str,help="Need to enter a proxy IP")
-parser.add_argument('-a','--agent',type=str,help="Specify a header file or use a random header")
-parser.add_argument('-t','--ThreadNumber',type=int,help="Set the number of threads, the default number of threads 15.")
+parser.add_argument('-a','--Agent',type=str,help="Specify a header file or use a random header")
+parser.add_argument('-t','--ProcessNumber',type=int,help="Set the number of process, the default number of process 5.")
 parser.add_argument('-f','--InputFileName',type=str,help="Specify bulk scan file batch scan")
 parser.add_argument('-s','--Subdomain',help="Collect subdomains",action="store_true")
 parser.add_argument('-l','--List',help="List interactive command execution plugins",action="store_true")
@@ -103,9 +103,6 @@ def InitialScan(Pool,InputFileName,Url,Module,AgentHeader,Proxies,**kwargs):
                     print("\033[31m[ ! ] 扫描你🐎的国家网站呢？\033[0m")
                     os._exit(0)  # 直接退出整个函数
                 San(Pool,Url,AgentHeader,Module,Proxies,**kwargs)
-                ClassCongregation.NumberOfLoopholes().Result(ClassCongregation.WriteFile().GetFileName(Url))   # 输出扫描结果个数
-                        #ThreadPool.NmapAppend(NmapScan,Urls)#把Nmap放到多线程中
-                        #print("\033[32m[ + ] NmapScan component payload successfully loaded\033[0m")
             except Exception as e:
                 ClassCongregation.ErrorLog().Write("InitialScan(def)SingleTarget", e)
         elif InputFileName!=None:
@@ -120,9 +117,6 @@ def InitialScan(Pool,InputFileName,Url,Module,AgentHeader,Proxies,**kwargs):
                                 print("\033[31m[ ! ] 扫描你🐎的国家网站呢？\033[0m")
                                 os._exit(0)  # 直接退出整个函数
                             San(Pool,Url,AgentHeader,Module,Proxies,**kwargs)
-                            ClassCongregation.NumberOfLoopholes().Result(ClassCongregation.WriteFile().GetFileName(Url))  # 输出扫描结果个数
-                            #ThreadPool.NmapAppend(NmapScan,Urls)#把Nmap放到多线程中
-                            #print("\033[32m[ + ] NmapScan component payload successfully loaded\033[0m")
                         except Exception as e:
                             ClassCongregation.ErrorLog().Write("InitialScan(def)CyclicError", e)
             except Exception as e:
@@ -145,25 +139,25 @@ def San(Pool,Url,AgentHeader,Module,Proxies,**kwargs):
         except:  # 如果传入非法字符串会调用出错
             print("\033[31m[ ! ] Please enter the correct scan module name\033[0m")
             os._exit(0)  # 直接退出整个函数
-    Pool.Start(ThreadNumber)#启动多进程
+    Pool.Start(ProcessNumber)#启动多进程
 
 
 if __name__ == '__main__':
     Banner.RandomBanner()#输出随机横幅
     args = parser.parse_args()
     InputFileName = args.InputFileName#批量扫描文件所在位置
-    Url = args.url
-    AgentHeader=args.agent#判断是否使用随机头，判断写在Class里面
+    Url = args.Url
+    AgentHeader=args.Agent#判断是否使用随机头，判断写在Class里面
     Module=args.Module#单独模块扫描功能
     Subdomain=args.Subdomain#开启子域名枚举
-    ThreadNumber=args.ThreadNumber#要使用的线程数默认15
+    ProcessNumber=args.ProcessNumber#要使用的进程数默认15
     Proxies= args.ProxiesIP#代理的IP
     ExploitList = args.List  # 列出所有可以交互使用的poc
     Exploit = args.Exploit  # 利用那个可以交互的poc
     Deserialization=args.Deserialization#获取反序列化插件
 
-    if ThreadNumber==None:#如果线程数为空，那么默认为15
-        ThreadNumber=15
+    if ProcessNumber==None:#如果线程数为空，那么默认为5
+        ProcessNumber=5
 
     if Url==None and InputFileName==None:#如果找不到URL的话直接退出
         print("\033[31m[ ! ] Incorrect input, please enter -h to view help\033[0m")
@@ -173,7 +167,6 @@ if __name__ == '__main__':
         os._exit(0)#直接退出整个函数
 
     #暂时关闭NMAPScan和数据库爆破功能
-    #Token=str(int(time.time()))+"medusa"#获取赋予的token
     Sid="Soryu Asuka Langley"
     Uid = "Ayanami Rei"
     if ExploitList==True:

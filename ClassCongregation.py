@@ -35,42 +35,6 @@ def IpProcess(Url: str) -> str:
 
 
 
-class NumberOfLoopholes:
-
-    def WriteVulnerabilityName(self,FileName,Medusa):#把漏洞名字写到文件中
-        self.FileName=FileName
-        if sys.platform == "win32" or sys.platform == "cygwin":
-            self.FilePath = GetRootFileLocation().Result()+ "\\Temp\\" + self.FileName + ".txt"  # 不需要输入后缀，只要名字就好
-        elif sys.platform == "linux" or sys.platform == "darwin":
-            self.FilePath = GetRootFileLocation().Result() + "/Temp/" + self.FileName + ".txt"  # 不需要输入后缀，只要名字就好
-        regular_match_results = re.search(r'存在([\w\u4e00-\u9fa5!@#$%^*()&-=+_`~/?.,<>\\|\[\]{}]*)', Medusa).group(
-            0)  # 正则匹配，匹配存在后面的所有字符串，直到换行符结束
-        with open(self.FilePath, 'a+', encoding='utf-8') as f:  # 如果filename不存在会自动创建， 'w'表示写数据，写之前会清空文件中的原有数据！
-            if regular_match_results=="存在":
-                pass
-            else:
-                f.write(regular_match_results + "\n")
-    def Result(self,FileName):  # 漏洞个数输出函数以及名称的函数
-        LoopholesList=[]#创建列表存放漏洞
-        if sys.platform == "win32" or sys.platform == "cygwin":
-            self.FilePath = GetRootFileLocation().Result() + "\\Temp\\" + FileName + ".txt"  # 不需要输入后缀，只要名字就好
-        elif sys.platform == "linux" or sys.platform == "darwin":
-            self.FilePath = GetRootFileLocation().Result() + "/Temp/" + FileName + ".txt"  # 不需要输入后缀，只要名字就好
-        try:
-            with open(self.FilePath, encoding='utf-8') as f:
-                for i in f:  # 设置头文件使用的字符类型和开头的名字
-                    LoopholesList.append(i.strip("\r\n"))#传到列表里面
-            print(
-                "\033[32m[ ! ] The number of vulnerabilities scanned was:\033[0m" + "\033[36m {}             \033[0m".format(
-                    len(LoopholesList)))
-            for i in LoopholesList:
-                time.sleep(0.1)  # 暂停不然瞬间刷屏
-                print("\033[35m[ ! ] {}\033[0m".format(i))
-            LoopholesList.clear()  # 清空容器这样就不会出问题了
-        except Exception as e:
-            ErrorLog().Write("NumberOfLoopholes(class)_Result(def)", e)
-            print("\033[32m[ ! ] The number of vulnerabilities scanned was:\033[0m" + "\033[36m {}             \033[0m".format(
-                    len(LoopholesList)))
 
 
 
@@ -83,16 +47,6 @@ class WriteFile:  # 写入文件类
             self.FilePath = GetRootFileLocation().Result() + "/ScanResult/" + self.FileName + ".txt"  # 不需要输入后缀，只要名字就好
         with open(self.FilePath, 'a+', encoding='utf-8') as f:  # 如果filename不存在会自动创建， 'w'表示写数据，写之前会清空文件中的原有数据！
             f.write(Medusa + "\n")
-        NumberOfLoopholes().WriteVulnerabilityName(self.FileName,Medusa)#把扫描到的漏洞全发送到这个函数中，然后把文件名也发送过去
-    def GetFileName(self,Url):
-        try:#会无法获取到一些数据导致报错，如果报错就返回空支付串
-            scheme,url, port = UrlProcessing().result(Url)
-            if self.FileName ==None:
-                return ""
-            self.result(url,"存在")
-            return self.FileName
-        except:
-            return ""
 
 class AgentHeader:  # 使用随机头类
     def result(self, Values: str) -> str:  # 使用随机头传入传入参数
@@ -577,10 +531,8 @@ class ProcessPool:  # 进程池，解决pythonGIL锁问题，单核跳舞实在�
     def __init__(self):
         self.ProcessList=[]#创建进程列表
         self.CountList = []  # 用来计数判断进程数
-        self.text = 0  # 统计线程数
 
     def Append(self, Plugin, Url, Values,proxies,**kwargs):
-        self.text += 1
         ua = AgentHeader().result(Values)
         Uid=kwargs.get("Uid")
         Sid=kwargs.get("Sid")

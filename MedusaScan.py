@@ -11,6 +11,7 @@ from Modules.Citrix import Citrix
 from Modules.InformationLeakage import InformationLeakage
 from Modules.Rails import Rails
 from Modules.Kibana import Kibana
+from Modules.BaoTa import BaoTa
 from Modules.PHPStudy import PHPStudy
 from Modules.Mongo import Mongo
 from Modules.Dubbo import Dubbo
@@ -86,7 +87,8 @@ MedusaModuleList={
 "Weblogic":Weblogic.Main,
 "Dubbo":Dubbo.Main,
 "BIG-IP":BIG_IP.Main,
-"InformationLeakage":InformationLeakage.Main
+"InformationLeakage":InformationLeakage.Main,
+"BaoTa":BaoTa.Main
 }
 
 

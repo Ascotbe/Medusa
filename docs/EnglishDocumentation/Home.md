@@ -53,11 +53,9 @@ python3 MedusaScan.py -u www.ascotbe.com
 | -m   | 1        | Scan for single module,such as: Struts2 or Apache, etc.                  | The module list refers to the list of folders on this project.                           |
 | -t   | 1        | Processes usage setting, default(-t 5)                                      |                                                           None   |
 |-s    |1       | Enable subdomain detection|None |
-|-l    |0       | List interactive command execution plugins| This function has not been written yet|
-|-e    |1       | You need to use the vulnerability, please use -l to query| |
 
 ## Discussion
 
-- QQ group：690021184（Secret code：6CF2D42B629E5AA4E6C293B290798878）
+- QQ group：690021184
 - [GitHub issue](https://github.com/Ascotbe/Medusa/issues)
 

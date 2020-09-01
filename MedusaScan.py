@@ -178,7 +178,9 @@ if __name__ == '__main__':
         print("\033[31m[ ! ] Please do not use -e and -d parameters at the same time\033[0m")
         os._exit(0)  # 直接退出整个函数
     elif Exploit!=None or Deserialization!=None:
-        main(Exploit=Exploit,Deserialization=Deserialization,Url=Url,AgentHeader=AgentHeader,Proxies=Proxies,Sid=Sid,Uid=Uid) #启动子进程永真方式调用exp
+        print("\033[31m[ ! ] Function closed waiting for reconstruction\033[0m")
+        os._exit(0)  # 直接退出整个函数
+        #main(Exploit=Exploit,Deserialization=Deserialization,Url=Url,AgentHeader=AgentHeader,Proxies=Proxies,Sid=Sid,Uid=Uid) #启动子进程永真方式调用exp
 
     Pool=ClassCongregation.ProcessPool()#定义一个进程池
     #ThreadPool = ClassCongregation.ThreadPool()#定义一个线程池

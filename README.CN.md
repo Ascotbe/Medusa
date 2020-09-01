@@ -78,8 +78,6 @@ git clone https://gitee.com/asc0t6e/Medusa.git
 |-m    |1       |针对单独的模块进行扫描比如Struts2、Apache等|具体内容可以通过项目Modules文件夹中对应名字来输入|
 |-t    |1       |设置进程数 |默认进程数5  |
 |-s    |1       |开启子域名探测| |
-|-l    |0       |列出可以交互的插件| 该功能暂时没写 |
-|-e    |1       |您需要使用那个漏洞，具体请使用-l查询| |
 
 ### :four_leaf_clover:更新日志
 
@@ -98,7 +96,7 @@ https://www.ascotbe.com/Loophole
 - 如果您有发现插件扫描不到对应的漏洞请提交[Bug]类的issue
 - 如果您有任何文档无法解决的问题请提交[help]类的issue
 - 如果您有什么好的意见或者想法请提交[idea]类的issue
-- 吹B群：**690021184**（加群请输入暗号：**6CF2D42B629E5AA4E6C293B290798878**）
+- 吹B群：**690021184**
 
 ### :seedling:友情链接
 

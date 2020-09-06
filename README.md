@@ -49,7 +49,7 @@ http://medusa.ascotbe.com/Documentation/#/PluginDirectory
 git clone https://github.com/Ascotbe/Medusa.git
 cd Medusa
 # Install python packages
-pip3 install -r Medusa.txt
+python3 -m pip3 install -r Medusa.txt
 # Use the scanner
 python3 MedusaScan.py -u www.ascotbe.com
 ```

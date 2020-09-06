@@ -11,7 +11,9 @@ let config = {
         },
 		{
             title: '插件编写', type: 'dropdown', items: [
-				{   title: '3.7(当前版本)', path: '/PocVersion/3.7/PocWriting'
+                {   title: '3.8(当前版本)', path: '/PocVersion/3.7/PocWriting'
+            },
+				{   title: '3.7', path: '/PocVersion/3.7/PocWriting'
                 },
                 {   title: '3.6', path: '/PocVersion/3.6/PocWriting'
             },

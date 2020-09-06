@@ -26,7 +26,7 @@ def UrlProcessing(url):
     return res.scheme, res.hostname, res.port
 
 payload = "/l.php"
-def medusa(Url,RandomAgent,proxies=None,**kwargs):
+def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
     proxies=ClassCongregation.Proxies().result(proxies)
 
     scheme, url, port = UrlProcessing(Url)
@@ -38,12 +38,8 @@ def medusa(Url,RandomAgent,proxies=None,**kwargs):
         port = port
     try:
         payload_url = scheme+"://"+url+ ':' + str(port)+payload
-        headers = {
-            'Accept-Encoding': 'gzip, deflate',
-            'Accept': '*/*',
-            'User-Agent': RandomAgent,
-        }
-        resp = requests.get(payload_url,headers=headers, timeout=5,proxies=proxies, verify=False)
+
+        resp = requests.get(payload_url,headers=Headers, timeout=5,proxies=proxies, verify=False)
         con = resp.text
         code = resp.status_code
         if con.lower().find('php_version')!=-1 and con.lower().find('phpstudy')!=-1:

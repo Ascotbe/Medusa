@@ -50,7 +50,7 @@ http://medusa.ascotbe.com/Documentation/#/PluginDirectory
 git clone https://github.com/Ascotbe/Medusa.git
 cd Medusa
 # 安装依赖
-pip3 install -r Medusa.txt
+python3 -m pip3 install -r Medusa.txt
 # 使用扫描器
 python3 MedusaScan.py -u www.ascotbe.com
 ```

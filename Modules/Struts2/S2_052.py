@@ -31,7 +31,8 @@ class UrlProcessing:  # URL处理函数
             res = urllib.parse.urlparse('http://%s' % url)
         return res.scheme, res.hostname, res.port,res.path
 
-def medusa(Url,RandomAgent,proxies=None,**kwargs):
+def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
+
     proxies=Proxies().result(proxies)
 
     scheme, url, port,path = UrlProcessing().result(Url)
@@ -100,15 +101,11 @@ def medusa(Url,RandomAgent,proxies=None,**kwargs):
 </map>""".format(DL.dns_host())
     try:
         payload_url = scheme + "://" + url +":"+ str(port)+path
-        headers = {
-            'User-Agent': RandomAgent,
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-            "Content-Type": "application/xml"
-        }
+
 
 
         try:#防止在linux系统上执行了POC，导致超时扫描不到漏洞
-            resp = requests.post(payload_url,headers=headers,data=data, timeout=6,proxies=proxies, verify=False)
+            resp = requests.post(payload_url,headers=Headers,data=data, timeout=6,proxies=proxies, verify=False)
             con = resp.text
         except:
             pass

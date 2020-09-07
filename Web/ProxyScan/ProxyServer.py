@@ -1,22 +1,23 @@
 import mitmproxy.http
-import mitmproxy.ctx
-from Web.Api.Tasks import InformationLeakage
+from mitmproxy import ctx
+from Web.Workbench.Tasks import InformationLeakage
 def request(flow: mitmproxy.http.HTTPFlow)->None:
 
     try:
         RequestProxy= flow.request
-        auth=flow.metadata.get("proxyauth")
-        if auth[0] =="" or auth[1] =="":#判断是否有密码，后续做用户判断
-            print("nb")
-            RequestProxy.host="127.0.0.1"
-            RequestProxy.url = "127.0.0.1"
-            raise Exception("nicuo l ")
-
-        GetProxyInterceptUrl=RequestProxy.url#获取的url
-        print(GetProxyInterceptUrl)
-        print(auth[0])
-        print(auth[1])
-        print(type(auth))
+        print(RequestProxy)
+        # auth=flow.metadata.get("proxyauth")
+        # if auth[0] =="" or auth[1] =="":#判断是否有密码，后续做用户判断
+        #     print("nb")
+        #     RequestProxy.host="127.0.0.1"
+        #     RequestProxy.url = "127.0.0.1"
+        #     raise Exception("nicuo l ")
+        #
+        # GetProxyInterceptUrl=RequestProxy.url#获取的url
+        # print(GetProxyInterceptUrl)
+        # print(auth[0])
+        # print(auth[1])
+        # print(type(auth))
     except:
         flow.response.text="ddddddddddddddddddddddddddddd"
 
@@ -33,10 +34,10 @@ def request(flow: mitmproxy.http.HTTPFlow)->None:
     # info(RequestProxy.scheme)#https还是http
 
 
-# def response(flow):
-#     response = flow.response
-#     info = ctx.log.info
-#     info(str(response.status_code))
-#     info(str(response.headers))
-#     info(str(response.cookies))
-#     info(str(response.text))
+def response(flow):
+    response = flow.response
+    info = ctx.log.info
+    info(str(response.status_code))
+    info(str(response.headers))
+    info(str(response.cookies))
+    info(str(response.text))

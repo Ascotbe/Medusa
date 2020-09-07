@@ -48,9 +48,9 @@ parser.add_argument('-a','--Agent',type=str,help="Specify a header file or use a
 parser.add_argument('-t','--ProcessNumber',type=int,help="Set the number of process, the default number of process 5.")
 parser.add_argument('-f','--InputFileName',type=str,help="Specify bulk scan file batch scan")
 parser.add_argument('-s','--Subdomain',help="Collect subdomains",action="store_true")
-parser.add_argument('-l','--List',help="List interactive command execution plugins",action="store_true")
-parser.add_argument('-e','--Exploit',help="You need to use the vulnerability, please use -l to query",type=str)
-parser.add_argument('-d','--Deserialization',help="Use deserialization to execute commands",type=str)
+#parser.add_argument('-l','--List',help="List interactive command execution plugins",action="store_true")
+#parser.add_argument('-e','--Exploit',help="You need to use the vulnerability, please use -l to query",type=str)
+#parser.add_argument('-d','--Deserialization',help="Use deserialization to execute commands",type=str)
 
 '''
 在pycharm中设置固定要获取的参数，进行获取
@@ -154,9 +154,9 @@ if __name__ == '__main__':
     Subdomain=args.Subdomain#开启子域名枚举
     ProcessNumber=args.ProcessNumber#要使用的进程数默认15
     Proxies= args.ProxiesIP#代理的IP
-    ExploitList = args.List  # 列出所有可以交互使用的poc
-    Exploit = args.Exploit  # 利用那个可以交互的poc
-    Deserialization=args.Deserialization#获取反序列化插件
+    #ExploitList = args.List  # 列出所有可以交互使用的poc
+    #Exploit = args.Exploit  # 利用那个可以交互的poc
+    #Deserialization=args.Deserialization#获取反序列化插件
 
     if ProcessNumber==None:#如果线程数为空，那么默认为5
         ProcessNumber=5
@@ -171,16 +171,16 @@ if __name__ == '__main__':
     #暂时关闭NMAPScan和数据库爆破功能
     Sid="Soryu Asuka Langley"
     Uid = "Ayanami Rei"
-    if ExploitList==True:
-        pass#调用列表函数，暂定未写
-        os._exit(0)  # 直接退出整个函数
-    if Exploit!=None and Deserialization!=None:
-        print("\033[31m[ ! ] Please do not use -e and -d parameters at the same time\033[0m")
-        os._exit(0)  # 直接退出整个函数
-    elif Exploit!=None or Deserialization!=None:
-        print("\033[31m[ ! ] Function closed waiting for reconstruction\033[0m")
-        os._exit(0)  # 直接退出整个函数
-        #main(Exploit=Exploit,Deserialization=Deserialization,Url=Url,AgentHeader=AgentHeader,Proxies=Proxies,Sid=Sid,Uid=Uid) #启动子进程永真方式调用exp
+    # if ExploitList==True:
+    #     pass#调用列表函数，暂定未写
+    #     os._exit(0)  # 直接退出整个函数
+    # if Exploit!=None and Deserialization!=None:
+    #     print("\033[31m[ ! ] Please do not use -e and -d parameters at the same time\033[0m")
+    #     os._exit(0)  # 直接退出整个函数
+    # elif Exploit!=None or Deserialization!=None:
+    #     print("\033[31m[ ! ] Function closed waiting for reconstruction\033[0m")
+    #     os._exit(0)  # 直接退出整个函数
+    #     main(Exploit=Exploit,Deserialization=Deserialization,Url=Url,AgentHeader=AgentHeader,Proxies=Proxies,Sid=Sid,Uid=Uid) #启动子进程永真方式调用exp
 
     Pool=ClassCongregation.ProcessPool()#定义一个进程池
     #ThreadPool = ClassCongregation.ThreadPool()#定义一个线程池

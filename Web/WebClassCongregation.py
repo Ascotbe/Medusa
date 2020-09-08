@@ -532,3 +532,106 @@ class GetDownloadFolderLocation:
         elif sys.platform == "linux" or sys.platform == "darwin":
             DownloadFolderLocation = GetRootFileLocation().Result() + "/Web/Download/"
             return DownloadFolderLocation
+
+
+class ProxyScanList:#代理列表，一个代理项目一条数据
+    def __init__(self):
+        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        # 获取所创建数据的游标
+        self.cur = self.con.cursor()
+        # 创建表
+        try:
+            self.cur.execute("CREATE TABLE ProxyScanList\
+                                (sid INTEGER PRIMARY KEY,\
+                                oid TEXT NOT NULL,\
+                                uid TEXT NOT NULL,\
+                                creation_time TEXT NOT NULL,\
+                                end_time TEXT NOT NULL,\
+                                status TEXT NOT NULL,\
+                                proxy_passwd TEXT NOT NULL,\
+                                proxy_username TEXT NOT NULL,\
+                                proxy_project_name TEXT NOT NULL)")
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_ProxyScanList(class)_init(def)", e)
+
+    def Write(self, **kwargs) -> bool or None:  # 写入相关信息
+        CreationTime = str(int(time.time()))  # 创建时间
+        Oid = kwargs.get("oid")
+        Uid = kwargs.get("uid")
+        EndTime= kwargs.get("end_time")
+        Status= kwargs.get("status")
+        ProxyPasswd= kwargs.get("proxy_passwd")
+        ProxyUsername= kwargs.get("proxy_username")
+        ProxyProjectName= kwargs.get("proxy_project_name")
+
+        try:
+            self.cur.execute("INSERT INTO ProxyScanList(oid,uid,creation_time,end_time,status,proxy_passwd,proxy_username,proxy_project_name)\
+                VALUES (?,?,?,?,?,?,?,?)", (Oid, Uid, CreationTime, EndTime,Status,ProxyPasswd,ProxyUsername,ProxyProjectName,))
+            # 提交
+            self.con.commit()
+            self.con.close()
+            return True
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_ProxyScanList(class)_Write(def)", e)
+            return None
+#查询功能暂无
+
+class OriginalProxyData:#从代理中获取数据包进行存储
+    def __init__(self):
+        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        # 获取所创建数据的游标
+        self.cur = self.con.cursor()
+        # 创建表
+        try:
+            self.cur.execute("CREATE TABLE OriginalProxyData\
+                                (rid INTEGER PRIMARY KEY,\
+                                uid TEXT NOT NULL,\
+                                oid TEXT NOT NULL,\
+                                creation_time TEXT NOT NULL,\
+                                request_headers TEXT NOT NULL,\
+                                url TEXT NOT NULL,\
+                                request_date TEXT NOT NULL,\
+                                response_date TEXT NOT NULL,\
+                                response_headers TEXT NOT NULL,\
+                                response_status_code TEXT NOT NULL,\
+                                issue_task_status TEXT NOT NULL,\
+                                request_method TEXT NOT NULL)")
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_OriginalProxyData(class)_init(def)", e)
+
+    def Write(self, **kwargs) -> bool or None:  # 写入相关信息
+        CreationTime = str(int(time.time()))  # 创建时间
+        Uid = kwargs.get("uid")
+        Oid = kwargs.get("oid")
+        RequestHeaders= kwargs.get("request_headers")
+        Url= kwargs.get("url")
+        RequestDate= kwargs.get("request_date")
+        ResponseDate= kwargs.get("response_date")
+        ResponseHeaders= kwargs.get("response_headers")
+        ResponseStatusCode= kwargs.get("response_status_code")
+        IssueTaskStatus= kwargs.get("issue_task_status")
+        RequestMethod=kwargs.get("request_method")
+        try:
+            self.cur.execute("INSERT INTO OriginalProxyData(uid,oid,creation_time,request_headers,url,request_date,response_date,response_headers,response_status_code,issue_task_status,request_method)\
+                VALUES (?,?,?,?,?,?,?,?,?,?,?)", (Uid, Oid, CreationTime, RequestHeaders,Url,RequestDate,ResponseDate,ResponseHeaders,ResponseStatusCode,IssueTaskStatus,RequestMethod,))
+            # 提交
+            self.con.commit()
+            self.con.close()
+            return True
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_OriginalProxyData(class)_Write(def)", e)
+            return None
+#查询暂时无
+    # def Query(self, **kwargs) -> bool or None:
+    #     Uid = kwargs.get("uid")
+    #     FileName = kwargs.get("file_name")
+    #     try:
+    #         self.cur.execute("select * from ReportGenerationList where file_name =? and uid=?", (FileName, Uid,))
+    #         if self.cur.fetchall():  # 判断是否有数据
+    #             self.con.close()
+    #             return True
+    #         else:
+    #             return False
+    #     except Exception as e:
+    #         ErrorLog().Write("Web_WebClassCongregation_ReportGenerationList(class)_QueryTokenValidity(def)", e)
+    #         return None

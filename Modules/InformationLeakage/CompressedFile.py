@@ -24,7 +24,7 @@ class VulnerabilityInfo(object):
         self.info['details'] = Medusa  # 结果
 
 
-def medusa(Url:str,RandomAgent:str,proxies:str=None,**kwargs)->None:
+def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
     proxies=Proxies().result(proxies)
     scheme, url, port = UrlProcessing().result(Url)
     suffixs = [".zip", ".rar", ".tar.gz", ".tgz", ".7z",".wim",".lzh",".cab",".arj",".lz4",".db",".gz",".bz2 ",".tar.bz2",".xz ",".tar.xz",".z ",".tar.z",".zipx"]
@@ -44,23 +44,21 @@ def medusa(Url:str,RandomAgent:str,proxies:str=None,**kwargs)->None:
                 "/a",
                 "/新建文件夹",
                 ]
-    headers = {
-        'User-Agent': RandomAgent,
-        "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
-        "Accept-Encoding": "gzip, deflate",
-    }
+    Headers["Accept-Language"]="zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2"
+    Headers["Accept-Encoding"]="gzip, deflate"
+
     Pool=ThreadPool()
     try:
         for suffix in suffixs:#域名加上后缀
             payload_url = Url +"/" +url + suffix
             file_name = url + suffix
-            Pool.Append(task, url=url, file_name=file_name,headers=headers, proxies=proxies, payload_url=payload_url, Uid=kwargs.get("Uid"),
+            Pool.Append(task, url=url, file_name=file_name,headers=Headers, proxies=proxies, payload_url=payload_url, Uid=kwargs.get("Uid"),
                         Sid=kwargs.get("Sid"))
         for payload in payloads:
             for suffix in suffixs:
                 payload_url = Url+ payload+suffix
                 file_name = payload+suffix
-                Pool.Append(task,url=url,file_name=file_name,headers=headers,proxies=proxies,payload_url=payload_url,Uid=kwargs.get("Uid"),Sid=kwargs.get("Sid"))
+                Pool.Append(task,url=url,file_name=file_name,headers=Headers,proxies=proxies,payload_url=payload_url,Uid=kwargs.get("Uid"),Sid=kwargs.get("Sid"))
         Pool.Start(thread_number)  # 启动线程池
     except Exception as e:
         _ = VulnerabilityInfo('').info.get('algroup')

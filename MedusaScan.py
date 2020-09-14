@@ -170,7 +170,7 @@ if __name__ == '__main__':
 
     #暂时关闭NMAPScan和数据库爆破功能
     Sid="Soryu Asuka Langley"
-    Uid = "Ayanami Rei"
+    Uid = "Rei Ayanami"
     # if ExploitList==True:
     #     pass#调用列表函数，暂定未写
     #     os._exit(0)  # 直接退出整个函数

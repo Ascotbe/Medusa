@@ -23,7 +23,7 @@ class VulnerabilityInfo(object):
         self.info['details'] = Medusa  # 结果
 
 
-def medusa(Url:str,RandomAgent:str,proxies:str=None,**kwargs)->None:
+def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
     proxies=Proxies().result(proxies)
     list = [
         '/index.php',
@@ -94,15 +94,13 @@ def medusa(Url:str,RandomAgent:str,proxies:str=None,**kwargs)->None:
         '/dashboard/phpinfo.php'
     ]
     Pool=ThreadPool()
-    headers = {
-        'User-Agent': RandomAgent,
-        "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
-        "Accept-Encoding": "gzip, deflate",
-    }
+    Headers["Accept-Language"] = "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2"
+    Headers["Accept-Encoding"] = "gzip, deflate"
+
     try:
         for payload in list:
             payload_url = Url+payload
-            Pool.Append(task,Url=Url,headers=headers,proxies=proxies,payload_url=payload_url,Uid=kwargs.get("Uid"),Sid=kwargs.get("Sid"))
+            Pool.Append(task,Url=Url,headers=Headers,proxies=proxies,payload_url=payload_url,Uid=kwargs.get("Uid"),Sid=kwargs.get("Sid"))
         Pool.Start(thread_number)  # 启动线程池
     except Exception as e:
         _ = VulnerabilityInfo('').info.get('algroup')

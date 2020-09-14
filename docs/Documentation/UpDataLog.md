@@ -1803,3 +1803,12 @@ v0.88.4🌴
 v0.88.5🌴
 更新ProxyScanList类和OriginalProxyData类
 ```
+
+> 2020.9.14
+
+```
+v0.88.6🌴
+修复Web版的一些错误
+添加Redis的自定义配置
+修复信息探测插件中的header错误
+```

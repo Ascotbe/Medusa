@@ -22,17 +22,15 @@ class VulnerabilityInfo(object):
         self.info['details'] = Medusa  # 结果
 
 
-def medusa(Url:str,RandomAgent:str,proxies:str=None,**kwargs)->None:
+def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
     proxies=Proxies().result(proxies)
     scheme, url, port = UrlProcessing().result(Url)
     try:
         payload_url = Url
-        headers = {
-            'User-Agent': RandomAgent,
-            "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
-            "Accept-Encoding": "gzip, deflate",
-        }
-        resp = requests.options(payload_url,headers=headers,proxies=proxies, timeout=5, verify=False)
+        Headers["Accept-Language"] = "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2"
+        Headers["Accept-Encoding"] = "gzip, deflate"
+
+        resp = requests.options(payload_url,headers=Headers,proxies=proxies, timeout=5, verify=False)
         if r"OPTIONS" in resp.headers.get('Allow'):
             Medusa = "{}存在Options方法开启漏洞\r\n验证数据:\r\n漏洞位置:{}\r\n漏洞详情:{}\r\n".format(url,payload_url,resp.headers)
             _t = VulnerabilityInfo(Medusa)

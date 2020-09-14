@@ -14,4 +14,8 @@ debug_mode=False
 ###################  线程数配置位置  ######################
 thread_number=15 #默认线程数
 
-###################  敏感文件扫描字典配置位置  ######################
+###################  Redis配置  ######################
+redis_host="localhost"
+redis_port="6379"
+redis_db="6"
+redis_password="I_will_always_like_Rei_Ayanami"

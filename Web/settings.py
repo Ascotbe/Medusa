@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-
+from config import redis_host,redis_password,redis_port,redis_db
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -156,8 +156,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 #celery
-CELERY_RESULT_BACKEND='redis://:@localhost:6379/6'
-CELERY_BROKER_URL='redis://:@localhost:6379/6'
+CELERY_RESULT_BACKEND='redis://'+redis_password+':@'+redis_host+':'+redis_port+'/'+redis_db
+CELERY_BROKER_URL='redis://'+redis_password+':@'+redis_host+':'+redis_port+'/'+redis_db
 '''
 
 CELERY_RESULT_BACKEND='redis://:password@host:port/db'

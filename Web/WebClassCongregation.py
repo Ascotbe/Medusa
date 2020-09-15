@@ -588,14 +588,11 @@ class OriginalProxyData:#从代理中获取数据包进行存储
                                 uid TEXT NOT NULL,\
                                 oid TEXT NOT NULL,\
                                 creation_time TEXT NOT NULL,\
-                                request_headers TEXT NOT NULL,\
                                 url TEXT NOT NULL,\
+                                request_headers TEXT NOT NULL,\
                                 request_date TEXT NOT NULL,\
-                                response_date TEXT NOT NULL,\
-                                response_headers TEXT NOT NULL,\
-                                response_status_code TEXT NOT NULL,\
-                                issue_task_status TEXT NOT NULL,\
-                                request_method TEXT NOT NULL)")
+                                request_method TEXT NOT NULL,\
+                                issue_task_status TEXT NOT NULL)")
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_OriginalProxyData(class)_init(def)", e)
 
@@ -603,17 +600,15 @@ class OriginalProxyData:#从代理中获取数据包进行存储
         CreationTime = str(int(time.time()))  # 创建时间
         Uid = kwargs.get("uid")
         Oid = kwargs.get("oid")
-        RequestHeaders= kwargs.get("request_headers")
         Url= kwargs.get("url")
+        RequestHeaders= kwargs.get("request_headers")
         RequestDate= kwargs.get("request_date")
-        ResponseDate= kwargs.get("response_date")
-        ResponseHeaders= kwargs.get("response_headers")
-        ResponseStatusCode= kwargs.get("response_status_code")
-        IssueTaskStatus= kwargs.get("issue_task_status")
         RequestMethod=kwargs.get("request_method")
+        IssueTaskStatus= "0"#未扫描为0 已扫描为1
+
         try:
-            self.cur.execute("INSERT INTO OriginalProxyData(uid,oid,creation_time,request_headers,url,request_date,response_date,response_headers,response_status_code,issue_task_status,request_method)\
-                VALUES (?,?,?,?,?,?,?,?,?,?,?)", (Uid, Oid, CreationTime, RequestHeaders,Url,RequestDate,ResponseDate,ResponseHeaders,ResponseStatusCode,IssueTaskStatus,RequestMethod,))
+            self.cur.execute("INSERT INTO OriginalProxyData(uid,oid,creation_time,url,request_headers,request_date,request_method,issue_task_status)\
+                VALUES (?,?,?,?,?,?,?,?)", (Uid, Oid, CreationTime, Url,RequestHeaders,RequestDate,RequestMethod,IssueTaskStatus,))
             # 提交
             self.con.commit()
             self.con.close()

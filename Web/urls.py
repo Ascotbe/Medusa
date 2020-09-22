@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from Web.Api import VulnerabilityScanning,VulnerabilityQuery,Registered,User,GenerateReport,UserInfo
+from Web.Api import VulnerabilityScanning,VulnerabilityQuery,Registered,User,GenerateReport,UserInfo,ProxyScan
 
 urlpatterns = [
     #path('admin/', admin.site.urls),
@@ -30,6 +30,7 @@ urlpatterns = [
     path('api/update_password/', User.UpdatePassword),  # 更新密码
     path('api/update_show_name/', User.UpdateShowName),  # 更新显示名称
     path('api/update_key/', User.UpdateKey),  # 更新Key
+    path('api/create_proxy_scan_project/', ProxyScan.CreateProxyScanProject),  # 创建代理扫描项目
 
 
 

@@ -52,7 +52,7 @@ def UpdatePassword(request):#更新密码
             NewPasswd = json.loads(request.body)["new_passwd"]
             UpdatePassword=UserInfo().UpdatePasswd(name=UserName,old_passwd=OldPasswd,new_passwd=NewPasswd)
             if UpdatePassword:
-                UserOperationLogRecord(request, request_api="login", uid=UserName)#如果修改成功写入数据库中
+                UserOperationLogRecord(request, request_api="update_password", uid=UserName)#如果修改成功写入数据库中
                 return JsonResponse({'message': '修改成功~', 'code': 200, })
             else:
                 return JsonResponse({'message': "输入信息有误重新输入", 'code': 404, })

@@ -97,7 +97,7 @@ class UserInfo:#用户表
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)__Write(def)", e)
+            ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)_Write(def)", e)
             return None
     def UpdatePasswd(self,**kwargs:str)->bool:#更新用户密码，True表示成功，False表示失败
         Name = kwargs.get("name")
@@ -388,9 +388,6 @@ class MedusaQuery:#单个漏洞的详细内容查询表，具体写入表在Clas
             ErrorLog().Write("Web_WebClassCongregation_MedusaQuery(class)_QueryBySid(def)", e)
             return None
 
-class PassiveScanInformation:#用户被动扫描相关信息
-    pass
-
 class RequestLog:#操作日志
     def __init__(self):
         self.con = sqlite3.connect(GetDatabaseFilePath().result())
@@ -509,7 +506,7 @@ class ReportGenerationList:#报告生成相关表
             else:
                 return False
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_ReportGenerationList(class)_QueryTokenValidity(def)", e)
+            ErrorLog().Write("Web_WebClassCongregation_ReportGenerationList(class)_Query(def)", e)
             return None
 
 
@@ -543,7 +540,6 @@ class ProxyScanList:#代理列表，一个代理项目一条数据
         try:
             self.cur.execute("CREATE TABLE ProxyScanList\
                                 (sid INTEGER PRIMARY KEY,\
-                                oid TEXT NOT NULL,\
                                 uid TEXT NOT NULL,\
                                 creation_time TEXT NOT NULL,\
                                 end_time TEXT NOT NULL,\
@@ -556,17 +552,16 @@ class ProxyScanList:#代理列表，一个代理项目一条数据
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
         CreationTime = str(int(time.time()))  # 创建时间
-        Oid = kwargs.get("oid")
         Uid = kwargs.get("uid")
         EndTime= kwargs.get("end_time")
-        Status= kwargs.get("status")
-        ProxyPasswd= kwargs.get("proxy_passwd")
+        Status= 1#kwargs.get("status")#1表示启动0表示关闭
+        ProxyPasswd= randoms().result(20)#kwargs.get("proxy_passwd")
         ProxyUsername= kwargs.get("proxy_username")
         ProxyProjectName= kwargs.get("proxy_project_name")
 
         try:
-            self.cur.execute("INSERT INTO ProxyScanList(oid,uid,creation_time,end_time,status,proxy_passwd,proxy_username,proxy_project_name)\
-                VALUES (?,?,?,?,?,?,?,?)", (Oid, Uid, CreationTime, EndTime,Status,ProxyPasswd,ProxyUsername,ProxyProjectName,))
+            self.cur.execute("INSERT INTO ProxyScanList(uid,creation_time,end_time,status,proxy_passwd,proxy_username,proxy_project_name)\
+                VALUES (?,?,?,?,?,?,?)", (Uid, CreationTime, EndTime,Status,ProxyPasswd,ProxyUsername,ProxyProjectName,))
             # 提交
             self.con.commit()
             self.con.close()
@@ -574,7 +569,34 @@ class ProxyScanList:#代理列表，一个代理项目一条数据
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_ProxyScanList(class)_Write(def)", e)
             return None
-#查询功能暂无
+
+    def QueryProxyProjectName(self,**kwargs)->bool or None:#查询扫描项目是否冲突
+        Uid = kwargs.get("uid")
+        ProxyProjectName = kwargs.get("proxy_project_name")
+        try:
+            self.cur.execute("select * from ProxyScanList where proxy_project_name =? and uid=?", (ProxyProjectName,Uid,))
+            if self.cur.fetchall():  # 判断是否有数据
+                self.con.close()
+                return True
+            else:
+                return False
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_ProxyScanList(class)_QueryScanProjectName(def)", e)
+            return None
+    # def Query(self,**kwargs)->bool or None:#查询该文件是否是该用户所有
+    #     Uid = kwargs.get("uid")
+    #     FileName = kwargs.get("file_name")
+    #     try:
+    #         self.cur.execute("select * from ReportGenerationList where file_name =? and uid=?", (FileName,Uid,))
+    #         if self.cur.fetchall():  # 判断是否有数据
+    #             self.con.close()
+    #             return True
+    #         else:
+    #             return False
+    #     except Exception as e:
+    #         ErrorLog().Write("Web_WebClassCongregation_ProxyScanList(class)_Query(def)", e)
+    #         return None
+
 
 class OriginalProxyData:#从代理中获取数据包进行存储
     def __init__(self):
@@ -584,14 +606,18 @@ class OriginalProxyData:#从代理中获取数据包进行存储
         # 创建表
         try:
             self.cur.execute("CREATE TABLE OriginalProxyData\
-                                (rid INTEGER PRIMARY KEY,\
+                                (oid INTEGER PRIMARY KEY,\
                                 uid TEXT NOT NULL,\
-                                oid TEXT NOT NULL,\
+                                sid TEXT NOT NULL,\
                                 creation_time TEXT NOT NULL,\
                                 url TEXT NOT NULL,\
                                 request_headers TEXT NOT NULL,\
                                 request_date TEXT NOT NULL,\
                                 request_method TEXT NOT NULL,\
+                                response_headers TEXT NOT NULL,\
+                                response_status_code TEXT NOT NULL,\
+                                response_date_bytes TEXT NOT NULL,\
+                                response_date_string TEXT NOT NULL,\
                                 issue_task_status TEXT NOT NULL)")
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_OriginalProxyData(class)_init(def)", e)
@@ -599,16 +625,20 @@ class OriginalProxyData:#从代理中获取数据包进行存储
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
         CreationTime = str(int(time.time()))  # 创建时间
         Uid = kwargs.get("uid")
-        Oid = kwargs.get("oid")
+        Sid = kwargs.get("sid")
         Url= kwargs.get("url")
         RequestHeaders= kwargs.get("request_headers")
         RequestDate= kwargs.get("request_date")
         RequestMethod=kwargs.get("request_method")
+        ResponseHeaders=kwargs.get("response_headers")
+        ResponseStatusCode=kwargs.get("response_status_code")
+        ResponseDateBytes=kwargs.get("response_date_bytes")
+        ResponseDateString=kwargs.get("response_date_string")
         IssueTaskStatus= "0"#未扫描为0 已扫描为1
 
         try:
-            self.cur.execute("INSERT INTO OriginalProxyData(uid,oid,creation_time,url,request_headers,request_date,request_method,issue_task_status)\
-                VALUES (?,?,?,?,?,?,?,?)", (Uid, Oid, CreationTime, Url,RequestHeaders,RequestDate,RequestMethod,IssueTaskStatus,))
+            self.cur.execute("INSERT INTO OriginalProxyData(uid,sid,creation_time,url,request_headers,request_date,request_method,response_headers,response_status_code,response_date_bytes,response_date_string,issue_task_status)\
+                VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", (Uid, Sid, CreationTime, Url,RequestHeaders,RequestDate,RequestMethod,ResponseHeaders,ResponseStatusCode,ResponseDateBytes,ResponseDateString,IssueTaskStatus,))
             # 提交
             self.con.commit()
             self.con.close()

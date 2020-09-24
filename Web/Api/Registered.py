@@ -2,6 +2,7 @@ from Web.WebClassCongregation import UserInfo
 from ClassCongregation import ErrorLog,randoms
 from django.http import JsonResponse
 import json
+from ClassCongregation import Md5Encryption
 from Web.Workbench.LogRelated import RequestLogRecord
 
 """
@@ -33,7 +34,8 @@ def Registered(request):
                     return JsonResponse({'message': '报错了🙄', 'code': 404, })
                 elif not VerifyUsername or not VerifyEmail:
                     Token=randoms().result(250)
-                    UserWrite=UserInfo().Write(name=Username, show_name=ShowName, token=Token, passwd=Passwd,
+                    Md5Passwd=Md5Encryption().Md5Result(Passwd)#进行加密
+                    UserWrite=UserInfo().Write(name=Username, show_name=ShowName, token=Token, passwd=Md5Passwd,
                                      email=Email, img_path="img_path")
                     if UserWrite:
                         return JsonResponse({'message': '注册成功', 'code': 200, })

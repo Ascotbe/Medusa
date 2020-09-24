@@ -17,6 +17,7 @@ import multiprocessing
 from typing import List, Dict, Tuple, Any
 import threading
 import subprocess
+import hashlib
 from config import ceye_dnslog_url, ceye_dnslog_key, debug_mode,dnslog_name
 
 #########
@@ -870,3 +871,16 @@ class GetHeaders:#用来处理标头以及获取代理头
             ErrorLog().Write("ClassCongregation_GetHeaders(class)_DefaultHeader(def)", e)
     def ProxyResult(self,Values):#代理截获的值，需要从数据库获取，暂时空出
         pass
+
+class Md5Encryption:#加密类
+    def __init__(self):
+        self.Md5=hashlib.md5()
+
+    def Md5Result(self,str):
+        self.Md5.update(str.encode("utf8"))
+        return self.Md5.hexdigest()
+
+    def Md5GbkResult(self,str):
+        self.Md5.update(str.encode("gb2312"))
+        return self.Md5.hexdigest()
+    

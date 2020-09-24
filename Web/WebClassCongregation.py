@@ -3,6 +3,7 @@
 import time
 import sys
 import base64
+import hashlib
 import sqlite3
 from ClassCongregation import GetDatabaseFilePath,ErrorLog,randoms,GetRootFileLocation
 
@@ -544,7 +545,7 @@ class ProxyScanList:#代理列表，一个代理项目一条数据
                                 creation_time TEXT NOT NULL,\
                                 end_time TEXT NOT NULL,\
                                 status TEXT NOT NULL,\
-                                proxy_passwd TEXT NOT NULL,\
+                                proxy_password TEXT NOT NULL,\
                                 proxy_username TEXT NOT NULL,\
                                 proxy_project_name TEXT NOT NULL)")
         except Exception as e:
@@ -555,13 +556,13 @@ class ProxyScanList:#代理列表，一个代理项目一条数据
         Uid = kwargs.get("uid")
         EndTime= kwargs.get("end_time")
         Status= 1#kwargs.get("status")#1表示启动0表示关闭
-        ProxyPasswd= randoms().result(20)#kwargs.get("proxy_passwd")
+        ProxyPassword= kwargs.get("proxy_password")
         ProxyUsername= kwargs.get("proxy_username")
         ProxyProjectName= kwargs.get("proxy_project_name")
 
         try:
-            self.cur.execute("INSERT INTO ProxyScanList(uid,creation_time,end_time,status,proxy_passwd,proxy_username,proxy_project_name)\
-                VALUES (?,?,?,?,?,?,?)", (Uid, CreationTime, EndTime,Status,ProxyPasswd,ProxyUsername,ProxyProjectName,))
+            self.cur.execute("INSERT INTO ProxyScanList(uid,creation_time,end_time,status,proxy_password,proxy_username,proxy_project_name)\
+                VALUES (?,?,?,?,?,?,?)", (Uid, CreationTime, EndTime,Status,ProxyPassword,ProxyUsername,ProxyProjectName,))
             # 提交
             self.con.commit()
             self.con.close()
@@ -570,11 +571,12 @@ class ProxyScanList:#代理列表，一个代理项目一条数据
             ErrorLog().Write("Web_WebClassCongregation_ProxyScanList(class)_Write(def)", e)
             return None
 
-    def QueryProxyProjectName(self,**kwargs)->bool or None:#查询扫描项目是否冲突
+    def QueryProxyProjectName(self,**kwargs)->bool or None:#查询扫描项目是否冲突,一个项目不能存在相同的项目名和用户名
         Uid = kwargs.get("uid")
         ProxyProjectName = kwargs.get("proxy_project_name")
+        ProxyUsername = kwargs.get("proxy_username")
         try:
-            self.cur.execute("select * from ProxyScanList where proxy_project_name =? and uid=?", (ProxyProjectName,Uid,))
+            self.cur.execute("select * from ProxyScanList where proxy_project_name =? and uid=? and proxy_username=?", (ProxyProjectName,Uid,ProxyUsername))
             if self.cur.fetchall():  # 判断是否有数据
                 self.con.close()
                 return True
@@ -583,6 +585,20 @@ class ProxyScanList:#代理列表，一个代理项目一条数据
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_ProxyScanList(class)_QueryScanProjectName(def)", e)
             return None
+    def ProxyAuthentication(self,**kwargs)->bool or None:#查询用来认证用户的账号和密码是否复核UID
+        ProxyUsername = kwargs.get("proxy_username")
+        ProxyPassword = kwargs.get("proxy_password")
+        try:
+            self.cur.execute("select * from ProxyScanList where proxy_username =? and proxy_password=?", (ProxyUsername,ProxyPassword,))
+            for i in self.cur.fetchall():
+                JsonValues = {}
+                JsonValues["sid"] = i[0]
+                JsonValues["uid"] = i[1]
+                return JsonValues
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_ProxyScanList(class)_ProxyAuthentication(def)", e)
+            return None
+
     # def Query(self,**kwargs)->bool or None:#查询该文件是否是该用户所有
     #     Uid = kwargs.get("uid")
     #     FileName = kwargs.get("file_name")

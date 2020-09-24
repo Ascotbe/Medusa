@@ -13,6 +13,7 @@
 /api/update_password/
 /api/update_show_name/
 /api/update_key/
+api/create_proxy_scan_project/
 ```
 
 #### 注册接口
@@ -21,16 +22,16 @@
 
 ```
 {
-	"show_name": "7777777",
+	"show_name": "Rei Ayanami",
 	"username": "ascotbe",
-	"passwd": "1",
-	"email": "1@qq.com"
+	"passwd": "Soryu Asuka Langley",
+	"email": "medusa@ascotbe.com"
 }
 ```
 
 - `show_name`表示用户显示名字，可以重复
 - `username`表示登录名，具有唯一性
-- `passwd`用户密码（~~目前明文存储，正式版后在更改~~
+- `passwd`用户密码（使用MD5存储
 - `email`用户邮箱具有唯一性。（~~无校检，任意字符串都可以~~
 
 #### 登录接口
@@ -40,7 +41,7 @@
 ```
 {
 	"username": "ascotbe",
-	"passwd": "1"
+	"passwd": "Soryu Asuka Langley"
 }
 ```
 
@@ -156,8 +157,8 @@
 ```
 {
 	"username": "ascotbe",
-	"old_passwd": "1",
-	"new_passwd": "1111"
+	"old_passwd": "Soryu Asuka Langley",
+	"new_passwd": "XXXXXXXXXXXXXXXXXXX"
 }
 ```
 
@@ -172,7 +173,7 @@
 ```
 {
    "token": "xxxxx",
-   "new_show_name": "1"
+   "new_show_name": "阿巴阿巴阿巴"
 }
 ```
 
@@ -190,3 +191,23 @@
 ```
 
 - `token`登录后返回的**token**
+
+#### 创建代理扫描项目
+
+`api/create_proxy_scan_project/`创建代理扫描项目
+
+```
+{
+    "token": "XXXXXX",
+    "proxy_project_name":"Soryu Asuka Langley",
+    "proxy_username":"ascotbe",
+    "proxy_password":"ascotbe",
+    "end_time":"1610751014"
+}
+```
+
+- `token`登录后返回的**token**
+- `proxy_project_name`代理扫描项目的名字
+- `proxy_username`代理扫描用户名
+- `proxy_password`代理扫描用户密码
+- `end_time`代理扫描结束时间

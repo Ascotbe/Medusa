@@ -1,6 +1,6 @@
 from Web.WebClassCongregation import UserInfo
 from django.http import JsonResponse
-from ClassCongregation import ErrorLog,randoms
+from ClassCongregation import ErrorLog,randoms,Md5Encryption
 import json
 from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
 """login
@@ -15,7 +15,8 @@ def Login(request):#用户登录，每次登录成功都会刷新一次Token
         try:
             Username=json.loads(request.body)["username"]
             Passwd=json.loads(request.body)["passwd"]
-            UserLogin=UserInfo().UserLogin(Username,Passwd)
+            Md5Passwd=Md5Encryption().Md5Result(Passwd)#对密码加密
+            UserLogin=UserInfo().UserLogin(Username,Md5Passwd)
             if UserLogin is None:
                 return JsonResponse({'message': '账号或密码错误', 'code': 604, })
 
@@ -50,7 +51,9 @@ def UpdatePassword(request):#更新密码
             UserName=json.loads(request.body)["username"]
             OldPasswd=json.loads(request.body)["old_passwd"]
             NewPasswd = json.loads(request.body)["new_passwd"]
-            UpdatePassword=UserInfo().UpdatePasswd(name=UserName,old_passwd=OldPasswd,new_passwd=NewPasswd)
+            Md5NewPasswd = Md5Encryption().Md5Result(NewPasswd)  # 对新密码加密
+            Md5OldPasswd = Md5Encryption().Md5Result(OldPasswd)  # 对旧密码加密
+            UpdatePassword=UserInfo().UpdatePasswd(name=UserName,old_passwd=Md5OldPasswd,new_passwd=Md5NewPasswd)
             if UpdatePassword:
                 UserOperationLogRecord(request, request_api="update_password", uid=UserName)#如果修改成功写入数据库中
                 return JsonResponse({'message': '修改成功~', 'code': 200, })

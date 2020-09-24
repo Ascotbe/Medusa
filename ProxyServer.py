@@ -1,11 +1,13 @@
 from mitmproxy import http
 import base64
+import hashlib
+from ClassCongregation import Md5Encryption
 from Web.WebClassCongregation import ProxyScanList
 from Web.WebClassCongregation import OriginalProxyData
 class ProxyDataCollection(object):
 
     def authenticate(self, flow: http.HTTPFlow):
-        self.auth = flow.metadata.get('proxyauth')
+        self.Auth = flow.metadata.get('proxyauth')
         #self.sourceip = flow.client_conn.ip_address[0]
 
     def request(self,flow: http.HTTPFlow):
@@ -20,11 +22,11 @@ class ProxyDataCollection(object):
         #header头解密函数eval(base64.b64decode(a).decode("utf-8"))
     def response(self, flow: http.HTTPFlow):
         self.authenticate(flow)
-        if not self.auth:
+        if not self.Auth:
             flow.response.set_text("请进行代理认证")#修改返回值 需要字符串类型
             return 0
         else:
-            self.username, self.password = self.auth
+            self.Username, self.Password = self.Auth
         #账号密码认证
         self.request(flow)
         self.ResponseDateString = flow.response.text #获取返回值结果 结果类型是字符串
@@ -33,13 +35,22 @@ class ProxyDataCollection(object):
         self.ResponseHeaders = {}  # 请求头数据
         for i in flow.response.headers:  # 对数据进行处理后存储到RequestHeaders中
             self.ResponseHeaders.update({i: flow.response.headers[i]})
-        OriginalProxyData().Write(uid="test",sid="test",url=base64.b64encode(self.RequestUrl.encode(encoding="utf-8")),request_headers=base64.b64encode(str(self.RequestHeaders).encode(encoding="utf-8")),request_date=self.RequestMethod,request_method=base64.b64encode(self.RequestDate.encode(encoding="utf-8")),
+        self.Md5Password=Md5Encryption().Md5Result(self.Password)#对密码进行MD5加密
+
+
+        ProxyAuthenticationResult=ProxyScanList().ProxyAuthentication(proxy_username=self.Username,proxy_password=self.Md5Password)#对数据进行校检
+        if ProxyAuthenticationResult==None:
+            flow.response.set_text("账号或密码错误~")  # 认证失败
+            return 0
+        else:
+            OriginalProxyData().Write(uid=ProxyAuthenticationResult["uid"],sid=ProxyAuthenticationResult["sid"],url=base64.b64encode(self.RequestUrl.encode(encoding="utf-8")),request_headers=base64.b64encode(str(self.RequestHeaders).encode(encoding="utf-8")),request_date=self.RequestMethod,request_method=base64.b64encode(self.RequestDate.encode(encoding="utf-8")),
                                   response_headers=str(self.ResponseHeaders).encode(encoding="utf-8"),response_status_code=self.ResponseStatusCode,response_date_string=self.ResponseDateString.encode(encoding="utf-8"),response_date_bytes=str(self.ResponseDateBytes).encode(encoding="utf-8"))
         # print(self.username, self.password)
         # print(self.ResponseDateString)
         # print(self.ResponseDateBytes)
         # print(self.ResponseStatusCode)
         # print(self.ResponseHeaders)
+        #缺少流量清洗功能 后续添加清洗功能
 
 addons = [
     ProxyDataCollection()

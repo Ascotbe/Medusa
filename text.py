@@ -84,3 +84,9 @@
 #.\redis-server.exe redis.windows.conf
 # git commit -m  "v0.82.3:palm_tree:"
 #find . -type d -name '__pycache__' | xargs rm -rf
+
+import hashlib
+m = hashlib.md5()
+m.update("".encode("utf8"))
+print(m.hexdigest())
+

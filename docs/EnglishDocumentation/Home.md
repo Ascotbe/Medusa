@@ -11,8 +11,6 @@
 
 <h1 align="center" >Welcome to Medusa</h1>
 
-**请使用者遵守 [中华人民共和国网络安全法](http://www.cac.gov.cn/2016-11/07/c_1119867116.htm)，勿将Medusa项目用于非授权的测试，Medusa项目开发者不负任何连带法律责任。**
-
 ## About `Medusa`
 
 > The project is licensed under `GPL`.Free for non-commercial use.
@@ -59,3 +57,13 @@ python3 MedusaScan.py -u www.ascotbe.com
 - QQ group：690021184
 - [GitHub issue](https://github.com/Ascotbe/Medusa/issues)
 
+## Disclaimer
+
+Add the following content to the original [protocol](https://github.com/Ascotbe/Medusa/blob/master/LICENSE):
+
+- If there is any ambiguity, the Chinese version of the description shall be the only explanation
+
+- Unauthorized commercial use is prohibited for this project
+- This project is only for the safe construction activities of enterprises that are **legally authorized**. When using this project for testing, you should ensure that the behavior complies with local laws and regulations and has obtained sufficient authorization.
+- If you have any illegal behavior in the process of using this project, you need to bear the corresponding consequences yourself, and we will not bear any legal and joint liabilities.
+- Before using this project, please **read carefully and fully understand the content of each clause**. Restrictions, exemption clauses or other clauses involving your major rights and interests may be bolded, underlined, etc. to remind you to pay attention. Unless you have fully read, fully understood and accepted all the terms of this agreement, please do not use this item. Your use behavior or your acceptance of this agreement in any other express or implied manner shall be deemed to have been read and agreed to be bound by this agreement.

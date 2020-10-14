@@ -676,3 +676,49 @@ class OriginalProxyData:#从代理中获取数据包进行存储
     #     except Exception as e:
     #         ErrorLog().Write("Web_WebClassCongregation_ReportGenerationList(class)_QueryTokenValidity(def)", e)
     #         return None
+class HomeInfo:#查询首页信息表
+    def __init__(self):
+        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        # 获取所创建数据的游标
+        self.cur = self.con.cursor()
+        self.info={}#用来存数据
+
+    def NumberOfVulnerabilities(self, **kwargs):#查询漏洞个数,以及各个等级相关个数，通过查询medusa表来获取所有个数
+        Uid = kwargs.get("uid")
+        try:
+            #查询总个数
+            self.cur.execute("select ssid from Medusa where uid =? ", (Uid,))
+            self.info["number_of_vulnerabilities"]=str(len(self.cur.fetchall()))
+            #查询高危个数
+            self.cur.execute("select ssid from Medusa where uid =? and rank='高危'", (Uid,))
+            self.info["high_risk_number"] = str(len(self.cur.fetchall()))
+            #查询中危个数
+            self.cur.execute("select ssid from Medusa where uid =? and rank='中危'", (Uid,))
+            self.info["mid_risk_number"] = str(len(self.cur.fetchall()))
+            #查询高危个数
+            self.cur.execute("select ssid from Medusa where uid =? and rank='低危'", (Uid,))
+            self.info["low_risk_number"] = str(len(self.cur.fetchall()))
+            self.con.close()
+            print(self.info)
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_HomeInfo(class)_NumberOfVulnerabilities(def)", e)
+            return None
+    def TimeDistribution(self, **kwargs):#查询时间段，漏洞时间分布，通过查询medusa表来获取所有个数
+        Uid = kwargs.get("uid")
+        # try:
+        #查询时间段中数据分布
+        self.cur.execute("select timestamp from Medusa where uid =? ", (Uid,))
+        CountDict = {}
+        Tmp=[]
+        ######排序统计算法后续要改
+        for x in self.cur.fetchall():#先对数据进行提取
+            Tmp.append(x[0])
+        for i in set(Tmp):#在对数据进行统计
+            CountDict[i] = Tmp.count(i)
+        print(CountDict)
+        print(len(CountDict))
+
+
+        # except Exception as e:
+        #     ErrorLog().Write("Web_WebClassCongregation_HomeInfo(class)_TimeDistribution(def)", e)
+        #     return None

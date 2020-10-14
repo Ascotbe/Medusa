@@ -56,9 +56,9 @@ def UpdatePassword(request):#更新密码
             UpdatePassword=UserInfo().UpdatePasswd(name=UserName,old_passwd=Md5OldPasswd,new_passwd=Md5NewPasswd)
             if UpdatePassword:
                 UserOperationLogRecord(request, request_api="update_password", uid=UserName)#如果修改成功写入数据库中
-                return JsonResponse({'message': '修改成功~', 'code': 200, })
+                return JsonResponse({'message': '好耶！修改成功~', 'code': 200, })
             else:
-                return JsonResponse({'message': "输入信息有误重新输入", 'code': 404, })
+                return JsonResponse({'message': "输入信息有误重新输入", 'code': 403, })
         except Exception as e:
             ErrorLog().Write("Web_Api_User_UpdatePassword(def)", e)
     else:
@@ -81,7 +81,7 @@ def UpdateShowName(request):#更新显示名字
                 UserOperationLogRecord(request, request_api="update_show_name", uid=Uid)  # 查询到了在计入
                 UpdateShowNameResult=UserInfo().UpdateShowName(uid=Uid,show_name=NewShowName)#获取值查看是否成功
                 if UpdateShowNameResult:
-                    return JsonResponse({'message': '修改成功~', 'code': 200, })
+                    return JsonResponse({'message': '好诶！修改成功~', 'code': 200, })
                 else:
                     return JsonResponse({'message': "输入信息有误重新输入", 'code': 403, })
         except Exception as e:
@@ -105,7 +105,7 @@ def UpdateKey(request):#更新Key
                 UserOperationLogRecord(request, request_api="update_key", uid=Uid)  # 查询到了在计入
                 UpdateKeyResult=UserInfo().UpdateKey(uid=Uid,key=NewKey)#获取值查看是否成功
                 if UpdateKeyResult:
-                    return JsonResponse({'message': '修改成功~', 'code': 200, })
+                    return JsonResponse({'message': '呐呐呐呐！修改成功了呢~', 'code': 200, })
                 else:
                     return JsonResponse({'message': "输入信息有误重新输入", 'code': 403, })
         except Exception as e:
@@ -114,3 +114,36 @@ def UpdateKey(request):#更新Key
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
 #还差更新邮箱和更新头像功能
+
+"""user_info
+{
+	"token": ""
+}
+"""
+def PersonalInformation(request):#用户个人信息
+    RequestLogRecord(request, request_api="personal_information")
+    if request.method == "POST":
+        try:
+            Token=json.loads(request.body)["token"]
+            Info=UserInfo().QueryUserInfo(Token)
+            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询用户名
+            if Uid!=None: # 查到了UID
+                UserOperationLogRecord(request, request_api="personal_information", uid=Uid)
+            if Info is None:
+                return JsonResponse({'message': '搁着闹呢？', 'code': 404, })
+            elif Info != None:
+                JsonValues = {}#对数据进行二次处理
+                JsonValues["id"] = Info["id"]
+                JsonValues["key"] = Info["key"]
+                JsonValues["name"] = Info["name"]
+                JsonValues["token"] = Info["token"]
+                JsonValues["show_name"] = Info["show_name"]
+                JsonValues["email"] = Info["email"]
+                JsonValues["img_path"] = Info["img_path"]
+                return JsonResponse({'message': JsonValues, 'code': 200, })
+
+
+        except Exception as e:
+            ErrorLog().Write("Web_Api_UserInfo_PersonalInformation(def)", e)
+    else:
+        return JsonResponse({'message': '请使用Post请求', 'code': 500, })

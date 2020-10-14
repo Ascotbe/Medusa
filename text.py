@@ -84,3 +84,5 @@
 #.\redis-server.exe redis.windows.conf
 # git commit -m  "v0.82.3:palm_tree:"
 #find . -type d -name '__pycache__' | xargs rm -rf
+from Web.WebClassCongregation import HomeInfo
+HomeInfo().TimeDistribution(uid="Ayanami Rei")

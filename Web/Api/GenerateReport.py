@@ -28,10 +28,10 @@ def GenerateWord(request):#生成word文档报告
                     ReportGenerationList().Write(sid=Sid,uid=Uid,file_name=WordDownloadFileName)#把相关数据写到数据库中
                     return JsonResponse({'message': WordDownloadFileName, 'code': 200, })
                 else:
-                    return JsonResponse({'message': '报告生成失败了！🐈', 'code': 404, })
+                    return JsonResponse({'message': '莎酱生不出小莎酱惹QAQ', 'code': 404, })
         except Exception as e:
             ErrorLog().Write("Web_Api_GenerateReport_GenerateWord(def)", e)
-            return JsonResponse({'message': '莎酱被玩坏啦(>^ω^<)喵', 'code': 500, })
+            return JsonResponse({'message': '莎酱被玩坏啦(>^ω^<)喵', 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
@@ -60,10 +60,10 @@ def DownloadWord(request):#下载word报告
                     response['Content-Disposition'] = 'attachment;filename='+FileName
                     return response
                 else:
-                    return JsonResponse({'message': '啊啊啊它不是你的，别瞎搞呀！', 'code': 404, })
+                    return JsonResponse({'message': '啊啊啊它不是你的小莎酱，别乱抱呀！', 'code': 404, })
         except Exception as e:
             ErrorLog().Write("Web_Api_GenerateReport_GenerateWord(def)", e)
-            return JsonResponse({'message': '莎酱被玩坏啦(>^ω^<)喵', 'code': 500, })
+            return JsonResponse({'message': '莎酱被玩坏啦(>^ω^<)喵', 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 

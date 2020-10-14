@@ -31,7 +31,7 @@ def CreateProxyScanProject(request):#创建代理扫描项目
                 if QueryTheResultOfTheProxyProjectName==False:
                     Md5ProxyPassword = Md5Encryption().Md5Result(ProxyPassword) # 对密码进行MD5加密
                     ProxyScanList().Write(uid=Uid,end_time=EndTime,proxy_project_name=ProxyProjectName,proxy_username=ProxyUsername,proxy_password=Md5ProxyPassword)#写入表中
-                    return JsonResponse({'message': '创建成功~', 'code': 200, })
+                    return JsonResponse({'message': '小宝贝!创建成功了呢~', 'code': 200, })
                 else:
                     return JsonResponse({'message': '代理扫描项目创建失败!', 'code': 403, })
 

@@ -3,7 +3,7 @@
  <p align="center">
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Ascotbe-Medusa-green"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/python-3.7+-blueviolet"></a>
-    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Version-0.88-red"></a>
+    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Version-0.89-red"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/LICENSE-GPL-ff69b4"></a>
 	<a href="https://github.com/ascotbe/Medusa/stargazers"><img alt="Release" src="https://img.shields.io/github/stars/ascotbe/Medusa.svg"></a>
 	<a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Plugin-200+-success"></a>
@@ -76,6 +76,8 @@ git clone https://gitee.com/asc0t6e/Medusa.git
 |-m    |1       |针对单独的模块进行扫描比如Struts2、Apache等|具体内容可以通过项目Modules文件夹中对应名字来输入|
 |-t    |1       |设置进程数 |默认进程数5  |
 |-s    |1       |开启子域名探测| |
+|-PL    |1       |列表形式的端口| 只要是使用非数字隔开即可，超过65535的端口都会剔除，如果不输出 -p 或者 -P 会对默认端口进行扫描。eg:22,139,445,3389|
+|-PR    |1       |范围形式的端口| 只要是使用非数字隔开即可，超过65535的端口都会剔除，如果不输出 -p 或者 -P 会对默认端口进行扫描。eg:1-65535  |
 
 ### :four_leaf_clover:更新日志
 

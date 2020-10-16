@@ -32,7 +32,7 @@ from Modules.BIG_IP import BIG_IP
 from Modules.Apache.Tomcat import Tomcat
 import tldextract
 from Modules.Subdomain.SubdomainSearch import SubdomainSearch
-from Exploit.Exploit import main#命令执行函数
+#from Exploit.Exploit import main#命令执行函数
 import ClassCongregation
 import Banner
 import argparse
@@ -48,6 +48,8 @@ parser.add_argument('-a','--Agent',type=str,help="Specify a header file or use a
 parser.add_argument('-t','--ProcessNumber',type=int,help="Set the number of process, the default number of process 5.")
 parser.add_argument('-f','--InputFileName',type=str,help="Specify bulk scan file batch scan")
 parser.add_argument('-s','--Subdomain',help="Collect subdomains",action="store_true")
+parser.add_argument('-PL', '--PortListInformation', type=str, help="The input port format is 22,445,3389")
+parser.add_argument('-PR', '--PortRangeInformation', type=str, help="The input port format is 1-65535")
 #parser.add_argument('-l','--List',help="List interactive command execution plugins",action="store_true")
 #parser.add_argument('-e','--Exploit',help="You need to use the vulnerability, please use -l to query",type=str)
 #parser.add_argument('-d','--Deserialization',help="Use deserialization to execute commands",type=str)
@@ -92,8 +94,6 @@ MedusaModuleList={
 }
 
 
-def NmapScan(url):#Nmap扫描这样就可以开多线程了
-    ClassCongregation.NmapScan(url).ScanPort()#调用Nmap扫描类
 
 def InitialScan(Pool,InputFileName,Url,Module,AgentHeader,Proxies,**kwargs):
     try:
@@ -143,6 +143,11 @@ def San(Pool,Url,AgentHeader,Module,Proxies,**kwargs):
             os._exit(0)  # 直接退出整个函数
     Pool.Start(ProcessNumber)#启动多进程
 
+def Port(**kwargs):
+    # PortInformation=kwargs.get("PortInformation")
+    # Url=kwargs.get("Url")
+    # PortType=kwargs.get("PortType")
+    ClassCongregation.PortScan(Url).Start(**kwargs)
 
 if __name__ == '__main__':
     Banner.RandomBanner()#输出随机横幅
@@ -154,11 +159,12 @@ if __name__ == '__main__':
     Subdomain=args.Subdomain#开启子域名枚举
     ProcessNumber=args.ProcessNumber#要使用的进程数默认15
     Proxies= args.ProxiesIP#代理的IP
+    PortListInformation = args.PortListInformation  # 字典类型端口
+    PortRangeInformation = args.PortRangeInformation  # 范围型端口
     #ExploitList = args.List  # 列出所有可以交互使用的poc
     #Exploit = args.Exploit  # 利用那个可以交互的poc
     #Deserialization=args.Deserialization#获取反序列化插件
-
-    if ProcessNumber==None:#如果线程数为空，那么默认为5
+    if ProcessNumber==None:#如果进程数为空，那么默认为5
         ProcessNumber=5
 
     if Url==None and InputFileName==None:#如果找不到URL的话直接退出
@@ -188,6 +194,27 @@ if __name__ == '__main__':
     if Subdomain:#如果传入-s启动子域名探测
         Pool.Append(SubdomainSearch, Url, AgentHeader, proxies=Proxies,Sid=Sid,Uid=Uid)
 
+################
+#对端口传入进行判断
+################
+    if PortListInformation == None and PortRangeInformation == None:  # 默认默认扫描端口信息
+        print("\033[32m[ + ] Use default port detection module \033[0m")
+        Pool.PortAppend(Port,PortInformation="",PortType=3,Sid=Sid,Uid=Uid)
+    elif PortListInformation != None and PortRangeInformation != None:  # 都不等于空的情况
+        print("\033[31m[ ! ] Only one format port can be entered, please use -h to view the help file!\033[0m")
+        os._exit(0)  # 直接退出整个函数
+    elif PortListInformation == None and PortRangeInformation != None:  # 输入范围型端口
+        PortType = 1
+        Pool.PortAppend(Port, PortInformation=PortRangeInformation, PortType=1, Sid=Sid, Uid=Uid)
+        print("\033[32m[ + ] The scan range is: "+"\033[0m"+"\033[35m"+PortRangeInformation+"\033[0m")
+    elif PortListInformation != None and PortRangeInformation == None:  # 输入字典型端口
+        PortType = 2
+        Pool.PortAppend(Port, PortInformation=PortListInformation, PortType=2, Sid=Sid, Uid=Uid)
+        print("\033[32m[ + ] The scanned dictionary is"+"\033[0m"+"\033[35m"+ PortListInformation+ "\033[0m")
+
+################
+#调用扫描中函数
+################
     InitialScan(Pool,InputFileName, Url,Module,AgentHeader,Proxies,Sid=Sid,Uid=Uid)#最后启动主扫描函数，这样如果多个IP的话优化速度，里面会做url或者url文件的判断
     print("\033[31m[ ! ] Scan is complete, please see the ScanResult file\033[0m")
 

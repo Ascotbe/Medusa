@@ -2,13 +2,13 @@
 # _*_ coding: utf-8 _*_
 from fake_useragent import UserAgent
 import urllib.parse
-import nmap
 import requests
 import sqlite3
 from tqdm import tqdm
 import logging
 import os
 import re
+import socket
 import base64
 import random
 import sys
@@ -18,7 +18,7 @@ from typing import List, Dict, Tuple, Any
 import threading
 import subprocess
 import hashlib
-from config import ceye_dnslog_url, ceye_dnslog_key, debug_mode,dnslog_name
+from config import ceye_dnslog_url, ceye_dnslog_key, debug_mode,dnslog_name,port_threads_number,port_timeout_period,thread_timeout_number
 
 #########
 # 全局变量
@@ -91,93 +91,118 @@ class GetDatabaseFilePath:  # 数据库文件路径返回值
             return DatabaseFilePath
 
 
-class NmapScan:  # 扫描端口类
+class PortScan:  # 扫描端口类
     def __init__(self, Url: str):
-        Host = IpProcess(Url)  # 调用IP处理函数
-        self.Host = Host  # 提取后的网址或者IP
-        # self.Port = "445"#测试
-        self.Port = "1-65535"  # 如果用户没输入就扫描全端口
-
-    def ScanPort(self) -> None:
         try:
-            Nmap = nmap.PortScanner()
-            ScanResult = Nmap.scan(self.Host, self.Port, '-sS -Pn -n --open --min-hostgroup 4 --min-parallelism 1024 --host-timeout 30 -T4 -v')
-            HostAddress = re.compile('{\'([\d.]+)\': {').findall(str(ScanResult['scan']))[0]  # 只能用正则取出ip的值
-            for port in ScanResult['scan'][HostAddress]['tcp']:
-                Nmaps = ScanResult['scan'][HostAddress]['tcp'][port]
-                NmapDB(Nmaps, port, self.Host, HostAddress).Write()
-        except IOError:
-            print("Please enter the correct nmap scan command.")
+            self.Host = IpProcess(Url)  # 调用IP处理函数,获取URL或者IP
+            self.Ip=socket.gethostbyname(self.Host)#如果是URL会进行二次处理获取到IP
+            self.CustomizePortList =[] # 用户输入处理后的列表
+            self.DefaultPortList = [20, 21, 22, 23, 53,80, 161, 389, 443, 873, 1025, 1099, 2222, 2601, 2604, 3312, 3311, 4440, 5900, 5901,
+                       5902, 7002, 9000, 9200, 10000, 50000, 50060, 50030, 8080, 139, 445, 3389, 13389, 7001, 1521, 3306,
+                       1433, 5000, 5432, 27017, 6379, 11211]  # 常用端口扫描列表
+            self.OpenPorts=[]
+        except Exception as e:
+            ErrorLog().Write("ClassCongregation_PortScan(class)___init__(def)", e)
 
 
-# 为每个任务加个唯一的加密ID然后存入，后面和读取数据库后进行全量端口爆破做铺垫
-class NmapDB:  # NMAP的数据库
-    def __init__(self, Nmap, port: str, ip: str, domain: str):
-        self.state = Nmap['state']  # 端口状态
-        self.reason = Nmap['reason']  # 端口回复
-        self.name = Nmap['name']  # 服务名称
-        self.product = Nmap['product']  # 服务器类型
-        self.version = Nmap['version']  # 版本
-        self.extrainfo = Nmap['extrainfo']  # 其他信息
-        self.conf = Nmap['conf']  # 配置
-        self.cpe = Nmap['cpe']  # 消息头
-        self.port = port  # 有哪些端口
-        self.ip = ip  # 扫描的目标
-        self.domain = domain  # 域名
+    def PortTest(self,**kwargs):
+        port = int(kwargs.get("port"))
+
+        try:
+            sk = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sk.connect((self.Ip, port))
+            sk.settimeout(port_timeout_period)
+            sk.close()
+            self.OpenPorts.append(str(port))  # 传入列表中
+            #成功直接调用写入端口函数
+
+        except Exception as e:
+            pass
+    def Start(self,**kwargs):
+        #传入端口列表，主函数中写入
+        PortInformation = kwargs.get("PortInformation")
+        PortType = kwargs.get("PortType")
+        Uid=kwargs.get("Uid")
+        Sid=kwargs.get("Sid")
+        self.PortHandling(PortInformation,PortType)
+        Pool = ThreadPool()
+        for Port in self.CustomizePortList:
+            Pool.Append(self.PortTest, port=Port)
+
+        Pool.Start(port_threads_number)  # 启动线程池
+        #print(self.OpenPorts)
+        #调用写入数据库函数和调用写入文件函数
+        CreationTime=str(int(time.time()))
+        for i in self.OpenPorts:#循环写入到数据库中
+            PortDB(Uid=Uid,Sid=Sid,Ip=self.Ip,Domain=self.Host,CreationTime=CreationTime,Port=i).Write()#写到数据库中
+            WriteFile().result(TargetName=self.Host+"_Port",Medusa=self.Ip+":"+i+"\n")#写到文件中
+    def PortHandling(self,PortInformation,PortType):  # 进行正则匹配处理
+        try:
+            Pattern = re.compile(r'\d*')  # 查找数字
+            RegularResult = Pattern.findall(PortInformation)
+            if PortType == 1:  # 处理为范围类型数据
+                ExtractContent = []  # 剔除空字节内容和超过最大端口数据
+                for i in RegularResult:
+                    if i != "" and int(i) <= 65535:
+                        ExtractContent.append(i)
+                PortStart = int(ExtractContent[0])  # 起始端口
+                PortEnd = int(ExtractContent[1])  # 起始端口
+                if PortEnd < PortStart:  # 如果用户输入错误为大的在前面小的在后面的话
+                    tmp = PortEnd
+                    PortEnd = PortStart
+                    PortStart = tmp
+                for Port in range(PortStart, PortEnd + 1):
+                    self.CustomizePortList.append(Port)
+            if PortType == 2:  # 处理为字典类型数据
+                for Port in RegularResult:
+                    if Port != "" and int(Port) <= 65535:
+                        self.CustomizePortList.append(Port)
+            if PortType == 3:  # 使用默认字典
+                self.CustomizePortList=self.DefaultPortList
+        except Exception as e:
+            ErrorLog().Write("ClassCongregation_PortScan(class)_PortHandling(def)", e)
+
+
+
+
+class PortDB:  # 端口数据表
+    def __init__(self,**kwargs):
+        self.uid = kwargs.get("Uid") # 用户UID
+        self.sid = kwargs.get("Sid")  # 扫描SID
+        self.port = kwargs.get("Port")  # 开放端口
+        self.ip = kwargs.get("Ip")  # 目标IP
+        self.domain = kwargs.get("Domain") # 目标域名
+        self.creation_time=kwargs.get("CreationTime") # 创建时间
         # 如果数据库不存在的话，将会自动创建一个 数据库
         self.con = sqlite3.connect(GetDatabaseFilePath().result())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表
         try:
-            self.cur.execute("CREATE TABLE Nmap\
-                        (domain TEXT,\
-                        ip TEXT,\
-                        port TEXTL,\
-                        state TEXT,\
-                        name TEXT,\
-                        product TEXT,\
-                        reason TEXT,\
-                        version TEXT,\
-                        extrainfo TEXT,\
-                        conf TEXT,\
-                        cpe TEXT)")
+            self.cur.execute("CREATE TABLE PortInfo\
+                            (pid INTEGER PRIMARY KEY,\
+                            uid TEXT NOT NULL,\
+                            sid TEXT NOT NULL,\
+                            port TEXT NOT NULL,\
+                            ip TEXT NOT NULL,\
+                            domain TEXT NOT NULL,\
+                            creation_time TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("ClassCongregation_NmapDB(class)_init(def)", e)
+            ErrorLog().Write("ClassCongregation_PortDB(class)_init(def)", e)
 
-    def Write(self) -> None:
+    def Write(self):
         try:
-
-            # sql_insert = """INSERT INTO Nmap (domain,ip,port,state,name,product,reason,version,extrainfo,conf,cpe) VALUES ('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')""".format(self.domain,self.ip,self.port,self.state,self.name,self.product,self.reason,self.version,self.extrainfo,self.conf,self.cpe)
             self.cur.execute(
-                """INSERT INTO Nmap (domain,ip,port,state,name,product,reason,version,extrainfo,conf,cpe) VALUES (?,?,?,?,?,?,?,?,?,?,?)""",
-                (self.domain, self.ip, self.port, self.state, self.name, self.product, self.reason, self.version,
-                 self.extrainfo, self.conf, self.cpe,))
+                """INSERT INTO PortInfo (uid,sid,port,ip,domain,creation_time) VALUES (?,?,?,?,?,?)""",
+                (self.uid,self.sid,self.port, self.ip, self.domain, self.creation_time,))
             # 提交
             self.con.commit()
             self.con.close()
         except Exception as e:
-            ErrorLog().Write("ClassCongregation_NmapDB(class)_Write(def)", e)
+            ErrorLog().Write("ClassCongregation_PortDB(class)_Write(def)", e)
 
 
-class NmapRead:  # 读取Nmap扫描后的数据
-    def __init__(self, id: str):
-        self.id = id  # 每个任务唯一的ID值
-        self.con = sqlite3.connect(GetDatabaseFilePath().result())
-        self.cur = self.con.cursor()
 
-    def Read(self) -> List[str]:
-        try:
-            port_list = []
-            self.cur.execute("select * from Nmap where id =?", (self.id,))
-            values = self.cur.fetchall()
-            for i in values:
-                if i[3] == "open":
-                    port_list.append(i[2])  # 发送端口号到列表中
-            self.con.close()
-            return port_list
-        except Exception as e:
-            ErrorLog().Write("ClassCongregation_NmapRead(class)_Read(def)", e)
 
 
 class GithubCveApi:  # CVE写入表
@@ -525,7 +550,7 @@ class ThreadPool:  # 线程池，适用于单个插件
                 if (len(threading.enumerate()) < ThreadNumber):
                     break
         for p in self.ThreaList:
-            p.join()
+            p.join(thread_timeout_number)
         self.ThreaList.clear()  # 清空列表，防止多次调用导致重复使用
 
 class ProcessPool:  # 进程池，解决pythonGIL锁问题，单核跳舞实在难受
@@ -535,12 +560,12 @@ class ProcessPool:  # 进程池，解决pythonGIL锁问题，单核跳舞实在�
 
     def Append(self, Plugin, Url, Values,proxies,**kwargs):
         Headers=GetHeaders().DefaultResult(Values)#获取标头
-        Uid=kwargs.get("Uid")
-        Sid=kwargs.get("Sid")
-        self.ProcessList.append(multiprocessing.Process(target=Plugin, args=(Url, Headers, proxies,),kwargs={"Uid":Uid,"Sid":Sid}))
+        # Uid=kwargs.get("Uid")
+        # Sid=kwargs.get("Sid")
+        self.ProcessList.append(multiprocessing.Process(target=Plugin, args=(Url, Headers, proxies,),kwargs=kwargs))
 
-    def NmapAppend(self, Plugin, Url):
-        self.ProcessList.append(multiprocessing.Process(target=Plugin, args=(Url)))
+    def PortAppend(self, Plugin, **kwargs):
+        self.ProcessList.append(multiprocessing.Process(target=Plugin, kwargs=kwargs))
 
     def Start(self, ProcessNumber):
         if debug_mode:  # 如果开了debug模式就不显示进度条

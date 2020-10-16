@@ -3,7 +3,7 @@
  <p align="center">
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Ascotbe-Medusa-green"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/python-3.7+-blueviolet"></a>
-    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Version-0.88-red"></a>
+    <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Version-0.89-red"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/LICENSE-GPL-ff69b4"></a>
 	<a href="https://github.com/ascotbe/Medusa/stargazers"><img alt="Release" src="https://img.shields.io/github/stars/ascotbe/Medusa.svg"></a>
 	<a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Plugin-200+-success"></a>
@@ -51,6 +51,9 @@ python3 MedusaScan.py -u www.ascotbe.com
 | -m   | 1        | 针对单独的模块进行扫描比如Struts2、Apache等                  | 具体内容可以通过项目文件夹来输入                             |
 | -t   | 1        | 设置进程数                                  |    默认进程数5                                                           |
 |-s    |1       |开启子域名探测| |
+|-PL    |1       |列表形式的端口| 只要是使用非数字隔开即可，超过65535的端口都会剔除，如果不输出 -p 或者 -P 会对默认端口进行扫描。eg:22,139,445,3389|
+|-PR    |1       |范围形式的端口| 只要是使用非数字隔开即可，超过65535的端口都会剔除，如果不输出 -p 或者 -P 会对默认端口进行扫描。eg:1-65535  |
+
 
 ```
 本工具仅能在取得足够合法授权的企业安全建设中使用，在使用本工具过程中，您应确保自己所有行为符合当地的法律法规。 如您在使用本工具的过程中存在任何非法行为，您将自行承担所有后果，本工具所有开发者和所有贡献者不承担任何法律及连带责任。 除非您已充分阅读、完全理解并接受本协议所有条款，否则，请您不要安装并使用本工具。 您的使用行为或者您以其他任何明示或者默示方式表示接受本协议的，即视为您已阅读并同意本协议的约束。

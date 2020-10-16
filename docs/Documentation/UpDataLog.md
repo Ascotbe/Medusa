@@ -1868,3 +1868,15 @@ v0.89.2🌴
 更新homepage_data的API返回函数（未写完
 ```
 
+>  2020.10.16
+
+```
+v0.89.3🌴
+添加端口扫描功能
+添加PortScan类
+添加PortInfo类
+修改ProcessPool类函数
+修改HomeInfo类函数（未写完
+修改文档内容
+修改配置文件内容
+```

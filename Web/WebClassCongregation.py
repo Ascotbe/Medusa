@@ -699,26 +699,65 @@ class HomeInfo:#查询首页信息表
             self.cur.execute("select ssid from Medusa where uid =? and rank='低危'", (Uid,))
             self.info["low_risk_number"] = str(len(self.cur.fetchall()))
             self.con.close()
-            print(self.info)
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_HomeInfo(class)_NumberOfVulnerabilities(def)", e)
             return None
     def TimeDistribution(self, **kwargs):#查询时间段，漏洞时间分布，通过查询medusa表来获取所有个数
         Uid = kwargs.get("uid")
-        # try:
-        #查询时间段中数据分布
-        self.cur.execute("select timestamp from Medusa where uid =? ", (Uid,))
-        CountDict = {}
-        Tmp=[]
-        ######排序统计算法后续要改
-        for x in self.cur.fetchall():#先对数据进行提取
-            Tmp.append(x[0])
-        for i in set(Tmp):#在对数据进行统计
-            CountDict[i] = Tmp.count(i)
-        print(CountDict)
-        print(len(CountDict))
+        try:
+            #查询时间段中数据分布
+            self.cur.execute("select timestamp from Medusa where uid =? ", (Uid,))
+            CountDict = {}
+            Tmp=[]
 
+            for x in self.cur.fetchall():#先对数据进行提取
+                Tmp.append(x[0])
+            for i in set(Tmp):#在对数据进行统计
+                CountDict[i] = Tmp.count(i)
+            #对数据进行排序
+            SortResult = sorted(CountDict.items(), key=lambda item: item[0])
+            self.info["time_distribution"]=SortResult
+            self.con.close()
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_HomeInfo(class)_TimeDistribution(def)", e)
+            return None
 
-        # except Exception as e:
-        #     ErrorLog().Write("Web_WebClassCongregation_HomeInfo(class)_TimeDistribution(def)", e)
-        #     return None
+    def NumberOfWebsites(self, **kwargs):#查询目标网站个数，通过ActiveScanList列表查询
+        Uid = kwargs.get("uid")
+        try:
+
+            self.cur.execute("select sid from ActiveScanList where uid =? ", (Uid,))
+
+            #先对数据进行提取
+
+            self.info["number_of_websites"]=str(len(self.cur.fetchall()))
+            self.con.close()
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_HomeInfo(class)_NumberOfWebsites(def)", e)
+            return None
+    # def NumberOfPorts(self, **kwargs):#查询全部端口发现数量
+    #     Uid = kwargs.get("uid")
+    #     try:
+    #
+    #         self.cur.execute("select sid from ActiveScanList where uid =? ", (Uid,))
+    #
+    #         #先对数据进行提取
+    #
+    #         self.info["number_of_websites"]=str(len(self.cur.fetchall()))
+    #         self.con.close()
+    #     except Exception as e:
+    #         ErrorLog().Write("Web_WebClassCongregation_HomeInfo(class)_TimeDistribution(def)", e)
+    #         return None
+    # def NumberOfAgentTasks(self, **kwargs):#查询代理扫描数量，暂无模块
+    #     Uid = kwargs.get("uid")
+    #     try:
+    #
+    #         self.cur.execute("select sid from ActiveScanList where uid =? ", (Uid,))
+    #
+    #         #先对数据进行提取
+    #
+    #         self.info["number_of_websites"]=str(len(self.cur.fetchall()))
+    #         self.con.close()
+    #     except Exception as e:
+    #         ErrorLog().Write("Web_WebClassCongregation_HomeInfo(class)_TimeDistribution(def)", e)
+    #         return None

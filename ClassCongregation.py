@@ -134,7 +134,7 @@ class PortScan:  # 扫描端口类
         #调用写入数据库函数和调用写入文件函数
         CreationTime=str(int(time.time()))
         for i in self.OpenPorts:#循环写入到数据库中
-            PortDB(Uid=Uid,Sid=Sid,Ip=self.Ip,Domain=self.Host,CreationTime=CreationTime,Port=i).Write()#写到数据库中
+            PortDB(uid=Uid,sid=Sid,ip=self.Ip,domain=self.Host,creation_time=CreationTime,port=i).Write()#写到数据库中
             WriteFile().result(TargetName=self.Host+"_Port",Medusa=self.Ip+":"+i+"\n")#写到文件中
     def PortHandling(self,PortInformation,PortType):  # 进行正则匹配处理
         try:
@@ -167,12 +167,12 @@ class PortScan:  # 扫描端口类
 
 class PortDB:  # 端口数据表
     def __init__(self,**kwargs):
-        self.uid = kwargs.get("Uid") # 用户UID
-        self.sid = kwargs.get("Sid")  # 扫描SID
-        self.port = kwargs.get("Port")  # 开放端口
-        self.ip = kwargs.get("Ip")  # 目标IP
-        self.domain = kwargs.get("Domain") # 目标域名
-        self.creation_time=kwargs.get("CreationTime") # 创建时间
+        self.uid = kwargs.get("uid") # 用户UID
+        self.sid = kwargs.get("sid")  # 扫描SID
+        self.port = kwargs.get("port")  # 开放端口
+        self.ip = kwargs.get("ip")  # 目标IP
+        self.domain = kwargs.get("domain") # 目标域名
+        self.creation_time=kwargs.get("creation_time") # 创建时间
         # 如果数据库不存在的话，将会自动创建一个 数据库
         self.con = sqlite3.connect(GetDatabaseFilePath().result())
         # 获取所创建数据的游标
@@ -201,7 +201,26 @@ class PortDB:  # 端口数据表
         except Exception as e:
             ErrorLog().Write("ClassCongregation_PortDB(class)_Write(def)", e)
 
-
+    def Query(self, **kwargs):
+            Uid = kwargs.get("uid")
+            Sid = kwargs.get("sid")
+            try:
+                self.cur.execute("select * from PortInfo where sid =? and uid=?", (Sid, Uid,))
+                result_list = []  # 存放json的返回结果列表用
+                for i in self.cur.fetchall():
+                    JsonValues = {}
+                    JsonValues["uid"] = i[1]
+                    JsonValues["sid"] = i[2]
+                    JsonValues["port"] = i[3]
+                    JsonValues["ip"] = i[4]
+                    JsonValues["domain"] = i[5]
+                    JsonValues["creation_time"] = i[6]
+                    result_list.append(JsonValues)
+                self.con.close()
+                return result_list
+            except Exception as e:
+                ErrorLog().Write("Web_WebClassCongregation_ReportGenerationList(class)_QueryTokenValidity(def)", e)
+                return None
 
 
 

@@ -683,8 +683,7 @@ class HomeInfo:#查询首页信息表
         self.cur = self.con.cursor()
         self.info={}#用来存数据
 
-    def NumberOfVulnerabilities(self, **kwargs):#查询漏洞个数,以及各个等级相关个数，通过查询medusa表来获取所有个数
-        Uid = kwargs.get("uid")
+    def NumberOfVulnerabilities(self,Uid):#查询漏洞个数,以及各个等级相关个数，通过查询medusa表来获取所有个数
         try:
             #查询总个数
             self.cur.execute("select ssid from Medusa where uid =? ", (Uid,))
@@ -698,15 +697,13 @@ class HomeInfo:#查询首页信息表
             #查询高危个数
             self.cur.execute("select ssid from Medusa where uid =? and rank='低危'", (Uid,))
             self.info["low_risk_number"] = str(len(self.cur.fetchall()))
-            self.con.close()
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_HomeInfo(class)_NumberOfVulnerabilities(def)", e)
             return None
-    def TimeDistribution(self, **kwargs):#查询时间段，漏洞时间分布，通过查询medusa表来获取所有个数
-        Uid = kwargs.get("uid")
+    def TimeDistribution(self, Uid,StartTime,EndTime):#查询时间段中，漏洞分布，通过查询medusa表来获取所有个数
         try:
             #查询时间段中数据分布
-            self.cur.execute("select timestamp from Medusa where uid =? ", (Uid,))
+            self.cur.execute("select timestamp from Medusa where uid =? and timestamp<=? and timestamp>=?", (Uid,EndTime,StartTime,))
             CountDict = {}
             Tmp=[]
 
@@ -717,13 +714,11 @@ class HomeInfo:#查询首页信息表
             #对数据进行排序
             SortResult = sorted(CountDict.items(), key=lambda item: item[0])
             self.info["time_distribution"]=SortResult
-            self.con.close()
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_HomeInfo(class)_TimeDistribution(def)", e)
             return None
 
-    def NumberOfWebsites(self, **kwargs):#查询目标网站个数，通过ActiveScanList列表查询
-        Uid = kwargs.get("uid")
+    def NumberOfWebsites(self, Uid):#查询目标网站个数，通过ActiveScanList列表查询
         try:
 
             self.cur.execute("select sid from ActiveScanList where uid =? ", (Uid,))
@@ -731,33 +726,32 @@ class HomeInfo:#查询首页信息表
             #先对数据进行提取
 
             self.info["number_of_websites"]=str(len(self.cur.fetchall()))
-            self.con.close()
+
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_HomeInfo(class)_NumberOfWebsites(def)", e)
             return None
-    # def NumberOfPorts(self, **kwargs):#查询全部端口发现数量
-    #     Uid = kwargs.get("uid")
-    #     try:
-    #
-    #         self.cur.execute("select sid from ActiveScanList where uid =? ", (Uid,))
-    #
-    #         #先对数据进行提取
-    #
-    #         self.info["number_of_websites"]=str(len(self.cur.fetchall()))
-    #         self.con.close()
-    #     except Exception as e:
-    #         ErrorLog().Write("Web_WebClassCongregation_HomeInfo(class)_TimeDistribution(def)", e)
-    #         return None
-    # def NumberOfAgentTasks(self, **kwargs):#查询代理扫描数量，暂无模块
-    #     Uid = kwargs.get("uid")
-    #     try:
-    #
-    #         self.cur.execute("select sid from ActiveScanList where uid =? ", (Uid,))
-    #
-    #         #先对数据进行提取
-    #
-    #         self.info["number_of_websites"]=str(len(self.cur.fetchall()))
-    #         self.con.close()
-    #     except Exception as e:
-    #         ErrorLog().Write("Web_WebClassCongregation_HomeInfo(class)_TimeDistribution(def)", e)
-    #         return None
+    def NumberOfPorts(self, Uid):#查询全部端口发现数量，通过PortInfo表查询
+        try:
+
+            self.cur.execute("select * from PortInfo where uid=?", (Uid,))
+            self.info["number_of_port"]=str(len(self.cur.fetchall()))
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_HomeInfo(class)_NumberOfPorts(def)", e)
+            return None
+    def NumberOfAgentTasks(self, Uid):#查询代理扫描数量，暂无模块,所有返回值直接为0
+        try:
+            self.info["number_of_agent_tasks"]="0"
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_HomeInfo(class)_NumberOfAgentTasks(def)", e)
+            return None
+    def Result(self,**kwargs):
+        Uid=kwargs.get("uid")
+        StartTime=kwargs.get("start_time")
+        EndTime=kwargs.get("end_time")
+        self.NumberOfVulnerabilities(Uid)#查询漏洞个数
+        self.TimeDistribution(Uid,StartTime,EndTime)#查询时间段中，漏洞分布
+        self.NumberOfWebsites(Uid)#查询目标网站个数
+        self.NumberOfPorts(Uid)#查询全部端口发现数量
+        self.NumberOfAgentTasks(Uid)#查询代理扫描数量,改函数未写
+        self.con.close()
+        return self.info

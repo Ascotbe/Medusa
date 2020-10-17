@@ -24,7 +24,6 @@ def HomepageData(request):#用户登录成功后跳转的首页
                 if Uid != None:  # 查到了UID
                     UserOperationLogRecord(request, request_api="home", uid=Uid)
                     Home=HomeInfo().Result(uid=Uid, start_time=StartTime,end_time=EndTime)
-                    print(Home)
                     if Home==None:
                         return JsonResponse({'message': "想啥呢？不知道查询出问题了吗？", 'code': 404, })
                     else:

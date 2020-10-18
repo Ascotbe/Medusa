@@ -2,6 +2,10 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+from apscheduler.schedulers.background import BackgroundScheduler
+from Web.CommonVulnerabilityDetection.Github import GithubMonitor
+from config import github_cve_job_time
+
 
 
 def main():
@@ -18,4 +22,7 @@ def main():
 
 
 if __name__ == '__main__':
+    scheduler = BackgroundScheduler()
+    scheduler.add_job(GithubMonitor, 'interval', id='github_cve_job', seconds=github_cve_job_time)
+    scheduler.start()
     main()

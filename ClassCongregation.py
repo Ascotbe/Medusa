@@ -273,19 +273,18 @@ class GithubCveApi:  # CVE写入表
                 ErrorLog().Write("ClassCongregation_GithubCveApi(class)_Write(def)", e)
 
     def Update(self, UpdateTime: str):
-        self.cve_update_write_time = str(UpdateTime)  # 跟新时间
         try:
             self.cur.execute(
                 """UPDATE GithubCVE SET forks_count = ?,updated_at=?,pushed_at=?,watchers_count=?,update_write_time=?  WHERE github_id = ?""",
                 (self.cve_forks_count, self.cve_updated_at, self.cve_pushed_at, self.cve_watchers_count,
-                 self.cve_update_write_time, self.cve_id,))
+                 UpdateTime, self.cve_id,))
             # 提交
             self.con.commit()
             self.con.close()
         except Exception as e:
             ErrorLog().Write("ClassCongregation_GithubCveApi(class)_Update(def)", e)
 
-    def Sekect(self) -> bool:
+    def Judgment(self) -> bool:#用于判断是否更新
 
         self.cur.execute(
             """SELECT * FROM GithubCVE WHERE github_id=?""", (self.cve_id,))

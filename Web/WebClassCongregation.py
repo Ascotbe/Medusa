@@ -267,13 +267,13 @@ class ActiveScanList:#用户主动扫描网站信息列表,写入父表中的SID
         # 创建表
         try:
             self.cur.execute("CREATE TABLE ActiveScanList\
-                            (sid INTEGER PRIMARY KEY,\
+                            (active_scan_id INTEGER PRIMARY KEY,\
                             uid TEXT NOT NULL,\
                             url TEXT NOT NULL,\
                             creation_time TEXT NOT NULL,\
                             proxy TEXT NOT NULL,\
                             status TEXT NOT NULL,\
-                            threads TEXT NOT NULL,\
+                            process TEXT NOT NULL,\
                             module TEXT NOT NULL)")
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_ActiveScanList(class)_init(def)", e)
@@ -284,15 +284,15 @@ class ActiveScanList:#用户主动扫描网站信息列表,写入父表中的SID
         Proxy=kwargs.get("proxy")
         Status = kwargs.get("status")
         Module = kwargs.get("module")
-        Threads = kwargs.get("threads")
+        Process = kwargs.get("process")
         try:
-            self.cur.execute("INSERT INTO ActiveScanList(uid,url,creation_time,proxy,status,threads,module)\
-            VALUES (?,?,?,?,?,?,?)",(Uid,Url,CreationTime,Proxy,Status,Threads,Module,))
+            self.cur.execute("INSERT INTO ActiveScanList(uid,url,creation_time,proxy,status,process,module)\
+            VALUES (?,?,?,?,?,?,?)",(Uid,Url,CreationTime,Proxy,Status,Process,Module,))
             # 提交
-            GetSid=self.cur.lastrowid  # 获取主键的ID值，也就是sid的值
+            GetActiveScanId=self.cur.lastrowid  # 获取主键的ID值，也就是active_scan_id的值
             self.con.commit()
             self.con.close()
-            return GetSid#获取主键的ID值，也就是sid的值
+            return GetActiveScanId#获取主键的ID值，也就是sid的值
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_ActiveScanList(class)_Write(def)", e)
             return None
@@ -307,7 +307,7 @@ class ActiveScanList:#用户主动扫描网站信息列表,写入父表中的SID
                 JsonValues["creation_time"] = i[3]
                 JsonValues["proxy"] = i[4]
                 JsonValues["status"] = i[5]
-                JsonValues["threads"] = i[6]
+                JsonValues["process"] = i[6]
                 JsonValues["module"] = i[7]
                 result_list.append(JsonValues)
             self.con.close()
@@ -316,9 +316,9 @@ class ActiveScanList:#用户主动扫描网站信息列表,写入父表中的SID
             ErrorLog().Write("Web_WebClassCongregation_ActiveScanList(class)_Query(def)", e)
             return None
 
-    def UpdateStatus(self,Status:str,Sid:int)->bool:#利用主键ID来判断后更新数据
+    def UpdateStatus(self,Status:str,ActiveScanId:int)->bool:#利用主键ID来判断后更新数据
         try:
-            self.cur.execute("""UPDATE UserInfo SET status = ? WHERE sid= ?""",(Status, str(Sid),))
+            self.cur.execute("""UPDATE UserInfo SET status = ? WHERE active_scan_id= ?""",(Status, str(ActiveScanId),))
             # 提交
             self.con.commit()
             self.con.close()
@@ -329,7 +329,7 @@ class ActiveScanList:#用户主动扫描网站信息列表,写入父表中的SID
 
 
 
-#通过ssid和uid来查询
+#通过scan_info_id和uid来查询
 class MedusaQuery:#单个漏洞的详细内容查询表，具体写入表在ClassCongregation文件中，该表是个查询数据表
     def __init__(self):
         self.con = sqlite3.connect(GetDatabaseFilePath().result())
@@ -337,13 +337,13 @@ class MedusaQuery:#单个漏洞的详细内容查询表，具体写入表在Clas
         self.cur = self.con.cursor()
     def Query(self, **kwargs)->None or list:
         try:
-            Ssid = kwargs.get("ssid")
+            ScanInfoId = kwargs.get("scan_info_id")
             Uid = kwargs.get("uid")
-            self.cur.execute("select * from Medusa where uid =? and ssid = ?", (Uid, Ssid,))
+            self.cur.execute("select * from Medusa where uid =? and scan_info_id = ?", (Uid, ScanInfoId,))
             result_list = []  # 存放json的返回结果列表用
             for i in self.cur.fetchall():
                 JsonValues = {}
-                JsonValues["ssid"] = i[0]
+                JsonValues["scan_info_id"] = i[0]
                 JsonValues["url"] = i[1]
                 JsonValues["name"] = i[2]
                 JsonValues["affects"] = i[3]
@@ -359,7 +359,7 @@ class MedusaQuery:#单个漏洞的详细内容查询表，具体写入表在Clas
                 JsonValues["version"] = i[13]
                 JsonValues["timestamp"] = i[14]
                 JsonValues["sid"] = i[15]
-                JsonValues["uid"] = i[16]
+                JsonValues["active_scan_id"] = i[16]
                 result_list.append(JsonValues)
             self.con.close()
             return result_list
@@ -368,9 +368,9 @@ class MedusaQuery:#单个漏洞的详细内容查询表，具体写入表在Clas
             return None
     def QueryBySid(self, **kwargs):#生成word文档数据查询
         try:
-            Sid = kwargs.get("sid")
+            ActiveScanId = kwargs.get("active_scan_id")
             Uid = kwargs.get("uid")
-            self.cur.execute("select * from Medusa where uid =? and sid = ?", (Uid, Sid,))
+            self.cur.execute("select * from Medusa where uid =? and active_scan_id = ?", (Uid, ActiveScanId,))
             result_list = []  # 存放json的返回结果列表用
             url=""
             for i in self.cur.fetchall():
@@ -477,7 +477,7 @@ class ReportGenerationList:#报告生成相关表
                             file_name TEXT NOT NULL,\
                             uid TEXT NOT NULL,\
                             creation_time TEXT NOT NULL,\
-                            sid TEXT NOT NULL)")
+                            active_scan_id TEXT NOT NULL)")
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_ReportGenerationList(class)_init(def)", e)
 
@@ -485,10 +485,10 @@ class ReportGenerationList:#报告生成相关表
         CreationTime = str(int(time.time()))  # 创建时间
         Uid = kwargs.get("uid")
         FileName = kwargs.get("file_name")
-        Sid = kwargs.get("sid")
+        ActiveScanId = kwargs.get("active_scan_id")
         try:
-            self.cur.execute("INSERT INTO ReportGenerationList(file_name,uid,creation_time,sid)\
-            VALUES (?,?,?,?)",(FileName, Uid, CreationTime, Sid,))
+            self.cur.execute("INSERT INTO ReportGenerationList(file_name,uid,creation_time,active_scan_id)\
+            VALUES (?,?,?,?)",(FileName, Uid, CreationTime, ActiveScanId,))
             # 提交
             self.con.commit()
             self.con.close()
@@ -686,16 +686,16 @@ class HomeInfo:#查询首页信息表
     def NumberOfVulnerabilities(self,Uid):#查询漏洞个数,以及各个等级相关个数，通过查询medusa表来获取所有个数
         try:
             #查询总个数
-            self.cur.execute("select ssid from Medusa where uid =? ", (Uid,))
+            self.cur.execute("select scan_info_id from Medusa where uid =? ", (Uid,))
             self.info["number_of_vulnerabilities"]=str(len(self.cur.fetchall()))
             #查询高危个数
-            self.cur.execute("select ssid from Medusa where uid =? and rank='高危'", (Uid,))
+            self.cur.execute("select scan_info_id from Medusa where uid =? and rank='高危'", (Uid,))
             self.info["high_risk_number"] = str(len(self.cur.fetchall()))
             #查询中危个数
-            self.cur.execute("select ssid from Medusa where uid =? and rank='中危'", (Uid,))
+            self.cur.execute("select scan_info_id from Medusa where uid =? and rank='中危'", (Uid,))
             self.info["mid_risk_number"] = str(len(self.cur.fetchall()))
             #查询高危个数
-            self.cur.execute("select ssid from Medusa where uid =? and rank='低危'", (Uid,))
+            self.cur.execute("select scan_info_id from Medusa where uid =? and rank='低危'", (Uid,))
             self.info["low_risk_number"] = str(len(self.cur.fetchall()))
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_HomeInfo(class)_NumberOfVulnerabilities(def)", e)
@@ -721,7 +721,7 @@ class HomeInfo:#查询首页信息表
     def NumberOfWebsites(self, Uid):#查询目标网站个数，通过ActiveScanList列表查询
         try:
 
-            self.cur.execute("select sid from ActiveScanList where uid =? ", (Uid,))
+            self.cur.execute("select active_scan_id from ActiveScanList where uid =? ", (Uid,))
 
             #先对数据进行提取
 

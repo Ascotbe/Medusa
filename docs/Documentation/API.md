@@ -130,14 +130,14 @@
 ```
 {
 	"token": "XXXXX",
-	"sid":"1"
+	"active_scan_id":"1"
 }
 ```
 
 >参数解释
 
 - `token`登录后返回的**token**
-- `sid`目标的**sid**值，上个接口查询返回中存在
+- `active_scan_id`目标的**sid**值，上个接口查询返回中存在
 
 > 返回状态码
 
@@ -153,14 +153,14 @@
 ```
 {
 	"token": "XXXXX",
-	"ssid":"1"
+	"scan_info_id":"1"
 }
 ```
 
 > 参数解释
 
 - `token`登录后返回的**token**
-- `ssid`目标的**ssid**值，上个接口查询返回中存在
+- `scan_info_id`目标的**ssid**值，上个接口查询返回中存在
 
 > 返回状态码
 
@@ -176,14 +176,14 @@
 ```
 {
 	"token": "XXX",
-	"sid": "X"
+	"active_scan_id": "X"
 }
 ```
 
 > 参数解释
 
 - `token`登录后返回的**token**
-- `sid`目标的**sid**值，可以通过`/api/active_scan_list_query`接口来获取
+- `active_scan_id`目标的**sid**值，可以通过`/api/active_scan_list_query`接口来获取
 
 > 返回状态码
 

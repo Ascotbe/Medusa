@@ -123,7 +123,7 @@ class PortScan:  # 扫描端口类
         PortInformation = kwargs.get("PortInformation")
         PortType = kwargs.get("PortType")
         Uid=kwargs.get("Uid")
-        Sid=kwargs.get("Sid")
+        ActiveScanId=kwargs.get("ActiveScanId")
         self.PortHandling(PortInformation,PortType)
         Pool = ThreadPool()
         for Port in self.CustomizePortList:
@@ -134,7 +134,7 @@ class PortScan:  # 扫描端口类
         #调用写入数据库函数和调用写入文件函数
         CreationTime=str(int(time.time()))
         for i in self.OpenPorts:#循环写入到数据库中
-            PortDB(uid=Uid,sid=Sid,ip=self.Ip,domain=self.Host,creation_time=CreationTime,port=i).Write()#写到数据库中
+            PortDB(uid=Uid,active_scan_id=ActiveScanId,ip=self.Ip,domain=self.Host,creation_time=CreationTime,port=i).Write()#写到数据库中
             WriteFile().result(TargetName=self.Host+"_Port",Medusa=self.Ip+":"+i+"\n")#写到文件中
     def PortHandling(self,PortInformation,PortType):  # 进行正则匹配处理
         try:
@@ -168,7 +168,7 @@ class PortScan:  # 扫描端口类
 class PortDB:  # 端口数据表
     def __init__(self,**kwargs):
         self.uid = kwargs.get("uid") # 用户UID
-        self.sid = kwargs.get("sid")  # 扫描SID
+        self.active_scan_id = kwargs.get("active_scan_id")  # 扫描active_scan_id
         self.port = kwargs.get("port")  # 开放端口
         self.ip = kwargs.get("ip")  # 目标IP
         self.domain = kwargs.get("domain") # 目标域名
@@ -180,9 +180,9 @@ class PortDB:  # 端口数据表
         # 创建表
         try:
             self.cur.execute("CREATE TABLE PortInfo\
-                            (pid INTEGER PRIMARY KEY,\
+                            (port_info_id INTEGER PRIMARY KEY,\
                             uid TEXT NOT NULL,\
-                            sid TEXT NOT NULL,\
+                            active_scan_id TEXT NOT NULL,\
                             port TEXT NOT NULL,\
                             ip TEXT NOT NULL,\
                             domain TEXT NOT NULL,\
@@ -193,8 +193,8 @@ class PortDB:  # 端口数据表
     def Write(self):
         try:
             self.cur.execute(
-                """INSERT INTO PortInfo (uid,sid,port,ip,domain,creation_time) VALUES (?,?,?,?,?,?)""",
-                (self.uid,self.sid,self.port, self.ip, self.domain, self.creation_time,))
+                """INSERT INTO PortInfo (uid,active_scan_id,port,ip,domain,creation_time) VALUES (?,?,?,?,?,?)""",
+                (self.uid, self.active_scan_id,self.port, self.ip, self.domain, self.creation_time,))
             # 提交
             self.con.commit()
             self.con.close()
@@ -203,14 +203,14 @@ class PortDB:  # 端口数据表
 
     def Query(self, **kwargs):
             Uid = kwargs.get("uid")
-            Sid = kwargs.get("sid")
+            ActiveScanId = kwargs.get("active_scan_id")
             try:
-                self.cur.execute("select * from PortInfo where sid =? and uid=?", (Sid, Uid,))
+                self.cur.execute("select * from PortInfo where active_scan_id =? and uid=?", (ActiveScanId, Uid,))
                 result_list = []  # 存放json的返回结果列表用
                 for i in self.cur.fetchall():
                     JsonValues = {}
                     JsonValues["uid"] = i[1]
-                    JsonValues["sid"] = i[2]
+                    JsonValues["active_scan_id"] = i[2]
                     JsonValues["port"] = i[3]
                     JsonValues["ip"] = i[4]
                     JsonValues["domain"] = i[5]
@@ -241,24 +241,23 @@ class GithubCveApi:  # CVE写入表
             # 获取所创建数据的游标
             self.cur = self.con.cursor()
             # 创建表
-            try:
-                # 如果设置了主键那么就导致主健值不能相同，如果相同就写入报错
-                self.cur.execute("CREATE TABLE GithubCVE\
-                            (id INTEGER PRIMARY KEY,\
-                            github_id TEXT NOT NULL,\
-                            name TEXT NOT NULL,\
-                            html_url TEXT NOT NULL,\
-                            created_at TEXT NOT NULL,\
-                            updated_at TEXT NOT NULL,\
-                            pushed_at TEXT NOT NULL,\
-                            forks_count TEXT NOT NULL,\
-                            watchers_count TEXT NOT NULL,\
-                            write_time TEXT NOT NULL,\
-                            update_write_time TEXT NOT NULL)")
-            except Exception as e:
-                ErrorLog().Write("ClassCongregation_GithubCveApi(class)_init(def)_CREATE", e)
+
+            # 如果设置了主键那么就导致主健值不能相同，如果相同就写入报错
+            self.cur.execute("CREATE TABLE GithubCVE\
+                        (id INTEGER PRIMARY KEY,\
+                        github_id TEXT NOT NULL,\
+                        name TEXT NOT NULL,\
+                        html_url TEXT NOT NULL,\
+                        created_at TEXT NOT NULL,\
+                        updated_at TEXT NOT NULL,\
+                        pushed_at TEXT NOT NULL,\
+                        forks_count TEXT NOT NULL,\
+                        watchers_count TEXT NOT NULL,\
+                        write_time TEXT NOT NULL,\
+                        update_write_time TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("ClassCongregation_GithubCveApi(class)_init(def)", e)
+            pass
+            #ErrorLog().Write("ClassCongregation_GithubCveApi(class)_init(def)", e)
 
     def Write(self):
         try:
@@ -318,7 +317,7 @@ class VulnerabilityDetails:  # 所有数据库写入都是用同一个类
             self.suggest = medusa['suggest']  # 修复建议
             self.version = medusa['version']  # 漏洞影响的版本
             self.uid = kwargs.get("Uid")  # 传入的用户ID
-            self.sid=kwargs.get("Sid")# 传入的父表SID
+            self.active_scan_id=kwargs.get("ActiveScanId")# 传入的父表SID
             # 如果数据库不存在的话，将会自动创建一个 数据库
             self.con = sqlite3.connect(GetDatabaseFilePath().result())
             # 获取所创建数据的游标
@@ -327,7 +326,7 @@ class VulnerabilityDetails:  # 所有数据库写入都是用同一个类
             try:
                 # 如果设置了主键那么就导致主健值不能相同，如果相同就写入报错
                 self.cur.execute("CREATE TABLE Medusa\
-                            (ssid INTEGER PRIMARY KEY,\
+                            (scan_info_id INTEGER PRIMARY KEY,\
                             url TEXT NOT NULL,\
                             name TEXT NOT NULL,\
                             affects TEXT NOT NULL,\
@@ -342,7 +341,7 @@ class VulnerabilityDetails:  # 所有数据库写入都是用同一个类
                             algroup TEXT NOT NULL,\
                             version TEXT NOT NULL,\
                             timestamp TEXT NOT NULL,\
-                            sid TEXT NOT NULL,\
+                            active_scan_id TEXT NOT NULL,\
                             uid TEXT NOT NULL)")
             except Exception as e:
                 ErrorLog().Write("ClassCongregation_VulnerabilityDetails(class)_init(def)_CREATETABLE", e)
@@ -351,18 +350,17 @@ class VulnerabilityDetails:  # 所有数据库写入都是用同一个类
 
     def Write(self):  # 统一写入
         try:
-            self.cur.execute("""INSERT INTO Medusa (url,name,affects,rank,suggest,desc_content,details,number,author,create_date,disclosure,algroup,version,timestamp,sid,uid) \
+            self.cur.execute("""INSERT INTO Medusa (url,name,affects,rank,suggest,desc_content,details,number,author,create_date,disclosure,algroup,version,timestamp,active_scan_id,uid) \
             VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", (
                 self.url, self.name, self.affects, self.rank, self.suggest, self.desc_content, self.details,
                 self.number,
                 self.author, self.create_date, self.disclosure, self.algroup, self.version, self.timestamp,
-                self.sid,self.uid,))
+                self.active_scan_id,self.uid,))
             # 提交
             GetSsid = self.cur.lastrowid
             self.con.commit()
             self.con.close()
-            # print(GetSsid)
-            ScanInformation().Write(ssid=GetSsid,url=self.url,sid=self.sid,rank=self.rank,uid=self.uid,name=self.name)#调用web版数据表，写入ScanInformation关系表
+            ScanInformation().Write(ssid=GetSsid,url=self.url,active_scan_id=self.active_scan_id,rank=self.rank,uid=self.uid,name=self.name)#调用web版数据表，写入ScanInformation关系表
         except Exception as e:
             ErrorLog().Write("ClassCongregation_VulnerabilityDetails(class)_Write(def)", e)
 
@@ -783,10 +781,10 @@ class ScanInformation:#ActiveScanList的子表，单个URL相关漏洞表,写入
         try:
             self.cur.execute("CREATE TABLE ScanInformation\
                             (id INTEGER PRIMARY KEY,\
-                            sid TEXT NOT NULL,\
+                            active_scan_id TEXT NOT NULL,\
                             url TEXT NOT NULL,\
                             rank TEXT NOT NULL,\
-                            ssid TEXT NOT NULL,\
+                            scan_info_id TEXT NOT NULL,\
                             uid TEXT NOT NULL,\
                             name TEXT NOT NULL,\
                             creation_time TEXT NOT NULL)")
@@ -795,14 +793,14 @@ class ScanInformation:#ActiveScanList的子表，单个URL相关漏洞表,写入
     def Write(self,**kwargs)->bool:#写入相关信息
         CreationTime = str(int(time.time())) # 创建时间
         Url=kwargs.get("url")
-        Ssid=kwargs.get("ssid")
+        ScanInfoId=kwargs.get("scan_info_id")
         Uid = kwargs.get("uid")
-        Sid = kwargs.get("sid")
+        ActiveScanId = kwargs.get("active_scan_id")
         Rank = kwargs.get("rank")
         Name= kwargs.get("name")
         try:
-            self.cur.execute("INSERT INTO ScanInformation(sid,url,rank,ssid,uid,name,creation_time)\
-            VALUES (?,?,?,?,?,?,?)",(Sid,Url,Rank,Ssid,Uid,Name,CreationTime,))
+            self.cur.execute("INSERT INTO ScanInformation(active_scan_id,url,rank,scan_info_id,uid,name,creation_time)\
+            VALUES (?,?,?,?,?,?,?)",(ActiveScanId,Url,Rank,ScanInfoId,Uid,Name,CreationTime,))
             # 提交
             self.con.commit()
             self.con.close()
@@ -813,14 +811,14 @@ class ScanInformation:#ActiveScanList的子表，单个URL相关漏洞表,写入
     def Query(self,**kwargs)->str or None:#查询相关表内容
 
         Uid=kwargs.get("uid")
-        Sid = kwargs.get("sid")
+        ActiveScanId = kwargs.get("active_scan_id")
         try:
-            self.cur.execute("select * from ScanInformation where uid =? and sid = ?", (Uid,Sid,))
+            self.cur.execute("select * from ScanInformation where uid =? and active_scan_id = ?", (Uid,ActiveScanId,))
             result_list = []  # 存放json的返回结果列表用
             for i in self.cur.fetchall():
                 JsonValues = {}
                 JsonValues["url"] = i[2]
-                JsonValues["ssid"] = i[4]
+                JsonValues["scan_info_id"] = i[4]
                 JsonValues["rank"] = i[3]
                 JsonValues["name"] = i[6]
                 result_list.append(JsonValues)
@@ -838,7 +836,7 @@ class SubdomainTable:  # 这是一个子域名表
             self.timestamp = str(int(time.time()))  # 获取时间戳
             self.subdomain=Subdomain#获取的子域名
             self.uid = kwargs.get("Uid")  # 传入的用户ID
-            self.sid=kwargs.get("Sid")# 传入的父表SID
+            self.active_scan_id=kwargs.get("ActiveScanId")# 传入的父表SID
             # 如果数据库不存在的话，将会自动创建一个 数据库
             self.con = sqlite3.connect(GetDatabaseFilePath().result())
             # 获取所创建数据的游标
@@ -851,7 +849,7 @@ class SubdomainTable:  # 这是一个子域名表
                             url TEXT NOT NULL,\
                             subdomain TEXT NOT NULL,\
                             timestamp TEXT NOT NULL,\
-                            sid TEXT NOT NULL,\
+                            active_scan_id TEXT NOT NULL,\
                             uid TEXT NOT NULL)")
             except Exception as e:
                 ErrorLog().Write("ClassCongregation_SubdomainTable(class)_init(def)_CREATETABLE", e)
@@ -860,8 +858,8 @@ class SubdomainTable:  # 这是一个子域名表
 
     def Write(self):  # 统一写入
         try:
-            self.cur.execute("""INSERT INTO Subdomain (url,subdomain,timestamp,sid,uid) \
-            VALUES (?,?,?,?,?)""", (self.url, self.subdomain,self.timestamp,self.sid,self.uid,))
+            self.cur.execute("""INSERT INTO Subdomain (url,subdomain,timestamp,active_scan_id,uid) \
+            VALUES (?,?,?,?,?)""", (self.url, self.subdomain,self.timestamp,self.active_scan_id,self.uid,))
             # 提交
             self.con.commit()
             self.con.close()

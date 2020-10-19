@@ -175,7 +175,7 @@ if __name__ == '__main__':
         os._exit(0)#直接退出整个函数
 
     #暂时关闭NMAPScan和数据库爆破功能
-    Sid="Soryu Asuka Langley"
+    ActiveScanId="Soryu Asuka Langley"
     Uid = "Ayanami Rei"
     # if ExploitList==True:
     #     pass#调用列表函数，暂定未写
@@ -192,30 +192,30 @@ if __name__ == '__main__':
     #ThreadPool = ClassCongregation.ThreadPool()#定义一个线程池
 
     if Subdomain:#如果传入-s启动子域名探测
-        Pool.Append(SubdomainSearch, Url, AgentHeader, proxies=Proxies,Sid=Sid,Uid=Uid)
+        Pool.Append(SubdomainSearch, Url, AgentHeader, proxies=Proxies,ActiveScanId=ActiveScanId,Uid=Uid)
 
 ################
 #对端口传入进行判断
 ################
     if PortListInformation == None and PortRangeInformation == None:  # 默认默认扫描端口信息
         print("\033[32m[ + ] Use default port detection module \033[0m")
-        Pool.PortAppend(Port,PortInformation="",PortType=3,Sid=Sid,Uid=Uid)
+        Pool.PortAppend(Port,PortInformation="",PortType=3,ActiveScanId=ActiveScanId,Uid=Uid)
     elif PortListInformation != None and PortRangeInformation != None:  # 都不等于空的情况
         print("\033[31m[ ! ] Only one format port can be entered, please use -h to view the help file!\033[0m")
         os._exit(0)  # 直接退出整个函数
     elif PortListInformation == None and PortRangeInformation != None:  # 输入范围型端口
         PortType = 1
-        Pool.PortAppend(Port, PortInformation=PortRangeInformation, PortType=1, Sid=Sid, Uid=Uid)
+        Pool.PortAppend(Port, PortInformation=PortRangeInformation, PortType=1, ActiveScanId=ActiveScanId, Uid=Uid)
         print("\033[32m[ + ] The scan range is: "+"\033[0m"+"\033[35m"+PortRangeInformation+"\033[0m")
     elif PortListInformation != None and PortRangeInformation == None:  # 输入字典型端口
         PortType = 2
-        Pool.PortAppend(Port, PortInformation=PortListInformation, PortType=2, Sid=Sid, Uid=Uid)
+        Pool.PortAppend(Port, PortInformation=PortListInformation, PortType=2, ActiveScanId=ActiveScanId, Uid=Uid)
         print("\033[32m[ + ] The scanned dictionary is"+"\033[0m"+"\033[35m"+ PortListInformation+ "\033[0m")
 
 ################
 #调用扫描中函数
 ################
-    InitialScan(Pool,InputFileName, Url,Module,AgentHeader,Proxies,Sid=Sid,Uid=Uid)#最后启动主扫描函数，这样如果多个IP的话优化速度，里面会做url或者url文件的判断
+    InitialScan(Pool,InputFileName, Url,Module,AgentHeader,Proxies,ActiveScanId=ActiveScanId,Uid=Uid)#最后启动主扫描函数，这样如果多个IP的话优化速度，里面会做url或者url文件的判断
     print("\033[31m[ ! ] Scan is complete, please see the ScanResult file\033[0m")
 
 

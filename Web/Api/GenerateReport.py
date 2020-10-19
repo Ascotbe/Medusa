@@ -9,7 +9,7 @@ from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
 """
 {
 	"token": "XXX",
-	"sid": "X"
+	"active_scan_id": "X"
 }
 """
 def GenerateWord(request):#生成word文档报告
@@ -17,15 +17,15 @@ def GenerateWord(request):#生成word文档报告
     if request.method == "POST":
         try:
             #传入Sid和Token来进行创建任务
-            Sid=json.loads(request.body)["sid"]
+            ActiveScanId=json.loads(request.body)["active_scan_id"]
             UserToken=json.loads(request.body)["token"]
             Uid = UserInfo().QueryUidWithToken(UserToken)  # 如果登录成功后就来查询用户名
             if Uid != None:  # 查到了UID
                 UserOperationLogRecord(request, request_api="generate_word", uid=Uid)#查询到了在计入
-                VulnerabilityDataList,Url = MedusaQuery().QueryBySid(sid=Sid,uid=Uid)#查询漏洞列表和URL
+                VulnerabilityDataList,Url = MedusaQuery().QueryBySid(active_scan_id=ActiveScanId,uid=Uid)#查询漏洞列表和URL
                 WordDownloadFileName=GenerateWordReport(VulnerabilityDataList=VulnerabilityDataList,target_url=Url)
                 if WordDownloadFileName != None:
-                    ReportGenerationList().Write(sid=Sid,uid=Uid,file_name=WordDownloadFileName)#把相关数据写到数据库中
+                    ReportGenerationList().Write(active_scan_id=ActiveScanId,uid=Uid,file_name=WordDownloadFileName)#把相关数据写到数据库中
                     return JsonResponse({'message': WordDownloadFileName, 'code': 200, })
                 else:
                     return JsonResponse({'message': '莎酱生不出小莎酱惹QAQ', 'code': 404, })

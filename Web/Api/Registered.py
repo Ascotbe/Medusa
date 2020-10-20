@@ -36,7 +36,7 @@ def Registered(request):
                     Token=randoms().result(250)
                     Md5Passwd=Md5Encryption().Md5Result(Passwd)#进行加密
                     UserWrite=UserInfo().Write(name=Username, show_name=ShowName, token=Token, passwd=Md5Passwd,
-                                     email=Email, img_path="admin.png")
+                                     email=Email, avatar="admin.jpg")
                     if UserWrite:
                         return JsonResponse({'message': '注册成功', 'code': 200, })
                     elif UserWrite is None:

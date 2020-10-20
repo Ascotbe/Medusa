@@ -3,7 +3,6 @@
 import time
 import sys
 import base64
-import hashlib
 import sqlite3
 from ClassCongregation import GetDatabaseFilePath,ErrorLog,randoms,GetRootFileLocation
 
@@ -83,7 +82,7 @@ class UserInfo:#用户表
         ShowName=kwargs.get("show_name")
         Passwd=kwargs.get("passwd")
         Email=kwargs.get("email")
-        ImgPath=kwargs.get("img_path")
+        Avatar=kwargs.get("avatar")
         Key=randoms().result(40)
         Token=kwargs.get("token")#这个是用来验证用户登录的
         while True:#判断Key否存在
@@ -91,8 +90,8 @@ class UserInfo:#用户表
                 break
             Key = randoms().result(40)
         try:
-            self.cur.execute("INSERT INTO UserInfo(uid,key,token,name,show_name,passwd,email,img_path,key_update_time,passwd_update_time,email_update_time,show_name_update_time,img_path_update_time,token_update_time,creation_time)\
-            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(Uid,Key,Token,Name,ShowName, Passwd,Email,ImgPath,CreationTime,CreationTime,CreationTime,CreationTime,CreationTime,CreationTime,CreationTime,))
+            self.cur.execute("INSERT INTO UserInfo(uid,key,token,name,show_name,passwd,email,avatar,key_update_time,passwd_update_time,email_update_time,show_name_update_time,avatar_update_time,token_update_time,creation_time)\
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(Uid,Key,Token,Name,ShowName, Passwd,Email,Avatar,CreationTime,CreationTime,CreationTime,CreationTime,CreationTime,CreationTime,CreationTime,))
             # 提交
             self.con.commit()
             self.con.close()

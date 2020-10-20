@@ -924,4 +924,13 @@ class Md5Encryption:#加密类
     def Md5GbkResult(self,str):
         self.Md5.update(str.encode("gb2312"))
         return self.Md5.hexdigest()
-    
+
+class GetImageFilePath:  # 获取Image文件路径类
+    def Result(self) -> str:
+        system_type = sys.platform
+        if system_type == "win32" or system_type == "cygwin":
+            TempFileLocation = GetRootFileLocation().Result()+"\\Web\\Image\\"
+            return TempFileLocation
+        elif system_type == "linux" or system_type == "darwin":
+            TempFileLocation = GetRootFileLocation().Result()+"/Web/Image/"
+            return TempFileLocation

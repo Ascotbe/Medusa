@@ -31,7 +31,8 @@ urlpatterns = [
     path('api/update_show_name/', User.UpdateShowName),  # 更新显示名称
     path('api/update_key/', User.UpdateKey),  # 更新Key
     path('api/create_proxy_scan_project/', ProxyScan.CreateProxyScanProject),  # 创建代理扫描项目
-    path('api/homepage_data/', Home.HomepageData),  # 首页数据,当前没用数据
+    path('api/homepage_data/', Home.HomepageData),  # 首页数据
+    path('api/upload_avatar/', User.UploadAvatar),  # 上传头像接口
 
 
 

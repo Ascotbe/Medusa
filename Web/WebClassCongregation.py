@@ -24,12 +24,12 @@ class UserInfo:#用户表
                             show_name TEXT NOT NULL,\
                             passwd TEXT NOT NULL,\
                             email TEXT NOT NULL,\
-                            img_path TEXT NOT NULL,\
+                            avatar TEXT NOT NULL,\
                             key_update_time TEXT NOT NULL,\
                             passwd_update_time TEXT NOT NULL,\
                             email_update_time TEXT NOT NULL,\
                             show_name_update_time TEXT NOT NULL,\
-                            img_path_update_time TEXT NOT NULL,\
+                            avatar_update_time TEXT NOT NULL,\
                             token_update_time TEXT NOT NULL,\
                             creation_time TEXT NOT NULL)")
         except Exception as e:
@@ -154,13 +154,13 @@ class UserInfo:#用户表
                 ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)_UpdateEmail(def)", e)
                 return False
         else:return False
-    def UpdateImgPath(self,**kwargs:str)->bool:#更新用户头像路径，True表示成功，False表示各失败
-        Name = kwargs.get("name")
-        ImgPath = kwargs.get("img_path")
+    def UpdateAvatar(self,**kwargs:str)->bool:#更新用户头像路径，True表示成功，False表示各失败
+        Uid = kwargs.get("uid")
+        Avatar = kwargs.get("avatar")
         UpdateTime = str(int(time.time()))  # 修改时间
-        if Name!=None and ImgPath!=None:
+        if Uid!=None and Avatar!=None:
             try:
-                self.cur.execute("""UPDATE UserInfo SET img_path = ?, img_path_update_time = ? WHERE name= ?""", (ImgPath,UpdateTime,Name,))
+                self.cur.execute("""UPDATE UserInfo SET avatar = ?, avatar_update_time = ? WHERE uid= ?""", (Avatar,UpdateTime,Uid,))
                 # 提交
                 self.con.commit()
                 self.con.close()
@@ -249,7 +249,7 @@ class UserInfo:#用户表
                 JsonValues["show_name"] = tuple[5]
                 JsonValues["passwd"] = tuple[6]
                 JsonValues["email"] = tuple[7]
-                JsonValues["img_path"] = tuple[8]
+                JsonValues["avatar"] = tuple[8]
                 return JsonValues#由于用户信息不可能有多个的所有这边直接返回
             return None#如果没查到数据就返回空
         except Exception as e:
@@ -755,3 +755,5 @@ class HomeInfo:#查询首页信息表
         self.NumberOfAgentTasks(Uid)#查询代理扫描数量,改函数未写
         self.con.close()
         return self.info
+
+

@@ -15,6 +15,7 @@
 /api/update_key/
 /api/create_proxy_scan_project/
 /api/homepage_data/
+/api/upload_avatar/
 ```
 
 #### 注册接口
@@ -354,4 +355,34 @@
 - 404：想啥呢？不知道查询出问题了吗？
 - 200：返回用户当前信息
 - 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
+- 500：请使用Post请求
+
+#### 更新头像
+
+`/api/upload_avatar/`更新头像接口
+
+```
+POST /api/upload_avatar/ HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryaFtQbWz7pBzNgCOv
+token:UserToken
+
+------WebKitFormBoundaryaFtQbWz7pBzNgCOv
+Content-Disposition: form-data; name="file"; filename="test.jpeg"
+Content-Type: image/jpeg
+
+FileDate
+------WebKitFormBoundaryaFtQbWz7pBzNgCOv--
+```
+
+> 参数解释
+
+- `token`这个参数放在数据包中的header中
+- `FileDate`这个参数是图片文件内容
+
+> 返回状态码
+
+- 200：返回用户头像名字
+- 603：它实在是太小了，莎酱真的一点感觉都没有o(TヘTo)
+- 404：宝贝没有用户你要插到哪里去呢？
+- 169：你不对劲！为什么报错了？
 - 500：请使用Post请求

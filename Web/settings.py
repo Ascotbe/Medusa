@@ -194,3 +194,6 @@ CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.random_char_challenge'  # 图片中�
 
 CAPTCHA_LENGTH = 4  # 字符个数
 CAPTCHA_TIMEOUT = 1  # 超时(minutes)
+
+#上传图片最大值设置
+DATA_UPLOAD_MAX_MEMORY_SIZE = 10485761

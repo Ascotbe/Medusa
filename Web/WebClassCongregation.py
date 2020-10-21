@@ -539,7 +539,7 @@ class ProxyScanList:#代理列表，一个代理项目一条数据
         # 创建表
         try:
             self.cur.execute("CREATE TABLE ProxyScanList\
-                                (sid INTEGER PRIMARY KEY,\
+                                (proxy_id TEXT NOT NULL,\
                                 uid TEXT NOT NULL,\
                                 creation_time TEXT NOT NULL,\
                                 end_time TEXT NOT NULL,\
@@ -560,8 +560,10 @@ class ProxyScanList:#代理列表，一个代理项目一条数据
         ProxyProjectName= kwargs.get("proxy_project_name")
 
         try:
-            self.cur.execute("INSERT INTO ProxyScanList(uid,creation_time,end_time,status,proxy_password,proxy_username,proxy_project_name)\
-                VALUES (?,?,?,?,?,?,?)", (Uid, CreationTime, EndTime,Status,ProxyPassword,ProxyUsername,ProxyProjectName,))
+            self.cur.execute("select creation_time from ProxyScanList")
+            ProxyId="P"+str(len(self.cur.fetchall())+1)#构建特殊的ProxyId
+            self.cur.execute("INSERT INTO ProxyScanList(proxy_id,uid,creation_time,end_time,status,proxy_password,proxy_username,proxy_project_name)\
+                VALUES (?,?,?,?,?,?,?,?)", (ProxyId,Uid, CreationTime, EndTime,Status,ProxyPassword,ProxyUsername,ProxyProjectName,))
             # 提交
             self.con.commit()
             self.con.close()
@@ -591,7 +593,7 @@ class ProxyScanList:#代理列表，一个代理项目一条数据
             self.cur.execute("select * from ProxyScanList where proxy_username =? and proxy_password=?", (ProxyUsername,ProxyPassword,))
             for i in self.cur.fetchall():
                 JsonValues = {}
-                JsonValues["sid"] = i[0]
+                JsonValues["proxy_id"] = i[0]
                 JsonValues["uid"] = i[1]
                 return JsonValues
         except Exception as e:
@@ -621,9 +623,9 @@ class OriginalProxyData:#从代理中获取数据包进行存储
         # 创建表
         try:
             self.cur.execute("CREATE TABLE OriginalProxyData\
-                                (oid INTEGER PRIMARY KEY,\
+                                (original_proxy_id INTEGER PRIMARY KEY,\
                                 uid TEXT NOT NULL,\
-                                sid TEXT NOT NULL,\
+                                proxy_id TEXT NOT NULL,\
                                 creation_time TEXT NOT NULL,\
                                 url TEXT NOT NULL,\
                                 request_headers TEXT NOT NULL,\
@@ -633,14 +635,15 @@ class OriginalProxyData:#从代理中获取数据包进行存储
                                 response_status_code TEXT NOT NULL,\
                                 response_date_bytes TEXT NOT NULL,\
                                 response_date_string TEXT NOT NULL,\
-                                issue_task_status TEXT NOT NULL)")
+                                issue_task_status TEXT NOT NULL,\
+                                redis_id TEXT NOT NULL)")
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_OriginalProxyData(class)_init(def)", e)
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
         CreationTime = str(int(time.time()))  # 创建时间
         Uid = kwargs.get("uid")
-        Sid = kwargs.get("sid")
+        ProxyId = kwargs.get("proxy_id")
         Url= kwargs.get("url")
         RequestHeaders= kwargs.get("request_headers")
         RequestDate= kwargs.get("request_date")
@@ -650,10 +653,11 @@ class OriginalProxyData:#从代理中获取数据包进行存储
         ResponseDateBytes=kwargs.get("response_date_bytes")
         ResponseDateString=kwargs.get("response_date_string")
         IssueTaskStatus= "0"#未扫描为0 已扫描为1
+        RedisId=kwargs.get("redis_id")
 
         try:
-            self.cur.execute("INSERT INTO OriginalProxyData(uid,sid,creation_time,url,request_headers,request_date,request_method,response_headers,response_status_code,response_date_bytes,response_date_string,issue_task_status)\
-                VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", (Uid, Sid, CreationTime, Url,RequestHeaders,RequestDate,RequestMethod,ResponseHeaders,ResponseStatusCode,ResponseDateBytes,ResponseDateString,IssueTaskStatus,))
+            self.cur.execute("INSERT INTO OriginalProxyData(uid,proxy_id,creation_time,url,request_headers,request_date,request_method,response_headers,response_status_code,response_date_bytes,response_date_string,issue_task_status,redis_id)\
+                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)", (Uid, ProxyId, CreationTime, Url,RequestHeaders,RequestDate,RequestMethod,ResponseHeaders,ResponseStatusCode,ResponseDateBytes,ResponseDateString,IssueTaskStatus,RedisId,))
             # 提交
             self.con.commit()
             self.con.close()

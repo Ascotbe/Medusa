@@ -28,6 +28,7 @@ from Modules.Apache.Solr import Solr
 from Modules.Apache.Tomcat import Tomcat
 from Modules.Subdomain.SubdomainSearch import SubdomainSearch
 from ClassCongregation import ProcessPool
+import time
 MedusaVulnerabilityList={
 "Struts2":Struts2.Main,
 "Confluence":Confluence.Main,
@@ -75,5 +76,11 @@ def MedusaScan(Url,Module,ScanThreads,Values,proxies,**kwargs):
 
 
 
+
+@app.task
+def Test(temp):
+    for i in range(1,temp):
+        print(time.time())
+        time.sleep(5)
 
 

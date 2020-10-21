@@ -1,6 +1,6 @@
 from mitmproxy import http
 import base64
-import hashlib
+from Web.Workbench.Tasks import Test
 from ClassCongregation import Md5Encryption
 from Web.WebClassCongregation import ProxyScanList
 from Web.WebClassCongregation import OriginalProxyData
@@ -43,8 +43,11 @@ class ProxyDataCollection(object):
             flow.response.set_text("账号或密码错误~")  # 认证失败
             return 0
         else:
-            OriginalProxyData().Write(uid=ProxyAuthenticationResult["uid"],sid=ProxyAuthenticationResult["sid"],url=base64.b64encode(self.RequestUrl.encode(encoding="utf-8")),request_headers=base64.b64encode(str(self.RequestHeaders).encode(encoding="utf-8")),request_date=self.RequestMethod,request_method=base64.b64encode(self.RequestDate.encode(encoding="utf-8")),
-                                  response_headers=str(self.ResponseHeaders).encode(encoding="utf-8"),response_status_code=self.ResponseStatusCode,response_date_string=self.ResponseDateString.encode(encoding="utf-8"),response_date_bytes=str(self.ResponseDateBytes).encode(encoding="utf-8"))
+            RedisTask= Test.delay(500)
+            OriginalProxyData().Write(uid=ProxyAuthenticationResult["uid"],proxy_id=ProxyAuthenticationResult["proxy_id"],url=base64.b64encode(self.RequestUrl.encode(encoding="utf-8")),request_headers=base64.b64encode(str(self.RequestHeaders).encode(encoding="utf-8")),request_date=self.RequestMethod,request_method=base64.b64encode(self.RequestDate.encode(encoding="utf-8")),
+                                  response_headers=str(self.ResponseHeaders).encode(encoding="utf-8"),response_status_code=self.ResponseStatusCode,response_date_string=self.ResponseDateString.encode(encoding="utf-8"),response_date_bytes=str(self.ResponseDateBytes).encode(encoding="utf-8"),redis_id=RedisTask.task_id)
+
+            #print(RedisTask.status)  # PENDING
         # print(self.username, self.password)
         # print(self.ResponseDateString)
         # print(self.ResponseDateBytes)

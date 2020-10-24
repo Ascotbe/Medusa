@@ -741,11 +741,21 @@ class HomeInfo:#查询首页信息表
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_HomeInfo(class)_NumberOfPorts(def)", e)
             return None
-    def NumberOfAgentTasks(self, Uid):#查询代理扫描数量，暂无模块,所有返回值直接为0
+    def GithubMonitorDate(self, StartTime,EndTime):#查询GitHub监控数据
         try:
-            self.info["number_of_agent_tasks"]="0"
+            self.cur.execute("select write_time from GithubMonitor where write_time<=? and write_time>=?", (EndTime,StartTime,))
+            CountDict = {}
+            Tmp=[]
+
+            for x in self.cur.fetchall():#先对数据进行提取
+                Tmp.append(x[0])
+            for i in set(Tmp):#在对数据进行统计
+                CountDict[i] = Tmp.count(i)
+            #对数据进行排序
+            SortResult = sorted(CountDict.items(), key=lambda item: item[0])
+            self.info["github_monitor_date"]=SortResult
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_HomeInfo(class)_NumberOfAgentTasks(def)", e)
+            ErrorLog().Write("Web_WebClassCongregation_HomeInfo(class)_GithubMonitorDate(def)", e)
             return None
     def Result(self,**kwargs):
         Uid=kwargs.get("uid")
@@ -755,7 +765,7 @@ class HomeInfo:#查询首页信息表
         self.TimeDistribution(Uid,StartTime,EndTime)#查询时间段中，漏洞分布
         self.NumberOfWebsites(Uid)#查询目标网站个数
         self.NumberOfPorts(Uid)#查询全部端口发现数量
-        self.NumberOfAgentTasks(Uid)#查询代理扫描数量,改函数未写
+        self.GithubMonitorDate(StartTime,EndTime)#查询时间段中GitHub监控数据
         self.con.close()
         return self.info
 

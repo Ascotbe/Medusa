@@ -40,3 +40,4 @@ def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
         _ = VulnerabilityInfo('').info.get('algroup')
         ErrorHandling().Outlier(e, _)
         _l = ErrorLog().Write("Plugin Name:"+_+" || Target Url:"+url,e)#调用写入类
+

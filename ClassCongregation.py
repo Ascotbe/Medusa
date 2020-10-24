@@ -225,16 +225,16 @@ class PortDB:  # 端口数据表
 
 
 class GithubCveApi:  # CVE写入表
-    def __init__(self, CveJsonList: Any):
+    def __init__(self,**kwargs):
         try:
-            self.cve_id = CveJsonList["id"]  # 唯一的ID
-            self.cve_name = CveJsonList["name"]  # 名字
-            self.cve_html_url = CveJsonList["html_url"]  # 链接
-            self.cve_created_at = CveJsonList["created_at"]  # 创建时间
-            self.cve_updated_at = CveJsonList["updated_at"]  # 更新时间
-            self.cve_pushed_at = CveJsonList["pushed_at"]  # push时间
-            self.cve_forks_count = CveJsonList["forks_count"]  # fork人数
-            self.cve_watchers_count = CveJsonList["watchers_count"]  # star人数
+            self.cve_id = kwargs.get("id")  # 唯一的ID
+            self.cve_name = kwargs.get("name")   # 名字
+            self.cve_html_url = kwargs.get("html_url")    # 链接
+            self.cve_created_at = kwargs.get("created_at")  # 创建时间
+            self.cve_updated_at = kwargs.get("updated_at")  # 更新时间
+            self.cve_pushed_at = kwargs.get("pushed_at")  # push时间
+            self.cve_forks_count = kwargs.get("forks_count")  # fork人数
+            self.cve_watchers_count =kwargs.get("watchers_count")  # star人数
             self.cve_write_time = str(int(time.time()))  # 写入时间
             # 如果数据库不存在的话，将会自动创建一个 数据库
             self.con = sqlite3.connect(GetDatabaseFilePath().result())
@@ -243,7 +243,7 @@ class GithubCveApi:  # CVE写入表
             # 创建表
 
             # 如果设置了主键那么就导致主健值不能相同，如果相同就写入报错
-            self.cur.execute("CREATE TABLE GithubCVE\
+            self.cur.execute("CREATE TABLE GithubMonitor\
                         (id INTEGER PRIMARY KEY,\
                         github_id TEXT NOT NULL,\
                         name TEXT NOT NULL,\
@@ -261,7 +261,7 @@ class GithubCveApi:  # CVE写入表
 
     def Write(self):
         try:
-            self.cur.execute("""INSERT INTO GithubCVE (github_id,name,html_url,created_at,updated_at,pushed_at,forks_count,watchers_count,write_time,update_write_time) \
+            self.cur.execute("""INSERT INTO GithubMonitor (github_id,name,html_url,created_at,updated_at,pushed_at,forks_count,watchers_count,write_time,update_write_time) \
     VALUES (?,?,?,?,?,?,?,?,?,?)""", (
             self.cve_id, self.cve_name, self.cve_html_url, self.cve_created_at, self.cve_updated_at, self.cve_pushed_at,
             self.cve_forks_count, self.cve_watchers_count, self.cve_write_time, self.cve_write_time,))
@@ -271,10 +271,11 @@ class GithubCveApi:  # CVE写入表
         except Exception as e:
                 ErrorLog().Write("ClassCongregation_GithubCveApi(class)_Write(def)", e)
 
-    def Update(self, UpdateTime: str):
+    def Update(self):
+        UpdateTime=str(int(time.time()))
         try:
             self.cur.execute(
-                """UPDATE GithubCVE SET forks_count = ?,updated_at=?,pushed_at=?,watchers_count=?,update_write_time=?  WHERE github_id = ?""",
+                """UPDATE GithubMonitor SET forks_count = ?,updated_at=?,pushed_at=?,watchers_count=?,update_write_time=?  WHERE github_id = ?""",
                 (self.cve_forks_count, self.cve_updated_at, self.cve_pushed_at, self.cve_watchers_count,
                  UpdateTime, self.cve_id,))
             # 提交
@@ -284,19 +285,41 @@ class GithubCveApi:  # CVE写入表
             ErrorLog().Write("ClassCongregation_GithubCveApi(class)_Update(def)", e)
 
     def Judgment(self) -> bool:#用于判断是否更新
-
-        self.cur.execute(
-            """SELECT * FROM GithubCVE WHERE github_id=?""", (self.cve_id,))
-        values = self.cur.fetchall()
-        cve_query_results = None
-        if len(values) == 0:
-            cve_query_results = False
-        if len(values) == 1:
+        try:
+            self.cur.execute(
+                """SELECT * FROM GithubMonitor WHERE github_id=?""", (self.cve_id,))
+            values = self.cur.fetchall()
             cve_query_results = True
-        # 提交
-        self.con.commit()
-        self.con.close()
-        return cve_query_results
+            if len(values) == 0:
+                cve_query_results = False
+            else:
+                cve_query_results = True
+            # 提交
+            self.con.commit()
+            self.con.close()
+            return cve_query_results
+        except Exception as e:
+            ErrorLog().Write("ClassCongregation_GithubCveApi(class)_Judgment(def)", e)
+
+    def Query(self):#用于判断是否更新
+        try:
+            ProcessedData=[]
+            self.cur.execute(
+                """SELECT * FROM GithubMonitor""")
+            for i in self.cur.fetchall():
+                JsonValues = {}
+                JsonValues["github_id"]= i[1]
+                JsonValues["name"]= i[2]
+                JsonValues["html_url"]= i[3]
+                JsonValues["created_at"]= i[4]
+                JsonValues["updated_at"]= i[5]
+                JsonValues["pushed_at"]= i[6]
+                JsonValues["forks_count"]= i[7]
+                JsonValues["watchers_count"]= i[8]
+                ProcessedData.append(JsonValues)
+            return ProcessedData
+        except Exception as e:
+            ErrorLog().Write("ClassCongregation_GithubCveApi(class)_Query(def)", e)
 
 
 class VulnerabilityDetails:  # 所有数据库写入都是用同一个类

@@ -89,7 +89,8 @@ DATABASES = {
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = [
-    'http://localhost:9999',
+    'http://*',
+    'https://*',
 ]
 
 CORS_ALLOW_METHODS = (
@@ -112,6 +113,7 @@ CORS_ALLOW_HEADERS = (
     'origin',
     'user-agent',
     'x-csrftoken',
+    'token',
     'x-requested-with',
     'Pragma',
 )

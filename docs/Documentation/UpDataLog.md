@@ -1930,3 +1930,13 @@ v0.90.2🌴
 修改代理相关数据表中字段
 概念测试已通过
 ```
+
+>  2020.10.24
+
+```
+v0.90.3🌴
+修改Django跨域配置
+重构GitHubCVE表为GithubMonitor
+添加API接口api/github_monitor/
+替换首页信息number_of_agent_tasks为github_monitor_date
+```

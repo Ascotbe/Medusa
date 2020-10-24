@@ -16,6 +16,7 @@
 /api/create_proxy_scan_project/
 /api/homepage_data/
 /api/upload_avatar/
+/api/github_monitor/
 ```
 
 #### 注册接口
@@ -385,4 +386,24 @@ FileDate
 - 603：它实在是太小了，莎酱真的一点感觉都没有o(TヘTo)
 - 404：宝贝没有用户你要插到哪里去呢？
 - 169：你不对劲！为什么报错了？
+- 500：请使用Post请求
+
+#### GitHub监控
+
+`/api/github_monitor/`GitHubCVE数查询接口
+
+```
+{
+	"token": "xxx"
+}
+```
+
+> 参数解释
+
+- `token`登录后返回的**token**
+
+> 返回状态码
+
+- 200：返回查询到的数据
+- 404：非法查询哦宝贝！
 - 500：请使用Post请求

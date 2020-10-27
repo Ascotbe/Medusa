@@ -31,7 +31,9 @@ urlpatterns = [
     path('api/update_show_name/', User.UpdateShowName),  # 更新显示名称
     path('api/update_key/', User.UpdateKey),  # 更新Key
     path('api/create_proxy_scan_project/', ProxyScan.CreateProxyScanProject),  # 创建代理扫描项目
-    path('api/homepage_data/', Home.HomepageData),  # 首页数据
+    path('api/homepage_default_data/', Home.HomepageDefaultData),  # 首页默认数据
+    path('api/homepage_vulnerability_distributiont_data/', Home.HomepageDefaultData),  # 首页漏洞分布数据
+    path('api/homepage_github_monitor_data/', Home.HomepageGithubMonitorData),  # 首页github监控数据
     path('api/upload_avatar/', User.UploadAvatar),  # 上传头像接口
     path('api/github_monitor/', Monitor.GithubMonitor),  # GitHub监控数据
 

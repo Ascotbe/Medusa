@@ -43,11 +43,11 @@ class ProxyDataCollection(object):
             flow.response.set_text("账号或密码错误~")  # 认证失败
             return 0
         else:
-            RedisTask= Test.delay(500)
+            RedisTask= Test.delay(5,ProxyAuthenticationResult["uid"])#测试函数
             OriginalProxyData().Write(uid=ProxyAuthenticationResult["uid"],proxy_id=ProxyAuthenticationResult["proxy_id"],url=base64.b64encode(self.RequestUrl.encode(encoding="utf-8")),request_headers=base64.b64encode(str(self.RequestHeaders).encode(encoding="utf-8")),request_date=self.RequestMethod,request_method=base64.b64encode(self.RequestDate.encode(encoding="utf-8")),
                                   response_headers=str(self.ResponseHeaders).encode(encoding="utf-8"),response_status_code=self.ResponseStatusCode,response_date_string=self.ResponseDateString.encode(encoding="utf-8"),response_date_bytes=str(self.ResponseDateBytes).encode(encoding="utf-8"),redis_id=RedisTask.task_id)
 
-            #print(RedisTask.status)  # PENDING
+
         # print(self.username, self.password)
         # print(self.ResponseDateString)
         # print(self.ResponseDateBytes)

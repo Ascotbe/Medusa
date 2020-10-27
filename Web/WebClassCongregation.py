@@ -273,7 +273,8 @@ class ActiveScanList:#用户主动扫描网站信息列表,写入父表中的SID
                             proxy TEXT NOT NULL,\
                             status TEXT NOT NULL,\
                             process TEXT NOT NULL,\
-                            module TEXT NOT NULL)")
+                            module TEXT NOT NULL,\
+                            redis_id TEXT NOT NULL)")
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_ActiveScanList(class)_init(def)", e)
     def Write(self,**kwargs):#写入相关信息,如果写入成功返回Sid值，如果失败返回None
@@ -284,9 +285,10 @@ class ActiveScanList:#用户主动扫描网站信息列表,写入父表中的SID
         Status = kwargs.get("status")
         Module = kwargs.get("module")
         Process = kwargs.get("process")
+        RedisId=""#先吧RedisID传空，后面在更新RedisID
         try:
-            self.cur.execute("INSERT INTO ActiveScanList(uid,url,creation_time,proxy,status,process,module)\
-            VALUES (?,?,?,?,?,?,?)",(Uid,Url,CreationTime,Proxy,Status,Process,Module,))
+            self.cur.execute("INSERT INTO ActiveScanList(uid,url,creation_time,proxy,status,process,module,redis_id)\
+            VALUES (?,?,?,?,?,?,?,?)",(Uid,Url,CreationTime,Proxy,Status,Process,Module,RedisId,))
             # 提交
             GetActiveScanId=self.cur.lastrowid  # 获取主键的ID值，也就是active_scan_id的值
             self.con.commit()
@@ -315,9 +317,24 @@ class ActiveScanList:#用户主动扫描网站信息列表,写入父表中的SID
             ErrorLog().Write("Web_WebClassCongregation_ActiveScanList(class)_Query(def)", e)
             return None
 
-    def UpdateStatus(self,Status:str,ActiveScanId:int)->bool:#利用主键ID来判断后更新数据
+    def UpdateRedisId(self,**kwargs):#更新redis id的值后面用来更新扫描状态
+        Uid = kwargs.get("uid")
+        ActiveScanId=kwargs.get("active_scan_id")
+        RedisId=kwargs.get("redis_id")
         try:
-            self.cur.execute("""UPDATE UserInfo SET status = ? WHERE active_scan_id= ?""",(Status, str(ActiveScanId),))
+            self.cur.execute("""UPDATE ActiveScanList SET redis_id = ? WHERE active_scan_id= ? and uid=?""",(RedisId,ActiveScanId,Uid,))
+            # 提交
+            self.con.commit()
+            self.con.close()
+            return True
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_ActiveScanList(class)_UpdateRedisId(def)", e)
+            return False
+
+    def UpdateStatus(self,**kwargs)->bool:#利用主键ID来判断后更新数据
+        RedisId = kwargs.get("redis_id")
+        try:
+            self.cur.execute("""UPDATE ActiveScanList SET status = ? WHERE redis_id= ?""",("1", RedisId,))
             # 提交
             self.con.commit()
             self.con.close()
@@ -665,6 +682,19 @@ class OriginalProxyData:#从代理中获取数据包进行存储
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_OriginalProxyData(class)_Write(def)", e)
             return None
+    def UpdateScanStatus(self, **kwargs) -> bool or None:#更新扫描状态
+        Uid = kwargs.get("uid")
+        RedisId = kwargs.get("redis_id")
+        try:
+            self.cur.execute("""UPDATE OriginalProxyData SET issue_task_status= ? WHERE uid = ? and redis_id = ? """,
+                             ( "1",Uid, RedisId,))
+            # 提交
+            self.con.commit()
+            self.con.close()
+            return True
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_ReportGenerationList(class)_QueryTokenValidity(def)", e)
+            return False
 #查询暂时无
     # def Query(self, **kwargs) -> bool or None:
     #     Uid = kwargs.get("uid")
@@ -703,23 +733,6 @@ class HomeInfo:#查询首页信息表
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_HomeInfo(class)_NumberOfVulnerabilities(def)", e)
             return None
-    def TimeDistribution(self, Uid,StartTime,EndTime):#查询时间段中，漏洞分布，通过查询medusa表来获取所有个数
-        try:
-            #查询时间段中数据分布
-            self.cur.execute("select timestamp from Medusa where uid =? and timestamp<=? and timestamp>=?", (Uid,EndTime,StartTime,))
-            CountDict = {}
-            Tmp=[]
-
-            for x in self.cur.fetchall():#先对数据进行提取
-                Tmp.append(x[0])
-            for i in set(Tmp):#在对数据进行统计
-                CountDict[i] = Tmp.count(i)
-            #对数据进行排序
-            SortResult = sorted(CountDict.items(), key=lambda item: item[0])
-            self.info["time_distribution"]=SortResult
-        except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_HomeInfo(class)_TimeDistribution(def)", e)
-            return None
 
     def NumberOfWebsites(self, Uid):#查询目标网站个数，通过ActiveScanList列表查询
         try:
@@ -741,7 +754,16 @@ class HomeInfo:#查询首页信息表
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_HomeInfo(class)_NumberOfPorts(def)", e)
             return None
-    def GithubMonitorDate(self, StartTime,EndTime):#查询GitHub监控数据
+
+    def NumberOfAgentTasks(self,Uid):  # 查询代理扫描数量，暂无模块,所有返回值直接为0
+        try:
+            self.info["number_of_agent_tasks"] = "0"
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_HomeInfo(class)_GithubMonitorDate(def)", e)
+            return None
+    def GithubMonitor(self, **kwargs):#查询GitHub监控数据
+        StartTime = kwargs.get("start_time")
+        EndTime = kwargs.get("end_time")
         try:
             self.cur.execute("select write_time from GithubMonitor where write_time<=? and write_time>=?", (EndTime,StartTime,))
             CountDict = {}
@@ -753,19 +775,40 @@ class HomeInfo:#查询首页信息表
                 CountDict[i] = Tmp.count(i)
             #对数据进行排序
             SortResult = sorted(CountDict.items(), key=lambda item: item[0])
-            self.info["github_monitor_date"]=SortResult
+            return SortResult#直接返回数据
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_HomeInfo(class)_GithubMonitorDate(def)", e)
+            ErrorLog().Write("Web_WebClassCongregation_HomeInfo(class)_GithubMonitor(def)", e)
             return None
-    def Result(self,**kwargs):
+
+    def VulnerabilityDistribution(self, **kwargs):#查询时间段中，漏洞分布，通过查询medusa表来获取所有个数
+        Uid = kwargs.get("uid")
+        StartTime = kwargs.get("start_time")
+        EndTime = kwargs.get("end_time")
+        try:
+            #查询时间段中数据分布
+            self.cur.execute("select timestamp from Medusa where uid =? and timestamp<=? and timestamp>=?", (Uid,EndTime,StartTime,))
+            CountDict = {}
+            Tmp=[]
+
+            for x in self.cur.fetchall():#先对数据进行提取
+                Tmp.append(x[0])
+            for i in set(Tmp):#在对数据进行统计
+                CountDict[i] = Tmp.count(i)
+            #对数据进行排序
+            SortResult = sorted(CountDict.items(), key=lambda item: item[0])
+            return SortResult#直接返回数据
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_HomeInfo(class)_TimeDistribution(def)", e)
+            return None
+
+    def DefaultData(self,**kwargs):#返回默认数据，该数据恒定不变
         Uid=kwargs.get("uid")
-        StartTime=kwargs.get("start_time")
-        EndTime=kwargs.get("end_time")
         self.NumberOfVulnerabilities(Uid)#查询漏洞个数
-        self.TimeDistribution(Uid,StartTime,EndTime)#查询时间段中，漏洞分布
+        #self.TimeDistribution(Uid,StartTime,EndTime)#查询时间段中，漏洞分布
         self.NumberOfWebsites(Uid)#查询目标网站个数
         self.NumberOfPorts(Uid)#查询全部端口发现数量
-        self.GithubMonitorDate(StartTime,EndTime)#查询时间段中GitHub监控数据
+        self.NumberOfAgentTasks(Uid)#查询代理数量接口
+        #self.GithubMonitorDate(StartTime,EndTime)#查询时间段中GitHub监控数据
         self.con.close()
         return self.info
 

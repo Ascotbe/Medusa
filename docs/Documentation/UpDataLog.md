@@ -1940,3 +1940,14 @@ v0.90.3🌴
 添加API接口api/github_monitor/
 替换首页信息number_of_agent_tasks为github_monitor_date
 ```
+
+>  2020.10.27
+
+```
+v0.90.4🌴
+修改HomeInfo类函数
+添加两个API分别为/api/homepage_vulnerability_distributiont_data/和/api/homepage_github_monitor_data/
+修改/api/homepage_data/为/api/homepage_default_data/
+修改ActiveScanList数据库表
+添加主动任务完成返回值
+```

@@ -28,6 +28,7 @@ from Modules.Apache.Solr import Solr
 from Modules.Apache.Tomcat import Tomcat
 from Modules.Subdomain.SubdomainSearch import SubdomainSearch
 from ClassCongregation import ProcessPool
+from Web.WebClassCongregation import OriginalProxyData,ActiveScanList
 import time
 MedusaVulnerabilityList={
 "Struts2":Struts2.Main,
@@ -72,15 +73,18 @@ def MedusaScan(Url,Module,ScanThreads,Values,proxies,**kwargs):
         except:#如果传入非法字符串会调用出错
             pass
     WebProcessPool.Start(ScanThreads)
+    ActiveScanList().UpdateStatus(redis_id=MedusaScan.request.id)#扫描结束更新任务
+
 
 
 
 
 
 @app.task
-def Test(temp):
+def Test(temp,uid):
     for i in range(1,temp):
         print(time.time())
-        time.sleep(5)
-
+        time.sleep(1)
+    OriginalProxyData().UpdateScanStatus(uid=uid,redis_id=Test.request.id)#获取RedisID后进行更新数据库
+    print(Test.request.id)
 

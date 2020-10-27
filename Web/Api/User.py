@@ -122,14 +122,14 @@ def UpdateKey(request):#更新Key
 }
 """
 def PersonalInformation(request):#用户个人信息
-    RequestLogRecord(request, request_api="personal_information")
+    RequestLogRecord(request, request_api="user_info")
     if request.method == "POST":
         try:
             Token=json.loads(request.body)["token"]
             Info=UserInfo().QueryUserInfo(Token)
             Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询用户名
             if Uid!=None: # 查到了UID
-                UserOperationLogRecord(request, request_api="personal_information", uid=Uid)
+                UserOperationLogRecord(request, request_api="user_info", uid=Uid)
             if Info is None:
                 return JsonResponse({'message': '搁着闹呢？', 'code': 404, })
             elif Info != None:

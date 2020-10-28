@@ -813,3 +813,48 @@ class HomeInfo:#查询首页信息表
         return self.info
 
 
+class ProxyTempUrl:#代理转储数据,为了防止重复下发任务做的
+    def __init__(self):
+        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        # 获取所创建数据的游标
+        self.cur = self.con.cursor()
+        # 创建表
+        try:
+            self.cur.execute("CREATE TABLE ProxyTempUrl\
+                                (proxy_temp_url_id INTEGER PRIMARY KEY,\
+                                uid TEXT NOT NULL,\
+                                proxy_temp_url TEXT NOT NULL,\
+                                creation_time TEXT NOT NULL,\
+                                proxy_id TEXT NOT NULL,\
+                                redis_id TEXT NOT NULL)")
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_ProxyTempUrl(class)_init(def)", e)
+
+    def Write(self, **kwargs) -> bool or None:  # 写入相关信息
+        CreationTime = str(int(time.time()))  # 创建时间
+        Uid = kwargs.get("uid")
+        ProxyTempUrl = kwargs.get("proxy_temp_url")
+        RedisId= kwargs.get("redis_id")
+        ProxyId = kwargs.get("proxy_id")
+        try:
+            self.cur.execute("INSERT INTO ProxyTempUrl(uid,proxy_temp_url,creation_time,proxy_id,redis_id)\
+                VALUES (?,?,?,?,?)", (Uid, ProxyTempUrl, CreationTime, ProxyId,RedisId,))
+            # 提交
+            self.con.commit()
+            self.con.close()
+            return True
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_ProxyTempUrl(class)_Write(def)", e)
+            return False
+
+    def Query(self, **kwargs):  # 查询查看url的创建时间
+        try:
+            ProxyTempUrl = kwargs.get("proxy_temp_url")
+            Uid = kwargs.get("uid")
+            ProxyId=kwargs.get("proxy_id")
+            self.cur.execute("select creation_time from ProxyTempUrl where uid =? and proxy_temp_url = ? and proxy_id= ?", (Uid, str(ProxyTempUrl),str(ProxyId),))
+            #self.cur.execute("select * from ProxyTempUrl where uid =? ", (Uid,))
+            return self.cur.fetchall()[-1][0]#返回最新的一条数据
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_ProxyTempUrl(class)_Query(def)", e)
+            return None

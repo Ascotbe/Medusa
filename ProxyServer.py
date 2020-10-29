@@ -78,7 +78,7 @@ class ProxyDataCollection(object):
                             ProxyTempUrl().Write(uid=ProxyAuthenticationResult["uid"], redis_id=RedisTask.task_id,
                                                  proxy_temp_url=UrlRegularMatchingProcessing, proxy_id=ProxyAuthenticationResult["proxy_id"])
             except Exception as e:
-                print(e)
+                pass
 
 
 addons = [

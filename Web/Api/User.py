@@ -59,7 +59,7 @@ def UpdatePassword(request):#更新密码
                 UserOperationLogRecord(request, request_api="update_password", uid=UserName)#如果修改成功写入数据库中
                 return JsonResponse({'message': '好耶！修改成功~', 'code': 200, })
             else:
-                return JsonResponse({'message': "输入信息有误重新输入", 'code': 403, })
+                return JsonResponse({'message': "输入信息有误重新输入", 'code': 404, })
         except Exception as e:
             ErrorLog().Write("Web_Api_User_UpdatePassword(def)", e)
     else:
@@ -84,7 +84,9 @@ def UpdateShowName(request):#更新显示名字
                 if UpdateShowNameResult:
                     return JsonResponse({'message': '好诶！修改成功~', 'code': 200, })
                 else:
-                    return JsonResponse({'message': "输入信息有误重新输入", 'code': 403, })
+                    return JsonResponse({'message': "输入信息有误重新输入", 'code': 404, })
+            else:
+                return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
             ErrorLog().Write("Web_Api_User_UpdateShowName(def)", e)
     else:
@@ -108,7 +110,9 @@ def UpdateKey(request):#更新Key
                 if UpdateKeyResult:
                     return JsonResponse({'message': '呐呐呐呐！修改成功了呢~', 'code': 200, })
                 else:
-                    return JsonResponse({'message': "输入信息有误重新输入", 'code': 403, })
+                    return JsonResponse({'message': "输入信息有误重新输入", 'code': 404, })
+            else:
+                return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
             ErrorLog().Write("Web_Api_User_UpdateKey(def)", e)
     else:
@@ -128,11 +132,10 @@ def PersonalInformation(request):#用户个人信息
             Token=json.loads(request.body)["token"]
             Info=UserInfo().QueryUserInfo(Token)
             Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询用户名
-            if Uid!=None: # 查到了UID
-                UserOperationLogRecord(request, request_api="user_info", uid=Uid)
             if Info is None:
                 return JsonResponse({'message': '搁着闹呢？', 'code': 404, })
-            elif Info != None:
+            elif Info != None and Uid!=None:
+                UserOperationLogRecord(request, request_api="user_info", uid=Uid)
                 JsonValues = {}#对数据进行二次处理
                 JsonValues["id"] = Info["id"]
                 JsonValues["key"] = Info["key"]
@@ -142,6 +145,8 @@ def PersonalInformation(request):#用户个人信息
                 JsonValues["email"] = Info["email"]
                 JsonValues["avatar"] = Info["avatar"]
                 return JsonResponse({'message': JsonValues, 'code': 200, })
+            else:
+                return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
 
 
         except Exception as e:
@@ -182,7 +187,7 @@ def UploadAvatar(request):#文件上传功能
                 else:
                     return JsonResponse({'message': '它实在是太小了，莎酱真的一点感觉都没有o(TヘTo)',  'code': 603,})
             else:
-                return JsonResponse({'message': '宝贝没有用户你要插到哪里去呢？', 'code': 404, })
+                return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
             ErrorLog().Write("Web_Api_User_UploadAvatar(def)", e)
             return JsonResponse({'message': '你不对劲！为什么报错了？',  'code': 169,})

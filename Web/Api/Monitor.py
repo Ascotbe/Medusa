@@ -19,7 +19,7 @@ def GithubMonitor(request):#查询github监控数据
                 GithubMonitorResult=GithubCveApi().Query()#获取github数据
                 return JsonResponse({'message': GithubMonitorResult, 'code': 200, })
             else:
-                return JsonResponse({'message': "非法查询哦宝贝！", 'code': 404, })
+                return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
             ErrorLog().Write("Web_Api_User_UpdateShowName(def)", e)
     else:

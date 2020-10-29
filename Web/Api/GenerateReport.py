@@ -29,6 +29,8 @@ def GenerateWord(request):#生成word文档报告
                     return JsonResponse({'message': WordDownloadFileName, 'code': 200, })
                 else:
                     return JsonResponse({'message': '莎酱生不出小莎酱惹QAQ', 'code': 404, })
+            else:
+                return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
             ErrorLog().Write("Web_Api_GenerateReport_GenerateWord(def)", e)
             return JsonResponse({'message': '莎酱被玩坏啦(>^ω^<)喵', 'code': 169, })
@@ -61,6 +63,8 @@ def DownloadWord(request):#下载word报告
                     return response
                 else:
                     return JsonResponse({'message': '啊啊啊它不是你的小莎酱，别乱抱呀！', 'code': 404, })
+            else:
+                return JsonResponse({'message': "小宝贝这是非法下载哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
             ErrorLog().Write("Web_Api_GenerateReport_GenerateWord(def)", e)
             return JsonResponse({'message': '莎酱被玩坏啦(>^ω^<)喵', 'code': 169, })

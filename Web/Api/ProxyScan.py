@@ -33,10 +33,10 @@ def CreateProxyScanProject(request):#创建代理扫描项目
                     ProxyScanList().Write(uid=Uid,end_time=EndTime,proxy_project_name=ProxyProjectName,proxy_username=ProxyUsername,proxy_password=Md5ProxyPassword)#写入表中
                     return JsonResponse({'message': '小宝贝!创建成功了呢~', 'code': 200, })
                 else:
-                    return JsonResponse({'message': '代理扫描项目创建失败!', 'code': 403, })
+                    return JsonResponse({'message': '代理扫描项目创建失败!', 'code': 503, })
 
             else:
-                return JsonResponse({'message': "🐻弟你Token不对劲诶？", 'code': 404, })
+                return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
             ErrorLog().Write("Web_Api_ProxyScan_CreateProxyScanProject(def)", e)
     else:

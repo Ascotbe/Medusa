@@ -254,7 +254,21 @@ class UserInfo:#用户表
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)_QueryUserInfo(def)", e)
             return None
-
+    def ForgetPassword(self,**kwargs):#忘记密码函数
+        Name = kwargs.get("name")
+        NewPasswd=kwargs.get("new_passwd")
+        Email=kwargs.get("email")
+        UpdateTime = str(int(time.time()))  # 修改时间
+        try:
+            self.cur.execute("""UPDATE UserInfo SET passwd = ? , passwd_update_time = ? WHERE name= ? and email=?""",
+                             (NewPasswd, UpdateTime, Name,Email,))
+            # 提交
+            self.con.commit()
+            self.con.close()
+            return True
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)_ForgetPassword(def)", e)
+            return False
 
 
 

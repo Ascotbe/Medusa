@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from ClassCongregation import ErrorLog,randoms,Md5Encryption,GetImageFilePath
 import json
 import time
+from config import forget_password_key,forgot_password_function_status
 from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
 """login
 {
@@ -191,6 +192,39 @@ def UploadAvatar(request):#文件上传功能
         except Exception as e:
             ErrorLog().Write("Web_Api_User_UploadAvatar(def)", e)
             return JsonResponse({'message': '你不对劲！为什么报错了？',  'code': 169,})
+    else:
+        return JsonResponse({'message': '请使用Post请求', 'code': 500, })
+
+"""forget_password
+{
+	"key": "",
+	"name": "",
+	"new_passwd": "",
+	"email": "",
+}
+"""
+def ForgetPassword(request):#忘记密码接口
+    RequestLogRecord(request, request_api="forget_password")
+    if request.method == "POST":
+        try:
+            Key = json.loads(request.body)["key"]
+            Name = json.loads(request.body).get("name")
+            NewPasswd = json.loads(request.body).get("new_passwd")
+            Email = json.loads(request.body).get("email")
+            if forgot_password_function_status:  # 查看状态是否关闭
+                if Key==forget_password_key:#如果传入的key相等
+                    Md5Passwd = Md5Encryption().Md5Result(NewPasswd)  # 进行加密
+                    ChangePasswordResult=UserInfo().ForgetPassword(name=Name,new_passwd=Md5Passwd,email=Email)#进行修改密码
+                    if ChangePasswordResult:#如果修改成功
+                        return JsonResponse({'message': "修改成功啦~建议去配置文件中关闭忘记密码功能哦~", 'code': 200, })
+                    else:
+                        return JsonResponse({'message': "这个数据你是认真的嘛(。﹏。)", 'code': 503, })
+                else:
+                    return JsonResponse({'message': "大黑阔别乱搞，莎莎好怕怕(*/ω＼*)", 'code': 404, })
+            else:
+                return JsonResponse({'message': "小宝贝你没有开启忘记密码功能哦(๑•̀ㅂ•́)و✧", 'code': 403, })
+        except Exception as e:
+            ErrorLog().Write("Web_Api_User_RequestLogRecord(def)", e)
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 

@@ -36,6 +36,7 @@ urlpatterns = [
     path('api/homepage_github_monitor_data/', Home.HomepageGithubMonitorData),  # 首页github监控数据
     path('api/upload_avatar/', User.UploadAvatar),  # 上传头像接口
     path('api/github_monitor/', Monitor.GithubMonitor),  # GitHub监控数据
+    path('api/forget_password/', User.ForgetPassword),  # 忘记密码API
 
 
 

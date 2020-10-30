@@ -1,4 +1,4 @@
-当前测试版本只有个API接口，路径分别如下，只接受POST请求中的JSON格式数据
+当前测试版本只有19个API接口，路径分别如下，只接受POST请求中的JSON格式数据
 
 ```
 /api/vulnerability_scanning/
@@ -19,6 +19,7 @@
 /api/homepage_github_monitor_data/
 /api/upload_avatar/
 /api/github_monitor/
+/api/forget_password/
 ```
 
 #### 注册接口
@@ -51,6 +52,7 @@
 - 200：注册成功
 - 400：位置错误
 - 603：注册失败
+- 503：小宝贝你没有开启注册功能哦！！
 - 666：宝贝数据呢？
 - 500：请使用Post请求
 
@@ -470,4 +472,32 @@ FileDate
 - 200：返回查询到的数据
 - 404：非法查询哦宝贝！
 - 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+- 500：请使用Post请求
+
+#### 忘记密码接口
+
+`/api/forget_password/`用来忘记密码修改使用
+
+```
+{
+	"key": "XXXXX",
+	"name": "ascotbe",
+	"new_passwd": "test",
+	"email": "medusa@ascotbe.com",
+}
+```
+
+> 参数解释
+
+- `key`用户本地**config.py**文件中设置的**forget_password_key**值
+- `name`用户的用户名
+- `new_passwd`用户新密码
+- `email`用户的邮箱
+
+> 返回状态码
+
+- 200：修改成功啦~建议去配置文件中关闭忘记密码功能哦~
+- 503：这个数据你是认真的嘛(。﹏。)
+- 404：大黑阔别乱搞，莎莎好怕怕(*/ω＼*)
+- 403：小宝贝你没有开启忘记密码功能哦(๑•̀ㅂ•́)و✧
 - 500：请使用Post请求

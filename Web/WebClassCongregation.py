@@ -111,9 +111,14 @@ class UserInfo:#用户表
                     try:#有数据的话就改密码
                         self.cur.execute("""UPDATE UserInfo SET passwd = ? , passwd_update_time = ? WHERE name= ?""", (NewPasswd,UpdateTime,Name,))
                         # 提交
-                        self.con.commit()
-                        self.con.close()
-                        return True
+                        if self.cur.rowcount < 1:  # 用来判断是否更新成功
+                            self.con.commit()
+                            self.con.close()
+                            return False
+                        else:
+                            self.con.commit()
+                            self.con.close()
+                            return True
                     except Exception as e:
                         ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)_UpdatePasswd(def)ChangePassword", e)
                         return False
@@ -131,9 +136,14 @@ class UserInfo:#用户表
             try:
                 self.cur.execute("""UPDATE UserInfo SET show_name = ? , show_name_update_time = ? WHERE uid= ?""", (ShowName,UpdateTime,Uid,))
                 # 提交
-                self.con.commit()
-                self.con.close()
-                return True
+                if self.cur.rowcount < 1:  # 用来判断是否更新成功
+                    self.con.commit()
+                    self.con.close()
+                    return False
+                else:
+                    self.con.commit()
+                    self.con.close()
+                    return True
             except Exception as e:
                 ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)_UpdateShowName(def)", e)
                 return False
@@ -146,9 +156,14 @@ class UserInfo:#用户表
             try:
                 self.cur.execute("""UPDATE UserInfo SET email = ? , email_update_time = ? WHERE name= ?""", (Email,UpdateTime,Name,))
                 # 提交
-                self.con.commit()
-                self.con.close()
-                return True
+                if self.cur.rowcount < 1:  # 用来判断是否更新成功
+                    self.con.commit()
+                    self.con.close()
+                    return False
+                else:
+                    self.con.commit()
+                    self.con.close()
+                    return True
             except Exception as e:
                 ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)_UpdateEmail(def)", e)
                 return False
@@ -161,9 +176,14 @@ class UserInfo:#用户表
             try:
                 self.cur.execute("""UPDATE UserInfo SET avatar = ?, avatar_update_time = ? WHERE uid= ?""", (Avatar,UpdateTime,Uid,))
                 # 提交
-                self.con.commit()
-                self.con.close()
-                return True
+                if self.cur.rowcount < 1:  # 用来判断是否更新成功
+                    self.con.commit()
+                    self.con.close()
+                    return False
+                else:
+                    self.con.commit()
+                    self.con.close()
+                    return True
             except Exception as e:
                 ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)_UpdateImgPath(def)", e)
                 return False
@@ -176,9 +196,14 @@ class UserInfo:#用户表
             try:
                 self.cur.execute("""UPDATE UserInfo SET key = ? , key_update_time = ? WHERE uid= ?""", (Key,UpdateTime,Uid,))
                 # 提交
-                self.con.commit()
-                self.con.close()
-                return True
+                if self.cur.rowcount < 1:  # 用来判断是否更新成功
+                    self.con.commit()
+                    self.con.close()
+                    return False
+                else:
+                    self.con.commit()
+                    self.con.close()
+                    return True
             except Exception as e:
                 ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)_UpdateKey(def)", e)
                 return False
@@ -191,9 +216,14 @@ class UserInfo:#用户表
             try:
                 self.cur.execute("""UPDATE UserInfo SET token = ? , token_update_time = ? WHERE name= ?""", (Token,UpdateTime,Name,))
                 # 提交
-                self.con.commit()
-                self.con.close()
-                return True
+                if self.cur.rowcount < 1:  # 用来判断是否更新成功
+                    self.con.commit()
+                    self.con.close()
+                    return False
+                else:
+                    self.con.commit()
+                    self.con.close()
+                    return True
             except Exception as e:
                 ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)_UpdateToken(def)", e)
                 return False
@@ -263,9 +293,14 @@ class UserInfo:#用户表
             self.cur.execute("""UPDATE UserInfo SET passwd = ? , passwd_update_time = ? WHERE name= ? and email=?""",
                              (NewPasswd, UpdateTime, Name,Email,))
             # 提交
-            self.con.commit()
-            self.con.close()
-            return True
+            if self.cur.rowcount < 1:#用来判断是否更新成功
+                self.con.commit()
+                self.con.close()
+                return False
+            else:
+                self.con.commit()
+                self.con.close()
+                return True
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)_ForgetPassword(def)", e)
             return False
@@ -338,9 +373,14 @@ class ActiveScanList:#用户主动扫描网站信息列表,写入父表中的SID
         try:
             self.cur.execute("""UPDATE ActiveScanList SET redis_id = ? WHERE active_scan_id= ? and uid=?""",(RedisId,ActiveScanId,Uid,))
             # 提交
-            self.con.commit()
-            self.con.close()
-            return True
+            if self.cur.rowcount < 1:  # 用来判断是否更新成功
+                self.con.commit()
+                self.con.close()
+                return False
+            else:
+                self.con.commit()
+                self.con.close()
+                return True
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_ActiveScanList(class)_UpdateRedisId(def)", e)
             return False
@@ -350,9 +390,14 @@ class ActiveScanList:#用户主动扫描网站信息列表,写入父表中的SID
         try:
             self.cur.execute("""UPDATE ActiveScanList SET status = ? WHERE redis_id= ?""",("1", RedisId,))
             # 提交
-            self.con.commit()
-            self.con.close()
-            return True
+            if self.cur.rowcount < 1:  # 用来判断是否更新成功
+                self.con.commit()
+                self.con.close()
+                return False
+            else:
+                self.con.commit()
+                self.con.close()
+                return True
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_ActiveScanList(class)_UpdateStatus(def)", e)
             return False
@@ -703,9 +748,14 @@ class OriginalProxyData:#从代理中获取数据包进行存储
             self.cur.execute("""UPDATE OriginalProxyData SET issue_task_status= ? WHERE uid = ? and redis_id = ? """,
                              ( "1",Uid, RedisId,))
             # 提交
-            self.con.commit()
-            self.con.close()
-            return True
+            if self.cur.rowcount < 1:  # 用来判断是否更新成功
+                self.con.commit()
+                self.con.close()
+                return False
+            else:
+                self.con.commit()
+                self.con.close()
+                return True
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_ReportGenerationList(class)_QueryTokenValidity(def)", e)
             return False

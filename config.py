@@ -52,10 +52,13 @@ github_cve_job_time=60#60秒请求一次
 #########################################################################
 agent_scan_interval=3600#默认间隔1小时
 proxy_scan_process=5#代理扫描进程数
-proxy_scanned_by_proxy="127.0.0.1:8080"#None#代理扫描挂的代理默认为空，如果想用代理参考格式："127.0.0.1：8080"
+proxy_scanned_by_proxy=None#代理扫描挂的代理默认为空，如果想用代理参考格式："127.0.0.1：8080"
 proxy_scan_module_list=["Struts2","Confluence","Nginx","PHPStudy","Jenkins","Harbor","Rails","Kibana","Citrix","Mongo","Spring","FastJson","Windows","Liferay","Shiro","Flink","Log4j","ActiveMQ","Solr","Tomcat","Ruvar","Seeyou","Tongda","Weaver","Weblogic"]#代理扫描模块列表默认不添加子域名发现和CMS扫描还有信息探测功能
 
 #########################################################################
 #账号密码相关配置
 #########################################################################
+registration_function_status=False#默认关闭注册功能
+forgot_password_function_status=False#默认关闭忘记密码功能
 secret_key_required_for_account_registration="I_will_always_like_Rei_Ayanami"#注册账号需要的秘钥,最好修改为250个随机字符串
+forget_password_key="https://github.com/Ascotbe/Medusa"#修改密码所需要的key

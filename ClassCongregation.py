@@ -14,7 +14,7 @@ import random
 import sys
 import time
 import multiprocessing
-from typing import List, Dict, Tuple, Any
+from typing import List, Dict, Tuple
 import threading
 import subprocess
 import hashlib
@@ -125,17 +125,22 @@ class PortScan:  # 扫描端口类
         Uid=kwargs.get("Uid")
         ActiveScanId=kwargs.get("ActiveScanId")
         self.PortHandling(PortInformation,PortType)
-        Pool = ThreadPool()
-        for Port in self.CustomizePortList:
-            Pool.Append(self.PortTest, port=Port)
+        try:
+            Pool = ThreadPool()
+            for Port in self.CustomizePortList:
+                Pool.Append(self.PortTest, port=Port)
 
-        Pool.Start(port_threads_number)  # 启动线程池
-        #print(self.OpenPorts)
-        #调用写入数据库函数和调用写入文件函数
-        CreationTime=str(int(time.time()))
-        for i in self.OpenPorts:#循环写入到数据库中
-            PortDB(uid=Uid,active_scan_id=ActiveScanId,ip=self.Ip,domain=self.Host,creation_time=CreationTime,port=i).Write()#写到数据库中
-            WriteFile().result(TargetName=self.Host+"_Port",Medusa=self.Ip+":"+i+"\n")#写到文件中
+            Pool.Start(port_threads_number)  # 启动线程池
+            #print(self.OpenPorts)
+            #调用写入数据库函数和调用写入文件函数
+            CreationTime=str(int(time.time()))
+            for i in self.OpenPorts:#循环写入到数据库中
+                PortDB(uid=Uid,active_scan_id=ActiveScanId,ip=self.Ip,domain=self.Host,creation_time=CreationTime,port=i).Write()#写到数据库中
+                WriteFile().result(TargetName=self.Host+"_Port",Medusa=self.Ip+":"+i+"\n")#写到文件中
+        except Exception as e:
+            ErrorLog().Write("ClassCongregation_PortScan(class)_Start(def)", e)
+
+
     def PortHandling(self,PortInformation,PortType):  # 进行正则匹配处理
         try:
             Pattern = re.compile(r'\d*')  # 查找数字
@@ -160,6 +165,7 @@ class PortScan:  # 扫描端口类
             if PortType == 3:  # 使用默认字典
                 self.CustomizePortList=self.DefaultPortList
         except Exception as e:
+            self.CustomizePortList = self.DefaultPortList#如果报错直接使用默认端口进行扫描
             ErrorLog().Write("ClassCongregation_PortScan(class)_PortHandling(def)", e)
 
 

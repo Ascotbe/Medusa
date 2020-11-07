@@ -92,10 +92,9 @@ class GetDatabaseFilePath:  # 数据库文件路径返回值
 
 
 class PortScan:  # 扫描端口类
-    def __init__(self, Url: str):
+    def __init__(self):
         try:
-            self.Host = IpProcess(Url)  # 调用IP处理函数,获取URL或者IP
-            self.Ip=socket.gethostbyname(self.Host)#如果是URL会进行二次处理获取到IP
+
             self.CustomizePortList =[] # 用户输入处理后的列表
             self.DefaultPortList = [20, 21, 22, 23, 53,80, 161, 389, 443, 873, 1025, 1099, 2222, 2601, 2604, 3312, 3311, 4440, 5900, 5901,
                        5902, 7002, 9000, 9200, 10000, 50000, 50060, 50030, 8080, 139, 445, 3389, 13389, 7001, 1521, 3306,
@@ -123,6 +122,9 @@ class PortScan:  # 扫描端口类
         PortInformation = kwargs.get("PortInformation")
         PortType = kwargs.get("PortType")
         Uid=kwargs.get("Uid")
+        Url = kwargs.get("Url")
+        self.Host = IpProcess(Url)  # 调用IP处理函数,获取URL或者IP
+        self.Ip = socket.gethostbyname(self.Host)  # 如果是URL会进行二次处理获取到IP
         ActiveScanId=kwargs.get("ActiveScanId")
         self.PortHandling(PortInformation,PortType)
         try:

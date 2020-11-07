@@ -147,7 +147,7 @@ def Port(**kwargs):
     # PortInformation=kwargs.get("PortInformation")
     # Url=kwargs.get("Url")
     # PortType=kwargs.get("PortType")
-    ClassCongregation.PortScan(Url).Start(**kwargs)
+    ClassCongregation.PortScan().Start(**kwargs)
 
 if __name__ == '__main__':
     Banner.RandomBanner()#输出随机横幅
@@ -199,17 +199,17 @@ if __name__ == '__main__':
 ################
     if PortListInformation == None and PortRangeInformation == None:  # 默认默认扫描端口信息
         print("\033[32m[ + ] Use default port detection module \033[0m")
-        Pool.PortAppend(Port,PortInformation="",PortType=3,ActiveScanId=ActiveScanId,Uid=Uid)
+        Pool.PortAppend(Port,Url=Url,PortInformation="",PortType=3,ActiveScanId=ActiveScanId,Uid=Uid)
     elif PortListInformation != None and PortRangeInformation != None:  # 都不等于空的情况
         print("\033[31m[ ! ] Only one format port can be entered, please use -h to view the help file!\033[0m")
         os._exit(0)  # 直接退出整个函数
     elif PortListInformation == None and PortRangeInformation != None:  # 输入范围型端口
         PortType = 1
-        Pool.PortAppend(Port, PortInformation=PortRangeInformation, PortType=1, ActiveScanId=ActiveScanId, Uid=Uid)
+        Pool.PortAppend(Port,Url=Url ,PortInformation=PortRangeInformation, PortType=1, ActiveScanId=ActiveScanId, Uid=Uid)
         print("\033[32m[ + ] The scan range is: "+"\033[0m"+"\033[35m"+PortRangeInformation+"\033[0m")
     elif PortListInformation != None and PortRangeInformation == None:  # 输入字典型端口
         PortType = 2
-        Pool.PortAppend(Port, PortInformation=PortListInformation, PortType=2, ActiveScanId=ActiveScanId, Uid=Uid)
+        Pool.PortAppend(Port, Url=Url,PortInformation=PortListInformation, PortType=2, ActiveScanId=ActiveScanId, Uid=Uid)
         print("\033[32m[ + ] The scanned dictionary is"+"\033[0m"+"\033[35m"+ PortListInformation+ "\033[0m")
 
 ################

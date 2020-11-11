@@ -353,6 +353,7 @@ class ActiveScanList:#用户主动扫描网站信息列表,写入父表中的SID
             result_list = []  # 存放json的返回结果列表用
             for i in self.cur.fetchall():
                 JsonValues = {}
+                JsonValues["active_scan_id"] = i[0]
                 JsonValues["url"] = i[2]
                 JsonValues["creation_time"] = i[3]
                 JsonValues["proxy"] = i[4]

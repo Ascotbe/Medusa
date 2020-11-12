@@ -37,6 +37,7 @@ urlpatterns = [
     path('api/upload_avatar/', User.UploadAvatar),  # 上传头像接口
     path('api/github_monitor/', Monitor.GithubMonitor),  # GitHub监控数据
     path('api/forget_password/', User.ForgetPassword),  # 忘记密码API
+    path('api/actively_scan_port_information/', VulnerabilityQuery.ActivelyScanPortInformation),  # 主动扫描中端口信息查询模块
 
 
 

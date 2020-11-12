@@ -1,4 +1,4 @@
-当前测试版本只有19个API接口，路径分别如下，只接受POST请求中的JSON格式数据
+当前测试版本只有20个API接口，路径分别如下，只接受POST请求中的JSON格式数据
 
 ```
 /api/vulnerability_scanning/
@@ -20,6 +20,7 @@
 /api/upload_avatar/
 /api/github_monitor/
 /api/forget_password/
+/api/actively_scan_port_information/
 ```
 
 #### 注册接口
@@ -498,6 +499,33 @@ FileDate
 
 - 200：修改成功啦~建议去配置文件中关闭忘记密码功能哦~
 - 503：这个数据你是认真的嘛(。﹏。)
-- 404：大黑阔别乱搞，莎莎好怕怕(*/ω＼*)
+- 404：大黑阔别乱搞，莎莎好怕怕(\*/ω＼*)
 - 403：小宝贝你没有开启忘记密码功能哦(๑•̀ㅂ•́)و✧
 - 500：请使用Post请求
+
+
+
+#### 主动扫描端口查询
+
+`/api/actively_scan_port_information/`用来查询主动扫描中的端口扫描信息
+
+```
+{
+	"token": "XXXXX",
+	"active_scan_id":"1"
+}
+```
+
+>参数解释
+
+- `token`登录后返回的**token**
+- `active_scan_id`目标的**active_scan_id**值，主动扫描生成的值
+
+> 返回状态码
+
+- 200：返回关系查询列表结果
+- 404：宝贝没有数据哦🐈'
+- 403：嘿~宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+- 169：莎酱被玩坏啦ヽ(･ω･´ﾒ)
+- 500：请使用Post请求
+

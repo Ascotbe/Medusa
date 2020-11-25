@@ -965,3 +965,24 @@ class GetImageFilePath:  # 获取Image文件路径类
         elif system_type == "linux" or system_type == "darwin":
             TempFileLocation = GetRootFileLocation().Result()+"/Web/Image/"
             return TempFileLocation
+
+class GetJavaScriptFilePath:  # 获取JavaScript文件路径类
+    def Result(self) -> str:
+        system_type = sys.platform
+        if system_type == "win32" or system_type == "cygwin":
+            TempFileLocation = GetRootFileLocation().Result()+"\\Web\\Temp\\"
+            return TempFileLocation
+        elif system_type == "linux" or system_type == "darwin":
+            TempFileLocation = GetRootFileLocation().Result()+"/Web/Temp/"
+            return TempFileLocation
+
+class GetCrossSiteScriptTemplateFilePath:  # 获取CrossSiteScriptTemplate文件路径类
+    def Result(self) -> str:
+        system_type = sys.platform
+        if system_type == "win32" or system_type == "cygwin":
+            TempFileLocation = GetRootFileLocation().Result()+"\\Web\\CrossSiteScriptHub\\CrossSiteScriptTemplate\\"
+            return TempFileLocation
+        elif system_type == "linux" or system_type == "darwin":
+            TempFileLocation = GetRootFileLocation().Result()+"/Web/CrossSiteScriptHub/CrossSiteScriptTemplate/"
+            return TempFileLocation
+

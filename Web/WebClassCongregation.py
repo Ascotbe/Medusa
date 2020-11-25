@@ -923,3 +923,141 @@ class ProxyTempUrl:#代理转储数据,为了防止重复下发任务做的
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_ProxyTempUrl(class)_Query(def)", e)
             return None
+
+class CrossSiteScriptInfo:#XSS钓鱼接收数据库
+    def __init__(self):
+        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        # 获取所创建数据的游标
+        self.cur = self.con.cursor()
+        # 创建表
+        try:
+            self.cur.execute("CREATE TABLE CrossSiteScript\
+                                (cross_site_script_id INTEGER PRIMARY KEY,\
+                                headers TEXT NOT NULL,\
+                                project_associated_file_name TEXT NOT NULL,\
+                                ip TEXT NOT NULL,\
+                                full_url TEXT NOT NULL,\
+                                creation_time TEXT NOT NULL,\
+                                request_method TEXT NOT NULL,\
+                                data_pack TEXT NOT NULL)")
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_CrossSiteScriptInfo(class)_init(def)", e)
+
+    def Write(self, **kwargs) -> bool or None:  # 写入相关信息
+        CreationTime = str(int(time.time()))  # 创建时间
+        #Uid = kwargs.get("uid")
+        Headers= kwargs.get("headers")
+        Ip = kwargs.get("ip")
+        ProjectAssociatedFileName= kwargs.get("project_associated_file_name")
+        RequestMethod = kwargs.get("request_method")
+        FullURL = kwargs.get("full_url")
+        DataPack = kwargs.get("data_pack")
+        try:
+            self.cur.execute("INSERT INTO CrossSiteScript(headers,project_associated_file_name,ip,full_url,creation_time,request_method,data_pack)\
+                VALUES (?,?,?,?,?,?,?)", (Headers,ProjectAssociatedFileName, Ip, FullURL,CreationTime, RequestMethod,DataPack,))
+            # 提交
+            self.con.commit()
+            self.con.close()
+            return True
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_CrossSiteScriptInfo(class)_Write(def)", e)
+            return False
+
+    def Query(self, **kwargs):  # 查询查看XSS项目数据
+        try:
+            ProjectAssociatedFileName = kwargs.get("project_associated_file_name")
+            self.cur.execute("select * from CrossSiteScript where project_associated_file_name=?", (ProjectAssociatedFileName,))
+            result_list=[]
+            for i in self.cur.fetchall():
+                JsonValues = {}
+                JsonValues["headers"] = i[1].decode('utf-8')
+                JsonValues["project_associated_file_name"] = i[2]
+                JsonValues["ip"] = i[3]
+                JsonValues["full_url"] = i[4]
+                JsonValues["creation_time"] = i[5]
+                JsonValues["request_method"] = i[6]
+                JsonValues["data_pack"] = i[7].decode('utf-8')
+                result_list.append(JsonValues)
+            self.con.close()
+            return result_list
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_CrossSiteScript(class)_Query(def)", e)
+            return None
+
+
+class CrossSiteScriptProject:#XSS钓鱼项目信息数据库
+    def __init__(self):
+        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        # 获取所创建数据的游标
+        self.cur = self.con.cursor()
+        # 创建表
+        try:
+            self.cur.execute("CREATE TABLE CrossSiteScriptProject\
+                                (cross_site_script_project_id INTEGER PRIMARY KEY,\
+                                uid TEXT NOT NULL,\
+                                project_name TEXT NOT NULL,\
+                                file_name TEXT NOT NULL,\
+                                creation_time TEXT NOT NULL)")
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_CrossSiteScriptProject(class)_init(def)", e)
+
+    def Write(self, **kwargs) -> bool or None:  # 写入相关信息
+        CreationTime = str(int(time.time()))  # 创建时间
+        Uid= kwargs.get("uid")
+        FileName = kwargs.get("file_name")
+        ProjectName=kwargs.get("project_name")
+        try:
+            self.cur.execute("INSERT INTO CrossSiteScriptProject(uid,project_name,file_name,creation_time)\
+                VALUES (?,?,?,?)", (Uid, ProjectName,FileName, CreationTime,))
+            # 提交
+            self.con.commit()
+            self.con.close()
+            return True
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_CrossSiteScriptProject(class)_Write(def)", e)
+            return False
+    def Query(self, **kwargs):  # 查询查看XSS项目信息
+        try:
+            Uid = kwargs.get("uid")
+            self.cur.execute("select * from CrossSiteScriptProject where uid =? ", (Uid,))
+            result_list=[]
+            for i in self.cur.fetchall():
+                JsonValues = {}
+                JsonValues["project_name"] = i[2]
+                JsonValues["file_name"] = i[3]
+                JsonValues["creation_time"] = i[4]
+                result_list.append(JsonValues)
+            self.con.close()
+            return result_list
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_CrossSiteScriptProject(class)_Query(def)", e)
+            return None
+
+    def RepeatInvestigation(self,**kwargs):#用来排查file_name是否重复
+
+        try:
+            FileName = kwargs.get("file_name")
+            self.cur.execute("select * from CrossSiteScriptProject where  file_name=? ", (FileName,))
+            if self.cur.fetchall():  # 判断是否有数据
+                self.con.close()
+                return True
+            else:
+                return False
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_CrossSiteScriptProject(class)_RepeatInvestigation(def)", e)
+            return False
+
+    def AuthorityCheck(self,**kwargs):#用来校检CrossSiteScript数据库中文件名和UID相对应
+
+        try:
+            FileName = kwargs.get("file_name")
+            Uid = kwargs.get("uid")
+            self.cur.execute("select * from CrossSiteScriptProject where  file_name=? and uid=?", (FileName,Uid,))
+            if self.cur.fetchall():  # 判断是否有数据
+                self.con.close()
+                return True
+            else:
+                return False
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_CrossSiteScriptProject(class)_AuthorityCheck(def)", e)
+            return False

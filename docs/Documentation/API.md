@@ -1,4 +1,4 @@
-当前测试版本只有20个API接口，路径分别如下，只接受POST请求中的JSON格式数据
+当前测试版本API接口，路径分别如下，只接受POST请求中的JSON格式数据
 
 ```
 /api/vulnerability_scanning/
@@ -21,6 +21,10 @@
 /api/github_monitor/
 /api/forget_password/
 /api/actively_scan_port_information/
+/api/create_cross_site_scripting_project/
+/api/query_cross_site_scripting_project/
+/api/query_cross_site_scripting_project_data/
+/api/read_cross_site_scripting_template/
 ```
 
 #### 注册接口
@@ -87,7 +91,7 @@
 {
 	"url": "www.ascotbe.com",
 	"token": "XXXXXXXXXXXXXXXX",
-	"threads": 200,
+	"process": 200,
 	"module": "all",
 	"header": "None",
 	"proxy": "127.0.0.1:8080"
@@ -98,7 +102,7 @@
 
 - `url` 你扫描的目标
 - `token` 登录后返回给你的**token**
-- `threads`当前任务使用的进程树
+- `process`当前任务使用的进程树
 - `module`指定扫描模块，具体名称参考**Modules**目录下的文件名
 - `header`自定义头，如果没有的话传入**None**参数，用法和**bash**版一样
 - `proxy`该任务指定代理，如果没有代理该值直接传入`0` ，注意代理是否可用
@@ -529,3 +533,97 @@ FileDate
 - 169：莎酱被玩坏啦ヽ(･ω･´ﾒ)
 - 500：请使用Post请求
 
+#### 创建跨站脚本钓鱼项目
+
+`/api/create_cross_site_scripting_project/`用来创建跨站脚本项目
+
+```
+{
+	"token": "",
+	"project_name":"",
+	"javascript_data":""
+}
+```
+
+>参数解释
+
+- `token`登录后返回的**token**
+- `project_name`该项目的项目名
+- `javascript_data`进行过base64加密后的JS文件数据
+
+> 返回状态码
+
+- 200：欧拉欧拉欧拉欧拉欧拉欧拉欧拉欧拉(๑•̀ㅂ•́)و✧
+- 403：嘿~宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+- 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
+- 500：请使用Post请求
+
+
+
+
+
+#### 查询跨站脚本钓鱼项目
+
+`/api/query_cross_site_scripting_project/`用来查询用户的跨站脚本项目
+
+```
+{
+	"token": "",
+}
+```
+
+>参数解释
+
+- `token`登录后返回的**token**
+
+> 返回状态码
+
+- 200：返回查询到的项目信息
+- 403：嘿~宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+- 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
+- 500：请使用Post请求
+
+#### 查询跨站脚本钓鱼项目中数据
+
+`/api/query_cross_site_scripting_project_data/`用来查询用户的跨站脚本项目中的数据信息
+
+```
+{
+	"token": "",
+	"project_associated_file_name":""
+}
+```
+
+>参数解释
+
+- `token`登录后返回的**token**
+- `project_associated_file_name`项目中生成的特殊文件名，也就是**/api/query_cross_site_scripting_project/**接口传回的**file_name**数据
+
+> 返回状态码
+
+- 200：返回查询到的项目信息
+- 404：你没有查询这个项目的权限哦宝贝~
+- 403：嘿~宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+- 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
+- 500：请使用Post请求
+
+#### 读取默认跨站脚本文件数据
+
+`/api/read_cross_site_scripting_template/`用来跨站脚本中的默认数据有哪些
+
+```
+{
+	"token": ""
+}
+```
+
+>参数解释
+
+- `token`登录后返回的**token**
+
+> 返回状态码
+
+- 200：返回查询到的项目信息
+- 403：嘿~宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+- 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
+- 500：请使用Post请求

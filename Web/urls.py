@@ -13,9 +13,9 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.urls import path
+from django.urls import path,re_path
 from Web.Api import VulnerabilityScanning,VulnerabilityQuery,Registered,User,GenerateReport,ProxyScan,Home,Monitor
-
+from Web.CrossSiteScriptHub import CrossSiteScript,TemplateManagement
 urlpatterns = [
     #path('admin/', admin.site.urls),
     path('api/vulnerability_scanning/', VulnerabilityScanning.Scan),#扫描
@@ -38,8 +38,10 @@ urlpatterns = [
     path('api/github_monitor/', Monitor.GithubMonitor),  # GitHub监控数据
     path('api/forget_password/', User.ForgetPassword),  # 忘记密码API
     path('api/actively_scan_port_information/', VulnerabilityQuery.ActivelyScanPortInformation),  # 主动扫描中端口信息查询模块
-
-
-
+    re_path(r'^a/().*?/$', CrossSiteScript.Monitor),  # XSS钓鱼数据监控功能
+    path('api/create_cross_site_scripting_project/', CrossSiteScript.GenerateProject),  # 用来创建跨站脚本项目
+    path('api/query_cross_site_scripting_project/', CrossSiteScript.QueryProject),  # 用来查询跨站脚本项目
+    path('api/query_cross_site_scripting_project_data/', CrossSiteScript.QueryProjectData),  # 用来查询跨站脚本项目数据
+    path('api/read_cross_site_scripting_template/', TemplateManagement.ReadTemplate),  # 读取默认模板数据
 
 ]

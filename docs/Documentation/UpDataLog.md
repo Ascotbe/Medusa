@@ -2018,3 +2018,16 @@ v0.91.3🌴
 v0.91.4🌴
 新增api
 ```
+
+>  2020.11.25
+
+```
+v0.91.5🌴
+增加4个API接口/api/create_cross_site_scripting_project/、/api/query_cross_site_scripting_project/、/api/query_cross_site_scripting_project_data/、/api/read_cross_site_scripting_template/
+修改路由表
+修改头像上传位置和下载位置
+创建XSS钓鱼功能
+添加2个数据库表CrossSiteScriptProject、CrossSiteScript
+添加若干个函数
+修改API接口文件
+```

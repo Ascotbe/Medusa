@@ -22,7 +22,7 @@ def Monitor(request,data):#用于接收信息的监控
         GetRequestFragment = re.search(r'/[a-zA-Z0-9]{5}', str(request.get_full_path), re.I).group(0)  # 对URL进行提取处理
         #print(GetRequestFragment[1:6])
     except Exception as e:
-        ErrorLog().Write("Web_CrossSiteScriptHub_CrossSiteScriptMonitor_Monitor(def)-GetRequestFragment", e)
+        ErrorLog().Write("Web_CrossSiteScriptHub_CrossSiteScript_Monitor(def)-GetRequestFragment", e)
 
     if request.method == "POST":
         try:
@@ -39,7 +39,7 @@ def Monitor(request,data):#用于接收信息的监控
                                         project_associated_file_name=GetRequestFragment[1:6],#获取请求的文件，并且删除字符串/符号
                                         data_pack=base64.b64encode(DataPackInfo.encode('utf-8')))#写入信息到数据库
         except Exception as e:
-            ErrorLog().Write("Web_CrossSiteScriptHub_CrossSiteScriptMonitor_Monitor(def)-POST", e)
+            ErrorLog().Write("Web_CrossSiteScriptHub_CrossSiteScript_Monitor(def)-POST", e)
     elif request.method == "GET":
         try:
             ParameterInfo=str(request.GET)#获取参数信息
@@ -52,12 +52,12 @@ def Monitor(request,data):#用于接收信息的监控
                                         data_pack=base64.b64encode(ParameterInfo.encode('utf-8')))  # 写入信息到数据库
 
         except Exception as e:
-            ErrorLog().Write("Web_CrossSiteScriptHub_CrossSiteScriptMonitor_Monitor(def)-GET", e)
+            ErrorLog().Write("Web_CrossSiteScriptHub_CrossSiteScript_Monitor(def)-GET", e)
 
     return HttpResponse("")
 
 
-"""create_cross_site_scripting_project
+"""create_cross_site_script_project
 {
 	"token": "",
 	"project_name":"project_name",
@@ -65,7 +65,7 @@ def Monitor(request,data):#用于接收信息的监控
 }
 """
 def GenerateProject(request):#用来生成项目，并且生成文件和用户绑定
-    RequestLogRecord(request, request_api="create_cross_site_scripting_project")
+    RequestLogRecord(request, request_api="create_cross_site_script_project")
     if request.method == "POST":
         try:
             JavaScriptFileData = json.loads(request.body)["javascript_data"]#获取前端传入的加密过的js文件数据
@@ -73,7 +73,7 @@ def GenerateProject(request):#用来生成项目，并且生成文件和用户�
             UserToken = json.loads(request.body)["token"]
             Uid = UserInfo().QueryUidWithToken(UserToken)  # 如果登录成功后就来查询用户名
             if Uid != None and JavaScriptFileData!=None:  # 查到了UID,并且js数据不为空
-                UserOperationLogRecord(request, request_api="create_cross_site_scripting_project", uid=Uid)
+                UserOperationLogRecord(request, request_api="create_cross_site_script_project", uid=Uid)
                 GetJavaScriptFilePath().Result()#获取js文件路径
                 while True:#如果查询确实冲突了
                     JavaScriptSaveFileName=randoms().result(5)#文件名
@@ -88,51 +88,51 @@ def GenerateProject(request):#用来生成项目，并且生成文件和用户�
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_CrossSiteScriptHub_CrossSiteScriptMonitor_GenerateProject(def)", e)
+            ErrorLog().Write("Web_CrossSiteScriptHub_CrossSiteScript_GenerateProject(def)", e)
             return JsonResponse({'message': '呐呐呐！莎酱被玩坏啦(>^ω^<)', 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
 
-"""query_cross_site_scripting_project
+"""query_cross_site_script_project
 {
 	"token": "",
 }
 """
 def QueryProject(request):#用来查看用户的XSS项目
-    RequestLogRecord(request, request_api="query_cross_site_scripting_project")
+    RequestLogRecord(request, request_api="query_cross_site_script_project")
     if request.method == "POST":
         try:
             UserToken = json.loads(request.body)["token"]
             Uid = UserInfo().QueryUidWithToken(UserToken)  # 如果登录成功后就来查询用户名
             if Uid != None :  # 查到了UID
-                UserOperationLogRecord(request, request_api="query_cross_site_scripting_project", uid=Uid)
+                UserOperationLogRecord(request, request_api="query_cross_site_script_project", uid=Uid)
                 CrossSiteScriptProjectResult = CrossSiteScriptProject().Query(uid=Uid)  # 查询项目信息
                 return JsonResponse({'message': CrossSiteScriptProjectResult, 'code': 200, })
 
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_CrossSiteScriptHub_CrossSiteScriptMonitor_QueryProject(def)", e)
+            ErrorLog().Write("Web_CrossSiteScriptHub_CrossSiteScript_QueryProject(def)", e)
             return JsonResponse({'message': '呐呐呐！莎酱被玩坏啦(>^ω^<)', 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
-"""query_cross_site_scripting_project
+"""query_cross_site_script_project
 {
 	"token": "",
 	"project_associated_file_name":""
 }
 """
 def QueryProjectData(request):  # 用来查看用户的XSS项目中的数据
-    RequestLogRecord(request, request_api="query_cross_site_scripting_project_data")
+    RequestLogRecord(request, request_api="query_cross_site_script_project_data")
     if request.method == "POST":
         try:
             ProjectAssociatedFileName = json.loads(request.body)["project_associated_file_name"]
             UserToken = json.loads(request.body)["token"]
             Uid = UserInfo().QueryUidWithToken(UserToken)  # 如果登录成功后就来查询用户名
             if Uid != None:  # 查到了UID,并且js数据不为空
-                UserOperationLogRecord(request, request_api="query_cross_site_scripting_project_data", uid=Uid)
+                UserOperationLogRecord(request, request_api="query_cross_site_script_project_data", uid=Uid)
                 AuthorityCheck = CrossSiteScriptProject().AuthorityCheck(uid=Uid,file_name=ProjectAssociatedFileName)  # 用来校检CrossSiteScript数据库中文件名和UID相对应
 
                 if AuthorityCheck:
@@ -143,7 +143,7 @@ def QueryProjectData(request):  # 用来查看用户的XSS项目中的数据
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_CrossSiteScriptHub_CrossSiteScriptMonitor_QueryProjectData(def)", e)
+            ErrorLog().Write("Web_CrossSiteScriptHub_CrossSiteScript_QueryProjectData(def)", e)
             return JsonResponse({'message': '呐呐呐！莎酱被玩坏啦(>^ω^<)', 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })

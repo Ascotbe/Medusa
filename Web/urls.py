@@ -39,9 +39,11 @@ urlpatterns = [
     path('api/forget_password/', User.ForgetPassword),  # 忘记密码API
     path('api/actively_scan_port_information/', VulnerabilityQuery.ActivelyScanPortInformation),  # 主动扫描中端口信息查询模块
     re_path(r'^a/().*?/$', CrossSiteScript.Monitor),  # XSS钓鱼数据监控功能
-    path('api/create_cross_site_scripting_project/', CrossSiteScript.GenerateProject),  # 用来创建跨站脚本项目
-    path('api/query_cross_site_scripting_project/', CrossSiteScript.QueryProject),  # 用来查询跨站脚本项目
-    path('api/query_cross_site_scripting_project_data/', CrossSiteScript.QueryProjectData),  # 用来查询跨站脚本项目数据
-    path('api/read_cross_site_scripting_template/', TemplateManagement.ReadTemplate),  # 读取默认模板数据
+    path('api/create_cross_site_script_project/', CrossSiteScript.GenerateProject),  # 用来创建跨站脚本项目
+    path('api/query_cross_site_script_project/', CrossSiteScript.QueryProject),  # 用来查询跨站脚本项目
+    path('api/query_cross_site_script_project_data/', CrossSiteScript.QueryProjectData),  # 用来查询跨站脚本项目数据
+    path('api/read_default_cross_site_script_template/', TemplateManagement.ReadDefaultTemplate),  # 读取默认模板数据
+    path('api/read_cross_site_script_template/', TemplateManagement.ReadTemplate),  # 读取用户自定义模板数据
+    path('api/save_cross_site_script_template/', TemplateManagement.SaveTemplate),  # 对模板数据进行覆盖，如果没有同名文件就进行写入
 
 ]

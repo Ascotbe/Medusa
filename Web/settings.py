@@ -158,7 +158,7 @@ USE_TZ = True
 STATIC_URL = '/s/'
 STATICFILES_DIRS=(
     os.path.join(BASE_DIR,'Web/Image'),#静态资源加载位置
-    os.path.join(BASE_DIR,'Web/Temp'),#存放XSSjs文件目录
+    os.path.join(BASE_DIR,'Web/CrossSiteScriptHub/CrossSiteScriptProject'),#存放XSSjs文件目录
 )
 
 

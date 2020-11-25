@@ -970,10 +970,10 @@ class GetJavaScriptFilePath:  # 获取JavaScript文件路径类
     def Result(self) -> str:
         system_type = sys.platform
         if system_type == "win32" or system_type == "cygwin":
-            TempFileLocation = GetRootFileLocation().Result()+"\\Web\\Temp\\"
+            TempFileLocation = GetRootFileLocation().Result()+"\\Web\\CrossSiteScriptHub\\CrossSiteScriptProject\\"
             return TempFileLocation
         elif system_type == "linux" or system_type == "darwin":
-            TempFileLocation = GetRootFileLocation().Result()+"/Web/Temp/"
+            TempFileLocation = GetRootFileLocation().Result()+"/Web/CrossSiteScriptHub/CrossSiteScriptProject/"
             return TempFileLocation
 
 class GetCrossSiteScriptTemplateFilePath:  # 获取CrossSiteScriptTemplate文件路径类

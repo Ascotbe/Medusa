@@ -21,10 +21,12 @@
 /api/github_monitor/
 /api/forget_password/
 /api/actively_scan_port_information/
-/api/create_cross_site_scripting_project/
-/api/query_cross_site_scripting_project/
-/api/query_cross_site_scripting_project_data/
-/api/read_cross_site_scripting_template/
+/api/create_cross_site_script_project/
+/api/query_cross_site_script_project/
+/api/query_cross_site_script_project_data/
+/api/read_cross_site_script_template/
+/api/read_default_cross_site_script_template/
+/api/save_cross_site_script_template/
 ```
 
 #### 注册接口
@@ -535,7 +537,7 @@ FileDate
 
 #### 创建跨站脚本钓鱼项目
 
-`/api/create_cross_site_scripting_project/`用来创建跨站脚本项目
+`/api/create_cross_site_script_project/`用来创建跨站脚本项目
 
 ```
 {
@@ -564,7 +566,7 @@ FileDate
 
 #### 查询跨站脚本钓鱼项目
 
-`/api/query_cross_site_scripting_project/`用来查询用户的跨站脚本项目
+`/api/query_cross_site_script_project/`用来查询用户的跨站脚本项目
 
 ```
 {
@@ -585,7 +587,7 @@ FileDate
 
 #### 查询跨站脚本钓鱼项目中数据
 
-`/api/query_cross_site_scripting_project_data/`用来查询用户的跨站脚本项目中的数据信息
+`/api/query_cross_site_script_project_data/`用来查询用户的跨站脚本项目中的数据信息
 
 ```
 {
@@ -607,9 +609,9 @@ FileDate
 - 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
 - 500：请使用Post请求
 
-#### 读取默认跨站脚本文件数据
+#### 读取默认跨站脚本模板数据
 
-`/api/read_cross_site_scripting_template/`用来跨站脚本中的默认数据有哪些
+`/api/read_cross_site_script_template/`用来跨站脚本中的默认数据有哪些
 
 ```
 {
@@ -624,6 +626,54 @@ FileDate
 > 返回状态码
 
 - 200：返回查询到的项目信息
+- 403：嘿~宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+- 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
+- 500：请使用Post请求
+
+#### 读取用户自定义跨站脚本模板数据
+
+`/api/read_cross_site_script_template/`用来获取数据库中用户自定义的所有跨站脚本模板数据
+
+```
+{
+	"token": ""
+}
+```
+
+>参数解释
+
+- `token`登录后返回的**token**
+
+> 返回状态码
+
+- 200：返回查询到的项目信息
+- 403：嘿~宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+- 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
+- 500：请使用Post请求
+
+#### 保存用户自定义跨站脚本模板数据
+
+`/api/save_cross_site_script_template/`用来获取数据库中用户自定义的所有跨站脚本模板数据
+
+```
+{
+	"token": "",
+	"template_name":"",
+	"template_data":""
+}
+```
+
+>参数解释
+
+- `token`登录后返回的**token**
+- `template_name`模板名
+- `template_data`模板数据
+
+> 返回状态码
+
+- 200：模板写入成功
+- 200：模板更新成功
+- 401：模板更新失败
 - 403：嘿~宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
 - 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
 - 500：请使用Post请求

@@ -1061,3 +1061,88 @@ class CrossSiteScriptProject:#XSS钓鱼项目信息数据库
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_CrossSiteScriptProject(class)_AuthorityCheck(def)", e)
             return False
+
+class CrossSiteScriptTemplate:  # XSS钓鱼模板存放
+    def __init__(self):
+        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        # 获取所创建数据的游标
+        self.cur = self.con.cursor()
+        # 创建表
+        try:
+            self.cur.execute("CREATE TABLE CrossSiteScriptTemplate\
+                                (cross_site_script_template_id INTEGER PRIMARY KEY,\
+                                uid TEXT NOT NULL,\
+                                template_name TEXT NOT NULL,\
+                                template_data TEXT NOT NULL,\
+                                creation_time TEXT NOT NULL,\
+                                update_time TEXT NOT NULL)")
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_CrossSiteScriptProject(class)_init(def)", e)
+
+    def Write(self, **kwargs) -> bool or None:  # 写入相关信息
+        CreationTime = str(int(time.time()))  # 创建时间
+        UpdateTime = str(int(time.time()))  # 更新时间
+        Uid = kwargs.get("uid")
+        TemplateName = kwargs.get("template_name")
+        TemplateData = kwargs.get("template_data")#base64加密过的数据
+        try:
+            self.cur.execute("INSERT INTO CrossSiteScriptTemplate(uid,template_name,template_data,creation_time,update_time)\
+                VALUES (?,?,?,?,?)", (Uid, TemplateName, TemplateData, CreationTime,UpdateTime,))
+            # 提交
+            self.con.commit()
+            self.con.close()
+            return True
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_CrossSiteScriptTemplate(class)_Write(def)", e)
+            return False
+
+    def Query(self, **kwargs):  # 查询查看XSS项目信息
+        try:
+            Uid = kwargs.get("uid")
+            self.cur.execute("select * from CrossSiteScriptTemplate where uid =?", (Uid,))
+            for i in self.cur.fetchall():
+                JsonValues = {}
+                JsonValues["template_name"] = i[2]
+                JsonValues["template_data"] = i[3]
+                JsonValues["creation_time"] = i[4]
+                JsonValues["update_time"] = i[5]
+                self.con.close()
+                return JsonValues
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_CrossSiteScriptTemplate(class)_Query(def)", e)
+            return None
+    def RepeatInvestigation(self,**kwargs):#用来排查template_name是否重复
+
+        try:
+            Uid = kwargs.get("uid")
+            TemplateName = kwargs.get("template_name")
+            self.cur.execute("select * from CrossSiteScriptTemplate where uid =? and template_name=?", (Uid,TemplateName,))
+            if self.cur.fetchall():  # 判断是否有数据
+                self.con.close()
+                return True
+            else:
+                return False
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_CrossSiteScriptTemplate(class)_RepeatInvestigation(def)", e)
+            return False
+    def Update(self,**kwargs):
+        UpdateTime=str(int(time.time()))
+        Uid = kwargs.get("uid")
+        TemplateName = kwargs.get("template_name")
+        TemplateData = kwargs.get("template_data")  # base64加密过的数据
+        try:
+            self.cur.execute(
+                """UPDATE CrossSiteScriptTemplate SET template_data = ?,update_time=? WHERE uid = ? and template_name=? """,
+                (TemplateData,UpdateTime,Uid,TemplateName,))
+            # 提交
+            if self.cur.rowcount < 1:  # 用来判断是否更新成功
+                self.con.commit()
+                self.con.close()
+                return False
+            else:
+                self.con.commit()
+                self.con.close()
+                return True
+
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_CrossSiteScriptTemplate(class)_Update(def)", e)

@@ -155,10 +155,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = '/image/'
+STATIC_URL = '/s/'
 STATICFILES_DIRS=(
     os.path.join(BASE_DIR,'Web/Image'),#静态资源加载位置
+    os.path.join(BASE_DIR,'Web/Temp'),#存放XSSjs文件目录
 )
+
 
 #celery
 CELERY_RESULT_BACKEND='redis://'+redis_password+':@'+redis_host+':'+redis_port+'/'+redis_db

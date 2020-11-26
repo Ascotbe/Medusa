@@ -6,7 +6,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from Web.CommonVulnerabilityDetection.Github import GithubMonitor
 from Web.SystemInfo.HardwareInfo import Monitor
 from config import github_cve_monitor_job_time,hardware_info_monitor_job_time
-import fcntl
+import portalocker#为了兼容Windows
 import atexit
 
 def main():
@@ -24,7 +24,7 @@ def main():
 def Job():#定时任务，加锁防止重复运行
     f = open("scheduler.lock", "wb")
     try:
-        fcntl.flock(f, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        portalocker.lock(f, portalocker.LOCK_EX | portalocker.LOCK_NB)
         scheduler = BackgroundScheduler()
         scheduler.add_job(GithubMonitor, 'interval', id='github_cve_monitor_job', seconds=github_cve_monitor_job_time)
         scheduler.add_job(Monitor, 'interval', id='hardware_info_monitor_job', seconds=hardware_info_monitor_job_time)
@@ -33,7 +33,7 @@ def Job():#定时任务，加锁防止重复运行
         pass
 
     def unlock():
-        fcntl.flock(f, fcntl.LOCK_UN)
+        portalocker.unlock(f)
         f.close()
     atexit.register(unlock)
 

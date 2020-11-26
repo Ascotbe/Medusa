@@ -25,7 +25,7 @@ def ReadDefaultTemplate(request):#用读取默认的模板文件
                 for FileName in DefaultTemplateFileName:
                     with open(CrossSiteScriptTemplateFilePath+FileName, 'r+') as f:#读取文件
                         FileData = f.read()
-                    DefaultTemplateFileData.append({"FileName":base64.b64encode(str(FileData).encode('utf-8')).decode('utf-8')})#把读取到的数据加密后，转换成str类型后存入模板中
+                    DefaultTemplateFileData.append({"file_name":FileName,"file_data":base64.b64encode(str(FileData).encode('utf-8')).decode('utf-8')})#把读取到的数据加密后，转换成str类型后存入模板中
                 return JsonResponse({'message': DefaultTemplateFileData, 'code': 200, })
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })

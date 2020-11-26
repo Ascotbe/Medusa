@@ -1,4 +1,6 @@
-avList = {
+
+
+AntivirusSoftwareList = {
     "360tray.exe": "360安全卫士-实时保护",
     "360safe.exe": "360安全卫士-主程序",
     "ZhuDongFangYu.exe": "360安全卫士-主动防御",

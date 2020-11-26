@@ -4,9 +4,10 @@ import os
 import sys
 from apscheduler.schedulers.background import BackgroundScheduler
 from Web.CommonVulnerabilityDetection.Github import GithubMonitor
-from config import github_cve_job_time
-
-
+from Web.SystemInfo.HardwareInfo import Monitor
+from config import github_cve_monitor_job_time,hardware_info_monitor_job_time
+import fcntl
+import atexit
 
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Web.settings')
@@ -20,9 +21,22 @@ def main():
         ) from exc
     execute_from_command_line(sys.argv)
 
+def Job():#定时任务，加锁防止重复运行
+    f = open("scheduler.lock", "wb")
+    try:
+        fcntl.flock(f, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        scheduler = BackgroundScheduler()
+        scheduler.add_job(GithubMonitor, 'interval', id='github_cve_monitor_job', seconds=github_cve_monitor_job_time)
+        scheduler.add_job(Monitor, 'interval', id='hardware_info_monitor_job', seconds=hardware_info_monitor_job_time)
+        scheduler.start()
+    except:
+        pass
+
+    def unlock():
+        fcntl.flock(f, fcntl.LOCK_UN)
+        f.close()
+    atexit.register(unlock)
 
 if __name__ == '__main__':
-    scheduler = BackgroundScheduler()
-    scheduler.add_job(GithubMonitor, 'interval', id='github_cve_job', seconds=github_cve_job_time)
-    scheduler.start()
+    Job()
     main()

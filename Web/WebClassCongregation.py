@@ -1100,14 +1100,16 @@ class CrossSiteScriptTemplate:  # XSS钓鱼模板存放
         try:
             Uid = kwargs.get("uid")
             self.cur.execute("select * from CrossSiteScriptTemplate where uid =?", (Uid,))
+            result_list = []
             for i in self.cur.fetchall():
                 JsonValues = {}
                 JsonValues["template_name"] = i[2]
                 JsonValues["template_data"] = i[3]
                 JsonValues["creation_time"] = i[4]
                 JsonValues["update_time"] = i[5]
-                self.con.close()
-                return JsonValues
+                result_list.append(JsonValues)
+            self.con.close()
+            return result_list
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_CrossSiteScriptTemplate(class)_Query(def)", e)
             return None
@@ -1146,3 +1148,60 @@ class CrossSiteScriptTemplate:  # XSS钓鱼模板存放
 
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_CrossSiteScriptTemplate(class)_Update(def)", e)
+
+
+class HardwareUsageRateInfo:  # 获取硬件中CPU和内存的使用情况
+    def __init__(self):
+        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        # 获取所创建数据的游标
+        self.cur = self.con.cursor()
+        # 创建表
+        try:
+            self.cur.execute("CREATE TABLE HardwareUsageRateInfo\
+                                (hardware_usage_rate_id INTEGER PRIMARY KEY,\
+                                memory_used TEXT NOT NULL,\
+                                memory_free TEXT NOT NULL,\
+                                memory_percent TEXT NOT NULL,\
+                                creation_time TEXT NOT NULL,\
+                                central_processing_unit_usage_rate TEXT NOT NULL,\
+                                per_core_central_processing_unit_usage_rate TEXT NOT NULL)")
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_HardwareUsageRateInfo(class)_init(def)", e)
+
+    def Write(self, **kwargs) -> bool or None:  # 写入相关信息
+        CreationTime = str(int(time.time()))  # 创建时间
+        MemoryUsed = kwargs.get("memory_used")
+        MemoryFree = kwargs.get("memory_free")
+        MemoryPercent = kwargs.get("memory_percent")
+        CentralProcessingUnitUsageRate = kwargs.get("central_processing_unit_usage_rate")
+        PerCoreCentralProcessingUnitUsageRate = kwargs.get("per_core_central_processing_unit_usage_rate")
+        try:
+            self.cur.execute("INSERT INTO HardwareUsageRateInfo(memory_used,memory_free,memory_percent,creation_time,central_processing_unit_usage_rate,per_core_central_processing_unit_usage_rate)\
+                VALUES (?,?,?,?,?,?)", (MemoryUsed, MemoryFree, MemoryPercent, CreationTime,CentralProcessingUnitUsageRate,PerCoreCentralProcessingUnitUsageRate,))
+            # 提交
+            self.con.commit()
+            self.con.close()
+            return True
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_HardwareUsageRateInfo(class)_Write(def)", e)
+            return False
+
+    def Query(self):  # 查询查看CPU和内存使用信息
+        try:
+            CurrentTime = str(int(time.time()))  # 获取当前时间
+
+            self.cur.execute("select * from HardwareUsageRateInfo where creation_time<=? and creation_time>=?", (CurrentTime,str(int(CurrentTime)-3600),))#查询半小时之前的CPU使用率，和内存使用率
+            result_list = []
+            for i in self.cur.fetchall():
+                JsonValues = {}
+                JsonValues["memory_used"] = i[1]
+                JsonValues["memory_free"] = i[2]
+                JsonValues["memory_percent"] = i[3]
+                JsonValues["central_processing_unit_usage_rate"] = i[5]
+                JsonValues["per_core_central_processing_unit_usage_rate"] = i[6]
+                result_list.append(JsonValues)
+            self.con.close()
+            return result_list
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_HardwareUsageRateInfo(class)_Query(def)", e)
+            return None

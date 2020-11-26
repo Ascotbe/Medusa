@@ -9,3 +9,4 @@ Temp
 marshalsec.jar
 **/Image
 dump.rdb
+scheduler.lock

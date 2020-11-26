@@ -14,8 +14,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path,re_path
-from Web.Api import VulnerabilityScanning,VulnerabilityQuery,Registered,User,GenerateReport,ProxyScan,Home,Monitor
+from Web.BasicFunctions import VulnerabilityScanning,VulnerabilityQuery,Registered,User,GenerateReport,ProxyScan,Home
 from Web.CrossSiteScriptHub import CrossSiteScript,TemplateManagement
+from Web.SystemInfo import HardwareInfo
+from Web.CommonVulnerabilityDetection import Github
 urlpatterns = [
     #path('admin/', admin.site.urls),
     path('api/vulnerability_scanning/', VulnerabilityScanning.Scan),#扫描
@@ -35,7 +37,7 @@ urlpatterns = [
     path('api/homepage_vulnerability_distributiont_data/', Home.HomepageVulnerabilityDistributiontData),  # 首页漏洞分布数据
     path('api/homepage_github_monitor_data/', Home.HomepageGithubMonitorData),  # 首页github监控数据
     path('api/upload_avatar/', User.UploadAvatar),  # 上传头像接口
-    path('api/github_monitor/', Monitor.GithubMonitor),  # GitHub监控数据
+    path('api/github_monitor/', Github.GithubQuery),  # GitHub监控数据
     path('api/forget_password/', User.ForgetPassword),  # 忘记密码API
     path('api/actively_scan_port_information/', VulnerabilityQuery.ActivelyScanPortInformation),  # 主动扫描中端口信息查询模块
     re_path(r'^a/().*?/$', CrossSiteScript.Monitor),  # XSS钓鱼数据监控功能
@@ -45,5 +47,7 @@ urlpatterns = [
     path('api/read_default_cross_site_script_template/', TemplateManagement.ReadDefaultTemplate),  # 读取默认模板数据
     path('api/read_cross_site_script_template/', TemplateManagement.ReadTemplate),  # 读取用户自定义模板数据
     path('api/save_cross_site_script_template/', TemplateManagement.SaveTemplate),  # 对模板数据进行覆盖，如果没有同名文件就进行写入
+    path('api/system_hardware_initialization/', HardwareInfo.Initialization),  # 获取当前机器基础信息
+    path('api/system_hardware_usage_query/', HardwareInfo.UsageQuery),  # 获取当前机器cpu和内存使用情况
 
 ]

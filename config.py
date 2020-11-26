@@ -45,7 +45,7 @@ port_timeout_period=2#端口扫描默认超时时间
 #Github监控配置
 #默认工作间隔为60秒，
 #########################################################################
-github_cve_job_time=60#60秒请求一次
+github_cve_monitor_job_time=60#60秒请求一次
 
 #########################################################################
 #代理扫描配置
@@ -62,3 +62,10 @@ registration_function_status=False#默认关闭注册功能
 forgot_password_function_status=True#默认关闭忘记密码功能
 secret_key_required_for_account_registration="I_will_always_like_Rei_Ayanami"#注册账号需要的秘钥,最好修改为250个随机字符串
 forget_password_key="https://github.com/Ascotbe/Medusa"#修改密码所需要的key
+
+
+
+#########################################################################
+#机器硬件监控配置
+#########################################################################
+hardware_info_monitor_job_time=10#工作间隔

@@ -27,6 +27,8 @@
 /api/read_cross_site_script_template/
 /api/read_default_cross_site_script_template/
 /api/save_cross_site_script_template/
+/api/system_hardware_initialization/
+/api/system_hardware_usage_query/
 ```
 
 #### 注册接口
@@ -611,7 +613,7 @@ FileDate
 
 #### 读取默认跨站脚本模板数据
 
-`/api/read_cross_site_script_template/`用来跨站脚本中的默认数据有哪些
+`/api/read_default_cross_site_script_template/`用来跨站脚本中的默认数据有哪些
 
 ```
 {
@@ -674,6 +676,48 @@ FileDate
 - 200：模板写入成功
 - 200：模板更新成功
 - 401：模板更新失败
+- 403：嘿~宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+- 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
+- 500：请使用Post请求
+
+#### 获取当前机器基础信息
+
+`/api/system_hardware_initialization/`用来当前机器的基础信息
+
+```
+{
+	"token": ""
+}
+```
+
+>参数解释
+
+- `token`登录后返回的**token**
+
+> 返回状态码
+
+- 200：返回计算机信息
+- 403：嘿~宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+- 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
+- 500：请使用Post请求
+
+#### 获取当前机器CPU和内存使用率
+
+`/api/system_hardware_usage_query/`用来当前机器的CPU和内存使用率，区间为当前时间之前1小时
+
+```
+{
+	"token": ""
+}
+```
+
+>参数解释
+
+- `token`登录后返回的**token**
+
+> 返回状态码
+
+- 200：返回查询到的详细信息
 - 403：嘿~宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
 - 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
 - 500：请使用Post请求

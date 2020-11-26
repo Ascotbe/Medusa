@@ -2023,7 +2023,7 @@ v0.91.4🌴
 
 ```
 v0.91.5🌴
-增加4个API接口/api/create_cross_site_scripting_project/、/api/query_cross_site_scripting_project/、/api/query_cross_site_scripting_project_data/、/api/read_cross_site_scripting_template/
+增加4个API接口create_cross_site_scripting_project、query_cross_site_scripting_project、query_cross_site_scripting_project_data、read_cross_site_scripting_template
 修改路由表
 修改头像上传位置和下载位置
 创建XSS钓鱼功能
@@ -2037,4 +2037,18 @@ v0.91.6🌴
 添加2个API接口
 添加一个数据库表，以及几个功能
 替换原来XSS项目生成文件目录位置
+```
+
+>  2020.11.26
+
+```
+v0.91.7🌴
+增加2个API接口system_hardware_usage_query、system_hardware_initialization
+添加API说明
+修复read_default_cross_site_script_template说明文档描述错误
+修复若干个API错误
+添加HardwareUsageRateInfo数据库表
+修复定时任务重复问题
+添加配置文件中硬件信息监控时间
+修改Api文件夹为BasicFunctions
 ```

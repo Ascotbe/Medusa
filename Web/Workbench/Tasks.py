@@ -26,7 +26,6 @@ from Modules.Apache.Log4j import Log4j
 from Modules.Apache.ActiveMQ import ActiveMQ
 from Modules.Apache.Solr import Solr
 from Modules.Apache.Tomcat import Tomcat
-from Modules.Subdomain.SubdomainSearch import SubdomainSearch
 from ClassCongregation import ProcessPool
 from Web.WebClassCongregation import OriginalProxyData,ActiveScanList
 from config import proxy_scan_module_list,proxy_scan_process,proxy_scanned_by_proxy

@@ -18,6 +18,7 @@ from Web.BasicFunctions import VulnerabilityScanning,VulnerabilityQuery,Register
 from Web.CrossSiteScriptHub import CrossSiteScript,TemplateManagement
 from Web.SystemInfo import HardwareInfo
 from Web.CommonVulnerabilityDetection import Github
+from Web.ToolsUtility import AntivirusSoftware
 urlpatterns = [
     #path('admin/', admin.site.urls),
     path('api/vulnerability_scanning/', VulnerabilityScanning.Scan),#扫描
@@ -49,5 +50,6 @@ urlpatterns = [
     path('api/save_cross_site_script_template/', TemplateManagement.SaveTemplate),  # 对模板数据进行覆盖，如果没有同名文件就进行写入
     path('api/system_hardware_initialization/', HardwareInfo.Initialization),  # 获取当前机器基础信息
     path('api/system_hardware_usage_query/', HardwareInfo.UsageQuery),  # 获取当前机器cpu和内存使用情况
+    path('api/antivirus_software_compared/', AntivirusSoftware.Compared),  # 通过获取数据进行对比目标机器的杀软
 
 ]

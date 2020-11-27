@@ -69,3 +69,16 @@ forget_password_key="https://github.com/Ascotbe/Medusa"#修改密码所需要的
 #机器硬件监控配置
 #########################################################################
 hardware_info_monitor_job_time=10#工作间隔
+
+
+#########################################################################
+#子域名发现配置
+#########################################################################
+subdomain_request_timeout=8#超时时间
+subdomain_request_verify=False#设置SSL认证，默认关闭
+common_subnames = {'i', 'w', 'm', 'en', 'us', 'zh', 'w3', 'app', 'bbs',
+                   'web', 'www', 'job', 'docs', 'news', 'blog', 'data',
+                   'help', 'live', 'mall', 'blogs', 'files', 'forum',
+                   'store', 'mobile'}
+enable_recursive_search = False  # 递归搜索子域
+search_recursive_times = 2  # 递归搜索层数

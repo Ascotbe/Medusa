@@ -31,7 +31,7 @@ from Modules.Apache.Solr import Solr
 from Modules.BIG_IP import BIG_IP
 from Modules.Apache.Tomcat import Tomcat
 import tldextract
-from Modules.Subdomain.SubdomainSearch import SubdomainSearch
+from Subdomain import SubdomainSearch
 #from Exploit.Exploit import main#命令执行函数
 import ClassCongregation
 import Banner

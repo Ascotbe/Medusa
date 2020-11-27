@@ -1,3 +1,8 @@
+from Web.WebClassCongregation import UserInfo
+from django.http import JsonResponse
+from ClassCongregation import ErrorLog
+import json
+from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
 
 
 AntivirusSoftwareList = {
@@ -557,3 +562,38 @@ AntivirusSoftwareList = {
     "ESAV.exe": "启明星辰天珣EDR Agent",
     "ESCCIndex.exe": "启明星辰天珣EDR Agent"
 }
+
+"""antivirus_software_compared
+{
+	"token": "",
+	"process_name_list":[]
+}
+"""
+
+def Compared(request):  # 用于对比进程中是否有杀毒软件
+    RequestLogRecord(request, request_api="antivirus_software_compared")
+    if request.method == "POST":
+        try:
+            Token = json.loads(request.body)["token"]
+            ProcessNameList = json.loads(request.body)["process_name_list"]
+            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
+            if Uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="antivirus_software_compared", uid=Uid)  # 查询到了在计入
+                SearchResult=[]#存放查询的结果
+                for ProcessName in ProcessNameList:
+                    try:
+                        SearchResult.append(ProcessName+":"+AntivirusSoftwareList[ProcessName])
+
+                    except:
+                        pass
+                if len(SearchResult)==0:
+                    return JsonResponse({'message': "宝贝数据没有发现杀软哦~", 'code': 666, })
+                else:
+                    return JsonResponse({'message': SearchResult, 'code': 200, })
+            else:
+                return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
+        except Exception as e:
+            ErrorLog().Write("Web_ToolsUtility_AntivirusSoftware_Compared(def)", e)
+    else:
+        return JsonResponse({'message': '请使用Post请求', 'code': 500, })
+

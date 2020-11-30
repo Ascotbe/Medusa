@@ -217,8 +217,7 @@ class PortDB:  # 端口数据表
                 result_list = []  # 存放json的返回结果列表用
                 for i in self.cur.fetchall():
                     JsonValues = {}
-                    JsonValues["uid"] = i[1]
-                    JsonValues["active_scan_id"] = i[2]
+                    # JsonValues["active_scan_id"] = i[2]
                     JsonValues["port"] = i[3]
                     JsonValues["ip"] = i[4]
                     JsonValues["domain"] = i[5]
@@ -984,5 +983,15 @@ class GetCrossSiteScriptTemplateFilePath:  # 获取CrossSiteScriptTemplate文件
             return TempFileLocation
         elif system_type == "linux" or system_type == "darwin":
             TempFileLocation = GetRootFileLocation().Result()+"/Web/CrossSiteScriptHub/CrossSiteScriptTemplate/"
+            return TempFileLocation
+
+class GetPortableExecuteFilePath:  # 获取需要进行PE结构处理的文件路径类
+    def Result(self) -> str:
+        system_type = sys.platform
+        if system_type == "win32" or system_type == "cygwin":
+            TempFileLocation = GetRootFileLocation().Result()+"\\Web\\ToolsUtility\\PortableExecute\\"
+            return TempFileLocation
+        elif system_type == "linux" or system_type == "darwin":
+            TempFileLocation = GetRootFileLocation().Result()+"/Web/ToolsUtility/PortableExecute/"
             return TempFileLocation
 

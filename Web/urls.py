@@ -18,7 +18,7 @@ from Web.BasicFunctions import VulnerabilityScanning,VulnerabilityQuery,Register
 from Web.CrossSiteScriptHub import CrossSiteScript,TemplateManagement
 from Web.SystemInfo import HardwareInfo
 from Web.CommonVulnerabilityDetection import Github
-from Web.ToolsUtility import AntivirusSoftware
+from Web.ToolsUtility import AntivirusSoftware,PortableExecuteStructureAnalysis
 urlpatterns = [
     #path('admin/', admin.site.urls),
     path('api/vulnerability_scanning/', VulnerabilityScanning.Scan),#扫描
@@ -51,5 +51,6 @@ urlpatterns = [
     path('api/system_hardware_initialization/', HardwareInfo.Initialization),  # 获取当前机器基础信息
     path('api/system_hardware_usage_query/', HardwareInfo.UsageQuery),  # 获取当前机器cpu和内存使用情况
     path('api/antivirus_software_compared/', AntivirusSoftware.Compared),  # 通过获取数据进行对比目标机器的杀软
+    path('api/portable_execute_structure_analysis/', PortableExecuteStructureAnalysis.StructureExtraction),  # 文件上传后进行结构处理
 
 ]

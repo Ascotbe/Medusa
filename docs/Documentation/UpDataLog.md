@@ -2078,4 +2078,7 @@ v0.92.1🌴
 更新api接口portable_execute_structure_analysis
 修改WinPE处理
 修复查询端口返回uid值错误
+v0.92.2🌴
+修改默认头像
+修改未有返回值错误
 ```

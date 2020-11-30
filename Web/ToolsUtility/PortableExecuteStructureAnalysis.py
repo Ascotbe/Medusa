@@ -23,6 +23,7 @@ def StructureExtraction(request):  # 用于提取保存文件后调用相应的�
                         for line in PictureData:
                             f.write(line)
                     #接下来调用处理函数，接着再调用删除函数
+                    return JsonResponse({'message': "成功了", 'code': 200, })
                 else:
                     return JsonResponse({'message': "文件太大啦~(๑•̀ㅂ•́)و✧", 'code': 501, })
             else:

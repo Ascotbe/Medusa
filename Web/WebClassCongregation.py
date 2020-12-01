@@ -946,12 +946,12 @@ class CrossSiteScriptInfo:#XSS钓鱼接收数据库
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
         CreationTime = str(int(time.time()))  # 创建时间
         #Uid = kwargs.get("uid")
-        Headers= kwargs.get("headers")
+        Headers= kwargs.get("headers").decode('utf-8')
         Ip = kwargs.get("ip")
         ProjectAssociatedFileName= kwargs.get("project_associated_file_name")
         RequestMethod = kwargs.get("request_method")
         FullURL = kwargs.get("full_url")
-        DataPack = kwargs.get("data_pack")
+        DataPack = kwargs.get("data_pack").decode('utf-8')
         try:
             self.cur.execute("INSERT INTO CrossSiteScript(headers,project_associated_file_name,ip,full_url,creation_time,request_method,data_pack)\
                 VALUES (?,?,?,?,?,?,?)", (Headers,ProjectAssociatedFileName, Ip, FullURL,CreationTime, RequestMethod,DataPack,))

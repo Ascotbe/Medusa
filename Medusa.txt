@@ -26,3 +26,4 @@ mitmproxy==4.0.4
 apscheduler==3.6.3
 psutil==5.6.7
 portalocker==2.0.0
+pefile==2019.4.18

@@ -49,6 +49,8 @@ def WindowsPortableExecute(Path):
         _IMAGE_FILE_HEADER=str(PE.FILE_HEADER)#NT头中的_IMAGE_FILE_HEADER
         _IMAGE_OPTIONAL_HEADER=str(PE.OPTIONAL_HEADER)#nt里面的IMAGE_OPTIONAL_HEADER
         _IMAGE_SECTION_HEADER = PE.sections # 节表
+        print(PE.DIRECTORY_ENTRY_RESOURCE)#资源文件
+
         try:
             _IMAGE_IMPORT_DESCRIPTOR=PE.DIRECTORY_ENTRY_IMPORT#导入表
         except Exception as e:
@@ -115,5 +117,5 @@ def WindowsPortableExecute(Path):
 
 
 #WindowsPortableExecute("/Users/ascotbe/Downloads/nbtscan-1.0.35.exe")
-#WindowsPortableExecute("/Users/ascotbe/Downloads/04a584091f2a2f48a50c9513fb4f75187f9edf87106f3ab011ba502988d8e9cf.exe")
+WindowsPortableExecute("/Users/ascotbe/Downloads/04a584091f2a2f48a50c9513fb4f75187f9edf87106f3ab011ba502988d8e9cf.exe")
 #WindowsPortableExecute("/Users/ascotbe/Downloads/twain_32.dll")

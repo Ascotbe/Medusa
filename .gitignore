@@ -10,3 +10,6 @@ marshalsec.jar
 dump.rdb
 scheduler.lock
 **/CrossSiteScriptProject
+**/Image
+**/PortableExecute
+CrossSiteScriptProject

@@ -30,26 +30,26 @@ def Monitor(request,data):#用于接收信息的监控
             if request.headers["Content-Type"]=="application/json":
                 DataPackInfo = str(request.body)#获取post数据包信息
             else:
-                DataPackInfo = str(request.POST)
+                DataPackInfo = str(request.POST.dict()).encode('utf-8')#转换成字典后再换装byte类型穿给加密函数
             HeadersInfo = str(request.headers)  # 获取头信息
-            CrossSiteScriptInfo().Write(headers=base64.b64encode(HeadersInfo.encode('utf-8')),  #对信息进行编码
+            CrossSiteScriptInfo().Write(headers=base64.b64encode(HeadersInfo),  #对信息进行编码
                                         ip=GetIp(request),  #获取IP信息
                                         full_url=str(request.build_absolute_uri()),  # 获取完整URL
                                         request_method="POST",
                                         project_associated_file_name=GetRequestFragment[1:6],#获取请求的文件，并且删除字符串/符号
-                                        data_pack=base64.b64encode(DataPackInfo.encode('utf-8')))#写入信息到数据库
+                                        data_pack=base64.b64encode(DataPackInfo))#写入信息到数据库
         except Exception as e:
             ErrorLog().Write("Web_CrossSiteScriptHub_CrossSiteScript_Monitor(def)-POST", e)
     elif request.method == "GET":
         try:
-            ParameterInfo=str(request.GET)#获取参数信息
-            HeadersInfo=str(request.headers)#获取头信息
-            CrossSiteScriptInfo().Write(headers=base64.b64encode(HeadersInfo.encode('utf-8')),  # 对信息进行编码
+            ParameterInfo=str(request.GET.dict()).encode('utf-8')#获取参数信息
+            HeadersInfo=str(request.headers).encode('utf-8')#获取头信息
+            CrossSiteScriptInfo().Write(headers=base64.b64encode(HeadersInfo),  # 对信息进行编码
                                         full_url=str(request.build_absolute_uri()),#获取完整URL
                                         ip=GetIp(request),  # 获取IP信息
                                         request_method="GET",
                                         project_associated_file_name=GetRequestFragment[1:6],
-                                        data_pack=base64.b64encode(ParameterInfo.encode('utf-8')))  # 写入信息到数据库
+                                        data_pack=base64.b64encode(ParameterInfo))  # 写入信息到数据库
 
         except Exception as e:
             ErrorLog().Write("Web_CrossSiteScriptHub_CrossSiteScript_Monitor(def)-GET", e)

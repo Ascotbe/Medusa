@@ -84,3 +84,23 @@
 #.\redis-server.exe redis.windows.conf
 # git commit -m  "v0.82.3:palm_tree:"
 #find . -type d -name '__pycache__' | xargs rm -rf
+import pefile
+from cryptography import x509
+from cryptography.hazmat.backends import default_backend
+
+from asn1crypto import cms
+fname="/Users/ascotbe/Downloads/04a584091f2a2f48a50c9513fb4f75187f9edf87106f3ab011ba502988d8e9cf.exe"
+pe = pefile.PE(fname)
+sigoff = pe.OPTIONAL_HEADER.DATA_DIRECTORY[pefile.DIRECTORY_ENTRY["IMAGE_DIRECTORY_ENTRY_SECURITY"]].VirtualAddress
+siglen = pe.OPTIONAL_HEADER.DATA_DIRECTORY[pefile.DIRECTORY_ENTRY["IMAGE_DIRECTORY_ENTRY_SECURITY"]].Size
+pe.close()
+
+with open(fname, 'rb') as fh:
+    fh.seek(sigoff)
+    thesig = fh.read(siglen)
+
+signature = cms.ContentInfo.load(thesig[8:])
+
+for cert in signature["content"]["certificates"]:
+    parsed_cert = x509.load_der_x509_certificate(cert.dump(), default_backend())
+    print(parsed_cert)

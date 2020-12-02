@@ -970,13 +970,13 @@ class CrossSiteScriptInfo:#XSS钓鱼接收数据库
             result_list=[]
             for i in self.cur.fetchall():
                 JsonValues = {}
-                JsonValues["headers"] = i[1].decode('utf-8')
+                JsonValues["headers"] = i[1]
                 JsonValues["project_associated_file_name"] = i[2]
                 JsonValues["ip"] = i[3]
                 JsonValues["full_url"] = i[4]
                 JsonValues["creation_time"] = i[5]
                 JsonValues["request_method"] = i[6]
-                JsonValues["data_pack"] = i[7].decode('utf-8')
+                JsonValues["data_pack"] = i[7]
                 result_list.append(JsonValues)
             self.con.close()
             return result_list

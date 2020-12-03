@@ -84,13 +84,6 @@
 #.\redis-server.exe redis.windows.conf
 # git commit -m  "v0.82.3:palm_tree:"
 #find . -type d -name '__pycache__' | xargs rm -rf
-import pefile
+import hashlib
 ll="/Users/ascotbe/Downloads/04a584091f2a2f48a50c9513fb4f75187f9edf87106f3ab011ba502988d8e9cf.exe"
-aa=pefile.PE(ll)  # 获取路径
-def RESOURCE():  # 对资源文件进行处理
-    IMAGE_RESOURCE_DIRECTORY=[]
-    _IMAGE_RESOURCE_DIRECTORY = aa.DIRECTORY_ENTRY_RESOURCE  # 资源文件
-    print(_IMAGE_RESOURCE_DIRECTORY)
-
-
-RESOURCE()
+f = open(ll, "rb").read()

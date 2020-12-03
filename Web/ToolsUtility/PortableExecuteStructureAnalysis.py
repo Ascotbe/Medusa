@@ -8,6 +8,9 @@ import pefile
 from cryptography import x509
 from cryptography.hazmat.backends import default_backend
 import re
+import magic
+import os
+import hashlib
 from asn1crypto import cms
 
 def Windows(request):  # 用于提取保存文件后调用相应的处理函数
@@ -190,6 +193,45 @@ class WindowsPortableExecute:
     def RESOURCE(self):#对资源文件进行处理
         try:
             _IMAGE_RESOURCE_DIRECTORY=self.PE.DIRECTORY_ENTRY_RESOURCE#资源文件
+            for ResourceOne in _IMAGE_RESOURCE_DIRECTORY.entries:  # 根据数据资源来判断循环几次
+                try:
+                    TMP = {}  # 临时存储数据
+                    TMP["resource_type"] = str(ResourceOne.id) # 资源类型
+                    """资源类型表
+                    0x00000001	鼠标指针（Cursor）	   0x00000008	字体（Font）
+                    0x00000002	位图（Bitmap）	       0x00000009	快捷键（Accelerators）
+                    0x00000003	图标（Icon）	           0x0000000A	非格式化资源（Unformatted）
+                    0x00000004	菜单（Menu）	           0x0000000B	消息列表（Message Table）
+                    0x00000005	对话框（Dialog）	       0x0000000C	鼠标指针组（Group Cursor）
+                    0x00000006	字符串列表（String Table）0x0000000E	图标组（Group Icon）
+                    0x00000007	字体目录（Font Directory）0x00000010	版本信息（Version Information）
+                    """
+                    for ResourceTwo in ResourceOne.directory.entries:
+                        try:
+                            TMP["resource_name"] = str(ResourceTwo.id)  # 资源名
+                            for ResourceThree in ResourceTwo.directory.entries:
+                                try:
+                                    #资源语言对照表
+                                    #https://www.science.co.il/language/Locale-codes.php
+                                    TMP["resource_language"] = str(ResourceThree.id)  # 资源语言
+                                    TMP["offset_to_data"] = str(hex(ResourceThree.data.struct.OffsetToData))  # 偏移地址
+                                    TMP["size"] = str(hex(ResourceThree.data.struct.Size))  # 资源大小
+                                    TMP["code_page"] = str(ResourceThree.data.struct.CodePage)  # 代码页，暂时不需要
+                                    # TMP["reserved"]=ResourceThree.data.struct.Reserved#保留字段
+                                    TMP["resource_sublanguage"] = str(ResourceThree.data.sublang)  # 资源子语言
+                                except Exception as e:
+                                    ErrorLog().Write(
+                                        "Web_ToolsUtility_PortableExecuteStructureAnalysis_WindowsPortableExecute(class)_RESOURCE(def)_ResourceThree",
+                                        e)
+                        except Exception as e:
+                            ErrorLog().Write(
+                                "Web_ToolsUtility_PortableExecuteStructureAnalysis_WindowsPortableExecute(class)_RESOURCE(def)_ResourceTwo",
+                                e)
+                    self.IMAGE_RESOURCE_DIRECTORY.append(TMP)  # 发送数据到容器中
+                except Exception as e:
+                    ErrorLog().Write(
+                        "Web_ToolsUtility_PortableExecuteStructureAnalysis_WindowsPortableExecute(class)_RESOURCE(def)_ResourceOne",
+                        e)
         except Exception as e:
             ErrorLog().Write(
                 "Web_ToolsUtility_PortableExecuteStructureAnalysis_WindowsPortableExecute(class)_RESOURCE(def)",
@@ -197,6 +239,12 @@ class WindowsPortableExecute:
     def Run(self,**kwargs):
         self.FilePath = kwargs.get("path")  # 传入的文件路径
         self.PE = pefile.PE(self.FilePath)  # 获取路径
+        self.MIME = magic.from_file(self.FilePath)  #获取文件MIME类型
+        self.FileSize =os.path.getsize(self.FilePath) # 传入的文件大小
+        self.FileRawDataStream=open(self.FilePath, "rb").read()#获取文件原始数据流
+        self.MD5=hashlib.md5(self.FileRawDataStream).hexdigest()#文件的MD5加密
+        self.SHA1=hashlib.sha1(self.FileRawDataStream).hexdigest()#文件的sha1加密
+        self.SHA256=hashlib.sha256(self.FileRawDataStream).hexdigest()#文件的sha256加密
         self.RESOURCE()
         self.EXPORT()
         self.IMPORT()

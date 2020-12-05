@@ -985,13 +985,13 @@ class GetCrossSiteScriptTemplateFilePath:  # 获取CrossSiteScriptTemplate文件
             TempFileLocation = GetRootFileLocation().Result()+"/Web/CrossSiteScriptHub/CrossSiteScriptTemplate/"
             return TempFileLocation
 
-class GetPortableExecuteFilePath:  # 获取需要进行PE结构处理的文件路径类
+class GetAnalysisFileStoragePath:  # 获取分析文件存储路径类
     def Result(self) -> str:
         system_type = sys.platform
         if system_type == "win32" or system_type == "cygwin":
-            TempFileLocation = GetRootFileLocation().Result()+"\\Web\\ToolsUtility\\PortableExecute\\"
+            TempFileLocation = GetRootFileLocation().Result()+"\\Web\\ToolsUtility\\AnalysisFileStorage\\"
             return TempFileLocation
         elif system_type == "linux" or system_type == "darwin":
-            TempFileLocation = GetRootFileLocation().Result()+"/Web/ToolsUtility/PortableExecute/"
+            TempFileLocation = GetRootFileLocation().Result()+"/Web/ToolsUtility/AnalysisFileStorage/"
             return TempFileLocation
 

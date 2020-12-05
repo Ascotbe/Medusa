@@ -1,6 +1,6 @@
-from Web.WebClassCongregation import UserInfo
+from Web.WebClassCongregation import UserInfo,PortableExecutableAnalyticalData
 from django.http import JsonResponse
-from ClassCongregation import ErrorLog,randoms,GetPortableExecuteFilePath
+from ClassCongregation import ErrorLog,randoms,GetAnalysisFileStoragePath
 import time
 from config import portable_execute_file_size
 from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
@@ -14,22 +14,26 @@ import hashlib
 from asn1crypto import cms
 
 def Windows(request):  # 用于提取保存文件后调用相应的处理函数
-    RequestLogRecord(request, request_api="windows_portable_execute_structure_analysis")
+    RequestLogRecord(request, request_api="windows_portable_execute_analysis")
     if request.method == "POST":
         try:
             Token =request.headers["token"]
             Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
             if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="windows_portable_execute_structure_analysis", uid=Uid)  # 查询到了在计入
+                UserOperationLogRecord(request, request_api="windows_portable_execute_analysis", uid=Uid)  # 查询到了在计入
                 PictureData = request.FILES.get('file', None)  # 获取文件数据
                 if 0>=PictureData.size:#判断是不是空文件
                     return JsonResponse({'message': "宝贝数据这么小的嘛？", 'code': 400, })
                 elif portable_execute_file_size < PictureData.size:  #和配置文件中做对比
-                    SaveFileName = randoms().result(10) + str(int(time.time()))   # 重命名文件
-                    SaveRoute = GetPortableExecuteFilePath().Result() + SaveFileName  # 获得保存路径
+                    FileMd5 = hashlib.md5(PictureData).hexdigest()  # 文件的MD5加密
+                    FileSha1 = hashlib.sha1(PictureData).hexdigest()  # 文件的sha1加密
+                    FileSha256 = hashlib.sha256(PictureData).hexdigest()  # 文件的sha256加密
+                    SaveFileName = str(FileSha256)+"-"+str(int(time.time()))   # 重命名文件
+                    SaveRoute = GetAnalysisFileStoragePath().Result() + SaveFileName  # 获得保存路径
                     with open(SaveRoute, 'wb') as f:
                         for line in PictureData:
                             f.write(line)
+                    PortableExecute().Run(uid=Uid,md5=FileMd5,save_file_name=SaveFileName,sha1=FileSha1,sha256=FileSha256,path=SaveRoute)
                     #接下来调用处理函数，接着再调用删除函数
                     return JsonResponse({'message': "成功了", 'code': 200, })
                 else:
@@ -37,39 +41,12 @@ def Windows(request):  # 用于提取保存文件后调用相应的处理函数
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_ToolsUtility_AntivirusSoftware_Compared(def)", e)
+            ErrorLog().Write("Web_ToolsUtility_PortableExecute_Windows(def)", e)
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
-def Linux(request):  # 用于提取保存文件后调用相应的处理函数
-    RequestLogRecord(request, request_api="linux_portable_execute_structure_analysis")
-    if request.method == "POST":
-        try:
-            Token =request.headers["token"]
-            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
-            if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="linux_portable_execute_structure_analysis", uid=Uid)  # 查询到了在计入
-                PictureData = request.FILES.get('file', None)  # 获取文件数据
-                if 0>=PictureData.size:#判断是不是空文件
-                    return JsonResponse({'message': "宝贝数据这么小的嘛？", 'code': 400, })
-                elif portable_execute_file_size < PictureData.size:  #和配置文件中做对比
-                    SaveFileName = randoms().result(10) + str(int(time.time()))   # 重命名文件
-                    SaveRoute = GetPortableExecuteFilePath().Result() + SaveFileName  # 获得保存路径
-                    with open(SaveRoute, 'wb') as f:
-                        for line in PictureData:
-                            f.write(line)
-                    #接下来调用处理函数，接着再调用删除函数
-                    return JsonResponse({'message': "成功了", 'code': 200, })
-                else:
-                    return JsonResponse({'message': "文件太大啦~(๑•̀ㅂ•́)و✧", 'code': 501, })
-            else:
-                return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
-        except Exception as e:
-            ErrorLog().Write("Web_ToolsUtility_AntivirusSoftware_Compared(def)", e)
-    else:
-        return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
-class WindowsPortableExecute:
+class PortableExecute:
     def __init__(self):
         self.IMAGE_DOS_HEADER = []  # 存放DOS头数据
         self.IMAGE_NT_HEADERS = {}  # 存放NT头数据
@@ -80,6 +57,7 @@ class WindowsPortableExecute:
         self.IMAGE_EXPORT_DIRECTORY = []  # 存放导出表数据
         self.CertificateDataContainer = []  # 存放证书数据容器
         self.IMAGE_RESOURCE_DIRECTORY=[]#存放资源数据
+        self.IMAGE_TLS_DIRECTORY= [] # 存放TLS表数据
     def DOS(self):#dos头处理函数
         _IMAGE_DOS_HEADER = str(self.PE.DOS_HEADER)  # DOS头
         for i in _IMAGE_DOS_HEADER.splitlines()[1:]:  # 对dos头进行清洗
@@ -112,7 +90,7 @@ class WindowsPortableExecute:
                 self.IMAGE_SECTION_HEADER.append(IMAGE_SECTION_HEADER_TMP)
             except Exception as e:
                 ErrorLog().Write(
-                    "Web_ToolsUtility_PortableExecuteStructureAnalysis_WindowsPortableExecute(class)_SECTION(def)",
+                    "Web_ToolsUtility_PortableExecute_PortableExecute(class)_SECTION(def)",
                     e)
     def CA(self):#对证书进行处理
         try:  # 获取证书资源段
@@ -143,12 +121,11 @@ class WindowsPortableExecute:
                     except:
                         TMP["cert_issuer"] = None
                     self.CertificateDataContainer.append(TMP)  # 存放证书数据
-                    print(TMP)
                 except:
                     pass
         except Exception as e:
             ErrorLog().Write(
-                "Web_ToolsUtility_PortableExecuteStructureAnalysis_WindowsPortableExecute(class)_CA(def)", e)
+                "Web_ToolsUtility_PortableExecute_PortableExecute(class)_CA(def)", e)
     def IMPORT(self):#对导入表进行处理
         try:
             _IMAGE_IMPORT_DESCRIPTOR = self.PE.DIRECTORY_ENTRY_IMPORT  # 导入表
@@ -169,7 +146,7 @@ class WindowsPortableExecute:
                     pass
         except Exception as e:
             ErrorLog().Write(
-                "Web_ToolsUtility_PortableExecuteStructureAnalysis_WindowsPortableExecute(class)_IMPORT(def)",
+                "Web_ToolsUtility_PortableExecute_PortableExecute(class)_IMPORT(def)",
                 e)
 
     def EXPORT(self):#对导出表数据进行处理
@@ -187,7 +164,7 @@ class WindowsPortableExecute:
                     pass
         except Exception as e:
             ErrorLog().Write(
-                    "Web_ToolsUtility_PortableExecuteStructureAnalysis_WindowsPortableExecute(class)-EXPORT(def)",
+                    "Web_ToolsUtility_PortableExecute_PortableExecute(class)-EXPORT(def)",
                     e)
 
     def RESOURCE(self):#对资源文件进行处理
@@ -221,36 +198,74 @@ class WindowsPortableExecute:
                                     TMP["resource_sublanguage"] = str(ResourceThree.data.sublang)  # 资源子语言
                                 except Exception as e:
                                     ErrorLog().Write(
-                                        "Web_ToolsUtility_PortableExecuteStructureAnalysis_WindowsPortableExecute(class)_RESOURCE(def)_ResourceThree",
+                                        "Web_ToolsUtility_PortableExecute_PortableExecute(class)_RESOURCE(def)_ResourceThree",
                                         e)
                         except Exception as e:
                             ErrorLog().Write(
-                                "Web_ToolsUtility_PortableExecuteStructureAnalysis_WindowsPortableExecute(class)_RESOURCE(def)_ResourceTwo",
+                                "Web_ToolsUtility_PortableExecute_PortableExecute(class)_RESOURCE(def)_ResourceTwo",
                                 e)
                     self.IMAGE_RESOURCE_DIRECTORY.append(TMP)  # 发送数据到容器中
                 except Exception as e:
                     ErrorLog().Write(
-                        "Web_ToolsUtility_PortableExecuteStructureAnalysis_WindowsPortableExecute(class)_RESOURCE(def)_ResourceOne",
+                        "Web_ToolsUtility_PortableExecute_PortableExecute(class)_RESOURCE(def)_ResourceOne",
                         e)
         except Exception as e:
             ErrorLog().Write(
-                "Web_ToolsUtility_PortableExecuteStructureAnalysis_WindowsPortableExecute(class)_RESOURCE(def)",
+                "Web_ToolsUtility_PortableExecute_PortableExecute(class)_RESOURCE(def)",
+                e)
+    def TLS(self):#对节表数据进行清洗
+        try:
+            _IMAGE_TLS_DIRECTORY = str(self.PE.DIRECTORY_ENTRY_TLS.struct)  # tls表
+            for i in _IMAGE_TLS_DIRECTORY.splitlines()[1:]:  # 对TLS表数据进行清理
+                try:
+                    Name = re.findall(r'(\S*?):', i, re.I)#清洗出来的名字
+                    Address = re.findall(r':\s*?(0x\w*)', i, re.I)#清洗出来的地址
+                    self.IMAGE_TLS_DIRECTORY.append({Name[0]:Address[0]})#把数据拼接后发送到容器中
+                except Exception as e:
+                    ErrorLog().Write(
+                        "Web_ToolsUtility_PortableExecute_PortableExecute(class)_TLS(def)",
+                        e)
+
+        except Exception as e:
+            ErrorLog().Write(
+                "Web_ToolsUtility_PortableExecute_PortableExecute(class)_TLS(def)",
                 e)
     def Run(self,**kwargs):
         self.FilePath = kwargs.get("path")  # 传入的文件路径
+        self.MD5 = kwargs.get("md5")  # 传入MD5
+        self.SHA1 = kwargs.get("sha1")  # 传入SHA1
+        self.SHA256 = kwargs.get("sha256")  # 传入SHA256
+        self.Uid = kwargs.get("uid")  # 传入用户的UID
+        self.SaveFileName = kwargs.get("save_file_name")  # 传入保存的文件名
         self.PE = pefile.PE(self.FilePath)  # 获取路径
-        self.MIME = magic.from_file(self.FilePath)  #获取文件MIME类型
-        self.FileSize =os.path.getsize(self.FilePath) # 传入的文件大小
-        self.FileRawDataStream=open(self.FilePath, "rb").read()#获取文件原始数据流
-        self.MD5=hashlib.md5(self.FileRawDataStream).hexdigest()#文件的MD5加密
-        self.SHA1=hashlib.sha1(self.FileRawDataStream).hexdigest()#文件的sha1加密
-        self.SHA256=hashlib.sha256(self.FileRawDataStream).hexdigest()#文件的sha256加密
+        self.MIME = str(magic.from_file(self.FilePath) ) #获取文件MIME类型
+        self.FileSize =str(os.path.getsize(self.FilePath)) # 传入的文件大小
+        self.TimeDateStamp=str(self.PE.NT_HEADERS.FILE_HEADER.TimeDateStamp)#获取PE文件生成时间
         self.RESOURCE()
         self.EXPORT()
+        self.TLS()
         self.IMPORT()
         self.CA()
         self.SECTION()
         self.NT()
         self.DOS()
+        PortableExecutableAnalyticalData().Write(uid=self.Uid , file_size=self.FileSize, md5=self.MD5, sha1=self.SHA1, sha256=self.SHA256, save_file_name=self.SaveFileName,
+                                                 file_generation_time= self.TimeDateStamp, image_dos_header=str(self.IMAGE_DOS_HEADER),
+                                                 image_nt_headers=str(self.IMAGE_NT_HEADERS), image_file_header= str(self.IMAGE_FILE_HEADER), image_optional_header=str(self.IMAGE_OPTIONAL_HEADER),
+                                                 image_section_header=str(self.IMAGE_SECTION_HEADER), image_import_descriptor=str(self.IMAGE_IMPORT_DESCRIPTOR),
+                                                 image_export_directory=str(self.IMAGE_EXPORT_DIRECTORY), certificate_data_container=str(self.CertificateDataContainer),
+                                                 image_resource_directory=str(self.IMAGE_RESOURCE_DIRECTORY), image_tls_directory=str(self.IMAGE_TLS_DIRECTORY))
 
 
+
+# def test():
+#     PictureData=open("/Users/ascotbe/Downloads/04a584091f2a2f48a50c9513fb4f75187f9edf87106f3ab011ba502988d8e9cf.exe", "rb").read()
+#     FileMd5 = hashlib.md5(PictureData).hexdigest()  # 文件的MD5加密
+#     FileSha1 = hashlib.sha1(PictureData).hexdigest()  # 文件的sha1加密
+#     FileSha256 = hashlib.sha256(PictureData).hexdigest()  # 文件的sha256加密
+#     SaveFileName = str(FileSha256) + "-" + str(int(time.time()))  # 重命名文件
+#     SaveRoute = GetAnalysisFileStoragePath().Result() + SaveFileName  # 获得保存路径
+#     with open(SaveRoute, 'wb') as f:
+#             f.write(PictureData)
+#     PortableExecute().Run(uid="dadss", md5=FileMd5, save_file_name=SaveFileName, sha1=FileSha1, sha256=FileSha256,
+#                           path=SaveRoute)

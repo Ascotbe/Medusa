@@ -1205,3 +1205,84 @@ class HardwareUsageRateInfo:  # 获取硬件中CPU和内存的使用情况
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_HardwareUsageRateInfo(class)_Query(def)", e)
             return None
+
+class PortableExecutableAnalyticalData:  # PE文件分析后数据存储
+    def __init__(self):
+        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        # 获取所创建数据的游标
+        self.cur = self.con.cursor()
+        # 创建表
+        try:
+            self.cur.execute("CREATE TABLE PortableExecutable\
+                                (portable_executable_id INTEGER PRIMARY KEY,\
+                                uid TEXT NOT NULL,\
+                                file_size TEXT NOT NULL,\
+                                md5 TEXT NOT NULL,\
+                                sha1 TEXT NOT NULL,\
+                                sha256 TEXT NOT NULL,\
+                                save_file_name TEXT NOT NULL,\
+                                creation_time TEXT NOT NULL,\
+                                file_generation_time TEXT NOT NULL,\
+                                image_dos_header TEXT NOT NULL,\
+                                image_nt_headers TEXT NOT NULL,\
+                                image_file_header TEXT NOT NULL,\
+                                image_optional_header TEXT NOT NULL,\
+                                image_section_header TEXT NOT NULL,\
+                                image_import_descriptor TEXT NOT NULL,\
+                                image_export_directory TEXT NOT NULL,\
+                                certificate_data_container TEXT NOT NULL,\
+                                image_resource_directory TEXT NOT NULL,\
+                                image_tls_directory TEXT NOT NULL)")
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_PortableExecutableAnalyticalData(class)_init(def)", e)
+
+    def Write(self, **kwargs) -> bool or None:  # 写入相关信息
+        CreationTime = str(int(time.time()))  # 创建时间
+        Uid = kwargs.get("uid")
+        FileSize= kwargs.get("file_size")
+        Md5= kwargs.get("md5")
+        Sha1= kwargs.get("sha1")
+        Sha256= kwargs.get("sha256")
+        SaveFileName= kwargs.get("save_file_name")
+        FileGenerationTime= kwargs.get("file_generation_time")
+        ImageDosHeader= kwargs.get("image_dos_header")
+        ImageNewTechnologyHeaders= kwargs.get("image_nt_headers")
+        ImageFileHeader= kwargs.get("image_file_header")
+        ImageOptionalHeader= kwargs.get("image_optional_header")
+        ImageSectionHeader = kwargs.get("image_section_header")
+        ImageImportDescriptor= kwargs.get("image_import_descriptor")
+        ImageExportDirectory= kwargs.get("image_export_directory")
+        CertificateDataContainer= kwargs.get("certificate_data_container")
+        ImageResourceDirectory= kwargs.get("image_resource_directory")
+        ImageTransportLayerSecurityDirectory= kwargs.get("image_tls_directory")
+
+        try:
+            self.cur.execute("INSERT INTO PortableExecutable(uid,file_size,md5,sha1,sha256,save_file_name,creation_time,file_generation_time,image_dos_header,image_nt_headers,image_file_header,image_optional_header,image_section_header,image_import_descriptor,image_export_directory,certificate_data_container,image_resource_directory,image_tls_directory)\
+                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (Uid, FileSize, Md5, Sha1,Sha256,SaveFileName,CreationTime,FileGenerationTime,ImageDosHeader,ImageNewTechnologyHeaders,ImageFileHeader,ImageOptionalHeader,ImageSectionHeader ,ImageImportDescriptor,ImageExportDirectory,CertificateDataContainer,ImageResourceDirectory,ImageTransportLayerSecurityDirectory,))
+            # 提交
+            self.con.commit()
+            self.con.close()
+            return True
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_PortableExecutableAnalyticalData(class)_Write(def)", e)
+            return False
+
+    # def Query(self):
+    #     try:
+    #         CurrentTime = str(int(time.time()))  # 获取当前时间
+    #
+    #         self.cur.execute("select * from HardwareUsageRateInfo where creation_time<=? and creation_time>=?", (CurrentTime,str(int(CurrentTime)-3600),))#查询半小时之前的CPU使用率，和内存使用率
+    #         result_list = []
+    #         for i in self.cur.fetchall():
+    #             JsonValues = {}
+    #             JsonValues["memory_used"] = i[1]
+    #             JsonValues["memory_free"] = i[2]
+    #             JsonValues["memory_percent"] = i[3]
+    #             JsonValues["central_processing_unit_usage_rate"] = i[5]
+    #             JsonValues["per_core_central_processing_unit_usage_rate"] = i[6]
+    #             result_list.append(JsonValues)
+    #         self.con.close()
+    #         return result_list
+    #     except Exception as e:
+    #         ErrorLog().Write("Web_WebClassCongregation_PortableExecutableAnalyticalData(class)_Query(def)", e)
+    #         return None

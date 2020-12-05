@@ -84,6 +84,3 @@
 #.\redis-server.exe redis.windows.conf
 # git commit -m  "v0.82.3:palm_tree:"
 #find . -type d -name '__pycache__' | xargs rm -rf
-import hashlib
-ll="/Users/ascotbe/Downloads/04a584091f2a2f48a50c9513fb4f75187f9edf87106f3ab011ba502988d8e9cf.exe"
-f = open(ll, "rb").read()

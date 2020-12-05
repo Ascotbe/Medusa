@@ -28,10 +28,10 @@ def Monitor(request,data):#用于接收信息的监控
         try:
 
             if request.headers["Content-Type"]=="application/json":
-                DataPackInfo = str(request.body)#获取post数据包信息
+                DataPackInfo = request.body#获取post数据包信息
             else:
                 DataPackInfo = str(request.POST.dict()).encode('utf-8')#转换成字典后再换装byte类型穿给加密函数
-            HeadersInfo = str(request.headers)  # 获取头信息
+            HeadersInfo = str(request.headers).encode('utf-8')#获取头信息
             CrossSiteScriptInfo().Write(headers=base64.b64encode(HeadersInfo),  #对信息进行编码
                                         ip=GetIp(request),  #获取IP信息
                                         full_url=str(request.build_absolute_uri()),  # 获取完整URL

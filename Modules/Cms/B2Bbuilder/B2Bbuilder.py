@@ -9,12 +9,12 @@ from Modules.Cms.B2Bbuilder import B2BbuilderSQLInjectionVulnerability3
 from Modules.Cms.B2Bbuilder import B2BbuilderSQLInjectionVulnerability4
 from ClassCongregation import Prompt
 
-def Main(Pool,Url,Values,proxies,**kwargs):
-    Pool.Append(B2BbuilderBackgroundCommandExecutionVulnerability.medusa, Url,Values,proxies=proxies,**kwargs)
-    Pool.Append(B2BbuilderContainsVulnerabilitiesLocally.medusa, Url,Values,proxies=proxies,**kwargs)
-    Pool.Append(B2BbuilderHeadSQLInjectionVulnerability.medusa, Url,Values,proxies=proxies,**kwargs)
-    Pool.Append(B2BbuilderSQLInjectionVulnerability.medusa, Url,Values,proxies=proxies,**kwargs)
-    Pool.Append(B2BbuilderSQLInjectionVulnerability2.medusa, Url,Values,proxies=proxies,**kwargs)
-    Pool.Append(B2BbuilderSQLInjectionVulnerability3.medusa, Url,Values,proxies=proxies,**kwargs)
-    Pool.Append(B2BbuilderSQLInjectionVulnerability4.medusa, Url,Values,proxies=proxies,**kwargs)
+def Main(Pool,**kwargs):
+    Pool.Append(B2BbuilderBackgroundCommandExecutionVulnerability.medusa, **kwargs)
+    Pool.Append(B2BbuilderContainsVulnerabilitiesLocally.medusa, **kwargs)
+    Pool.Append(B2BbuilderHeadSQLInjectionVulnerability.medusa, **kwargs)
+    Pool.Append(B2BbuilderSQLInjectionVulnerability.medusa, **kwargs)
+    Pool.Append(B2BbuilderSQLInjectionVulnerability2.medusa, **kwargs)
+    Pool.Append(B2BbuilderSQLInjectionVulnerability3.medusa, **kwargs)
+    Pool.Append(B2BbuilderSQLInjectionVulnerability4.medusa, **kwargs)
     Prompt("B2Bbuilder")

@@ -4,10 +4,10 @@ from Modules.Jenkins import JenkinsArbitraryFileReadVulnerability
 from Modules.Jenkins import JenkinsRemoteCommandExecutionVulnerability
 from Modules.Jenkins import JenkinsConfigurationErrorCausesUnauthorizedCodeExecutionVulnerability
 from ClassCongregation import Prompt
-def Main(Pool,Url,Values,proxies,**kwargs):
-    Pool.Append(JenkinsArbitraryFileReadVulnerability.medusa,    Url, Values, proxies = proxies, ** kwargs)
-    Pool.Append(JenkinsRemoteCommandExecutionVulnerability.medusa, Url, Values, proxies = proxies, ** kwargs)
-    Pool.Append(JenkinsConfigurationErrorCausesUnauthorizedCodeExecutionVulnerability.medusa, Url, Values, proxies = proxies, ** kwargs)
+def Main(Pool,**kwargs):
+    Pool.Append(JenkinsArbitraryFileReadVulnerability.medusa,    ** kwargs)
+    Pool.Append(JenkinsRemoteCommandExecutionVulnerability.medusa, ** kwargs)
+    Pool.Append(JenkinsConfigurationErrorCausesUnauthorizedCodeExecutionVulnerability.medusa, ** kwargs)
     Prompt("Jenkins")
 
 

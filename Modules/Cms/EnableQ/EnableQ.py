@@ -5,9 +5,9 @@ from Modules.Cms.EnableQ import EnableQSQLInjectionVulnerability1
 from Modules.Cms.EnableQ import EnableQSQLInjectionVulnerability2
 from Modules.Cms.EnableQ import EnableQArbitraryFileUploadVulnerability
 from ClassCongregation import Prompt
-def Main(Pool,Url,Values,proxies,**kwargs):
-    Pool.Append(EnableQSQLInjectionVulnerability.medusa, Url,Values,proxies=proxies,**kwargs)
-    Pool.Append(EnableQSQLInjectionVulnerability1.medusa, Url,Values,proxies=proxies,**kwargs)
-    Pool.Append(EnableQSQLInjectionVulnerability2.medusa, Url,Values,proxies=proxies,**kwargs)
-    Pool.Append(EnableQArbitraryFileUploadVulnerability.medusa, Url,Values,proxies=proxies,**kwargs)
+def Main(Pool,**kwargs):
+    Pool.Append(EnableQSQLInjectionVulnerability.medusa, **kwargs)
+    Pool.Append(EnableQSQLInjectionVulnerability1.medusa, **kwargs)
+    Pool.Append(EnableQSQLInjectionVulnerability2.medusa, **kwargs)
+    Pool.Append(EnableQArbitraryFileUploadVulnerability.medusa, **kwargs)
     Prompt("EnableQ")

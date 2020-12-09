@@ -18,7 +18,7 @@ from typing import List, Dict, Tuple
 import threading
 import subprocess
 import hashlib
-from config import ceye_dnslog_url, ceye_dnslog_key, debug_mode,dnslog_name,port_threads_number,port_timeout_period,thread_timeout_number
+from config import ceye_dnslog_url, ceye_dnslog_key, debug_mode,dnslog_name,port_threads_number,port_timeout_period,thread_timeout_number,user_agent_randomization,headers,user_agent_browser_type
 
 #########
 # 全局变量
@@ -50,11 +50,9 @@ class WriteFile:  # 写入文件类
             f.write(Medusa + "\n")
 
 class AgentHeader:  # 使用随机头类
-    def result(self, Values: str) -> str:  # 使用随机头传入传入参数
+    def result(self) -> str:  # 使用随机头传入传入参数
         try:
-            self.Values = Values
-            if len(Values) > 11:
-                return Values
+            self.Values = user_agent_browser_type
             ua = UserAgent(verify_ssl=False)
             if self.Values == None:  # 如果参数为空使用随机头
                 return (ua.random)
@@ -604,11 +602,12 @@ class ProcessPool:  # 进程池，解决pythonGIL锁问题，单核跳舞实在�
         self.ProcessList=[]#创建进程列表
         self.CountList = []  # 用来计数判断进程数
 
-    def Append(self, Plugin, Url, Values,proxies,**kwargs):
-        Headers=GetHeaders().DefaultResult(Values)#获取标头
+    def Append(self, Plugin,**kwargs):
+
+
         # Uid=kwargs.get("Uid")
         # Sid=kwargs.get("Sid")
-        self.ProcessList.append(multiprocessing.Process(target=Plugin, args=(Url, Headers, proxies,),kwargs=kwargs))
+        self.ProcessList.append(multiprocessing.Process(target=Plugin,kwargs=kwargs))
 
     def PortAppend(self, Plugin, **kwargs):
         self.ProcessList.append(multiprocessing.Process(target=Plugin, kwargs=kwargs))
@@ -929,19 +928,7 @@ class ExploitOutput:#命令执行内容处理
             print("\033[36m[ + ] Return packet：\033[0m"+kwargs.get("OutputData"))
 
 
-class GetHeaders:#用来处理标头以及获取代理头
-    def DefaultResult(self,Values):#返回默认的表示头，包含了最基础的值
-        try:
-            headers = {
-                'User-Agent': AgentHeader().result(Values),
-                "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
-                "Accept-Encoding": "gzip, deflate",
-            }
-            return headers
-        except Exception as e:
-            ErrorLog().Write("ClassCongregation_GetHeaders(class)_DefaultHeader(def)", e)
-    def ProxyResult(self,Values):#代理截获的值，需要从数据库获取，暂时空出
-        pass
+
 
 class Md5Encryption:#加密类
     def __init__(self):

@@ -32,27 +32,24 @@ from Modules.BIG_IP import BIG_IP
 from Modules.Apache.Tomcat import Tomcat
 import tldextract
 from Subdomain import SubdomainSearch
-#from Exploit.Exploit import main#命令执行函数
 import ClassCongregation
 import Banner
 import argparse
 import os
+from config import headers,user_agent_randomization
 
 parser = argparse.ArgumentParser()#description="xxxxxx")
 #UrlGroup = parser.add_mutually_exclusive_group()#定义一个互斥参数组
 #UrlGroup .add_argument("-q", "--quiet", action="store_true")#增加到互斥参数组里面去
 parser.add_argument('-u','--Url',type=str,help="Target url")
 parser.add_argument('-m','--Module',type=str,help="Scan an application individually")
-parser.add_argument('-p','--ProxiesIP',type=str,help="Need to enter a proxy IP")
-parser.add_argument('-a','--Agent',type=str,help="Specify a header file or use a random header")
+#parser.add_argument('-p','--ProxiesIP',type=str,help="Need to enter a proxy IP")
+#parser.add_argument('-a','--Agent',type=str,help="Specify a header file or use a random header")
 parser.add_argument('-t','--ProcessNumber',type=int,help="Set the number of process, the default number of process 5.")
 parser.add_argument('-f','--InputFileName',type=str,help="Specify bulk scan file batch scan")
-parser.add_argument('-s','--Subdomain',help="Collect subdomains",action="store_true")
+#parser.add_argument('-s','--Subdomain',help="Collect subdomains",action="store_true")
 parser.add_argument('-PL', '--PortListInformation', type=str, help="The input port format is 22,445,3389")
 parser.add_argument('-PR', '--PortRangeInformation', type=str, help="The input port format is 1-65535")
-#parser.add_argument('-l','--List',help="List interactive command execution plugins",action="store_true")
-#parser.add_argument('-e','--Exploit',help="You need to use the vulnerability, please use -l to query",type=str)
-#parser.add_argument('-d','--Deserialization',help="Use deserialization to execute commands",type=str)
 
 '''
 在pycharm中设置固定要获取的参数，进行获取
@@ -95,16 +92,18 @@ MedusaModuleList={
 
 
 
-def InitialScan(Pool,InputFileName,Url,Module,AgentHeader,Proxies,**kwargs):
+def InitialScan(Pool,InputFileName,Module,ActiveScanId,Uid,Headers,Url):
     try:
+
         if InputFileName==None:
             try:
+
                 print("\033[32m[ + ] Scanning target domain:\033[0m" + "\033[33m {}\033[0m".format(Url))
                 GOV = tldextract.extract(Url)
                 if GOV.suffix.lower() == "gov.cn":  # 禁止扫描
                     print("\033[31m[ ! ] 扫描你🐎的国家网站呢？\033[0m")
                     os._exit(0)  # 直接退出整个函数
-                San(Pool,Url,AgentHeader,Module,Proxies,**kwargs)
+                San(Pool,Module,ActiveScanId,Uid,Headers,Url)
             except Exception as e:
                 ClassCongregation.ErrorLog().Write("InitialScan(def)SingleTarget", e)
         elif InputFileName!=None:
@@ -113,12 +112,12 @@ def InitialScan(Pool,InputFileName,Url,Module,AgentHeader,Proxies,**kwargs):
                     for UrlLine in f:#设置头文件使用的字符类型和开头的名字
                         try:
                             Url=UrlLine.strip("\r\n")
-                            print("\033[32m[ + ] In batch scan, the current target is:\033[0m"+"\033[33m {}\033[0m".format(UrlLine.replace('\n', '')))
                             GOV = tldextract.extract(Url)
+                            print("\033[32m[ + ] In batch scan, the current target is:\033[0m"+"\033[33m {}\033[0m".format(UrlLine.replace('\n', '')))
                             if GOV.suffix.lower() == "gov.cn":  # 禁止扫描
                                 print("\033[31m[ ! ] 扫描你🐎的国家网站呢？\033[0m")
                                 os._exit(0)  # 直接退出整个函数
-                            San(Pool,Url,AgentHeader,Module,Proxies,**kwargs)
+                            San(Pool,Module,ActiveScanId,Uid,Headers,Url)
                         except Exception as e:
                             ClassCongregation.ErrorLog().Write("InitialScan(def)CyclicError", e)
             except Exception as e:
@@ -129,15 +128,16 @@ def InitialScan(Pool,InputFileName,Url,Module,AgentHeader,Proxies,**kwargs):
         print("\033[31m[ ! ] Please enter the correct file path!\033[0m")
 
 
-def San(Pool,Url,AgentHeader,Module,Proxies,**kwargs):
+def San(Pool,Module,ActiveScanId,Uid,Headers,Url):
     #POC模块存进多进程池，这样如果批量扫描会变快很多
+
     if Module==None:
         print("\033[32m[ + ] Scanning across modules:\033[0m" + "\033[35m AllMod             \033[0m")
         for MedusaModule in MedusaModuleList:
-            MedusaModuleList[MedusaModule](Pool, Url, AgentHeader, Proxies,**kwargs)  # 调用列表里面的值
+            MedusaModuleList[MedusaModule](Pool,ActiveScanId=ActiveScanId,Uid=Uid,Headers=Headers,Url=Url)  # 调用列表里面的值
     else:
         try:
-            MedusaModuleList[Module](Pool, Url, AgentHeader,Proxies,**kwargs)  # 调用列表里面的值
+            MedusaModuleList[Module](Pool, ActiveScanId=ActiveScanId,Uid=Uid,Headers=Headers,Url=Url)  # 调用列表里面的值
         except:  # 如果传入非法字符串会调用出错
             print("\033[31m[ ! ] Please enter the correct scan module name\033[0m")
             os._exit(0)  # 直接退出整个函数
@@ -154,16 +154,12 @@ if __name__ == '__main__':
     args = parser.parse_args()
     InputFileName = args.InputFileName#批量扫描文件所在位置
     Url = args.Url
-    AgentHeader=args.Agent#判断是否使用随机头，判断写在Class里面
     Module=args.Module#单独模块扫描功能
     Subdomain=args.Subdomain#开启子域名枚举
     ProcessNumber=args.ProcessNumber#要使用的进程数默认15
-    Proxies= args.ProxiesIP#代理的IP
+
     PortListInformation = args.PortListInformation  # 字典类型端口
     PortRangeInformation = args.PortRangeInformation  # 范围型端口
-    #ExploitList = args.List  # 列出所有可以交互使用的poc
-    #Exploit = args.Exploit  # 利用那个可以交互的poc
-    #Deserialization=args.Deserialization#获取反序列化插件
     if ProcessNumber==None:#如果进程数为空，那么默认为5
         ProcessNumber=5
 
@@ -174,29 +170,17 @@ if __name__ == '__main__':
         print("\033[31m[ ! ] Incorrect input, please enter -h to view help\033[0m")
         os._exit(0)#直接退出整个函数
 
-    #暂时关闭NMAPScan和数据库爆破功能
     ActiveScanId="Soryu Asuka Langley"
     Uid = "Ayanami Rei"
-    # if ExploitList==True:
-    #     pass#调用列表函数，暂定未写
-    #     os._exit(0)  # 直接退出整个函数
-    # if Exploit!=None and Deserialization!=None:
-    #     print("\033[31m[ ! ] Please do not use -e and -d parameters at the same time\033[0m")
-    #     os._exit(0)  # 直接退出整个函数
-    # elif Exploit!=None or Deserialization!=None:
-    #     print("\033[31m[ ! ] Function closed waiting for reconstruction\033[0m")
-    #     os._exit(0)  # 直接退出整个函数
-    #     main(Exploit=Exploit,Deserialization=Deserialization,Url=Url,AgentHeader=AgentHeader,Proxies=Proxies,Sid=Sid,Uid=Uid) #启动子进程永真方式调用exp
 
     Pool=ClassCongregation.ProcessPool()#定义一个进程池
-    #ThreadPool = ClassCongregation.ThreadPool()#定义一个线程池
+    #子域名探测关闭
+    # if Subdomain:#如果传入-s启动子域名探测
+    #     Pool.Append(SubdomainSearch, Url, AgentHeader, proxies=Proxies,ActiveScanId=ActiveScanId,Uid=Uid)
 
-    if Subdomain:#如果传入-s启动子域名探测
-        Pool.Append(SubdomainSearch, Url, AgentHeader, proxies=Proxies,ActiveScanId=ActiveScanId,Uid=Uid)
-
-################
-#对端口传入进行判断
-################
+    ################
+    #对端口传入进行判断
+    ################
     if PortListInformation == None and PortRangeInformation == None:  # 默认默认扫描端口信息
         print("\033[32m[ + ] Use default port detection module \033[0m")
         Pool.PortAppend(Port,Url=Url,PortInformation="",PortType=3,ActiveScanId=ActiveScanId,Uid=Uid)
@@ -212,14 +196,15 @@ if __name__ == '__main__':
         Pool.PortAppend(Port, Url=Url,PortInformation=PortListInformation, PortType=2, ActiveScanId=ActiveScanId, Uid=Uid)
         print("\033[32m[ + ] The scanned dictionary is"+"\033[0m"+"\033[35m"+ PortListInformation+ "\033[0m")
 
-################
-#调用扫描中函数
-################
-    InitialScan(Pool,InputFileName, Url,Module,AgentHeader,Proxies,ActiveScanId=ActiveScanId,Uid=Uid)#最后启动主扫描函数，这样如果多个IP的话优化速度，里面会做url或者url文件的判断
+
+    if not user_agent_randomization:  # 如果值为Ture
+        headers["User-Agent"] = ClassCongregation.AgentHeader().result()  # 传入随机头
+    InitialScan(Pool,InputFileName, Module,ActiveScanId,Uid,headers,Url)#最后启动主扫描函数，这样如果多个IP的话优化速度，里面会做url或者url文件的判断
     print("\033[31m[ ! ] Scan is complete, please see the ScanResult file\033[0m")
 
 
-
+#Url和proxies写到kwargs中
+#Headers写到配置文件中
 # from IPy import IP
 # ip = IP('192.168.0.0/28')#后面批量生成C段扫描会用到
 # print(ip.len())#IP个数有多少

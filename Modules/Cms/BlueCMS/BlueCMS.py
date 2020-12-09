@@ -3,7 +3,7 @@
 from Modules.Cms.BlueCMS import BlueCMSHasSQLinjectionVulnerability
 from Modules.Cms.BlueCMS import BlueCMSMasterPasswordLoginVulnerability
 from ClassCongregation import Prompt
-def Main(Pool,Url,Values,proxies,**kwargs):
-    Pool.Append(BlueCMSHasSQLinjectionVulnerability.medusa, Url,Values,proxies=proxies,**kwargs)
-    Pool.Append(BlueCMSMasterPasswordLoginVulnerability.medusa, Url,Values,proxies=proxies,**kwargs)
+def Main(Pool,**kwargs):
+    Pool.Append(BlueCMSHasSQLinjectionVulnerability.medusa, **kwargs)
+    Pool.Append(BlueCMSMasterPasswordLoginVulnerability.medusa, **kwargs)
     Prompt("BlueCMS")

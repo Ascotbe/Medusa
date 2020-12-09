@@ -7,10 +7,10 @@ from Modules.Cms.ECGAP import ECGAPSQLInjectionVulnerability3
 from Modules.Cms.ECGAP import ECGAPSQLInjectionVulnerability4
 from ClassCongregation import Prompt
 
-def Main(Pool,Url,Values,proxies,**kwargs):
-    Pool.Append(ECGAPSQLInjectionVulnerability.medusa, Url,Values,proxies=proxies,**kwargs)
-    Pool.Append(ECGAPSQLInjectionVulnerability1.medusa, Url,Values,proxies=proxies,**kwargs)
-    Pool.Append(ECGAPSQLInjectionVulnerability2.medusa, Url,Values,proxies=proxies,**kwargs)
-    Pool.Append(ECGAPSQLInjectionVulnerability3.medusa, Url,Values,proxies=proxies,**kwargs)
-    Pool.Append(ECGAPSQLInjectionVulnerability4.medusa, Url,Values,proxies=proxies,**kwargs)
+def Main(Pool,**kwargs):
+    Pool.Append(ECGAPSQLInjectionVulnerability.medusa, **kwargs)
+    Pool.Append(ECGAPSQLInjectionVulnerability1.medusa, **kwargs)
+    Pool.Append(ECGAPSQLInjectionVulnerability2.medusa, **kwargs)
+    Pool.Append(ECGAPSQLInjectionVulnerability3.medusa, **kwargs)
+    Pool.Append(ECGAPSQLInjectionVulnerability4.medusa, **kwargs)
     Prompt("ECGAP")

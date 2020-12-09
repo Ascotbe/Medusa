@@ -14,17 +14,17 @@ from Modules.Cms.EasyTalk import EasyTalkSQLInjectionVulnerability10
 from Modules.Cms.EasyTalk import EasyTalkAnyFileInclusionVulnerability
 
 from ClassCongregation import Prompt
-def Main(Pool,Url,Values,proxies,**kwargs):
-    Pool.Append(EasyTalkSQLInjectionVulnerability.medusa, Url,Values,proxies=proxies,**kwargs)
-    Pool.Append(EasyTalkSQLInjectionVulnerability1.medusa, Url,Values,proxies=proxies,**kwargs)
-    Pool.Append(EasyTalkSQLInjectionVulnerability2.medusa, Url,Values,proxies=proxies,**kwargs)
-    Pool.Append(EasyTalkSQLInjectionVulnerability3.medusa, Url,Values,proxies=proxies,**kwargs)
-    Pool.Append(EasyTalkSQLInjectionVulnerability4.medusa, Url,Values,proxies=proxies,**kwargs)
-    Pool.Append(EasyTalkSQLInjectionVulnerability5.medusa, Url,Values,proxies=proxies,**kwargs)
-    Pool.Append(EasyTalkSQLInjectionVulnerability6.medusa, Url,Values,proxies=proxies,**kwargs)
-    Pool.Append(EasyTalkSQLInjectionVulnerability7.medusa, Url,Values,proxies=proxies,**kwargs)
-    Pool.Append(EasyTalkSQLInjectionVulnerability8.medusa, Url,Values,proxies=proxies,**kwargs)
-    Pool.Append(EasyTalkSQLInjectionVulnerability9.medusa, Url,Values,proxies=proxies,**kwargs)
-    Pool.Append(EasyTalkSQLInjectionVulnerability10.medusa, Url,Values,proxies=proxies,**kwargs)
-    Pool.Append(EasyTalkAnyFileInclusionVulnerability.medusa, Url,Values,proxies=proxies,**kwargs)
+def Main(Pool,**kwargs):
+    Pool.Append(EasyTalkSQLInjectionVulnerability.medusa, **kwargs)
+    Pool.Append(EasyTalkSQLInjectionVulnerability1.medusa, **kwargs)
+    Pool.Append(EasyTalkSQLInjectionVulnerability2.medusa, **kwargs)
+    Pool.Append(EasyTalkSQLInjectionVulnerability3.medusa, **kwargs)
+    Pool.Append(EasyTalkSQLInjectionVulnerability4.medusa, **kwargs)
+    Pool.Append(EasyTalkSQLInjectionVulnerability5.medusa, **kwargs)
+    Pool.Append(EasyTalkSQLInjectionVulnerability6.medusa, **kwargs)
+    Pool.Append(EasyTalkSQLInjectionVulnerability7.medusa, **kwargs)
+    Pool.Append(EasyTalkSQLInjectionVulnerability8.medusa, **kwargs)
+    Pool.Append(EasyTalkSQLInjectionVulnerability9.medusa, **kwargs)
+    Pool.Append(EasyTalkSQLInjectionVulnerability10.medusa, **kwargs)
+    Pool.Append(EasyTalkAnyFileInclusionVulnerability.medusa, **kwargs)
     Prompt("EasyTalk")

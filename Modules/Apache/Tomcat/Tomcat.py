@@ -3,7 +3,7 @@
 from Modules.Apache.Tomcat import TomcatUnauthorizedCommandExecutionVulnerability
 from ClassCongregation import Prompt
 
-def Main(Pool,Url,Values,proxies,**kwargs):
-    Pool.Append(TomcatUnauthorizedCommandExecutionVulnerability.medusa,Url,Values,proxies=proxies,**kwargs)
+def Main(Pool,**kwargs):
+    Pool.Append(TomcatUnauthorizedCommandExecutionVulnerability.medusa,**kwargs)
     Prompt("Tomcat")
 

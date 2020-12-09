@@ -3,8 +3,8 @@
 from Modules.BaoTa import BtUnauthorizedAccessToPhpMyAdminDatabaseVulnerability
 from ClassCongregation import Prompt
 
-def Main(Pool,Url,Values,proxies,**kwargs):
-    Pool.Append(BtUnauthorizedAccessToPhpMyAdminDatabaseVulnerability.medusa,Url,Values,proxies=proxies,**kwargs)
+def Main(Pool,**kwargs):
+    Pool.Append(BtUnauthorizedAccessToPhpMyAdminDatabaseVulnerability.medusa,**kwargs)
     Prompt("BaoTa")
 
 

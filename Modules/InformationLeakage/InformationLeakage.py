@@ -23,7 +23,7 @@ def Processing(Url):
     payload_url = scheme + "://" + url + ":" + str(port)
     return payload_url
 
-def Main(ThreadPool,Url,Values,proxies,**kwargs):
+def Main(ThreadPool,**kwargs):
     FilteredURL=Processing(Url)#对Url进行处理
     ThreadPool.Append(Git.medusa, FilteredURL, Values, proxies=proxies,**kwargs)
     ThreadPool.Append(Druid.medusa, FilteredURL, Values,  proxies=proxies,**kwargs)
@@ -39,15 +39,15 @@ def Main(ThreadPool,Url,Values,proxies,**kwargs):
     Prompt("InformationLeakage")
 
 
-def ProxyMain(ThreadPool,Url,Values,proxies,**kwargs):#代理扫描调用
-    ThreadPool.Append(Git.medusa, Url, Values, proxies=proxies,**kwargs)
-    ThreadPool.Append(Druid.medusa, Url,Values, proxies=proxies,**kwargs)
-    ThreadPool.Append(CompressedFile.medusa, Url, Values, proxies=proxies,**kwargs)
-    ThreadPool.Append(Java.medusa, Url, Values, proxies=proxies,**kwargs)
-    ThreadPool.Append(JetBrains.medusa, Url, Values, proxies=proxies,**kwargs)
-    ThreadPool.Append(Options.medusa, Url, Values, proxies=proxies,**kwargs)
-    ThreadPool.Append(PhpApc.medusa, Url, Values, proxies=proxies,**kwargs)
-    ThreadPool.Append(PhoInfo.medusa, Url,Values, proxies=proxies,**kwargs)
-    ThreadPool.Append(SensitiveFile.medusa, Url, Values, proxies=proxies,**kwargs)
-    ThreadPool.Append(Sftp.medusa, Url,Values, proxies=proxies,**kwargs)
-    ThreadPool.Append(Svn.medusa, Url, Values, proxies=proxies,**kwargs)
+def ProxyMain(ThreadPool,**kwargs):#代理扫描调用
+    ThreadPool.Append(Git.medusa, **kwargs)
+    ThreadPool.Append(Druid.medusa, **kwargs)
+    ThreadPool.Append(CompressedFile.medusa, **kwargs)
+    ThreadPool.Append(Java.medusa, **kwargs)
+    ThreadPool.Append(JetBrains.medusa, **kwargs)
+    ThreadPool.Append(Options.medusa, **kwargs)
+    ThreadPool.Append(PhpApc.medusa, **kwargs)
+    ThreadPool.Append(PhoInfo.medusa, **kwargs)
+    ThreadPool.Append(SensitiveFile.medusa, **kwargs)
+    ThreadPool.Append(Sftp.medusa, **kwargs)
+    ThreadPool.Append(Svn.medusa, **kwargs)

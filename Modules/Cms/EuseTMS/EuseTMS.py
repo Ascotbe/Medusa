@@ -9,13 +9,13 @@ from Modules.Cms.EuseTMS import EuseTMSSQLInjectionVulnerability5
 from Modules.Cms.EuseTMS import EuseTMSSQLInjectionVulnerability6
 
 from ClassCongregation import Prompt
-def Main(Pool,Url,Values,proxies,**kwargs):
-    Pool.Append(EuseTMSSQLInjectionVulnerability.medusa, Url,Values,proxies=proxies,**kwargs)
-    Pool.Append(EuseTMSSQLInjectionVulnerability1.medusa, Url,Values,proxies=proxies,**kwargs)
-    Pool.Append(EuseTMSSQLInjectionVulnerability2.medusa, Url,Values,proxies=proxies,**kwargs)
-    Pool.Append(EuseTMSSQLInjectionVulnerability3.medusa, Url,Values,proxies=proxies,**kwargs)
-    Pool.Append(EuseTMSSQLInjectionVulnerability4.medusa, Url,Values,proxies=proxies,**kwargs)
-    Pool.Append(EuseTMSSQLInjectionVulnerability5.medusa, Url,Values,proxies=proxies,**kwargs)
-    Pool.Append(EuseTMSSQLInjectionVulnerability6.medusa, Url,Values,proxies=proxies,**kwargs)
+def Main(Pool,**kwargs):
+    Pool.Append(EuseTMSSQLInjectionVulnerability.medusa, **kwargs)
+    Pool.Append(EuseTMSSQLInjectionVulnerability1.medusa, **kwargs)
+    Pool.Append(EuseTMSSQLInjectionVulnerability2.medusa, **kwargs)
+    Pool.Append(EuseTMSSQLInjectionVulnerability3.medusa, **kwargs)
+    Pool.Append(EuseTMSSQLInjectionVulnerability4.medusa, **kwargs)
+    Pool.Append(EuseTMSSQLInjectionVulnerability5.medusa, **kwargs)
+    Pool.Append(EuseTMSSQLInjectionVulnerability6.medusa, **kwargs)
 
     Prompt("EuseTMS")

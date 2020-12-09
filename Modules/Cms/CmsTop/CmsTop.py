@@ -4,8 +4,8 @@ from Modules.Cms.CmsTop import CmsTopRemoteCodeExecution
 from Modules.Cms.CmsTop import CmsTopSQLInjectionVulnerability
 from Modules.Cms.CmsTop import CmsTopPathDisclosureVulnerability
 from ClassCongregation import Prompt
-def Main(Pool,Url,Values,proxies,**kwargs):
-    Pool.Append(CmsTopRemoteCodeExecution.medusa, Url,Values,proxies=proxies,**kwargs)
-    Pool.Append(CmsTopSQLInjectionVulnerability.medusa, Url,Values,proxies=proxies,**kwargs)
-    Pool.Append(CmsTopPathDisclosureVulnerability.medusa, Url,Values,proxies=proxies,**kwargs)
+def Main(Pool,**kwargs):
+    Pool.Append(CmsTopRemoteCodeExecution.medusa, **kwargs)
+    Pool.Append(CmsTopSQLInjectionVulnerability.medusa, **kwargs)
+    Pool.Append(CmsTopPathDisclosureVulnerability.medusa, **kwargs)
     Prompt("CmsTop")

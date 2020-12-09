@@ -5,10 +5,10 @@ from Modules.Citrix import CitrixCertificationBypassesVulnerability
 from Modules.Citrix import CitrixRemoteCodeExecutionVulnerability
 from ClassCongregation import Prompt
 
-def Main(Pool,Url,Values,proxies,**kwargs):
-    Pool.Append(CitrixRemoteCodeExecutionVulnerability.medusa,Url,Values,proxies=proxies,**kwargs)
-    Pool.Append(CitrixCertificationBypassesVulnerability.medusa, Url, Values, proxies=proxies, **kwargs)
-    Pool.Append(CitrixGatewayPathTraversalVulnerability.medusa, Url,Values,proxies=proxies,**kwargs)
+def Main(Pool,**kwargs):
+    Pool.Append(CitrixRemoteCodeExecutionVulnerability.medusa,**kwargs)
+    Pool.Append(CitrixCertificationBypassesVulnerability.medusa, **kwargs)
+    Pool.Append(CitrixGatewayPathTraversalVulnerability.medusa, **kwargs)
     Prompt("Citrix")
 
 

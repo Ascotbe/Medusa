@@ -3,6 +3,6 @@
 from Modules.Cms.AfterLogicWebMail import AfterLogicWebMailArbitraryFileContains
 from ClassCongregation import Prompt
 
-def Main(Pool,Url,Values,proxies,**kwargs):
-    Pool.Append(AfterLogicWebMailArbitraryFileContains.medusa, Url,Values,proxies=proxies,**kwargs)
+def Main(Pool,**kwargs):
+    Pool.Append(AfterLogicWebMailArbitraryFileContains.medusa, **kwargs)
     Prompt("AfterLogicWebMail")

@@ -24,6 +24,27 @@ debug_mode=False
 thread_number=15 #默认线程数
 thread_timeout_number=5#防止报错等操作导致的超时
 
+#########################################################################
+#线程数配置位置
+#线程最好别开太大容易被发现
+#########################################################################
+user_agent_randomization=False#是否开启headers头中的随机化，默认关闭
+user_agent_browser_type="chrome"
+#目前只支持如下浏览器，修改为其他的可能会导致无法使用。
+# firefox、ie、msie、opera、chrome、AppleWebKit、Gecko、safari
+headers={
+    "Connection": "close",
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_0_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36",
+    "Accept": "*/*",
+    "Accept-Encoding": "gzip, deflate",
+    "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
+    "dnt": "1"
+} #默认请求头，里面保存必须数据，User-Agent头数据如果开启随机化会改变
+proxies = {
+  "http": "http://127.0.0.1:8080",
+  "https": "https://127.0.0.1:8080",
+}
+
 
 #########################################################################
 #Redis配置
@@ -84,6 +105,6 @@ enable_recursive_search = False  # 递归搜索子域
 search_recursive_times = 2  # 递归搜索层数
 
 #########################################################################
-#工具栏配置配置
+#WEB工具栏配置
 #########################################################################
 portable_execute_file_size=20480 #默认20M大小

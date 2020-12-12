@@ -36,7 +36,7 @@ import ClassCongregation
 import Banner
 import argparse
 import os
-from config import headers,user_agent_randomization
+from config import headers,user_agent_randomization,proxies
 
 parser = argparse.ArgumentParser()#description="xxxxxx")
 #UrlGroup = parser.add_mutually_exclusive_group()#定义一个互斥参数组
@@ -130,14 +130,23 @@ def InitialScan(Pool,InputFileName,Module,ActiveScanId,Uid,Headers,Url):
 
 def San(Pool,Module,ActiveScanId,Uid,Headers,Url):
     #POC模块存进多进程池，这样如果批量扫描会变快很多
-
+    #主动扫描在这个位置对URL进行处理
+    #如果插件中有需要固定端口的，后面写一个正则替换端口即可
+    scheme, url, port = ClassCongregation.UrlProcessing().result(Url)
+    if port is None and scheme == 'https':
+        port = 443
+    elif port is None and scheme == 'http':
+        port = 80
+    else:
+        port = port
+    Url=scheme + "://" + url + ":" + str(port)#处理后的URL
     if Module==None:
         print("\033[32m[ + ] Scanning across modules:\033[0m" + "\033[35m AllMod             \033[0m")
         for MedusaModule in MedusaModuleList:
-            MedusaModuleList[MedusaModule](Pool,ActiveScanId=ActiveScanId,Uid=Uid,Headers=Headers,Url=Url)  # 调用列表里面的值
+            MedusaModuleList[MedusaModule](Pool,ActiveScanId=ActiveScanId,Uid=Uid,Headers=Headers,Url=Url,Proxies=proxies)  # 调用列表里面的值
     else:
         try:
-            MedusaModuleList[Module](Pool, ActiveScanId=ActiveScanId,Uid=Uid,Headers=Headers,Url=Url)  # 调用列表里面的值
+            MedusaModuleList[Module](Pool, ActiveScanId=ActiveScanId,Uid=Uid,Headers=Headers,Url=Url,Proxies=proxies)  # 调用列表里面的值
         except:  # 如果传入非法字符串会调用出错
             print("\033[31m[ ! ] Please enter the correct scan module name\033[0m")
             os._exit(0)  # 直接退出整个函数
@@ -155,7 +164,7 @@ if __name__ == '__main__':
     InputFileName = args.InputFileName#批量扫描文件所在位置
     Url = args.Url
     Module=args.Module#单独模块扫描功能
-    Subdomain=args.Subdomain#开启子域名枚举
+    #Subdomain=args.Subdomain#开启子域名枚举
     ProcessNumber=args.ProcessNumber#要使用的进程数默认15
 
     PortListInformation = args.PortListInformation  # 字典类型端口

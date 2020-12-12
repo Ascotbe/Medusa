@@ -14,7 +14,7 @@ import random
 import sys
 import time
 import multiprocessing
-from typing import List, Dict, Tuple
+from typing import List, Tuple
 import threading
 import subprocess
 import hashlib
@@ -41,7 +41,8 @@ def IpProcess(Url: str) -> str:
 
 class WriteFile:  # 写入文件类
     def result(self, TargetName: str, Medusa: str) -> None:
-        self.FileName = time.strftime("%Y-%m-%d", time.localtime()) + "_" + TargetName + "_" + WriteFileUnixTimestamp
+        #需要对传入的完整URL进行提取后进行拼接
+        self.FileName = time.strftime("%Y-%m-%d", time.localtime()) + "_" + UrlProcessing().result(TargetName)[1] + "_" + WriteFileUnixTimestamp
         if sys.platform == "win32" or sys.platform == "cygwin":
             self.FilePath = GetRootFileLocation().Result()+ "\\ScanResult\\" + self.FileName + ".txt"  # 不需要输入后缀，只要名字就好
         elif sys.platform == "linux" or sys.platform == "darwin":
@@ -328,9 +329,9 @@ class GithubCveApi:  # CVE写入表
 
 
 class VulnerabilityDetails:  # 所有数据库写入都是用同一个类
-    def __init__(self, medusa, url: str, **kwargs):
+    def __init__(self, medusa,request, **kwargs):
         try:
-            self.url = str(url)  # 目标域名
+            self.url = str(kwargs.get("Url"))  # 目标域名，如果是代理扫描会有完整的路径
             self.timestamp = str(int(time.time()))  # 获取时间戳
             self.name = medusa['name']  # 漏洞名称
             self.number = medusa['number']  # CVE编号
@@ -345,7 +346,27 @@ class VulnerabilityDetails:  # 所有数据库写入都是用同一个类
             self.suggest = medusa['suggest']  # 修复建议
             self.version = medusa['version']  # 漏洞影响的版本
             self.uid = kwargs.get("Uid")  # 传入的用户ID
-            self.active_scan_id=kwargs.get("ActiveScanId")# 传入的父表SID
+            self.active_scan_id = kwargs.get("ActiveScanId")  # 传入的父表SID
+            try:
+                self.response_headers=base64.b64encode(str(request.headers).encode(encoding="utf-8")).decode(encoding="utf-8") # 响应头base64加密后数据
+                self.response_text=base64.b64encode(str(request.text).encode(encoding="utf-8")).decode(encoding="utf-8")  # 响应返回数据包
+                self.response_byte=base64.b64encode(request.content).decode(encoding="utf-8")#响应返回byte类型数据包
+                self.response_status_code=str(request.status_code) # 响应状态码
+                self.request_path_url=str(request.request.path_url)  # 请求路径
+                self.request_body=base64.b64encode(str(request.request.body).encode(encoding="utf-8")).decode(encoding="utf-8")  # 请求的POST请求数据
+                self.request_method=str(request.request.method)  # 请求方式
+                self.request_headers=base64.b64encode(str(request.request.headers).encode(encoding="utf-8")).decode(encoding="utf-8")  # 请求头
+            except:
+                #如果报错就爆数据全部置空
+                self.response_headers = ""
+                self.response_text = ""
+                self.response_byte = ""
+                self.response_status_code = ""
+                self.request_path_url = ""
+                self.request_body = ""
+                self.request_method = ""
+                self.request_headers = ""
+
             # 如果数据库不存在的话，将会自动创建一个 数据库
             self.con = sqlite3.connect(GetDatabaseFilePath().result())
             # 获取所创建数据的游标
@@ -370,7 +391,15 @@ class VulnerabilityDetails:  # 所有数据库写入都是用同一个类
                             version TEXT NOT NULL,\
                             timestamp TEXT NOT NULL,\
                             active_scan_id TEXT NOT NULL,\
-                            uid TEXT NOT NULL)")
+                            uid TEXT NOT NULL,\
+                            response_headers TEXT NOT NULL,\
+                            response_text TEXT NOT NULL,\
+                            response_byte TEXT NOT NULL,\
+                            response_status_code TEXT NOT NULL,\
+                            request_path_url TEXT NOT NULL,\
+                            request_body TEXT NOT NULL,\
+                            request_method TEXT NOT NULL,\
+                            request_headers TEXT NOT NULL)")
             except Exception as e:
                 ErrorLog().Write("ClassCongregation_VulnerabilityDetails(class)_init(def)_CREATETABLE", e)
         except Exception as e:
@@ -378,12 +407,12 @@ class VulnerabilityDetails:  # 所有数据库写入都是用同一个类
 
     def Write(self):  # 统一写入
         try:
-            self.cur.execute("""INSERT INTO Medusa (url,name,affects,rank,suggest,desc_content,details,number,author,create_date,disclosure,algroup,version,timestamp,active_scan_id,uid) \
-            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", (
+            self.cur.execute("""INSERT INTO Medusa (url,name,affects,rank,suggest,desc_content,details,number,author,create_date,disclosure,algroup,version,timestamp,active_scan_id,uid,response_headers,response_text,response_byte,response_status_code,request_path_url,request_body,request_method,request_headers) \
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", (
                 self.url, self.name, self.affects, self.rank, self.suggest, self.desc_content, self.details,
                 self.number,
                 self.author, self.create_date, self.disclosure, self.algroup, self.version, self.timestamp,
-                self.active_scan_id,self.uid,))
+                self.active_scan_id,self.uid,self.response_headers,self.response_text,self.response_byte,self.response_status_code,self.request_path_url,self.request_body,self.request_method,self.request_headers,))
             # 提交
             GetSsid = self.cur.lastrowid
             self.con.commit()
@@ -568,13 +597,6 @@ class UrlProcessing:  # URL处理函数
             res = urllib.parse.urlparse('http://%s' % url)
         return res.scheme, res.hostname, res.port
 
-
-class Proxies:  # 代理处理函数
-    def result(self, proxies_ip: str or None) -> Dict or None:
-        if proxies_ip == None:
-            return proxies_ip
-        else:
-            return {"http": "http://{}".format(proxies_ip), "https": "https://{}".format(proxies_ip)}
 
 class ThreadPool:  # 线程池，适用于单个插件
     def __init__(self):

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 __author__ = 'Ascotbe'
-from ClassCongregation import VulnerabilityDetails,UrlProcessing,ErrorLog,WriteFile,ErrorHandling,Proxies
+from ClassCongregation import VulnerabilityDetails,ErrorLog,WriteFile,ErrorHandling
 import urllib3
 import requests
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -22,11 +22,12 @@ class VulnerabilityInfo(object):
         self.info['details'] = Medusa  # 结果
 
 
-def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
-    proxies=Proxies().result(proxies)
-    scheme, url, port = UrlProcessing().result(Url)
+def medusa(**kwargs)->None:
+    url = kwargs.get("Url")  # 获取传入的url参数
+    Headers = kwargs.get("Headers")  # 获取传入的头文件
+    proxies = kwargs.get("Proxies")  # 获取传入的代理参数
     try:
-        payload_url = Url
+        payload_url = url
         Headers["Accept-Language"] = "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2"
         Headers["Accept-Encoding"] = "gzip, deflate"
 
@@ -34,7 +35,7 @@ def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
         if r"OPTIONS" in resp.headers.get('Allow'):
             Medusa = "{}存在Options方法开启漏洞\r\n验证数据:\r\n漏洞位置:{}\r\n漏洞详情:{}\r\n".format(url,payload_url,resp.headers)
             _t = VulnerabilityInfo(Medusa)
-            VulnerabilityDetails(_t.info, url,**kwargs).Write()  # 传入url和扫描到的数据
+            VulnerabilityDetails(_t.info, resp,**kwargs).Write()  # 传入url和扫描到的数据
             WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
     except Exception as e:
         _ = VulnerabilityInfo('').info.get('algroup')

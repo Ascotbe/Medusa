@@ -31,7 +31,7 @@ class VulnerabilityInfo(object):
 
 
 def medusa(**kwargs)->None:
-		url=kwargs.get("Url")#获取传入的url参数
+    url=kwargs.get("Url")#获取传入的url参数
     Headers=kwargs.get("Headers")#获取传入的头文件
     proxies=kwargs.get("Proxies")#获取传入的代理参数
     try:
@@ -119,7 +119,7 @@ class VulnerabilityInfo(object):
 
 ```python
 def medusa(**kwargs)->None:
-		url=kwargs.get("Url")#获取传入的url参数
+    url=kwargs.get("Url")#获取传入的url参数
     Headers=kwargs.get("Headers")#获取传入的头文件
     proxies=kwargs.get("Proxies")#获取传入的代理参数
     try:
@@ -259,7 +259,7 @@ def medusa(**kwargs)->None:
                                                                                                       payload_url,
                                                                                                       rm,rm,head)
         _t = VulnerabilityInfo(Medusa)
-    	VulnerabilityDetails(_t.info, url,UnixTimestamp).Write()  # 传入url和扫描到的数据
+    	VulnerabilityDetails(_t.info, resp,UnixTimestamp).Write()  # 传入url和扫描到的数据
         WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
     ```
     
@@ -285,7 +285,7 @@ def medusa(**kwargs)->None:
 
   需要在最后判断成功后再`VulnerabilityDetails`函数中**第二个参数**传入最后一个`request`请求的返回值
 
-  ```
+  ```python
   VulnerabilityDetails(_t.info, resp,**kwargs).Write()
   ```
 
@@ -316,7 +316,7 @@ def medusa(**kwargs)->None:
     
       ```python
       def medusa(**kwargs)->None:
-      		url=kwargs.get("Url")#获取传入的url参数
+          url=kwargs.get("Url")#获取传入的url参数
           Headers=kwargs.get("Headers")#获取传入的头文件
           proxies=kwargs.get("Proxies")#获取传入的代理参数
           Payloads = ['x', 'xx', 'xxx', 'xxxx']

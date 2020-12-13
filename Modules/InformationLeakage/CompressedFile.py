@@ -4,7 +4,7 @@ __author__ = 'Ascotbe'
 import requests
 import urllib3
 from config import thread_number
-from ClassCongregation import VulnerabilityDetails, UrlProcessing, ErrorLog, WriteFile, ErrorHandling, Proxies,ThreadPool
+from ClassCongregation import VulnerabilityDetails, UrlProcessing, ErrorLog, WriteFile, ErrorHandling,ThreadPool
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 class VulnerabilityInfo(object):
@@ -24,8 +24,10 @@ class VulnerabilityInfo(object):
         self.info['details'] = Medusa  # 结果
 
 
-def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
-    proxies=Proxies().result(proxies)
+def medusa(**kwargs)->None:
+    Url = kwargs.get("Url")  # 获取传入的url参数
+    Headers = kwargs.get("Headers")  # 获取传入的头文件
+    proxies = kwargs.get("Proxies")  # 获取传入的代理参数
     scheme, url, port = UrlProcessing().result(Url)
     suffixs = [".zip", ".rar", ".tar.gz", ".tgz", ".7z",".wim",".lzh",".cab",".arj",".lz4",".db",".gz",".bz2 ",".tar.bz2",".xz ",".tar.xz",".z ",".tar.z",".zipx"]
     payloads = ["/www.root",
@@ -100,7 +102,7 @@ def task(**kwargs):
                                                                                                        con, file_name,
                                                                                                        bt)
             _t = VulnerabilityInfo(Medusa)
-            VulnerabilityDetails(_t.info, url, Uid=kwargs.get("Uid"),Sid=kwargs.get("Sid")).Write()   # 传入url和扫描到的数据
+            VulnerabilityDetails(_t.info, resp, **kwargs).Write()   # 传入url和扫描到的数据
             WriteFile().result(str(url), str(Medusa))  # 写入文件，url为目标文件名统一传入，Medusa为结果
     except Exception as e:
         _ = VulnerabilityInfo('').info.get('algroup')

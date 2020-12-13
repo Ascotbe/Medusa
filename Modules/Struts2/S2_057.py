@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 __author__ = 'Ascotbe'
-from ClassCongregation import VulnerabilityDetails,ErrorLog,WriteFile,ErrorHandling,Proxies,Dnslog
+from ClassCongregation import VulnerabilityDetails,ErrorLog,WriteFile,ErrorHandling,Dnslog
 import urllib3
 import os.path
 import requests
@@ -31,11 +31,11 @@ class UrlProcessing:  # URL处理函数
             res = urllib.parse.urlparse('http://%s' % url)
         return res.scheme, res.hostname, res.port,res.path
 
-def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
-
-    proxies=Proxies().result(proxies)
-
-    scheme, url, port,path = UrlProcessing().result(Url)
+def medusa(**kwargs)->None:
+    url = kwargs.get("Url")  # 获取传入的url参数
+    Headers = kwargs.get("Headers")  # 获取传入的头文件
+    proxies = kwargs.get("Proxies")  # 获取传入的代理参数
+    scheme, url, port,path = UrlProcessing().result(url)
     if port is None and scheme == 'https':
         port = 443
     elif port is None and scheme == 'http':
@@ -61,7 +61,7 @@ def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
                 Medusa = "{} 存在Struts2远程代码执行漏洞(S2-057)\r\n漏洞详情:\r\n版本号:S2-057\r\n使用EXP:{}\r\n返回数据:{}\r\n返回DNSLOG数据:{}\r\n使用DNSLOG:{}\r\n".format(
                     url, payload_url, con, DL.dns_text(), DL.dns_host())
                 _t = VulnerabilityInfo(Medusa)
-                VulnerabilityDetails(_t.info, url, **kwargs).Write()  # 传入url和扫描到的数据
+                VulnerabilityDetails(_t.info, resp, **kwargs).Write()  # 传入url和扫描到的数据
                 WriteFile().result(str(url), str(Medusa))  # 写入文件，url为目标文件名统一传入，Medusa为结果
         except Exception as e:
             _ = VulnerabilityInfo('').info.get('algroup')

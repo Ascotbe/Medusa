@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 __author__ = 'Ascotbe'
-from ClassCongregation import VulnerabilityDetails,ErrorLog,WriteFile,ErrorHandling,Proxies
+from ClassCongregation import VulnerabilityDetails,ErrorLog,WriteFile,ErrorHandling
 import urllib3
 import requests
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -22,8 +22,10 @@ class VulnerabilityInfo(object):
         self.info['details'] = Medusa  # 结果
 
 
-def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
-    proxies=Proxies().result(proxies)
+def medusa(**kwargs)->None:
+    Url = kwargs.get("Url")  # 获取传入的url参数
+    Headers = kwargs.get("Headers")  # 获取传入的头文件
+    proxies = kwargs.get("Proxies")  # 获取传入的代理参数
     try:
         payload = '/sftp-config.json'
         payload_url = Url+ payload
@@ -36,7 +38,7 @@ def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
         if code==200 and con.lower().find('remote_path')!=-1:
             Medusa = "{}存在Sftp信息泄露漏洞\r\n验证数据:\r\n漏洞位置:{}\r\n漏洞详情:{}\r\n".format(Url,payload_url,con)
             _t = VulnerabilityInfo(Medusa)
-            VulnerabilityDetails(_t.info, Url,**kwargs).Write()  # 传入url和扫描到的数据
+            VulnerabilityDetails(_t.info, resp,**kwargs).Write()  # 传入url和扫描到的数据
             WriteFile().result(str(Url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
     except Exception as e:
         _ = VulnerabilityInfo('').info.get('algroup')

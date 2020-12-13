@@ -421,74 +421,6 @@ class VulnerabilityDetails:  # 所有数据库写入都是用同一个类
         except Exception as e:
             ErrorLog().Write("ClassCongregation_VulnerabilityDetails(class)_Write(def)", e)
 
-class Exploit:  # 所有漏洞利用使用同一个类
-    def __init__(self, medusa, url: str, **kwargs):
-        try:
-            self.url = str(url)  # 目标域名
-            self.timestamp = str(int(time.time()))  # 获取时间戳
-            self.name = medusa['name']  # 漏洞名称
-            self.number = medusa['number']  # CVE编号
-            self.author = medusa['author']  # 插件作者
-            self.create_date = medusa['create_date']  # 插件编辑时间
-            self.algroup = medusa['algroup']  # 插件名称
-            self.rank = medusa['rank']  # 漏洞等级
-            self.disclosure = medusa['disclosure']  # 漏洞披露时间，如果不知道就写编写插件的时间
-            self.details = base64.b64encode(medusa['details'].encode(encoding="utf-8"))  # 对结果进行编码写入数据库，鬼知道数据里面有什么玩意
-            self.affects = medusa['affects']  # 漏洞组件
-            self.desc_content = medusa['desc_content']  # 漏洞描述
-            self.suggest = medusa['suggest']  # 修复建议
-            self.version = medusa['version']  # 漏洞影响的版本
-            self.uid = kwargs.get("Uid")  # 传入的用户ID
-            self.command = kwargs.get("Command")  # 传入执行的命令
-            self.sid=kwargs.get("Sid")# 传入的父表SID
-            # 如果数据库不存在的话，将会自动创建一个 数据库
-            self.con = sqlite3.connect(GetDatabaseFilePath().result())
-            # 获取所创建数据的游标
-            self.cur = self.con.cursor()
-            # 创建表
-            try:
-                # 如果设置了主键那么就导致主健值不能相同，如果相同就写入报错
-                self.cur.execute("CREATE TABLE Exploit\
-                            (ssid INTEGER PRIMARY KEY,\
-                            url TEXT NOT NULL,\
-                            name TEXT NOT NULL,\
-                            affects TEXT NOT NULL,\
-                            rank TEXT NOT NULL,\
-                            suggest TEXT NOT NULL,\
-                            desc_content TEXT NOT NULL,\
-                            details TEXT NOT NULL,\
-                            number TEXT NOT NULL,\
-                            author TEXT NOT NULL,\
-                            create_date TEXT NOT NULL,\
-                            disclosure TEXT NOT NULL,\
-                            algroup TEXT NOT NULL,\
-                            version TEXT NOT NULL,\
-                            timestamp TEXT NOT NULL,\
-                            sid TEXT NOT NULL,\
-                            command TEXT NOT NULL,\
-                            uid TEXT NOT NULL)")
-            except Exception as e:
-                ErrorLog().Write("ClassCongregation_Exploit(class)_init(def)_CREATETABLE", e)
-        except Exception as e:
-            ErrorLog().Write("ClassCongregation_Exploit(class)_init(def)", e)
-
-    def Write(self):  # 统一写入
-        try:
-            self.cur.execute("""INSERT INTO Exploit (url,name,affects,rank,suggest,desc_content,details,number,author,create_date,disclosure,algroup,version,timestamp,sid,command,uid) \
-            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", (
-                self.url, self.name, self.affects, self.rank, self.suggest, self.desc_content, self.details,
-                self.number,
-                self.author, self.create_date, self.disclosure, self.algroup, self.version, self.timestamp,
-                self.sid,self.command,self.uid,))
-            # 提交
-            #GetSsid = self.cur.lastrowid
-            self.con.commit()
-            self.con.close()
-            # print(GetSsid)
-            #ScanInformation().Write(ssid=GetSsid,url=self.url,sid=self.sid,rank=self.rank,uid=self.uid,name=self.name)#调用web版数据表，写入ScanInformation关系表
-        except Exception as e:
-            ErrorLog().Write("ClassCongregation_VulnerabilityDetails(class)_Write(def)", e)
-
 class ErrorLog:  # 报错写入日志
     def __init__(self):
         global filename
@@ -917,41 +849,6 @@ class SubdomainTable:  # 这是一个子域名表
         except Exception as e:
             ErrorLog().Write("ClassCongregation_SubdomainTable(class)_Write(def)", e)
 
-class ExploitOutput:#命令执行内容处理
-    def Command(self):#子进程无法使用imput函数
-        #print("\033[32m[ + ] Please enter the command to be executed: \033[0m")
-        Command=input("\033[32m[ + ] Please enter the command to be executed: \033[0m")
-        if Command=="QuitMedusa":
-            print("\033[33m[ ! ] Command execution call has ended~ \033[0m")
-            os._exit(0)  # 直接退出整个函数
-        elif Command!=None:
-            return str(Command)
-        else:
-            print("\033[31m[ ! ] Command cannot be empty! \033[0m")
-
-    def Deserialization(self):
-        LoadExploitURL=input("\033[32m[ + ] Please enter the exploit URL to be loaded \033[0m"+"\033[31m[Prohibit adding http or https ]\033[0m"+"\033[32m: \033[0m")
-        if LoadExploitURL != None:
-            return str(LoadExploitURL)
-        else:
-            print("\033[31m[ ! ] Please refer to the following example :\033[0m"+"\033[36m 127.0.0.1:80/exp \033[0m" )
-    def OperatingSystem(self):
-        OperatingSystem=input("\033[33m[ + ] Please enter the target operating system [windows / linux]: \033[0m").lower()#转换成小写
-
-        if OperatingSystem != None and (OperatingSystem=="windows" or OperatingSystem=="linux"):
-            return str(OperatingSystem)
-        else:
-            print("\033[31m[ ! ] Please enter windows or linux! \033[0m")
-    def Banner(self,**kwargs):
-        print("\033[32m[ + ] Command sent successfully, please refer to the returned data packet\033[0m")
-        if kwargs.get("OutputData")==None:
-            print("\033[36m[ + ] Return packet：The vulnerability is command execution without echo\033[0m")
-        else:
-            print("\033[36m[ + ] Return packet：\033[0m"+kwargs.get("OutputData"))
-
-
-
-
 class Md5Encryption:#加密类
     def __init__(self):
         self.Md5=hashlib.md5()
@@ -1004,3 +901,10 @@ class GetAnalysisFileStoragePath:  # 获取分析文件存储路径类
             TempFileLocation = GetRootFileLocation().Result()+"/Web/ToolsUtility/AnalysisFileStorage/"
             return TempFileLocation
 
+
+def PortReplacement(Url,Prot):#替换URL里面的端口
+    try:
+        Result = re.sub(r':(6[0-5]{2}[0-3][0-5]|[1-5]\d{4}|[1-9]\d{1,3}|[0-9])', ":"+str(Prot), Url)
+        return Result
+    except Exception as e:
+        ErrorLog().Write("ClassCongregation_PortReplacement(def)", e)

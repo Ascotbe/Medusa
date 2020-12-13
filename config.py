@@ -40,7 +40,7 @@ headers={
     "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
     "dnt": "1"
 }
-#入过不想使用代理把下面参数替换为：proxies=None
+#如过不想使用代理把下面参数替换为：proxies=None
 proxies = {
   "http": "http://127.0.0.1:8080",
   "https": "https://127.0.0.1:8080",

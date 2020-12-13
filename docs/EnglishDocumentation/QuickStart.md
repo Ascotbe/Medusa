@@ -129,39 +129,45 @@ This function is commented because not very useful now
 python3 MedusaScan.py -u https://www.ascotbe.com -j
 ```
 
-#### 0x04 Collect subdomains for the target website
+#### ~~0x04 Collect subdomains for the target website~~
 
-The scan result is in the `ScanResult` directory, only the domain name is supported and the **IP** form is not supported
+Close temporarily and wait for reconstruction
+
+~~The scan result is in the `ScanResult` directory, only the domain name is supported and the **IP** form is not supported~~
 
 ```bash
 python3 MedusaScan.py -u https://www.ascotbe.com -s
 ```
 
-#### 0x05 Proxy function
+#### 0x05 HTTP request related configuration
+
+Need to be configured in the **config.py** configuration file
 
 ```bash
-python3 MedusaScan.py -u https://www.ascotbe.com -p 127.0.0.1:8080
+#########################################################################
+#requests configuration
+#########################################################################
+user_agent_randomization=False#Whether to enable randomization in headers, it is disabled by default
+user_agent_browser_type="chrome"#Currently, only the following browsers are supported. Modification to other browsers may result in unavailability.
+                                #firefox、ie、msie、opera、chrome、AppleWebKit、Gecko、safari
+#Default request header, which saves necessary data, User-Agent header data will change if randomization is enabled
+# WEB version add a judgment, if the user passes in a header, the header will be overwritten
+headers={
+    "Connection": "close",
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_0_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36",
+    "Accept": "*/*",
+    "Accept-Encoding": "gzip, deflate",
+    "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
+    "dnt": "1"
+}
+#If you don’t want to use a proxy, replace the following parameters with:proxies=None
+proxies = {
+  "http": "http://127.0.0.1:8080",
+  "https": "https://127.0.0.1:8080",
+}
 ```
 
-#### 0x06 Using target Header
-
-Supported parameters：`firefox`，`ie`，`msie`，`opera`，`chrome`，`AppleWebKit`，`Gecko`，`safari `
-
-Currently supports common browsers, 3 of which are listed below (case sensitive)
-
-```bash
-python3 MedusaScan.py -u https://www.ascotbe.com -a firefox
-python3 MedusaScan.py -u https://www.ascotbe.com -a ie
-python3 MedusaScan.py -u https://www.ascotbe.com -a Gecko
-```
-
-You can also customize the `header` parameter, remember to add double quotes to the custom` header` containing `" "`, if your `header` is not compliant, it will not prompt an error
-
-```bash
-python3 MedusaScan.py -u https://www.ascotbe.com -a "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.2117.157 Safari/537.36"
-```
-
-#### 0x07 Scanning for single modules
+#### 0x06 Scanning for single modules
 
 Please use the name supported by the module for the root folder. A folder name corresponds to a module, and please pay attention to capitalization. It is really incomprehensible. Please refer to [in this file](https://www.ascotbe.com/Medusa/Documentation/#/PluginDirectory) name
 
@@ -169,7 +175,7 @@ Please use the name supported by the module for the root folder. A folder name c
 python3 MedusaScan.py -u https://www.ascotbe.com -m Struts2
 ```
 
-#### 0x08 Processes setting
+#### 0x07 Processes setting
 
 Turn on the multi-process function, the default is 15 processes, the more processes, the faster, when a plugin uses the for loop, it will start multi-threading in the process!
 
@@ -180,43 +186,6 @@ python3 MedusaScan.py -u https://www.ascotbe.com -t 100 #100 processes
 #### 0x09 sensitive information leakage
 
 Integrated into the module, the full scan is automatically started, if you need to scan separately, you only need to enter the module name
-
-#### 0x10 Interactive command execution
-
-Call the plug-in that can perform command execution interaction, you can use the `-l` (not yet written) parameter view
-
-```bash
-python3 MedusaScan.py -u http://127.0.0.1:7001 -e CVE-2019-2729
-```
-
-After the call is successful, you need to enter the target operating system first, and then enter the executed command. If the execution is changed without echo, it will output `Return packet: The vulnerability is command execution without echo`, if not, it will be returned. Explicit execution.
-
-If you need to log out, please enter `QuitMedusa` to exit the command execution.
-
-```bash
-ascotbe@orange$ python3 MedusaScan.py -u http://127.0.0.1:7001 -e CVE-2019-2729
-
-
-
-  ___ __ __   ______   ______   __  __   ______   ________      
- /__//_//_/\ /_____/\ /_____/\ /_/\/_/\ /_____/\ /_______/\     
- \::\| \| \ \\::::_\/_\:::_ \ \\:\ \:\ \\::::_\/_\::: _  \ \    
-  \:.      \ \\:\/___/\\:\ \ \ \\:\ \:\ \\:\/___/\\::(_)  \ \   
-   \:.\-/\  \ \\::___\/_\:\ \ \ \\:\ \:\ \\_::._\:\\:: __  \ \  
-    \. \  \  \ \\:\____/\\:\/.:| |\:\_\:\ \ /____\:\\:.\ \  \ \ 
-     \__\/ \__\/ \_____\/ \____/_/ \_____\/ \_____\/ \__\/\__\/ 
-                                                                
- 
-                                                                                   
-          Blog  https://www.ascotbe.com  |  v0.86    
-
-[ + ] Please enter the target operating system [windows / linux]: Windows
-[ + ] Please enter the command to be executed: echo Ayanami Rei
-[ + ] Command sent successfully, please refer to the returned data packet
-[ + ] Return packet：Ayanami Rei
-[ + ] Please enter the command to be executed: QuitMedusa
-[ ! ] Command execution call has ended~ 
-```
 
 ## Result
 

@@ -125,39 +125,45 @@ python3 MedusaScan.py -f Ascotbe.txt  (你的文件，最好放在和MedusaScan�
 python3 MedusaScan.py -u https://www.ascotbe.com -j
 ```
 
-#### 0x04 对目标网站进行子域名收集
+#### ~~0x04 对目标网站进行子域名收集~~
 
-扫描结果在`ScanResult`目录中，只支持域名不支持**IP**形式
+暂时关闭等待重构
+
+~~扫描结果在`ScanResult`目录中，只支持域名不支持**IP**形式~~
 
 ```bash
 python3 MedusaScan.py -u https://www.ascotbe.com -s
 ```
 
-#### 0x05 开启代理功能
+#### 0x05 HTTP请求相关配置
 
-```bash
-python3 MedusaScan.py -u https://www.ascotbe.com -p 127.0.0.1:8080
+需要在**config.py**配置文件中进行配置
+
+```python
+#########################################################################
+#requests请求配置
+#########################################################################
+user_agent_randomization=False#是否开启headers头中的随机化，默认关闭
+user_agent_browser_type="chrome"#目前只支持如下浏览器，修改为其他的可能会导致无法使用。
+                                #firefox、ie、msie、opera、chrome、AppleWebKit、Gecko、safari
+#默认请求头，里面保存必须数据，User-Agent头数据如果开启随机化会改变
+#WEB版加个判断，如果用户传入header会对该header进行覆盖
+headers={
+    "Connection": "close",
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_0_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36",
+    "Accept": "*/*",
+    "Accept-Encoding": "gzip, deflate",
+    "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
+    "dnt": "1"
+}
+#如果过不想使用代理把下面参数替换为：proxies=None
+proxies = {
+  "http": "http://127.0.0.1:8080",
+  "https": "https://127.0.0.1:8080",
+}
 ```
 
-#### 0x06 使用指定Header头
-
-支持的参数有：`firefox`，`ie`，`msie`，`opera`，`chrome`，`AppleWebKit`，`Gecko`，`safari `
-
-目前支持常见的浏览器，下面列举其中3个(需要区分大小写)
-
-```bash
-python3 MedusaScan.py -u https://www.ascotbe.com -a firefox
-python3 MedusaScan.py -u https://www.ascotbe.com -a ie
-python3 MedusaScan.py -u https://www.ascotbe.com -a Gecko
-```
-
-还可以自定义`haeder`参数，切记需要对自定义的`header`加上双引号包含着`""`，如果你的`header`不合规是不会提示错误的
-
-```bash
-python3 MedusaScan.py -u https://www.ascotbe.com -a "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.2117.157 Safari/537.36"
-```
-
-#### 0x07 针对单独模块扫描
+#### 0x06 针对单独模块扫描
 
 该模块所支持的名称请针对根目录文件夹使用，一个文件夹名对应一个模块，并且请注意大小写，实在无法理解请参考[该文件中](https://www.ascotbe.com/Medusa/Documentation/#/PluginDirectory)名称进行使用
 
@@ -165,7 +171,7 @@ python3 MedusaScan.py -u https://www.ascotbe.com -a "Mozilla/5.0 (Windows NT 5.1
 python3 MedusaScan.py -u https://www.ascotbe.com -m Struts2
 ```
 
-#### 0x08 设置进程数
+#### 0x07 设置进程数
 
 开启多进程功能，默认是15个进程，进程越多越快，当某个插件有利用for循环的话会在进程中启动多线程！
 
@@ -173,48 +179,9 @@ python3 MedusaScan.py -u https://www.ascotbe.com -m Struts2
 python3 MedusaScan.py -u https://www.ascotbe.com -t 100
 ```
 
-#### 0x09 敏感信息泄露
+#### 0x08 敏感信息泄露
 
 以集成到模块中，全量扫描自动开启，如果需要单独扫描只需要输入模块名字即可
-
-#### 0x10 交互式命令执行
-
-调用可以进行命令执行交互的插件，可以利用`-l`（目前还没写）参数查看
-
-```bash
-python3 MedusaScan.py -u http://127.0.0.1:7001 -e CVE-2019-2729
-```
-
-调用成功后会需要首先输入目标操作系统，然后再输入执行的命令，如果改执行是无回显的话会输出`Return packet：The vulnerability is command execution without echo`这句话，如果没有的话就是有回显执行。
-
-如果需要退出的话请输入`QuitMedusa` ，即可退出命令执行。
-
-```bash
-ascotbe@orange$ python3 MedusaScan.py -u http://127.0.0.1:7001 -e CVE-2019-2729
-
-
-
-  ___ __ __   ______   ______   __  __   ______   ________      
- /__//_//_/\ /_____/\ /_____/\ /_/\/_/\ /_____/\ /_______/\     
- \::\| \| \ \\::::_\/_\:::_ \ \\:\ \:\ \\::::_\/_\::: _  \ \    
-  \:.      \ \\:\/___/\\:\ \ \ \\:\ \:\ \\:\/___/\\::(_)  \ \   
-   \:.\-/\  \ \\::___\/_\:\ \ \ \\:\ \:\ \\_::._\:\\:: __  \ \  
-    \. \  \  \ \\:\____/\\:\/.:| |\:\_\:\ \ /____\:\\:.\ \  \ \ 
-     \__\/ \__\/ \_____\/ \____/_/ \_____\/ \_____\/ \__\/\__\/ 
-                                                                
- 
-                                                                                   
-          Blog  https://www.ascotbe.com  |  v0.86    
-
-[ + ] Please enter the target operating system [windows / linux]: Windows
-[ + ] Please enter the command to be executed: echo Ayanami Rei
-[ + ] Command sent successfully, please refer to the returned data packet
-[ + ] Return packet：Ayanami Rei
-[ + ] Please enter the command to be executed: QuitMedusa
-[ ! ] Command execution call has ended~ 
-```
-
-
 
 ## 扫描结果
 

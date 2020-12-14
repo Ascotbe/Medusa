@@ -69,7 +69,7 @@ def GenerateProject(request):#用来生成项目，并且生成文件和用户�
     if request.method == "POST":
         try:
             JavaScriptFileData = json.loads(request.body)["javascript_data"]#获取前端传入的加密过的js文件数据
-            ProjectName = json.loads(request.body)["project_name"]#项目名
+            ProjectName = json.loads(request.body)["project_name"]#用户自定义的项目名
             UserToken = json.loads(request.body)["token"]
             Uid = UserInfo().QueryUidWithToken(UserToken)  # 如果登录成功后就来查询用户名
             if Uid != None and JavaScriptFileData!=None:  # 查到了UID,并且js数据不为空
@@ -84,7 +84,7 @@ def GenerateProject(request):#用来生成项目，并且生成文件和用户�
                 with open(JavaScriptSaveRoute, 'wb') as f:
                     f.write(base64.b64decode(str(JavaScriptFileData).encode('utf-8')))#文件内容还要加密
                 CrossSiteScriptProject().Write(file_name=JavaScriptSaveFileName,uid=Uid,project_name=ProjectName)#写到数据库表中
-                return JsonResponse({'message': "欧拉欧拉欧拉欧拉欧拉欧拉欧拉欧拉(๑•̀ㅂ•́)و✧", 'code': 200, })
+                return JsonResponse({'message': JavaScriptSaveFileName, 'code': 200, })#返回创建好的文件名
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
@@ -128,16 +128,50 @@ def QueryProjectData(request):  # 用来查看用户的XSS项目中的数据
     RequestLogRecord(request, request_api="query_cross_site_script_project_data")
     if request.method == "POST":
         try:
-            ProjectAssociatedFileName = json.loads(request.body)["project_associated_file_name"]
+            ProjectAssociatedFileName = json.loads(request.body)["project_associated_file_name"]#传入项目生成的文件名
             UserToken = json.loads(request.body)["token"]
             Uid = UserInfo().QueryUidWithToken(UserToken)  # 如果登录成功后就来查询用户名
-            if Uid != None:  # 查到了UID,并且js数据不为空
+            if Uid != None:  # 查到了UID
                 UserOperationLogRecord(request, request_api="query_cross_site_script_project_data", uid=Uid)
                 AuthorityCheck = CrossSiteScriptProject().AuthorityCheck(uid=Uid,file_name=ProjectAssociatedFileName)  # 用来校检CrossSiteScript数据库中文件名和UID相对应
 
                 if AuthorityCheck:
                     CrossSiteScriptInfoResult=CrossSiteScriptInfo().Query(project_associated_file_name=ProjectAssociatedFileName)#查询数据库中项目的XSS信息
                     return JsonResponse({'message': CrossSiteScriptInfoResult, 'code': 200, })
+                else:
+                    return JsonResponse({'message': "你没有查询这个项目的权限哦宝贝~", 'code': 404, })
+            else:
+                return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
+        except Exception as e:
+            ErrorLog().Write("Web_CrossSiteScriptHub_CrossSiteScript_QueryProjectData(def)", e)
+            return JsonResponse({'message': '呐呐呐！莎酱被玩坏啦(>^ω^<)', 'code': 169, })
+    else:
+        return JsonResponse({'message': '请使用Post请求', 'code': 500, })
+
+"""modify_cross_site_script_project
+{
+	"token": "",
+	"project_associated_file_name":"",
+	"project_associated_file_data":""
+}
+"""
+def ModifyProject(request):  # 用来修改XSS项目中的数据
+    RequestLogRecord(request, request_api="modify_cross_site_script_project")
+    if request.method == "POST":
+        try:
+            ProjectAssociatedFileName = json.loads(request.body)["project_associated_file_name"]#传入项目生成的文件名
+            ProjectAssociatedFileData = json.loads(request.body)["project_associated_file_data"]#传入base64加密后的数据
+            UserToken = json.loads(request.body)["token"]
+            Uid = UserInfo().QueryUidWithToken(UserToken)  # 如果登录成功后就来查询用户名
+            if Uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="modify_cross_site_script_project", uid=Uid)
+                AuthorityCheck = CrossSiteScriptProject().AuthorityCheck(uid=Uid,file_name=ProjectAssociatedFileName)  # 用来校检CrossSiteScript数据库中文件名和UID相对应
+
+                if AuthorityCheck:#判断文件是属于该用户,如果属于的话就对文件进行修改
+                    JavaScriptFilePath=GetJavaScriptFilePath().Result() + ProjectAssociatedFileName#获取文件位置
+                    with open(JavaScriptFilePath, 'w+') as f:
+                        f.write(base64.b64decode(str(ProjectAssociatedFileData).encode('utf-8')))  # 文件内容还要解密
+                    return JsonResponse({'message': "文件内容覆盖成功~", 'code': 200, })
                 else:
                     return JsonResponse({'message': "你没有查询这个项目的权限哦宝贝~", 'code': 404, })
             else:

@@ -81,11 +81,14 @@ proxy_scan_module_list=["Struts2","Confluence","Nginx","PHPStudy","Jenkins","Har
 #账号密码相关配置
 #########################################################################
 registration_function_status=False#默认关闭注册功能
-forgot_password_function_status=True#默认关闭忘记密码功能
+forgot_password_function_status=False#默认关闭忘记密码功能
 secret_key_required_for_account_registration="I_will_always_like_Rei_Ayanami"#注册账号需要的秘钥,最好修改为250个随机字符串
 forget_password_key="https://github.com/Ascotbe/Medusa"#修改密码所需要的key
 
-
+#########################################################################
+#XSS项目配置
+#########################################################################
+default_template_file_list=["test.js","get_cookie.js","required_documents.js","xss.js"]#默认模板文件名列表
 
 #########################################################################
 #机器硬件监控配置

@@ -945,7 +945,6 @@ class CrossSiteScriptInfo:#XSS钓鱼接收数据库
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
         CreationTime = str(int(time.time()))  # 创建时间
-        #Uid = kwargs.get("uid")
         Headers= kwargs.get("headers").decode('utf-8')
         Ip = kwargs.get("ip")
         ProjectAssociatedFileName= kwargs.get("project_associated_file_name")
@@ -1197,6 +1196,7 @@ class HardwareUsageRateInfo:  # 获取硬件中CPU和内存的使用情况
                 JsonValues["memory_used"] = i[1]
                 JsonValues["memory_free"] = i[2]
                 JsonValues["memory_percent"] = i[3]
+                JsonValues["creation_time"] = i[4]
                 JsonValues["central_processing_unit_usage_rate"] = i[5]
                 JsonValues["per_core_central_processing_unit_usage_rate"] = i[6]
                 result_list.append(JsonValues)

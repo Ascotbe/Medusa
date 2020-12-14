@@ -37,6 +37,17 @@ def IpProcess(Url: str) -> str:
 
 
 
+class Proxies:  # 代理处理函数
+    def result(self, proxies_ip: str or None):
+        try:
+            if proxies_ip == None:
+                return proxies_ip
+            else:
+                return {"http": "http://{}".format(proxies_ip), "https": "https://{}".format(proxies_ip)}
+        except Exception as e:
+            ErrorLog().Write("ClassCongregation_Proxies(class)_result(def)", e)
+            return None#报错就返回空
+
 
 
 class WriteFile:  # 写入文件类

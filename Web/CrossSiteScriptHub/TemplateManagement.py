@@ -22,7 +22,7 @@ def ReadDefaultTemplate(request):#用读取默认的模板文件
                 DefaultTemplateFileData=[]#用来存放默认模板数据
                 CrossSiteScriptTemplateFilePath=GetCrossSiteScriptTemplateFilePath().Result()#获取模板文件路径
                 for FileName in default_template_file_list:#从配置文件中导入的文件列表
-                    with open(CrossSiteScriptTemplateFilePath+FileName, 'r+') as f:#读取文件
+                    with open(CrossSiteScriptTemplateFilePath+FileName, 'r+',encoding='UTF-8') as f:#读取文件
                         FileData = f.read()
                     DefaultTemplateFileData.append({"file_name":FileName,"file_data":base64.b64encode(str(FileData).encode('utf-8')).decode('utf-8')})#把读取到的数据加密后，转换成str类型后存入模板中
                 return JsonResponse({'message': DefaultTemplateFileData, 'code': 200, })

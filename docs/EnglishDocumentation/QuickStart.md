@@ -67,7 +67,6 @@ debug_mode = True
 
 The output content of this mode is not the progress bar and module loading content, but has become the error message of each plugin
 
-![debug](https://github.com/Ascotbe/Random-img/blob/master/Medusa/0.76Debug.gif?raw=true)
 
 #### 0x03 Multithreading
 

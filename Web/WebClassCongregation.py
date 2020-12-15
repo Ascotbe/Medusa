@@ -4,6 +4,7 @@ import time
 import sys
 import base64
 import sqlite3
+import json
 from ClassCongregation import GetDatabaseFilePath,ErrorLog,randoms,GetRootFileLocation
 
 
@@ -1198,7 +1199,7 @@ class HardwareUsageRateInfo:  # 获取硬件中CPU和内存的使用情况
                 JsonValues["memory_percent"] = i[3]
                 JsonValues["creation_time"] = i[4]
                 JsonValues["central_processing_unit_usage_rate"] = i[5]
-                JsonValues["per_core_central_processing_unit_usage_rate"] = i[6]
+                JsonValues["per_core_central_processing_unit_usage_rate"] = json.loads(i[6])
                 result_list.append(JsonValues)
             self.con.close()
             return result_list

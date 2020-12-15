@@ -33,6 +33,7 @@
 /api/modify_cross_site_script_template/
 /api/modify_cross_site_script_project/
 /api/windows_portable_execute_analysis/
+/api/query_cross_site_script_project_info/
 ```
 
 ### 注册接口
@@ -614,6 +615,32 @@ FileDate
 - 403：嘿~宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
 - 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
 - 500：请使用Post请求
+
+### 查询跨站脚本钓鱼项目详细信息
+
+`/api/query_cross_site_script_project_info/`用来查询用户的跨站脚本项目的详细信息
+
+```
+{
+	"token": "",
+	"project_associated_file_name":""
+}
+```
+
+>参数解释
+
+- `token`登录后返回的**token**
+- `project_associated_file_name`创建项目是生成的文件，创建项目时会返回
+
+> 返回状态码
+
+- 200：返回项目中js文件的详细信息，内容通过base64编码过
+- 403：嘿~宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+- 404：你没有查询这个项目的权限哦宝贝~
+- 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
+- 500：请使用Post请求
+
+### 
 
 ### 查询跨站脚本钓鱼项目中数据
 

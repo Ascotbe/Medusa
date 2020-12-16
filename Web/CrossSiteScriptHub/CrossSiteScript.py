@@ -171,7 +171,7 @@ def ModifyProject(request):  # 用来修改XSS项目中的数据
                 if AuthorityCheck:#判断文件是属于该用户,如果属于的话就对文件进行修改
                     JavaScriptFilePath=GetJavaScriptFilePath().Result() + ProjectAssociatedFileName#获取文件位置
                     with open(JavaScriptFilePath, 'w+',encoding='UTF-8') as f:
-                        f.write(base64.b64decode(str(ProjectAssociatedFileData).encode('utf-8')))  # 文件内容还要解密
+                        f.write(base64.b64decode(str(ProjectAssociatedFileData).encode('utf-8')).decode('utf-8'))  # 文件内容还要解密
                     return JsonResponse({'message': "文件内容覆盖成功~", 'code': 200, })
                 else:
                     return JsonResponse({'message': "你没有查询这个项目的权限哦宝贝~", 'code': 404, })

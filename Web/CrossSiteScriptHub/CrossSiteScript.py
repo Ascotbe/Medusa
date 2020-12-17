@@ -82,8 +82,8 @@ def GenerateProject(request):#用来生成项目，并且生成文件和用户�
                     if not QueryJavaScriptSaveFileNameValidity:#如果不冲突的话跳出循环
                         break
                 JavaScriptSaveRoute = GetJavaScriptFilePath().Result() + JavaScriptSaveFileName  # 获得保存路径
-                with open(JavaScriptSaveRoute, 'wb',encoding='UTF-8') as f:
-                    f.write(base64.b64decode(str(JavaScriptFileData).encode('utf-8')))#文件内容还要加密
+                with open(JavaScriptSaveRoute, 'w+',encoding='UTF-8') as f:
+                    f.write(base64.b64decode(str(JavaScriptFileData).encode('utf-8')).decode('utf-8'))#文件内容还要加密
                 CrossSiteScriptProject().Write(file_name=JavaScriptSaveFileName,uid=Uid,project_name=ProjectName)#写到数据库表中
                 return JsonResponse({'message': JavaScriptSaveFileName, 'code': 200, })#返回创建好的文件名
             else:

@@ -22,11 +22,6 @@
 > `Web` Ver. Under development
 
 
-
-> ## 今日起对项目进行重构，如需下载使用请到releases中下载v0.92版本
-
-
-
 #### **[中文文档](https://github.com/Ascotbe/Medusa/blob/master/README.CN.md) | EnglishDocumentation**
 
 ### :bulb:Document

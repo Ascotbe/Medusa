@@ -1287,3 +1287,58 @@ class PortableExecutableAnalyticalData:  # PE文件分析后数据存储
     #     except Exception as e:
     #         ErrorLog().Write("Web_WebClassCongregation_PortableExecutableAnalyticalData(class)_Query(def)", e)
     #         return None
+
+
+class VerificationCode:#验证码相关数据库，用来验证验证码合法性
+    def __init__(self):
+        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        # 获取所创建数据的游标
+        self.cur = self.con.cursor()
+        # 创建表
+        try:
+            self.cur.execute("CREATE TABLE VerificationCode\
+                                (verification_code_id INTEGER PRIMARY KEY,\
+                                code TEXT NOT NULL,\
+                                verification_code_key TEXT NOT NULL,\
+                                creation_time TEXT NOT NULL,\
+                                verification_code_status TEXT NOT NULL)")
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_VerificationCode(class)_init(def)", e)
+
+    def Write(self, **kwargs) -> bool or None:  # 写入相关信息
+        CreationTime = str(int(time.time()))  # 创建时间
+        Code = kwargs.get("code")#验证码字符串
+        VerificationCodeKey = kwargs.get("verification_code_key")#验证码相关联的Key
+        VerificationCodeStatus=0#验证码是否使用过，如果使用过值为1，未使用过为1
+        try:
+            self.cur.execute("INSERT INTO VerificationCode(code,verification_code_key,creation_time,verification_code_status)\
+                VALUES (?,?,?,?)", (Code,VerificationCodeKey,CreationTime,VerificationCodeStatus,))
+            # 提交
+            self.con.commit()
+            self.con.close()
+            return True
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_VerificationCode(class)_Write(def)", e)
+            return False
+
+    # def Query(self):  #
+    #     try:
+    #         CurrentTime = str(int(time.time()))  # 获取当前时间
+    #
+    #         self.cur.execute("select * from HardwareUsageRateInfo where creation_time<=? and creation_time>=?",
+    #                          (CurrentTime, str(int(CurrentTime) - 3600),))  # 查询半小时之前的CPU使用率，和内存使用率
+    #         result_list = []
+    #         for i in self.cur.fetchall():
+    #             JsonValues = {}
+    #             JsonValues["memory_used"] = i[1]
+    #             JsonValues["memory_free"] = i[2]
+    #             JsonValues["memory_percent"] = i[3]
+    #             JsonValues["creation_time"] = i[4]
+    #             JsonValues["central_processing_unit_usage_rate"] = i[5]
+    #             JsonValues["per_core_central_processing_unit_usage_rate"] = json.loads(i[6])
+    #             result_list.append(JsonValues)
+    #         self.con.close()
+    #         return result_list
+    #     except Exception as e:
+    #         ErrorLog().Write("Web_WebClassCongregation_HardwareUsageRateInfo(class)_Query(def)", e)
+    #         return None

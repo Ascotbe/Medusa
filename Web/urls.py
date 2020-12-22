@@ -19,6 +19,7 @@ from Web.CrossSiteScriptHub import CrossSiteScript,TemplateManagement
 from Web.SystemInfo import HardwareInfo
 from Web.CommonVulnerabilityDetection import Github
 from Web.ToolsUtility import AntivirusSoftware,PortableExecute,ExecutableLinkableFormat
+from Web.BasicFunctions import test
 urlpatterns = [
     #path('admin/', admin.site.urls),
     path('api/vulnerability_scanning/', VulnerabilityScanning.Scan),#扫描
@@ -56,5 +57,6 @@ urlpatterns = [
     path('api/antivirus_software_compared/', AntivirusSoftware.Compared),  # 通过获取数据进行对比目标机器的杀软
     path('api/windows_portable_execute_analysis/', PortableExecute.Windows),  # windows文件上传后进行结构处理
     path('api/linux_executable_linkable_format_analysis/', ExecutableLinkableFormat.Linux),# Linux文件上传后进行结构处理
+    path('api/test/', test.test),
 
 ]

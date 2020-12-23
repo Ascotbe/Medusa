@@ -1321,24 +1321,24 @@ class VerificationCode:#验证码相关数据库，用来验证验证码合法�
             ErrorLog().Write("Web_WebClassCongregation_VerificationCode(class)_Write(def)", e)
             return False
 
-    # def Query(self):  #
-    #     try:
-    #         CurrentTime = str(int(time.time()))  # 获取当前时间
-    #
-    #         self.cur.execute("select * from HardwareUsageRateInfo where creation_time<=? and creation_time>=?",
-    #                          (CurrentTime, str(int(CurrentTime) - 3600),))  # 查询半小时之前的CPU使用率，和内存使用率
-    #         result_list = []
-    #         for i in self.cur.fetchall():
-    #             JsonValues = {}
-    #             JsonValues["memory_used"] = i[1]
-    #             JsonValues["memory_free"] = i[2]
-    #             JsonValues["memory_percent"] = i[3]
-    #             JsonValues["creation_time"] = i[4]
-    #             JsonValues["central_processing_unit_usage_rate"] = i[5]
-    #             JsonValues["per_core_central_processing_unit_usage_rate"] = json.loads(i[6])
-    #             result_list.append(JsonValues)
-    #         self.con.close()
-    #         return result_list
-    #     except Exception as e:
-    #         ErrorLog().Write("Web_WebClassCongregation_HardwareUsageRateInfo(class)_Query(def)", e)
-    #         return None
+    def Query(self, **kwargs):  #查询验证码是否正确
+        try:
+            CurrentTime = int(time.time())  # 获取当前时间
+            Code = kwargs.get("code")  # 验证码字符串
+            VerificationCodeKey = kwargs.get("verification_code_key")  # 验证码相关联的Key
+            self.cur.execute("select * from VerificationCode where code =? and verification_code_key=?", (Code,VerificationCodeKey,))
+
+            for i in self.cur.fetchall():
+                if (CurrentTime-int(i[3]))>60:#操过60秒验证码失效
+                    return False
+                elif i[4]!="0":#判断如果验证码是使用过的
+                    return False
+                else:
+                    self.cur.execute(
+                        """UPDATE VerificationCode SET verification_code_status = ? WHERE  code = ? and verification_code_key=? """,
+                        ("1",Code, VerificationCodeKey,))#查询成功后就把数据库值给更新了
+                    return True
+
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_VerificationCode(class)_Query(def)", e)
+            return None

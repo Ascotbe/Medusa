@@ -38,7 +38,7 @@ def CreateProxyScanProject(request):#创建代理扫描项目
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_Api_ProxyScan_CreateProxyScanProject(def)", e)
+            ErrorLog().Write("Web_BasicFunctions_ProxyScan_CreateProxyScanProject(def)", e)
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 

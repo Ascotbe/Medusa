@@ -14,12 +14,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path,re_path
-from Web.BasicFunctions import VulnerabilityScanning,VulnerabilityQuery,Registered,User,GenerateReport,ProxyScan,Home
+from Web.BasicFunctions import VulnerabilityScanning,VulnerabilityQuery,Registered,User,GenerateReport,ProxyScan,Home,VerificationCode
 from Web.CrossSiteScriptHub import CrossSiteScript,TemplateManagement
 from Web.SystemInfo import HardwareInfo
 from Web.CommonVulnerabilityDetection import Github
 from Web.ToolsUtility import AntivirusSoftware,PortableExecute,ExecutableLinkableFormat
-from Web.BasicFunctions import test
 urlpatterns = [
     #path('admin/', admin.site.urls),
     path('api/vulnerability_scanning/', VulnerabilityScanning.Scan),#扫描
@@ -57,6 +56,6 @@ urlpatterns = [
     path('api/antivirus_software_compared/', AntivirusSoftware.Compared),  # 通过获取数据进行对比目标机器的杀软
     path('api/windows_portable_execute_analysis/', PortableExecute.Windows),  # windows文件上传后进行结构处理
     path('api/linux_executable_linkable_format_analysis/', ExecutableLinkableFormat.Linux),# Linux文件上传后进行结构处理
-    path('api/test/', test.test),
+    path('api/get_verification_code/', VerificationCode.GenerateVerificationCode),#获取验证码api
 
 ]

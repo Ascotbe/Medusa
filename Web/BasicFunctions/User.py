@@ -1,4 +1,4 @@
-from Web.WebClassCongregation import UserInfo
+from Web.WebClassCongregation import UserInfo,VerificationCode
 from django.http import JsonResponse
 from ClassCongregation import ErrorLog,randoms,Md5Encryption,GetImageFilePath
 import json
@@ -8,7 +8,9 @@ from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
 """login
 {
 	"username": "ascotbe",
-	"passwd": "1"
+	"passwd": "1",
+	"verification_code_key": "1",
+	"verification_code":"1"
 }
 """
 def Login(request):#用户登录，每次登录成功都会刷新一次Token
@@ -17,24 +19,33 @@ def Login(request):#用户登录，每次登录成功都会刷新一次Token
         try:
             Username=json.loads(request.body)["username"]
             Passwd=json.loads(request.body)["passwd"]
+            VerificationCodeKey = json.loads(request.body)["verification_code_key"]#获取验证码关联的KEY
+            Code = json.loads(request.body)["verification_code"]#获取验证码
             Md5Passwd=Md5Encryption().Md5Result(Passwd)#对密码加密
-            UserLogin=UserInfo().UserLogin(Username,Md5Passwd)
-            if UserLogin is None:
-                return JsonResponse({'message': '账号或密码错误', 'code': 604, })
+            if VerificationCodeKey!=None and Code!=None:#判断传入数据不为空
+                VerificationCodeResult=VerificationCode().Query(code=Code,verification_code_key=VerificationCodeKey)#获取判断
+                if VerificationCodeResult:#如果为真进进行登录验证
+                    UserLogin=UserInfo().UserLogin(Username,Md5Passwd)
+                    if UserLogin is None:
+                        return JsonResponse({'message': '账号或密码错误', 'code': 604, })
 
+                    else:
+                        while True:#如果查询确实冲突了
+                            Token = randoms().result(250)
+                            QueryTokenValidity = UserInfo().QueryTokenValidity(Token)#用来查询Token是否冲突了
+                            if not QueryTokenValidity:#如果不冲突的话跳出循环
+                                break
+                        UpdateToken=UserInfo().UpdateToken(name=Username, token=Token)#接着更新Token
+                        if UpdateToken:#如果更新成功了
+                            Uid = UserInfo().QueryUidWithToken(Token)  # 查询UID
+                            UserOperationLogRecord(request, request_api="login", uid=Uid)
+                            return JsonResponse({'message': Token, 'code': 200, })
+                else:
+                    return JsonResponse({'message': "验证码错误或者过期！", 'code': 503, })
             else:
-                while True:#如果查询确实冲突了
-                    Token = randoms().result(250)
-                    QueryTokenValidity = UserInfo().QueryTokenValidity(Token)#用来查询Token是否冲突了
-                    if not QueryTokenValidity:#如果不冲突的话跳出循环
-                        break
-                UpdateToken=UserInfo().UpdateToken(name=Username, token=Token)#接着更新Token
-                if UpdateToken:#如果更新成功了
-                    Uid = UserInfo().QueryUidWithToken(Token)  # 查询UID
-                    UserOperationLogRecord(request, request_api="login", uid=Uid)
-                    return JsonResponse({'message': Token, 'code': 200, })
+                return JsonResponse({'message': "验证码或者验证码秘钥不能为空！", 'code': 504, })
         except Exception as e:
-            ErrorLog().Write("Web_Api_User_LogIn(def)", e)
+            ErrorLog().Write("Web_BasicFunctions_User_LogIn(def)", e)
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
@@ -62,7 +73,7 @@ def UpdatePassword(request):#更新密码
             else:
                 return JsonResponse({'message': "输入信息有误重新输入", 'code': 404, })
         except Exception as e:
-            ErrorLog().Write("Web_Api_User_UpdatePassword(def)", e)
+            ErrorLog().Write("Web_BasicFunctions_User_UpdatePassword(def)", e)
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
@@ -89,7 +100,7 @@ def UpdateShowName(request):#更新显示名字
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_Api_User_UpdateShowName(def)", e)
+            ErrorLog().Write("Web_BasicFunctions_User_UpdateShowName(def)", e)
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
@@ -115,7 +126,7 @@ def UpdateKey(request):#更新Key
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_Api_User_UpdateKey(def)", e)
+            ErrorLog().Write("Web_BasicFunctions_User_UpdateKey(def)", e)
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
@@ -151,7 +162,7 @@ def PersonalInformation(request):#用户个人信息
 
 
         except Exception as e:
-            ErrorLog().Write("Web_Api_User_PersonalInformation(def)", e)
+            ErrorLog().Write("Web_BasicFunctions_User_PersonalInformation(def)", e)
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
@@ -190,7 +201,7 @@ def UploadAvatar(request):#文件上传功能
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_Api_User_UploadAvatar(def)", e)
+            ErrorLog().Write("Web_BasicFunctions_User_UploadAvatar(def)", e)
             return JsonResponse({'message': '你不对劲！为什么报错了？',  'code': 169,})
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
@@ -224,7 +235,7 @@ def ForgetPassword(request):#忘记密码接口
             else:
                 return JsonResponse({'message': "小宝贝你没有开启忘记密码功能哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_Api_User_RequestLogRecord(def)", e)
+            ErrorLog().Write("Web_BasicFunctions_User_RequestLogRecord(def)", e)
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 

@@ -53,6 +53,6 @@ def Registered(request):
             else:
                 return JsonResponse({'message': '小宝贝你没有开启注册功能哦！！', 'code': 503, })
         except Exception as e:
-            ErrorLog().Write("Web_Api_Registered_Registered(def)", e)
+            ErrorLog().Write("Web_BasicFunctions_Registered_Registered(def)", e)
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })

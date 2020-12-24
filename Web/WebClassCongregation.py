@@ -1337,6 +1337,8 @@ class VerificationCode:#验证码相关数据库，用来验证验证码合法�
                     self.cur.execute(
                         """UPDATE VerificationCode SET verification_code_status = ? WHERE  code = ? and verification_code_key=? """,
                         ("1",Code, VerificationCodeKey,))#查询成功后就把数据库值给更新了
+                    self.con.commit()
+                    self.con.close()
                     return True
 
         except Exception as e:

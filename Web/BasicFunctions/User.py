@@ -24,7 +24,7 @@ def Login(request):#用户登录，每次登录成功都会刷新一次Token
             Md5Passwd=Md5Encryption().Md5Result(Passwd)#对密码加密
             if VerificationCodeKey!=None and Code!=None:#判断传入数据不为空
                 VerificationCodeResult=VerificationCode().Query(code=Code,verification_code_key=VerificationCodeKey)#获取判断
-                if VerificationCodeResult:#如果为真进进行登录验证
+                if VerificationCodeResult:#如果为真,进行登录验证
                     UserLogin=UserInfo().UserLogin(Username,Md5Passwd)
                     if UserLogin is None:
                         return JsonResponse({'message': '账号或密码错误', 'code': 604, })
@@ -54,7 +54,9 @@ def Login(request):#用户登录，每次登录成功都会刷新一次Token
 {
 	"username": "ascotbe",
 	"old_passwd": "1",
-	"new_passwd": "1111"
+	"new_passwd": "1111",
+	"verification_code_key": "1",
+	"verification_code":"1"
 }
 """
 def UpdatePassword(request):#更新密码
@@ -64,14 +66,24 @@ def UpdatePassword(request):#更新密码
             UserName=json.loads(request.body)["username"]
             OldPasswd=json.loads(request.body)["old_passwd"]
             NewPasswd = json.loads(request.body)["new_passwd"]
-            Md5NewPasswd = Md5Encryption().Md5Result(NewPasswd)  # 对新密码加密
-            Md5OldPasswd = Md5Encryption().Md5Result(OldPasswd)  # 对旧密码加密
-            UpdatePassword=UserInfo().UpdatePasswd(name=UserName,old_passwd=Md5OldPasswd,new_passwd=Md5NewPasswd)
-            if UpdatePassword:
-                UserOperationLogRecord(request, request_api="update_password", uid=UserName)#如果修改成功写入数据库中
-                return JsonResponse({'message': '好耶！修改成功~', 'code': 200, })
+            VerificationCodeKey = json.loads(request.body)["verification_code_key"]#获取验证码关联的KEY
+            Code = json.loads(request.body)["verification_code"]#获取验证码
+
+            if VerificationCodeKey!=None and Code!=None:#判断传入数据不为空
+                VerificationCodeResult=VerificationCode().Query(code=Code,verification_code_key=VerificationCodeKey)#获取判断
+                if VerificationCodeResult:#如果为真,进行登录验证
+                    Md5NewPasswd = Md5Encryption().Md5Result(NewPasswd)  # 对新密码加密
+                    Md5OldPasswd = Md5Encryption().Md5Result(OldPasswd)  # 对旧密码加密
+                    UpdatePassword=UserInfo().UpdatePasswd(name=UserName,old_passwd=Md5OldPasswd,new_passwd=Md5NewPasswd)
+                    if UpdatePassword:
+                        UserOperationLogRecord(request, request_api="update_password", uid=UserName)#如果修改成功写入数据库中
+                        return JsonResponse({'message': '好耶！修改成功~', 'code': 200, })
+                    else:
+                        return JsonResponse({'message': "输入信息有误重新输入", 'code': 404, })
+                else:
+                    return JsonResponse({'message': "验证码错误或者过期！", 'code': 503, })
             else:
-                return JsonResponse({'message': "输入信息有误重新输入", 'code': 404, })
+                return JsonResponse({'message': "验证码或者验证码秘钥不能为空！", 'code': 504, })
         except Exception as e:
             ErrorLog().Write("Web_BasicFunctions_User_UpdatePassword(def)", e)
     else:
@@ -212,6 +224,8 @@ def UploadAvatar(request):#文件上传功能
 	"name": "",
 	"new_passwd": "",
 	"email": "",
+	"verification_code_key": "1",
+	"verification_code":"1"
 }
 """
 def ForgetPassword(request):#忘记密码接口
@@ -222,18 +236,28 @@ def ForgetPassword(request):#忘记密码接口
             Name = json.loads(request.body).get("name")
             NewPasswd = json.loads(request.body).get("new_passwd")
             Email = json.loads(request.body).get("email")
-            if forgot_password_function_status:  # 查看状态是否关闭
-                if Key==forget_password_key:#如果传入的key相等
-                    Md5Passwd = Md5Encryption().Md5Result(NewPasswd)  # 进行加密
-                    ChangePasswordResult=UserInfo().ForgetPassword(name=Name,new_passwd=Md5Passwd,email=Email)#进行修改密码
-                    if ChangePasswordResult:#如果修改成功
-                        return JsonResponse({'message': "修改成功啦~建议去配置文件中关闭忘记密码功能哦~", 'code': 200, })
+            VerificationCodeKey = json.loads(request.body)["verification_code_key"]#获取验证码关联的KEY
+            Code = json.loads(request.body)["verification_code"]#获取验证码
+
+            if VerificationCodeKey!=None and Code!=None:#判断传入数据不为空
+                VerificationCodeResult=VerificationCode().Query(code=Code,verification_code_key=VerificationCodeKey)#获取判断
+                if VerificationCodeResult:#如果为真,进行登录验证
+                    if forgot_password_function_status:  # 查看状态是否关闭
+                        if Key==forget_password_key:#如果传入的key相等
+                            Md5Passwd = Md5Encryption().Md5Result(NewPasswd)  # 进行加密
+                            ChangePasswordResult=UserInfo().ForgetPassword(name=Name,new_passwd=Md5Passwd,email=Email)#进行修改密码
+                            if ChangePasswordResult:#如果修改成功
+                                return JsonResponse({'message': "修改成功啦~建议去配置文件中关闭忘记密码功能哦~", 'code': 200, })
+                            else:
+                                return JsonResponse({'message': "这个数据你是认真的嘛(。﹏。)", 'code': 501, })
+                        else:
+                            return JsonResponse({'message': "大黑阔别乱搞，莎莎好怕怕(*/ω＼*)", 'code': 404, })
                     else:
-                        return JsonResponse({'message': "这个数据你是认真的嘛(。﹏。)", 'code': 503, })
+                        return JsonResponse({'message': "小宝贝你没有开启忘记密码功能哦(๑•̀ㅂ•́)و✧", 'code': 403, })
                 else:
-                    return JsonResponse({'message': "大黑阔别乱搞，莎莎好怕怕(*/ω＼*)", 'code': 404, })
+                    return JsonResponse({'message': "验证码错误或者过期！", 'code': 503, })
             else:
-                return JsonResponse({'message': "小宝贝你没有开启忘记密码功能哦(๑•̀ㅂ•́)و✧", 'code': 403, })
+                return JsonResponse({'message': "验证码或者验证码秘钥不能为空！", 'code': 504, })
         except Exception as e:
             ErrorLog().Write("Web_BasicFunctions_User_RequestLogRecord(def)", e)
     else:

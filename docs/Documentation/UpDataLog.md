@@ -2223,3 +2223,11 @@ v0.94🌴
 在/api/registered/、/api/login/、/api/forget_password/这几个接口中添加验证码
 修改API说明文档
 ```
+
+>  2020.12.25
+
+```
+v0.94.1🌴
+修复验证码前端无法获取到header头中的key问题
+修复hrj无法识别验证码问题，反馈验证码过于阴间
+```

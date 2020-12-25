@@ -20,7 +20,7 @@ def Login(request):#用户登录，每次登录成功都会刷新一次Token
             Username=json.loads(request.body)["username"]
             Passwd=json.loads(request.body)["passwd"]
             VerificationCodeKey = json.loads(request.body)["verification_code_key"]#获取验证码关联的KEY
-            Code = json.loads(request.body)["verification_code"]#获取验证码
+            Code = json.loads(request.body)["verification_code"].lower()#获取验证码,把验证码全部转换成小写
             Md5Passwd=Md5Encryption().Md5Result(Passwd)#对密码加密
             if VerificationCodeKey!=None and Code!=None:#判断传入数据不为空
                 VerificationCodeResult=VerificationCode().Query(code=Code,verification_code_key=VerificationCodeKey)#获取判断
@@ -67,7 +67,7 @@ def UpdatePassword(request):#更新密码
             OldPasswd=json.loads(request.body)["old_passwd"]
             NewPasswd = json.loads(request.body)["new_passwd"]
             VerificationCodeKey = json.loads(request.body)["verification_code_key"]#获取验证码关联的KEY
-            Code = json.loads(request.body)["verification_code"]#获取验证码
+            Code = json.loads(request.body)["verification_code"].lower()#获取验证码
 
             if VerificationCodeKey!=None and Code!=None:#判断传入数据不为空
                 VerificationCodeResult=VerificationCode().Query(code=Code,verification_code_key=VerificationCodeKey)#获取判断
@@ -237,7 +237,7 @@ def ForgetPassword(request):#忘记密码接口
             NewPasswd = json.loads(request.body).get("new_passwd")
             Email = json.loads(request.body).get("email")
             VerificationCodeKey = json.loads(request.body)["verification_code_key"]#获取验证码关联的KEY
-            Code = json.loads(request.body)["verification_code"]#获取验证码
+            Code = json.loads(request.body)["verification_code"].lower()#获取验证码
 
             if VerificationCodeKey!=None and Code!=None:#判断传入数据不为空
                 VerificationCodeResult=VerificationCode().Query(code=Code,verification_code_key=VerificationCodeKey)#获取判断

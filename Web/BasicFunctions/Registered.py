@@ -27,7 +27,7 @@ def Registered(request):
             Email=json.loads(request.body).get("email")
             Key = json.loads(request.body).get("key")
             VerificationCodeKey = json.loads(request.body)["verification_code_key"]#获取验证码关联的KEY
-            Code = json.loads(request.body)["verification_code"]#获取验证码
+            Code = json.loads(request.body)["verification_code"].lower()#获取验证码
 
             if VerificationCodeKey!=None and Code!=None:#判断传入数据不为空
                 VerificationCodeResult=VerificationCode().Query(code=Code,verification_code_key=VerificationCodeKey)#获取判断

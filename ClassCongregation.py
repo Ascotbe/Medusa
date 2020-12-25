@@ -530,6 +530,13 @@ class randoms:  # 生成随机数
         for i in range(nub):
             salt += random.choice(H)
         return salt
+    def LowercaseAndNumbers(self, nub: int) -> str:#生成小写和数字的值
+        H = "abcdefghijklmnopqrstuvwxyz0123456789"
+        salt = ""
+        for i in range(nub):
+            salt += random.choice(H)
+        return salt
+
 
 
 class UrlProcessing:  # URL处理函数

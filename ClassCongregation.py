@@ -351,7 +351,7 @@ class VulnerabilityDetails:  # 所有数据库写入都是用同一个类
             self.algroup = medusa['algroup']  # 插件名称
             self.rank = medusa['rank']  # 漏洞等级
             self.disclosure = medusa['disclosure']  # 漏洞披露时间，如果不知道就写编写插件的时间
-            self.details = base64.b64encode(medusa['details'].encode(encoding="utf-8"))  # 对结果进行编码写入数据库，鬼知道数据里面有什么玩意
+            self.details = base64.b64encode(medusa['details'].encode(encoding="utf-8")).decode('utf-8')  # 对结果进行编码写入数据库，鬼知道数据里面有什么玩意
             self.affects = medusa['affects']  # 漏洞组件
             self.desc_content = medusa['desc_content']  # 漏洞描述
             self.suggest = medusa['suggest']  # 修复建议
@@ -428,7 +428,7 @@ class VulnerabilityDetails:  # 所有数据库写入都是用同一个类
             GetSsid = self.cur.lastrowid
             self.con.commit()
             self.con.close()
-            ScanInformation().Write(ssid=GetSsid,url=self.url,active_scan_id=self.active_scan_id,rank=self.rank,uid=self.uid,name=self.name)#调用web版数据表，写入ScanInformation关系表
+            ScanInformation().Write(scan_info_id=GetSsid,url=self.url,active_scan_id=self.active_scan_id,rank=self.rank,uid=self.uid,name=self.name)#调用web版数据表，写入ScanInformation关系表
         except Exception as e:
             ErrorLog().Write("ClassCongregation_VulnerabilityDetails(class)_Write(def)", e)
 

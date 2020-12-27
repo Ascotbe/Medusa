@@ -427,7 +427,7 @@ class MedusaQuery:#单个漏洞的详细内容查询表，具体写入表在Clas
                 JsonValues["rank"] = i[4]
                 JsonValues["suggest"] = i[5]
                 JsonValues["desc_content"] = i[6]
-                JsonValues["details"] = str(base64.b64decode(i[7]),encoding='utf-8')
+                JsonValues["details"] = i[7]
                 JsonValues["number"] = i[8]
                 JsonValues["author"] = i[9]
                 JsonValues["create_date"] = i[10]
@@ -435,8 +435,15 @@ class MedusaQuery:#单个漏洞的详细内容查询表，具体写入表在Clas
                 JsonValues["algroup"] = i[12]
                 JsonValues["version"] = i[13]
                 JsonValues["timestamp"] = i[14]
-                JsonValues["sid"] = i[15]
-                JsonValues["active_scan_id"] = i[16]
+                JsonValues["active_scan_id"] = i[15]
+                JsonValues["response_headers"] = i[17]
+                JsonValues["response_text"] = i[18]
+                JsonValues["response_byte"] = i[19]
+                JsonValues["response_status_code"] = i[20]
+                JsonValues["request_path_url"] = i[21]
+                JsonValues["request_body"] = i[22]
+                JsonValues["request_method"] = i[23]
+                JsonValues["request_headers"] = i[24]
                 result_list.append(JsonValues)
             self.con.close()
             return result_list

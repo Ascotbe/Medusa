@@ -10,8 +10,10 @@ from Modules.Citrix import Citrix
 from Modules.InformationLeakage import InformationLeakage
 from Modules.Rails import Rails
 from Modules.Kibana import Kibana
+from Modules.BaoTa import BaoTa
 from Modules.PHPStudy import PHPStudy
 from Modules.Mongo import Mongo
+from Modules.Dubbo import Dubbo
 from Modules.Liferay import Liferay
 from Modules.Weblogic import Weblogic
 from Modules.OA.Seeyou import Seeyou
@@ -25,6 +27,7 @@ from Modules.Apache.Flink import Flink
 from Modules.Apache.Log4j import Log4j
 from Modules.Apache.ActiveMQ import ActiveMQ
 from Modules.Apache.Solr import Solr
+from Modules.BIG_IP import BIG_IP
 from Modules.Apache.Tomcat import Tomcat
 from ClassCongregation import ProcessPool,UrlProcessing
 from Web.WebClassCongregation import OriginalProxyData,ActiveScanList
@@ -56,7 +59,10 @@ MedusaVulnerabilityList={
 "Tongda":Tongda.Main,
 "Weaver":Weaver.Main,
 "Weblogic":Weblogic.Main,
-"InformationLeakage":InformationLeakage.Main
+"Dubbo":Dubbo.Main,
+"BIG-IP":BIG_IP.Main,
+"InformationLeakage":InformationLeakage.Main,
+"BaoTa":BaoTa.Main
 }
 
 @app.task

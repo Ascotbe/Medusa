@@ -2231,3 +2231,16 @@ v0.94.1🌴
 修复验证码前端无法获取到header头中的key问题
 修复hrj无法识别验证码问题，反馈验证码过于阴间
 ```
+
+
+>  2020.12.27
+
+```
+v0.94.2🌴
+修复celery中配置redis数据库错误
+修复VulnerabilityScanning中Scan函数代理传值未能正常处理问题
+增加MedusaQuery表中查询结果
+修复ScanInformation表接收值错误问题
+修改API文档
+修复小问题若干
+```

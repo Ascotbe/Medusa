@@ -18,8 +18,8 @@ from typing import List, Tuple
 import threading
 import subprocess
 import hashlib
-from config import ceye_dnslog_url, ceye_dnslog_key, debug_mode,dnslog_name,port_threads_number,port_timeout_period,thread_timeout_number,user_agent_randomization,headers,user_agent_browser_type
-
+from config import ceye_dnslog_url, ceye_dnslog_key, debug_mode,dnslog_name,port_threads_number,port_timeout_period,thread_timeout_number,user_agent_browser_type
+import copy
 #########
 # 全局变量
 WriteFileUnixTimestamp = str(int(time.time()))
@@ -536,8 +536,33 @@ class randoms:  # 生成随机数
         for i in range(nub):
             salt += random.choice(H)
         return salt
+    def Numbers(self, nub: int) -> str:#生成小写和数字的值
+        H = "0123456789"
+        salt = ""
+        for i in range(nub):
+            salt += random.choice(H)
+        return salt
 
 
+class UniformResourceLocatorParameterSubstitution:#对URL参数进行替换
+    def Result(self,**kwargs):
+        Url=kwargs.get("url")
+        Vals=kwargs.get("vals")
+        ret = []
+        ArrayExtraction={}
+        ConnectionHandling= urllib.parse.urlparse(Url).query
+        PureUrl = Url.replace('?'+ConnectionHandling, '')
+        ParameterExtraction = urllib.parse.parse_qs(ConnectionHandling)
+        for i in ParameterExtraction.keys():#对提取的内容进行处理成json
+            ParameterExtraction[i]=ParameterExtraction[i][0]
+            ArrayExtraction[i]=ParameterExtraction[i]
+
+        for k in ParameterExtraction.keys():#对每个产生进行拼接处理
+            tmp_dict = copy.deepcopy(ParameterExtraction)
+            tmp_dict[k] = Vals
+            tmp_qs = urllib.parse.unquote(urllib.parse.urlencode(tmp_dict))
+            ret.append(PureUrl + "?" + tmp_qs)
+        return ret
 
 class UrlProcessing:  # URL处理函数
     def result(self, url: str) -> Tuple[str, str, int]:

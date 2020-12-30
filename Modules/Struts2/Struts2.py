@@ -11,7 +11,8 @@ from Modules.Struts2 import S2_045
 #from Modules.Struts2 import S2_046
 from Modules.Struts2 import S2_052
 from Modules.Struts2 import S2_057
-
+from Modules.Struts2 import S2_059
+from Modules.Struts2 import S2_061
 
 def Main(Pool,**kwargs):
     Pool.Append(S2_001.medusa, **kwargs)
@@ -24,6 +25,8 @@ def Main(Pool,**kwargs):
     Pool.Append(S2_052.medusa, **kwargs)
    # ThreadPool.Append(S2_046.medusa,** kwargs)
     Pool.Append(S2_045.medusa,**kwargs)
+    Pool.Append(S2_059.medusa, **kwargs)
+    Pool.Append(S2_061.medusa, **kwargs)
     Prompt("Struts2")
 
 

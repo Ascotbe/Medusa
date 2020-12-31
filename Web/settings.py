@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'wme1h&*11s!m)5fb)yjo97zt=bx^s3^$bb*18-#a!00&=k9(4o'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -35,7 +35,6 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'corsheaders',#跨域用的
-    'captcha',#这个是验证码
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -94,13 +93,10 @@ CORS_ORIGIN_WHITELIST = [
 ]
 
 CORS_ALLOW_METHODS = (
-    'DELETE',
     'GET',
     'OPTIONS',
-    'PATCH',
     'POST',
-    'PUT',
-    'VIEW',
+
 )
 
 CORS_ALLOW_HEADERS = (

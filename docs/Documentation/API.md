@@ -35,6 +35,9 @@
 /api/windows_portable_execute_analysis/
 /api/query_cross_site_script_project_info/
 /api/get_verification_code/
+/api/create_markdown_project/
+/api/query_markdown_project/
+/api/save_markdown_data/
 ```
 
 ### 注册接口
@@ -896,3 +899,76 @@ FileDate
 - 200：返回二进制图片数据，并且头部**VerificationCodeKey**为验证码相关的key
 - 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
 - 500：请使用GET请求
+
+
+
+### 创建协同作战项目
+
+`/api/create_markdown_project/`用来创建协同作战
+
+```
+{
+	"token": "xxxx",
+  "markdown_project_name": "xxx"
+}
+```
+
+>参数解释
+
+- `token`登录后返回的**token**
+- `markdown_project_name`项目名
+
+> 返回状态码
+
+- 200：创建成功啦~玛卡玛卡~
+- 403：小宝贝这是非法操作哦(๑•̀ㅂ•́)و✧
+- 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
+- 500：请使用POST请求
+
+### 查询协同作战项目
+
+`/api/query_markdown_project/`用来查询协同作战，返回所有属于该用户的项目
+
+```
+{
+	"token": "xxxx"
+}
+```
+
+>参数解释
+
+- `token`登录后返回的**token**
+
+> 返回状态码
+
+- 200：返回查询到的数据内容
+- 403：小宝贝这是非法操作哦(๑•̀ㅂ•́)و✧
+- 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
+- 500：请使用POST请求
+
+### 保存Markdown文档数据
+
+`/api/save_markdown_data/`用来保存Markdown文档数据
+
+```
+{
+	"token": "xxxx",
+	"markdown_data": "xxx",
+	"markdown_name": "xxx"
+}
+```
+
+>参数解释
+
+- `token`登录后返回的**token**
+- `markdown_data`文档数据
+- `markdown_name`文档名称
+
+> 返回状态码
+
+- 200：保存成功啦~阿巴阿巴~
+- 403：小宝贝这是非法操作哦(๑•̀ㅂ•́)و✧
+- 404：小朋友不是你的东西别乱动哦~~
+- 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
+- 500：请使用POST请求
+- 503：保存失败~玛卡巴卡~~

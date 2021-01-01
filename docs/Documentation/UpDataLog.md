@@ -2260,3 +2260,15 @@ v0.94.3🌴
 v0.94.4🌴
 修改Django一些配置错误问题
 ```
+
+>  大家新年快乐鸭~
+
+>  2021.1.1
+
+```
+v0.94.5🌴
+添加3个api：query_markdown_project、create_markdown_project、save_markdown_data
+添加两个数据库表MarkdownRelationship、Markdown
+修改API文档
+修改Django中urls中相关逻辑
+```

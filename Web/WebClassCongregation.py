@@ -1351,3 +1351,159 @@ class VerificationCode:#验证码相关数据库，用来验证验证码合法�
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_VerificationCode(class)_Query(def)", e)
             return None
+
+class MarkdownInfo:#存放markdown文档的所有数据
+    def __init__(self):
+        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        # 获取所创建数据的游标
+        self.cur = self.con.cursor()
+        # 创建表
+        try:
+            self.cur.execute("CREATE TABLE Markdown\
+                                (markdown_id INTEGER PRIMARY KEY,\
+                                markdown_name TEXT NOT NULL,\
+                                markdown_data TEXT NOT NULL,\
+                                creation_time TEXT NOT NULL,\
+                                update_time TEXT NOT NULL)")
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_MarkdownInfo(class)_init(def)", e)
+
+    def Write(self, **kwargs) -> bool or None:  # 写入相关信息
+        CreationTime = str(int(time.time()))  # 创建时间
+        MarkdownName = kwargs.get("markdown_name")#生成的markdown文档名
+        MarkdownData = kwargs.get("markdown_data")#用户传入的markdown数据
+        #MarkdownProjectData = kwargs.get("markdown_project_name")  # 用户传入的markdown数据
+        try:
+            self.cur.execute("INSERT INTO Markdown(markdown_name,markdown_data,creation_time,update_time)\
+                VALUES (?,?,?,?)", (MarkdownName,MarkdownData,CreationTime,CreationTime,))
+            # 提交
+            self.con.commit()
+            self.con.close()
+            return True
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_MarkdownInfo(class)_Write(def)", e)
+            return False
+    def CheckConflict(self,**kwargs):#检查name是否会冲突
+        try:
+            MarkdownName=kwargs.get("markdown_name")
+            self.cur.execute("select * from Markdown where markdown_name=?", (MarkdownName,))
+            if self.cur.fetchall():  # 判断是否有数据
+                self.con.close()
+                return True
+            else:
+                return False
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_Markdown(class)_CheckConflict(def)", e)
+            return None
+    def Update(self, **kwargs) -> bool or None:  # 如果存在就进行更新
+        UpdateTime = str(int(time.time()))  # 当前时间
+        MarkdownName = kwargs.get("markdown_name")#生成的markdown文档名
+        MarkdownData = kwargs.get("markdown_data")#用户传入的markdown数据
+        try:
+            self.cur.execute(
+                """UPDATE Markdown SET markdown_data = ?,update_time=? WHERE markdown_name = ? """,
+                (MarkdownData, UpdateTime, MarkdownName,))
+            # 提交
+            if self.cur.rowcount < 1:  # 用来判断是否更新成功
+                self.con.commit()
+                self.con.close()
+                return False
+            else:
+                self.con.commit()
+                self.con.close()
+                return True
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_MarkdownInfo(class)_Write(def)", e)
+            return None
+    def Query(self,**kwargs):  # 文本具体数据
+        try:
+            MarkdownName=kwargs.get("markdown_name")
+            self.cur.execute("select * from Markdown where markdown_name=?", (MarkdownName,))
+            result_list = []
+            for i in self.cur.fetchall():
+                JsonValues = {}
+                JsonValues["markdown_name"] = i[1]
+                JsonValues["markdown_data"] = i[2]
+                JsonValues["creation_time"] = i[3]
+                JsonValues["update_time"] = i[4]
+                result_list.append(JsonValues)
+            self.con.close()
+            return result_list
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_MarkdownInfo(class)_Query(def)", e)
+            return None
+
+class MarkdownRelationship:#markdown文档和用户相关的数据表
+    def __init__(self):
+        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        # 获取所创建数据的游标
+        self.cur = self.con.cursor()
+        # 创建表
+        try:
+            self.cur.execute("CREATE TABLE MarkdownRelationship\
+                                (markdown_relationship_id INTEGER PRIMARY KEY,\
+                                uid TEXT NOT NULL,\
+                                markdown_project_name TEXT NOT NULL,\
+                                markdown_name TEXT NOT NULL,\
+                                creation_time TEXT NOT NULL)")
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_MarkdownRelationship(class)_init(def)", e)
+
+    def Write(self, **kwargs) -> bool or None:  # 写入相关信息
+        CreationTime = str(int(time.time()))  # 创建时间
+        MarkdownName = kwargs.get("markdown_name")
+        Uid = kwargs.get("uid")
+        MarkdownProjectName = kwargs.get("markdown_project_name")
+        try:
+            self.cur.execute("INSERT INTO MarkdownRelationship(uid,markdown_project_name,markdown_name,creation_time)\
+                VALUES (?,?,?,?)", (Uid,MarkdownProjectName,MarkdownName,CreationTime,))
+            # 提交
+            self.con.commit()
+            self.con.close()
+            return True
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_MarkdownRelationship(class)_Write(def)", e)
+            return False
+    def CheckConflict(self,**kwargs):#检查name是否会冲突
+        try:
+            MarkdownName=kwargs.get("markdown_name")
+            self.cur.execute("select * from MarkdownRelationship where markdown_name=?", (MarkdownName,))
+            if self.cur.fetchall():  # 判断是否有数据
+                self.con.close()
+                return True
+            else:
+                return False
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_MarkdownRelationship(class)_CheckConflict(def)", e)
+            return None
+    def CheckPermissions(self,**kwargs):#检测用户是否有该项目的权限
+
+        try:
+            MarkdownName=kwargs.get("markdown_name")
+            Uid=kwargs.get("uid")
+            self.cur.execute("select * from MarkdownRelationship where markdown_name=? and uid=?", (MarkdownName,Uid,))
+            if self.cur.fetchall():  # 判断是否有数据
+                self.con.close()
+                return True
+            else:
+                return False
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_MarkdownRelationship(class)_CheckPermissions(def)", e)
+            return None
+
+    def Query(self, **kwargs):  #用来查询用户所属项目的全部信息
+        try:
+            Uid=kwargs.get("uid")
+            self.cur.execute("select * from MarkdownRelationship where uid=?", (Uid,))#查询用户相关信息
+            result_list = []
+            for i in self.cur.fetchall():
+                JsonValues = {}
+                JsonValues["markdown_project_name"] = i[2]
+                JsonValues["markdown_name"] = i[3]
+                JsonValues["creation_time"] = i[4]
+                result_list.append(JsonValues)
+            self.con.close()
+            return result_list
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_MarkdownRelationship(class)_Query(def)", e)
+            return None

@@ -68,6 +68,7 @@ urlpatterns = [
     #协同作战相关
     path('api/create_markdown_project/', Markdown.CreateMarkdownProject),#创建协同作战项目
     path('api/query_markdown_project/', Markdown.QueryMarkdownProject),#查询用户所有的协同作战项目
-    path('api/save_markdown_data/', Markdown.SaveMarkdownData),#创建协同作战文档
+    path('api/save_markdown_data/', Markdown.SaveMarkdownData),#保存协同作战文档
+    path('api/query_markdown_data/', Markdown.QueryMarkdownData),#查询协同作战中文档数据
 
 ]

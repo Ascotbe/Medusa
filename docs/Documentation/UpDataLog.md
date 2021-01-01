@@ -2271,4 +2271,8 @@ v0.94.5🌴
 添加两个数据库表MarkdownRelationship、Markdown
 修改API文档
 修改Django中urls中相关逻辑
+v0.94.6🌴
+添加1个api：query_markdown_data
+修改API文档
+修改一些报错信息描述错误
 ```

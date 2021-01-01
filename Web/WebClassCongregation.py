@@ -1393,7 +1393,7 @@ class MarkdownInfo:#存放markdown文档的所有数据
             else:
                 return False
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_Markdown(class)_CheckConflict(def)", e)
+            ErrorLog().Write("Web_WebClassCongregation_MarkdownInfo(class)_CheckConflict(def)", e)
             return None
     def Update(self, **kwargs) -> bool or None:  # 如果存在就进行更新
         UpdateTime = str(int(time.time()))  # 当前时间

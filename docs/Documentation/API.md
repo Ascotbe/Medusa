@@ -38,6 +38,7 @@
 /api/create_markdown_project/
 /api/query_markdown_project/
 /api/save_markdown_data/
+/api/query_markdown_data/
 ```
 
 ### 注册接口
@@ -972,3 +973,29 @@ FileDate
 - 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
 - 500：请使用POST请求
 - 503：保存失败~玛卡巴卡~~
+
+
+
+### 查询Markdown文档数据
+
+`/api/query_markdown_data/`用来查询Markdown文档数据
+
+```
+{
+	"token": "xxxx",
+	"markdown_name": "xxx"
+}
+```
+
+>参数解释
+
+- `token`登录后返回的**token**
+- `markdown_name`文档名称
+
+> 返回状态码
+
+- 200：返回查询的数据
+- 403：小宝贝这是非法操作哦(๑•̀ㅂ•́)و✧
+- 404：小朋友不是你的东西别乱动哦~~
+- 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
+- 500：请使用POST请求

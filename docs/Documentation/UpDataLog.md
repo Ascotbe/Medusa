@@ -2275,4 +2275,9 @@ v0.94.6🌴
 添加1个api：query_markdown_data
 修改API文档
 修改一些报错信息描述错误
+v0.94.7🌴
+修改一些错误
+删除API文档
+添加接口描述文档集合
+修改MarkdownRelated文档
 ```

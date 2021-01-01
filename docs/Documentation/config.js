@@ -45,7 +45,35 @@ let config = {
             title: '功能详情', path: '/FunctionDetails'
         },
         {
-            title: 'API 描述', path: '/API'
+            title: '接口描述', type: 'dropdown', items: [
+                {
+                    title: '用户相关', path: '/API/UserRelated'
+                },
+                {
+                    title: '首页相关', path: '/API/HomeRelated'
+                },
+                {
+                    title: '工具库相关', path: '/API/ToolRelated'
+                },
+                {
+                    title: 'XSS平台相关', path: '/API/CrossSiteScriptRelated'
+                },
+                {
+                    title: '协同作战相关', path: '/API/MarkdownRelated'
+                },
+                {
+                    title: '监控相关', path: '/API/MonitoringRelated'
+                },
+                {
+                    title: '主动扫描相关', path: '/API/ActiveScanningRelated'
+                },
+                {
+                    title: '被动扫描相关', path: '/API/PassiveScanningRelated'
+                },
+                {
+                    title: '验证码相关', path: '/API/VerificationCodeRelated'
+                },
+            ]
         },
 		{
             title: '插件列表', path: '/PluginDirectory'

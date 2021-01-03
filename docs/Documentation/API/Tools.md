@@ -2,7 +2,7 @@
 
 `/api/antivirus_software_compared/`用来对比文本中是否存在杀软
 
-```
+```json
 {
 	"token": "",
 	"process_name_list":[]
@@ -26,7 +26,7 @@
 
 `/api/windows_portable_execute_analysis/`用来对比文本中是否存在杀软
 
-```
+```json
 POST /api/windows_portable_execute_analysis/ HTTP/1.1
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryaFtQbWz7pBzNgCOv
 token:UserToken

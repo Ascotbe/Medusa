@@ -2,7 +2,7 @@
 
 `/api/homepage_default_data/`首页信息查询接口
 
-```
+```json
 {
 	"token": "XXXX"
 }
@@ -24,7 +24,7 @@
 
 `/api/homepage_vulnerability_distributiont_data/`首页信息查询接口
 
-```
+```json
 {
 	"token": "XXXX",
 	"start_time": "1594087497",
@@ -51,7 +51,7 @@
 
 `/api/homepage_github_monitor_data/`首页信息查询接口
 
-```
+```json
 {
 	"token": "XXXX",
 	"start_time": "1594087497",

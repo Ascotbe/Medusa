@@ -47,31 +47,31 @@ let config = {
         {
             title: '接口描述', type: 'dropdown', items: [
                 {
-                    title: '用户相关', path: '/API/UserRelated'
+                    title: '用户', path: '/API/User'
                 },
                 {
-                    title: '首页相关', path: '/API/HomeRelated'
+                    title: '首页', path: '/API/Home'
                 },
                 {
-                    title: '工具库相关', path: '/API/ToolRelated'
+                    title: '工具库', path: '/API/Tools'
                 },
                 {
-                    title: 'XSS平台相关', path: '/API/CrossSiteScriptRelated'
+                    title: 'XSS平台', path: '/API/CrossSiteScript'
                 },
                 {
-                    title: '协同作战相关', path: '/API/MarkdownRelated'
+                    title: '协同作战', path: '/API/Markdown'
                 },
                 {
-                    title: '监控相关', path: '/API/MonitoringRelated'
+                    title: '监控相关', path: '/API/Monitoring'
                 },
                 {
-                    title: '主动扫描相关', path: '/API/ActiveScanningRelated'
+                    title: '主动扫描', path: '/API/ActiveScanning'
                 },
                 {
-                    title: '被动扫描相关', path: '/API/PassiveScanningRelated'
+                    title: '被动扫描', path: '/API/PassiveScanning'
                 },
                 {
-                    title: '验证码相关', path: '/API/VerificationCodeRelated'
+                    title: '验证码', path: '/API/VerificationCode'
                 },
             ]
         },

@@ -2,7 +2,7 @@
 
 `/api/create_cross_site_script_project/`用来创建跨站脚本项目
 
-```
+```json
 {
 	"token": "",
 	"project_name":"",
@@ -27,7 +27,7 @@
 
 `/api/modify_cross_site_script_project/`用来修改跨站脚本项目
 
-```
+```json
 {
 	"token": "",
 	"project_associated_file_name":"",
@@ -53,7 +53,7 @@
 
 `/api/query_cross_site_script_project/`用来查询用户的跨站脚本项目
 
-```
+```json
 {
 	"token": "",
 }
@@ -74,7 +74,7 @@
 
 `/api/query_cross_site_script_project_data/`用来查询用户的跨站脚本项目中的数据信息
 
-```
+```json
 {
 	"token": "",
 	"project_associated_file_name":""
@@ -98,7 +98,7 @@
 
 `/api/query_cross_site_script_project_info/`用来查询用户的跨站脚本项目的详细信息
 
-```
+```json
 {
 	"token": "",
 	"project_associated_file_name":""
@@ -122,7 +122,7 @@
 
 `/api/read_default_cross_site_script_template/`用来跨站脚本中的默认数据有哪些
 
-```
+```json
 {
 	"token": ""
 }
@@ -143,7 +143,7 @@
 
 `/api/read_cross_site_script_template/`用来获取数据库中用户自定义的所有跨站脚本模板数据
 
-```
+```json
 {
 	"token": ""
 }
@@ -164,7 +164,7 @@
 
 `/api/save_cross_site_script_template/`用来生成用户自定义模板中的数据
 
-```
+```json
 {
 	"token": "",
 	"template_name":"",
@@ -190,7 +190,7 @@
 
 `/api/modify_cross_site_script_template/`用来修改用户自定义的模板数据
 
-```
+```json
 {
 	"token": "",
 	"template_name":"",

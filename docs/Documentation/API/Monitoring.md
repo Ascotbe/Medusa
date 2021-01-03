@@ -2,7 +2,7 @@
 
 `/api/github_monitor/`GitHubCVE数查询接口
 
-```
+```json
 {
 	"token": "xxx"
 }
@@ -23,7 +23,7 @@
 
 `/api/system_hardware_usage_query/`用来当前机器的CPU和内存使用率，区间为当前时间之前1小时
 
-```
+```json
 {
 	"token": ""
 }
@@ -44,7 +44,7 @@
 
 `/api/system_hardware_initialization/`用来当前机器的基础信息
 
-```
+```json
 {
 	"token": ""
 }

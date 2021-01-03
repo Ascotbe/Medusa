@@ -2,7 +2,7 @@
 
 `/api/vulnerability_scanning` 用来下发任务，如果下发成功返回**200**
 
-```
+```json
 {
 	"url": "www.ascotbe.com",
 	"token": "XXXXXXXXXXXXXXXX",
@@ -34,7 +34,7 @@
 
 `/api/active_scan_list_query` 用来查询用户下发了哪些任务列表，返回结果是**JSON**格式
 
-```
+```json
 {
 	"token": "XXXXX"
 }
@@ -56,7 +56,7 @@
 
 `/api/scan_information_query` 用来查询用户某个任务漏洞列表，返回结果是`JSON`格式
 
-```
+```json
 {
 	"token": "XXXXX",
 	"active_scan_id":"1"
@@ -80,7 +80,7 @@
 
 `/api/medusa_query`用来查询某个任务中某个漏洞详细信息，返回结果是`JSON`格式
 
-```
+```json
 {
 	"token": "XXXXX",
 	"scan_info_id":"1"
@@ -104,7 +104,7 @@
 
 `/api/generate_word`用来生成报告使用，返回结果存在生成文件名
 
-```
+```json
 {
 	"token": "XXX",
 	"active_scan_id": "X"
@@ -128,7 +128,7 @@
 
 `/api/download_word/`下载报告使用
 
-```
+```json
 {
    "token": "XXX",
    "file_name": "X"
@@ -152,7 +152,7 @@
 
 `/api/actively_scan_port_information/`用来查询主动扫描中的端口扫描信息
 
-```
+```json
 {
 	"token": "XXXXX",
 	"active_scan_id":"1"

@@ -2,7 +2,7 @@
 
 `/api/create_markdown_project/`用来创建协同作战
 
-```
+```json
 {
 	"token": "xxxx",
   "markdown_project_name": "xxx"
@@ -25,7 +25,7 @@
 
 `/api/query_markdown_project/`用来查询协同作战，返回所有属于该用户的项目
 
-```
+```json
 {
 	"token": "xxxx"
 }
@@ -72,7 +72,7 @@
 
 `/api/save_markdown_data/`用来保存Markdown文档数据
 
-```
+```json
 {
 	"token": "xxxx",
 	"markdown_data": "xxx",
@@ -101,7 +101,7 @@
 
 `/api/query_markdown_data/`用来查询Markdown文档数据
 
-```
+```json
 {
 	"token": "xxxx",
 	"markdown_name": "xxx"

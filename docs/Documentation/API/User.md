@@ -2,7 +2,7 @@
 
 `/api/registered`该接口只能注册用户权限账户，接收数据格式如下
 
-```
+```json
 {
 	"show_name": "Rei Ayanami",
 	"username": "ascotbe",
@@ -44,7 +44,7 @@
 
 `/api/login`接收数据如下，登录成功返回**token**，并且具有时效性（目前暂无验证码后续更新
 
-```
+```json
 {
 	"username": "ascotbe",
 	"passwd": "Soryu Asuka Langley",
@@ -72,7 +72,7 @@
 
 `/api/user_info/`获取个人详细信息使用
 
-```
+```json
 {
    "token": "XXX"
 }
@@ -93,7 +93,7 @@
 
 `/api/update_password/`更新用户密码
 
-```
+```json
 {
 	"username": "ascotbe",
 	"old_passwd": "Soryu Asuka Langley",
@@ -123,7 +123,7 @@
 
 `/api/update_show_name/`更新用户显示名称
 
-```
+```json
 {
    "token": "xxxxx",
    "new_show_name": "阿巴阿巴阿巴"
@@ -146,7 +146,7 @@
 
 `/api/update_key/`更新用户key
 
-```
+```json
 {
    "token": "xxxxx"
 }
@@ -167,7 +167,7 @@
 
 `/api/forget_password/`用来忘记密码修改使用
 
-```
+```json
 {
 	"key": "XXXXX",
 	"name": "ascotbe",

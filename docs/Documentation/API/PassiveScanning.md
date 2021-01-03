@@ -2,7 +2,7 @@
 
 `/api/create_proxy_scan_project/`创建代理扫描项目
 
-```
+```json
 {
     "token": "XXXXXX",
     "proxy_project_name":"Soryu Asuka Langley",

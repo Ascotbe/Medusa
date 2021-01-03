@@ -65,7 +65,7 @@ Content-Disposition: form-data; name="img_vspace"
 
 
 ------WebKitFormBoundaryNjZKAB66SVyL1INA--
-'''.format(RD)
+'''.format(RD).encode('utf-8')
         Headers['Content-Type']='application/x-www-form-urlencoded'
         Headers['Accept']='text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
 

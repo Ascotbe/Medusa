@@ -435,7 +435,7 @@ class MedusaQuery:#单个漏洞的详细内容查询表，具体写入表在Clas
                 JsonValues["algroup"] = i[12]
                 JsonValues["version"] = i[13]
                 JsonValues["timestamp"] = i[14]
-                JsonValues["active_scan_id"] = i[15]
+                #JsonValues["active_scan_id"] = i[15]
                 JsonValues["response_headers"] = i[17]
                 JsonValues["response_text"] = i[18]
                 JsonValues["response_byte"] = i[19]

@@ -347,7 +347,7 @@ class VulnerabilityDetails:  # 所有数据库写入都是用同一个类
             self.name = medusa['name']  # 漏洞名称
             self.number = medusa['number']  # CVE编号
             self.author = medusa['author']  # 插件作者
-            self.create_date = medusa['create_date']  # 插件编辑时间
+            self.create_date = medusa['create_date']  # 插件创建时间
             self.algroup = medusa['algroup']  # 插件名称
             self.rank = medusa['rank']  # 漏洞等级
             self.disclosure = medusa['disclosure']  # 漏洞披露时间，如果不知道就写编写插件的时间

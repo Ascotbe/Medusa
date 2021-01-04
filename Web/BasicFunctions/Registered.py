@@ -61,9 +61,9 @@ def Registered(request):
                     else:
                         return JsonResponse({'message': '小宝贝你没有开启注册功能哦！！', 'code': 503, })
                 else:
-                    return JsonResponse({'message': "验证码错误或者过期！", 'code': 503, })
+                    return JsonResponse({'message': "验证码错误或者过期！", 'code': 504, })
             else:
-                return JsonResponse({'message': "验证码或者验证码秘钥不能为空！", 'code': 504, })
+                return JsonResponse({'message': "验证码或者验证码秘钥不能为空！", 'code': 505, })
         except Exception as e:
             ErrorLog().Write("Web_BasicFunctions_Registered_Registered(def)", e)
     else:

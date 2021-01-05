@@ -1443,6 +1443,8 @@ class MarkdownRelationship:#markdown文档和用户相关的数据表
             self.cur.execute("CREATE TABLE MarkdownRelationship\
                                 (markdown_relationship_id INTEGER PRIMARY KEY,\
                                 uid TEXT NOT NULL,\
+                                markdown_project_owner TEXT NOT NULL,\
+                                markdown_project_invitation_code TEXT NOT NULL,\
                                 markdown_project_name TEXT NOT NULL,\
                                 markdown_name TEXT NOT NULL,\
                                 creation_time TEXT NOT NULL)")
@@ -1451,12 +1453,14 @@ class MarkdownRelationship:#markdown文档和用户相关的数据表
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
         CreationTime = str(int(time.time()))  # 创建时间
-        MarkdownName = kwargs.get("markdown_name")
+        MarkdownName = kwargs.get("markdown_name")#文件名确保唯一性
         Uid = kwargs.get("uid")
-        MarkdownProjectName = kwargs.get("markdown_project_name")
+        MarkdownProjectName = kwargs.get("markdown_project_name")#项目的名称
+        MarkdownProjectOwner = kwargs.get("markdown_project_owner")#项目是否是该用户所有，如果是值为1，如果不是值为0
+        MarkdownProjectInvitationCode = kwargs.get("markdown_project_invitation_code")#项目的邀请码，输入邀请码可以直接加入项目
         try:
-            self.cur.execute("INSERT INTO MarkdownRelationship(uid,markdown_project_name,markdown_name,creation_time)\
-                VALUES (?,?,?,?)", (Uid,MarkdownProjectName,MarkdownName,CreationTime,))
+            self.cur.execute("INSERT INTO MarkdownRelationship(uid,markdown_project_owner,markdown_project_invitation_code,markdown_project_name,markdown_name,creation_time)\
+                VALUES (?,?,?,?,?,?)", (Uid,MarkdownProjectOwner,MarkdownProjectInvitationCode,MarkdownProjectName,MarkdownName,CreationTime,))
             # 提交
             self.con.commit()
             self.con.close()
@@ -1464,6 +1468,37 @@ class MarkdownRelationship:#markdown文档和用户相关的数据表
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_MarkdownRelationship(class)_Write(def)", e)
             return False
+    def CheckInvitationCode(self,**kwargs):#检查邀请码是否会冲突
+        try:
+            MarkdownProjectInvitationCode=kwargs.get("markdown_project_invitation_code")
+            self.cur.execute("select * from MarkdownRelationship where markdown_project_invitation_code=?", (MarkdownProjectInvitationCode,))
+            if self.cur.fetchall():  # 判断是否有数据
+                self.con.close()
+                return True
+            else:
+                return False
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_MarkdownRelationship(class)_CheckInvitationCode(def)", e)
+            return None
+    def InvitationCodeToQueryProjectInformation(self,**kwargs):#通过验证码查询项目信息，用来加入项目使用
+        try:
+            MarkdownProjectInvitationCode=kwargs.get("markdown_project_invitation_code")
+            self.cur.execute("select * from MarkdownRelationship where markdown_project_invitation_code=?", (MarkdownProjectInvitationCode,))  # 查询用户相关信息
+            result_list = []
+            if self.cur.fetchall():#判断是否有数据
+                for i in self.cur.fetchall():
+                    JsonValues = {}
+                    JsonValues["uid"] = i[1]
+                    JsonValues["markdown_project_name"] = i[4]
+                    JsonValues["markdown_name"] = i[5]
+                    result_list.append(JsonValues)
+                self.con.close()
+                return result_list
+            else:
+                return None
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_MarkdownRelationship(class)_InvitationCodeToQueryProjectInformation(def)", e)
+            return None
     def CheckConflict(self,**kwargs):#检查name是否会冲突
         try:
             MarkdownName=kwargs.get("markdown_name")
@@ -1498,9 +1533,11 @@ class MarkdownRelationship:#markdown文档和用户相关的数据表
             result_list = []
             for i in self.cur.fetchall():
                 JsonValues = {}
-                JsonValues["markdown_project_name"] = i[2]
-                JsonValues["markdown_name"] = i[3]
-                JsonValues["creation_time"] = i[4]
+                JsonValues["markdown_project_owner"] = i[2]
+                JsonValues["markdown_project_invitation_code"] = i[3]
+                JsonValues["markdown_project_name"] = i[4]
+                JsonValues["markdown_name"] = i[5]
+                JsonValues["creation_time"] = i[6]
                 result_list.append(JsonValues)
             self.con.close()
             return result_list

@@ -2298,3 +2298,13 @@ v0.94.9🌴
 删除一些不必要返回字段
 添加接口中返回字段的解释
 ```
+
+>  2021.1.5
+
+```
+v0.95🌴
+添加CreateMarkdownProject函数中的邀请码生成
+添加MarkdownRelationship表中的2个字段
+添加MarkdownRelationship类中几个鉴权函数
+修改一些描述错误
+```

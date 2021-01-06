@@ -31,23 +31,19 @@ from Modules.Apache.Solr import Solr
 from Modules.BIG_IP import BIG_IP
 from Modules.Apache.Tomcat import Tomcat
 import tldextract
-from Subdomain import SubdomainSearch
 import ClassCongregation
 import Banner
 import argparse
 import os
 from config import headers,user_agent_randomization,proxies
 
-parser = argparse.ArgumentParser()#description="xxxxxx")
+parser = argparse.ArgumentParser()
 #UrlGroup = parser.add_mutually_exclusive_group()#定义一个互斥参数组
 #UrlGroup .add_argument("-q", "--quiet", action="store_true")#增加到互斥参数组里面去
 parser.add_argument('-u','--Url',type=str,help="Target url")
 parser.add_argument('-m','--Module',type=str,help="Scan an application individually")
-#parser.add_argument('-p','--ProxiesIP',type=str,help="Need to enter a proxy IP")
-#parser.add_argument('-a','--Agent',type=str,help="Specify a header file or use a random header")
 parser.add_argument('-t','--ProcessNumber',type=int,help="Set the number of process, the default number of process 5.")
 parser.add_argument('-f','--InputFileName',type=str,help="Specify bulk scan file batch scan")
-#parser.add_argument('-s','--Subdomain',help="Collect subdomains",action="store_true")
 parser.add_argument('-PL', '--PortListInformation', type=str, help="The input port format is 22,445,3389")
 parser.add_argument('-PR', '--PortRangeInformation', type=str, help="The input port format is 1-65535")
 
@@ -91,42 +87,35 @@ MedusaModuleList={
 }
 
 
-
-def InitialScan(Pool,InputFileName,Module,ActiveScanId,Uid,Headers,Url):
+def SingleTargetProcessing(Pool,Module,ActiveScanId,Uid,Headers,Url):#单个目标扫描处理
     try:
 
-        if InputFileName==None:
-            try:
-
-                print("\033[32m[ + ] Scanning target domain:\033[0m" + "\033[33m {}\033[0m".format(Url))
-                GOV = tldextract.extract(Url)
-                if GOV.suffix.lower() == "gov.cn":  # 禁止扫描
-                    print("\033[31m[ ! ] 扫描你🐎的国家网站呢？\033[0m")
-                    os._exit(0)  # 直接退出整个函数
-                San(Pool,Module,ActiveScanId,Uid,Headers,Url)
-            except Exception as e:
-                ClassCongregation.ErrorLog().Write("InitialScan(def)SingleTarget", e)
-        elif InputFileName!=None:
-            try:
-                with open(InputFileName, encoding='utf-8') as f:
-                    for UrlLine in f:#设置头文件使用的字符类型和开头的名字
-                        try:
-                            Url=UrlLine.strip("\r\n")
-                            GOV = tldextract.extract(Url)
-                            print("\033[32m[ + ] In batch scan, the current target is:\033[0m"+"\033[33m {}\033[0m".format(UrlLine.replace('\n', '')))
-                            if GOV.suffix.lower() == "gov.cn":  # 禁止扫描
-                                print("\033[31m[ ! ] 扫描你🐎的国家网站呢？\033[0m")
-                                os._exit(0)  # 直接退出整个函数
-                            San(Pool,Module,ActiveScanId,Uid,Headers,Url)
-                        except Exception as e:
-                            ClassCongregation.ErrorLog().Write("InitialScan(def)CyclicError", e)
-            except Exception as e:
-                ClassCongregation.ErrorLog().Write("InitialScan(def)ErrorReadingFile", e)
-                print("\033[31m[ ! ] Please check the file path or the file content is correct\033[0m")
+        print("\033[32m[ + ] Scanning target domain:\033[0m" + "\033[33m {}\033[0m".format(Url))
+        GOV = tldextract.extract(Url)
+        if GOV.suffix.lower() == "gov.cn":  # 禁止扫描
+            print("\033[31m[ ! ] 扫描你🐎的国家网站呢？\033[0m")
+            os._exit(0)  # 直接退出整个函数
+        San(Pool, Module, ActiveScanId, Uid, Headers, Url)
     except Exception as e:
-        ClassCongregation.ErrorLog().Write("InitialScan(def)functionCallError", e)
-        print("\033[31m[ ! ] Please enter the correct file path!\033[0m")
+        ClassCongregation.ErrorLog().Write("InitialScan(def)SingleTarget", e)
 
+def MultiTargetProcessing(Pool,InputFileName,Module,ActiveScanId,Uid,Headers):#多目标处理
+    try:
+        with open(InputFileName, encoding='utf-8') as f:
+            for UrlLine in f:#设置头文件使用的字符类型和开头的名字
+                try:
+                    Url=UrlLine.strip("\r\n")
+                    GOV = tldextract.extract(Url)
+                    print("\033[32m[ + ] In batch scan, the current target is:\033[0m"+"\033[33m {}\033[0m".format(UrlLine.replace('\n', '')))
+                    if GOV.suffix.lower() == "gov.cn":  # 禁止扫描
+                        print("\033[31m[ ! ] 扫描你🐎的国家网站呢？\033[0m")
+                        os._exit(0)  # 直接退出整个函数
+                    San(Pool,Module,ActiveScanId,Uid,Headers,Url)
+                except Exception as e:
+                    ClassCongregation.ErrorLog().Write("InitialScan(def)CyclicError", e)
+    except Exception as e:
+        ClassCongregation.ErrorLog().Write("InitialScan(def)ErrorReadingFile", e)
+        print("\033[31m[ ! ] Please check the file path or the file content is correct\033[0m")
 
 def San(Pool,Module,ActiveScanId,Uid,Headers,Url):
     #POC模块存进多进程池，这样如果批量扫描会变快很多
@@ -161,13 +150,19 @@ if __name__ == '__main__':
     InputFileName = args.InputFileName#批量扫描文件所在位置
     Url = args.Url
     Module=args.Module#单独模块扫描功能
-    #Subdomain=args.Subdomain#开启子域名枚举
     ProcessNumber=args.ProcessNumber#要使用的进程数默认15
-
     PortListInformation = args.PortListInformation  # 字典类型端口
     PortRangeInformation = args.PortRangeInformation  # 范围型端口
     if ProcessNumber==None:#如果进程数为空，那么默认为5
         ProcessNumber=5
+
+    ActiveScanId="Soryu Asuka Langley"
+    Uid = "Ayanami Rei"
+
+    Pool=ClassCongregation.ProcessPool()#定义一个进程池
+
+    if not user_agent_randomization:  # 如果值为Ture
+        headers["User-Agent"] = ClassCongregation.AgentHeader().result()  # 传入随机头
 
     if Url==None and InputFileName==None:#如果找不到URL的话直接退出
         print("\033[31m[ ! ] Incorrect input, please enter -h to view help\033[0m")
@@ -175,45 +170,28 @@ if __name__ == '__main__':
     elif Url!=None and InputFileName!=None:#如果既输入URL又输入URL文件夹一样退出
         print("\033[31m[ ! ] Incorrect input, please enter -h to view help\033[0m")
         os._exit(0)#直接退出整个函数
+    elif Url != None and InputFileName == None:  # 单个目标扫描
+        #只对单个URL进行端口扫描
+        if PortListInformation == None and PortRangeInformation == None:  # 默认默认扫描端口信息
+            print("\033[32m[ + ] Use default port detection module \033[0m")
+            Pool.PortAppend(Port, Url=Url, PortInformation="", PortType=3, ActiveScanId=ActiveScanId, Uid=Uid)
+        elif PortListInformation != None and PortRangeInformation != None:  # 都不等于空的情况
+            print("\033[31m[ ! ] Only one format port can be entered, please use -h to view the help file!\033[0m")
+            os._exit(0)  # 直接退出整个函数
+        elif PortListInformation == None and PortRangeInformation != None:  # 输入范围型端口
+            PortType = 1
+            Pool.PortAppend(Port, Url=Url, PortInformation=PortRangeInformation, PortType=1, ActiveScanId=ActiveScanId,
+                            Uid=Uid)
+            print("\033[32m[ + ] The scan range is: " + "\033[0m" + "\033[35m" + PortRangeInformation + "\033[0m")
+        elif PortListInformation != None and PortRangeInformation == None:  # 输入字典型端口
+            PortType = 2
+            Pool.PortAppend(Port, Url=Url, PortInformation=PortListInformation, PortType=2, ActiveScanId=ActiveScanId,
+                            Uid=Uid)
+            print("\033[32m[ + ] The scanned dictionary is" + "\033[0m" + "\033[35m" + PortListInformation + "\033[0m")
+        SingleTargetProcessing(Pool, Module,ActiveScanId,Uid,headers,Url)#最后启动主扫描函数
 
-    ActiveScanId="Soryu Asuka Langley"
-    Uid = "Ayanami Rei"
-
-    Pool=ClassCongregation.ProcessPool()#定义一个进程池
-    #子域名探测关闭
-    # if Subdomain:#如果传入-s启动子域名探测
-    #     Pool.Append(SubdomainSearch, Url, AgentHeader, proxies=Proxies,ActiveScanId=ActiveScanId,Uid=Uid)
-
-    ################
-    #对端口传入进行判断
-    ################
-    if PortListInformation == None and PortRangeInformation == None:  # 默认默认扫描端口信息
-        print("\033[32m[ + ] Use default port detection module \033[0m")
-        Pool.PortAppend(Port,Url=Url,PortInformation="",PortType=3,ActiveScanId=ActiveScanId,Uid=Uid)
-    elif PortListInformation != None and PortRangeInformation != None:  # 都不等于空的情况
-        print("\033[31m[ ! ] Only one format port can be entered, please use -h to view the help file!\033[0m")
-        os._exit(0)  # 直接退出整个函数
-    elif PortListInformation == None and PortRangeInformation != None:  # 输入范围型端口
-        PortType = 1
-        Pool.PortAppend(Port,Url=Url ,PortInformation=PortRangeInformation, PortType=1, ActiveScanId=ActiveScanId, Uid=Uid)
-        print("\033[32m[ + ] The scan range is: "+"\033[0m"+"\033[35m"+PortRangeInformation+"\033[0m")
-    elif PortListInformation != None and PortRangeInformation == None:  # 输入字典型端口
-        PortType = 2
-        Pool.PortAppend(Port, Url=Url,PortInformation=PortListInformation, PortType=2, ActiveScanId=ActiveScanId, Uid=Uid)
-        print("\033[32m[ + ] The scanned dictionary is"+"\033[0m"+"\033[35m"+ PortListInformation+ "\033[0m")
-
-
-    if not user_agent_randomization:  # 如果值为Ture
-        headers["User-Agent"] = ClassCongregation.AgentHeader().result()  # 传入随机头
-    InitialScan(Pool,InputFileName, Module,ActiveScanId,Uid,headers,Url)#最后启动主扫描函数，这样如果多个IP的话优化速度，里面会做url或者url文件的判断
+    elif Url == None and InputFileName != None:  # 多个目标扫描
+        MultiTargetProcessing(Pool,InputFileName, Module,ActiveScanId,Uid,headers)#最后启动主扫描函数
     print("\033[31m[ ! ] Scan is complete, please see the ScanResult file\033[0m")
 
-
-#Url和proxies写到kwargs中
-#Headers写到配置文件中
-# from IPy import IP
-# ip = IP('192.168.0.0/28')#后面批量生成C段扫描会用到
-# print(ip.len())#IP个数有多少
-# for x in ip:
-#     print(x)
 

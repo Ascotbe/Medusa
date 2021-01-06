@@ -21,6 +21,36 @@
 - 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
 - 500：请使用POST请求
 
+
+
+### 加入协同作战项目
+
+`api/join_markdown_project/`用来加入协同作战
+
+```json
+{
+	"token": "xxxx",
+    "markdown_project_invitation_code": "xxx"
+}
+```
+
+>参数解释
+
+- `token`登录后返回的**token**
+- `markdown_project_invitation_code`项目生成的随机秘钥
+
+> 返回状态码
+
+- 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
+- 200：加入项目成功啦~咕噜咕噜~
+- 403：小宝贝这是非法操作哦(๑•̀ㅂ•́)و✧
+- 404：小宝贝不要调皮哦(⊙x⊙;)
+- 500：请使用POST请求
+- 501：小宝贝邀请码的长度不合规哦Σ(っ °Д °;)っ
+- 503：这就是你的项目，瞎鸡儿加个啥
+
+### 
+
 ### 查询协同作战项目
 
 `/api/query_markdown_project/`用来查询协同作战，返回所有属于该用户的项目
@@ -37,15 +67,21 @@
 
 > 返回状态码
 
+- 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
+
 - 200：返回查询到的数据内容
 
   ```json
   {
   	"message": [{
+      "markdown_project_owner": "xxddddx",
+      "markdown_project_invitation_code": "xxddddx",
   		"markdown_project_name": "xxddddx",
   		"markdown_name": "uGvAGWO1N9IQOd7JywecwwF0iXpkfAumL4s7Sr5DLaqx3UDdA5BaBvK6DtQ8RqDboMLYtw1sEr2zHkBvmqW8MASFAYhvcazSpyUQ5tGx8gaBMQT2zrnjZKDCCQDEAg7AycTylGHnqojhJh4393wpO6EKDytdcaocY8cCz4W70vmY31JkQzwkrIyk5E1IvSDbphlROpeDyaLZr0XzSud1uAUfbPC0lOPAOGFs5CQtbvSrn8I5OHemMfhMvm",
   		"creation_time": "1609480740"
   	}, {
+      "markdown_project_owner": "xxddddx",
+      "markdown_project_invitation_code": "xxddddx",
   		"markdown_project_name": "xxddddx",
   		"markdown_name": "NFDYXeTeniuN0JhMWMEQqvJwYr3Nrwq7DP0AO8WCb3YwANGBBafetFgeSTr3xA4dqa48WJpgRiNEplu9VqWy9Q2dRokzT9p9QrqG6VU4IYTkjr5r0jTNLtn7Nm795U1HoxlwgMAXTBF1SAyZpIgsoVSRKadCQpW4aOl4DB2ohtRUlU703aRETVbmyQKLbPRhQnKIsp1PXS7Sz4KojQa0kIaCvtpQfwHT4Vpuv2c0q2gqE4klJf9JvnpUkc",
   		"creation_time": "1609480951"
@@ -58,13 +94,13 @@
 
   **message有中存在多个数据**
 
+  - `markdown_project_owner`项目是否所属用户，1表示属于，0表示不属于
+  - `markdown_project_invitation_code`邀请别人加入项目的邀请码
   - `markdown_project_name`项目名称
   - `markdown_name`文档名称
   - `creation_time`项目创建时间
 
 - 403：小宝贝这是非法操作哦(๑•̀ㅂ•́)و✧
-
-- 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
 
 - 500：请使用POST请求
 
@@ -88,10 +124,10 @@
 
 > 返回状态码
 
+- 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
 - 200：保存成功啦~阿巴阿巴~
 - 403：小宝贝这是非法操作哦(๑•̀ㅂ•́)و✧
 - 404：小朋友不是你的东西别乱动哦~~
-- 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
 - 500：请使用POST请求
 - 503：保存失败~玛卡巴卡~~
 

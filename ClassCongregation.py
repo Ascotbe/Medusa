@@ -441,7 +441,7 @@ class ErrorLog:  # 报错写入日志
         elif sys.platform == "linux" or sys.platform == "darwin":
             filename = os.path.split(os.path.realpath(__file__))[0] + '/Log/'+LogDate+'.log'  # 获取当前文件所在的目录，即父目录
         # filename=os.path.realpath(__file__)#获取当前文件名
-        log_format = '%(asctime)s - %(pathname)s[line:%(lineno)d] - %(levelname)s: %(message)s'
+        log_format = '%(asctime)s - %(processName)s[%(process)d] - %(levelname)s: %(message)s'
         logging.basicConfig(filename=filename, filemode='a', level=logging.INFO,
                             format=log_format)  # 初始化配置信息
 
@@ -938,10 +938,10 @@ class GetAnalysisFileStoragePath:  # 获取分析文件存储路径类
     def Result(self) -> str:
         system_type = sys.platform
         if system_type == "win32" or system_type == "cygwin":
-            TempFileLocation = GetRootFileLocation().Result()+"\\Web\\ToolsUtility\\AnalysisFileStorage\\"
+            TempFileLocation = GetRootFileLocation().Result()+"\\Web\\ToolsUtility\\BinaryAnalysis\\AnalysisFileStorage\\"
             return TempFileLocation
         elif system_type == "linux" or system_type == "darwin":
-            TempFileLocation = GetRootFileLocation().Result()+"/Web/ToolsUtility/AnalysisFileStorage/"
+            TempFileLocation = GetRootFileLocation().Result()+"/Web/ToolsUtility/BinaryAnalysis/AnalysisFileStorage/"
             return TempFileLocation
 
 

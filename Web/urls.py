@@ -18,7 +18,8 @@ from Web.BasicFunctions import VulnerabilityScanning,VulnerabilityQuery,Register
 from Web.CrossSiteScriptHub import CrossSiteScript,TemplateManagement
 from Web.SystemInfo import HardwareInfo
 from Web.CommonVulnerabilityDetection import Github
-from Web.ToolsUtility import AntivirusSoftware,PortableExecute,ExecutableLinkableFormat
+from Web.ToolsUtility.AntivirusSoftwareMatching import AntivirusSoftware
+from Web.ToolsUtility.BinaryAnalysis import PortableExecute
 from Web.CollaborationPlatform import Markdown
 urlpatterns = [
     #用户相关

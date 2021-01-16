@@ -1,6 +1,6 @@
 from Web.WebClassCongregation import UserInfo,PortableExecutableAnalyticalData
 from django.http import JsonResponse
-from ClassCongregation import ErrorLog,randoms,GetAnalysisFileStoragePath
+from ClassCongregation import ErrorLog,GetAnalysisFileStoragePath
 import time
 from config import portable_execute_file_size
 from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord

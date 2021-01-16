@@ -10,7 +10,7 @@
   "dependencies": {
     "98.css": "^0.1.16",
     "ant-design-vue": "^1.6.4",
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "echarts": "^4.8.0",
     "js-base64": "^3.6.0",

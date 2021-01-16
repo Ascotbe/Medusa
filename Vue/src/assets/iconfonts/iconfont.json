@@ -1,0 +1,65 @@
+{
+  "id": "1734998",
+  "name": "Medusa",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "3865401",
+      "name": "安全中心",
+      "font_class": "anquanzhongxin",
+      "unicode": "e608",
+      "unicode_decimal": 58888
+    },
+    {
+      "icon_id": "3901357",
+      "name": "安全标志",
+      "font_class": "anquanbiaozhi",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
+    },
+    {
+      "icon_id": "13881057",
+      "name": "水稻.SVG",
+      "font_class": "shuidaoSVG",
+      "unicode": "e62a",
+      "unicode_decimal": 58922
+    },
+    {
+      "icon_id": "13881059",
+      "name": "彩虹.SVG",
+      "font_class": "caihongSVG",
+      "unicode": "e62b",
+      "unicode_decimal": 58923
+    },
+    {
+      "icon_id": "13881063",
+      "name": "农民.SVG",
+      "font_class": "nongminSVG",
+      "unicode": "e62c",
+      "unicode_decimal": 58924
+    },
+    {
+      "icon_id": "13881064",
+      "name": "果树.SVG",
+      "font_class": "guoshuSVG",
+      "unicode": "e62d",
+      "unicode_decimal": 58925
+    },
+    {
+      "icon_id": "13881067",
+      "name": "向日葵.SVG",
+      "font_class": "xiangrikuiSVG",
+      "unicode": "e62e",
+      "unicode_decimal": 58926
+    },
+    {
+      "icon_id": "13881300",
+      "name": "害虫.SVG",
+      "font_class": "haichongSVG",
+      "unicode": "e633",
+      "unicode_decimal": 58931
+    }
+  ]
+}

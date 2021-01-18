@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-12-22 20:02:53
+ * @LastEditTime: 2021-01-18 17:51:37
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /undefined/Users/ascotbe/code/Medusa/docs/Documentation/config.js
+ */
 let config = {
     title: 'Medusa文档',
     home: 'Home.md',
@@ -7,7 +15,14 @@ let config = {
             title: '简介', path: '/'
         },
         {
-            title: '快速入门', path: '/QuickStart'
+            title: '快速入门', type: 'dropdown', items: [
+                {
+                    title: 'Web安装说明', path: '/QuickStart/WebVersionInstallation'
+                },
+                {
+                    title: 'Bash使用说明', path: '/QuickStart/BashVersion'
+                }
+            ]
         },
 		{
             title: '插件编写', type: 'dropdown', items: [
@@ -77,13 +92,6 @@ let config = {
         },
 		{
             title: '插件列表', path: '/PluginDirectory'
-        },
-        {
-            title: 'Web版本', type: 'dropdown', items: [
-                {
-                    title: '安装说明', path: '/WebVersionInstallation'
-                }
-            ]
         },
         {
             title: '更新日志', path: '/UpDataLog'

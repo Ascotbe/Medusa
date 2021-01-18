@@ -17,36 +17,16 @@
 >
 > `bash` Ver. Online
 >
-> `Web` Ver. Under development
+> `Web` Ver. Online
+
+
 ## Demo
 
-<img alt="Release" src="https://github.com/Ascotbe/Random-img/blob/master/Medusa/demo.gif?raw=true"  >
+<img alt="Release" src="https://github.com/Ascotbe/Random-img/blob/master/Medusa/web_demo.gif?raw=true"  >
 
 ## Document
 
 > `https://www.ascotbe.com/Loophole`
-
-## Instructions for install and use
-
-```bash
-# clone project files
-git clone https://github.com/Ascotbe/Medusa.git
-cd Medusa
-# Install python packages
-pip3 install -r Medusa.txt
-# Use the scanner
-python3 MedusaScan.py -u www.ascotbe.com
-```
-## Parameters
-
-| Command | Number of parameters | Effect                                                         | Annotation                                                         |
-| ---- | -------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| -u   | 1        | Input single url（Use `http://` or `https://` first better than none, do not use any paremeters follow the url | example : `-u https://www.ascotbe.com` or `-u https://192.168.0.1`           |
-| -f   | 1        | The filename includes urls that want to scan.                              | `-u` or `-f` must exists one and only one                         |
-| -m   | 1        | Scan for single module,such as: Struts2 or Apache, etc.                  | The module list refers to the list of folders on this project.                           |
-| -t   | 1        | Processes usage setting, default(-t 5)                                      |                                                           None   |
-|-PL |1 |Ports in list form| As long as they are separated by non-numbers, ports exceeding 65535 will be eliminated. If -p or -P is not output, the default port will be scanned. eg: 22,139,445,3389|
-|-PR |1 |Ports in the form of ranges| As long as they are separated by non-digits, ports exceeding 65535 will be eliminated. If -p or -P is not output, the default port will be scanned. eg:1-65535 |
 
 
 ## Discussion

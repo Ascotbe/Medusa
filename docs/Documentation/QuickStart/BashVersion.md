@@ -1,3 +1,7 @@
+## Demo
+
+![Bashdemo](https://github.com/Ascotbe/Random-img/blob/master/Medusa/demo.gif?raw=true)
+
 ## 环境配置
 
 ### 系统环境配置

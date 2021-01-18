@@ -10,7 +10,7 @@ git clone https://github.com/Ascotbe/Medusa.git
 
 > 必要环境
 
-Redis+npm+Python3.7（以上版本）
+Redis+npm+jdk 1.8+Python3.7（以上版本）
 
 > 安装前后端依赖
 
@@ -89,7 +89,7 @@ npm run serve
 
 > 必要环境
 
-Redis+npm+Python3.7（以上版本）
+Redis+npm+jdk 1.8+Python3.7（以上版本）
 
 > 安装前后端依赖
 

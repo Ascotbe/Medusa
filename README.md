@@ -19,7 +19,7 @@
 >
 > `bash` Ver. Online
 >
-> `Web` Ver. Under development
+> `Web`  Beta version is live
 
 
 #### **[中文文档](https://github.com/Ascotbe/Medusa/blob/master/README.CN.md) | EnglishDocumentation**
@@ -44,34 +44,18 @@ http://medusa.ascotbe.com/Documentation/#/PluginDirectory
 ### :book:`Bash` Ver. instructions for use
 
 ```bash
-# clone project files(example for ubuntu
-git clone https://github.com/Ascotbe/Medusa.git
-cd Medusa
-# Install python packages
-python3 -m pip3 install -r Medusa.txt
-# Use the scanner
-python3 MedusaScan.py -u www.ascotbe.com
+http://medusa.ascotbe.com/Documentation/#/QuickStart/BashVersion
 ```
 
-### :rocket:Git proxy
+### :clipboard:`Web` Ver. installation instructions
 
-```bash
-# If download speed too slow when cloning, then you can use proxy. 
-# Global proxy setting
-git config --global http.proxy http://127.0.0.1:1080
-git config --global https.proxy https://127.0.0.1:1080
+```
+http://medusa.ascotbe.com/Documentation/#/QuickStart/WebVersionInstallation
 ```
 
-### :clipboard:Parameters
+### :space_invader:Web interface
 
-| Command | Number of parameters | Effect                                                         | Annotation                                                         |
-| ---- | -------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| -u   | 1        | Input single url（Use `http://` or `https://` first better than none, do not use any paremeters follow the url | example : `-u https://www.ascotbe.com` or `-u https://192.168.0.1`           |
-| -f   | 1        | The filename includes urls that want to scan.                              | `-u` or `-f` must exists one and only one                         |
-| -m   | 1        | Scan for single module,such as: Struts2 or Apache, etc.                  | The specific content can be entered by the corresponding name in the project Modules folder. |
-| -t   | 1        | Processes usage setting, default(-t 5)                                    |                                                           None   |
-|-PL |1 |Ports in list form| As long as they are separated by non-numbers, ports exceeding 65535 will be eliminated. If -p or -P is not output, the default port will be scanned. eg: 22,139,445,3389|
-|-PR |1 |Ports in the form of ranges| As long as they are separated by non-digits, ports exceeding 65535 will be eliminated. If -p or -P is not output, the default port will be scanned. eg:1-65535 |
+![demo](https://github.com/Ascotbe/Random-img/blob/master/Medusa/web_demo.gif?raw=true)
 
 ### :four_leaf_clover:Updating logs
 

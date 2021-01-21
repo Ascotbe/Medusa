@@ -20,8 +20,7 @@ from django.http import JsonResponse
 from ClassCongregation import ErrorLog
 import json
 from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
-from lxml import etree
-import re
+from bs4 import BeautifulSoup
 from urllib import parse
 import requests
 from config import headers
@@ -46,44 +45,82 @@ def ProgramCollection(request):  # IOS的程序收集
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
 def test():
-    DownloadLinkList=[]#存放下载地址表
     ApplicationNameList=[]#存放应用名
-    ApplicationDescriptionList=[]#存放应用说明
-    IconList=[]#图标列表
+    IdList=[]#存放APP id的列表
+    FinalResults={}#存放最终处理结果
+    ApplicationResultsList=[]#存放处理好的应用数据
+    RequestFailedApplicationName=[]#存放请求失败文件名
+    Headers=headers#获取配置文件中的头
+    Headers["User-Agent"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"
+    Headers["Accept"] = "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
+    Headers["Referer"]= "https://apps.apple.com/"
     x="奇迹暖暖"
-    InterfaceSplicing="https://itunes.apple.com/search?term="+parse.quote(x)+"&country=cn&media=software&entity=software&genreId=&limit=20&offset=0"#对API接口进行拼接
+    try:
+        InterfaceSplicing="https://itunes.apple.com/search?term="+parse.quote(x)+"&country=cn&media=software&entity=software&genreId=&limit=20&offset=0"#对API接口进行拼接
 
-    GetDeveloperPage=requests.get(InterfaceSplicing,headers=headers,timeout=3,verify=False)#获取API中的信息
+        GetDeveloperPage=requests.get(InterfaceSplicing,headers=Headers,timeout=3,verify=False)#获取API中的信息
 
-    DeveloperPage=GetDeveloperPage.json()["results"][0]["artistViewUrl"]#获取开发者页面信息
+        DeveloperPage=GetDeveloperPage.json()["results"][0]["artistViewUrl"]#获取开发者页面信息
 
-    GetAllApps=requests.get(DeveloperPage,headers=headers,timeout=3,verify=False)#获取所有应用
-    GetAllApplicationFormattedData=etree.HTML(GetAllApps.text)#对结果进行格式化
-    ExtractorConnection=GetAllApplicationFormattedData.xpath("""//section/div/a/@href""")#所有程序的连接
-    for i in ExtractorConnection[:-2]:#对链接进行处理
-        if re.match(r'^https?:/{2}\w.+$', i):
-            DownloadLinkList.append(i)
-    ExtractorName=GetAllApplicationFormattedData.xpath("""//section/div/a/div/div/div[@class="we-truncate we-truncate--single-line ember-view targeted-link__target"]/text()""")#程序名字
-    for i in ExtractorName:#程序名处理
-        ApplicationNameList.append(i.strip(' ').strip('\n'))
-    ExtractionIntroduction=GetAllApplicationFormattedData.xpath("""//section/div/a/div/div[@class="we-truncate we-truncate--single-line ember-view we-lockup__subtitle targeted-link__target"]/text()""")#程序连接
-    for i in ExtractionIntroduction:#程序说明处理
-        ApplicationDescriptionList.append(i.strip(' ').strip('\n'))
-    ExtractorIcon=GetAllApplicationFormattedData.xpath("""//section/div/a/picture/source[@class="we-artwork__source"][1]/@srcset""")#程序图标
-    for i in ExtractorIcon:#程序图标处理
-        IconList.append(i.split(',')[1].split(' 2x')[0])
-    print(ExtractorIcon)
-    print(ExtractorName)
-    print(ExtractorConnection)
-    print(ExtractionIntroduction)
-    print(DeveloperPage)
-    print(IconList)
-    print(DownloadLinkList)
+        GetAllApps=requests.get(DeveloperPage,headers=Headers,timeout=3,verify=False)#获取所有应用
+        GetAllApplicationFormattedData=BeautifulSoup(GetAllApps.text, 'lxml')#对结果进行格式化
+        ExtractValidData=json.loads(GetAllApplicationFormattedData.find('script', id='shoebox-ember-data-store').text)#提取带有全部ID的json数据
+        AllAppsData = [ExtractValidData['data']['relationships']['macApps'],ExtractValidData['data']['relationships']['iPhoneApps'],
+                       ExtractValidData['data']['relationships']['iPhoneiPadApps'] ]
+        for Apps in AllAppsData:#提取ID值
+            if Apps['data'] == []:
+                continue
+            for apps in Apps['data']:
+                if apps['id'] not in IdList:
+                    IdList.append(apps['id'])
+    except Exception as e:
+        ErrorLog().Write("Web_ToolsUtility_ApplicationSoftwareCollection_IOS(def)-GetDeveloperPage", e)
+
+    DataAddress='https://uclient-api.itunes.apple.com/WebObjects/MZStorePlatform.woa/wa/lookup?version=2&caller=webExp&p=lockup&useSsl=true&cc=CN&id=' + ','.join(IdList)
+    try:
+        GetCompleteData=requests.get(DataAddress,headers=Headers,timeout=30,verify=False)
+        for key in json.loads(GetCompleteData.text)['results']:
+            ApplicationNameList.append(json.loads(GetCompleteData.text)['results'][key]['name'])  # 获取APP名字
+    except Exception as e:
+        ErrorLog().Write("Web_ToolsUtility_ApplicationSoftwareCollection_IOS(def)-GetCompleteData"  , e)
+
+
+    for Name in ApplicationNameList:
+        try:
+            ApplyCompleteData = requests.get("https://itunes.apple.com/search?term=" + parse.quote(
+                Name) + "&country=cn&media=software&entity=software&genreId=&limit=20&offset=0",headers=Headers,timeout=30,verify=False)  # 获取单个应用的数据
+            TemporaryData = {}
+            if (ApplyCompleteData != None) and (ApplyCompleteData.status_code != 200):
+                if ApplyCompleteData.status_code == 403:
+                    RequestFailedApplicationName.append(Name)#请求失败
+                continue
+            _=json.loads(ApplyCompleteData.text)#json格式化
+            if _['resultCount'] == 0:
+                continue
+            _ = _['results'][0]
+            TemporaryData['Icon'] = _['artworkUrl100']
+            TemporaryData['AppName'] = _['trackName']
+            TemporaryData['Description'] = _['description']
+            TemporaryData['FileSizeBytes'] = _['fileSizeBytes']
+            TemporaryData['SellerName'] = _['sellerName']
+            TemporaryData['Advisories'] = _['advisories']
+            TemporaryData['ReleaseDate'] = _['releaseDate']
+            TemporaryData['Screenshot'] = _['screenshotUrls']
+            TemporaryData['ArtistName'] = _['artistName']
+            TemporaryData['ArtistViewUrl'] = _['artistViewUrl']
+            ApplicationResultsList.append(TemporaryData)
+            #time.sleep(3)#暂停3秒防止被封
+        except Exception as e:
+            RequestFailedApplicationName.append(Name)#请求超时
+            ErrorLog().Write("Web_ToolsUtility_ApplicationSoftwareCollection_IOS(def)-"+Name, e)
+    FinalResults["FinalResults"]=json.dumps(ApplicationResultsList)#对提取的数据进行json化
+    FinalResults["RequestFailedApplicationName"] =json.dumps(RequestFailedApplicationName)#请求失败数据
+    FinalResults["Total"]=int(len(ApplicationNameList))#总数
+    FinalResults["NumberOfFailures"]=int(len(RequestFailedApplicationName))#失败个数
     print(ApplicationNameList)
-    print(ApplicationDescriptionList)
-    for x in ApplicationNameList:
-        print(x)
+    print(IdList)
+    print(ApplicationResultsList)
+    print(FinalResults)
 
 
-
-#test()
+test()

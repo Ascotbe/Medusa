@@ -20,6 +20,7 @@ from Web.SystemInfo import HardwareInfo
 from Web.CommonVulnerabilityDetection import Github
 from Web.ToolsUtility.AntivirusSoftwareMatching import AntivirusSoftware
 from Web.ToolsUtility.BinaryAnalysis import PortableExecute
+from Web.ToolsUtility.ApplicationSoftwareCollection import IOS
 from Web.CollaborationPlatform import Markdown
 urlpatterns = [
     #用户相关
@@ -65,6 +66,7 @@ urlpatterns = [
     #杂项工具相关
     path('api/antivirus_software_compared/', AntivirusSoftware.Compared),  # 通过获取数据进行对比目标机器的杀软
     path('api/windows_portable_execute_analysis/', PortableExecute.Windows),  # windows文件上传后进行结构处理
+    path('api/apple_app_collection/', IOS.AppleAppCollection),  # IOS搜集下发接口
     #path('api/linux_executable_linkable_format_analysis/', ExecutableLinkableFormat.Linux),# Linux文件上传后进行结构处理
     #协同作战相关
     path('api/create_markdown_project/', Markdown.CreateMarkdownProject),#创建协同作战项目

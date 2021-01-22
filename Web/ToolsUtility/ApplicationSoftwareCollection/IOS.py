@@ -15,7 +15,8 @@ https://itunes.apple.com/search?term=苏宁&country=cn&media=software&entity=sof
 https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/
 
 """
-from Web.WebClassCongregation import UserInfo
+from Web.celery import app
+from Web.WebClassCongregation import UserInfo,ApplicationCollection
 from django.http import JsonResponse
 from ClassCongregation import ErrorLog
 import json
@@ -27,36 +28,53 @@ from config import headers
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-def ProgramCollection(request):  # IOS的程序收集
-    RequestLogRecord(request, request_api="ios_program_collection")
+
+"""apple_app_collection
+{
+	"token": "",
+	"app_name":""
+}
+"""
+def AppleAppCollection(request):  # IOS的程序收集
+    RequestLogRecord(request, request_api="apple_app_collection")
     if request.method == "POST":
         try:
             Token = json.loads(request.body)["token"]
-            ProcessNameList = json.loads(request.body)["process_name_list"]
+            AppName=json.loads(request.body)["app_name"]
             Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
             if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="ios_program_collection", uid=Uid)  # 查询到了在计入
+                UserOperationLogRecord(request, request_api="apple_app_collection", uid=Uid)  # 查询到了在计入
+                RedisId = AppleCollectionWork.delay(AppName,Uid)
+                ApplicationCollection().Write(uid=Uid,
+                                            program_type="Apple",
+                                            status="0",
+                                            application_data="",
+                                            redis_id=RedisId,
+                                            request_failed_application_name="",
+                                            total_number_of_applications="",number_of_failures="")
 
+                return JsonResponse({'message': "任务下发成功(๑•̀ㅂ•́)و✧", 'code': 200, })
             else:
-                return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
+                return JsonResponse({'message': "小宝贝这是非法请求哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_ToolsUtility_AntivirusSoftware_Compared(def)", e)
+            ErrorLog().Write("Web_ToolsUtility_ApplicationSoftwareCollection_AppleAppCollection(def)", e)
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
-def test():
+
+@app.task
+def AppleCollectionWork(AppName,Uid):#ios收集工作程序
     ApplicationNameList=[]#存放应用名
     IdList=[]#存放APP id的列表
-    FinalResults={}#存放最终处理结果
     ApplicationResultsList=[]#存放处理好的应用数据
     RequestFailedApplicationName=[]#存放请求失败文件名
     Headers=headers#获取配置文件中的头
     Headers["User-Agent"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"
     Headers["Accept"] = "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
     Headers["Referer"]= "https://apps.apple.com/"
-    x="奇迹暖暖"
+
     try:
-        InterfaceSplicing="https://itunes.apple.com/search?term="+parse.quote(x)+"&country=cn&media=software&entity=software&genreId=&limit=20&offset=0"#对API接口进行拼接
+        InterfaceSplicing="https://itunes.apple.com/search?term="+parse.quote(AppName)+"&country=cn&media=software&entity=software&genreId=&limit=20&offset=0"#对API接口进行拼接
 
         GetDeveloperPage=requests.get(InterfaceSplicing,headers=Headers,timeout=3,verify=False)#获取API中的信息
 
@@ -74,7 +92,7 @@ def test():
                 if apps['id'] not in IdList:
                     IdList.append(apps['id'])
     except Exception as e:
-        ErrorLog().Write("Web_ToolsUtility_ApplicationSoftwareCollection_IOS(def)-GetDeveloperPage", e)
+        ErrorLog().Write("Web_ToolsUtility_ApplicationSoftwareCollection_AppleCollectionWork(def)-GetDeveloperPage", e)
 
     DataAddress='https://uclient-api.itunes.apple.com/WebObjects/MZStorePlatform.woa/wa/lookup?version=2&caller=webExp&p=lockup&useSsl=true&cc=CN&id=' + ','.join(IdList)
     try:
@@ -82,7 +100,7 @@ def test():
         for key in json.loads(GetCompleteData.text)['results']:
             ApplicationNameList.append(json.loads(GetCompleteData.text)['results'][key]['name'])  # 获取APP名字
     except Exception as e:
-        ErrorLog().Write("Web_ToolsUtility_ApplicationSoftwareCollection_IOS(def)-GetCompleteData"  , e)
+        ErrorLog().Write("Web_ToolsUtility_ApplicationSoftwareCollection_AppleCollectionWork(def)-GetCompleteData"  , e)
 
 
     for Name in ApplicationNameList:
@@ -108,19 +126,20 @@ def test():
             TemporaryData['Screenshot'] = _['screenshotUrls']
             TemporaryData['ArtistName'] = _['artistName']
             TemporaryData['ArtistViewUrl'] = _['artistViewUrl']
+            TemporaryData['DownloadLink'] = _['trackViewUrl']
             ApplicationResultsList.append(TemporaryData)
             #time.sleep(3)#暂停3秒防止被封
         except Exception as e:
             RequestFailedApplicationName.append(Name)#请求超时
-            ErrorLog().Write("Web_ToolsUtility_ApplicationSoftwareCollection_IOS(def)-"+Name, e)
-    FinalResults["FinalResults"]=json.dumps(ApplicationResultsList)#对提取的数据进行json化
-    FinalResults["RequestFailedApplicationName"] =json.dumps(RequestFailedApplicationName)#请求失败数据
-    FinalResults["Total"]=int(len(ApplicationNameList))#总数
-    FinalResults["NumberOfFailures"]=int(len(RequestFailedApplicationName))#失败个数
-    print(ApplicationNameList)
-    print(IdList)
-    print(ApplicationResultsList)
-    print(FinalResults)
+            ErrorLog().Write("Web_ToolsUtility_ApplicationSoftwareCollection_AppleCollectionWork(def)-"+Name, e)
+    # FinalResults["FinalResults"]=json.dumps(ApplicationResultsList)#对提取的数据进行json化
+    # FinalResults["RequestFailedApplicationName"] =json.dumps(RequestFailedApplicationName)#请求失败数据
+    # FinalResults["Total"]=int(len(ApplicationNameList))#总数
+    # FinalResults["NumberOfFailures"]=int(len(RequestFailedApplicationName))#失败个数
+    # print(ApplicationNameList)
+    # print(IdList)
+    # print(ApplicationResultsList)
+    # print(FinalResults)
+    ApplicationCollection().Update(uid=Uid,redis_id=AppleCollectionWork.request.id,application_data=json.dumps(ApplicationResultsList),request_failed_application_name=str(RequestFailedApplicationName),total_number_of_applications=str(len(ApplicationNameList)),number_of_failures=str(len(RequestFailedApplicationName)))  # 收集结束更新任务
 
 
-test()

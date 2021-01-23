@@ -1533,8 +1533,11 @@ class MarkdownRelationship:#markdown文档和用户相关的数据表
             result_list = []
             for i in self.cur.fetchall():
                 JsonValues = {}
+                if i[2]==0:#判断项目是否属于用户，如果不属于就清空邀请码
+                    JsonValues["markdown_project_invitation_code"] = ""
+                else:
+                    JsonValues["markdown_project_invitation_code"] = i[3]
                 JsonValues["markdown_project_owner"] = i[2]
-                JsonValues["markdown_project_invitation_code"] = i[3]
                 JsonValues["markdown_project_name"] = i[4]
                 JsonValues["markdown_name"] = i[5]
                 JsonValues["creation_time"] = i[6]
@@ -1595,7 +1598,7 @@ class ApplicationCollection:#存放收集到的应用所有数据
         NumberOfFailures = kwargs.get("number_of_failures")  # 获取失败应用数
         try:
             self.cur.execute(
-                """UPDATE ApplicationCollection SET status = ?,application_data=?,request_failed_application_name=?,total_number_of_applications=?,number_of_failures=? WHERE redis_id = ?,uid=? """,
+                """UPDATE ApplicationCollection SET status = ?,application_data=?,request_failed_application_name=?,total_number_of_applications=?,number_of_failures=? WHERE redis_id = ? and uid=? """,
                 (Status, ApplicationData, RequestFailedApplicationName,TotalNumberOfApplications,NumberOfFailures,RedisId,Uid,))
             # 提交
             if self.cur.rowcount < 1:  # 用来判断是否更新成功
@@ -1607,5 +1610,5 @@ class ApplicationCollection:#存放收集到的应用所有数据
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_ApplicationCollection(class)_Write(def)", e)
+            ErrorLog().Write("Web_WebClassCongregation_ApplicationCollection(class)_Update(def)", e)
             return None

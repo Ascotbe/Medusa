@@ -49,7 +49,7 @@ def AppleAppCollection(request):  # IOS的程序收集
                                             program_type="Apple",
                                             status="0",
                                             application_data="",
-                                            redis_id=RedisId,
+                                            redis_id=str(RedisId),
                                             request_failed_application_name="",
                                             total_number_of_applications="",number_of_failures="")
 
@@ -140,6 +140,7 @@ def AppleCollectionWork(AppName,Uid):#ios收集工作程序
     # print(IdList)
     # print(ApplicationResultsList)
     # print(FinalResults)
-    ApplicationCollection().Update(uid=Uid,redis_id=AppleCollectionWork.request.id,application_data=json.dumps(ApplicationResultsList),request_failed_application_name=str(RequestFailedApplicationName),total_number_of_applications=str(len(ApplicationNameList)),number_of_failures=str(len(RequestFailedApplicationName)))  # 收集结束更新任务
+    ApplicationCollection().Update(uid=Uid,redis_id=AppleCollectionWork.request.id,application_data=str(json.dumps(ApplicationResultsList)),request_failed_application_name=str(RequestFailedApplicationName),total_number_of_applications=str(len(ApplicationNameList)),number_of_failures=str(len(RequestFailedApplicationName)))  # 收集结束更新任务
+
 
 

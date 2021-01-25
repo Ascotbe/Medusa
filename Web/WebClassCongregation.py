@@ -1612,3 +1612,23 @@ class ApplicationCollection:#存放收集到的应用所有数据
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_ApplicationCollection(class)_Update(def)", e)
             return None
+    def Query(self, **kwargs):  #用来查询用户的项目
+        try:
+            Uid=kwargs.get("uid")
+            self.cur.execute("select * from ApplicationCollection where uid=?", (Uid,))#查询用户相关信息
+            result_list = []
+            for i in self.cur.fetchall():
+                JsonValues = {}
+                JsonValues["program_type"] = i[2]
+                JsonValues["creation_time"] = i[3]
+                JsonValues["status"] = i[4]
+                JsonValues["application_data"] = i[5]
+                JsonValues["request_failed_application_name"] = i[7]
+                JsonValues["total_number_of_applications"] = i[8]
+                JsonValues["number_of_failures"] = i[9]
+                result_list.append(JsonValues)
+            self.con.close()
+            return result_list
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_ApplicationCollection(class)_Query(def)", e)
+            return None

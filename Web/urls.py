@@ -75,5 +75,5 @@ urlpatterns = [
     path('api/query_markdown_project/', Markdown.QueryMarkdownProject),#查询用户所有的协同作战项目
     path('api/save_markdown_data/', Markdown.SaveMarkdownData),#保存协同作战文档
     path('api/query_markdown_data/', Markdown.QueryMarkdownData),#查询协同作战中文档数据
-
+    path('api/markdown_image_upload/', Markdown.MarkdownImageUpload),#文档中的上传图片接口
 ]

@@ -1,10 +1,10 @@
 from Web.WebClassCongregation import UserInfo,MarkdownRelationship,MarkdownInfo
 from django.http import JsonResponse
-from ClassCongregation import ErrorLog,randoms
+from ClassCongregation import ErrorLog,randoms,GetImageFilePath
 import json
 import base64
 from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
-
+import time
 """join_markdown_project
 {
 	"token": "xxxx",
@@ -173,6 +173,45 @@ def QueryMarkdownData(request):#用来查询协同作战数据
             return JsonResponse({'message': '呐呐呐！莎酱被玩坏啦(>^ω^<)', 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
+
+"""markdown_image_upload
+POST /api/markdown_image_upload/ HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryaFtQbWz7pBzNgCOv
+token:XXXXXXXXXXXXXXXX
+
+------WebKitFormBoundaryaFtQbWz7pBzNgCOv
+Content-Disposition: form-data; name="file"; filename="test.jpeg"
+Content-Type: image/jpeg
+
+XXXXXXXXXXXXXXX
+------WebKitFormBoundaryaFtQbWz7pBzNgCOv--
+"""
+def MarkdownImageUpload (request):#md文档专有上传位置
+    RequestLogRecord(request, request_api="markdown_image_upload")
+    Token =request.headers["token"]
+    if request.method == "POST":
+        try:
+            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
+            if Uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="markdown_image_upload", uid=Uid)  # 查询到了在计入
+                PictureData = request.FILES.get('file', None)#获取文件数据
+                if 1024<PictureData.size:#最小值1KB
+                    SaveFileName=randoms().result(50)+str(int(time.time()))+".jpg"#重命名文件
+                    SaveRoute=GetImageFilePath().Result()+SaveFileName#获得保存路径
+                    with open(SaveRoute, 'wb') as f:
+                        for line in PictureData:
+                            f.write(line)
+                    return JsonResponse({'message': SaveFileName, 'code': 200,})#返回上传图片名称
+                else:
+                    return JsonResponse({'message': '它实在是太小了，莎酱真的一点感觉都没有o(TヘTo)',  'code': 603,})
+            else:
+                return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
+        except Exception as e:
+            ErrorLog().Write("Web_CollaborationPlatform_Markdown_MarkdownImageUpload(def)", e)
+            return JsonResponse({'message': '你不对劲！为什么报错了？',  'code': 169,})
+    else:
+        return JsonResponse({'message': '请使用Post请求', 'code': 500, })
+
 
 
 #数据对比函数，以及关系表中多人相关数据

@@ -166,4 +166,13 @@ npm run serve
 
 ## Docker安装
 
-目前未打包docker版本
+docker容器不一定是最新版本
+
+```bash
+git clone https://github.com/Ascotbe/Medusa.git
+cd Medusa
+docker build -t medusa_web .
+docker run -d -i -t --name  medusa2 -p 8082:8082 -p 9999:9999 medusa_web 
+```
+
+执行完命令访问`http://127.0.0.1:8082`即可

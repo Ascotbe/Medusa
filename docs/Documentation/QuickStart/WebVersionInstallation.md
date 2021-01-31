@@ -168,7 +168,10 @@ npm run serve
 
 docker容器不一定是最新版本
 
+> 服务器请使用手动安装，已确保正常运行
+
 ```bash
+docker pull ascotbe/medusa:latest
 git clone https://github.com/Ascotbe/Medusa.git
 cd Medusa
 docker build -t medusa_web .

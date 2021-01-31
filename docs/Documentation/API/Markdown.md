@@ -179,3 +179,78 @@
 - 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
 
 - 500：请使用POST请求
+
+
+
+### 上传文档中的图片
+
+`/api/markdown_image_upload/`上传文档中的图片接口
+
+```
+POST /api/markdown_image_upload/ HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryaFtQbWz7pBzNgCOv
+token:UserToken
+
+------WebKitFormBoundaryaFtQbWz7pBzNgCOv
+Content-Disposition: form-data; name="file"; filename="test.jpeg"
+Content-Type: image/jpeg
+
+FileDate
+------WebKitFormBoundaryaFtQbWz7pBzNgCOv--
+```
+
+> 参数解释
+
+- `token`这个参数放在数据包中的header中
+- `FileDate`这个参数是图片文件内容
+
+> 返回状态码
+
+- 169：你不对劲！为什么报错了？
+- 200：返回用户头像名字
+- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+- 404：宝贝没有用户你要插到哪里去呢？
+- 500：请使用Post请求
+- 603：它实在是太小了，莎酱真的一点感觉都没有o(TヘTo)
+
+### Markdown文档数据对比
+
+`/api/markdown_data_comparison/`用来查询Markdown文档数据
+
+```json
+{
+	"token": "xxxx",
+	"new_markdown_data": "xxxx",
+	"markdown_name": "xxx"
+}
+```
+
+>参数解释
+
+- `token`登录后返回的**token**
+- `new_markdown_data`用户需要保持的数据
+- `markdown_name`文档名称
+
+> 返回状态码
+
+- 200：返回查询的数据
+
+  ```json
+  {
+  	"message": "",
+  	"code": 200
+  }
+  ```
+
+  > 返回参数解释
+
+  - `message`中保持的是对比后的html格式数据
+
+- 403：小宝贝这是非法操作哦(๑•̀ㅂ•́)و✧
+
+- 404：小朋友不是你的东西别乱动哦~~
+
+- 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
+
+- 500：请使用POST请求
+

@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from ClassCongregation import ErrorLog,randoms,GetImageFilePath
 import json
 import base64
+import difflib
 from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
 import time
 """join_markdown_project
@@ -212,6 +213,41 @@ def MarkdownImageUpload (request):#md文档专有上传位置
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
+"""markdown_data_comparison
+{
+	"token": "xxxx",
+	"new_markdown_data": "xxxx",
+	"markdown_name": "xxx"
+}
+"""
+def MarkdownDataComparison (request):#md文档数据对比
+    RequestLogRecord(request, request_api="markdown_data_comparison")
+    if request.method == "POST":
+        try:
+            UserToken = json.loads(request.body)["token"]
+            MarkdownData = json.loads(request.body)["new_markdown_data"]#传入新文本数据
+            MarkdownName = json.loads(request.body)["markdown_name"]  # 传入文档名称
+            Uid = UserInfo().QueryUidWithToken(UserToken)  # 如果登录成功后就来查询用户名
+            if Uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="markdown_data_comparison", uid=Uid)
+                CheckPermissionsResult=MarkdownRelationship().CheckPermissions(markdown_name=MarkdownName,uid=Uid)#检查是否有权限，也就是说这个项目是否属于该用户
+                if CheckPermissionsResult:#如果属于该用户
+
+                    MarkdownDataResult=MarkdownInfo().QueryMarkdownData(markdown_name=MarkdownName)#文件数据查询
+                    OldMarkdownData=base64.b64decode(str(MarkdownDataResult).encode('utf-8')).decode('utf-8').splitlines()
+                    NewMarkdownData=MarkdownData.splitlines()
+                    ComparisonResult=difflib.HtmlDiff().make_file(OldMarkdownData,NewMarkdownData)#对比结果
+                    return JsonResponse({'message': ComparisonResult, 'code': 200, })
+
+                else:
+                    return JsonResponse({'message': "小朋友不是你的东西别乱动哦~~", 'code': 404, })
+            else:
+                return JsonResponse({'message': "小宝贝这是非法操作哦(๑•̀ㅂ•́)و✧", 'code': 403, })
+        except Exception as e:
+            ErrorLog().Write("Web_CollaborationPlatform_Markdown_MarkdownDataComparison(def)", e)
+            return JsonResponse({'message': '呐呐呐！莎酱被玩坏啦(>^ω^<)', 'code': 169, })
+    else:
+        return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
 
 #数据对比函数，以及关系表中多人相关数据

@@ -1432,6 +1432,16 @@ class MarkdownInfo:#存放markdown文档的所有数据
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_MarkdownInfo(class)_Query(def)", e)
             return None
+    def QueryMarkdownData(self,**kwargs):  # 只查询docker 数据
+        try:
+            MarkdownName=kwargs.get("markdown_name")
+            self.cur.execute("select * from Markdown where markdown_name=?", (MarkdownName,))
+            for i in self.cur.fetchall():
+                self.con.close()
+                return i[2]#直接返回数据
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_MarkdownInfo(class)_Query(def)", e)
+            return None
 
 class MarkdownRelationship:#markdown文档和用户相关的数据表
     def __init__(self):

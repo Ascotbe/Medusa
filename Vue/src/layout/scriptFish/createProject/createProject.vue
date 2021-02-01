@@ -29,18 +29,10 @@
             :wrapper-col="wrapperCol"
             ref="showData"
           >
-            <a-form-model-item
-              label="选择的模板名"
-              prop="title"
-              :labelAlign="'left'"
-            >
+            <a-form-model-item label="选择的模板名" prop="title" :labelAlign="'left'">
               <a-input v-model="showDataForm.title" :disabled="true" />
             </a-form-model-item>
-            <a-form-model-item
-              label="模板内容"
-              prop="data"
-              :labelAlign="'left'"
-            >
+            <a-form-model-item label="模板内容" prop="data" :labelAlign="'left'">
               <codemirror
                 v-model="showDataForm.data"
                 :options="showDataFormOptions"
@@ -66,18 +58,10 @@
             :rules="rules"
             ref="ruleForm"
           >
-            <a-form-model-item
-              label="项目名"
-              prop="projectName"
-              :labelAlign="'left'"
-            >
+            <a-form-model-item label="项目名" prop="projectName" :labelAlign="'left'">
               <a-input v-model="form.projectName" />
             </a-form-model-item>
-            <a-form-model-item
-              label="默认模板选择"
-              prop="default"
-              :labelAlign="'left'"
-            >
+            <a-form-model-item label="默认模板选择" prop="default" :labelAlign="'left'">
               <a-select
                 :options="DefaultScriptTemplate"
                 placeholder="选择模板"
@@ -86,11 +70,7 @@
               >
               </a-select>
             </a-form-model-item>
-            <a-form-model-item
-              label="脚本数据"
-              prop="script_data"
-              :labelAlign="'left'"
-            >
+            <a-form-model-item label="脚本数据" prop="script_data" :labelAlign="'left'">
               <codemirror
                 ref="textarea"
                 v-model="form.script_data"
@@ -107,9 +87,7 @@
               >
                 插入模板
               </a-button>
-              <a-button type="primary" @click="handleOnSubmit">
-                创建项目
-              </a-button>
+              <a-button type="primary" @click="handleOnSubmit"> 创建项目 </a-button>
             </a-form-model-item>
           </a-form-model>
         </a-col>
@@ -196,21 +174,12 @@ export default {
             token: localStorage.getItem("storeToken"),
           };
           this.$api.create_script_project(params).then((res) => {
-            switch (res.code) {
-              case 200:
-                this.$message.success("项目创建成功，正在跳转...");
-                this.$store.commit("project_associated_file_name", res.message);
-                this.$router.push("/layout/projectManagement/projectDetails");
-                break;
-              case 169:
-                this.$message.error(res.message);
-                break;
-              case 403:
-                this.$message.error(res.message);
-                break;
-              case 500:
-                this.$message.error(res.message);
-                break;
+            if (res.code == 200) {
+              this.$message.success("项目创建成功，正在跳转...");
+              this.$store.commit("project_associated_file_name", res.message);
+              this.$router.push("/layout/projectManagement/projectDetails");
+            } else {
+              this.$message.error(res.message);
             }
           });
         } else {
@@ -220,7 +189,6 @@ export default {
       });
     },
     handleChange(val) {
-      console.log(val);
       this.DefaultScriptTemplate.map((item) => {
         if (item.value == val) {
           this.defaultVal = item.key;
@@ -234,55 +202,35 @@ export default {
         token: localStorage.getItem("storeToken"),
       };
       this.$api.read_default_script_template(params).then((res) => {
-        switch (res.code) {
-          case 200:
-            this.DefaultScriptTemplate = [];
-            let options = {};
-            let list = [];
-            res.message.map((item) => {
-              options = {
-                value: item.file_name,
-                label: item.file_name,
-                key: this.$qj.QJBase64Decode(item.file_data),
-              };
-              list.push(options);
-            });
-            this.$api.read_script_template(params).then((res) => {
-              console.log(res);
-              switch (res.code) {
-                case 200:
-                  res.message.map((item) => {
-                    options = {
-                      value: item.template_name,
-                      label: item.template_name,
-                      key: this.$qj.QJBase64Decode(item.template_data),
-                    };
-                    list.push(options);
-                  });
-                  this.DefaultScriptTemplate = list;
-
-                  break;
-                case 169:
-                  this.$message.error(res.message);
-                  break;
-                case 403:
-                  this.$message.error(res.message);
-                  break;
-                case 500:
-                  this.$message.error(res.message);
-                  break;
-              }
-            });
-            break;
-          case 169:
-            this.$message.error(res.message);
-            break;
-          case 403:
-            this.$message.error(res.message);
-            break;
-          case 500:
-            this.$message.error(res.message);
-            break;
+        if (res.code == 200) {
+          this.DefaultScriptTemplate = [];
+          let options = {};
+          let list = [];
+          res.message.map((item) => {
+            options = {
+              value: item.file_name,
+              label: item.file_name,
+              key: this.$qj.QJBase64Decode(item.file_data),
+            };
+            list.push(options);
+          });
+          this.$api.read_script_template(params).then((res) => {
+            if (res.code == 200) {
+              res.message.map((item) => {
+                options = {
+                  value: item.template_name,
+                  label: item.template_name,
+                  key: this.$qj.QJBase64Decode(item.template_data),
+                };
+                list.push(options);
+              });
+              this.DefaultScriptTemplate = list;
+            } else {
+              this.$message.error(res.message);
+            }
+          });
+        } else {
+          this.$message.error(res.message);
         }
       });
     },

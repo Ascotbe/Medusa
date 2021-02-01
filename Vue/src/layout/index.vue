@@ -73,7 +73,7 @@
             </div>
           </a-layout-header>
 
-          <a-layout-content :style="contentBackground"  >
+          <a-layout-content  >
             <router-view></router-view>
           </a-layout-content>
         </a-layout>
@@ -171,7 +171,7 @@ export default {
           msg: "协同作战",
           children: [
             {
-              key: "combinedProject",
+              key: "createCombine",
               msg: "创建项目",
             },
             {
@@ -243,7 +243,7 @@ export default {
       let params = {
         token: localStorage.getItem("storeToken"),
       };
-      console.log(params + "开始验证身份");
+      // console.log(params + "开始验证身份");
       this.$api.user_info(params).then((res) => {
         if (res.code == 200) {
           let userinfo = {

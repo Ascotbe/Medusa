@@ -38,6 +38,16 @@ export const URL_POST_HARDWARE_INITIALIZATION = `/system_hardware_initialization
 export const URL_POST_HARDWARE_USAGE_QUERY = `/system_hardware_usage_query/`// 获取当前机器CPU和内存使用率
 
 
+
+
+export const URL_POST_CREATE_MARKDOWN_PROJECT = `/create_markdown_project/`// 创建协同作战项目
+export const URL_POST_QUERY_MARKDOWN_PROJECT = `/query_markdown_project/`// 查询协同作战项目
+export const URL_POST_QUERY_MARKDOWN_DATA = `/query_markdown_data/`//用来查询Markdown文档数据
+export const URL_POST_SAVE_MARKDOWN_DATA = `/save_markdown_data/`//保存Markdown文档数据
+export const URL_POST_MARKDOWN_IMAGE_UPLOAD = `/markdown_image_upload/`//上传Markdown图片
+export const URL_POST_MARKDOWN_DATA_COMPARISON = `/markdown_data_comparison/`//Markdown文档数据对比
+
+
 // API/api/upload_avatar/
 
 

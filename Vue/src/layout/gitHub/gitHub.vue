@@ -20,7 +20,7 @@
         <a-input-search placeholder="搜索内容" enter-button @search="handleOnSearch" />
       </a-col>
       <a-col :xs="{ span: 24 }" :lg="{ span: 24 }">
-        <a-table :columns="columns" :data-source="data"> </a-table>
+        <a-table :columns="columns" :data-source="data" :scroll="{ x: 1600 }"> </a-table>
       </a-col>
     </a-col>
   </a-row>
@@ -36,6 +36,7 @@ export default {
           title: "GitHub编号",
           dataIndex: "github_id",
           key: "github_id",
+          fixed: "left",
         },
         {
           title: "项目名称",
@@ -96,44 +97,30 @@ export default {
       };
 
       this.$api.github_monitor(params).then((res) => {
-        switch (res.code) {
-          case 200:
-            res.message.map((item) => {
-              let data = {
-                key: item.github_id,
-                github_id: item.github_id,
-                name: item.name,
-                html_url: item.html_url,
-                created_at: item.created_at,
-                updated_at: item.updated_at,
-                pushed_at: item.pushed_at,
-                forks_count: item.forks_count,
-                watchers_count: item.watchers_count,
-              };
-              this.FBdata.push(data);
-            });
-            this.data = this.FBdata;
-            console.log(this.data);
-            break;
-          case 404:
-            this.$message.error(res.message);
-            break;
-          case 403:
-            this.$message.error(res.message);
-            break;
-          case 169:
-            this.$message.error(res.message);
-            break;
-          case 500:
-            this.$message.error(res.message);
-            break;
+        if (res.code == 200) {
+          res.message.map((item) => {
+            let data = {
+              key: item.github_id,
+              github_id: item.github_id,
+              name: item.name,
+              html_url: item.html_url,
+              created_at: item.created_at,
+              updated_at: item.updated_at,
+              pushed_at: item.pushed_at,
+              forks_count: item.forks_count,
+              watchers_count: item.watchers_count,
+            };
+            this.FBdata.push(data);
+          });
+          this.data = this.FBdata;
+        } else {
+          this.$message.error(res.message);
         }
       });
     },
     handleOnSearch(val) {
       let item = this.optionValue;
       if (item != "") {
-        console.log(this.optionValue, val);
         // for (let i = 0; i < this.FBdata.length; i++) {
         //     console.log(this.FBdata[i][item])
         // }
@@ -174,7 +161,22 @@ export default {
   min-height: auto;
   .github_bg {
     background: #fff;
-     min-height: 100%;
+    min-height: 100%;
+  }
+  /*定义整体的宽度*/
+  .github_bg /deep/.ant-table-body::-webkit-scrollbar {
+    height: 3px;
+  }
+
+  /*定义滚动条轨道*/
+  .github_bg /deep/.ant-table-body::-webkit-scrollbar-track {
+    border-radius: 5px;
+  }
+
+  /*定义滑块*/
+  .github_bg /deep/.ant-table-body::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background: rgba(0, 255, 42, 0.5);
   }
 }
 </style>

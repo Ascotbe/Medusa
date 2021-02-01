@@ -8,29 +8,31 @@
 -->
 <template>
   <div class="markdown">
-    <div>{{ value }}</div>
-
-    <Markdown v-model="value" @on-save="handleOnSave" />
+    <Markdown v-model="value" @on-save="handleOnSave" :autoSave="true"/>
   </div>
 </template>
 
 <script>
-import Markdown from './vue-meditor'
+import Markdown from "./vue-meditor";
 
 export default {
-  name: 'markdown',
+  name: "markdown",
   components: {
-    Markdown
+    Markdown,
   },
   data() {
     return {
-      value: '' //用户输入值
-    }
+      value: "", //用户输入值
+      // toolbars:{
+      //   save:true,
+      //theme:gitHub
+      // }
+    };
   },
   methods: {
-    handleOnSave(value) {
-      console.log(value)
-    }
-  }
-}
+    handleOnSave({value,theme}) {
+      console.log(value,theme);
+    },
+  },
+};
 </script>

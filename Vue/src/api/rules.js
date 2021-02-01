@@ -34,7 +34,13 @@ import {
     URL_POST_SAVE_CROSS_SITE_SCRIPT_TEMPLATE,
     URL_POST_MODIFY_CROSS_SITE_SCRIPT_TEMPLATE,
     URL_POST_HARDWARE_INITIALIZATION,// 获取当前机器基础信息
-    URL_POST_HARDWARE_USAGE_QUERY// 获取当前机器CPU和内存使用率
+    URL_POST_HARDWARE_USAGE_QUERY,// 获取当前机器CPU和内存使用率
+    URL_POST_CREATE_MARKDOWN_PROJECT,
+    URL_POST_QUERY_MARKDOWN_PROJECT,// 查询协同作战项目
+    URL_POST_QUERY_MARKDOWN_DATA,//用来查询Markdown文档数据
+    URL_POST_SAVE_MARKDOWN_DATA,
+    URL_POST_MARKDOWN_IMAGE_UPLOAD,
+    URL_POST_MARKDOWN_DATA_COMPARISON
 
 } from './url'
 import store from '../Vuex'
@@ -62,7 +68,7 @@ let api = {
         })
         return response
     },
-    
+
     // 忘记密码
     async forget_password(params) {
         let response = await post(URL_POST_FORGET_PASSWORD, params, {
@@ -190,7 +196,7 @@ let api = {
         return response
     },
     // 查询跨站脚本钓鱼项目中详细信息
-    
+
     async query_script_project_info(params) {
         let response = await post(URL_POST_QUERY_SCRIPT_PROJECT_INFO, params, {
             headers: {
@@ -199,7 +205,7 @@ let api = {
         })
         return response
     },
-    
+
     // 修改跨站脚本钓鱼项目中详细信息
     async modify_cross_site_script_project(params) {
         let response = await post(URL_POST_MODIFY_CROSS_SITE_SCRIPT_PROJECT, params, {
@@ -265,7 +271,55 @@ let api = {
         return response
     },
 
+
+    // 创建协同作战项目
+    async create_markdown_project(params) {
+        let response = await post(URL_POST_CREATE_MARKDOWN_PROJECT, params, {
+            headers: {}
+        })
+        return response
+    },
+    // 查询协同作战项目
+    async query_markdown_project(params) {
+        let response = await post(URL_POST_QUERY_MARKDOWN_PROJECT, params, {
+            headers: {}
+        })
+        return response
+    },
+    // 用来查询Markdown文档数据
+    async query_markdown_data(params) {
+        let response = await post(URL_POST_QUERY_MARKDOWN_DATA, params, {
+            headers: {}
+        })
+        return response
+    },
+    // 保存Markdown文档数据
+    async save_markdown_data(params) {
+        let response = await post(URL_POST_SAVE_MARKDOWN_DATA, params, {
+            headers: {}
+        })
+        return response
+    },
+    // 上传Markdown图片
+    async markdown_image_upload(params) {
+        let response = await post(URL_POST_MARKDOWN_IMAGE_UPLOAD, params, {
+            headers: {
+                token: store.state.storeToken
+            }
+        })
+        return response
+    },
+    // Markdown文档数据对比
+    async markdown_data_comparison(params) {
+        let response = await post(URL_POST_MARKDOWN_DATA_COMPARISON, params, {
+            headers: {
+            }
+        })
+        return response
+    },
     
+
+
 
     async generate_word(params) {
         let response = await post(URL_POST_GENERATE_WORD, params, {

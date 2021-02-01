@@ -6,7 +6,9 @@
             @on-copy="onCopy"
             @on-upload-image="onUpladImage"
             @on-save="onSave"
-            :height="500"
+            :bordered="false"
+            :autoSave="false"
+            
         />
     </div>
 </template>

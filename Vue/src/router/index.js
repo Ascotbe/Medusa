@@ -11,19 +11,24 @@ import dashboard from '../layout/dashboard'
 import siteScan from '../layout/siteInformation/siteScan/siteScan.vue'
 import siteInformation from '../layout/siteInformation/siteInformation.vue'
 import vulnerabilityDetails2 from '../layout/siteInformation/siteScan/vulnerabilityDetails/vulnerabilityDetails2.vue'
- import vulnerabilityDetails from '../layout/siteInformation/siteScan/vulnerabilityDetails/vulnerabilityDetails.vue'
+import vulnerabilityDetails from '../layout/siteInformation/siteScan/vulnerabilityDetails/vulnerabilityDetails.vue'
 import gitHub from '../layout/gitHub/gitHub.vue'
 import Agreement from '../LoginAndForget/agreement/agreement.vue'
 import Forget from '../LoginAndForget/forget/forget.vue'
 import issueTasks from '../layout/issueTasks/issueTasks.vue'
 import createProject from '../layout/scriptFish/createProject/createProject.vue'
 
-import markdown from '../layout/markdown'
+
 import projectManagement from '../layout/scriptFish/projectManagement/projectManagement.vue'
 import selectProject from '../layout/scriptFish/projectManagement/selectProject/selectProject.vue'
 import projectDetails from '../layout/scriptFish/projectManagement/projectDetails/projectDetails.vue'
 import publicTemplate from '../layout/scriptFish/publicTemplate/publicTemplate.vue'
 import customTemplate from '../layout/scriptFish/customTemplate/customTemplate.vue'
+
+import combinedList from '../layout/combine/combineList/combineList.vue'
+import markdownData from '../layout/combine/combineList/markdownData/markdownData.vue'
+import dataComparison from '../layout/combine/combineList/markdownData/dataComparison.vue'
+import createCombine from '../layout/combine/createCombine/createCombine.vue'
 
 Vue.use(VueRouter)
 
@@ -35,13 +40,7 @@ const routes = [
     component: login
     // component:()=> import('@views/login/index')
   },
-  {
-    path: '/markdown',
-    name: 'markdown',
-    // component: Login
-    component: markdown
-    // component:()=> import('@views/login/index')
-  },
+
   {
     path: '/Agreement',
     name: 'Agreement',
@@ -81,58 +80,58 @@ const routes = [
         path: 'personalSettings',
         component: personalSettings2,
         name: 'personalSettings',
-        meta:{
-          keepAlive:true,
-          activeIndex:"personalSettings"
+        meta: {
+          keepAlive: true,
+          activeIndex: "personalSettings"
         },
-      },      
+      },
       {
         path: 'dashboard',
         component: dashboard,
         name: 'dashboard',
-        meta:{
-          keepAlive:true,
-          activeIndex:"dashboard"
+        meta: {
+          keepAlive: true,
+          activeIndex: "dashboard"
         },
       },
       {
-        path:'siteInformation',
+        path: 'siteInformation',
         component: siteInformation,
         name: 'siteInformation',
-        meta:{
-          keepAlive:true,
-          activeIndex:"siteInformation",
-          defaultOpenKeys:"sub1"
+        meta: {
+          keepAlive: true,
+          activeIndex: "siteInformation",
+          defaultOpenKeys: "sub1"
         },
       },
       {
         path: 'siteInformation/siteScan',
         component: siteScan,
         name: 'siteInformation/siteScan',
-        meta:{
-          keepAlive:true,
-          activeIndex:"siteInformation",
-          defaultOpenKeys:"sub1"
+        meta: {
+          keepAlive: true,
+          activeIndex: "siteInformation",
+          defaultOpenKeys: "sub1"
         },
       },
       {
         path: 'siteInformation/siteScan/vulnerabilityDetails',
         component: vulnerabilityDetails,
         name: 'siteInformation/siteScan/vulnerabilityDetails',
-        meta:{
-          keepAlive:true,
-          activeIndex:"siteInformation",
-          defaultOpenKeys:"sub1"
+        meta: {
+          keepAlive: true,
+          activeIndex: "siteInformation",
+          defaultOpenKeys: "sub1"
         },
       },
       {
         path: 'siteInformation/siteScan/vulnerabilityDetails2',
         component: vulnerabilityDetails2,
         name: 'siteInformation/siteScan/vulnerabilityDetails2',
-        meta:{
-          keepAlive:true,
-          activeIndex:"siteInformation",
-          defaultOpenKeys:"sub1"
+        meta: {
+          keepAlive: true,
+          activeIndex: "siteInformation",
+          defaultOpenKeys: "sub1"
         },
       },
       // {
@@ -144,85 +143,128 @@ const routes = [
         path: 'issueTasks',
         component: issueTasks,
         name: 'issueTasks',
-        meta:{
-          keepAlive:true,
-          activeIndex:"issueTasks",
-          defaultOpenKeys:"sub1"
+        meta: {
+          keepAlive: true,
+          activeIndex: "issueTasks",
+          defaultOpenKeys: "sub1"
         },
-        
+
       },
       {
         path: 'gitHub',
         component: gitHub,
         name: 'gitHub',
-        meta:{
-          keepAlive:true,
-          activeIndex:"gitHub",
-          defaultOpenKeys:"sub3"
+        meta: {
+          keepAlive: true,
+          activeIndex: "gitHub",
+          defaultOpenKeys: "sub3"
         },
       },
       {
         path: 'createProject',
         component: createProject,
         name: 'createProject',
-        meta:{
-          keepAlive:true,
-          activeIndex:"createProject",
-          defaultOpenKeys:"sub4"
+        meta: {
+          keepAlive: true,
+          activeIndex: "createProject",
+          defaultOpenKeys: "sub4"
         },
       },
-      
+
       {
         path: 'projectManagement',
         component: projectManagement,
         name: 'projectManagement',
-        meta:{
-          keepAlive:true,
-          activeIndex:"projectManagement",
-          defaultOpenKeys:"sub4"
+        meta: {
+          keepAlive: true,
+          activeIndex: "projectManagement",
+          defaultOpenKeys: "sub4"
         },
       },
       {
         path: 'projectManagement/selectProject',
         component: selectProject,
         name: 'projectManagement/selectProject',
-        meta:{
-          keepAlive:true,
-          activeIndex:"projectManagement",
-          defaultOpenKeys:"sub4"
+        meta: {
+          keepAlive: true,
+          activeIndex: "projectManagement",
+          defaultOpenKeys: "sub4"
         },
       },
       {
         path: 'projectManagement/projectDetails',
         component: projectDetails,
         name: 'projectManagement/projectDetails',
-        meta:{
-          keepAlive:true,
-          activeIndex:"projectManagement",
-          defaultOpenKeys:"sub4"
+        meta: {
+          keepAlive: true,
+          activeIndex: "projectManagement",
+          defaultOpenKeys: "sub4"
         },
       },
       {
         path: 'publicTemplate',
         component: publicTemplate,
         name: 'publicTemplate',
-        meta:{
-          keepAlive:true,
-          activeIndex:"publicTemplate",
-          defaultOpenKeys:"sub4"
+        meta: {
+          keepAlive: true,
+          activeIndex: "publicTemplate",
+          defaultOpenKeys: "sub4"
         },
       },
       {
         path: 'customTemplate',
         component: customTemplate,
         name: 'customTemplate',
-        meta:{
-          keepAlive:true,
-          activeIndex:"customTemplate",
-          defaultOpenKeys:"sub4"
+        meta: {
+          keepAlive: true,
+          activeIndex: "customTemplate",
+          defaultOpenKeys: "sub4"
+        },
+      },
+      {
+        path: 'combinedList',
+        component: combinedList,
+        name: 'combinedList',
+        meta: {
+          keepAlive: true,
+          activeIndex: "combinedList",
+          defaultOpenKeys: "sub5"
+        },
+      },
+      {
+        path: 'combinedList/markdownData',
+        component: markdownData,
+        name: 'combinedList/markdownData',
+        meta: {
+          keepAlive: true,
+          activeIndex: "combinedList",
+          defaultOpenKeys: "sub5"
+        },
+      },
+      {
+        path: 'combinedList/markdownData/dataComparison',
+        component: dataComparison,
+        name: 'combinedList/markdownData/dataComparison',
+        meta: {
+          keepAlive: true,
+          activeIndex: "combinedList",
+          defaultOpenKeys: "sub5"
+        },
+      },
+      {
+        path: 'createCombine',
+        component: createCombine,
+        name: 'createCombine',
+        meta: {
+          keepAlive: true,
+          activeIndex: "createCombine",
+          defaultOpenKeys: "sub5"
         },
       },
       
+
+
+
     ]
   },
 ]

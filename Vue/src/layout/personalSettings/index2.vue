@@ -29,7 +29,7 @@
             >
               <span>修改密码</span>
             </button>
-           
+
             <a-upload
               name="file"
               :customRequest="handleCustomRequest"
@@ -74,7 +74,7 @@
 <script>
 export default {
   name: "personalSettings2",
-  
+
   data() {
     return {
       title: require("../../assets/avatar.png"),
@@ -215,20 +215,20 @@ export default {
         });
       }
     },
-    handleUpdataPassword(){
-        this.$router.push('/setpassword')
+    handleUpdataPassword() {
+      this.$router.push("/setpassword");
     },
- 
+
     handleBeforeUpload(file) {
-      console.log(file);
       const isJpgOrPng =
         file.type === "image/jpeg" ||
         file.type === "image/jpg" ||
         file.type === "image/png";
+      console.log(isJpgOrPng);
       if (!isJpgOrPng) {
-        this.$message.error("只能上传jpg/png格式的头像!");
+        this.$message.error("只能上传jpg/png/jpeg格式的头像!");
       }
-      console.log(file.size);
+      // console.log(file.size);
       const isLt10M = file.size / 1024 / 1024 < 10;
       const isLt10K = file.size / 1024 > 10;
       if (!isLt10M) {
@@ -248,7 +248,7 @@ export default {
       let params = new FormData();
       params.append("file", file.file);
       // await this.handleChange(file);
-      console.log(file);
+      console.log(params);
       let progress = {
         percent: 0,
       };
@@ -290,7 +290,7 @@ export default {
 <style lang="scss" scoped>
 .personalSettings {
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   margin: 0;
   padding: 20px;
   padding-top: 30px;

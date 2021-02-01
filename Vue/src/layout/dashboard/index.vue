@@ -377,7 +377,7 @@ export default {
             {
               name: "目标网站",
               type: this.security,
-              val: res.message.number_of_websites,
+              val:res.message.number_of_websites,
             },
             {
               name: "端口发现",

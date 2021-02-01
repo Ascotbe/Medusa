@@ -145,9 +145,6 @@ export default {
   },
   mounted() {
     this.handleReadDefaultScriptTemplate();
-      window.onresize = () => {
-            console.log(window)
-        };
   },
   methods: {
     handleReadDefaultScriptTemplate() {
@@ -155,33 +152,22 @@ export default {
         token: localStorage.getItem("storeToken"),
       };
       this.$api.read_default_script_template(params).then((res) => {
-        console.log(res);
         let DefaultScriptTemplate = [];
-        switch (res.code) {
-          case 200:
-            res.message.map((item) => {
-              let Template = {
-                template_data: this.$qj.QJBase64Decode(item.file_data),
-                template_name: item.file_name,
-              };
-              DefaultScriptTemplate.push(Template);
-            });
-            this.DefaultScriptTemplate = DefaultScriptTemplate;
-            break;
-          case 169:
-            this.$message.error(res.message);
-            break;
-          case 403:
-            this.$message.error(res.message);
-            break;
-          case 500:
-            this.$message.error(res.message);
-            break;
+        if (res.code == 200) {
+          res.message.map((item) => {
+            let Template = {
+              template_data: this.$qj.QJBase64Decode(item.file_data),
+              template_name: item.file_name,
+            };
+            DefaultScriptTemplate.push(Template);
+          });
+          this.DefaultScriptTemplate = DefaultScriptTemplate;
+        } else {
+          this.$message.error(res.message);
         }
       });
     },
     handleSelectData(val) {
-      console.log(val);
       if (this.DisplayState) {
         this.Display = false;
       } else {
@@ -214,26 +200,17 @@ export default {
       };
       let list = [];
       this.$api.read_script_template(params).then((res) => {
-        switch (res.code) {
-          case 200:
-            res.message.map((item) => {
-              let options = {
-                template_data: this.$qj.QJBase64Decode(item.template_data),
-                template_name: item.template_name,
-              };
-              list.push(options);
-            });
-            this.DefaultScriptTemplate = list;
-            break;
-          case 169:
-            this.$message.error(res.message);
-            break;
-          case 403:
-            this.$message.error(res.message);
-            break;
-          case 500:
-            this.$message.error(res.message);
-            break;
+        if (res.code == 200) {
+          res.message.map((item) => {
+            let options = {
+              template_data: this.$qj.QJBase64Decode(item.template_data),
+              template_name: item.template_name,
+            };
+            list.push(options);
+          });
+          this.DefaultScriptTemplate = list;
+        } else {
+          this.$message.error(res.message);
         }
       });
     },
@@ -252,23 +229,11 @@ export default {
           token: localStorage.getItem("storeToken"),
         };
         this.$api.modify_cross_site_script_template(params).then((res) => {
-          switch (res.code) {
-            case 200:
-              this.$message.success("模板修改成功");
-              this.handelSetActiveR();
-              break;
-            case 169:
-              this.$message.error(res.message);
-              break;
-            case 403:
-              this.$message.error(res.message);
-              break;
-            case 404:
-              this.$message.error(res.message);
-              break;
-            case 500:
-              this.$message.error(res.message);
-              break;
+          if (res.code == 200) {
+            this.$message.success("模板修改成功");
+            this.handelSetActiveR();
+          } else {
+            this.$message.error(res.message);
           }
         });
       } else {
@@ -306,10 +271,10 @@ $color: #51c51a;
   min-height: 850px;
 
   .createProject_bg {
-      height: 100%;
+    height: 100%;
     min-height: auto;
-    .createProject_bg_bg{
-        height: 100%;
+    .createProject_bg_bg {
+      height: 100%;
     }
   }
 

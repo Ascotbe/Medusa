@@ -23,7 +23,7 @@
       <a class="windows98_start_win">
         <img :src="windows_start" height="100%" /><span>Start</span>
       </a>
-      <span class="windows98_start_task">{{task}}</span>
+      <span class="windows98_start_task">{{ task }}</span>
       <span class="windows98_start_team">P19e0n团队出品</span>
     </div>
   </div>
@@ -31,11 +31,11 @@
 
 <script>
 export default {
-  props:{
+  props: {
     task: {
-      type:String,
-      default:'Change Password'
-    }
+      type: String,
+      default: "Change Password",
+    },
   },
   data() {
     return {
@@ -54,7 +54,7 @@ export default {
         {
           img: require("../assets/windows98/recycle_bin_file_directory.png"),
           name: "回收站",
-          url: "http://www.baidu.com",
+          url: "/",
         },
         {
           img: require("../assets/windows98/html.png"),
@@ -66,9 +66,10 @@ export default {
   },
   methods: {
     handelGoUrl(url) {
-      console.log("1");
-      console.log(url);
-      window.location.href = url;
+      if (url == "/") {
+      } else {
+        window.location.href = url;
+      }
     },
   },
 };
@@ -92,14 +93,13 @@ export default {
     .windows98_desktop_list {
       min-width: 50px;
       padding: 8px;
-      
     }
     .windows98_desktop_list_icon {
       text-align: center;
       cursor: pointer;
     }
     .windows98_desktop_list_name {
-        cursor: pointer;
+      cursor: pointer;
       text-align: center;
       color: #fff;
       font-size: 16px;
@@ -158,10 +158,10 @@ export default {
     }
     .windows98_start_team {
       float: right;
-       height: 100%;
-       line-height: 22px;
+      height: 100%;
+      line-height: 22px;
       text-align: right;
-     padding: 2px 6px 3px;
+      padding: 2px 6px 3px;
       border-top: 1px solid gray;
       border-left: 1px solid gray;
       border-right: 1px solid rgb(212, 212, 212);

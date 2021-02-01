@@ -234,6 +234,8 @@ def MarkdownDataComparison (request):#md文档数据对比
                 if CheckPermissionsResult:#如果属于该用户
 
                     MarkdownDataResult=MarkdownInfo().QueryMarkdownData(markdown_name=MarkdownName)#文件数据查询
+                    if MarkdownDataResult==None:
+                        MarkdownDataResult=""#如果数据库中无数据
                     OldMarkdownData=base64.b64decode(str(MarkdownDataResult).encode('utf-8')).decode('utf-8').splitlines()
                     NewMarkdownData=MarkdownData.splitlines()
                     ComparisonResult=difflib.HtmlDiff().make_file(OldMarkdownData,NewMarkdownData)#对比结果

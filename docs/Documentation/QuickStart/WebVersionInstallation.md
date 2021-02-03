@@ -170,12 +170,37 @@ docker容器不一定是最新版本
 
 > 服务器请使用手动安装，已确保正常运行
 
-```bash
-docker pull ascotbe/medusa:latest
-git clone https://github.com/Ascotbe/Medusa.git
-cd Medusa
-docker build -t medusa_web .
-docker run -d -i -t --name  medusa2 -p 8082:8082 -p 9999:9999 medusa_web 
-```
+- 首先拉取容器
+
+  ```bash
+  docker pull ascotbe/medusa:latest
+  ```
+
+- 拉取成功后新建一个`dockerfile`文件
+
+  ```
+  vim Dockerfile
+  ```
+
+- 接着再文件中写入如下内容
+
+  ```dockerfile
+  FROM ascotbe/medusa:latest
+  MAINTAINER ascotbe
+  #WORKDIR /Medusa
+  #RUN git pull
+  WORKDIR /Medusa/Vue 
+  RUN npm install
+  WORKDIR /Medusa
+  CMD ["chmod +x run.sh"]
+  CMD ["./run.sh"]
+  ```
+
+- 编译容器后启动
+
+  ```bash
+  docker build -t medusa_web .
+  docker run -d -i -t --name  medusa2 -p 8082:8082 -p 9999:9999 medusa_web 
+  ```
 
 执行完命令访问`http://127.0.0.1:8082`即可

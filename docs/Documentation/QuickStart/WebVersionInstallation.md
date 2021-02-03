@@ -192,7 +192,7 @@ docker容器不一定是最新版本
   WORKDIR /Medusa/Vue 
   RUN npm install
   WORKDIR /Medusa
-  CMD ["chmod +x run.sh"]
+  RUN chmod +x run.sh
   CMD ["./run.sh"]
   ```
 
@@ -200,7 +200,7 @@ docker容器不一定是最新版本
 
   ```bash
   docker build -t medusa_web .
-  docker run -d -i -t --name  medusa2 -p 8082:8082 -p 9999:9999 medusa_web 
+  docker run -d -i -t --name  medusa -p 8082:8082 -p 9999:9999 medusa_web 
   ```
 
 执行完命令访问`http://127.0.0.1:8082`即可

@@ -94,14 +94,14 @@ def MedusaScan(Url,Module,Process,Headers,Proxies,Uid,ActiveScanId):
 
 
 
-@app.task
-def ProxyScan(Url,AgentHeader,**kwargs):
-    ProxuProcessPool = ProcessPool()  # 定义一个线程池
-    for Module in proxy_scan_module_list:
-        try:
-            MedusaVulnerabilityList[Module](ProxuProcessPool, Url, eval(AgentHeader), proxy_scanned_by_proxy, **kwargs)  # 调用列表里面的值
-        except:  # 如果传入非法字符串会调用出错
-            pass
-    ProxuProcessPool.Start(proxy_scan_process)
-    OriginalProxyData().UpdateScanStatus(uid=kwargs.get("Uid"), redis_id=ProxyScan.request.id)  # 获取RedisID后进行更新数据库
-
+# @app.task
+# def ProxyScan(Url,AgentHeader,**kwargs):
+#     ProxuProcessPool = ProcessPool()  # 定义一个线程池
+#     for Module in proxy_scan_module_list:
+#         try:
+#             MedusaVulnerabilityList[Module](ProxuProcessPool, Url, eval(AgentHeader), proxy_scanned_by_proxy, **kwargs)  # 调用列表里面的值
+#         except:  # 如果传入非法字符串会调用出错
+#             pass
+#     ProxuProcessPool.Start(proxy_scan_process)
+#     OriginalProxyData().UpdateScanStatus(uid=kwargs.get("Uid"), redis_id=ProxyScan.request.id)  # 获取RedisID后进行更新数据库
+#

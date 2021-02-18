@@ -151,7 +151,7 @@ import systemHardwareCPU from "./systemHardware/systemHardwareCPU.vue";
 import { Icon } from "ant-design-vue";
 
 const MyIcon = Icon.createFromIconfontCN({
-  scriptUrl: "//at.alicdn.com/t/font_1734998_apjce2fwnsu.js",
+  scriptUrl: "//at.alicdn.com/t/font_1734998_o4dhayzn4z9.js",
 });
 export default {
   name: "dashboard",
@@ -377,22 +377,29 @@ export default {
             {
               name: "目标网站",
               type: this.security,
-              val:res.message.number_of_websites,
+              val:
+                res.message.number_of_websites != "" ? res.message.number_of_websites : 0,
             },
             {
               name: "端口发现",
               type: this.rice,
-              val: res.message.number_of_port,
+              val: res.message.number_of_port != "" ? res.message.number_of_port : 0,
             },
             {
               name: "代理扫描",
               type: this.farmer,
-              val: res.message.number_of_agent_tasks,
+              val:
+                res.message.number_of_agent_tasks != ""
+                  ? res.message.number_of_agent_tasks
+                  : 0,
             },
             {
               name: "发现漏洞",
               type: this.core,
-              val: res.message.number_of_vulnerabilities,
+              val:
+                res.message.number_of_vulnerabilities != ""
+                  ? res.message.number_of_vulnerabilities
+                  : 0,
             },
           ];
           this.myEcharts = {

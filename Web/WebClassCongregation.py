@@ -1495,17 +1495,30 @@ class MarkdownRelationship:#markdown文档和用户相关的数据表
             MarkdownProjectInvitationCode=kwargs.get("markdown_project_invitation_code")
             self.cur.execute("select * from MarkdownRelationship where markdown_project_invitation_code=?", (MarkdownProjectInvitationCode,))  # 查询用户相关信息
             result_list = []
-            if self.cur.fetchall():#判断是否有数据
-                for i in self.cur.fetchall():
-                    JsonValues = {}
-                    JsonValues["uid"] = i[1]
-                    JsonValues["markdown_project_name"] = i[4]
-                    JsonValues["markdown_name"] = i[5]
-                    result_list.append(JsonValues)
-                self.con.close()
-                return result_list
-            else:
+            for i in self.cur.fetchall():
+                JsonValues = {}
+                JsonValues["uid"] = i[1]
+                JsonValues["markdown_project_name"] = i[4]
+                JsonValues["markdown_name"] = i[5]
+                result_list.append(JsonValues)
+            self.con.close()
+            if result_list==[]:#判断是否为空数据
                 return None
+            else:
+                return result_list
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_MarkdownRelationship(class)_InvitationCodeToQueryProjectInformation(def)", e)
+            return None
+    def DetectionOfRepeatedAddition(self,**kwargs):#检测是否重复加入
+        try:
+            Uid=kwargs.get("uid")
+            MarkdownName=kwargs.get("markdown_name")
+            self.cur.execute("select * from MarkdownRelationship where markdown_name=? and uid=?", (MarkdownName,Uid,))  # 查询用户相关信息
+            if self.cur.fetchall():  # 判断是否有数据
+                self.con.close()
+                return True
+            else:
+                return False
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_MarkdownRelationship(class)_InvitationCodeToQueryProjectInformation(def)", e)
             return None

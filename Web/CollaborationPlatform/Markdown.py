@@ -23,10 +23,15 @@ def JoinMarkdownProject(request):#通过邀请码加入项目
                 if Uid != None:  # 查到了UID
                     UserOperationLogRecord(request, request_api="join_markdown_project", uid=Uid)
                     #通过邀请码查询信息后写入到数据库中
-                    ProjectInformation=MarkdownRelationship().InvitationCodeToQueryProjectInformation(markdown_project_invitation_code=MarkdownProjectInvitationCode)#返回项目信息
+                    ProjectInformation=MarkdownRelationship().InvitationCodeToQueryProjectInformation(markdown_project_invitation_code=MarkdownProjectInvitationCode)[0]#返回项目信息
                     if ProjectInformation!=None:#判断是否为空，也就是说查不到内容，或者报错了
                         if Uid!=ProjectInformation["uid"]:#判断是否是自己邀请自己
-                            MarkdownRelationship().Write(markdown_name=ProjectInformation["markdown_name"], uid=Uid,
+                            #还需要一个判断是否已经加入项目
+                            if MarkdownRelationship().DetectionOfRepeatedAddition(markdown_name=ProjectInformation["markdown_name"],uid=Uid):#判断是否已经加入了
+
+                                return JsonResponse({'message': "你已经加入过项目啦~拉卡拉卡~", 'code': 502, })
+                            else:
+                                MarkdownRelationship().Write(markdown_name=ProjectInformation["markdown_name"], uid=Uid,
                                                          markdown_project_name=ProjectInformation["markdown_project_name"],
                                                          markdown_project_owner="0",
                                                          markdown_project_invitation_code="")

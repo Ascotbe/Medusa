@@ -55,7 +55,7 @@ const { baseURL } = require("./src/utils/request")
 
 const faceConfig = () =>{
     return{
-        // 把IP地址修改为你自己的
+        // 如果前后端分离，把IP地址修改为你自己的后端地址
         basePath: 'http://127.0.0.1:9999/api/',
         imgPath:'http://127.0.0.1:9999/s/'
     }
@@ -70,6 +70,7 @@ module.exports = faceConfig()
 
 - 注意启动的端口要和前端配置文件中的相同
 - 注意启动Redis的时候，配置文件的路径请按自己的路径进行替换
+- 以下三条命令都在**Medusa/**根目录下面运行
 
 ```bash
 celery -A Web.Workbench.Tasks worker --loglevel=info --pool=solo
@@ -77,7 +78,7 @@ python3 manage.py runserver 0.0.0.0:9999 --insecure
 redis-server.exe redis.conf
 ```
 
-接着再打开一个窗口，进入Vue目录运行以下命令
+接着再打开一个窗口，在**Medusa/Vue/**目录运行以下命令
 
 ```bash
 npm run serve
@@ -134,7 +135,7 @@ const { baseURL } = require("./src/utils/request")
 
 const faceConfig = () =>{
     return{
-        // 把IP地址修改为你自己的
+        // 如果前后端分离，把IP地址修改为你自己的后端地址
         basePath: 'http://127.0.0.1:9999/api/',
         imgPath:'http://127.0.0.1:9999/s/'
     }
@@ -149,6 +150,7 @@ module.exports = faceConfig()
 
 - 注意启动的端口要和前端配置文件中的相同
 - 注意启动Redis的时候，配置文件的路径请按自己的路径进行替换
+- 以下三条命令都在**Medusa/**根目录下面运行
 
 ```bash
 celery -A Web.Workbench.Tasks worker --loglevel=info --pool=solo
@@ -156,7 +158,7 @@ python3 manage.py runserver 0.0.0.0:9999 --insecure
 redis-server /usr/local/etc/redis.conf
 ```
 
-接着再打开一个窗口，进入Vue目录运行以下命令
+接着再打开一个窗口，在**Medusa/Vue/**目录运行以下命令
 
 ```bash
 npm run serve

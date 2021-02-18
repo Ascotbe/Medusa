@@ -114,7 +114,7 @@ export default {
           {
             name: "未使用",
             type: "value",
-            splitNumber: 4,
+            splitNumber: 5,
             minInterval: 1,
             axisLabel: {
               show: true,

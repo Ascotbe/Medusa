@@ -7,20 +7,14 @@
       ]"
       class="markdown_bg"
     >
-      <a-page-header
-        @back="() => $router.go(-1)"
-        style="border: 1px solid rgb(235, 237, 240)"
-        :title="title"
-      >
-        <a-col :xs="{ span: 24 }" class="header_text">
-          <a-col :xs="{ span: 24 }" :sm="{ span: 12 }" :md="{ span: 8 }">
-            创建时间:{{ MarkdownData.creation_time }}
-          </a-col>
-          <a-col :xs="{ span: 24 }" :sm="{ span: 12 }" :md="{ span: 8 }">
-            最后修改时间:{{ MarkdownData.update_time }}
+      <a-page-header @back="() => $router.go(-1)" class="page_header" :title="title">
+        <a-col :xs="{ span: 24 }" class="header_text"  slot="extra">
+          <a-col :xs="{ span: 24 }" >
+            最后修改时间:<span class="header_text_time">{{ MarkdownData.update_time }}</span>
           </a-col>
         </a-col>
       </a-page-header>
+
       <Markdown
         v-model="MarkdownData.markdown_data"
         ref="Markdown"
@@ -37,6 +31,7 @@
 
 <script>
 import Markdown from "../../../../components/markdown/vue-meditor";
+
 export default {
   components: {
     Markdown,
@@ -150,9 +145,24 @@ export default {
   .markdown_bg {
     min-height: 100%;
     // background: #fff;
-    .header_text {
-      text-align: left;
-      font-size: 16px;
+    .page_header {
+      border: 1px solid rgb(235, 237, 240);
+      // border-top-left-radius: 50px;
+      box-shadow: 0px 2px 5px #6b6b6b;
+      background: #fff;
+      margin-top: 25px;
+      margin-bottom: 15px;
+
+      .header_text {
+        text-align: left;
+        font-size: 16px;
+        .header_text_time{
+          color: #51c51a;
+        }
+      }
+    }
+    .ant-page-header{
+          padding: 8px 24px;
     }
   }
 }

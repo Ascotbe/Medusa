@@ -46,6 +46,8 @@ export const URL_POST_QUERY_MARKDOWN_DATA = `/query_markdown_data/`//用来查�
 export const URL_POST_SAVE_MARKDOWN_DATA = `/save_markdown_data/`//保存Markdown文档数据
 export const URL_POST_MARKDOWN_IMAGE_UPLOAD = `/markdown_image_upload/`//上传Markdown图片
 export const URL_POST_MARKDOWN_DATA_COMPARISON = `/markdown_data_comparison/`//Markdown文档数据对比
+export const URL_POST_JOIN_MARKDOWN_PROJECT = `/join_markdown_project/`//加入协同作战项目
+
 
 
 // API/api/upload_avatar/

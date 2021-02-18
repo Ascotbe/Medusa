@@ -29,7 +29,9 @@
 </template>
 
 <script>
+
 export default {
+ 
   data() {
     return {
       pagination: {
@@ -41,25 +43,28 @@ export default {
           title: "项目名称",
           dataIndex: "markdown_project_name",
           key: "markdown_project_name",
-          width: '20%',
+          width: '15%',
+           ellipsis:true
         },
         {
           title: "项目是否所属自己",
           dataIndex: "markdown_project_owner",
           key: "markdown_project_owner",
-          width: '10%',
+          width: '15%',
         },
         {
           title: "项目邀请码",
           dataIndex: "markdown_project_invitation_code",
           key: "markdown_project_invitation_code",
           width: '40%',
+          ellipsis:true
         },
         {
           title: "创建时间",
           dataIndex: "creation_time",
           key: "creation_time",
           width: '20%',
+           ellipsis:true
         },
         {
           title: "操作",

@@ -30,16 +30,16 @@
         },
         methods: {
             onReady(data) {
-                console.log(data)
+                // console.log(data)
             },
             onCopy(text) {
-                console.log(text);
+                // console.log(text);
             },
             onUpladImage(file) {
-                console.log(file)
+                // console.log(file)
             },
             onSave(data) {
-                console.log(data);
+                // console.log(data);
             }
         }
     }

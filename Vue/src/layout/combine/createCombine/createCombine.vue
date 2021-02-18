@@ -13,18 +13,36 @@
         :xl="{ span: 12, offset: 6 }"
         :xxl="{ span: 10, offset: 7 }"
       >
+        <a-divider>创建协同项目</a-divider>
         <a-form-model
-          :model="form"
+          :model="formCreate"
           :label-col="labelCol"
           :wrapper-col="wrapperCol"
-          :rules="rules"
-          ref="ruleForm"
+          :rules="rulesCreate"
+          ref="ruleFormCreate"
         >
           <a-form-model-item label="项目名称" prop="markdown_project_name">
-            <a-input v-model="form.markdown_project_name" />
+            <a-input v-model="formCreate.markdown_project_name" />
           </a-form-model-item>
-          <a-form-model-item :wrapper-col="{ span: 6, offset: 9 }">
-            <a-button type="primary" @click="handleOnSubmit"> 创建协同任务 </a-button>
+          <a-form-model-item :wrapper-col="{ span: 4, offset: 10 }">
+            <a-button type="primary" @click="handleOnSubmitCreate">
+              创建协同任务
+            </a-button>
+          </a-form-model-item>
+        </a-form-model>
+        <a-form-model
+          :model="formJoin"
+          :label-col="labelCol"
+          :wrapper-col="wrapperCol"
+          :rules="rulesJoin"
+          ref="ruleFormJoin"
+        >
+          <a-divider>加入协同项目</a-divider>
+          <a-form-model-item label="项目邀请码" prop="markdown_project_invitation_code">
+            <a-input v-model="formJoin.markdown_project_invitation_code" />
+          </a-form-model-item>
+          <a-form-model-item :wrapper-col="{ span: 4, offset: 10 }">
+            <a-button type="primary" @click="handleOnSubmitJoin"> 加入协同项目 </a-button>
           </a-form-model-item>
         </a-form-model>
       </a-col>
@@ -43,10 +61,13 @@ export default {
       wrapperCol: {
         span: 14,
       },
-      form: {
+      formCreate: {
         markdown_project_name: "",
       },
-      rules: {
+      formJoin: {
+        markdown_project_invitation_code: "",
+      },
+      rulesCreate: {
         markdown_project_name: [
           {
             required: true,
@@ -55,20 +76,52 @@ export default {
           },
         ],
       },
+      rulesJoin: {
+        markdown_project_invitation_code: [
+          {
+            required: true,
+            message: "请输入项目邀请码",
+            whitespace: true,
+          },
+        ],
+      },
     };
   },
   mounted() {},
   methods: {
-    handleOnSubmit() {
-      this.$refs.ruleForm.validate((valid) => {
+    handleOnSubmitCreate() {
+      this.$refs.ruleFormCreate.validate((valid) => {
         if (valid) {
-          let form = this.form;
+          let form = this.formCreate;
           let params = {
             markdown_project_name: form.markdown_project_name,
             token: localStorage.getItem("storeToken"),
           };
           this.$api.create_markdown_project(params).then((res) => {
             if (res.code == 200) {
+              this.$message.success(res.message);
+              this.$router.push("./combinedList");
+            } else {
+              this.$message.error(res.message);
+            }
+          });
+        } else {
+          this.$message.error("请填写内容");
+          return false;
+        }
+      });
+    },
+    handleOnSubmitJoin() {
+      this.$refs.ruleFormJoin.validate((valid) => {
+        if (valid) {
+          let form = this.formJoin;
+          let params = {
+            markdown_project_invitation_code: form.markdown_project_invitation_code,
+            token: localStorage.getItem("storeToken"),
+          };
+          this.$api.join_markdown_project(params).then((res) => {
+            if (res.code == 200) {
+              console.log(res)
               this.$message.success(res.message);
               this.$router.push("./combinedList");
             } else {

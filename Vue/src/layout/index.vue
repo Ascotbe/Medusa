@@ -9,7 +9,7 @@
           collapsible
           breakpoint="lg"
           collapsed-width="0"
-           ref="layout_sider"
+          ref="layout_sider"
         >
           <div class="logo">
             <img width="100%" height="100%" src="../assets/logo2.png" />
@@ -21,11 +21,7 @@
             :default-open-keys="defaultOpenKeys"
           >
             <template v-for="item in menuList">
-              <a-menu-item
-                :key="item.key"
-                @click="handleGoChange"
-                v-if="!item.children"
-              >
+              <a-menu-item :key="item.key" @click="handleGoChange" v-if="!item.children">
                 <myicon :type="item.iconType" />
                 <span>{{ item.msg }}</span>
               </a-menu-item>
@@ -73,7 +69,7 @@
             </div>
           </a-layout-header>
 
-          <a-layout-content  >
+          <a-layout-content>
             <router-view></router-view>
           </a-layout-content>
         </a-layout>
@@ -85,7 +81,7 @@
 <script>
 import { Icon } from "ant-design-vue";
 const MyIcon = Icon.createFromIconfontCN({
-  scriptUrl: "//at.alicdn.com/t/font_1734998_261bksb0z5p.js",
+  scriptUrl: "//at.alicdn.com/t/font_1734998_0pb6qb17tw9f.js",
 });
 import zhCN from "ant-design-vue/lib/locale-provider/zh_CN";
 import enUS from "ant-design-vue/lib/locale-provider/en_US";
@@ -107,12 +103,12 @@ export default {
         },
         {
           key: "dashboard",
-          iconType: "icon-saomiao1",
+          iconType: "icon-ziyuan",
           msg: "仪表盘",
         },
         {
           key: "sub1",
-          iconType: "icon-ziyuan",
+          iconType: "icon-saomiao1",
           msg: "主动扫描",
           children: [
             {
@@ -144,7 +140,7 @@ export default {
         },
         {
           key: "sub4",
-          iconType: "icon-jiankong",
+          iconType: "icon-heike",
           msg: "跨站脚本钓鱼",
           children: [
             {
@@ -166,17 +162,28 @@ export default {
           ],
         },
         {
-           key: "sub5",
-          iconType: "icon-jiankong",
+          key: "sub5",
+          iconType: "icon-xietong",
           msg: "协同作战",
           children: [
             {
               key: "createCombine",
-              msg: "创建项目",
+              msg: "创建/加入项目",
             },
             {
               key: "combinedList",
               msg: "项目列表",
+            },
+          ],
+        },
+        {
+          key: "sub6",
+          iconType: "icon-gongju",
+          msg: "工具栏",
+          children: [
+            {
+              key: "antivirusSoftwareCompared",
+              msg: "杀毒软件进程查询接口",
             },
           ],
         }
@@ -200,7 +207,6 @@ export default {
   },
   mounted() {
     this.handleGetuserinfo();
-     
   },
   computed: {
     getAvatar() {
@@ -208,8 +214,8 @@ export default {
     },
   },
   methods: {
-    handleCollapsed(){
-      this.collapsed = !this.collapsed
+    handleCollapsed() {
+      this.collapsed = !this.collapsed;
     },
     handleGoChange(e) {
       this.$router.push("/layout/" + e.key);
@@ -221,7 +227,7 @@ export default {
           this.activeIndex = ["personalSettings"];
           break;
         case "logOut":
-          this.$store.commit('close')
+          this.$store.commit("close");
           localStorage.setItem("storeToken", "");
           this.$router.push("/");
           break;
@@ -255,13 +261,11 @@ export default {
           let avatar = res.message.avatar;
           this.$store.commit("avatar", avatar);
           this.headerImg = imgURL + res.message.avatar;
-          (this.username = res.message.name),
-            this.$store.commit("userinfo", userinfo);
+          (this.username = res.message.name), this.$store.commit("userinfo", userinfo);
         } else {
           this.$message.error("用户信息获取出现问题，请重新登录");
           this.$router.push("/");
         }
-      
       });
     },
     Refresh() {
@@ -290,9 +294,9 @@ export default {
     // collapsed: function(){
     //   this.$store.commit('collapsed',this.collapsed)
     // },
-    collapsed:function(){
-      this.$store.commit('collapsed',this.collapsed)
-    }
+    collapsed: function () {
+      this.$store.commit("collapsed", this.collapsed);
+    },
   },
 };
 </script>

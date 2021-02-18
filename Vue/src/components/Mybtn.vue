@@ -19,7 +19,7 @@
 export default {
     props: {
     title: {
-      default: () => '雨辰鸡牛逼',
+      default: () => '',
       type: String
     },
     btn_width: {

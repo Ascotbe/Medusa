@@ -35,11 +35,11 @@ export default {
         };
     },
     mounted() {
-        console.log(this.tableData)
+        // console.log(this.tableData)
     },
     watch: {
         tableData() {
-            console.log(this.tableData)
+            // console.log(this.tableData)
         }
     }
 };

@@ -40,7 +40,8 @@ import {
     URL_POST_QUERY_MARKDOWN_DATA,//用来查询Markdown文档数据
     URL_POST_SAVE_MARKDOWN_DATA,
     URL_POST_MARKDOWN_IMAGE_UPLOAD,
-    URL_POST_MARKDOWN_DATA_COMPARISON
+    URL_POST_MARKDOWN_DATA_COMPARISON,
+    URL_POST_JOIN_MARKDOWN_PROJECT
 
 } from './url'
 import store from '../Vuex'
@@ -312,6 +313,14 @@ let api = {
     // Markdown文档数据对比
     async markdown_data_comparison(params) {
         let response = await post(URL_POST_MARKDOWN_DATA_COMPARISON, params, {
+            headers: {
+            }
+        })
+        return response
+    },
+    // 加入协同作战项目
+    async join_markdown_project(params) {
+        let response = await post(URL_POST_JOIN_MARKDOWN_PROJECT, params, {
             headers: {
             }
         })

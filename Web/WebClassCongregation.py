@@ -803,9 +803,12 @@ class HomeInfo:#查询首页信息表
             #查询高危个数
             self.cur.execute("select scan_info_id from Medusa where uid =? and rank='低危'", (Uid,))
             self.info["low_risk_number"] = str(len(self.cur.fetchall()))
-        except Exception as e:
+        except Exception as e:#设置默认值
             ErrorLog().Write("Web_WebClassCongregation_HomeInfo(class)_NumberOfVulnerabilities(def)", e)
-            return None
+            self.info["number_of_vulnerabilities"]="0"
+            self.info["high_risk_number"] ="0"
+            self.info["mid_risk_number"] ="0"
+            self.info["low_risk_number"] ="0"
 
     def NumberOfWebsites(self, Uid):#查询目标网站个数，通过ActiveScanList列表查询
         try:
@@ -816,24 +819,24 @@ class HomeInfo:#查询首页信息表
 
             self.info["number_of_websites"]=str(len(self.cur.fetchall()))
 
-        except Exception as e:
+        except Exception as e:#设置默认值
             ErrorLog().Write("Web_WebClassCongregation_HomeInfo(class)_NumberOfWebsites(def)", e)
-            return None
+            self.info["number_of_websites"]="0"
     def NumberOfPorts(self, Uid):#查询全部端口发现数量，通过PortInfo表查询
         try:
 
             self.cur.execute("select * from PortInfo where uid=?", (Uid,))
             self.info["number_of_port"]=str(len(self.cur.fetchall()))
-        except Exception as e:
+        except Exception as e:#设置默认值
             ErrorLog().Write("Web_WebClassCongregation_HomeInfo(class)_NumberOfPorts(def)", e)
-            return None
+            self.info["number_of_port"] ="0"
 
     def NumberOfAgentTasks(self,Uid):  # 查询代理扫描数量，暂无模块,所有返回值直接为0
         try:
             self.info["number_of_agent_tasks"] = "0"
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_HomeInfo(class)_GithubMonitorDate(def)", e)
-            return None
+            self.info["number_of_agent_tasks"] = "0"
     def GithubMonitor(self, **kwargs):#查询GitHub监控数据
         StartTime = kwargs.get("start_time")
         EndTime = kwargs.get("end_time")

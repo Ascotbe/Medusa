@@ -3,7 +3,7 @@
 import os
 import sys
 from apscheduler.schedulers.background import BackgroundScheduler
-from Web.CommonVulnerabilityDetection.Github import GithubMonitor
+from Web.CommonVulnerabilitiesAndExposuresMonitor.VulnerabilityUtilizationMonitoring.Github import GithubMonitor
 from Web.SystemInfo.HardwareInfo import Monitor
 from config import github_cve_monitor_job_time,hardware_info_monitor_job_time
 import portalocker#为了兼容Windows

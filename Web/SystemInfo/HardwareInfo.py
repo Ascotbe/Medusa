@@ -10,8 +10,9 @@ import platform  # 包含系统信息查询函数
 def Monitor():#用于监控系统信息
     try:
         MemoryInfo = psutil.virtual_memory()  # 获取完整内存信息
-        MemoryUsed = MemoryInfo.used  # 内存已使用
-        MemoryFree = MemoryInfo.free  # 内存空闲大小
+        # 内存使用率 =  (物理内存大小 - 可用内存大小) / 物理内存大小 * 100
+        MemoryUsed = MemoryInfo.total - MemoryInfo.available  # 内存已使用
+        MemoryFree = MemoryInfo.available  # 内存空闲大小
         MemoryPercent = MemoryInfo.percent  # 内存使用率
         CentralProcessingUnitUsageRate=psutil.cpu_percent(1)#CUP总使用率
         PerCoreCentralProcessingUnitUsageRate= psutil.cpu_percent(percpu=True)#每个CUP使用率

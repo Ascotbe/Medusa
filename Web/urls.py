@@ -17,10 +17,10 @@ from django.urls import path,re_path
 from Web.BasicFunctions import VulnerabilityScanning,VulnerabilityQuery,Registered,User,GenerateReport,ProxyScan,Home,VerificationCode
 from Web.CrossSiteScriptHub import CrossSiteScript,TemplateManagement
 from Web.SystemInfo import HardwareInfo
-from Web.CommonVulnerabilityDetection import Github
+from Web.CommonVulnerabilitiesAndExposuresMonitor.VulnerabilityUtilizationMonitoring import Github
 from Web.ToolsUtility.AntivirusSoftwareMatching import AntivirusSoftware
 from Web.ToolsUtility.BinaryAnalysis import PortableExecute
-from Web.ToolsUtility.ApplicationCollection import CollectionWork
+from Web.ApplicationCollection import CollectionWork
 from Web.CollaborationPlatform import Markdown
 urlpatterns = [
     #用户相关
@@ -49,7 +49,7 @@ urlpatterns = [
     #被动扫描相关
     path('api/create_proxy_scan_project/', ProxyScan.CreateProxyScanProject),  # 创建代理扫描项目
     #监控相关
-    path('api/github_monitor/', Github.GithubQuery),  # GitHub监控数据
+    path('api/github_monitor/', Github.GithubQuery),  # GitHub漏洞利用监控数据
     path('api/system_hardware_usage_query/', HardwareInfo.UsageQuery),  # 获取当前机器cpu和内存使用情况
     path('api/system_hardware_initialization/', HardwareInfo.Initialization),  # 获取当前机器基础信息
     #XSS相关

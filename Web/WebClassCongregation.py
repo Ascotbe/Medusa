@@ -1658,3 +1658,82 @@ class ApplicationCollection:#存放收集到的应用所有数据
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_ApplicationCollection(class)_Query(def)", e)
             return None
+
+class NistData:#存放Nist发布的CVE数据
+    def __init__(self):
+        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        # 获取所创建数据的游标
+        self.cur = self.con.cursor()
+        # 创建表
+        try:
+            self.cur.execute("CREATE TABLE CommonVulnerabilitiesAndExposures\
+                                (common_vulnerabilities_and_exposures_id INTEGER PRIMARY KEY,\
+                                vulnerability_number TEXT NOT NULL,\
+                                v3_base_score TEXT NOT NULL,\
+                                v3_base_severity TEXT NOT NULL,\
+                                v2_base_score TEXT NOT NULL,\
+                                v2_base_severity TEXT NOT NULL,\
+                                last_up_date TEXT NOT NULL,\
+                                vulnerability_description TEXT NOT NULL,\
+                                vendors TEXT NOT NULL,\
+                                products TEXT NOT NULL,\
+                                raw_data TEXT NOT NULL)")
+
+
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_NistData(class)_init(def)", e)
+    def Write(self, DataSet:list) -> bool or None:  # 写入相关信息
+
+        try:
+            self.cur.executemany("INSERT INTO CommonVulnerabilitiesAndExposures(vulnerability_number,v3_base_score,v3_base_severity,v2_base_score,v2_base_severity,last_up_date,vulnerability_description,vendors,products,raw_data)\
+                VALUES (?,?,?,?,?,?,?,?,?,?)", DataSet)
+            # 提交
+            self.con.commit()#只发送数据不结束
+            return True
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_NistData(class)_Write(def)", e)
+            return False
+    # def Update(self, **kwargs) -> bool or None:  # 对数据进行更新
+    #     Uid = kwargs.get("uid")  # 用户id
+    #     Status = "1"#正在扫描还是已经完成
+    #     ApplicationData = kwargs.get("application_data")  # 获取的应用数据
+    #     RedisId = kwargs.get("redis_id")  # Redis值
+    #     RequestFailedApplicationName = kwargs.get("request_failed_application_name")  # 获取失败的应用名
+    #     TotalNumberOfApplications = kwargs.get("total_number_of_applications")  # 全部应用数
+    #     NumberOfFailures = kwargs.get("number_of_failures")  # 获取失败应用数
+    #     try:
+    #         self.cur.execute(
+    #             """UPDATE ApplicationCollection SET status = ?,application_data=?,request_failed_application_name=?,total_number_of_applications=?,number_of_failures=? WHERE redis_id = ? and uid=? """,
+    #             (Status, ApplicationData, RequestFailedApplicationName,TotalNumberOfApplications,NumberOfFailures,RedisId,Uid,))
+    #         # 提交
+    #         if self.cur.rowcount < 1:  # 用来判断是否更新成功
+    #             self.con.commit()
+    #             self.con.close()
+    #             return False
+    #         else:
+    #             self.con.commit()
+    #             self.con.close()
+    #             return True
+    #     except Exception as e:
+    #         ErrorLog().Write("Web_WebClassCongregation_NistData(class)_Update(def)", e)
+    #         return None
+    # def Query(self, **kwargs):  #用来查询用户的项目
+    #     try:
+    #         Uid=kwargs.get("uid")
+    #         self.cur.execute("select * from ApplicationCollection where uid=?", (Uid,))#查询用户相关信息
+    #         result_list = []
+    #         for i in self.cur.fetchall():
+    #             JsonValues = {}
+    #             JsonValues["program_type"] = i[2]
+    #             JsonValues["creation_time"] = i[3]
+    #             JsonValues["status"] = i[4]
+    #             JsonValues["application_data"] = i[5]
+    #             JsonValues["request_failed_application_name"] = i[7]
+    #             JsonValues["total_number_of_applications"] = i[8]
+    #             JsonValues["number_of_failures"] = i[9]
+    #             result_list.append(JsonValues)
+    #         self.con.close()
+    #         return result_list
+    #     except Exception as e:
+    #         ErrorLog().Write("Web_WebClassCongregation_NistData(class)_Query(def)", e)
+    #         return None

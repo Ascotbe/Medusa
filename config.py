@@ -101,14 +101,7 @@ cross_site_script_uses_domain_names="127.0.0.1:1234"#这边填写你当前服务
 #########################################################################
 #子域名查找配置
 #########################################################################
-subdomain_request_timeout=8#超时时间
-subdomain_request_verify=False#设置SSL认证，默认关闭
-common_subnames = {'i', 'w', 'm', 'en', 'us', 'zh', 'w3', 'app', 'bbs',
-                   'web', 'www', 'job', 'docs', 'news', 'blog', 'data',
-                   'help', 'live', 'mall', 'blogs', 'files', 'forum',
-                   'store', 'mobile'}
-enable_recursive_search = False  # 递归搜索子域
-search_recursive_times = 2  # 递归搜索层数
+
 
 #########################################################################
 #WEB工具栏配置

@@ -8,3 +8,6 @@
 # git commit -m  "v0.82.3:palm_tree:"
 # find . -type d -name '__pycache__' | xargs rm -rf
 # pip install python-magic-bin==0.4.14
+
+a="dasd.json.zip"
+print(a[:-4])

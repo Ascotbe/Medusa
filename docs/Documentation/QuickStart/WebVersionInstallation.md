@@ -74,7 +74,7 @@ module.exports = faceConfig()
 
 ```bash
 celery -A Web.Workbench.Tasks worker --loglevel=info --pool=solo
-python3 manage.py runserver 0.0.0.0:9999 --insecure
+python3 manage.py runserver 0.0.0.0:9999 --insecure --noreload
 redis-server.exe redis.conf
 ```
 
@@ -154,7 +154,7 @@ module.exports = faceConfig()
 
 ```bash
 celery -A Web.Workbench.Tasks worker --loglevel=info --pool=solo
-python3 manage.py runserver 0.0.0.0:9999 --insecure
+python3 manage.py runserver 0.0.0.0:9999 --insecure --noreload
 redis-server /usr/local/etc/redis.conf
 ```
 
@@ -170,9 +170,11 @@ npm run serve
 
 docker容器不一定是最新版本
 
-> 服务器请使用手动安装，已确保正常运行
+> 服务器请使用手动安装，否则会照成验证无法加载（是由于配置中地址错误照成）
 >
-> docker源请换成官方源
+> docker源请换成官方源，否则下载的容器是几个月前的
+>
+> 注册中的秘钥在config.py中和手动安装默认秘钥一致
 
 - 首先拉取容器
 

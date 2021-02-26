@@ -7,6 +7,7 @@ from Web.CommonVulnerabilitiesAndExposuresMonitor.VulnerabilityUtilizationMonito
 from Web.SystemInfo.HardwareInfo import Monitor
 from config import github_cve_monitor_job_time,hardware_info_monitor_job_time
 import portalocker#为了兼容Windows
+from Web.CommonVulnerabilitiesAndExposuresMonitor.VulnerabilityNumberMonitoring.Nist import NistInitialization
 import atexit
 
 def main():
@@ -38,5 +39,10 @@ def Job():#定时任务，加锁防止重复运行
     atexit.register(unlock)
 
 if __name__ == '__main__':
+
     Job()
+    NistInitialization()  # 进行CVE数据初始化爬取
     main()
+
+
+

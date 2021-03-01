@@ -18,6 +18,7 @@ from Web.BasicFunctions import VulnerabilityScanning,VulnerabilityQuery,Register
 from Web.CrossSiteScriptHub import CrossSiteScript,TemplateManagement
 from Web.SystemInfo import HardwareInfo
 from Web.CommonVulnerabilitiesAndExposuresMonitor.VulnerabilityUtilizationMonitoring import Github
+from Web.CommonVulnerabilitiesAndExposuresMonitor.VulnerabilityNumberMonitoring import Nist
 from Web.ToolsUtility.AntivirusSoftwareMatching import AntivirusSoftware
 from Web.ToolsUtility.BinaryAnalysis import PortableExecute
 from Web.ApplicationCollection import CollectionWork
@@ -49,7 +50,6 @@ urlpatterns = [
     #被动扫描相关
     path('api/create_proxy_scan_project/', ProxyScan.CreateProxyScanProject),  # 创建代理扫描项目
     #监控相关
-    path('api/github_monitor/', Github.GithubQuery),  # GitHub漏洞利用监控数据
     path('api/system_hardware_usage_query/', HardwareInfo.UsageQuery),  # 获取当前机器cpu和内存使用情况
     path('api/system_hardware_initialization/', HardwareInfo.Initialization),  # 获取当前机器基础信息
     #XSS相关
@@ -66,9 +66,10 @@ urlpatterns = [
     #杂项工具相关
     path('api/antivirus_software_compared/', AntivirusSoftware.Compared),  # 通过获取数据进行对比目标机器的杀软
     path('api/windows_portable_execute_analysis/', PortableExecute.Windows),  # windows文件上传后进行结构处理
+    # path('api/linux_executable_linkable_format_analysis/', ExecutableLinkableFormat.Linux),# Linux文件上传后进行结构处理
+    #APP收集相关
     path('api/apple_app_collection/', CollectionWork.AppleAppCollection),  # IOS搜集下发接口
     path('api/application_collection_query/', CollectionWork.ApplicationCollectionQuery),  # 应用收集统一查询接口
-    #path('api/linux_executable_linkable_format_analysis/', ExecutableLinkableFormat.Linux),# Linux文件上传后进行结构处理
     #协同作战相关
     path('api/create_markdown_project/', Markdown.CreateMarkdownProject),#创建协同作战项目
     path('api/join_markdown_project/', Markdown.JoinMarkdownProject),#加入协同作战项目
@@ -77,4 +78,13 @@ urlpatterns = [
     path('api/query_markdown_data/', Markdown.QueryMarkdownData),#查询协同作战中文档数据
     path('api/markdown_image_upload/', Markdown.MarkdownImageUpload),#文档中的上传图片接口
     path('api/markdown_data_comparison/', Markdown.MarkdownDataComparison),#文档中的数据对比接口
+    #CVE监控相关
+    path('api/github_monitor/', Github.GithubQuery),  # GitHub漏洞利用监控数据
+    path('api/nist_data_bulk_query/', Nist.NistDataBulkQuery),  #分页全部精简数据查询
+    path('api/nist_data_detailed_query/', Nist.NistDataDetailedQuery),  #单个CVE详情查询
+    path('api/nist_statistics/', Nist.NistStatistics),  # CVE总量数据统计
+    path('api/nist_severity_filter/', Nist.NistSeverityFilter),  # 严重性筛选查询
+    path('api/nist_vendors_filter/', Nist.NistVendorsFilter),  # 厂商名称筛选查询
+    path('api/nist_products_filter/', Nist.NistProductsFilter),  #产品筛选查询
+
 ]

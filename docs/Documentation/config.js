@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-22 20:02:53
- * @LastEditTime: 2021-01-18 17:51:37
+ * @LastEditTime: 2021-03-01 17:53:06
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /undefined/Users/ascotbe/code/Medusa/docs/Documentation/config.js
@@ -69,6 +69,12 @@ let config = {
                 },
                 {
                     title: '工具库', path: '/API/Tools'
+                },
+                {
+                    title: 'APP收集', path: '/API/ApplicationCollection'
+                },
+                {
+                    title: 'CVE监控', path: '/API/CommonVulnerabilitiesAndExposures'
                 },
                 {
                     title: 'XSS平台', path: '/API/CrossSiteScript'

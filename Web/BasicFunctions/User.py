@@ -45,7 +45,7 @@ def Login(request):#用户登录，每次登录成功都会刷新一次Token
             else:
                 return JsonResponse({'message': "验证码或者验证码秘钥不能为空！", 'code': 504, })
         except Exception as e:
-            ErrorLog().Write("Web_BasicFunctions_User_LogIn(def)", e)
+            ErrorLog().Write("Web_BasicFunctions_User_Login(def)", e)
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
@@ -259,7 +259,7 @@ def ForgetPassword(request):#忘记密码接口
             else:
                 return JsonResponse({'message': "验证码或者验证码秘钥不能为空！", 'code': 504, })
         except Exception as e:
-            ErrorLog().Write("Web_BasicFunctions_User_RequestLogRecord(def)", e)
+            ErrorLog().Write("Web_BasicFunctions_User_ForgetPassword(def)", e)
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 

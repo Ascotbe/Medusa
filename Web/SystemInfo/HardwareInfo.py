@@ -83,7 +83,7 @@ def UsageQuery(request):  # 用于查询CPU和硬件的使用情况
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_SystemInfo_HardwareInfo_Initialization(def)", e)
+            ErrorLog().Write("Web_SystemInfo_HardwareInfo_UsageQuery(def)", e)
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 

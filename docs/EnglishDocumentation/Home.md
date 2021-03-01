@@ -17,7 +17,7 @@
 >
 > `bash` Ver. Online
 >
-> `Web` Ver. Online
+> `Web` Alpha Ver. Online
 
 
 ## Demo
@@ -39,7 +39,7 @@
 Add the following content to the original [protocol](https://github.com/Ascotbe/Medusa/blob/master/LICENSE):
 
 - If there is any ambiguity, the Chinese version of the description shall be the only explanation
-
+- Commercial use after secondary development is prohibited in this project 
 - Unauthorized commercial use is prohibited for this project
 - This project is only for the safe construction activities of enterprises that are **legally authorized**. When using this project for testing, you should ensure that the behavior complies with local laws and regulations and has obtained sufficient authorization.
 - If you have any illegal behavior in the process of using this project, you need to bear the corresponding consequences yourself, and we will not bear any legal and joint liabilities.

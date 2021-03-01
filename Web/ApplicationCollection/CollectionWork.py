@@ -57,7 +57,7 @@ def AppleAppCollection(request):  # IOS的程序收集
             else:
                 return JsonResponse({'message': "小宝贝这是非法请求哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_ToolsUtility_ApplicationSoftwareCollection_AppleAppCollection(def)", e)
+            ErrorLog().Write("Web_ApplicationCollection_CollectionWork_AppleAppCollection(def)", e)
             return JsonResponse({'message': "出现未知错误，详情看日志文件", 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
@@ -81,7 +81,7 @@ def ApplicationCollectionQuery(request):#APP收集统一查询接口
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_ToolsUtility_ApplicationSoftwareCollection_ApplicationCollectionQuery(def)", e)
+            ErrorLog().Write("Web_ApplicationCollection_CollectionWork_ApplicationCollectionQuery(def)", e)
             return JsonResponse({'message': "呐呐呐！莎酱被玩坏啦(>^ω^<)", 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
@@ -116,7 +116,7 @@ def AppleCollectionWork(AppName,Uid):#ios收集工作程序
                 if apps['id'] not in IdList:
                     IdList.append(apps['id'])
     except Exception as e:
-        ErrorLog().Write("Web_ToolsUtility_ApplicationSoftwareCollection_AppleCollectionWork(def)-GetDeveloperPage", e)
+        ErrorLog().Write("Web_ApplicationCollection_CollectionWork_AppleCollectionWork(def)-GetDeveloperPage", e)
 
     DataAddress='https://uclient-api.itunes.apple.com/WebObjects/MZStorePlatform.woa/wa/lookup?version=2&caller=webExp&p=lockup&useSsl=true&cc=CN&id=' + ','.join(IdList)
     try:
@@ -124,7 +124,7 @@ def AppleCollectionWork(AppName,Uid):#ios收集工作程序
         for key in json.loads(GetCompleteData.text)['results']:
             ApplicationNameList.append(json.loads(GetCompleteData.text)['results'][key]['name'])  # 获取APP名字
     except Exception as e:
-        ErrorLog().Write("Web_ToolsUtility_ApplicationSoftwareCollection_AppleCollectionWork(def)-GetCompleteData"  , e)
+        ErrorLog().Write("Web_ApplicationCollection_CollectionWork_AppleCollectionWork(def)-GetCompleteData"  , e)
 
 
     for Name in ApplicationNameList:
@@ -155,7 +155,7 @@ def AppleCollectionWork(AppName,Uid):#ios收集工作程序
             #time.sleep(3)#暂停3秒防止被封
         except Exception as e:
             RequestFailedApplicationName.append(Name)#请求超时
-            ErrorLog().Write("Web_ToolsUtility_ApplicationSoftwareCollection_AppleCollectionWork(def)-"+Name, e)
+            ErrorLog().Write("Web_ApplicationCollection_CollectionWork_AppleCollectionWork(def)-ApplyCompleteData"+Name, e)
     # FinalResults["FinalResults"]=json.dumps(ApplicationResultsList)#对提取的数据进行json化
     # FinalResults["RequestFailedApplicationName"] =json.dumps(RequestFailedApplicationName)#请求失败数据
     # FinalResults["Total"]=int(len(ApplicationNameList))#总数

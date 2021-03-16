@@ -33,4 +33,4 @@ cryptography==3.2.1
 captcha==0.3
 datetime==4.3
 aiohttp==3.7.4
-aiohttp==3.7.4
+aiofiles==0.6.0

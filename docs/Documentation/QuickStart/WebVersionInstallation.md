@@ -172,8 +172,6 @@ npm run serve
 
 docker容器不一定是最新版本
 
-> 服务器请使用手动安装，否则会照成验证无法加载（是由于配置中地址错误照成）
->
 > docker源请换成官方源，否则下载的容器是几个月前的
 >
 > 注册中的秘钥在config.py中和手动安装默认秘钥一致
@@ -192,12 +190,15 @@ docker容器不一定是最新版本
 
 - 接着再文件中写入如下内容
 
+  > 如果是服务器部署需要替换文中的**http://127.0.0.1:9999**为您服务器的ip地址，否则会照成服务器无法访问后端
+
   ```dockerfile
   FROM ascotbe/medusa:latest
   MAINTAINER ascotbe
   #WORKDIR /Medusa
   #RUN git pull
   WORKDIR /Medusa/Vue 
+  RUN echo "const { baseURL } = require(\"./src/utils/request\")\nconst faceConfig = () =>{\n    return{\n        basePath: 'http://127.0.0.1:9999/api/',\n        imgPath:'http://127.0.0.1:9999/s/'\n    }\n}\nmodule.exports = faceConfig()">faceConfig.js
   RUN npm install
   WORKDIR /Medusa
   RUN chmod +x run.sh
@@ -211,4 +212,4 @@ docker容器不一定是最新版本
   docker run -d -i -t --name  medusa -p 8082:8082 -p 9999:9999 medusa_web 
   ```
 
-执行完命令访问`http://127.0.0.1:8082`即可
+执行完命令访问`http://127.0.0.1:8082`即可，如果是服务器访问`http://你服务器IP:8082`

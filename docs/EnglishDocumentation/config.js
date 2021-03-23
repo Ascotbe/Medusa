@@ -19,6 +19,6 @@ let config = {
 
 
     ],
-    tocVisibleDepth: 2,
+    tocVisibleDepth: 10,
     plugins: []
 };

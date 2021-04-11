@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-22 20:02:53
- * @LastEditTime: 2021-03-01 17:53:06
+ * @LastEditTime: 2021-04-11 18:18:16
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /undefined/Users/ascotbe/code/Medusa/docs/Documentation/config.js
@@ -93,6 +93,9 @@ let config = {
                 },
                 {
                     title: '验证码', path: '/API/VerificationCode'
+                },
+                {
+                    title: 'DNSLOG', path: '/API/DomainNameSystemLog'
                 },
             ]
         },

@@ -8,3 +8,12 @@
 # git commit -m  "v0.82.3:palm_tree:"
 # find . -type d -name '__pycache__' | xargs rm -rf
 # pip install python-magic-bin==0.4.14
+
+a="."+"dnslog.ascotbe.com"
+v="test2.d.dnslog.ascotbe.com"
+c=len(a)
+b=v[-c:]
+if b==a:
+    print("ddddd")
+print(c)
+print(b)

@@ -23,6 +23,7 @@ from Web.ToolsUtility.AntivirusSoftwareMatching import AntivirusSoftware
 from Web.ToolsUtility.BinaryAnalysis import PortableExecute
 from Web.ApplicationCollection import CollectionWork
 from Web.CollaborationPlatform import Markdown
+from Web.DomainNameSystemLog import DomainNameSystemData
 urlpatterns = [
     #用户相关
     path('api/registered/', Registered.Registered),#注册
@@ -86,5 +87,7 @@ urlpatterns = [
     path('api/nist_severity_filter/', Nist.NistSeverityFilter),  # 严重性筛选查询
     path('api/nist_vendors_filter/', Nist.NistVendorsFilter),  # 厂商名称筛选查询
     path('api/nist_products_filter/', Nist.NistProductsFilter),  #产品筛选查询
+    #DNSLOG
+    path('api/domain_name_system_log/', DomainNameSystemData.Query),  # DNSLOG数据查询
 
 ]

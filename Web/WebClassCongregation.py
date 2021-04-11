@@ -6,7 +6,7 @@ import base64
 import sqlite3
 import json
 from ClassCongregation import GetDatabaseFilePath,ErrorLog,randoms,GetRootFileLocation
-
+from config import domain_name_system_address
 
 class UserInfo:#用户表
     def __init__(self):
@@ -1846,3 +1846,58 @@ class NistData:#存放Nist发布的CVE数据
     #     except Exception as e:
     #         ErrorLog().Write("Web_WebClassCongregation_NistData(class)_Update(def)", e)
     #         return None
+class DomainNameSystemLog:  # 存放DNSLOG数据
+    def __init__(self):
+        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        # 获取所创建数据的游标
+        self.cur = self.con.cursor()
+        # 创建表
+        try:
+            self.cur.execute("CREATE TABLE DomainNameSystemLog\
+                                (dnslog_id INTEGER PRIMARY KEY,\
+                                domain_name TEXT NOT NULL,\
+                                ip TEXT NOT NULL,\
+                                creation_time TEXT NOT NULL)")
+
+
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_DomainNameSystemLog(class)_init(def)", e)
+
+    def Write(self,**kwargs) -> bool or None:  # 写入相关信息
+        CreationTime = str(int(time.time()))  # 创建时间
+        Ip = kwargs.get("ip")  # 请求IP不一定准确
+        DomainName = kwargs.get("domain_name")  # 获取解析域名
+        try:
+            DomainNameSystemAddressLength=len("."+domain_name_system_address)#获取长度，加点是为了截断域名
+            TreatmentDomainName=DomainName[-DomainNameSystemAddressLength:]#进行截断处理
+            if TreatmentDomainName=="."+domain_name_system_address:
+                try:
+                    self.cur.execute("INSERT INTO DomainNameSystemLog(domain_name,ip,creation_time)\
+                        VALUES (?,?,?)",(DomainName,Ip,CreationTime,))
+                    # 提交
+                    self.con.commit()  # 只发送数据不结束
+                    self.con.close()
+                    return True
+                except Exception as e:
+                    ErrorLog().Write("Web_WebClassCongregation_DomainNameSystemLog(class)_Write(def)", e)
+                    return False
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_DomainNameSystemLog(class)_Write(def)-TreatmentDomainName", e)
+            return None
+    def Query(self, **kwargs):  #用来查询数据
+        try:
+            NumberOfSinglePages=100#单页数量
+            NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
+            self.cur.execute("select domain_name,ip,creation_time  from DomainNameSystemLog limit ? offset ?", (NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询相关信息
+            result_list = []
+            for i in self.cur.fetchall():
+                JsonValues = {}
+                JsonValues["domain_name"] = i[0]
+                JsonValues["ip"] = i[1]
+                JsonValues["creation_time"] = i[2]
+                result_list.append(JsonValues)
+            self.con.close()
+            return result_list
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_DomainNameSystemLog(class)_Query(def)", e)
+            return None

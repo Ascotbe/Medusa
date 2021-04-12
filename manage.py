@@ -5,10 +5,12 @@ import sys
 from apscheduler.schedulers.background import BackgroundScheduler
 from Web.CommonVulnerabilitiesAndExposuresMonitor.VulnerabilityUtilizationMonitoring.Github import GithubMonitor
 from Web.SystemInfo.HardwareInfo import Monitor
-from config import github_cve_monitor_job_time,hardware_info_monitor_job_time
+from config import github_cve_monitor_job_time,hardware_info_monitor_job_time,nist_update_job_time
 import portalocker#为了兼容Windows
-from Web.CommonVulnerabilitiesAndExposuresMonitor.VulnerabilityNumberMonitoring.Nist import NistInitialization
+from Web.CommonVulnerabilitiesAndExposuresMonitor.VulnerabilityNumberMonitoring.NistInitialization import NistInitialization
 import atexit
+from Web.CommonVulnerabilitiesAndExposuresMonitor.VulnerabilityNumberMonitoring.NistUpdate import NistUpdateDownload
+
 
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Web.settings')
@@ -29,6 +31,7 @@ def Job():#定时任务，加锁防止重复运行
         scheduler = BackgroundScheduler()
         scheduler.add_job(GithubMonitor, 'interval', id='github_cve_monitor_job', seconds=github_cve_monitor_job_time)
         scheduler.add_job(Monitor, 'interval', id='hardware_info_monitor_job', seconds=hardware_info_monitor_job_time)
+        scheduler.add_job(NistUpdateDownload, 'interval', id='nist_update_job', seconds=nist_update_job_time)
         scheduler.start()
     except:
         pass

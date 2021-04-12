@@ -1822,30 +1822,34 @@ class NistData:#存放Nist发布的CVE数据
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_NistData(class)_ProductsQuery(def)", e)
             return None
-    # def Update(self, **kwargs) -> bool or None:  # 对数据进行更新
-    #     Uid = kwargs.get("uid")  # 用户id
-    #     Status = "1"#正在扫描还是已经完成
-    #     ApplicationData = kwargs.get("application_data")  # 获取的应用数据
-    #     RedisId = kwargs.get("redis_id")  # Redis值
-    #     RequestFailedApplicationName = kwargs.get("request_failed_application_name")  # 获取失败的应用名
-    #     TotalNumberOfApplications = kwargs.get("total_number_of_applications")  # 全部应用数
-    #     NumberOfFailures = kwargs.get("number_of_failures")  # 获取失败应用数
-    #     try:
-    #         self.cur.execute(
-    #             """UPDATE ApplicationCollection SET status = ?,application_data=?,request_failed_application_name=?,total_number_of_applications=?,number_of_failures=? WHERE redis_id = ? and uid=? """,
-    #             (Status, ApplicationData, RequestFailedApplicationName,TotalNumberOfApplications,NumberOfFailures,RedisId,Uid,))
-    #         # 提交
-    #         if self.cur.rowcount < 1:  # 用来判断是否更新成功
-    #             self.con.commit()
-    #             self.con.close()
-    #             return False
-    #         else:
-    #             self.con.commit()
-    #             self.con.close()
-    #             return True
-    #     except Exception as e:
-    #         ErrorLog().Write("Web_WebClassCongregation_NistData(class)_Update(def)", e)
-    #         return None
+    def Update(self, UpdateData) -> bool or None:  # 对数据进行更新
+
+        try:
+            self.cur.executemany(
+                """UPDATE CommonVulnerabilitiesAndExposures SET vulnerability_number = ?,v3_base_score=?,v3_base_severity=?,v2_base_score=?,v2_base_severity=?,last_up_date=?,vulnerability_description=?,vendors=?,products=?,raw_data=? WHERE vulnerability_number=? """,
+                UpdateData)
+            if self.cur.rowcount < 1:  # 用来判断是否更新成功
+                self.con.commit()
+                return False
+            else:
+                self.con.commit()
+                return True
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_NistData(class)_Update(def)", e)
+            return False
+    def UniqueInquiry(self, **kwargs) -> bool or None:  # 对更新的数据进行检查，判断数据库中是否是唯一的
+        try:
+            VulnerabilityNumber=kwargs.get("vulnerability_number")
+            self.cur.execute("select vulnerability_number  from CommonVulnerabilitiesAndExposures where vulnerability_number=?", (VulnerabilityNumber,))
+            if self.cur.fetchall():  # 判断是否有数据
+                return True
+            else:
+                return False
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_NistData(class)_UniqueInquiry(def)", e)
+            return None
+
+
 class DomainNameSystemLog:  # 存放DNSLOG数据
     def __init__(self):
         self.con = sqlite3.connect(GetDatabaseFilePath().result())

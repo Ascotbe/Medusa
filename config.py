@@ -90,13 +90,13 @@ forget_password_key="https://github.com/Ascotbe/Medusa"#修改密码所需要的
 #XSS项目配置
 #########################################################################
 default_template_file_list=["test.js","get_cookie.js","required_documents.js","xss.js"]#默认模板文件名列表
+cross_site_script_uses_domain_names="127.0.0.1:1234"#这边填写你当前服务器的域名，IP也行包括端口，用户生成POC使用
 
 
 #########################################################################
 #机器硬件监控配置
 #########################################################################
-hardware_info_monitor_job_time=10#工作间隔
-cross_site_script_uses_domain_names="127.0.0.1:1234"#这边填写你当前服务器的域名，IP也行包括端口，用户生成POC使用
+hardware_info_monitor_job_time=20#工作间隔
 
 #########################################################################
 #子域名查找配置

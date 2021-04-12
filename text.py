@@ -8,10 +8,3 @@
 # git commit -m  "v0.82.3:palm_tree:"
 # find . -type d -name '__pycache__' | xargs rm -rf
 # pip install python-magic-bin==0.4.14
-from Web.CommonVulnerabilitiesAndExposuresMonitor.VulnerabilityNumberMonitoring.NistUpdate import NistUpdateProcessing
-from ClassCongregation import GetTempFilePath
-TempFilePath = GetTempFilePath().Result()  # 获取TMP文件路径
-NistUpdateDownload(TempFilePath)
-FileName = "nvdcve-1.1-" + str("modified") + ".json.zip"  # 下载文件名
-SaveFileName = "nvdcve-1.1-modified1618141901.json.zip"
-NistUpdateProcessing(TempFilePath+SaveFileName,FileName[:-4])

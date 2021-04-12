@@ -9,6 +9,7 @@ from config import github_cve_monitor_job_time,hardware_info_monitor_job_time,ni
 import portalocker#为了兼容Windows
 from Web.CommonVulnerabilitiesAndExposuresMonitor.VulnerabilityNumberMonitoring.NistInitialization import NistInitialization
 import atexit
+from ClassCongregation import ErrorLog
 from Web.CommonVulnerabilitiesAndExposuresMonitor.VulnerabilityNumberMonitoring.NistUpdate import NistUpdateDownload
 
 
@@ -33,8 +34,8 @@ def Job():#定时任务，加锁防止重复运行
         scheduler.add_job(Monitor, 'interval', id='hardware_info_monitor_job', seconds=hardware_info_monitor_job_time)
         scheduler.add_job(NistUpdateDownload, 'interval', id='nist_update_job', seconds=nist_update_job_time)
         scheduler.start()
-    except:
-        pass
+    except Exception as e:
+        ErrorLog().Write("manage_Job(def)",e)
 
     def unlock():
         portalocker.unlock(f)

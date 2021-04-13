@@ -3,6 +3,7 @@
 import socketserver
 import struct
 from Web.WebClassCongregation import DomainNameSystemLog
+from ClassCongregation import ErrorLog
 # DNS Query
 class DNSQuery:
     def __init__(self, data):
@@ -36,11 +37,13 @@ class DNSAnswer:
         self.ip = ip
 
     def getbytes(self):
-        res = struct.pack('>HHHLH', self.name, self.type, self.classify, self.timetolive, self.datalength)
-        s = self.ip.split('.')
-        res = res + struct.pack('BBBB', int(s[0]), int(s[1]), int(s[2]), int(s[3]))
-        return res
-
+        try:
+            res = struct.pack('>HHHLH', self.name, self.type, self.classify, self.timetolive, self.datalength)
+            s = self.ip.split('.')
+            res = res + struct.pack('BBBB', int(s[0]), int(s[1]), int(s[2]), int(s[3]))
+            return res
+        except Exception as e:
+            ErrorLog().Write("DomainNameSystemServer_DNSAnswer(class)_getbytes(def)", e)
 
 # DNS frame
 class DNSFrame:
@@ -58,31 +61,37 @@ class DNSFrame:
         self.flags = 33152
 
     def getbytes(self):
-        res = struct.pack('>HHHHHH', self.id, self.flags, self.quests, self.answers, self.author, self.addition)
-        res = res + self.query.getbytes()
-        if self.answers != 0:
-            res = res + self.answer.getbytes()
-        return res
-
+        try:
+            res = struct.pack('>HHHHHH', self.id, self.flags, self.quests, self.answers, self.author, self.addition)
+            res = res + self.query.getbytes()
+            if self.answers != 0:
+                res = res + self.answer.getbytes()
+            return res
+        except Exception as e:
+            ErrorLog().Write("DomainNameSystemServer_DNSFrame(class)_getbytes(def)", e)
 
 # A UDPHandler to handle DNS query
 class DNSUDPHandler(socketserver.BaseRequestHandler):
     def handle(self):
-        data = self.request[0].strip()
-        dns = DNSFrame(data)
-        socket = self.request[1]
-        namemap = DNSServer.namemap
-        if (dns.query.type == 1):
-            # If this is query a A record, thenresponse it
-            name = dns.getname()
-            toip = namemap['*']
-            dns.setip(toip)
-            DomainNameSystemLog().Write(ip=self.client_address[0],domain_name=name)
-            #print('%s:%s-->%s' % (self.client_address[0], name, toip))
-            socket.sendto(dns.getbytes(), self.client_address)
-        else:
-            # If this is notquery a A record, ignore it
-            socket.sendto(data, self.client_address)
+        try:
+            data = self.request[0].strip()
+            dns = DNSFrame(data)
+            socket = self.request[1]
+            namemap = DNSServer.namemap
+            if (dns.query.type == 1):
+                # If this is query a A record, thenresponse it
+                name = dns.getname()
+                toip = namemap['*']
+                dns.setip(toip)
+                DomainNameSystemLog().Write(ip=self.client_address[0],domain_name=name)
+                #print('%s:%s-->%s' % (self.client_address[0], name, toip))
+                socket.sendto(dns.getbytes(), self.client_address)
+            else:
+                # If this is notquery a A record, ignore it
+                socket.sendto(data, self.client_address)
+
+        except Exception as e:
+            ErrorLog().Write("DomainNameSystemServer_DNSUDPHandler(class)_getbytes(def)", e)
 
 
 # DNS Server
@@ -100,7 +109,8 @@ class DNSServer:
         server.serve_forever()
 
 
-if __name__ == "__main__":
+
+def DomainNameSystemServer():
     sev = DNSServer()
     sev.addname('*', '127.0.0.1')  # default address
     sev.start()

@@ -542,6 +542,12 @@ class randoms:  # 生成随机数
         for i in range(nub):
             salt += random.choice(H)
         return salt
+    def EnglishAlphabet(self, nub: int) -> str:#生成英文字母
+        H = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+        salt = ""
+        for i in range(nub):
+            salt += random.choice(H)
+        return salt
 
 
 class UniformResourceLocatorParameterSubstitution:#对URL参数进行替换
@@ -944,7 +950,15 @@ class GetAnalysisFileStoragePath:  # 获取分析文件存储路径类
             TempFileLocation = GetRootFileLocation().Result()+"/Web/ToolsUtility/BinaryAnalysis/AnalysisFileStorage/"
             return TempFileLocation
 
-
+class GetVirusFilePath:  # 获取生成好的病毒文件路径
+    def Result(self) -> str:
+        system_type = sys.platform
+        if system_type == "win32" or system_type == "cygwin":
+            TempFileLocation = GetRootFileLocation().Result()+"\\Web\\AntiAntiVirus\\VirusFile\\"
+            return TempFileLocation
+        elif system_type == "linux" or system_type == "darwin":
+            TempFileLocation = GetRootFileLocation().Result()+"/Web/AntiAntiVirus/VirusFile/"
+            return TempFileLocation
 def PortReplacement(Url,Prot):#替换URL里面的端口
     try:
         Result = re.sub(r':(6[0-5]{2}[0-3][0-5]|[1-5]\d{4}|[1-9]\d{1,3}|[0-9])', ":"+str(Prot), Url)

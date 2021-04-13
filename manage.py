@@ -11,7 +11,7 @@ from Web.CommonVulnerabilitiesAndExposuresMonitor.VulnerabilityNumberMonitoring.
 import atexit
 from ClassCongregation import ErrorLog
 from Web.CommonVulnerabilitiesAndExposuresMonitor.VulnerabilityNumberMonitoring.NistUpdate import NistUpdateDownload
-
+from DomainNameSystemServer import DomainNameSystemServer
 
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Web.settings')
@@ -47,6 +47,7 @@ if __name__ == '__main__':
     Job()
     NistInitialization()  # 进行CVE数据初始化爬取
     main()
+    DomainNameSystemServer()#启动DNSserver
 
 
 

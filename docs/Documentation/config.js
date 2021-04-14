@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-22 20:02:53
- * @LastEditTime: 2021-04-11 18:18:16
+ * @LastEditTime: 2021-04-15 01:49:42
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /undefined/Users/ascotbe/code/Medusa/docs/Documentation/config.js
@@ -96,6 +96,9 @@ let config = {
                 },
                 {
                     title: 'DNSLOG', path: '/API/DomainNameSystemLog'
+                },
+                {
+                    title: '免杀生成', path: '/API/AntiAntiVirus'
                 },
             ]
         },

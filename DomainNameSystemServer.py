@@ -110,7 +110,7 @@ class DNSServer:
 
 
 
-def DomainNameSystemServer():
+if __name__ == '__main__':
     sev = DNSServer()
     sev.addname('*', '127.0.0.1')  # default address
     sev.start()

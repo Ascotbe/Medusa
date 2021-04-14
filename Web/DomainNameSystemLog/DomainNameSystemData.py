@@ -29,3 +29,31 @@ def Query(request):  # 用于查询DNSLOG数据
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
+"""domain_name_system_log_statistics
+{
+	"token": "xxx"
+}
+"""
+def Statistics(request):#对当前整体数据进行统计
+    RequestLogRecord(request, request_api="domain_name_system_log_statistics")
+    if request.method == "POST":
+        try:
+            Token=json.loads(request.body)["token"]
+            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
+            if Uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="domain_name_system_log_statistics", uid=Uid)  # 查询到了在计入
+                SearchResult=DomainNameSystemLog().StatisticalData()#统计的个数
+                return JsonResponse({'message': SearchResult, 'code': 200, })
+            else:
+                return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
+        except Exception as e:
+            ErrorLog().Write("Web_DomainNameSystemLog_DomainNameSystemData_Statistics(def)", e)
+    else:
+        return JsonResponse({'message': '请使用Post请求', 'code': 500, })
+
+
+def test(request):  # 用于查询DNSLOG数据
+    if request.method == "POST":
+        NumberOfPages = request.body["test"]
+        print(NumberOfPages)
+        return JsonResponse({'message': '请使用Post请求', 'code': 500, })

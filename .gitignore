@@ -2,6 +2,7 @@
 **/.DS_Store
 **/__pycache__
 Medusa.db
+Nist.db
 my.log
 Log
 ScanResult

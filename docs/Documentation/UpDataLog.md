@@ -2609,4 +2609,6 @@ v0.99.1🌴
 修改AntiAntiVirusData类函数传入参数和SQL语句
 修改API文档
 修复若干命名等问题
+v0.99.2🌴
+还原DNSLOG采集问题
 ```

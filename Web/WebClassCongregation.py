@@ -1924,6 +1924,8 @@ class AntiAntiVirusData:#免杀病毒相关数据库
         try:
             self.cur.execute("CREATE TABLE AntiAntiVirus\
                                 (anti_anti_virus_id INTEGER PRIMARY KEY,\
+                                uid TEXT NOT NULL,\
+                                shellcode_type TEXT NOT NULL,\
                                 virus_original_file_name TEXT NOT NULL,\
                                 virus_generate_file_name TEXT NOT NULL,\
                                 compilation_status TEXT NOT NULL,\
@@ -1934,23 +1936,26 @@ class AntiAntiVirusData:#免杀病毒相关数据库
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_AntiAntiVirusData(class)_init(def)", e)
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
+        Uid = kwargs.get("uid")
         VirusOriginalFileName=kwargs.get("virus_original_file_name")
+        ShellcodeType = kwargs.get("shellcode_type")#1为MSF类型的，2为CS类型的
         VirusGenerateFileName = kwargs.get("virus_generate_file_name")
         CompilationStatus = kwargs.get("compilation_status")#状态0为未完成，1完成，-1出错
         RedisId = kwargs.get("redis_id")
         CreationTime = str(int(time.time()))  # 创建时间
         try:
-            self.cur.execute("INSERT INTO AntiAntiVirus(virus_original_file_name,virus_generate_file_name,compilation_status,redis_id,creation_time)\
-                VALUES (?,?,?,?,?)", (VirusOriginalFileName, VirusGenerateFileName,CompilationStatus,RedisId, CreationTime,))
+            self.cur.execute("INSERT INTO AntiAntiVirus(uid,shellcode_type,virus_original_file_name,virus_generate_file_name,compilation_status,redis_id,creation_time)\
+                VALUES (?,?,?,?,?,?,?)", (Uid,ShellcodeType,VirusOriginalFileName, VirusGenerateFileName,CompilationStatus,RedisId, CreationTime,))
             self.con.commit()  # 只发送数据不结束
             self.con.close()
             return True
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_AntiAntiVirusData(class)_Write(def)", e)
             return False
-    def StatisticalData(self):  # 整体个数统计
+    def StatisticalData(self,**kwargs):  # 当前用户个数统计
+        Uid = kwargs.get("uid")
         try:
-            self.cur.execute("SELECT COUNT(1)  FROM AntiAntiVirus",)
+            self.cur.execute("SELECT COUNT(1)  FROM AntiAntiVirus WHERE uid=?",(Uid,))
             Result=self.cur.fetchall()[0][0]#获取数据个数
             self.con.close()
             return Result
@@ -1974,3 +1979,24 @@ class AntiAntiVirusData:#免杀病毒相关数据库
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_ActiveScanList(class)_UpdateStatus(def)", e)
             return False
+    def Query(self, **kwargs):  #用来查询数据
+        try:
+            Uid = kwargs.get("uid")
+            NumberOfSinglePages=100#单页数量
+            NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
+            self.cur.execute("select * from AntiAntiVirus WHERE uid=? limit ? offset ? ", (Uid,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询相关信息
+            result_list = []
+            for i in self.cur.fetchall():
+                JsonValues = {}
+                JsonValues["shellcode_type"] = i[2]
+                JsonValues["virus_original_file_name"] = i[3]
+                JsonValues["virus_generate_file_name"] = i[4]
+                JsonValues["compilation_status"] = i[5]
+                JsonValues["creation_time"] = i[7]
+
+                result_list.append(JsonValues)
+            self.con.close()
+            return result_list
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_ActiveScanList(class)_Query(def)", e)
+            return None

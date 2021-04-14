@@ -977,3 +977,35 @@ class GetNistDatabaseFilePath:  #  Nist数据库文件路径返回值
         elif sys.platform == "linux" or sys.platform == "darwin":
             NistDatabaseFilePath = GetRootFileLocation().Result() + "/Nist.db"
             return NistDatabaseFilePath
+
+
+class BinaryDataTypeConversion:#对于原始二进制数据的类型转换
+    def BytesToString(self,BytesTypeBinaryData: bytes):  # 类型转换
+        try:
+            BinaryData = ""
+            for i in BytesTypeBinaryData:
+                # 如果是bytes类型的字符串，for循环会读取单个16进制然后转换成10进制
+                Data = hex(i)  # 转换会16进制
+                Data = Data.replace('0x', '')
+                if (len(Data) == 1):
+                    Data = '0' + Data  # 位数补全
+                BinaryData += '\\x' + Data
+
+            return eval(repr(BinaryData).replace('\\\\', '\\'))#先repr将字符串转为python原生字符串，然后替换双斜杠，最后eval转回正常字符串
+        except Exception as e:
+            ErrorLog().Write("ClassCongregation_BinaryDataTypeConversion(class)_BytesToString(def)", e)
+
+    def StringToBytes(self,StringTypeBinaryData: str):
+        try:
+            BinaryData = b""
+            for i in StringTypeBinaryData:
+                Code = hex(ord(i))
+                Code = bytes(Code.replace('0x', ''), encoding="utf-8")
+                if (len(Code) == 1):
+                    Code = b'0' + Code  # 位数补全
+                BinaryData += b'\\x' + Code
+
+            return eval(repr(BinaryData).replace('\\\\', '\\'))
+
+        except Exception as e:
+            ErrorLog().Write("ClassCongregation_BinaryDataTypeConversion(class)_StringToBytes(def)", e)

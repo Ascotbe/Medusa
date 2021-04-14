@@ -48,12 +48,6 @@ def Statistics(request):#对当前整体数据进行统计
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
             ErrorLog().Write("Web_DomainNameSystemLog_DomainNameSystemData_Statistics(def)", e)
+            return JsonResponse({'message': "呐呐呐！莎酱被玩坏啦(>^ω^<)", 'code': 169, })
     else:
-        return JsonResponse({'message': '请使用Post请求', 'code': 500, })
-
-
-def test(request):  # 用于查询DNSLOG数据
-    if request.method == "POST":
-        NumberOfPages = request.body["test"]
-        print(NumberOfPages)
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })

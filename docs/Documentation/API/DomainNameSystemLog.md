@@ -1,6 +1,6 @@
 ### DNSLOG数据查询
 
-`/api/domain_name_system_log/`首页信息查询接口
+`/api/domain_name_system_log/`DNSLOG数据查询接口
 
 ```json
 {
@@ -56,6 +56,32 @@
   - `domain_name`域名信息
   - `ip`请求IP
   - `creation_time`接收时间
+
+- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+
+- 500：请使用Post请求
+
+
+
+### DNSLOG个数统计
+
+`/api/domain_name_system_log_statistics/`个数统计
+
+```json
+{
+	"token": ""
+}
+```
+
+> 参数解释
+
+- `token`登录后返回的**token**
+
+> 返回状态码
+
+- 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
+
+- 200：返回数据大小
 
 - 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
 

@@ -1,5 +1,7 @@
 from ClassCongregation import ErrorLog
 
+
+#只支持\xff格式的16进制
 def XOR(Value:int, RawShellcode:bytes):
     # #逐字节读取，二进制文件数据，单个字节为16进制
     # f=open("payload.bin","rb")

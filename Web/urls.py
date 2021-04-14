@@ -24,6 +24,7 @@ from Web.ToolsUtility.BinaryAnalysis import PortableExecute
 from Web.ApplicationCollection import CollectionWork
 from Web.CollaborationPlatform import Markdown
 from Web.DomainNameSystemLog import DomainNameSystemData
+from Web.AntiAntiVirus import GenerateVirusFiles
 urlpatterns = [
     #用户相关
     path('api/registered/', Registered.Registered),#注册
@@ -89,5 +90,11 @@ urlpatterns = [
     path('api/nist_products_filter/', Nist.NistProductsFilter),  #产品筛选查询
     #DNSLOG
     path('api/domain_name_system_log/', DomainNameSystemData.Query),  # DNSLOG数据查询
+    path('api/domain_name_system_log_statistics/', DomainNameSystemData.Statistics),  # DNSLOG数据个数统计
+    #path('api/test/', DomainNameSystemData.test),
+
+    #免杀生成
+    path('api/shellcode_to_virus/', GenerateVirusFiles.ShellcodeToVirus),  # 通过shellcode来进行代码生成
+
 
 ]

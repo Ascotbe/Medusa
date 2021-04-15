@@ -5,11 +5,11 @@
             <a-col :xs="{ span: 24}" :lg="{ span: 24}" class="domainNameDetails-search">
                 <a-form-model :model="form" layout="inline" style="margin-left: 30px;">
                     <a-form-model-item label="添加目标" style="margin-left: 30px;">
-                        <a-input v-model="form.url" placeholder="请输入目标网站地址（多个域名请使用ycj扫描）" />
+                        <a-input v-model="form.url" placeholder="请输入目标网站地址（多个域名请使用XXX扫描）" />
                     </a-form-model-item>
                     <a-form-model-item>
                         <a-button style="margin-left: 30px;">提交</a-button>
-                        <a-button style="margin-left: 30px;">ycj扫描</a-button>
+                        <a-button style="margin-left: 30px;">XXXX扫描</a-button>
                     </a-form-model-item>
                     <a-form-model-item label="添加时间" style="margin-left: 30px;">
                         <a-date-picker @change="onChange" />
@@ -86,7 +86,7 @@ const data = [{
     },
     {
         key: '2',
-        url: 'ycj.com',
+        url: 'ascotbe.com',
         state: 32,
         taskCycle: 'New York No. 1 Lake Park',
         grade: 32,
@@ -199,7 +199,7 @@ export default {
 <style lang="scss">
 .domainNameDetails {
     background: rgb(88, 119, 151);
-   
+
     .domainNameDetails-search {
         margin-top: 50px;
         font-size: 14px;

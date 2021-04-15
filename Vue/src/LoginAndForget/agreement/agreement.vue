@@ -1,7 +1,7 @@
 <template>
 <div class="agreement">
     <test>
-        <div slot="title">ycjnb</div>
+        <div slot="title">服务条款</div>
         <div slot="main">
             <p>
                 在原有的<a href="https://github.com/Ascotbe/Medusa/blob/master/LICENSE" style="color: #0366d6">协议</a>中追加以下内容：

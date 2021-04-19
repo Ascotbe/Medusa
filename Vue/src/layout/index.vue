@@ -12,7 +12,7 @@
           ref="layout_sider"
         >
           <div class="logo">
-            <img width="100%" height="100%" src="../assets/logo2.png" />
+            <img width="100%" height="100%" src="../assets/logo.png" />
           </div>
           <a-menu
             theme="dark"
@@ -186,7 +186,12 @@ export default {
               msg: "杀毒软件进程查询接口",
             },
           ],
-        }
+        },
+        {
+          key: "about_us",
+          iconType: "icon-Serviceusers",
+          msg: "关于我们",
+        },
       ],
       top: 0.1,
       collapsed: false,
@@ -320,7 +325,7 @@ export default {
         color: #000;
         align-self: flex-start;
         padding-left: 15px;
-        padding-right: 25px;
+        padding-right: 10px;
 
         .user_name {
           margin-left: 10px;
@@ -338,10 +343,10 @@ export default {
       }
 
       .language {
-        width: 100px;
+        width: 80px;
         align-self: flex-end;
-        margin-right: 50px;
-        margin-left: 20px;
+        margin-right: 0px;
+        margin-left: 10px;
       }
     }
   }

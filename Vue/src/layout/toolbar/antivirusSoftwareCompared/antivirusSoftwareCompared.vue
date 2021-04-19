@@ -7,11 +7,14 @@
     class="antivirusSoftwareCompared"
   >
     <a-col class="antivirusSoftwareCompared_bg"> </a-col>
+    <h1>dddddddddddddd</h1>
   </a-row>
 </template>
 
 <script>
+
 export default {};
+
 </script>
 
 <style lang="scss" scoped>

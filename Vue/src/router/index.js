@@ -31,6 +31,8 @@ import dataComparison from '../layout/combine/combineList/markdownData/dataCompa
 import createCombine from '../layout/combine/createCombine/createCombine.vue'
 
 import antivirusSoftwareCompared from '../layout/toolbar/antivirusSoftwareCompared/antivirusSoftwareCompared.vue'
+
+import AboutUs from '../layout/AboutUs/AboutUs.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -271,9 +273,19 @@ const routes = [
           activeIndex: "antivirusSoftwareCompared",
           defaultOpenKeys: "sub6"
         },
+
+      },
+      {
+        path: 'about_us',
+        component: AboutUs,
+        name: 'about_us',
+        meta: {
+          keepAlive: true,
+          activeIndex: "about_us",
+        },
+
       },
 
-      
 
     ]
   },

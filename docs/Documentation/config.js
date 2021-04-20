@@ -108,16 +108,8 @@ let config = {
         {
             title: '更新日志', path: '/UpDataLog'
         },
-
         {
-            title: '其它', type: 'dropdown', items: [
-                {
-                    title: '开发团队介绍', path: '/Team'
-                },
-                {
-                    title: '问题列表', path: '/Bug'
-                },
-            ]
+            title: '赞助列表', path: '/Reward'
         }
     ],
     tocVisibleDepth: 10,

@@ -10,8 +10,10 @@
 <p align="center" style="font-size:15px;"><img class='payment_code_center'  src='../../assets/WeChat.jpeg'>微信</p>
 
 </div>
-<!-- <p style="text-align: center"><a  href="http://www.php.cn"><img src="../../assets/Medusa.png"> </a></p> -->
+<a  href="http://medusa.ascotbe.com/Documentation/#/Reward"><p style="text-align: center;font-size:20px;color:rgb(0,0,0)"><img src="../../assets/AbuotUsReward.gif" width="70"> 赞助列表</p></a>
+
 </div>
+
   </a-row>
 
 </template>
@@ -53,7 +55,7 @@
 
 .payment_code{
   justify-content:center;
-  //background:rgb(255, 255, 255);
+  //background:rgb(0, 0, 0);
   display:flex
 }
 
@@ -67,7 +69,6 @@ margin:0 20px
   padding:20px;
   font-size:40px;
   }
-
 
 }
 </style>

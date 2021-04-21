@@ -65,8 +65,11 @@ Add the following content to the original [protocol](https://github.com/Ascotbe/
 
 ### :dollar:SponsorUs
 
-<div style="justify-content:center;display:flex"><p  align="center" style="font-size:15px;padding:20px;">Alipay<img style="zoom:33%;" src='Vue/src/assets/Alipay.jpeg'></p><p  align="center" style="font-size:15px;padding:20px;">WeChat<img style="zoom:27%;" src='Vue/src/assets/WeChat.jpeg'></p></div><div>
-<a  href="http://medusa.ascotbe.com/Documentation/#/Reward"><p style="text-align: center;font-size:20px;color:rgb(0,0,0)"><img src="Vue/src/assets/AbuotUsReward.gif" width="70"> SponsoredList </p></a></div>
+|              <font color=Blue>Alipay</font>              |            <font color=#008000>WeChat</font>             |
+| :------------------------------------------------------: | :------------------------------------------------------: |
+| <img style="zoom:33%;" src='Vue/src/assets/Alipay.jpeg'> | <img style="zoom:27%;" src='Vue/src/assets/WeChat.jpeg'> |
+
+<div><a href="http://medusa.ascotbe.com/Documentation/#/Reward"><p style="text-align: center;"><img src="Vue/src/assets/AbuotUsReward.gif" style="zoom:33%;float: center;"> SponsoredList</p></a></div>
 
 
 

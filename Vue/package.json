@@ -16,6 +16,7 @@
     "js-base64": "^3.6.0",
     "lib-flexible": "^0.3.2",
     "moment": "^2.29.1",
+    "ssri": "^8.0.1",
     "vue": "^2.6.12",
     "vue-codemirror": "^4.0.6",
     "vue-router": "^3.2.0",

@@ -24,10 +24,6 @@
 
 <img alt="Release" src="https://github.com/Ascotbe/Random-img/blob/master/Medusa/web_demo.gif?raw=true"  >
 
-## Document
-
-> `https://www.ascotbe.com/Loophole`
-
 
 ## Discussion
 
@@ -44,3 +40,7 @@ Add the following content to the original [protocol](https://github.com/Ascotbe/
 - This project is only for the safe construction activities of enterprises that are **legally authorized**. When using this project for testing, you should ensure that the behavior complies with local laws and regulations and has obtained sufficient authorization.
 - If you have any illegal behavior in the process of using this project, you need to bear the corresponding consequences yourself, and we will not bear any legal and joint liabilities.
 - Before using this project, please **read carefully and fully understand the content of each clause**. Restrictions, exemption clauses or other clauses involving your major rights and interests may be bolded, underlined, etc. to remind you to pay attention. Unless you have fully read, fully understood and accepted all the terms of this agreement, please do not use this item. Your use behavior or your acceptance of this agreement in any other express or implied manner shall be deemed to have been read and agreed to be bound by this agreement.
+
+## SponsorUs
+
+<div style="justify-content:center;display:flex"><p  align="center" style="font-size:15px;padding:20px;">Alipay<img style="zoom:33%;" src='https://github.com/Ascotbe/Medusa/blob/master/Vue/src/assets/Alipay.jpeg?raw=true'></p><p  align="center" style="font-size:15px;padding:20px;">WeChat<img style="zoom:27%;" src='https://github.com/Ascotbe/Medusa/blob/master/Vue/src/assets/WeChat.jpeg?raw=true'></p></div>

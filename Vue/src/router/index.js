@@ -33,6 +33,8 @@ import createCombine from '../layout/combine/createCombine/createCombine.vue'
 import antivirusSoftwareCompared from '../layout/toolbar/antivirusSoftwareCompared/antivirusSoftwareCompared.vue'
 
 import AboutUs from '../layout/AboutUs/AboutUs.vue'
+import DomainNameSystemLog from '../layout/DomainNameSystemLog/DNSLog.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -282,6 +284,16 @@ const routes = [
         meta: {
           keepAlive: true,
           activeIndex: "about_us",
+        },
+
+      },
+      {
+        path: 'domain_name_system_log',
+        component: DomainNameSystemLog,
+        name: 'domain_name_system_log',
+        meta: {
+          keepAlive: true,
+          activeIndex: "domain_name_system_log",
         },
 
       },

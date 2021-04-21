@@ -41,7 +41,9 @@ import {
     URL_POST_SAVE_MARKDOWN_DATA,
     URL_POST_MARKDOWN_IMAGE_UPLOAD,
     URL_POST_MARKDOWN_DATA_COMPARISON,
-    URL_POST_JOIN_MARKDOWN_PROJECT
+    URL_POST_JOIN_MARKDOWN_PROJECT,
+    URL_POST_DOMAIN_NAME_SYSTEM_LOG,//DNSLOG查询
+    URL_POST_DOMAIN_NAME_SYSTEM_LOG_STATISTICS,////DNSLOG统计
 
 } from './url'
 import store from '../Vuex'
@@ -326,9 +328,24 @@ let api = {
         })
         return response
     },
-    
+    // DNSLOG查询
+    async domain_name_system_log(params) {
+      let response = await post(URL_POST_DOMAIN_NAME_SYSTEM_LOG, params, {
+          headers: {
+          }
+      })
+      return response
+    },
 
 
+    // DNSLOG查询个数统计
+    async domain_name_system_log_statistics(params) {
+      let response = await post(URL_POST_DOMAIN_NAME_SYSTEM_LOG_STATISTICS, params, {
+          headers: {
+          }
+      })
+      return response
+    },
 
     async generate_word(params) {
         let response = await post(URL_POST_GENERATE_WORD, params, {

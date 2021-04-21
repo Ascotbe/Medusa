@@ -81,7 +81,7 @@
 <script>
 import { Icon } from "ant-design-vue";
 const MyIcon = Icon.createFromIconfontCN({
-  scriptUrl: "//at.alicdn.com/t/font_1734998_0pb6qb17tw9f.js",
+  scriptUrl: "//at.alicdn.com/t/font_1734998_x30axu5phw.js",
 });
 import zhCN from "ant-design-vue/lib/locale-provider/zh_CN";
 import enUS from "ant-design-vue/lib/locale-provider/en_US";
@@ -188,8 +188,13 @@ export default {
           ],
         },
         {
+          key: "domain_name_system_log",
+          iconType: "icon-DNSziyuan",
+          msg: "DNSLOG",
+        },
+        {
           key: "about_us",
-          iconType: "icon-Serviceusers",
+          iconType: "icon-guanyuwomen1-02",
           msg: "关于我们",
         },
       ],

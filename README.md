@@ -17,8 +17,6 @@
 >
 > The project development manpower is insufficient. If you find a problem or have comments, please contact us.
 >
-> `bash` Ver. Online
->
 > `Web`  Alpha Ver. Online
 
 
@@ -28,19 +26,6 @@
 
 ```
 http://medusa.ascotbe.com
-```
-
-### :mag_right:Bug coverage list
-
-```
-http://medusa.ascotbe.com/Documentation/#/PluginDirectory
-```
-
-
-### :book:`Bash` Ver. instructions for use
-
-```bash
-http://medusa.ascotbe.com/Documentation/#/QuickStart/BashVersion
 ```
 
 ### :clipboard:`Web` Ver. installation instructions
@@ -57,12 +42,6 @@ http://medusa.ascotbe.com/Documentation/#/QuickStart/WebVersionInstallation
 
 ```
 http://medusa.ascotbe.com/Documentation/#/UpDataLog
-```
-
-### :open_file_folder:Bug replicate document
-
-```
-https://www.ascotbe.com/Loophole
 ```
 
 
@@ -83,6 +62,13 @@ Add the following content to the original [protocol](https://github.com/Ascotbe/
 - This project is only for the safe construction activities of enterprises that are **legally authorized**. When using this project for testing, you should ensure that the behavior complies with local laws and regulations and has obtained sufficient authorization.
 - If you have any illegal behavior in the process of using this project, you need to bear the corresponding consequences yourself, and we will not bear any legal and joint liabilities.
 - Before using this project, please **read carefully and fully understand the content of each clause**. Restrictions, exemption clauses or other clauses involving your major rights and interests may be bolded, underlined, etc. to remind you to pay attention. Unless you have fully read, fully understood and accepted all the terms of this agreement, please do not use this item. Your use behavior or your acceptance of this agreement in any other express or implied manner shall be deemed to have been read and agreed to be bound by this agreement.
+
+### :dollar:SponsorUs
+
+<div style="justify-content:center;display:flex"><p  align="center" style="font-size:15px;padding:20px;">Alipay<img style="zoom:33%;" src='Vue/src/assets/Alipay.jpeg'></p><p  align="center" style="font-size:15px;padding:20px;">WeChat<img style="zoom:27%;" src='Vue/src/assets/WeChat.jpeg'></p></div><div>
+<a  href="http://medusa.ascotbe.com/Documentation/#/Reward"><p style="text-align: center;font-size:20px;color:rgb(0,0,0)"><img src="Vue/src/assets/AbuotUsReward.gif" width="70"> SponsoredList </p></a></div>
+
+
 
 ### :palm_tree:Contributors
 

@@ -70,9 +70,11 @@ http://medusa.ascotbe.com/Documentation/#/UpDataLog
 
 ### :dollar:赞助我们
 
-<div style="justify-content:center;display:flex"><p  align="center" style="font-size:15px;padding:20px;">支付宝<img style="zoom:33%;" src='Vue/src/assets/Alipay.jpeg'></p><p  align="center" style="font-size:15px;padding:20px;">微信<img style="zoom:27%;" src='Vue/src/assets/WeChat.jpeg'></p></div><div>
-<a  href="http://medusa.ascotbe.com/Documentation/#/Reward"><p style="text-align: center;font-size:20px;color:rgb(0,0,0)"><img src="Vue/src/assets/AbuotUsReward.gif" width="70"> 赞助列表</p></a></div>
+|              <font color=Blue>支付宝</font>              |             <font color=#008000>微信</font>              |
+| :------------------------------------------------------: | :------------------------------------------------------: |
+| <img style="zoom:33%;" src='Vue/src/assets/Alipay.jpeg'> | <img style="zoom:27%;" src='Vue/src/assets/WeChat.jpeg'> |
 
+<div><a href="http://medusa.ascotbe.com/Documentation/#/Reward"><p style="text-align: center;"><img src="Vue/src/assets/AbuotUsReward.gif" style="zoom:33%;float: center;"> 赞助列表</p></a></div>
 
 ### :palm_tree:贡献人员
 

@@ -43,4 +43,4 @@ Add the following content to the original [protocol](https://github.com/Ascotbe/
 
 ## SponsorUs
 
-<div style="justify-content:center;display:flex"><p  align="center" style="font-size:15px;padding:20px;">Alipay<img style="zoom:33%;" src='https://github.com/Ascotbe/Medusa/blob/master/Vue/src/assets/Alipay.jpeg?raw=true'></p><p  align="center" style="font-size:15px;padding:20px;">WeChat<img style="zoom:27%;" src='https://github.com/Ascotbe/Medusa/blob/master/Vue/src/assets/WeChat.jpeg?raw=true'></p></div>
+<div style="justify-content:center;display:flex"><p  align="center" style="font-size:15px;padding:20px;">Alipay<img style="zoom:33%;"  style="padding:20px;" src='https://github.com/Ascotbe/Medusa/blob/master/Vue/src/assets/Alipay.jpeg?raw=true'></p><p  align="center" style="font-size:15px;padding:20px;">WeChat<img style="zoom:27%;"  style="padding:20px;" src='https://github.com/Ascotbe/Medusa/blob/master/Vue/src/assets/WeChat.jpeg?raw=true'></p></div>

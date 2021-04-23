@@ -44,6 +44,12 @@ import {
     URL_POST_JOIN_MARKDOWN_PROJECT,
     URL_POST_DOMAIN_NAME_SYSTEM_LOG,//DNSLOG查询
     URL_POST_DOMAIN_NAME_SYSTEM_LOG_STATISTICS,////DNSLOG统计
+    URL_POST_NIST_DATA_BULK_QUERY,//CVE监控首页精简数据查询
+    URL_POST_NIST_DATA_DETAILED_QUERY,//获取单个详细的CVE编号
+    URL_POST_NIST_STATISTICS,//获取CVE编号数据个数
+    URL_POST_NIST_SEVERITY_FILTER,//严重性等级筛选
+    URL_POST_NIST_VENDORS_FILTER,//厂商名称筛选查询
+    URL_POST_NIST_PRODUCTS_FILTER,//产品名称筛选查询
 
 } from './url'
 import store from '../Vuex'
@@ -341,6 +347,55 @@ let api = {
     // DNSLOG查询个数统计
     async domain_name_system_log_statistics(params) {
       let response = await post(URL_POST_DOMAIN_NAME_SYSTEM_LOG_STATISTICS, params, {
+          headers: {
+          }
+      })
+      return response
+    },
+
+    //CVE监控首页精简数据查询
+    async nist_data_bulk_query(params) {
+      let response = await post(URL_POST_NIST_DATA_BULK_QUERY, params, {
+          headers: {
+          }
+      })
+      return response
+    },
+    //获取单个详细的CVE编号
+    async nist_data_detailed_query(params) {
+      let response = await post(URL_POST_NIST_DATA_DETAILED_QUERY, params, {
+          headers: {
+          }
+      })
+      return response
+    },
+    //获取CVE编号数据个数
+    async nist_statistics(params) {
+      let response = await post(URL_POST_NIST_STATISTICS, params, {
+          headers: {
+          }
+      })
+      return response
+    },
+    //对于严重性等级筛选
+    async nist_severity_filter(params) {
+      let response = await post(URL_POST_NIST_SEVERITY_FILTER, params, {
+          headers: {
+          }
+      })
+      return response
+    },
+    //厂商名称筛选查询
+    async nist_vendors_filter(params) {
+      let response = await post(URL_POST_NIST_VENDORS_FILTER, params, {
+          headers: {
+          }
+      })
+      return response
+    },
+    //产品名称筛选查询
+    async nist_vendors_filter(params) {
+      let response = await post(URL_POST_NIST_PRODUCTS_FILTER, params, {
           headers: {
           }
       })

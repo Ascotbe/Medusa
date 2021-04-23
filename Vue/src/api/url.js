@@ -48,10 +48,13 @@ export const URL_POST_MARKDOWN_IMAGE_UPLOAD = `/markdown_image_upload/`//上传M
 export const URL_POST_MARKDOWN_DATA_COMPARISON = `/markdown_data_comparison/`//Markdown文档数据对比
 export const URL_POST_JOIN_MARKDOWN_PROJECT = `/join_markdown_project/`//加入协同作战项目
 export const URL_POST_DOMAIN_NAME_SYSTEM_LOG = `/domain_name_system_log/`//DNSLOG数据查询
-
 export const URL_POST_DOMAIN_NAME_SYSTEM_LOG_STATISTICS = `/domain_name_system_log_statistics/`//DNSLOG数据查询个数统计
-// API/api/upload_avatar/
-
+export const URL_POST_NIST_DATA_BULK_QUERY = `/nist_data_bulk_query/`//CVE监控首页精简数据查询
+export const URL_POST_NIST_DATA_DETAILED_QUERY = `/nist_data_detailed_query/`//获取单个详细的CVE编号
+export const URL_POST_NIST_STATISTICS = `/nist_statistics/`//获取CVE编号数据个数
+export const URL_POST_NIST_SEVERITY_FILTER = `/nist_severity_filter/`//严重性等级筛选
+export const URL_POST_NIST_VENDORS_FILTER = `/nist_vendors_filter/`//厂商名称筛选查询
+export const URL_POST_NIST_PRODUCTS_FILTER = `/nist_products_filter/`//产品名称筛选查询
 
 
 // /api/vulnerability_scanning/

@@ -35,6 +35,8 @@ import antivirusSoftwareCompared from '../layout/toolbar/antivirusSoftwareCompar
 import AboutUs from '../layout/AboutUs/AboutUs.vue'
 import DomainNameSystemLog from '../layout/DomainNameSystemLog/DNSLog.vue'
 
+import CommonVulnerabilitiesAndExposures from '../layout/CommonVulnerabilitiesAndExposuresMonitor/CommonVulnerabilitiesAndExposures.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -297,7 +299,16 @@ const routes = [
         },
 
       },
-
+      {
+        path: 'nist_data_bulk_query',
+        component: CommonVulnerabilitiesAndExposures,
+        name: 'nist_data_bulk_query',
+        meta: {
+          keepAlive: true,
+          activeIndex: "nist_data",
+          defaultOpenKeys: "sub3"
+        },
+      },
 
     ]
   },

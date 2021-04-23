@@ -14,13 +14,13 @@ export const baseURL = config.basePath
 // create an axios instance
 const service = axios.create({
   baseURL,
-  timeout: 10000, // request timeout
+  timeout: 20000, // request timeout
 })
 console.log(service)
 // // request interceptor
 service.interceptors.request.use(
   config => {
-   
+
     // console.log(store.state.storeToken)
     // if(store.state.storeToken){
     //   config.headers.common['Token'] = store.state.storeToken
@@ -94,7 +94,7 @@ service.interceptors.response.use(
   error => {
     console.log('err' + error) // for debug
     message.error(error.message)
-    
+
     return Promise.reject(error)
   }
 )

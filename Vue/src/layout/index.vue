@@ -133,6 +133,10 @@ export default {
           msg: "监控页面",
           children: [
             {
+              key: "nist_data_bulk_query",
+              msg: "CVE监控",
+            },
+            {
               key: "gitHub",
               msg: "GitHub监控",
             },

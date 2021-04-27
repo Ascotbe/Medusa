@@ -1,4 +1,10 @@
+
+
+> ## Bash版本放弃更新，望周知
+
 ## Demo
+
+
 
 ![Bashdemo](https://github.com/Ascotbe/Random-img/blob/master/Medusa/demo.gif?raw=true)
 

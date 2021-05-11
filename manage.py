@@ -11,7 +11,7 @@ from Web.CommonVulnerabilitiesAndExposuresMonitor.VulnerabilityNumberMonitoring.
 import atexit
 from ClassCongregation import ErrorLog
 from Web.CommonVulnerabilitiesAndExposuresMonitor.VulnerabilityNumberMonitoring.NistUpdate import NistUpdateDownload
-
+from Web.ActiveScan import InitializationPlugin
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Web.settings')
     try:
@@ -44,6 +44,7 @@ def Job():#定时任务，加锁防止重复运行
 if __name__ == '__main__':
 
     Job()
+    InitializationPlugin.Run()#初始化插件数据库
     NistInitialization()  # 进行CVE数据初始化爬取
     main()
 

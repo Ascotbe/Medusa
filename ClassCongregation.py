@@ -1009,3 +1009,67 @@ class BinaryDataTypeConversion:#对于原始二进制数据的类型转换
 
         except Exception as e:
             ErrorLog().Write("ClassCongregation_BinaryDataTypeConversion(class)_StringToBytes(def)", e)
+
+class GetPluginsFilePath:  #  插件文件路径
+    def Result(self) -> str:
+        if sys.platform == "win32" or sys.platform == "cygwin":
+            PluginsFilePath = GetRootFileLocation().Result() + "\\Plugins\\"
+            return PluginsFilePath
+        elif sys.platform == "linux" or sys.platform == "darwin":
+            PluginsFilePath = GetRootFileLocation().Result() + "/Plugins/"
+            return PluginsFilePath
+
+class Plugins:#扫描插件相关数据库,里面存放yml插件
+    def __init__(self):
+        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        # 获取所创建数据的游标
+        self.cur = self.con.cursor()
+        # 创建表
+        try:
+            self.cur.execute("CREATE TABLE Plugins\
+                                (plugins_id INTEGER PRIMARY KEY,\
+                                plugins_name TEXT NOT NULL)")
+        except Exception as e:
+            ErrorLog().Write("Web_ClassCongregation_Plugins(class)_init(def)", e)
+    def Write(self, DataSet:list) -> bool or None:  # 写入相关信息
+        try:
+            self.cur.executemany("INSERT INTO Plugins(plugins_name)\
+                VALUES (?)", DataSet)
+            # 提交
+            self.con.commit()#只发送数据不结束
+            return True
+        except Exception as e:
+            ErrorLog().Write("Web_ClassCongregation_Plugins(class)_Write(def)", e)
+            return False
+
+    def Query(self, **kwargs):  #查询单个插件
+        PluginsName=kwargs.get("plugins_name")
+        try:
+            self.cur.execute("select * from Plugins where plugins_name =? ",
+                             (PluginsName,))
+
+            for i in self.cur.fetchall():
+                self.con.close()
+                return i[1]#返回单个插件结果
+        except Exception as e:
+            ErrorLog().Write("Web_ClassCongregation_Plugins(class)_Query(def)", e)
+            return None
+    def Read(self):#读取全部插件
+        try:
+            self.cur.execute("select * from Plugins",)
+            result_list = []  # 存放json的返回结果列表用
+            for i in self.cur.fetchall():
+                result_list.append(i[1])
+            self.con.close()
+            return result_list
+        except Exception as e:
+            ErrorLog().Write("Web_ClassCongregation_Plugins(class)_Read(def)", e)
+            return None
+    def Initialization(self):#初始化表格 清空表中的全部数据
+        try:
+            self.cur.execute("DELETE FROM Plugins",)
+            return True
+        except Exception as e:
+            ErrorLog().Write("Web_ClassCongregation_Plugins(class)_Initialization(def)", e)
+            return False
+

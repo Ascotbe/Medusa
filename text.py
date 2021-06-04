@@ -8,11 +8,3 @@
 # git commit -m  "v1.0.0:palm_tree:"
 # find . -type d -name '__pycache__' | xargs rm -rf
 # pip install python-magic-bin==0.4.14
-import os
-aa=[]
-for files in os.walk("/Users/ascotbe/code/Medusa/Modules/"):
-    for i in files[2]:
-        aa.append(i)
-
-print(len(aa))
-print(aa)

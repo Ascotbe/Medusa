@@ -36,3 +36,4 @@ aiohttp==3.7.4
 aiofiles==0.6.0
 pyyaml==5.4.1
 cel-python==0.1.4
+HackRequests==1.2

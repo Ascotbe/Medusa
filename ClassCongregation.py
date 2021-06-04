@@ -526,7 +526,7 @@ class Dnslog:  # Dnslog判断
 
 class randoms:  # 生成随机数
     def result(self, nub: int) -> str:
-        H = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+        H = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz123456789"
         salt = ""
         for i in range(nub):
             salt += random.choice(H)
@@ -538,7 +538,7 @@ class randoms:  # 生成随机数
             salt += random.choice(H)
         return salt
     def Numbers(self, nub: int) -> str:#生成小写和数字的值
-        H = "0123456789"
+        H = "123456789"
         salt = ""
         for i in range(nub):
             salt += random.choice(H)
@@ -1007,6 +1007,24 @@ class BinaryDataTypeConversion:#对于原始二进制数据的类型转换
 
             return eval(repr(BinaryData).replace('\\\\', '\\'))
 
+        except Exception as e:
+            ErrorLog().Write("ClassCongregation_BinaryDataTypeConversion(class)_StringToBytes(def)", e)
+    #只支持\xff格式的16进制
+    def XOR(self,Value:int, RawShellcode:bytes):
+        # #逐字节读取，二进制文件数据，单个字节为16进制
+        # f=open("payload.bin","rb")
+        # code = f.read(1)
+        Shellcode = ''#Value的最大值为0XFF，也就是int值255
+        try:
+            for SingleByte in RawShellcode:
+                #如果是bytes类型的字符串，for循环会读取单个16进制然后转换成10进制
+                XORValue = SingleByte ^ Value#进行xor操作
+                Code = hex(XORValue)#转换会16进制
+                Code = Code.replace('0x','')
+                if(len(Code) == 1):
+                    Code = '0' + Code#位数补全
+                Shellcode += '\\x' + Code
+            return Shellcode
         except Exception as e:
             ErrorLog().Write("ClassCongregation_BinaryDataTypeConversion(class)_StringToBytes(def)", e)
 

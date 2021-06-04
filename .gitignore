@@ -1,4 +1,6 @@
 .idea
+Web/AntiAntiVirus/Modules
+Web/AntiAntiVirus/GenerateTrojanFiles.py
 **/.DS_Store
 **/__pycache__
 Medusa.db
@@ -13,4 +15,3 @@ scheduler.lock
 **/CrossSiteScriptProject
 **/Image
 CrossSiteScriptProject
-**/VirusFile

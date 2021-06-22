@@ -69,10 +69,6 @@ Add the following content to the original [protocol](https://github.com/Ascotbe/
 | :------------------------------------------------------: | :------------------------------------------------------: |
 | <img style="zoom:33%;" src='Vue/src/assets/Alipay.jpeg'> | <img style="zoom:27%;" src='Vue/src/assets/WeChat.jpeg'> |
 
-<div><a href="http://medusa.ascotbe.com/Documentation/#/Reward"><p style="text-align: center;"><img src="Vue/src/assets/AbuotUsReward.gif" style="zoom:33%;float: center;"> SponsoredList</p></a></div>
-
-
-
 ### :palm_tree:Contributors
 
 ![commit](https://opencollective.com/Medusa/contributors.svg?width=890&button=false)

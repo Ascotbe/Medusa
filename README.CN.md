@@ -74,8 +74,6 @@ http://medusa.ascotbe.com/Documentation/#/UpDataLog
 | :------------------------------------------------------: | :------------------------------------------------------: |
 | <img style="zoom:33%;" src='Vue/src/assets/Alipay.jpeg'> | <img style="zoom:27%;" src='Vue/src/assets/WeChat.jpeg'> |
 
-<div><a href="http://medusa.ascotbe.com/Documentation/#/Reward"><p style="text-align: center;"><img src="Vue/src/assets/AbuotUsReward.gif" style="zoom:33%;float: center;"> 赞助列表</p></a></div>
-
 ### :palm_tree:贡献人员
 
 ![commit](https://opencollective.com/Medusa/contributors.svg?width=890&button=false)
@@ -84,7 +82,6 @@ http://medusa.ascotbe.com/Documentation/#/UpDataLog
 ### :checkered_flag:时间轴
 
 ![star](https://starchart.cc/Ascotbe/Medusa.svg)
-
 
 
 

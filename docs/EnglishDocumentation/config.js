@@ -9,10 +9,6 @@ let config = {
 		{
             title: 'QuickStart', path: '/QuickStart'
         },
-
-        {
-            title: 'FunctionDetails', path: '/FunctionDetails'
-        },
 		{
             title: 'PluginDirectory', path: '/PluginDirectory'
         },

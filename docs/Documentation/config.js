@@ -19,9 +19,6 @@ let config = {
                 {
                     title: 'Web安装说明', path: '/QuickStart/WebVersionInstallation'
                 },
-                {
-                    title: 'Bash使用说明', path: '/QuickStart/BashVersion'
-                }
             ]
         },
 		{

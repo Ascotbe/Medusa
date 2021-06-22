@@ -15,8 +15,6 @@
 
 > The project is licensed under `GPL`.Free for non-commercial use.
 >
-> `bash` Ver. Online
->
 > `Web` Alpha Ver. Online
 
 

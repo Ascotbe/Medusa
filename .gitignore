@@ -15,3 +15,6 @@ scheduler.lock
 **/CrossSiteScriptProject
 **/Image
 CrossSiteScriptProject
+MedusaScan.py
+ProxyServer.py
+Banner.py

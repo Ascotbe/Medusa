@@ -7,7 +7,6 @@ from Web.WebClassCongregation import UserInfo,AntiAntiVirusData
 from django.http import JsonResponse
 from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
 from ClassCongregation import randoms
-from Web.AntiAntiVirus.VirusModules import MSF_VirtualAllocEx
 from Web.celery import app
 @app.task
 def CompileCode(Command):#代码编译处理函数
@@ -47,7 +46,7 @@ def ShellcodeToVirus(request):#shellcode转换生成病毒
                     pass#windows的暂时没测试
                 elif sys.platform == "linux":
                     CFile = open(VirusOriginalFilePath, "w+")
-                    CFile.write(MSF_VirtualAllocEx.GenerateCode(Shellcode))#获取生成代码后写入文件中
+                    #CFile.write(MSF_VirtualAllocEx.GenerateCode(Shellcode))#获取生成代码后写入文件中
                     CFile.close()
                     Command="i586-mingw32msvc-gcc -mwindows " + VirusOriginalFilePath + " -o " + VirusFileGenerationPath
                     RedisCompileCodeTask=CompileCode.delay(Command)

@@ -1,4 +1,8 @@
 > Web版本正在Alpha阶段，谨慎使用
+>
+> 免杀、CVE监控后端代码已写完，缺少前端页面，望周知
+>
+> DNSLOG使用需要配置域名
 
 ## 手动安装
 
@@ -12,7 +16,7 @@ git clone https://github.com/Ascotbe/Medusa.git
 
 > 必要环境
 
-Redis+npm+jdk 1.8+Python3.7（以上版本）
+Redis+npm+Python3.7（以上版本）
 
 > 安装前后端依赖
 
@@ -92,7 +96,7 @@ npm run serve
 
 > 必要环境
 
-Redis+npm+jdk 1.8+Python3.7（以上版本）
+Redis+npm+Python3.7（以上版本）
 
 > 安装前后端依赖
 
@@ -211,5 +215,7 @@ docker容器不一定是最新版本
   docker build -t medusa_web .
   docker run -d -i -t --name  medusa -p 8082:8082 -p 9999:9999 medusa_web 
   ```
+
+> 所有的注册KEY都是默认的，可以在config.py文件中找到
 
 执行完命令访问`http://127.0.0.1:8082`即可，如果是服务器访问`http://你服务器IP:8082`

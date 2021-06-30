@@ -24,7 +24,7 @@ from Web.ToolsUtility.BinaryAnalysis import PortableExecute
 from Web.ApplicationCollection import CollectionWork
 from Web.CollaborationPlatform import Markdown
 from Web.DomainNameSystemLog import DomainNameSystemData
-from Web.AntiAntiVirus import GenerateVirusFiles
+from Web.AntiAntiVirus import TrojanInterface
 urlpatterns = [
     #用户相关
     path('api/registered/', Registered.Registered),#注册
@@ -92,8 +92,8 @@ urlpatterns = [
     path('api/domain_name_system_log/', DomainNameSystemData.Query),  # DNSLOG数据查询
     path('api/domain_name_system_log_statistics/', DomainNameSystemData.Statistics),  # DNSLOG数据个数统计
     #免杀生成
-    path('api/shellcode_to_virus/', GenerateVirusFiles.ShellcodeToVirus),  # 通过shellcode来进行代码生成
-    path('api/anti_anti_virus_data_query/', GenerateVirusFiles.AntiAntiVirusDataQuery),  # 查询当前用户的数据
-    path('api/anti_anti_virus_data_statistics/', GenerateVirusFiles.AntiAntiVirusDataStatistical),  # 对当前用户病毒数量统计
+    path('api/shellcode_to_virus/', TrojanInterface.ShellcodeToVirus),  # 通过shellcode来进行代码生成
+    path('api/anti_anti_virus_data_query/', TrojanInterface.AntiAntiVirusDataQuery),  # 查询当前用户的数据
+    path('api/anti_anti_virus_data_statistics/', TrojanInterface.AntiAntiVirusDataStatistical),  # 对当前用户病毒数量统计
 
 ]

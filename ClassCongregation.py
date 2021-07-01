@@ -951,15 +951,15 @@ class GetAnalysisFileStoragePath:  # 获取分析文件存储路径类
             AnalysisFileStoragePath = GetRootFileLocation().Result()+"/Web/ToolsUtility/BinaryAnalysis/AnalysisFileStorage/"
             return AnalysisFileStoragePath
 
-class GetVirusFilePath:  # 获取生成好的病毒文件路径
+class GetTrojanFilePath:  # 获取生成好的病毒文件路径
     def Result(self) -> str:
         system_type = sys.platform
         if system_type == "win32" or system_type == "cygwin":
-            VirusFilePath = GetRootFileLocation().Result()+"\\Web\\AntiAntiVirus\\VirusFile\\"
-            return VirusFilePath
+            TrojanFilePath = GetRootFileLocation().Result()+"\\Web\\TrojanOrVirus\\TrojanFile\\"
+            return TrojanFilePath
         elif system_type == "linux" or system_type == "darwin":
-            VirusFilePath = GetRootFileLocation().Result()+"/Web/AntiAntiVirus/VirusFile/"
-            return VirusFilePath
+            TrojanFilePath = GetRootFileLocation().Result()+"/Web/TrojanOrVirus/TrojanFile/"
+            return TrojanFilePath
 
 def PortReplacement(Url,Prot):#替换URL里面的端口
     try:
@@ -1091,3 +1091,11 @@ class Plugins:#扫描插件相关数据库,里面存放yml插件
             ErrorLog().Write("Web_ClassCongregation_Plugins(class)_Initialization(def)", e)
             return False
 
+class GetTrojanModulesFilePath:  #  木马插件模块位置
+    def Result(self) -> str:
+        if sys.platform == "win32" or sys.platform == "cygwin":
+            TrojanModulesFilePath = GetRootFileLocation().Result() + "\\Web\\TrojanOrVirus\\Modules\\"
+            return TrojanModulesFilePath
+        elif sys.platform == "linux" or sys.platform == "darwin":
+            TrojanModulesFilePath = GetRootFileLocation().Result() + "/Web/TrojanOrVirus/Modules/"
+            return TrojanModulesFilePath

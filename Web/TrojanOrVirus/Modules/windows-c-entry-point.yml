@@ -1,4 +1,4 @@
-name: modules-yaml-windows-c-entry-point
+name: windows-c-entry-point
 level: 0
 set:
   r: randoms().EnglishAlphabet(30) #随机生成30个英文字母

@@ -1915,58 +1915,58 @@ class DomainNameSystemLog:  # 存放DNSLOG数据
             ErrorLog().Write("Web_WebClassCongregation_DomainNameSystemLog(class)_StatisticalData(def)", e)
             return None
 
-class AntiAntiVirusData:#免杀病毒相关数据库
+class TrojanData:#免杀木马相关数据库
     def __init__(self):
         self.con = sqlite3.connect(GetDatabaseFilePath().result())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表
         try:
-            self.cur.execute("CREATE TABLE AntiAntiVirus\
-                                (anti_anti_virus_id INTEGER PRIMARY KEY,\
+            self.cur.execute("CREATE TABLE TrojanData\
+                                (trojan_id INTEGER PRIMARY KEY,\
                                 uid TEXT NOT NULL,\
                                 shellcode_type TEXT NOT NULL,\
-                                virus_original_file_name TEXT NOT NULL,\
-                                virus_generate_file_name TEXT NOT NULL,\
+                                trojan_original_file_name TEXT NOT NULL,\
+                                trojan_generate_file_name TEXT NOT NULL,\
                                 compilation_status TEXT NOT NULL,\
                                 redis_id TEXT NOT NULL,\
                                 creation_time TEXT NOT NULL)")
 
 
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_AntiAntiVirusData(class)_init(def)", e)
+            ErrorLog().Write("Web_WebClassCongregation_TrojanData(class)_init(def)", e)
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
         Uid = kwargs.get("uid")
-        VirusOriginalFileName=kwargs.get("virus_original_file_name")
+        TrojanOriginalFileName=kwargs.get("trojan_original_file_name")
         ShellcodeType = kwargs.get("shellcode_type")#1为MSF类型的，2为CS类型的
-        VirusGenerateFileName = kwargs.get("virus_generate_file_name")
+        TrojanGenerateFileName = kwargs.get("trojan_generate_file_name")
         CompilationStatus = kwargs.get("compilation_status")#状态0为未完成，1完成，-1出错
         RedisId = kwargs.get("redis_id")
         CreationTime = str(int(time.time()))  # 创建时间
         try:
-            self.cur.execute("INSERT INTO AntiAntiVirus(uid,shellcode_type,virus_original_file_name,virus_generate_file_name,compilation_status,redis_id,creation_time)\
-                VALUES (?,?,?,?,?,?,?)", (Uid,ShellcodeType,VirusOriginalFileName, VirusGenerateFileName,CompilationStatus,RedisId, CreationTime,))
+            self.cur.execute("INSERT INTO TrojanData(uid,shellcode_type,trojan_original_file_name,trojan_generate_file_name,compilation_status,redis_id,creation_time)\
+                VALUES (?,?,?,?,?,?,?)", (Uid,ShellcodeType,TrojanOriginalFileName, TrojanGenerateFileName,CompilationStatus,RedisId, CreationTime,))
             self.con.commit()  # 只发送数据不结束
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_AntiAntiVirusData(class)_Write(def)", e)
+            ErrorLog().Write("Web_WebClassCongregation_TrojanData(class)_Write(def)", e)
             return False
     def StatisticalData(self,**kwargs):  # 当前用户个数统计
         Uid = kwargs.get("uid")
         try:
-            self.cur.execute("SELECT COUNT(1)  FROM AntiAntiVirus WHERE uid=?",(Uid,))
+            self.cur.execute("SELECT COUNT(1)  FROM TrojanData WHERE uid=?",(Uid,))
             Result=self.cur.fetchall()[0][0]#获取数据个数
             self.con.close()
             return Result
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_AntiAntiVirusData(class)_StatisticalData(def)", e)
+            ErrorLog().Write("Web_WebClassCongregation_TrojanData(class)_StatisticalData(def)", e)
             return None
     def UpdateStatus(self,**kwargs)->bool:#利用主键ID来判断后更新数据
         RedisId = kwargs.get("redis_id")
         CompilationStatus = kwargs.get("compilation_status")
         try:
-            self.cur.execute("""UPDATE AntiAntiVirus SET compilation_status = ? WHERE redis_id= ?""",(CompilationStatus, RedisId,))
+            self.cur.execute("""UPDATE TrojanData SET compilation_status = ? WHERE redis_id= ?""",(CompilationStatus, RedisId,))
             # 提交
             if self.cur.rowcount < 1:  # 用来判断是否更新成功
                 self.con.commit()
@@ -1977,20 +1977,20 @@ class AntiAntiVirusData:#免杀病毒相关数据库
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_ActiveScanList(class)_UpdateStatus(def)", e)
+            ErrorLog().Write("Web_WebClassCongregation_TrojanData(class)_UpdateStatus(def)", e)
             return False
     def Query(self, **kwargs):  #用来查询数据
         try:
             Uid = kwargs.get("uid")
             NumberOfSinglePages=100#单页数量
             NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
-            self.cur.execute("select * from AntiAntiVirus WHERE uid=? limit ? offset ? ", (Uid,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询相关信息
+            self.cur.execute("select * from TrojanData WHERE uid=? limit ? offset ? ", (Uid,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询相关信息
             result_list = []
             for i in self.cur.fetchall():
                 JsonValues = {}
                 JsonValues["shellcode_type"] = i[2]
-                JsonValues["virus_original_file_name"] = i[3]
-                JsonValues["virus_generate_file_name"] = i[4]
+                JsonValues["trojan_original_file_name"] = i[3]
+                JsonValues["trojan_generate_file_name"] = i[4]
                 JsonValues["compilation_status"] = i[5]
                 JsonValues["creation_time"] = i[7]
 
@@ -1998,5 +1998,5 @@ class AntiAntiVirusData:#免杀病毒相关数据库
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_ActiveScanList(class)_Query(def)", e)
+            ErrorLog().Write("Web_WebClassCongregation_TrojanData(class)_Query(def)", e)
             return None

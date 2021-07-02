@@ -1,8 +1,9 @@
 import yaml
-import json
+from ClassCongregation import GetTrojanModulesFilePath
 import ast
 import struct
 from ClassCongregation import randoms
+import json
 class TrojanStruct:
     def __init__(self):
 
@@ -36,8 +37,10 @@ def Placeholder(Set):#对占位符规则进行提取
     return Key
 def PlaceholderReplacement(Data,Key):#占位符替换
     for i in Key:
-        #result=re.sub('\{\{('+i+')\}\}', Key[i] ,Data)#查找关键字
-        Data=Data.replace("{{"+i+"}}", Key[i])
+        if Key[i]==None:
+            Data = Data.replace("{{" + i + "}}", "")
+        else:
+            Data=Data.replace("{{"+i+"}}", Key[i])
     return ast.literal_eval(Data)
 
 def KeywordRulesExtraction(Key,Data):#提取文件中的关键字
@@ -45,8 +48,9 @@ def KeywordRulesExtraction(Key,Data):#提取文件中的关键字
     for key in Key:
         if Data["name"] == key:
             for data in Data["rules"]:
-                if data["name"]==Key[key]:
-                    return data
+                for i in Key[key]:
+                    if data["name"]==i:
+                        return data
 
 def GetHeaders(TrojanHeadersList,Headers):
     if Headers!=None:
@@ -77,25 +81,29 @@ def GetCustomFunctions(TrojanCustomFunctionList,TrojanFunctionCallList,KeywordDa
                 TrojanCustomFunctionList.append(KeywordData.get("type")[i]+" "+KeywordData.get("function")[i]+KeywordData.get("parameter")[i]+"\n{\n"+KeywordData.get("data")[i]+"\n}")
 
 
-
-tests=["/Users/ascotbe/code/Medusa/Web/AntiAntiVirus/Modules/windows-c-allocation.yml","/Users/ascotbe/code/Medusa/Web/AntiAntiVirus/Modules/windows-c-entry-point.yml","/Users/ascotbe/code/Medusa/Web/AntiAntiVirus/Modules/windows-c-sandbox-bypass.yml"]
-tt={"modules-yaml-windows-c-entry-point":"WinMain","modules-yaml-windows-c-sandbox-bypass":"Detection_HardwareSize","modules-yaml-windows-c-allocation":"Pipe_SingleProcess"}
-
+def GetFileList(TrojanModules):
+    FileList=[]
+    TrojanModulesFilePath=GetTrojanModulesFilePath().Result()
+    for i in TrojanModules:
+        FileList.append(TrojanModulesFilePath+i+".yml")
+    return FileList
 def CreateTrojanFiles(**kwargs):
     Struct=TrojanStruct()#初始化结构体
-    global dd
     #获取传入的shellcode
-    TrojanShellCode=r"\xba"
-    dd={"TrojanEncryption":""}
-    for test in tests:
-        YamlData=ContentProcessing(test)
-        KeywordData=KeywordRulesExtraction(tt,YamlData)
+    global TrojanEncryption
+    TrojanShellCode=kwargs.get("shellcode")
+    TrojanEncryption=kwargs.get("encryption")#加密方式,在插件中实现
+    TrojanModules = kwargs.get("trojan_modules")  # 模块集合
+    FileList = GetFileList(TrojanModules)  # 所需要使用的插件列表
+    for File in FileList:
+        YamlData=ContentProcessing(File)
+        KeywordData=KeywordRulesExtraction(TrojanModules,YamlData)
         # 提取当前规则中所需要的预处理和导入包
         GetHeaders(Struct.TrojanHeadersList,KeywordData.get("headers"))
         GetPragma(Struct.TrojanPragmaList,KeywordData.get("pragma"))
         GetGlobal(Struct.TrojanGlobalList,KeywordData.get("global"))
         #判断是不是唯一的主函数标识
-        if YamlData.get("name")=="modules-yaml-windows-c-entry-point":
+        if YamlData.get("name")=="windows-c-entry-point":
             Struct.TrojanData["TrojanMian"] = KeywordData.get("function")
             Struct.TrojanData["TrojanMianParameter"] = KeywordData.get("parameter")
         else:
@@ -132,11 +140,8 @@ int {TrojanMian}{TrojanMianParameter}
 
 }}
     """.format(**Struct.TrojanData)
-    #print(Trojan)
-    cc=open("/Users/ascotbe/Downloads/ddd.txt","w+")
-    cc.write(Trojan)
+    return Trojan
 
-CreateTrojanFiles()
 # BytesTypeBinaryData = BinaryDataTypeConversion().StringToBytes(Shellcode)  # 对数据进行类型转换
 # GenerateRandomNumber = random.randint(1, 255)  # 生成的随机数
 # XOREncryption = BinaryDataTypeConversion().XOR(GenerateRandomNumber, BytesTypeBinaryData)  # 进行XOR加密

@@ -95,7 +95,7 @@ let config = {
                     title: 'DNSLOG', path: '/API/DomainNameSystemLog'
                 },
                 {
-                    title: '免杀生成', path: '/API/AntiAntiVirus'
+                    title: '免杀生成', path: '/API/TrojanOrVirus'
                 },
             ]
         },

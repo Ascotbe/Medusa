@@ -5,16 +5,18 @@
 ```json
 {
 	"token": "xxx",
-	"shellcode":"\xdb\xdb\xdb\xdb\xdb\xdb",
-	"shellcode_type":"1"
+	"shellcode_type": "xxx",
+	"shellcode":"\\xdb\\xdb\\xdb\\xdb\\xdb\\xdb",
+	"trojan_modules":{"xx":["xx","xxx"],"xx2":["xx2","xxx2"]}
 }
 ```
 
 > 参数解释
 
 - `token`登录后返回的**token**
-- `shellcode` 通过**MSF**或者**CS**来生成的值，格式必须为`\xFF`
+- `shellcode` 通过**MSF**或者**CS**来生成的值，格式必须为`\\xFF`
 - `shellcode_type`来自**MSF**传入1，来自**CS**传入2
+- `trojan_modules`使用的插件模块，格式必须如上所示
 
 > 返回状态码
 
@@ -26,7 +28,7 @@
 
 ### 用户免杀数据查询
 
-`/api/anti_anti_virus_data_query/`用来查询当前用户下发的任务和状态
+`/api/trojan_data_query/`用来查询当前用户下发的任务和状态
 
 ```json
 {
@@ -66,7 +68,33 @@
 
 ### 用户免杀数据个数
 
-`/api/anti_anti_virus_data_statistics/`个数统计
+`/api/trojan_data_statistical/`个数统计
+
+```json
+{
+	"token": ""
+}
+```
+
+> 参数解释
+
+- `token`登录后返回的**token**
+
+> 返回状态码
+
+- 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
+
+- 200：返回数据大小
+
+- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+
+- 500：请使用Post请求
+
+
+
+### 获取用户当前木马插件内容
+
+`/api/get_trojan_plugins/` 详细数据获取
 
 ```json
 {

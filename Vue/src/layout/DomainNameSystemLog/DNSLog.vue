@@ -1,4 +1,3 @@
- /* eslint-disable */
 <template>
   <a-row
     :gutter="[
@@ -52,7 +51,7 @@ export default {
         {
           title: "DNS Query Record",
           dataIndex: "domain_name",
-          fixed: "left",
+          //fixed: "left",
           width:"45%"
 
         },

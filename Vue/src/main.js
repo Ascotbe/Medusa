@@ -10,11 +10,7 @@ import Antd from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.less' // or 'ant-design-vue/dist/antd.less'
 import * as echarts from 'echarts'
 import api from './api/rules'
-
-import qj from './Js/QJfunction'//全局方法
-
-
-
+import qj from './Js/QJfunction' //全局方法
 // import base style
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/duotone-light.css'

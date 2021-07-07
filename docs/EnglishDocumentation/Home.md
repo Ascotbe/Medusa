@@ -25,7 +25,7 @@
 
 ## Discussion
 
-- QQ group：690021184
+
 - [GitHub issue](https://github.com/Ascotbe/Medusa/issues)
 
 ## Disclaimer

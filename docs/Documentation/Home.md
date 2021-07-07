@@ -25,7 +25,7 @@
 
 ## 讨论区
 
-- 吹B群：690021184
+
 - [GitHub issue](https://github.com/Ascotbe/Medusa/issues)
 
 ## 免责声明

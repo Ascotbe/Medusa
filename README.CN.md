@@ -56,7 +56,7 @@ http://medusa.ascotbe.com/Documentation/#/UpDataLog
 - 如果您有发现插件扫描不到对应的漏洞请提交[Bug]类的issue
 - 如果您有任何文档无法解决的问题请提交[help]类的issue
 - 如果您有什么好的意见或者想法请提交[idea]类的issue
-- 吹(开)B(车)群：**690021184**
+
 
 ### :warning:免责声明
 

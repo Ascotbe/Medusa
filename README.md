@@ -50,7 +50,7 @@ http://medusa.ascotbe.com/Documentation/#/UpDataLog
 - If you find that the corresponding vulnerability cannot be scanned by the plug-in, please submit the [Bug] issue
 - If you have any problems that cannot be solved by the documentation, please submit an issue of [help]
 - If you have any good comments or ideas, please submit [idea] issue
-- QQ group：**690021184**
+
 
 ### :warning:Disclaimer
 

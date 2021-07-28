@@ -25,6 +25,7 @@ from Web.ApplicationCollection import CollectionWork
 from Web.CollaborationPlatform import Markdown
 from Web.DomainNameSystemLog import DomainNameSystemData
 from Web.TrojanOrVirus import TrojanInterface
+from Web.Mail import SendEmail
 urlpatterns = [
     #用户相关
     path('api/registered/', Registered.Registered),#注册
@@ -96,5 +97,7 @@ urlpatterns = [
     path('api/trojan_data_query/', TrojanInterface.TrojanDataQuery),  # 查询当前用户的数据
     path('api/trojan_data_statistical/', TrojanInterface.TrojanDataStatistical),  # 对当前用户病毒数量统计
     path('api/get_trojan_plugins/', TrojanInterface.GetTrojanPlugins),  # 获取用户插件方法
+    #钓鱼邮件相关
+    path('api/send_fishing_mail/', SendEmail.SendEamil),  # 发送钓鱼邮件
 
 ]

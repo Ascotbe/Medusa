@@ -1099,3 +1099,20 @@ class GetTrojanModulesFilePath:  #  木马插件模块位置
         elif sys.platform == "linux" or sys.platform == "darwin":
             TrojanModulesFilePath = GetRootFileLocation().Result() + "/Web/TrojanOrVirus/Modules/"
             return TrojanModulesFilePath
+
+class GetMailAttachmentFilePath:  #  邮件附件位置
+    def Result(self) -> str:
+        if sys.platform == "win32" or sys.platform == "cygwin":
+            MailAttachmentFilePath = GetRootFileLocation().Result() + "\\Web\\Mail\\Attachment\\"
+            return MailAttachmentFilePath
+        elif sys.platform == "linux" or sys.platform == "darwin":
+            MailAttachmentFilePath = GetRootFileLocation().Result() + "/Web/Mail/Attachment/"
+            return MailAttachmentFilePath
+class GetMailImageFilePath:  #  邮件图片位置
+    def Result(self) -> str:
+        if sys.platform == "win32" or sys.platform == "cygwin":
+            MailImageFilePath = GetRootFileLocation().Result() + "\\Web\\Mail\\Image\\"
+            return MailImageFilePath
+        elif sys.platform == "linux" or sys.platform == "darwin":
+            MailImageFilePath = GetRootFileLocation().Result() + "/Web/Mail/Image/"
+            return MailImageFilePath

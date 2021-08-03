@@ -18,3 +18,4 @@ CrossSiteScriptProject
 MedusaScan.py
 ProxyServer.py
 Banner.py
+Web/Mail/Attachment/*

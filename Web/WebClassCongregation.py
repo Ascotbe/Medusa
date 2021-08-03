@@ -2000,3 +2000,78 @@ class TrojanData:#免杀木马相关数据库
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_TrojanData(class)_Query(def)", e)
             return None
+
+class MaliciousEmail:  # 钓鱼邮件
+    def __init__(self):
+        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        # 获取所创建数据的游标
+        self.cur = self.con.cursor()
+        # 创建表
+        try:
+            self.cur.execute("CREATE TABLE MaliciousEmail\
+                                (malicious_email_id INTEGER PRIMARY KEY,\
+                                uid TEXT NOT NULL,\
+                                mail_message TEXT NOT NULL,\
+                                attachment TEXT NOT NULL,\
+                                mail_title TEXT NOT NULL,\
+                                sender TEXT NOT NULL,\
+                                mail_status TEXT NOT NULL,\
+                                file_status TEXT NOT NULL,\
+                                creation_time TEXT NOT NULL)")
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_MaliciousEmail(class)_init(def)", e)
+
+    def Write(self, **kwargs) -> bool or None:  # 写入相关信息
+        CreationTime = str(int(time.time()))  # 创建时间
+        Uid = kwargs.get("uid")
+        MailMessage= kwargs.get("mail_message")#正文内容，需要用base64加密
+        Attachment= kwargs.get("attachment")#附件文件，需要传入数组格式
+        MailTitle= kwargs.get("mail_title")#邮件头
+        Sender= kwargs.get("sender")#发送人
+        MailStatus= kwargs.get("mail_status")#邮件的状态{"xxxx@qq.com":"0","aaa@qq.com":"1"},1表示成功，0表示失败
+        FileStatus = "1"#本地附件状态,1表示存在，0表示不存在
+        try:
+            self.cur.execute("INSERT INTO MaliciousEmail(uid,mail_message,attachment,mail_title,sender,mail_status,file_status,creation_time)\
+                VALUES (?,?,?,?,?,?,?,?)", (Uid, MailMessage, str(Attachment), MailTitle,Sender,str(MailStatus),FileStatus,CreationTime,))
+            # 提交
+            self.con.commit()
+            self.con.close()
+            return True
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_MaliciousEmail(class)_Write(def)", e)
+            return False
+
+    # def Query(self, **kwargs):  # 查询查看XSS项目信息
+    #     try:
+    #         Uid = kwargs.get("uid")
+    #         NumberOfSinglePages=100#单页数量
+    #         NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
+    #         self.cur.execute("select uid,mail_message,attachment,mail_title,sender,mail_status,file_status,creation_time  from MaliciousEmail limit ? offset ?", (NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询用户相关信息
+    #
+    #         result_list = []
+    #         for i in self.cur.fetchall():
+    #             JsonValues = {}
+    #             JsonValues["vulnerability_number"] = i[0]
+    #             JsonValues["v3_base_score"] = i[1]
+    #             JsonValues["v3_base_severity"] = i[2]
+    #             JsonValues["v2_base_score"] = i[3]
+    #             JsonValues["v2_base_severity"] = i[4]
+    #             JsonValues["last_up_date"] = i[5]
+    #             JsonValues["vulnerability_description"] = i[6]
+    #             JsonValues["vendors"] = i[7]
+    #             JsonValues["products"] = i[8]
+    #             result_list.append(JsonValues)
+    #         self.con.close()
+    #         return result_list
+    #     except Exception as e:
+    #         ErrorLog().Write("Web_WebClassCongregation_MaliciousEmail(class)_Query(def)", e)
+    #         return None
+    # def Quantity(self, **kwargs):  # 查看数量有哪些
+    #     try:
+    #         self.cur.execute("SELECT COUNT(1)  FROM MaliciousEmail",)  # 查询用户相关信息
+    #         Result=self.cur.fetchall()[0][0]#获取数据个数
+    #         self.con.close()
+    #         return Result
+    #     except Exception as e:
+    #         ErrorLog().Write("Web_WebClassCongregation_MaliciousEmail(class)_Quantity(def)", e)
+    #         return None

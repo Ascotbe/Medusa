@@ -2041,37 +2041,35 @@ class MaliciousEmail:  # 钓鱼邮件
             ErrorLog().Write("Web_WebClassCongregation_MaliciousEmail(class)_Write(def)", e)
             return False
 
-    # def Query(self, **kwargs):  # 查询查看XSS项目信息
-    #     try:
-    #         Uid = kwargs.get("uid")
-    #         NumberOfSinglePages=100#单页数量
-    #         NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
-    #         self.cur.execute("select uid,mail_message,attachment,mail_title,sender,mail_status,file_status,creation_time  from MaliciousEmail limit ? offset ?", (NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询用户相关信息
-    #
-    #         result_list = []
-    #         for i in self.cur.fetchall():
-    #             JsonValues = {}
-    #             JsonValues["vulnerability_number"] = i[0]
-    #             JsonValues["v3_base_score"] = i[1]
-    #             JsonValues["v3_base_severity"] = i[2]
-    #             JsonValues["v2_base_score"] = i[3]
-    #             JsonValues["v2_base_severity"] = i[4]
-    #             JsonValues["last_up_date"] = i[5]
-    #             JsonValues["vulnerability_description"] = i[6]
-    #             JsonValues["vendors"] = i[7]
-    #             JsonValues["products"] = i[8]
-    #             result_list.append(JsonValues)
-    #         self.con.close()
-    #         return result_list
-    #     except Exception as e:
-    #         ErrorLog().Write("Web_WebClassCongregation_MaliciousEmail(class)_Query(def)", e)
-    #         return None
-    # def Quantity(self, **kwargs):  # 查看数量有哪些
-    #     try:
-    #         self.cur.execute("SELECT COUNT(1)  FROM MaliciousEmail",)  # 查询用户相关信息
-    #         Result=self.cur.fetchall()[0][0]#获取数据个数
-    #         self.con.close()
-    #         return Result
-    #     except Exception as e:
-    #         ErrorLog().Write("Web_WebClassCongregation_MaliciousEmail(class)_Quantity(def)", e)
-    #         return None
+    def Query(self, **kwargs):
+        try:
+            Uid = kwargs.get("uid")
+            NumberOfSinglePages=100#单页数量
+            NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
+            self.cur.execute("select mail_message,attachment,mail_title,sender,mail_status,file_status,creation_time  from MaliciousEmail WHERE uid=? limit ? offset ?", (Uid,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询用户相关信息
+            result_list = []
+            for i in self.cur.fetchall():
+                JsonValues = {}
+                JsonValues["mail_message"] = i[0]
+                JsonValues["attachment"] = i[1]
+                JsonValues["mail_title"] = i[2]
+                JsonValues["sender"] = i[3]
+                JsonValues["mail_status"] = i[4]
+                JsonValues["file_status"] = i[5]
+                JsonValues["creation_time"] = i[6]
+                result_list.append(JsonValues)
+            self.con.close()
+            return result_list
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_MaliciousEmail(class)_Query(def)", e)
+            return None
+    def Quantity(self,**kwargs):  # 查看数量有哪些
+        Uid = kwargs.get("uid")
+        try:
+            self.cur.execute("SELECT COUNT(1)  FROM MaliciousEmail  WHERE uid=?", (Uid,))
+            Result=self.cur.fetchall()[0][0]#获取数据个数
+            self.con.close()
+            return Result
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_MaliciousEmail(class)_Quantity(def)", e)
+            return None

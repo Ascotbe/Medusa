@@ -76,7 +76,7 @@ def SendEamil(request):#查询github监控数据
                         MailStatus[Target] = "0"
                         ErrorLog().Write("Mail delivery failed->"+str(Target), e)
                 MaliciousEmail().Write(uid=Uid, mail_message=base64.b64encode(str(MailMessage).encode('utf-8')).decode('utf-8'), attachment=Attachment, mail_title=base64.b64encode(str(MailTitle).encode('utf-8')).decode('utf-8'),
-                                       sender=base64.b64encode(str(Sender).encode('utf-8')).decode('utf-8'), mail_status=MailStatus)
+                                       sender=base64.b64encode(str(Sender).encode('utf-8')).decode('utf-8'), mail_status=json.dumps(MailStatus))
                 return JsonResponse({'message': "发送成功~", 'code': 200, })
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })

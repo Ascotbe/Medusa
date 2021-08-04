@@ -2768,3 +2768,11 @@ v1.0.15🌴
 优化钓鱼邮件发送
 添加MaliciousEmail表结构
 ```
+
+> 2021.8.4
+
+```
+v1.0.16🌴
+添加statistics_malicious_email、malicious_mail_query、upload_mail_attachment的接口
+优化MaliciousEmail数据库
+```

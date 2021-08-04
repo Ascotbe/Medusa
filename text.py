@@ -10,7 +10,5 @@
 # pip install python-magic-bin==0.4.14
 
 上传文件API
-查询个数API
-查询详细数据API
 使用异步来发送邮件
 上传后的文件如何和附件联动

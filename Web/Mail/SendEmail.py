@@ -4,11 +4,12 @@ from email.mime.application import MIMEApplication
 from email.mime.text import MIMEText
 from email.header import Header
 import base64
+import shutil
 from email.mime.image import MIMEImage
 from config import mail_host,mail_pass,mail_user
 from Web.WebClassCongregation import UserInfo,MaliciousEmail
 from django.http import JsonResponse
-from ClassCongregation import ErrorLog,GetMailAttachmentFilePath,GetMailImageFilePath
+from ClassCongregation import ErrorLog,GetMailAttachmentFilePath,GetTempFilePath
 import json
 from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
 """
@@ -19,7 +20,7 @@ from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
 {
 	"token": "xxxx",
 	"mail_message":"<p>警戒警戒！莎莎检测到有人入侵！数据以保存喵~</p>",
-    "attachment": ["Medusa.txt"],
+    "attachment": {"Medusa.txt":"AeId9BrGeELFRudpjb7wG22LidVLlJuGgepkJb3pK7CXZCvmM51628131056"},
     "mail_title":"测试邮件",
     "sender":"喵狗子",
     "goal_mailbox":["ascotbe@gmail.com","ascotbe@163.com"]
@@ -40,7 +41,8 @@ def SendEamil(request):#查询github监控数据
             if Uid != None:  # 查到了UID
                 UserOperationLogRecord(request, request_api="send_fishing_mail", uid=Uid)  # 查询到了在计入
                 # 邮件内容
-
+                TempFilePath=GetTempFilePath().Result()
+                MailAttachmentFilePath = GetMailAttachmentFilePath().Result()#本地文件路径
                 for Target in list(set(GoalMailbox)):#先去重，然后像多个目标发送
                     try:
                         EmailBox = MIMEMultipart()  # 创建容器
@@ -48,9 +50,11 @@ def SendEamil(request):#查询github监控数据
                         EmailBox['To'] = Target  # 发给谁
                         EmailBox['Subject'] = Header(MailTitle, 'utf-8')  # 标题
                         # 发送附件
-                        MailAttachmentFilePath= GetMailAttachmentFilePath().Result()
                         for i in Attachment:
-                            AttachmentData = MIMEApplication(open(MailAttachmentFilePath+i, 'rb').read())
+                            Temp=TempFilePath+i#文件名字
+                            AttachmentName=MailAttachmentFilePath+Attachment[i]#文件真实名字
+                            shutil.copy(AttachmentName, Temp)#复制到temp目录
+                            AttachmentData = MIMEApplication(open(Temp, 'rb').read())#使用temp文件的重命名文件进行发送
                             AttachmentData.add_header('Content-Disposition', 'attachment', filename=i)
                             EmailBox.attach(AttachmentData)
                         # 消息正文

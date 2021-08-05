@@ -9,6 +9,5 @@
 # find . -type d -name '__pycache__' | xargs rm -rf
 # pip install python-magic-bin==0.4.14
 
-上传文件API
-使用异步来发送邮件
-上传后的文件如何和附件联动
+
+#使用异步来发送邮件

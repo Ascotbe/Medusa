@@ -2776,3 +2776,13 @@ v1.0.16🌴
 添加statistics_malicious_email、malicious_mail_query、upload_mail_attachment的接口
 优化MaliciousEmail数据库
 ```
+
+> 2021.8.5
+
+```
+v1.0.16🌴
+添加statistical_mail_attachment、email_attachment_query接口
+添加邮件上传功能
+添加邮件附件关系表
+修改个函数错误
+```

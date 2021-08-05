@@ -2016,7 +2016,6 @@ class MaliciousEmail:  # 钓鱼邮件
                                 mail_title TEXT NOT NULL,\
                                 sender TEXT NOT NULL,\
                                 mail_status TEXT NOT NULL,\
-                                file_status TEXT NOT NULL,\
                                 creation_time TEXT NOT NULL)")
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_MaliciousEmail(class)_init(def)", e)
@@ -2025,14 +2024,13 @@ class MaliciousEmail:  # 钓鱼邮件
         CreationTime = str(int(time.time()))  # 创建时间
         Uid = kwargs.get("uid")
         MailMessage= kwargs.get("mail_message")#正文内容，需要用base64加密
-        Attachment= kwargs.get("attachment")#附件文件，需要传入数组格式
+        Attachment= kwargs.get("attachment")#附件文件，需要传入json格式，使用的是本地名称
         MailTitle= kwargs.get("mail_title")#邮件头
         Sender= kwargs.get("sender")#发送人
-        MailStatus= kwargs.get("mail_status")#邮件的状态{"xxxx@qq.com":"0","aaa@qq.com":"1"},1表示成功，0表示失败
-        FileStatus = "1"#本地附件状态,1表示存在，0表示不存在
+        MailStatus= kwargs.get("mail_status")#邮件的状态{"xxxx@qq.com":"0","aaa@qq.com":"1"},1表示成功，0表示失败，退信也算发送成功
         try:
-            self.cur.execute("INSERT INTO MaliciousEmail(uid,mail_message,attachment,mail_title,sender,mail_status,file_status,creation_time)\
-                VALUES (?,?,?,?,?,?,?,?)", (Uid, MailMessage, str(Attachment), MailTitle,Sender,str(MailStatus),FileStatus,CreationTime,))
+            self.cur.execute("INSERT INTO MaliciousEmail(uid,mail_message,attachment,mail_title,sender,mail_status,creation_time)\
+                VALUES (?,?,?,?,?,?,?)", (Uid, MailMessage, str(Attachment), MailTitle,Sender,str(MailStatus),CreationTime,))
             # 提交
             self.con.commit()
             self.con.close()
@@ -2046,7 +2044,7 @@ class MaliciousEmail:  # 钓鱼邮件
             Uid = kwargs.get("uid")
             NumberOfSinglePages=100#单页数量
             NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
-            self.cur.execute("select mail_message,attachment,mail_title,sender,mail_status,file_status,creation_time  from MaliciousEmail WHERE uid=? limit ? offset ?", (Uid,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询用户相关信息
+            self.cur.execute("select mail_message,attachment,mail_title,sender,mail_status,creation_time  from MaliciousEmail WHERE uid=? limit ? offset ?", (Uid,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询用户相关信息
             result_list = []
             for i in self.cur.fetchall():
                 JsonValues = {}
@@ -2055,7 +2053,6 @@ class MaliciousEmail:  # 钓鱼邮件
                 JsonValues["mail_title"] = i[2]
                 JsonValues["sender"] = i[3]
                 JsonValues["mail_status"] = i[4]
-                JsonValues["file_status"] = i[5]
                 JsonValues["creation_time"] = i[6]
                 result_list.append(JsonValues)
             self.con.close()
@@ -2072,4 +2069,69 @@ class MaliciousEmail:  # 钓鱼邮件
             return Result
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_MaliciousEmail(class)_Quantity(def)", e)
+            return None
+
+
+class MailAttachment:  # 钓鱼邮件附件
+    def __init__(self):
+        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        # 获取所创建数据的游标
+        self.cur = self.con.cursor()
+        # 创建表
+        try:
+            self.cur.execute("CREATE TABLE MailAttachment\
+                                (mail_attachment_id INTEGER PRIMARY KEY,\
+                                uid TEXT NOT NULL,\
+                                file_name TEXT NOT NULL,\
+                                file_size TEXT NOT NULL,\
+                                document_real_name TEXT NOT NULL,\
+                                creation_time TEXT NOT NULL)")
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_MailAttachment(class)_init(def)", e)
+
+    def Write(self, **kwargs) -> bool or None:  # 写入相关信息
+        CreationTime = str(int(time.time()))  # 创建时间
+        Uid = kwargs.get("uid")
+        FileName= kwargs.get("file_name")#文件名
+        FileSize = kwargs.get("file_size")  # 文件大小
+        DocumentRealName= kwargs.get("document_real_name")#真实的文件名
+        try:
+            self.cur.execute("INSERT INTO MailAttachment(uid,file_name,file_size,document_real_name,creation_time)\
+                VALUES (?,?,?,?,?)", (Uid, FileName, FileSize,DocumentRealName,CreationTime,))
+            # 提交
+            self.con.commit()
+            self.con.close()
+            return True
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_MailAttachment(class)_Write(def)", e)
+            return False
+
+    def Query(self, **kwargs):
+        try:
+            Uid = kwargs.get("uid")
+            NumberOfSinglePages=100#单页数量
+            NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
+            self.cur.execute("select file_name,file_size,document_real_name,creation_time  from MailAttachment WHERE uid=? limit ? offset ?", (Uid,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询用户相关信息
+            result_list = []
+            for i in self.cur.fetchall():
+                JsonValues = {}
+                JsonValues["file_name"] = i[0]
+                JsonValues["file_size"] = i[1]
+                JsonValues["document_real_name"] = i[2]
+                JsonValues["creation_time"] = i[3]
+                result_list.append(JsonValues)
+            self.con.close()
+            return result_list
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_MailAttachment(class)_Query(def)", e)
+            return None
+    def Quantity(self,**kwargs):  # 查看数量有哪些
+        Uid = kwargs.get("uid")
+        try:
+            self.cur.execute("SELECT COUNT(1)  FROM MailAttachment  WHERE uid=?", (Uid,))
+            Result=self.cur.fetchall()[0][0]#获取数据个数
+            self.con.close()
+            return Result
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_MailAttachment(class)_Quantity(def)", e)
             return None

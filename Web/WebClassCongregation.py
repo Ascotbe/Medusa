@@ -2016,6 +2016,8 @@ class MaliciousEmail:  # 钓鱼邮件
                                 mail_title TEXT NOT NULL,\
                                 sender TEXT NOT NULL,\
                                 mail_status TEXT NOT NULL,\
+                                redis_id TEXT NOT NULL,\
+                                compilation_status TEXT NOT NULL,\
                                 creation_time TEXT NOT NULL)")
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_MaliciousEmail(class)_init(def)", e)
@@ -2027,10 +2029,13 @@ class MaliciousEmail:  # 钓鱼邮件
         Attachment= kwargs.get("attachment")#附件文件，需要传入json格式，使用的是本地名称
         MailTitle= kwargs.get("mail_title")#邮件头
         Sender= kwargs.get("sender")#发送人
-        MailStatus= kwargs.get("mail_status")#邮件的状态{"xxxx@qq.com":"0","aaa@qq.com":"1"},1表示成功，0表示失败，退信也算发送成功
+        MailStatus= ""#邮件的状态{"xxxx@qq.com":"0","aaa@qq.com":"1"},1表示成功，0表示失败，退信也算发送成功
+        RedisId = kwargs.get("redis_id")  # id值
+        CompilationStatus = "0"  # 状态0表示未完成，1表示完成
+
         try:
-            self.cur.execute("INSERT INTO MaliciousEmail(uid,mail_message,attachment,mail_title,sender,mail_status,creation_time)\
-                VALUES (?,?,?,?,?,?,?)", (Uid, MailMessage, str(Attachment), MailTitle,Sender,str(MailStatus),CreationTime,))
+            self.cur.execute("INSERT INTO MaliciousEmail(uid,mail_message,attachment,mail_title,sender,mail_status,redis_id,compilation_status,creation_time)\
+                VALUES (?,?,?,?,?,?,?,?,?)", (Uid, MailMessage, str(Attachment), MailTitle,Sender,str(MailStatus),RedisId,CompilationStatus,CreationTime,))
             # 提交
             self.con.commit()
             self.con.close()
@@ -2044,7 +2049,7 @@ class MaliciousEmail:  # 钓鱼邮件
             Uid = kwargs.get("uid")
             NumberOfSinglePages=100#单页数量
             NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
-            self.cur.execute("select mail_message,attachment,mail_title,sender,mail_status,creation_time  from MaliciousEmail WHERE uid=? limit ? offset ?", (Uid,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询用户相关信息
+            self.cur.execute("select mail_message,attachment,mail_title,sender,mail_status,compilation_status,creation_time  from MaliciousEmail WHERE uid=? limit ? offset ?", (Uid,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询用户相关信息
             result_list = []
             for i in self.cur.fetchall():
                 JsonValues = {}
@@ -2053,6 +2058,7 @@ class MaliciousEmail:  # 钓鱼邮件
                 JsonValues["mail_title"] = i[2]
                 JsonValues["sender"] = i[3]
                 JsonValues["mail_status"] = i[4]
+                JsonValues["compilation_status"] = i[5]
                 JsonValues["creation_time"] = i[6]
                 result_list.append(JsonValues)
             self.con.close()
@@ -2070,7 +2076,24 @@ class MaliciousEmail:  # 钓鱼邮件
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_MaliciousEmail(class)_Quantity(def)", e)
             return None
-
+    def UpdateStatus(self,**kwargs)->bool:#利用主键ID来判断后更新数据
+        RedisId = kwargs.get("redis_id")
+        MailStatus = kwargs.get("mail_status")
+        CompilationStatus = "1"
+        try:
+            self.cur.execute("""UPDATE MaliciousEmail SET compilation_status = ?,mail_status=? WHERE redis_id= ?""",(CompilationStatus,MailStatus, RedisId,))
+            # 提交
+            if self.cur.rowcount < 1:  # 用来判断是否更新成功
+                self.con.commit()
+                self.con.close()
+                return False
+            else:
+                self.con.commit()
+                self.con.close()
+                return True
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_MaliciousEmail(class)_UpdateStatus(def)", e)
+            return False
 
 class MailAttachment:  # 钓鱼邮件附件
     def __init__(self):

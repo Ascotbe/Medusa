@@ -8,6 +8,3 @@
 # git commit -m  "v1.0.0:palm_tree:"
 # find . -type d -name '__pycache__' | xargs rm -rf
 # pip install python-magic-bin==0.4.14
-
-
-#使用异步来发送邮件

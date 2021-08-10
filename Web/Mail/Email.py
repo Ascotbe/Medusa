@@ -6,7 +6,7 @@ from email.header import Header
 import base64
 import shutil
 from email.mime.image import MIMEImage
-from config import mail_host,mail_pass,mail_user
+from config import third_party_mail_host,third_party_mail_user,third_party_mail_pass,local_mail_host,local_mail_user
 from Web.WebClassCongregation import UserInfo,MaliciousEmail
 from django.http import JsonResponse
 from ClassCongregation import ErrorLog,GetMailAttachmentFilePath,GetTempFilePath
@@ -19,7 +19,7 @@ from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
 
 
 @app.task
-def SendMail(MailMessage,Attachment,MailTitle,Sender,GoalMailbox):
+def SendMail(MailMessage,Attachment,MailTitle,Sender,GoalMailbox,ThirdParty):
     MailStatus = {}
     # 邮件内容
     TempFilePath = GetTempFilePath().Result()
@@ -27,7 +27,7 @@ def SendMail(MailMessage,Attachment,MailTitle,Sender,GoalMailbox):
     for Target in list(set(GoalMailbox)):  # 先去重，然后像多个目标发送
         try:
             EmailBox = MIMEMultipart()  # 创建容器
-            EmailBox['From'] = Sender + "<" + mail_user + ">"  # 发送人
+            EmailBox['From'] = Sender + "<" + third_party_mail_user + ">"  # 发送人
             EmailBox['To'] = Target  # 发给谁
             EmailBox['Subject'] = Header(MailTitle, 'utf-8')  # 标题
             # 发送附件
@@ -50,13 +50,21 @@ def SendMail(MailMessage,Attachment,MailTitle,Sender,GoalMailbox):
             # img = MIMEImage(img_data)
             # img.add_header('Content-ID', 'dns_config')
             # EmailBox.attach(img)
-            SMTP = smtplib.SMTP()
-            SMTP.connect(mail_host, 25)  # 25 为 SMTP 端口号
-            SMTP.login(mail_user, mail_pass)
-            SMTP.sendmail(mail_user, Target, EmailBox.as_string())
-            MailStatus[Target] = "1"  # 写到状态表中
-            SMTP.quit()
-            SMTP.close()
+            if int(ThirdParty)==1:#判断是否使用自建服务器
+                SMTP = smtplib.SMTP()
+                SMTP.connect(third_party_mail_host, 25)  # 25 为 SMTP 端口号
+                SMTP.login(third_party_mail_user, third_party_mail_pass)
+                SMTP.sendmail(third_party_mail_user, Target, EmailBox.as_string())
+                MailStatus[Target] = "1"  # 写到状态表中
+                SMTP.quit()
+                SMTP.close()
+            else:
+                SMTP = smtplib.SMTP()
+                SMTP.connect(local_mail_host, 25)  # 25 为 SMTP 端口号
+                SMTP.sendmail(local_mail_user, Target, EmailBox.as_string())
+                MailStatus[Target] = "1"  # 写到状态表中
+                SMTP.quit()
+                SMTP.close()
         except Exception as e:
             MailStatus[Target] = "0"
             ErrorLog().Write("Mail delivery failed->" + str(Target), e)
@@ -71,7 +79,8 @@ def SendMail(MailMessage,Attachment,MailTitle,Sender,GoalMailbox):
     "attachment": {"Medusa.txt":"AeId9BrGeELFRudpjb7wG22LidVLlJuGgepkJb3pK7CXZCvmM51628131056"},
     "mail_title":"测试邮件",
     "sender":"喵狗子",
-    "goal_mailbox":["ascotbe@gmail.com","ascotbe@163.com"]
+    "goal_mailbox":["ascotbe@gmail.com","ascotbe@163.com"],
+    "third_party":"0"
 }
 """
 def SendFishingMail(request):#发送邮件信息
@@ -85,9 +94,10 @@ def SendFishingMail(request):#发送邮件信息
             MailTitle = json.loads(request.body)["mail_title"]  # 邮件标题
             Sender = json.loads(request.body)["sender"]  # 发送人姓名
             GoalMailbox = json.loads(request.body)["goal_mailbox"]  # 目标邮箱
+            ThirdParty = json.loads(request.body)["third_party"]  # 判断是否是第三方服务器
             if Uid != None:  # 查到了UID
                 UserOperationLogRecord(request, request_api="send_fishing_mail", uid=Uid)  # 查询到了在计入
-                SendMailForRedis=SendMail.delay(MailMessage,Attachment,MailTitle,Sender,GoalMailbox)#调用下发任务
+                SendMailForRedis=SendMail.delay(MailMessage,Attachment,MailTitle,Sender,GoalMailbox,ThirdParty)#调用下发任务
                 MaliciousEmail().Write(uid=Uid,
                                        mail_message=base64.b64encode(str(MailMessage).encode('utf-8')).decode('utf-8'),
                                        attachment=Attachment,

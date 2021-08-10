@@ -123,6 +123,9 @@ nist_update_job_time=7200#工作间隔，网站每2小时更新一次数据
 #########################################################################
 #钓鱼邮箱邮件配置
 #########################################################################
-mail_host = "smtp.163.com"  # 设置服务器
-mail_user = "ascotbe@163.com"  # 用户名
-mail_pass = "XXXXXX"  # 口令
+third_party_mail_host = "smtp.163.com"  # 设置第三方服务器
+third_party_mail_user = "ascotbe@163.com"  # 第三方用户名
+third_party_mail_pass = "XXX"  #第三方口令
+
+local_mail_host= "smtp.ascotbe.com"# 设本地的服务器
+local_mail_user= "ascotbe@ascotbe.com" # 用户名

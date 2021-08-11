@@ -2015,6 +2015,7 @@ class MaliciousEmail:  # 钓鱼邮件
                                 attachment TEXT NOT NULL,\
                                 mail_title TEXT NOT NULL,\
                                 sender TEXT NOT NULL,\
+                                forged_address TEXT NOT NULL,\
                                 mail_status TEXT NOT NULL,\
                                 redis_id TEXT NOT NULL,\
                                 compilation_status TEXT NOT NULL,\
@@ -2028,14 +2029,15 @@ class MaliciousEmail:  # 钓鱼邮件
         MailMessage= kwargs.get("mail_message")#正文内容，需要用base64加密
         Attachment= kwargs.get("attachment")#附件文件，需要传入json格式，使用的是本地名称
         MailTitle= kwargs.get("mail_title")#邮件头
-        Sender= kwargs.get("sender")#发送人
+        Sender= kwargs.get("sender")#发送人名称
+        ForgedAddress = kwargs.get("forged_address")  # 伪造的发件人地址
         MailStatus= ""#邮件的状态{"xxxx@qq.com":"0","aaa@qq.com":"1"},1表示成功，0表示失败，退信也算发送成功
         RedisId = kwargs.get("redis_id")  # id值
         CompilationStatus = "0"  # 状态0表示未完成，1表示完成
 
         try:
-            self.cur.execute("INSERT INTO MaliciousEmail(uid,mail_message,attachment,mail_title,sender,mail_status,redis_id,compilation_status,creation_time)\
-                VALUES (?,?,?,?,?,?,?,?,?)", (Uid, MailMessage, str(Attachment), MailTitle,Sender,str(MailStatus),RedisId,CompilationStatus,CreationTime,))
+            self.cur.execute("INSERT INTO MaliciousEmail(uid,mail_message,attachment,mail_title,sender,forged_address,mail_status,redis_id,compilation_status,creation_time)\
+                VALUES (?,?,?,?,?,?,?,?,?,?)", (Uid, MailMessage, str(Attachment), MailTitle,Sender,str(ForgedAddress),str(MailStatus),RedisId,CompilationStatus,CreationTime,))
             # 提交
             self.con.commit()
             self.con.close()
@@ -2049,7 +2051,7 @@ class MaliciousEmail:  # 钓鱼邮件
             Uid = kwargs.get("uid")
             NumberOfSinglePages=100#单页数量
             NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
-            self.cur.execute("select mail_message,attachment,mail_title,sender,mail_status,compilation_status,creation_time  from MaliciousEmail WHERE uid=? limit ? offset ?", (Uid,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询用户相关信息
+            self.cur.execute("select mail_message,attachment,mail_title,sender,forged_address,mail_status,compilation_status,creation_time  from MaliciousEmail WHERE uid=? limit ? offset ?", (Uid,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询用户相关信息
             result_list = []
             for i in self.cur.fetchall():
                 JsonValues = {}
@@ -2057,9 +2059,10 @@ class MaliciousEmail:  # 钓鱼邮件
                 JsonValues["attachment"] = i[1]
                 JsonValues["mail_title"] = i[2]
                 JsonValues["sender"] = i[3]
-                JsonValues["mail_status"] = i[4]
-                JsonValues["compilation_status"] = i[5]
-                JsonValues["creation_time"] = i[6]
+                JsonValues["forged_address"] = i[4]
+                JsonValues["mail_status"] = i[5]
+                JsonValues["compilation_status"] = i[6]
+                JsonValues["creation_time"] = i[7]
                 result_list.append(JsonValues)
             self.con.close()
             return result_list

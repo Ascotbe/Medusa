@@ -2161,3 +2161,70 @@ class MailAttachment:  # 钓鱼邮件附件
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_MailAttachment(class)_Quantity(def)", e)
             return None
+
+class FishingData:  # 钓鱼邮件数据接收
+    def __init__(self):
+        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        # 获取所创建数据的游标
+        self.cur = self.con.cursor()
+        # 创建表
+        try:
+            self.cur.execute("CREATE TABLE FishingData\
+                                (fishing_data_id INTEGER PRIMARY KEY,\
+                                request_key TEXT NOT NULL,\
+                                full_url TEXT NOT NULL,\
+                                request_method TEXT NOT NULL,\
+                                headers_info TEXT NOT NULL,\
+                                data_pack_info TEXT NOT NULL,\
+                                creation_time TEXT NOT NULL)")
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_FishingData(class)_init(def)", e)
+
+    def Write(self, **kwargs) -> bool or None:  # 写入相关信息
+        CreationTime = str(int(time.time()))  # 创建时间
+        RequestKey= kwargs.get("request_key")#必须为10个
+        HeadersInfo = kwargs.get("headers_info")  # 头数据
+        FullUrl= kwargs.get("full_url")  # 完整的路径
+        RequestMethod = kwargs.get("request_method")  # 请求模式
+        DataPackInfo= kwargs.get("data_pack_info")#真实的文件名
+        try:
+            self.cur.execute("INSERT INTO FishingData(request_key,full_url,request_method,headers_info,data_pack_info,creation_time)\
+                VALUES (?,?,?,?,?,?)", (RequestKey,FullUrl,RequestMethod, HeadersInfo, DataPackInfo,CreationTime,))
+            # 提交
+            self.con.commit()
+            self.con.close()
+            return True
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_FishingData(class)_Write(def)", e)
+            return False
+
+    def Query(self, **kwargs):
+        try:
+            RequestKey = kwargs.get("request_key")
+            NumberOfSinglePages=100#单页数量
+            NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
+            self.cur.execute("select full_url,request_method,headers_info,data_pack_info,creation_time  from FishingData WHERE request_key=? limit ? offset ?", (RequestKey,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询用户相关信息
+            result_list = []
+            for i in self.cur.fetchall():
+                JsonValues = {}
+                JsonValues["full_url"] = i[0]
+                JsonValues["request_method"] = i[1]
+                JsonValues["headers_info"] = i[2]
+                JsonValues["data_pack_info"] = i[3]
+                JsonValues["creation_time"] = i[4]
+                result_list.append(JsonValues)
+            self.con.close()
+            return result_list
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_FishingData(class)_Query(def)", e)
+            return None
+    def Quantity(self,**kwargs):  # 查看数量有哪些
+        RequestKey = kwargs.get("request_key")
+        try:
+            self.cur.execute("SELECT COUNT(1)  FROM FishingData  WHERE request_key=?", (RequestKey,))
+            Result=self.cur.fetchall()[0][0]#获取数据个数
+            self.con.close()
+            return Result
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_FishingData(class)_Quantity(def)", e)
+            return None

@@ -25,7 +25,7 @@ from Web.ApplicationCollection import CollectionWork
 from Web.CollaborationPlatform import Markdown
 from Web.DomainNameSystemLog import DomainNameSystemData
 from Web.TrojanOrVirus import TrojanInterface
-from Web.Mail import Email,MailHistory,MailAttachment
+from Web.Mail import Email,MailHistory,MailAttachment,FishingData
 urlpatterns = [
     #用户相关
     path('api/registered/', Registered.Registered),#注册
@@ -104,5 +104,7 @@ urlpatterns = [
     path('api/upload_mail_attachment/', MailAttachment.UploadMailAttachment),  # 上传钓鱼附件
     path('api/statistical_mail_attachment/', MailAttachment.StatisticalMailAttachment),  # 统计当前用户邮件附件个数
     path('api/email_attachment_query/', MailAttachment.EmailAttachmentQuery),  # 钓鱼邮件附件详情
-
+    re_path(r'^b/().*?/$', FishingData.Monitor),  # 邮件钓鱼数据监控
+    path('api/fishing_data_details/', FishingData.FishingDataDetails),  # 钓鱼获取数据详情
+    path('api/fishing_data_statistics/', FishingData.FishingDataStatistics),  # 钓鱼获取数据统计
 ]

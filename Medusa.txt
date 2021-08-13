@@ -7,7 +7,7 @@ PyMySQL==0.9.3
 IPy==1.0
 scrapy==1.7.3
 tqdm==4.38.0
-dnspython==1.16.0
+py3dns==3.2.1
 tldextract==2.2.2
 django==3.0.5
 Celery==5.0.5

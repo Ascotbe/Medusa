@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from django.http import JsonResponse
 from Web.WebClassCongregation import UserInfo,MedusaQuery,GetDownloadFolderLocation,ReportGenerationList
 from ClassCongregation import ErrorLog

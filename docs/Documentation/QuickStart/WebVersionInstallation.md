@@ -28,7 +28,7 @@ python3 -m pip install -r Medusa.txt
 #进入前端文件夹
 cd Vue
 #安装前端依赖
-npm install 
+npm install
 ```
 
 > 配置后端
@@ -108,7 +108,9 @@ python3 -m pip install -r Medusa.txt
 #进入前端文件夹
 cd Vue
 #安装前端依赖
-npm install 
+npm install
+#替换环境编码
+export PYTHONIOENCODING=utf-8
 ```
 
 > 配置后端

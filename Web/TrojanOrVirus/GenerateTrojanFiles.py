@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import yaml
 from ClassCongregation import GetTrojanModulesFilePath
 import ast

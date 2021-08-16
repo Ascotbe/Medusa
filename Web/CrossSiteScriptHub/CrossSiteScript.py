@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from Web.WebClassCongregation import UserInfo,CrossSiteScriptInfo,CrossSiteScriptProject
 from django.http import JsonResponse,HttpResponse
 from ClassCongregation import ErrorLog,GetJavaScriptFilePath,randoms

@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from Web.celery import app
 from Modules.Confluence import Confluence
 from Modules.Struts2 import Struts2

@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from Web.WebClassCongregation import UserInfo,MarkdownRelationship,MarkdownInfo
 from django.http import JsonResponse
 from ClassCongregation import ErrorLog,randoms,GetImageFilePath

@@ -1,4 +1,5 @@
-# coding:utf-8
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """
 搜索关键字获取结果
 https://www.apple.com.cn/cn/search/%E5%BF%AB%E6%89%8B?src=serp

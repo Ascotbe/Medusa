@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from Web.WebClassCongregation import RequestLog,UserOperationLog
 import base64
 def GetIp(request):

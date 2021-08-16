@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from ClassCongregation import Plugins,GetTempFilePath,GetPluginsFilePath
 import os
 

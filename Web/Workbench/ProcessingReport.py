@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from Web.WebClassCongregation import GetTemplateFolderLocation,GetDownloadFolderLocation
 from docxtpl import DocxTemplate,InlineImage
 import time

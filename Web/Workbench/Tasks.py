@@ -15,7 +15,6 @@ from Modules.Kibana import Kibana
 from Modules.BaoTa import BaoTa
 from Modules.PHPStudy import PHPStudy
 from Modules.Mongo import Mongo
-from Modules.Dubbo import Dubbo
 from Modules.Liferay import Liferay
 from Modules.Weblogic import Weblogic
 from Modules.OA.Seeyou import Seeyou
@@ -61,7 +60,6 @@ MedusaVulnerabilityList={
 "Tongda":Tongda.Main,
 "Weaver":Weaver.Main,
 "Weblogic":Weblogic.Main,
-"Dubbo":Dubbo.Main,
 "BIG-IP":BIG_IP.Main,
 "InformationLeakage":InformationLeakage.Main,
 "BaoTa":BaoTa.Main

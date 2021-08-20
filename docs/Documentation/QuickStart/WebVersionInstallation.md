@@ -4,7 +4,7 @@
 >
 > DNSLOG使用需要配置域名
 
-## 手动安装
+## 无SSL证书方式安装
 
 ### 下载项目
 
@@ -12,91 +12,16 @@
 git clone https://github.com/Ascotbe/Medusa.git
 ```
 
-### Windows
-
-> 必要环境
-
-Redis+npm+Python3.7（以上版本）
-
-> 安装前后端依赖
-
-```bash
-#进入文件夹
-cd Medusa
-#一键安装后端依赖
-python3 -m pip install -r Medusa.txt
-#进入前端文件夹
-cd Vue
-#安装前端依赖
-npm install
-```
-
-> 配置后端
-
-在目录`/Medusa/config.py`中进行配置
-
-- 注意请确保Redis的配置的账号密码端口等信息和当前安装的Redis相同，
-- 注册完账号为了安全考虑请关闭注册功能
-- 修改注册账号和忘记密码所需要的Key
-
-```python
-#redis的配置
-redis_host="localhost"#连接redis的地址，默认本地
-redis_port="6379"#redis连接端口，默认6379
-redis_db="6"#连接的数据库，默认为6
-redis_password="I_will_always_like_Rei_Ayanami"#连接redis的密码
-#开启功能和修改默认参数
-registration_function_status=False#默认关闭注册功能
-forgot_password_function_status=False#默认关闭忘记密码功能
-secret_key_required_for_account_registration="I_will_always_like_Rei_Ayanami"#注册账号需要的秘钥,最好修改为250个随机字符串
-forget_password_key="https://github.com/Ascotbe/Medusa"#修改密码所需要的key
-```
-
-> 配置前端
-
-在目录`/Medusa/Vue/faceConfig.js`中进行配置
-
-```vue
-const { baseURL } = require("./src/utils/request")
-
-const faceConfig = () =>{
-    return{
-        // 如果前后端分离，把IP地址修改为你自己的后端地址
-        basePath: 'http://127.0.0.1:9999/api/',
-        imgPath:'http://127.0.0.1:9999/s/'
-    }
-}
-
-module.exports = faceConfig()
-```
-
-> 启动项目
-
-在更目录中，分别打开3个命令行窗口，运行下面三条命令
-
-- 注意启动的端口要和前端配置文件中的相同
-- 注意启动Redis的时候，配置文件的路径请按自己的路径进行替换
-- 以下三条命令都在**Medusa/**根目录下面运行
-
-```bash
-celery -A Web.Workbench.Tasks worker --loglevel=info --pool=solo
-python3 manage.py runserver 0.0.0.0:9999 --insecure --noreload
-redis-server.exe redis.conf
-```
-
-接着再打开一个窗口，在**Medusa/Vue/**目录运行以下命令
-
-```bash
-npm run serve
-```
-
-最后，如果您在上面的配置中都未修改端口以及IP，那么访问`http://127.0.0.1:8082`即可看到web界面
-
 ### Linux&Mac
 
 > 必要环境
 
-Redis+npm+Python3.7（以上版本）
+```bash
+apt install nginx
+apt install redis
+apt install python3 #需要3.7以上版本
+apt install python3-pip
+```
 
 > 安装前后端依赖
 
@@ -117,7 +42,7 @@ export PYTHONIOENCODING=utf-8
 
 在目录`/Medusa/config.py`中进行配置
 
-- 注意请确保Redis的配置的账号密码端口等信息和当前安装的Redis相同，
+- 注意请确保Redis的配置的账号密码端口等信息和当前安装的Redis相同
 - 注册完账号为了安全考虑请关闭注册功能
 - 修改注册账号和忘记密码所需要的Key
 
@@ -128,7 +53,7 @@ redis_port="6379"#redis连接端口，默认6379
 redis_db="6"#连接的数据库，默认为6
 redis_password="I_will_always_like_Rei_Ayanami"#连接redis的密码
 #开启功能和修改默认参数
-registration_function_status=False#默认关闭注册功能
+registration_function_status=True#默认开启注册功能，注册完毕请手段关闭
 forgot_password_function_status=False#默认关闭忘记密码功能
 secret_key_required_for_account_registration="I_will_always_like_Rei_Ayanami"#注册账号需要的秘钥,最好修改为250个随机字符串
 forget_password_key="https://github.com/Ascotbe/Medusa"#修改密码所需要的key
@@ -163,7 +88,7 @@ module.exports = faceConfig()
 ```bash
 celery -A Web.Workbench.Tasks worker --loglevel=info --pool=solo
 python3 manage.py runserver 0.0.0.0:9999 --insecure --noreload
-redis-server /usr/local/etc/redis.conf
+redis-server /etc/redis/redis.conf
 ```
 
 接着再打开一个窗口，在**Medusa/Vue/**目录运行以下命令
@@ -173,6 +98,100 @@ npm run serve
 ```
 
 最后，如果您在上面的配置中都未修改端口以及IP，那么访问`http://127.0.0.1:8082`即可看到web界面
+
+## 使用SSL证书方式安装
+
+后端和环境依赖都和无证书的配置一样，从前端开始有区别
+
+> 配置前端
+
+在目录`/Medusa/Vue/faceConfig.js`中进行配置
+
+```
+const { baseURL } = require("./src/utils/request")
+
+const faceConfig = () =>{
+    return{
+        // 这个xxxxxxxx地方修改为你的域名，比如ascotbe.com
+        basePath: 'https://ascotbe.com/api/',
+        imgPath:'https://ascotbe.com/s/'
+    }
+}
+
+module.exports = faceConfig()
+```
+
+然后对Vue进行编译`npm run build`，编译成功后会有一个**dist**文件夹，接着使用命令进行移动
+
+```
+mv dist/ /var/www/html/
+```
+
+> 配置Nginx
+
+```nginx
+server {
+    # 服务器端口使用443，开启ssl, 这里ssl就是上面安装的ssl模块
+    listen       443 ssl;
+    #填写绑定证书的域名
+    server_name  ascotbe.com; ##你的域名
+    
+    # ssl证书地址，从阿里云或者腾讯云免费申请
+    ssl_certificate     /etc/nginx/cert/ssl.pem;  #证书文件名称
+    ssl_certificate_key  /etc/nginx/cert/ssl.key; # 私钥文件名称
+    
+    # ssl验证相关配置
+    ssl_session_timeout  5m;    #缓存有效期
+    ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;    #加密算法
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;    #安全链接可选的加密协议
+    ssl_prefer_server_ciphers on;   #使用服务器端的首选算法
+
+    location / {
+    		#网站主页路径。此路径仅供参考，具体请您按照实际目录操作
+        root   /var/www/html/dist;
+        index  index.html;
+    }
+    location /api {
+    		proxy_pass http://127.0.0.1:9999/api;
+    		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+    location /s {
+    		proxy_pass http://127.0.0.1:9999/s;
+    		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+    location /a {
+    		proxy_pass http://127.0.0.1:9999/a;
+    		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}
+server {
+    listen       80;
+    server_name  ascotbe.com; #你的域名
+    return 301 https://$server_name$request_uri;
+}
+```
+
+接着重新启动Nginx
+
+```
+sudo systemctl restart nginx
+```
+
+> 启动项目
+
+运行下面三条命令
+
+- 注意启动的端口要和前端配置文件中的相同
+- 注意启动Redis的时候，配置文件的路径请按自己的路径进行替换
+- 以下三条命令都在**Medusa/**根目录下面运行
+
+```bash
+nohup celery -A Web.Workbench.Tasks worker --loglevel=info --pool=solo &
+nohup python3 manage.py runserver 0.0.0.0:9999 --insecure --noreload &
+redis-server /etc/redis/redis.conf
+```
+
+最后访问`http://ascotbe.com`即可看到web界面（注意这是你自己的域名
 
 ## Docker安装
 

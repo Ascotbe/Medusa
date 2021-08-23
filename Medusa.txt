@@ -38,3 +38,4 @@ cel-python==0.1.4
 HackRequests==1.2
 django-extensions==3.1.3
 django-werkzeug-debugger-runserver==0.3.1
+tzlocal==2.1

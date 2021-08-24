@@ -75,7 +75,7 @@ def StatisticalMailAttachment(request):#统计邮件附件个数
 	"number_of_pages":"1"
 }
 """
-def EmailAttachmentQuery(request):#查询恶意邮件详情
+def EmailAttachmentQuery(request):#查询附件文件
     RequestLogRecord(request, request_api="email_attachment_query")
     if request.method == "POST":
         try:

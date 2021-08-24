@@ -8,7 +8,7 @@ from Web.WebClassCongregation import FishingData,UserInfo
 from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
 import re
 """
-http://127.0.0.1:9999/b/sasdasdasd/?dasd=dasd
+http://127.0.0.1:9999/b/aaaaaaaaaa/?dasd=dasd
 """
 def Monitor(request,data):#用于接收信息的监控
     RequestLogRecord(request, request_api="email")

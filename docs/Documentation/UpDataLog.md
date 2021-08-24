@@ -2862,3 +2862,12 @@ v1.0.27🌴
 解决某些机器由于时区问题照成的Only timezones from the pytz library are supported错误
 修改GitHub自定义监控关键字
 ```
+
+> 2021.8.24
+
+```
+v1.0.28🌴
+修改github_monitor接口相关请求和返回数据
+新增github_monitor_search接口，把之前github_monitor搜索功能放到后端做
+添加email中8个接口的相关文档
+```

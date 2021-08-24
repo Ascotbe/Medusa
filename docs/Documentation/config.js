@@ -97,6 +97,10 @@ let config = {
                 {
                     title: '免杀生成', path: '/API/TrojanOrVirus'
                 },
+                {
+                    title: '邮件发送相关', path: '/API/Email'
+                },
+                
             ]
         },
 		{

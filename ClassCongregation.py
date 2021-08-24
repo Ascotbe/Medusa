@@ -317,12 +317,52 @@ class GithubCveApi:  # CVE写入表
             return cve_query_results
         except Exception as e:
             ErrorLog().Write("ClassCongregation_GithubCveApi(class)_Judgment(def)", e)
+    def StatisticalData(self):  # 整体个数统计
+        try:
+            self.cur.execute("SELECT COUNT(1)  FROM GithubMonitor",)
+            Result=self.cur.fetchall()[0][0]#获取数据个数
+            self.con.close()
+            return Result
+        except Exception as e:
+            ErrorLog().Write("ClassCongregation_GithubCveApi(class)_StatisticalData(def)", e)
+            return None
+    def Query(self,**kwargs):
+        NumberOfSinglePages = 100  # 单页数量
+        NumberOfPages = kwargs.get(
+            "number_of_pages") - 1  # 查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
 
-    def Query(self):#用于判断是否更新
         try:
             ProcessedData=[]
             self.cur.execute(
-                """SELECT * FROM GithubMonitor""")
+                "select github_id,name,html_url,created_at,updated_at,pushed_at,forks_count,watchers_count  from GithubMonitor limit ? offset ?",
+                (NumberOfSinglePages, int(NumberOfPages) * NumberOfSinglePages,))  # 查询用户相关信息
+
+            for i in self.cur.fetchall():
+                JsonValues = {}
+                JsonValues["github_id"]= i[0]
+                JsonValues["name"]= i[1]
+                JsonValues["html_url"]= i[2]
+                JsonValues["created_at"]= i[3]
+                JsonValues["updated_at"]= i[4]
+                JsonValues["pushed_at"]= i[5]
+                JsonValues["forks_count"]= i[6]
+                JsonValues["watchers_count"]= i[7]
+                ProcessedData.append(JsonValues)
+            return ProcessedData
+        except Exception as e:
+            ErrorLog().Write("ClassCongregation_GithubCveApi(class)_Query(def)", e)
+    def Search(self,**kwargs):#搜索函数，使用模糊查询
+        Name = kwargs.get("name") #项目名称
+        NumberOfSinglePages = 100  # 单页数量
+        NumberOfPages = kwargs.get(
+            "number_of_pages") - 1  # 查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
+
+        try:
+            ProcessedData=[]
+            self.cur.execute(
+                "select *  from GithubMonitor  WHERE name like ? limit ? offset ?",
+                (Name,NumberOfSinglePages, int(NumberOfPages) * NumberOfSinglePages,))  # 查询用户相关信息
+
             for i in self.cur.fetchall():
                 JsonValues = {}
                 JsonValues["github_id"]= i[1]
@@ -334,10 +374,21 @@ class GithubCveApi:  # CVE写入表
                 JsonValues["forks_count"]= i[7]
                 JsonValues["watchers_count"]= i[8]
                 ProcessedData.append(JsonValues)
+
             return ProcessedData
         except Exception as e:
-            ErrorLog().Write("ClassCongregation_GithubCveApi(class)_Query(def)", e)
+            ErrorLog().Write("ClassCongregation_GithubCveApi(class)_Search(def)", e)
 
+    def SearchStatistics(self,**kwargs):  #统计搜索个数
+        try:
+            Name =kwargs.get("name")
+            self.cur.execute("SELECT COUNT(1)  FROM GithubMonitor where name like ?",(Name,))#模糊查询
+            Result=self.cur.fetchall()[0][0]#获取数据个数
+            self.con.close()
+            return Result
+        except Exception as e:
+            ErrorLog().Write("ClassCongregation_GithubCveApi(class)_SearchStatistics(def)", e)
+            return None
 
 class VulnerabilityDetails:  # 所有数据库写入都是用同一个类
     def __init__(self, medusa,request, **kwargs):

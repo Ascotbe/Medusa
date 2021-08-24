@@ -63,11 +63,6 @@ Add the following content to the original [protocol](https://github.com/Ascotbe/
 - If you have any illegal behavior in the process of using this project, you need to bear the corresponding consequences yourself, and we will not bear any legal and joint liabilities.
 - Before using this project, please **read carefully and fully understand the content of each clause**. Restrictions, exemption clauses or other clauses involving your major rights and interests may be bolded, underlined, etc. to remind you to pay attention. Unless you have fully read, fully understood and accepted all the terms of this agreement, please do not use this item. Your use behavior or your acceptance of this agreement in any other express or implied manner shall be deemed to have been read and agreed to be bound by this agreement.
 
-### :dollar:SponsorUs
-
-|              <font color=Blue>Alipay</font>              |            <font color=#008000>WeChat</font>             |
-| :------------------------------------------------------: | :------------------------------------------------------: |
-| <img style="zoom:33%;" src='Vue/src/assets/Alipay.jpeg'> | <img style="zoom:27%;" src='Vue/src/assets/WeChat.jpeg'> |
 
 ### :palm_tree:Contributors
 

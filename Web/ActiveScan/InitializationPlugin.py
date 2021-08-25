@@ -31,7 +31,7 @@ def Run():
         PluginsDB.con.close()#关闭数据库连接
         open(TempFilePath + "InitializationPlugin.lock", 'w+').write("Super Invincible Cute Neiru Aonuma")  # 初始化后写入初始化锁
 
-Run()
+
 
 
 

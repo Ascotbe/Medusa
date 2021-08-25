@@ -1930,7 +1930,9 @@ class TrojanData:#免杀木马相关数据库
                                 trojan_generate_file_name TEXT NOT NULL,\
                                 compilation_status TEXT NOT NULL,\
                                 redis_id TEXT NOT NULL,\
-                                creation_time TEXT NOT NULL)")
+                                creation_time TEXT NOT NULL,\
+                                shellcode_architecture TEXT NOT NULL,\
+                                plugin TEXT NOT NULL)")
 
 
         except Exception as e:
@@ -1943,9 +1945,11 @@ class TrojanData:#免杀木马相关数据库
         CompilationStatus = kwargs.get("compilation_status")#状态0为未完成，1完成，-1出错
         RedisId = kwargs.get("redis_id")
         CreationTime = str(int(time.time()))  # 创建时间
+        ShellcodeArchitecture = kwargs.get("shellcode_architecture")#shellcode的架构类型 x86 或者x64
+        Plugin = kwargs.get("plugin")#当前使用的插件名称
         try:
-            self.cur.execute("INSERT INTO TrojanData(uid,shellcode_type,trojan_original_file_name,trojan_generate_file_name,compilation_status,redis_id,creation_time)\
-                VALUES (?,?,?,?,?,?,?)", (Uid,ShellcodeType,TrojanOriginalFileName, TrojanGenerateFileName,CompilationStatus,RedisId, CreationTime,))
+            self.cur.execute("INSERT INTO TrojanData(uid,shellcode_type,trojan_original_file_name,trojan_generate_file_name,compilation_status,redis_id,creation_time,shellcode_architecture,plugin)\
+                VALUES (?,?,?,?,?,?,?,?,?)", (Uid,ShellcodeType,TrojanOriginalFileName, TrojanGenerateFileName,CompilationStatus,RedisId, CreationTime,ShellcodeArchitecture,Plugin,))
             self.con.commit()  # 只发送数据不结束
             self.con.close()
             return True
@@ -1993,7 +1997,8 @@ class TrojanData:#免杀木马相关数据库
                 JsonValues["trojan_generate_file_name"] = i[4]
                 JsonValues["compilation_status"] = i[5]
                 JsonValues["creation_time"] = i[7]
-
+                JsonValues["shellcode_architecture"] = i[8]
+                JsonValues["plugin"] = i[9]
                 result_list.append(JsonValues)
             self.con.close()
             return result_list

@@ -1,6 +1,6 @@
 .idea
-Web/TrojanOrVirus/Modules/*
-!Web/TrojanOrVirus/Modules/windows-c-entry-point.yml
+Web/TrojanOrVirus/TrojanFile/*
+Web/TrojanOrVirus/OldYml/*
 **/.DS_Store
 **/__pycache__
 Medusa.db

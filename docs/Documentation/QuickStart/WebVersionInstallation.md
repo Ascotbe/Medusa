@@ -1,8 +1,8 @@
 > Web版本正在Alpha阶段，谨慎使用
 >
-> 免杀、CVE监控后端代码已写完，缺少前端页面，望周知
+> 大部分功能缺少前端页面，望周知
 >
-> DNSLOG使用需要配置域名
+> DNSLOG、邮件发送使用需要配置域名
 
 ## 无SSL证书方式安装
 
@@ -17,10 +17,12 @@ git clone https://github.com/Ascotbe/Medusa.git
 > 必要环境
 
 ```bash
-apt install nginx
-apt install redis
-apt install python3 #需要3.7以上版本
-apt install python3-pip
+sudo apt install nginx
+sudo apt install redis
+sudo apt install python3 #需要3.7以上版本
+sudo apt install python3-pip
+sudo apt-get install mingw32 mingw32-binutils mingw32-runtime
+sudo apt-get install gcc-mingw-w64-i686 g++-mingw-w64-i686 mingw-w64-tools
 ```
 
 > 安装前后端依赖

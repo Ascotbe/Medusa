@@ -1,6 +1,5 @@
 .idea
 Web/TrojanOrVirus/TrojanFile/*
-Web/TrojanOrVirus/OldYml/*
 **/.DS_Store
 **/__pycache__
 Medusa.db

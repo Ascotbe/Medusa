@@ -7,20 +7,83 @@ import sys
 import os
 from ClassCongregation import ErrorLog,GetTempFilePath,GetTrojanFilePath,GetTrojanModulesFilePath,randoms
 from Web.WebClassCongregation import UserInfo,TrojanData
-from Web.TrojanOrVirus.GenerateTrojanFiles import CreateTrojanFiles
 from django.http import JsonResponse
 from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
 from Web.celery import app
 import importlib
+
+
+Language2Command={
+    "linux":
+        {
+            "c":
+            {
+                "x86":
+                {
+                    "exe":"i586-mingw32msvc-gcc -mwindows -o ",
+                    "dll":""
+                },
+                "x64":
+                {
+                    "exe": "x86_64-w64-mingw32-gcc -o ",
+                    "dll": "x86_64-w64-mingw32-gcc -fPIC -shared -o "
+                }
+            },
+            "c++":
+            {
+                "x86":
+                {
+                    "exe": "i586-mingw32msvc-g++ -mwindows -o ",
+                    "dll": ""
+                },
+                "x64":
+                {
+                    "exe": "x86_64-w64-mingw32-g++ -o ",
+                    "dll": "x86_64-w64-mingw32-g++ -fPIC -shared -o "
+                }
+            },
+            #不支持交叉编译dll程序
+            "go":
+            {
+                "x86":
+                {
+                    "dll": None,
+                    "exe": "GOOS=windows GOARCH=386 go build -o ",
+                },
+                "x64":
+                {
+                    "dll": None,
+                    "exe": "GOOS=windows GOARCH=amd64 go build -o ",
+                }
+
+            },
+            "nim":
+            {
+                    "x86":
+                        {
+                            "exe": "",
+                            "dll": None#"nim c -d:mingw --app:lib --nomain --cpu:i386 --out:"
+                        },
+                    "x64":
+                        {
+                            "exe": "",
+                            "dll": "nim c -d:mingw --app:lib --nomain  --cpu:amd64 --out:"
+                        }
+
+                }
+        },
+    "windows":
+        {}
+}
+
 @app.task
 def CompileCode(Command):#代码编译处理函数
     p = subprocess.call(Command, shell=True)  # 执行生成命令
-    Status=""
     if p==0:#执行成功
-        Status="1"
+        TrojanData().UpdateStatus(compilation_status="1", redis_id=CompileCode.request.id)  # 任务结束后更新状态
     else:
-        Status="-1"
-    TrojanData().UpdateStatus(compilation_status=Status,redis_id=CompileCode.request.id)  # 任务结束后更新状态
+        TrojanData().UpdateStatus(compilation_status="-1", redis_id=CompileCode.request.id)  # 任务结束后更新状态
+
 
 
 """get_trojan_plugins
@@ -81,8 +144,7 @@ def ShellcodeToTrojan(request):#shellcode转换生成病毒
                 PluginList = os.listdir(TrojanModulesFilePath)#获取文件夹中全部文件
                 if Plugin.endswith(".py") and (Plugin in PluginList):#判断传入的是否是python插件，并且插件名称是否在列表中
                     try:
-                        DynamicLoadingPluginPath = 'Web.TrojanOrVirus.Modules' + "." + Plugin.split('.')[
-                            0]  # 去除.py后缀然后进行路径拼接
+                        DynamicLoadingPluginPath = 'Web.TrojanOrVirus.Modules' + "." + Plugin.split('.')[0]  # 去除.py后缀然后进行路径拼接
                         ScriptModule = importlib.import_module(DynamicLoadingPluginPath)  # 动态载入
                         TempFilePath = GetTempFilePath().Result()  # temp文件路径
                         RandomName = randoms().EnglishAlphabet(5) + str(int(time.time()))  # 随机名称
@@ -100,27 +162,21 @@ def ShellcodeToTrojan(request):#shellcode转换生成病毒
                             if ShellcodeArchitecture!="x86" and ShellcodeArchitecture!="x64":#判断对应架构
                                 return JsonResponse({'message': "暂不支持其他架构~", 'code': 440, })
 
-                            elif ShellcodeArchitecture=="x86":
-                                Command="i586-mingw32msvc-gcc -mwindows " + VirusOriginalFilePath + " -o " + VirusFileGenerationPath
-                                RedisCompileCodeTask=CompileCode.delay(Command)
-                                TrojanData().Write(uid=Uid, shellcode_type=ShellcodeType,
-                                                   trojan_original_file_name=RandomName + ScriptModule.__language__,
-                                                   trojan_generate_file_name=RandomName + ScriptModule.__process__, compilation_status="0",
-                                                   redis_id=RedisCompileCodeTask.task_id,
-                                                   shellcode_architecture=ShellcodeArchitecture,
-                                                   plugin=Plugin)
-                            elif ShellcodeArchitecture=="x64":
-                                Command = "x86_64-w64-mingw32-g++ " + VirusOriginalFilePath + " -o " + VirusFileGenerationPath
-                                RedisCompileCodeTask = CompileCode.delay(Command)
-                                TrojanData().Write(uid=Uid, shellcode_type=ShellcodeType,
-                                                   trojan_original_file_name=RandomName + ScriptModule.__language__,
-                                                   trojan_generate_file_name=RandomName + ScriptModule.__process__,
-                                                   compilation_status="0",
-                                                   redis_id=RedisCompileCodeTask.task_id,
-                                                   shellcode_architecture=ShellcodeArchitecture,
-                                                   plugin=Plugin)
+                            elif ShellcodeArchitecture=="x86" or ShellcodeArchitecture=="x64":
+                                Command=Language2Command["linux"][ScriptModule.__language__.split('.')[0]][ShellcodeArchitecture][ScriptModule.__process__.split('.')[0]]#通过文件中的语言类型和生成文件进行提取命令
+                                if Command==None:
+                                    return JsonResponse({'message': "呐呐呐！该种组合无法进行编译，请使用其他插件~", 'code': 450, })
+                                else:
+                                    CompleteCommand=Command + VirusFileGenerationPath +" "+VirusOriginalFilePath #进行命令拼接
+                                    RedisCompileCodeTask=CompileCode.delay(CompleteCommand)
+                                    TrojanData().Write(uid=Uid, shellcode_type=ShellcodeType,
+                                                       trojan_original_file_name=RandomName + ScriptModule.__language__,
+                                                       trojan_generate_file_name=RandomName + ScriptModule.__process__, compilation_status="0",
+                                                       redis_id=RedisCompileCodeTask.task_id,
+                                                       shellcode_architecture=ShellcodeArchitecture,
+                                                       plugin=Plugin)
 
-                            return JsonResponse({'message': "宝贝任务已下发~", 'code': 200, })
+                                    return JsonResponse({'message': "宝贝任务已下发~", 'code': 200, })
                         else:
                             return JsonResponse({'message': "你的电脑不是Mac或者Linux无法使用该功能ლ(•̀ _ •́ ლ)", 'code': 600, })
                     except Exception as e:

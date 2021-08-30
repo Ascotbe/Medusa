@@ -7,7 +7,7 @@ import sys
 import os
 from ClassCongregation import ErrorLog,GetTempFilePath,GetTrojanFilePath,GetTrojanModulesFilePath,randoms
 from Web.WebClassCongregation import UserInfo,TrojanData
-from django.http import JsonResponse
+from django.http import JsonResponse,FileResponse
 from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
 from Web.celery import app
 import importlib
@@ -237,6 +237,41 @@ def TrojanDataStatistical(request):#个人用户数据统计
                 UserOperationLogRecord(request, request_api="trojan_data_statistical", uid=Uid)
                 Number=TrojanData().StatisticalData(uid=Uid)#获取当前用户的个数
                 return JsonResponse({'message': Number, 'code': 200, })
+            else:
+                return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
+        except Exception as e:
+            ErrorLog().Write("Web_TrojanOrVirus_TrojanInterface_TrojanDataStatistical(def)", e)
+            return JsonResponse({'message': "呐呐呐！莎酱被玩坏啦(>^ω^<)", 'code': 169, })
+
+    else:
+        return JsonResponse({'message': '请使用Post请求', 'code': 500, })
+
+"""trojan_file_download_verification
+{
+	"token": "xxx",
+	"trojan_id":"1",
+	"trojan_generate_file_name":"xxxx.exe"
+}
+"""
+
+def TrojanFileDownloadVerification(request):#木马文件下载验证接口
+    RequestLogRecord(request, request_api="trojan_file_download_verification")
+    if request.method == "POST":
+        try:
+            Token=json.loads(request.body)["token"]
+            TrojanId = json.loads(request.body)["trojan_id"]
+            TrojanGenerateFileName = json.loads(request.body)["trojan_generate_file_name"]
+            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
+            if Uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="trojan_file_download_verification", uid=Uid)
+                Result=TrojanData().DownloadVerification(uid=Uid,trojan_id=TrojanId,trojan_generate_file_name=TrojanGenerateFileName)#数据验证
+                if Result:
+                    VirusFileStoragePath = GetTrojanFilePath().Result()  # 病毒文件存放路径
+                    File=open(VirusFileStoragePath+TrojanGenerateFileName,'rb')
+                    Response = FileResponse(File)
+                    return Response
+                else:
+                    return JsonResponse({'message': "该文件不是你的，别瞎请求(๑•̀ㅂ•́)و✧", 'code': 402, })
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:

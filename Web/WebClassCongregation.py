@@ -1992,6 +1992,7 @@ class TrojanData:#免杀木马相关数据库
             result_list = []
             for i in self.cur.fetchall():
                 JsonValues = {}
+                JsonValues["trojan_id"] = i[0]
                 JsonValues["shellcode_type"] = i[2]
                 JsonValues["trojan_original_file_name"] = i[3]
                 JsonValues["trojan_generate_file_name"] = i[4]
@@ -2005,7 +2006,22 @@ class TrojanData:#免杀木马相关数据库
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_TrojanData(class)_Query(def)", e)
             return None
-
+    def DownloadVerification(self, **kwargs):  # 用来验证下载数据是否属于用户
+        try:
+            Uid = kwargs.get("uid")
+            TrojanId = kwargs.get("trojan_id")
+            TrojanGenerateFileName = kwargs.get("trojan_generate_file_name")
+            self.cur.execute("SELECT COUNT(1)  FROM TrojanData WHERE uid=? and trojan_id=? and trojan_generate_file_name=?",(Uid, TrojanId,TrojanGenerateFileName))  # 查询相关信息
+            Result=self.cur.fetchall()[0][0]#获取数据个数
+            if Result==0:
+                self.con.close()
+                return False
+            else:
+                self.con.close()
+                return True
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_TrojanData(class)_DownloadVerification(def)", e)
+            return None
 class MaliciousEmail:  # 钓鱼邮件
     def __init__(self):
         self.con = sqlite3.connect(GetDatabaseFilePath().result())

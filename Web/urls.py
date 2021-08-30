@@ -100,6 +100,7 @@ urlpatterns = [
     path('api/trojan_data_query/', TrojanInterface.TrojanDataQuery),  # 查询当前用户的数据
     path('api/trojan_data_statistical/', TrojanInterface.TrojanDataStatistical),  # 对当前用户病毒数量统计
     path('api/get_trojan_plugins/', TrojanInterface.GetTrojanPlugins),  # 获取用户插件方法
+    path('api/trojan_file_download_verification/', TrojanInterface.TrojanFileDownloadVerification),  # 进行生成木马文件下载
     #钓鱼邮件相关
     path('api/send_fishing_mail/', Email.SendFishingMail),  # 发送钓鱼邮件
     path('api/statistics_malicious_email/', MailHistory.StatisticsMaliciousEmail),  # 统计当前用户钓鱼邮件发送个数

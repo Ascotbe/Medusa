@@ -82,9 +82,9 @@ let config = {
                 {
                     title: '监控相关', path: '/API/Monitoring'
                 },
-                {
-                    title: '主动扫描', path: '/API/ActiveScanning'
-                },
+                // {
+                //     title: '主动扫描', path: '/API/ActiveScanning'
+                // },
                 {
                     title: '被动扫描', path: '/API/PassiveScanning'
                 },

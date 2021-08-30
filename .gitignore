@@ -19,3 +19,4 @@ ProxyServer.py
 Banner.py
 Web/Mail/Attachment/*
 Web/Mail/MailboxDetection.py
+Temp/Modules/*

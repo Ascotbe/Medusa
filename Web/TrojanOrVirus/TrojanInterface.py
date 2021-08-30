@@ -20,7 +20,7 @@ Language2Command={
             {
                 "x86":
                 {
-                    "exe":"i586-mingw32msvc-gcc -mwindows -o ",
+                    "exe":"i686-w64-mingw32-gcc -mwindows -o ",
                     "dll":"i686-w64-mingw32-gcc -fPIC -shared -o "
                 },
                 "x64":
@@ -33,7 +33,7 @@ Language2Command={
             {
                 "x86":
                 {
-                    "exe": "i586-mingw32msvc-g++ -mwindows -o ",
+                    "exe": "i686-w64-mingw32-g++ -mwindows -o ",
                     "dll": "i686-w64-mingw32-g++ -fPIC -shared -o "#编译c++dll的时候需要在每个函数前面添加extern "C"，不然导出函数是C++编译器编译之后的函数名
                 },
                 "x64":

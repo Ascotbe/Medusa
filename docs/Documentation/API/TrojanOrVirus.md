@@ -54,6 +54,7 @@
 
   > 返回参数解释
 
+  - `trojan_id`项目的id值
   - `shellcode_type`来自**MSF**为1，来自**CS**为2
   - `virus_original_file_name`生成的未编译的文件名
   - `virus_generate_file_name`生成编译好的文件名

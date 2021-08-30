@@ -16,7 +16,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path,re_path
-from Web.BasicFunctions import VulnerabilityScanning,VulnerabilityQuery,Registered,User,GenerateReport,ProxyScan,Home,VerificationCode
+#from Web.BasicFunctions import VulnerabilityScanning,VulnerabilityQuery,GenerateReport
+from Web.BasicFunctions import Registered,User,ProxyScan,Home,VerificationCode
 from Web.CrossSiteScriptHub import CrossSiteScript,TemplateManagement
 from Web.SystemInfo import HardwareInfo
 from Web.CommonVulnerabilitiesAndExposuresMonitor.VulnerabilityUtilizationMonitoring import Github
@@ -45,13 +46,13 @@ urlpatterns = [
     path('api/homepage_vulnerability_distributiont_data/', Home.HomepageVulnerabilityDistributiontData),  # 首页漏洞分布数据
     path('api/homepage_github_monitor_data/', Home.HomepageGithubMonitorData),  # 首页github监控数据
     #主动扫描相关
-    path('api/vulnerability_scanning/', VulnerabilityScanning.Scan),#扫描
-    path('api/active_scan_list_query/', VulnerabilityQuery.ActiveScanListQuery),#主动扫描列表查询
-    path('api/scan_information_query/', VulnerabilityQuery.ScanInformationQuery),  #主动扫描关系表
-    path('api/medusa_query/', VulnerabilityQuery.MedusaValueQuery),  # 美杜莎单个漏洞查询
-    path('api/generate_word/', GenerateReport.GenerateWord),  # 美杜莎报告生成接口
-    path('api/download_word/', GenerateReport.DownloadWord),  # 美杜莎报告下载接口
-    path('api/actively_scan_port_information/', VulnerabilityQuery.ActivelyScanPortInformation),  # 主动扫描中端口信息查询模块
+    # path('api/vulnerability_scanning/', VulnerabilityScanning.Scan),#扫描
+    # path('api/active_scan_list_query/', VulnerabilityQuery.ActiveScanListQuery),#主动扫描列表查询
+    # path('api/scan_information_query/', VulnerabilityQuery.ScanInformationQuery),  #主动扫描关系表
+    # path('api/medusa_query/', VulnerabilityQuery.MedusaValueQuery),  # 美杜莎单个漏洞查询
+    # path('api/generate_word/', GenerateReport.GenerateWord),  # 美杜莎报告生成接口
+    # path('api/download_word/', GenerateReport.DownloadWord),  # 美杜莎报告下载接口
+    # path('api/actively_scan_port_information/', VulnerabilityQuery.ActivelyScanPortInformation),  # 主动扫描中端口信息查询模块
     #被动扫描相关
     path('api/create_proxy_scan_project/', ProxyScan.CreateProxyScanProject),  # 创建代理扫描项目
     #监控相关

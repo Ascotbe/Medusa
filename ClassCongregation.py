@@ -20,6 +20,7 @@ import subprocess
 import hashlib
 from config import ceye_dnslog_url, ceye_dnslog_key, debug_mode,dnslog_name,port_threads_number,port_timeout_period,thread_timeout_number,user_agent_browser_type
 import copy
+import ast
 #########
 # 全局变量
 WriteFileUnixTimestamp = str(int(time.time()))
@@ -1031,6 +1032,14 @@ class GetNistDatabaseFilePath:  #  Nist数据库文件路径返回值
 
 
 class BinaryDataTypeConversion:#对于原始二进制数据的类型转换
+    """
+    字符串样式1:\xff
+    字符串样式2:\\xff
+    1.当前类只支持样式1的形式转换
+    2.如果要使用样式2的形式进行转换需要使用下面代码进行处理过后传入
+    import ast
+    ast.literal_eval(repr(Shellcode).replace("\\\\", "\\"))
+    """
     def BytesToString(self,BytesTypeBinaryData: bytes):  # 类型转换
         try:
             BinaryData = ""
@@ -1042,7 +1051,7 @@ class BinaryDataTypeConversion:#对于原始二进制数据的类型转换
                     Data = '0' + Data  # 位数补全
                 BinaryData += '\\x' + Data
 
-            return eval(repr(BinaryData).replace('\\\\', '\\'))#先repr将字符串转为python原生字符串，然后替换双斜杠，最后eval转回正常字符串
+            return ast.literal_eval(repr(BinaryData).replace('\\\\', '\\'))#先repr将字符串转为python原生字符串，然后替换双斜杠，最后eval转回正常字符串
         except Exception as e:
             ErrorLog().Write("ClassCongregation_BinaryDataTypeConversion(class)_BytesToString(def)", e)
 
@@ -1056,12 +1065,15 @@ class BinaryDataTypeConversion:#对于原始二进制数据的类型转换
                     Code = b'0' + Code  # 位数补全
                 BinaryData += b'\\x' + Code
 
-            return eval(repr(BinaryData).replace('\\\\', '\\'))
+            return ast.literal_eval(repr(BinaryData).replace('\\\\', '\\'))
 
         except Exception as e:
             ErrorLog().Write("ClassCongregation_BinaryDataTypeConversion(class)_StringToBytes(def)", e)
+
+
+class ShellcodeEncryptionAndDecryption:#shellcode的加解密函数
     #只支持\xff格式的16进制
-    def XOR(self,Value:int, RawShellcode:bytes):
+    def XOREncryption(self,Value:int, RawShellcode:bytes):
         # #逐字节读取，二进制文件数据，单个字节为16进制
         # f=open("payload.bin","rb")
         # code = f.read(1)
@@ -1077,7 +1089,8 @@ class BinaryDataTypeConversion:#对于原始二进制数据的类型转换
                 Shellcode += '\\x' + Code
             return Shellcode
         except Exception as e:
-            ErrorLog().Write("ClassCongregation_BinaryDataTypeConversion(class)_StringToBytes(def)", e)
+            ErrorLog().Write("ClassCongregation_ShellcodeEncryptionAndDecryption(class)_XOREncryption(def)", e)
+
 
 class GetPluginsFilePath:  #  插件文件路径
     def Result(self) -> str:

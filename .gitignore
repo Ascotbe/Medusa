@@ -19,4 +19,6 @@ ProxyServer.py
 Banner.py
 Web/Mail/Attachment/*
 Web/Mail/MailboxDetection.py
-Temp/Modules/*
+Modules
+Web/BasicFunctions/VulnerabilityScanning.py
+Web/BasicFunctions/VulnerabilityQuery.py

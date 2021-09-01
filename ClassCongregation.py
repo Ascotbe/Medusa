@@ -19,14 +19,7 @@ import threading
 import subprocess
 import hashlib
 from config import ceye_dnslog_url, ceye_dnslog_key, debug_mode,dnslog_name,port_threads_number,port_timeout_period,thread_timeout_number,user_agent_browser_type
-import copy
 import ast
-#########
-# 全局变量
-WriteFileUnixTimestamp = str(int(time.time()))
-
-
-#########
 
 def IpProcess(Url: str) -> str:
     if Url.startswith("http"):  # 记个小知识点：必须带上https://这个头不然urlparse就不能正确提取hostname导致后面运行出差错
@@ -49,18 +42,6 @@ class Proxies:  # 代理处理函数
             ErrorLog().Write("ClassCongregation_Proxies(class)_result(def)", e)
             return None#报错就返回空
 
-
-
-class WriteFile:  # 写入文件类
-    def result(self, TargetName: str, Medusa: str) -> None:
-        #需要对传入的完整URL进行提取后进行拼接
-        self.FileName = time.strftime("%Y-%m-%d", time.localtime()) + "_" + UrlProcessing().result(TargetName)[1] + "_" + WriteFileUnixTimestamp
-        if sys.platform == "win32" or sys.platform == "cygwin":
-            self.FilePath = GetRootFileLocation().Result()+ "\\ScanResult\\" + self.FileName + ".txt"  # 不需要输入后缀，只要名字就好
-        elif sys.platform == "linux" or sys.platform == "darwin":
-            self.FilePath = GetRootFileLocation().Result() + "/ScanResult/" + self.FileName + ".txt"  # 不需要输入后缀，只要名字就好
-        with open(self.FilePath, 'a+', encoding='utf-8') as f:  # 如果filename不存在会自动创建， 'w'表示写数据，写之前会清空文件中的原有数据！
-            f.write(Medusa + "\n")
 
 class AgentHeader:  # 使用随机头类
     def result(self) -> str:  # 使用随机头传入传入参数
@@ -149,7 +130,6 @@ class PortScan:  # 扫描端口类
             CreationTime=str(int(time.time()))
             for i in self.OpenPorts:#循环写入到数据库中
                 PortDB(uid=Uid,active_scan_id=ActiveScanId,ip=self.Ip,domain=self.Host,creation_time=CreationTime,port=i).Write()#写到数据库中
-                WriteFile().result(TargetName=self.Host+"_Port",Medusa=self.Ip+":"+i+"\n")#写到文件中
         except Exception as e:
             ErrorLog().Write("ClassCongregation_PortScan(class)_Start(def)", e)
 
@@ -492,12 +472,12 @@ class ErrorLog:  # 报错写入日志
             filename = os.path.split(os.path.realpath(__file__))[0] + '\\Log\\'+LogDate+'.log'  # 获取当前文件所在的目录，即父目录
         elif sys.platform == "linux" or sys.platform == "darwin":
             filename = os.path.split(os.path.realpath(__file__))[0] + '/Log/'+LogDate+'.log'  # 获取当前文件所在的目录，即父目录
-        # filename=os.path.realpath(__file__)#获取当前文件名
+
+
+    def Write(self, Name, ErrorInfo):
         log_format = '%(asctime)s - %(processName)s[%(process)d] - %(levelname)s: %(message)s'
         logging.basicConfig(filename=filename, filemode='a', level=logging.INFO,
                             format=log_format)  # 初始化配置信息
-
-    def Write(self, Name, ErrorInfo):
         logging.info(Name)
         logging.warning(ErrorInfo)
         logging.shutdown()#通过刷新和关闭所有处理程序来通知日志记录系统执行有序的关闭。
@@ -603,26 +583,6 @@ class randoms:  # 生成随机数
         return salt
 
 
-class UniformResourceLocatorParameterSubstitution:#对URL参数进行替换
-    def Result(self,**kwargs):
-        Url=kwargs.get("url")
-        Vals=kwargs.get("vals")
-        ret = []
-        ArrayExtraction={}
-        ConnectionHandling= urllib.parse.urlparse(Url).query
-        PureUrl = Url.replace('?'+ConnectionHandling, '')
-        ParameterExtraction = urllib.parse.parse_qs(ConnectionHandling)
-        for i in ParameterExtraction.keys():#对提取的内容进行处理成json
-            ParameterExtraction[i]=ParameterExtraction[i][0]
-            ArrayExtraction[i]=ParameterExtraction[i]
-
-        for k in ParameterExtraction.keys():#对每个产生进行拼接处理
-            tmp_dict = copy.deepcopy(ParameterExtraction)
-            tmp_dict[k] = Vals
-            tmp_qs = urllib.parse.unquote(urllib.parse.urlencode(tmp_dict))
-            ret.append(PureUrl + "?" + tmp_qs)
-        return ret
-
 class UrlProcessing:  # URL处理函数
     def result(self, url: str) -> Tuple[str, str, int]:
         if url.startswith("http"):  # 判断是否有http头，如果没有就在下面加入
@@ -694,21 +654,6 @@ class ProcessPool:  # 进程池，解决pythonGIL锁问题，单核跳舞实在�
         self.ProcessList.clear()  # 清空列表，防止多次调用导致重复使用
 
 
-class Prompt:  # 输出横幅，就是每个组件加载后输出的东西
-    def __init__(self, name: str):
-        self.name = name
-        if debug_mode:
-            pass
-        else:
-            sizex, sizey = CommandLineWidth().getTerminalSize()
-            prompt = "\033[32m[ + ] Loading attack module: \033[0m" + "\033[35m{}\033[0m".format(self.name)
-            PromptSize = sizex - len(prompt) + 18#28
-            FillString = ""
-            for i in range(0, PromptSize):
-                FillString = FillString + " "
-            sys.stdout.write("\r" + prompt + FillString)
-            time.sleep(0.1)
-            sys.stdout.flush()
 
 
 class CommandLineWidth:  # 输出横幅，就是每个组件加载后输出的东西
@@ -792,30 +737,6 @@ class CommandLineWidth:  # 输出横幅，就是每个组件加载后输出的�
                 return None
         return int(cr[1]), int(cr[0])
 
-
-class ErrorHandling:
-    def Outlier(self, error, plugin_name):
-        self.error = str(error)
-        self.plugin_name = plugin_name
-        if debug_mode:
-            self.Process()
-        else:
-            pass
-
-    def Process(self):
-        if self.error.find("timed out") != -1:
-            self.ErrorBanner(self.plugin_name, "connection timeout")
-        elif self.error.find("Invalid URL") != -1:
-            self.ErrorBanner(self.plugin_name, "prompts url")
-        elif self.error.find("getaddrinfo failed") != -1:
-            self.ErrorBanner(self.plugin_name, "get addr info failed")
-        elif self.error.find("Invalid header") != -1:
-            self.ErrorBanner(self.plugin_name, "prompts header")
-        else:
-            self.ErrorBanner(self.plugin_name, "unknown")
-
-    def ErrorBanner(self, plugin_name, error):
-        print("\033[31m[ X ] {} plugin {} error\033[0m".format(plugin_name, error))
 
 
 class GetRootFileLocation:  # 获取当前文件路径类
@@ -1069,6 +990,17 @@ class BinaryDataTypeConversion:#对于原始二进制数据的类型转换
 
         except Exception as e:
             ErrorLog().Write("ClassCongregation_BinaryDataTypeConversion(class)_StringToBytes(def)", e)
+
+    def StringToNim(self,StringTypeBinaryData: str):#字符串转换成nim语言类型的shellcode
+        try:
+            BinaryData = []
+            for i in StringTypeBinaryData:
+                Code = ord(i)
+                BinaryData.append(Code)
+
+            return str(len(BinaryData)),str(BinaryData).replace("[","[ byte ")#返回容器个数，和shellcode内容
+        except Exception as e:
+            ErrorLog().Write("ClassCongregation_BinaryDataTypeConversion(class)_BytesToString(def)", e)
 
 
 class ShellcodeEncryptionAndDecryption:#shellcode的加解密函数

@@ -1,6 +1,7 @@
 from ClassCongregation import BinaryDataTypeConversion,ShellcodeEncryptionAndDecryption
 import random
 import ast
+__heading__="C-EXE-Windows-MemoryEnforcement-XOR"
 __language__=".c"
 __process__=".exe"
 

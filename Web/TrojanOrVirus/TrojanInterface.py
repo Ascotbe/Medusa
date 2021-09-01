@@ -58,6 +58,7 @@ Language2Command={
 
             },
             "nim":
+            #msfvenom -p windows/exec CMD=calc.exe EXITFUNC=thread -f csharp
             {
                     "x86":
                         {
@@ -98,13 +99,15 @@ def GetTrojanPlugins(request):#获取用户当前木马插件
             Token=json.loads(request.body)["token"]
             Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
             if Uid != None:  # 查到了UID
-                ModulesResult=[]#存放全部插件数据
+                ModulesResult={}#存放全部插件数据
                 UserOperationLogRecord(request, request_api="get_trojan_plugins", uid=Uid)
                 TrojanModulesFilePath=GetTrojanModulesFilePath().Result()
                 PluginList = os.listdir(TrojanModulesFilePath)#获取文件夹中全部文件
                 for Plugin in PluginList:#清洗不相关文件
                     if Plugin.endswith(".py") and ("init" not in Plugin):
-                        ModulesResult.append(Plugin)
+                        DynamicLoadingPluginPath = 'Web.TrojanOrVirus.Modules' + "." + Plugin.split('.')[0]  # 去除.py后缀然后进行路径拼接
+                        ScriptModule = importlib.import_module(DynamicLoadingPluginPath)  # 动态载入
+                        ModulesResult[Plugin]=ScriptModule.__heading__#添加键值对
                 return JsonResponse({'message': ModulesResult, 'code': 200, })
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
@@ -174,7 +177,7 @@ def ShellcodeToTrojan(request):#shellcode转换生成病毒
                                                        trojan_generate_file_name=RandomName + ScriptModule.__process__, compilation_status="0",
                                                        redis_id=RedisCompileCodeTask.task_id,
                                                        shellcode_architecture=ShellcodeArchitecture,
-                                                       plugin=Plugin)
+                                                       plugin=ScriptModule.__heading__)
 
                                     return JsonResponse({'message': "宝贝任务已下发~", 'code': 200, })
                         else:

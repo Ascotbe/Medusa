@@ -1,5 +1,6 @@
 from ClassCongregation import BinaryDataTypeConversion
 import random
+__heading__="C-DLL-Windows-MemoryEnforcement"
 __language__=".c"
 __process__=".dll"
 

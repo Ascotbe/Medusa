@@ -991,7 +991,9 @@ class BinaryDataTypeConversion:#对于原始二进制数据的类型转换
         except Exception as e:
             ErrorLog().Write("ClassCongregation_BinaryDataTypeConversion(class)_StringToBytes(def)", e)
 
-    def StringToNim(self,StringTypeBinaryData: str):#字符串转换成nim语言类型的shellcode
+    def StringToNim(self,StringTypeBinaryData: str):
+        """字符串转换成nim语言类型的shellcode
+        样例：var shellcode: array[519, byte] = [ byte 72, 49]"""
         try:
             BinaryData = []
             for i in StringTypeBinaryData:
@@ -999,6 +1001,18 @@ class BinaryDataTypeConversion:#对于原始二进制数据的类型转换
                 BinaryData.append(Code)
 
             return str(len(BinaryData)),str(BinaryData).replace("[","[ byte ")#返回容器个数，和shellcode内容
+        except Exception as e:
+            ErrorLog().Write("ClassCongregation_BinaryDataTypeConversion(class)_BytesToString(def)", e)
+
+    def StringToGoArray(self,StringTypeBinaryData: str):
+        """字符串转换成Go语言数组类型的shellcode
+        样例：shellcode = []byte { 72, 49, 201, 72 }"""
+        try:
+            BinaryData = []
+            for i in StringTypeBinaryData:
+                Code = ord(i)
+                BinaryData.append(Code)
+            return " []byte " +str(BinaryData).replace("[","{").replace("]","}")#shellcode内容
         except Exception as e:
             ErrorLog().Write("ClassCongregation_BinaryDataTypeConversion(class)_BytesToString(def)", e)
 

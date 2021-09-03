@@ -55,7 +55,7 @@ when defined(windows):
     when isMainModule:
         main(shellcode)
 """
-    print(Code)
+
     return Code
 
 

@@ -173,11 +173,12 @@ def ShellcodeToTrojan(request):#shellcode转换生成病毒
                                 Command=Language2Command["linux"][ScriptModule.__language__.split('.')[1]][ShellcodeArchitecture][ScriptModule.__process__.split('.')[1]]#通过文件中的语言类型和生成文件进行提取命令
                                 if Command==None:
                                     return JsonResponse({'message': "呐呐呐！该种组合无法进行编译，请使用其他插件~", 'code': 450, })
-                                elif len(ScriptModule.__language__)>0:#判断有没有在原始编译命令上新增的编译操作
+                                elif len(ScriptModule.__build__)>0:#判断有没有在原始编译命令上新增的编译操作
+
                                     if Command.find(" -o ")!=-1:#提取输出命令
-                                        Command=Command.replace(" -o "," "+ScriptModule.__language__+" -o ")
+                                        Command=Command.replace(" -o "," "+ScriptModule.__build__+" -o ")
                                     elif Command.find(" --out:")!=-1:#提取输出命令
-                                        Command = Command.replace(" --out:", " " + ScriptModule.__language__ + " --out:")
+                                        Command = Command.replace(" --out:", " " + ScriptModule.__build__ + " --out:")
 
                                 CompleteCommand=Command + VirusFileGenerationPath +" "+VirusOriginalFilePath #进行命令拼接
                                 RedisCompileCodeTask=CompileCode.delay(CompleteCommand)

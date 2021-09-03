@@ -85,8 +85,7 @@ urlpatterns = [
     path('api/markdown_image_upload/', Markdown.MarkdownImageUpload),#文档中的上传图片接口
     path('api/markdown_data_comparison/', Markdown.MarkdownDataComparison),#文档中的数据对比接口
     #CVE监控相关
-    path('api/github_monitor/', Github.GithubQuery),  # GitHub漏洞利用监控数据
-    path('api/github_monitor_search/', Github.GithubSearch),  # GitHub漏洞利用监控数据模糊搜索功能
+    path('api/github_monitor_search/', Github.GithubQuery),  # GitHub漏洞利用监控数据模糊搜索功能
     path('api/nist_data_bulk_query/', Nist.NistDataBulkQuery),  #监控首页精简数据查询
     path('api/nist_data_detailed_query/', Nist.NistDataDetailedQuery),  #单个CVE详情查询
     path('api/nist_statistics/', Nist.NistStatistics),  # CVE总量数据统计

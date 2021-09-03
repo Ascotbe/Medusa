@@ -1,6 +1,7 @@
 from ClassCongregation import BinaryDataTypeConversion
 import ast
-__heading__="Go-EXE-Windows-Syscall"
+__heading__="Go-EXE-Windows-Null-Yes-Syscall-20210902-12/72"
+__build__=""
 __language__=".go"
 __process__=".exe"
 

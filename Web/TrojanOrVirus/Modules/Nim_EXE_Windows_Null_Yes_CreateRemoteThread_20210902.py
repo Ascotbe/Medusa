@@ -1,6 +1,7 @@
 from ClassCongregation import BinaryDataTypeConversion
 import ast
-__heading__="Nim-EXE-Windows-CreateRemoteThread"
+__heading__="Nim-EXE-Windows-Null-Yes-CreateRemoteThread-20210902-11/72"
+__build__=""
 __language__=".nim"
 __process__=".exe"
 

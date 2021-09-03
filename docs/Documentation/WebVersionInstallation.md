@@ -17,12 +17,14 @@ git clone https://github.com/Ascotbe/Medusa.git
 > 必要环境
 
 ```bash
+#macOS把apt替换成brew即可
 sudo apt install nginx
 sudo apt install redis
 sudo apt install python3 #需要3.7以上版本
 sudo apt install python3-pip
-sudo apt-get install mingw32 mingw32-binutils mingw32-runtime
-sudo apt-get install gcc-mingw-w64-i686 g++-mingw-w64-i686 mingw-w64-tools
+sudo apt install mingw-w64
+sudo apt install golang-go
+sudo apt install nim
 ```
 
 > 安装前后端依赖
@@ -39,6 +41,20 @@ npm install
 #替换环境编码
 export PYTHONIOENCODING=utf-8
 ```
+
+> 关于免杀插件依赖
+
+当您使用**项目提供的测试插件**时会需要安装依赖包（自己编写的插件自己安装相应包文件
+
+- Go：在编译时会自动安装依赖包
+
+- C/C++：无需依赖包
+
+- Nim：需要在编写插件后本地安装包，以下是测试插件需要用到的包
+
+  ```bash
+  nimble install winim
+  ```
 
 > 配置后端
 
@@ -88,7 +104,7 @@ module.exports = faceConfig()
 - 以下三条命令都在**Medusa/**根目录下面运行
 
 ```bash
-celery -A Web.Workbench.Tasks worker --loglevel=info --pool=solo
+celery -A Web worker --loglevel=info --pool=solo
 python3 manage.py runserver 0.0.0.0:9999 --insecure --noreload
 redis-server /etc/redis/redis.conf
 ```
@@ -109,7 +125,7 @@ npm run serve
 
 在目录`/Medusa/Vue/faceConfig.js`中进行配置
 
-```
+```vue
 const { baseURL } = require("./src/utils/request")
 
 const faceConfig = () =>{
@@ -188,7 +204,7 @@ sudo systemctl restart nginx
 - 以下三条命令都在**Medusa/**根目录下面运行
 
 ```bash
-nohup celery -A Web.Workbench.Tasks worker --loglevel=info --pool=solo &
+nohup celery -A Web worker --loglevel=info --pool=solo &
 nohup python3 manage.py runserver 0.0.0.0:9999 --insecure --noreload &
 redis-server /etc/redis/redis.conf
 ```
@@ -197,9 +213,9 @@ redis-server /etc/redis/redis.conf
 
 ## Docker安装
 
-docker容器不一定是最新版本
-
 > docker源请换成官方源，否则下载的容器是几个月前的
+>
+> docker容器不一定是最新版本(目前停留在v0.92)
 >
 > 注册中的秘钥在config.py中和手动安装默认秘钥一致
 

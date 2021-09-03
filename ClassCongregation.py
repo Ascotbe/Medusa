@@ -1002,7 +1002,7 @@ class BinaryDataTypeConversion:#对于原始二进制数据的类型转换
 
             return str(len(BinaryData)),str(BinaryData).replace("[","[ byte ")#返回容器个数，和shellcode内容
         except Exception as e:
-            ErrorLog().Write("ClassCongregation_BinaryDataTypeConversion(class)_BytesToString(def)", e)
+            ErrorLog().Write("ClassCongregation_BinaryDataTypeConversion(class)_StringToNim(def)", e)
 
     def StringToGoArray(self,StringTypeBinaryData: str):
         """字符串转换成Go语言数组类型的shellcode
@@ -1014,7 +1014,18 @@ class BinaryDataTypeConversion:#对于原始二进制数据的类型转换
                 BinaryData.append(Code)
             return " []byte " +str(BinaryData).replace("[","{").replace("]","}")#shellcode内容
         except Exception as e:
-            ErrorLog().Write("ClassCongregation_BinaryDataTypeConversion(class)_BytesToString(def)", e)
+            ErrorLog().Write("ClassCongregation_BinaryDataTypeConversion(class)_StringToGoArray(def)", e)
+    def StringToGoHex(self,StringTypeBinaryData: str):
+        """字符串转换成Go语言hex类型的shellcode
+        样例：\x48\x31\xc9\x48\x81\xe9\xc4\xff\xff -----> 4831c94881e9c4ffff
+        """
+        try:
+            BinaryData = ""
+            for i in StringTypeBinaryData:
+                BinaryData = hex(ord(i)).replace("0x", "")
+            return BinaryData
+        except Exception as e:
+            ErrorLog().Write("ClassCongregation_BinaryDataTypeConversion(class)_StringToGoHex(def)", e)
 
 
 class ShellcodeEncryptionAndDecryption:#shellcode的加解密函数

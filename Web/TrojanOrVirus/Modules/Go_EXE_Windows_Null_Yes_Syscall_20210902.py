@@ -57,7 +57,6 @@ func main() {
 }
 
 """
-    print(Code)
     return Code
 
 

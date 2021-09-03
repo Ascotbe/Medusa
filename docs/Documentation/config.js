@@ -15,11 +15,7 @@ let config = {
             title: '简介', path: '/'
         },
         {
-            title: '快速入门', type: 'dropdown', items: [
-                {
-                    title: 'Web安装说明', path: '/QuickStart/WebVersionInstallation'
-                },
-            ]
+            title: '安装说明', path: '/WebVersionInstallation'
         },
 		{
             title: '插件编写', type: 'dropdown', items: [

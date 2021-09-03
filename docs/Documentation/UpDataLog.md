@@ -2947,4 +2947,8 @@ v1.0.38🌴
 修复启动celery错误问题
 添加StringToGoHex类型函数
 修改使用文档内容
+v1.0.39🌴
+删除github_monitor接口
+修改github_monitor_search接口为联合查询方式
+修改说明文档
 ```

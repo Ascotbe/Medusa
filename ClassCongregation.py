@@ -310,7 +310,9 @@ class GithubCveApi:  # CVE写入表
                 else:
                     StatementProcessing += i + " like ? and "
                 TupleContainer += (str(kwargs.get(i)),)
-            self.cur.execute("SELECT COUNT(1)  FROM GithubMonitor WHERE "+StatementProcessing,TupleContainer)
+            if StatementProcessing!="":
+                StatementProcessing=" WHERE "+StatementProcessing
+            self.cur.execute("SELECT COUNT(1)  FROM GithubMonitor"+StatementProcessing,TupleContainer)
             Result=self.cur.fetchall()[0][0]#获取数据个数
             self.con.close()
             return Result
@@ -334,8 +336,10 @@ class GithubCveApi:  # CVE写入表
             TupleContainer += (str(kwargs.get(i)),)
         try:
             ProcessedData=[]
+            if StatementProcessing!="":
+                StatementProcessing=" WHERE "+StatementProcessing
             self.cur.execute(
-                "select *  from GithubMonitor  WHERE "+StatementProcessing+" limit ? offset ?",TupleContainer+(NumberOfSinglePages,NumberOfSinglePages*NumberOfPages,))  # 查询用户相关信息
+                "select *  from GithubMonitor "+StatementProcessing+" limit ? offset ?",TupleContainer+(NumberOfSinglePages,NumberOfSinglePages*NumberOfPages,))  # 查询用户相关信息
 
             for i in self.cur.fetchall():
                 JsonValues = {}

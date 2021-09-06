@@ -75,7 +75,7 @@
 
 -----
 
-### 监控首页精简数据查询
+### 监控首页数据查询
 
 `/api/nist_data_bulk_query/`CVE监控首页精简数据查询
 
@@ -162,38 +162,7 @@
 
 - 503：你家有小于0的页码？
 
-### 单个CVE详情查询
-
-`/api/nist_data_detailed_query/`获取单个详细的CVE编号
-
-```json
-{
-	"token": "xxx",
-	"common_vulnerabilities_and_exposures":"CVE-2021-3177"
-}
-```
-
-> 参数解释
-
-- `token`登录后返回的**token**
-- `common_vulnerabilities_and_exposures`CVE编号
-
-> 返回状态码
-
-- 200：返回查询到的数据，message中为需要用到的原始数据
-
-  ```json
-  {
-  	"message": "{'cve': {'data_type': 'CVE', 'data_format': 'MITRE', 'data_version': '4.0', 'CVE_data_meta': {'ID': 'CVE-2021-3177', 'ASSIGNER': 'cve@mitre.org'}, 'problemtype': {'problemtype_data': [{'description': [{'lang': 'en', 'value': 'CWE-120'}]}]}, 'references': {'reference_data': [{'url': 'https://bugs.python.org/issue42938', 'name': 'https://bugs.python.org/issue42938', 'refsource': 'MISC', 'tags': ['Exploit', 'Patch', 'Vendor Advisory']}, {'url': 'https://github.com/python/cpython/pull/24239', 'name': 'https://github.com/python/cpython/pull/24239', 'refsource': 'MISC', 'tags': ['Patch', 'Third Party Advisory']}, {'url': 'https://lists.apache.org/thread.html/rf9fa47ab66495c78bb4120b0754dd9531ca2ff0430f6685ac9b07772@%3Cdev.mina.apache.org%3E', 'name': '[mina-dev] 20210225 [jira] [Created] (FTPSERVER-500) Security vulnerability in common/lib/log4j-1.2.17.jar', 'refsource': 'MLIST', 'tags': []}, {'url': 'https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/BRHOCQYX3QLDGDQGTWQAUUT2GGIZCZUO/', 'name': 'FEDORA-2021-42ba9feb47', 'refsource': 'FEDORA', 'tags': ['Third Party Advisory']}, {'url': 'https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/CCFZMVRQUKCBQIG5F2CBVADK63NFSE4A/', 'name': 'FEDORA-2021-ced31f3f0c', 'refsource': 'FEDORA', 'tags': ['Third Party Advisory']}, {'url': 'https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/FONHJIOZOFD7CD35KZL6SVBUTMBPGZGA/', 'name': 'FEDORA-2021-907f3bacae', 'refsource': 'FEDORA', 'tags': []}, {'url': 'https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/FPE7SMXYUIWPOIZV4DQYXODRXMFX3C5E/', 'name': 'FEDORA-2021-d5cde50865', 'refsource': 'FEDORA', 'tags': ['Third Party Advisory']}, {'url': 'https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/HCQTCSP6SCVIYNIRUJC5X7YBVUHPLSC4/', 'name': 'FEDORA-2021-7547ad987f', 'refsource': 'FEDORA', 'tags': ['Mailing List', 'Third Party Advisory']}, {'url': 'https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/MGSV6BJQLRQ6RKVUXK7JGU7TP4QFGQXC/', 'name': 'FEDORA-2021-faf88b9499', 'refsource': 'FEDORA', 'tags': ['Third Party Advisory']}, {'url': 'https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/MP572OLHMS7MZO4KUPSCIMSZIA5IZZ62/', 'name': 'FEDORA-2021-3352c1c802', 'refsource': 'FEDORA', 'tags': ['Mailing List', 'Third Party Advisory']}, {'url': 'https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/NODWHDIFBQE5RU5PUWUVE47JOT5VCMJ2/', 'name': 'FEDORA-2021-f4fd9372c7', 'refsource': 'FEDORA', 'tags': ['Mailing List', 'Third Party Advisory']}, {'url': 'https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/NQPARTLNSFQVMMQHPNBFOCOZOO3TMQNA/', 'name': 'FEDORA-2021-cc3ff94cfc', 'refsource': 'FEDORA', 'tags': ['Third Party Advisory']}, {'url': 'https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/NXSMBHES3ANXXS2RSO5G6Q24BR4B2PWK/', 'name': 'FEDORA-2021-076a2dccba', 'refsource': 'FEDORA', 'tags': ['Third Party Advisory']}, {'url': 'https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/V6XJAULOS5JVB2L67NCKKMJ5NTKZJBSD/', 'name': 'FEDORA-2021-851c6e4e2d', 'refsource': 'FEDORA', 'tags': ['Third Party Advisory']}, {'url': 'https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/Y4KSYYWMGAKOA2JVCQA422OINT6CKQ7O/', 'name': 'FEDORA-2021-17668e344a', 'refsource': 'FEDORA', 'tags': ['Third Party Advisory']}, {'url': 'https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/YDTZVGSXQ7HR7OCGSUHTRNTMBG43OMKU/', 'name': 'FEDORA-2021-66547ff92d', 'refsource': 'FEDORA', 'tags': ['Third Party Advisory']}, {'url': 'https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/Z7GZV74KM72O2PEJN2C4XP3V5Q5MZUOO/', 'name': 'FEDORA-2021-e3a5a74610', 'refsource': 'FEDORA', 'tags': ['Third Party Advisory']}, {'url': 'https://news.ycombinator.com/item?id=26185005', 'name': 'https://news.ycombinator.com/item?id=26185005', 'refsource': 'MISC', 'tags': ['Third Party Advisory']}, {'url': 'https://python-security.readthedocs.io/vuln/ctypes-buffer-overflow-pycarg_repr.html', 'name': 'https://python-security.readthedocs.io/vuln/ctypes-buffer-overflow-pycarg_repr.html', 'refsource': 'MISC', 'tags': ['Patch', 'Third Party Advisory']}, {'url': 'https://security.gentoo.org/glsa/202101-18', 'name': 'GLSA-202101-18', 'refsource': 'GENTOO', 'tags': ['Third Party Advisory']}, {'url': 'https://security.netapp.com/advisory/ntap-20210226-0003/', 'name': 'https://security.netapp.com/advisory/ntap-20210226-0003/', 'refsource': 'CONFIRM', 'tags': []}]}, 'description': {'description_data': [{'lang': 'en', 'value': 'Python 3.x through 3.9.1 has a buffer overflow in PyCArg_repr in _ctypes/callproc.c, which may lead to remote code execution in certain Python applications that accept floating-point numbers as untrusted input, as demonstrated by a 1e300 argument to c_double.from_param. This occurs because sprintf is used unsafely.'}]}}, 'configurations': {'CVE_data_version': '4.0', 'nodes': [{'operator': 'OR', 'cpe_match': [{'vulnerable': True, 'cpe23Uri': 'cpe:2.3:a:python:python:*:*:*:*:*:*:*:*', 'versionStartIncluding': '3.6.0', 'versionEndIncluding': '3.6.12'}, {'vulnerable': True, 'cpe23Uri': 'cpe:2.3:a:python:python:*:*:*:*:*:*:*:*', 'versionStartIncluding': '3.7.0', 'versionEndIncluding': '3.7.9'}, {'vulnerable': True, 'cpe23Uri': 'cpe:2.3:a:python:python:*:*:*:*:*:*:*:*', 'versionStartIncluding': '3.8.0', 'versionEndIncluding': '3.8.7'}, {'vulnerable': True, 'cpe23Uri': 'cpe:2.3:a:python:python:*:*:*:*:*:*:*:*', 'versionStartIncluding': '3.9.0', 'versionEndIncluding': '3.9.1'}]}, {'operator': 'OR', 'cpe_match': [{'vulnerable': True, 'cpe23Uri': 'cpe:2.3:o:fedoraproject:fedora:32:*:*:*:*:*:*:*'}, {'vulnerable': True, 'cpe23Uri': 'cpe:2.3:o:fedoraproject:fedora:33:*:*:*:*:*:*:*'}]}]}, 'impact': {'baseMetricV3': {'cvssV3': {'version': '3.1', 'vectorString': 'CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H', 'attackVector': 'NETWORK', 'attackComplexity': 'LOW', 'privilegesRequired': 'NONE', 'userInteraction': 'NONE', 'scope': 'UNCHANGED', 'confidentialityImpact': 'HIGH', 'integrityImpact': 'HIGH', 'availabilityImpact': 'HIGH', 'baseScore': 9.8, 'baseSeverity': 'CRITICAL'}, 'exploitabilityScore': 3.9, 'impactScore': 5.9}, 'baseMetricV2': {'cvssV2': {'version': '2.0', 'vectorString': 'AV:N/AC:L/Au:N/C:P/I:P/A:P', 'accessVector': 'NETWORK', 'accessComplexity': 'LOW', 'authentication': 'NONE', 'confidentialityImpact': 'PARTIAL', 'integrityImpact': 'PARTIAL', 'availabilityImpact': 'PARTIAL', 'baseScore': 7.5}, 'severity': 'HIGH', 'exploitabilityScore': 10.0, 'impactScore': 6.4, 'acInsufInfo': False, 'obtainAllPrivilege': False, 'obtainUserPrivilege': False, 'obtainOtherPrivilege': False, 'userInteractionRequired': False}}, 'publishedDate': '2021-01-19T06:15Z', 'lastModifiedDate': '2021-02-26T09:15Z'}",
-  	"code": 200
-  }
-  ```
-
-- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
-
-- 500：请使用Post请求
-
-### CVE编号数据个数统计
+### 首页数据查询个数统计
 
 `/api/nist_statistics/`获取CVE编号数据个数
 
@@ -219,15 +188,281 @@
 
 - 500：请使用Post请求
 
-### 严重性筛选查询
 
-`/api/nist_severity_filter/`对于严重性等级筛选
+
+### 单个CVE详情查询
+
+`/api/nist_data_detailed_query/`获取单个详细的CVE编号
+
+```json
+{
+	"token": "xxx",
+	"common_vulnerabilities_and_exposures":"CVE-2021-3177"
+}
+```
+
+> 参数解释
+
+- `token`登录后返回的**token**
+- `common_vulnerabilities_and_exposures`CVE编号
+
+> 返回状态码
+
+- 200：返回查询到的数据，message中为需要用到的原始数据
+
+  ```json
+  {
+  	"message": {
+  		"cve": {
+  			"data_type": "CVE",
+  			"data_format": "MITRE",
+  			"data_version": "4.0",
+  			"CVE_data_meta": {
+  				"ID": "CVE-2021-3177",
+  				"ASSIGNER": "cve@mitre.org"
+  			},
+  			"problemtype": {
+  				"problemtype_data": [{
+  					"description": [{
+  						"lang": "en",
+  						"value": "CWE-120"
+  					}]
+  				}]
+  			},
+  			"references": {
+  				"reference_data": [{
+  					"url": "https://bugs.python.org/issue42938",
+  					"name": "https://bugs.python.org/issue42938",
+  					"refsource": "MISC",
+  					"tags": ["Exploit", "Issue Tracking", "Patch", "Vendor Advisory"]
+  				}, {
+  					"url": "https://github.com/python/cpython/pull/24239",
+  					"name": "https://github.com/python/cpython/pull/24239",
+  					"refsource": "MISC",
+  					"tags": ["Patch", "Third Party Advisory"]
+  				}, {
+  					"url": "https://python-security.readthedocs.io/vuln/ctypes-buffer-overflow-pycarg_repr.html",
+  					"name": "https://python-security.readthedocs.io/vuln/ctypes-buffer-overflow-pycarg_repr.html",
+  					"refsource": "MISC",
+  					"tags": ["Patch", "Third Party Advisory"]
+  				}, {
+  					"url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/NQPARTLNSFQVMMQHPNBFOCOZOO3TMQNA/",
+  					"name": "FEDORA-2021-cc3ff94cfc",
+  					"refsource": "FEDORA",
+  					"tags": ["Third Party Advisory"]
+  				}, {
+  					"url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/MGSV6BJQLRQ6RKVUXK7JGU7TP4QFGQXC/",
+  					"name": "FEDORA-2021-faf88b9499",
+  					"refsource": "FEDORA",
+  					"tags": ["Third Party Advisory"]
+  				}, {
+  					"url": "https://security.gentoo.org/glsa/202101-18",
+  					"name": "GLSA-202101-18",
+  					"refsource": "GENTOO",
+  					"tags": ["Third Party Advisory"]
+  				}, {
+  					"url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/Z7GZV74KM72O2PEJN2C4XP3V5Q5MZUOO/",
+  					"name": "FEDORA-2021-e3a5a74610",
+  					"refsource": "FEDORA",
+  					"tags": ["Third Party Advisory"]
+  				}, {
+  					"url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/CCFZMVRQUKCBQIG5F2CBVADK63NFSE4A/",
+  					"name": "FEDORA-2021-ced31f3f0c",
+  					"refsource": "FEDORA",
+  					"tags": ["Third Party Advisory"]
+  				}, {
+  					"url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/BRHOCQYX3QLDGDQGTWQAUUT2GGIZCZUO/",
+  					"name": "FEDORA-2021-42ba9feb47",
+  					"refsource": "FEDORA",
+  					"tags": ["Third Party Advisory"]
+  				}, {
+  					"url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/V6XJAULOS5JVB2L67NCKKMJ5NTKZJBSD/",
+  					"name": "FEDORA-2021-851c6e4e2d",
+  					"refsource": "FEDORA",
+  					"tags": ["Third Party Advisory"]
+  				}, {
+  					"url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/NXSMBHES3ANXXS2RSO5G6Q24BR4B2PWK/",
+  					"name": "FEDORA-2021-076a2dccba",
+  					"refsource": "FEDORA",
+  					"tags": ["Third Party Advisory"]
+  				}, {
+  					"url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/YDTZVGSXQ7HR7OCGSUHTRNTMBG43OMKU/",
+  					"name": "FEDORA-2021-66547ff92d",
+  					"refsource": "FEDORA",
+  					"tags": ["Third Party Advisory"]
+  				}, {
+  					"url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/Y4KSYYWMGAKOA2JVCQA422OINT6CKQ7O/",
+  					"name": "FEDORA-2021-17668e344a",
+  					"refsource": "FEDORA",
+  					"tags": ["Third Party Advisory"]
+  				}, {
+  					"url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/FPE7SMXYUIWPOIZV4DQYXODRXMFX3C5E/",
+  					"name": "FEDORA-2021-d5cde50865",
+  					"refsource": "FEDORA",
+  					"tags": ["Third Party Advisory"]
+  				}, {
+  					"url": "https://news.ycombinator.com/item?id=26185005",
+  					"name": "https://news.ycombinator.com/item?id=26185005",
+  					"refsource": "MISC",
+  					"tags": ["Third Party Advisory"]
+  				}, {
+  					"url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/HCQTCSP6SCVIYNIRUJC5X7YBVUHPLSC4/",
+  					"name": "FEDORA-2021-7547ad987f",
+  					"refsource": "FEDORA",
+  					"tags": ["Third Party Advisory"]
+  				}, {
+  					"url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/NODWHDIFBQE5RU5PUWUVE47JOT5VCMJ2/",
+  					"name": "FEDORA-2021-f4fd9372c7",
+  					"refsource": "FEDORA",
+  					"tags": ["Third Party Advisory"]
+  				}, {
+  					"url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/MP572OLHMS7MZO4KUPSCIMSZIA5IZZ62/",
+  					"name": "FEDORA-2021-3352c1c802",
+  					"refsource": "FEDORA",
+  					"tags": ["Third Party Advisory"]
+  				}, {
+  					"url": "https://lists.apache.org/thread.html/rf9fa47ab66495c78bb4120b0754dd9531ca2ff0430f6685ac9b07772@%3Cdev.mina.apache.org%3E",
+  					"name": "[mina-dev] 20210225 [jira] [Created] (FTPSERVER-500) Security vulnerability in common/lib/log4j-1.2.17.jar",
+  					"refsource": "MLIST",
+  					"tags": ["Mailing List", "Third Party Advisory"]
+  				}, {
+  					"url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/FONHJIOZOFD7CD35KZL6SVBUTMBPGZGA/",
+  					"name": "FEDORA-2021-907f3bacae",
+  					"refsource": "FEDORA",
+  					"tags": ["Third Party Advisory"]
+  				}, {
+  					"url": "https://security.netapp.com/advisory/ntap-20210226-0003/",
+  					"name": "https://security.netapp.com/advisory/ntap-20210226-0003/",
+  					"refsource": "CONFIRM",
+  					"tags": ["Third Party Advisory"]
+  				}, {
+  					"url": "https://lists.debian.org/debian-lts-announce/2021/04/msg00005.html",
+  					"name": "[debian-lts-announce] 20210405 [SECURITY] [DLA 2619-1] python3.5 security update",
+  					"refsource": "MLIST",
+  					"tags": []
+  				}]
+  			},
+  			"description": {
+  				"description_data": [{
+  					"lang": "en",
+  					"value": "Python 3.x through 3.9.1 has a buffer overflow in PyCArg_repr in _ctypes/callproc.c, which may lead to remote code execution in certain Python applications that accept floating-point numbers as untrusted input, as demonstrated by a 1e300 argument to c_double.from_param. This occurs because sprintf is used unsafely."
+  				}]
+  			}
+  		},
+  		"configurations": {
+  			"CVE_data_version": "4.0",
+  			"nodes": [{
+  				"operator": "OR",
+  				"children": [],
+  				"cpe_match": [{
+  					"vulnerable": true,
+  					"cpe23Uri": "cpe:2.3:a:python:python:*:*:*:*:*:*:*:*",
+  					"versionStartIncluding": "3.6.0",
+  					"versionEndIncluding": "3.6.12",
+  					"cpe_name": []
+  				}, {
+  					"vulnerable": true,
+  					"cpe23Uri": "cpe:2.3:a:python:python:*:*:*:*:*:*:*:*",
+  					"versionStartIncluding": "3.7.0",
+  					"versionEndIncluding": "3.7.9",
+  					"cpe_name": []
+  				}, {
+  					"vulnerable": true,
+  					"cpe23Uri": "cpe:2.3:a:python:python:*:*:*:*:*:*:*:*",
+  					"versionStartIncluding": "3.8.0",
+  					"versionEndIncluding": "3.8.7",
+  					"cpe_name": []
+  				}, {
+  					"vulnerable": true,
+  					"cpe23Uri": "cpe:2.3:a:python:python:*:*:*:*:*:*:*:*",
+  					"versionStartIncluding": "3.9.0",
+  					"versionEndIncluding": "3.9.1",
+  					"cpe_name": []
+  				}]
+  			}, {
+  				"operator": "OR",
+  				"children": [],
+  				"cpe_match": [{
+  					"vulnerable": true,
+  					"cpe23Uri": "cpe:2.3:o:fedoraproject:fedora:32:*:*:*:*:*:*:*",
+  					"cpe_name": []
+  				}, {
+  					"vulnerable": true,
+  					"cpe23Uri": "cpe:2.3:o:fedoraproject:fedora:33:*:*:*:*:*:*:*",
+  					"cpe_name": []
+  				}]
+  			}, {
+  				"operator": "OR",
+  				"children": [],
+  				"cpe_match": [{
+  					"vulnerable": true,
+  					"cpe23Uri": "cpe:2.3:a:netapp:ontap_select_deploy_administration_utility:-:*:*:*:*:*:*:*",
+  					"cpe_name": []
+  				}]
+  			}]
+  		},
+  		"impact": {
+  			"baseMetricV3": {
+  				"cvssV3": {
+  					"version": "3.1",
+  					"vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+  					"attackVector": "NETWORK",
+  					"attackComplexity": "LOW",
+  					"privilegesRequired": "NONE",
+  					"userInteraction": "NONE",
+  					"scope": "UNCHANGED",
+  					"confidentialityImpact": "HIGH",
+  					"integrityImpact": "HIGH",
+  					"availabilityImpact": "HIGH",
+  					"baseScore": 9.8,
+  					"baseSeverity": "CRITICAL"
+  				},
+  				"exploitabilityScore": 3.9,
+  				"impactScore": 5.9
+  			},
+  			"baseMetricV2": {
+  				"cvssV2": {
+  					"version": "2.0",
+  					"vectorString": "AV:N/AC:L/Au:N/C:P/I:P/A:P",
+  					"accessVector": "NETWORK",
+  					"accessComplexity": "LOW",
+  					"authentication": "NONE",
+  					"confidentialityImpact": "PARTIAL",
+  					"integrityImpact": "PARTIAL",
+  					"availabilityImpact": "PARTIAL",
+  					"baseScore": 7.5
+  				},
+  				"severity": "HIGH",
+  				"exploitabilityScore": 10.0,
+  				"impactScore": 6.4,
+  				"acInsufInfo": false,
+  				"obtainAllPrivilege": false,
+  				"obtainUserPrivilege": false,
+  				"obtainOtherPrivilege": false,
+  				"userInteractionRequired": false
+  			}
+  		},
+  		"publishedDate": "2021-01-19T06:15Z",
+  		"lastModifiedDate": "2021-07-20T23:15Z"
+  	},
+  	"code": 200
+  }
+  ```
+
+- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+
+- 500：请使用Post请求
+
+### 模糊搜索接口
+
+`/api/nist_search/`对于严重性等级筛选
 
 ```json
 {
 	"token": "xxx",
 	"number_of_pages":"0",
-	"severity":"xxxx"
+	"severity":"xxxx",
+	"key":"xxxx"
 }
 ```
 
@@ -236,6 +471,7 @@
 - `token`登录后返回的**token**
 - `number_of_pages`页数，传入的值必须大于0
 - `severity`严重性等级，可传入参数：NONE、LOW、MEDIUM、HIGH、CRITICAL
+- `key`传入你查询的关键字
 
 > 返回状态码
 
@@ -243,56 +479,53 @@
 
   ```json
   {
-  	"message": {
-  		"total": 2588,
-  		"data": [{
-  			"vulnerability_number": "CVE-2021-0109",
-  			"v3_base_score": "7.8",
-  			"v3_base_severity": "HIGH",
-  			"v2_base_score": "4.6",
-  			"v2_base_severity": "MEDIUM",
-  			"last_up_date": "2021-02-22",
-  			"vulnerability_description": "Insecure inherited permissions for the Intel(R) SOC driver package for STK1A32SC before version 604 may allow an authenticated user to potentially enable escalation of privilege via local access.",
-  			"vendors": "",
-  			"products": ""
-  		}, {
-  			"vulnerability_number": "CVE-2021-0202",
-  			"v3_base_score": "7.5",
-  			"v3_base_severity": "HIGH",
-  			"v2_base_score": "5.0",
-  			"v2_base_severity": "MEDIUM",
-  			"last_up_date": "2021-01-21",
-  			"vulnerability_description": "On Juniper Networks MX Series and EX9200 Series platforms with Trio-based MPC (Modular Port Concentrator) where Integrated Routing and Bridging (IRB) interface is configured and it is mapped to a VPLS instance or a Bridge-Domain, certain network events at Customer Edge (CE) device may cause memory leak in the MPC which can cause an out of memory and MPC restarts. When this issue occurs, there will be temporary traffic interruption until the MPC is restored. An administrator can use the following CLI command to monitor the status of memory usage level of the MPC: user@device> show system resource-monitor fpc FPC Resource Usage Summary Free Heap Mem Watermark : 20 % Free NH Mem Watermark : 20 % Free Filter Mem Watermark : 20 % * - Watermark reached Slot # % Heap Free RTT Average RTT 1 87 PFE # % ENCAP mem Free % NH mem Free % FW mem Free 0 NA 88 99 1 NA 89 99 When the issue is occurring, the value of \u201c% NH mem Free\u201d will go down until the MPC restarts. This issue affects MX Series and EX9200 Series with Trio-based PFEs (Packet Forwarding Engines). Please refer to https://kb.juniper.net/KB25385 for the list of Trio-based PFEs. This issue affects Juniper Networks Junos OS on MX Series, EX9200 Series: 17.3R3-S8; 17.4R3-S2; 18.2R3-S4, 18.2R3-S5; 18.3R3-S2, 18.3R3-S3; 18.4 versions starting from 18.4R3-S1 and later versions prior to 18.4R3-S6; 19.2 versions starting from 19.2R2 and later versions prior to 19.2R3-S1; 19.4 versions starting from 19.4R2 and later versions prior to 19.4R2-S3, 19.4R3; 20.2 versions starting from 20.2R1 and later versions prior to 20.2R1-S3, 20.2R2. This issue does not affect Juniper Networks Junos OS: 18.1, 19.1, 19.3, 20.1.",
-  			"vendors": "",
-  			"products": ""
-  		}, {
-  			"vulnerability_number": "CVE-2021-0208",
-  			"v3_base_score": "8.8",
-  			"v3_base_severity": "HIGH",
-  			"v2_base_score": "3.3",
-  			"v2_base_severity": "LOW",
-  			"last_up_date": "2021-01-21",
-  			"vulnerability_description": "An improper input validation vulnerability in the Routing Protocol Daemon (RPD) service of Juniper Networks Junos OS allows an attacker to send a malformed RSVP packet when bidirectional LSPs are in use, which when received by an egress router crashes the RPD causing a Denial of Service (DoS) condition. Continued receipt of the packet will sustain the Denial of Service. This issue affects: Juniper Networks Junos OS: All versions prior to 17.3R3-S10 except 15.1X49-D240 for SRX series; 17.4 versions prior to 17.4R3-S2; 18.1 versions prior to 18.1R3-S10; 18.2 versions prior to 18.2R2-S7, 18.2R3-S4; 18.3 versions prior to 18.3R3-S2; 18.4 versions prior to 18.4R1-S8, 18.4R2-S6, 18.4R3-S2; 19.1 versions prior to 19.1R1-S5, 19.1R3-S3; 19.2 versions prior to 19.2R3; 19.3 versions prior to 19.3R2-S5, 19.3R3; 19.4 versions prior to 19.4R2-S2, 19.4R3-S1; 20.1 versions prior to 20.1R1-S4, 20.1R2; 15.1X49 versions prior to 15.1X49-D240 on SRX Series. Juniper Networks Junos OS Evolved: 19.3 versions prior to 19.3R2-S5-EVO; 19.4 versions prior to 19.4R2-S2-EVO; 20.1 versions prior to 20.1R1-S4-EVO.",
-  			"vendors": "",
-  			"products": ""
-  		}, {
-  			"vulnerability_number": "CVE-2021-1195",
-  			"v3_base_score": "7.2",
-  			"v3_base_severity": "HIGH",
-  			"v2_base_score": "9.0",
-  			"v2_base_severity": "HIGH",
-  			"last_up_date": "2021-01-15",
-  			"vulnerability_description": "Multiple vulnerabilities in the web-based management interface of Cisco Small Business RV110W, RV130, RV130W, and RV215W Routers could allow an authenticated, remote attacker to execute arbitrary code or cause an affected device to restart unexpectedly. The vulnerabilities are due to improper validation of user-supplied input in the web-based management interface. An attacker could exploit these vulnerabilities by sending crafted HTTP requests to an affected device. A successful exploit could allow the attacker to execute arbitrary code as the root user on the underlying operating system or cause the device to reload, resulting in a denial of service (DoS) condition. To exploit these vulnerabilities, an attacker would need to have valid administrator credentials on the affected device. Cisco has not released software updates that address these vulnerabilities.",
-  			"vendors": "",
-  			"products": ""
-  		}]
-  	},
+  	"message": [{
+  		"vulnerability_number": "CVE-1999-0249",
+  		"v3_base_score": "",
+  		"v3_base_severity": "",
+  		"v2_base_score": "7.2",
+  		"v2_base_severity": "HIGH",
+  		"last_up_date": "2008-09-09",
+  		"vulnerability_description": "Windows NT RSHSVC program allows remote users to execute arbitrary commands.",
+  		"vendors": "['Microsoft']",
+  		"products": "['Windows 2000']"
+  	}, {
+  		"vulnerability_number": "CVE-2000-0710",
+  		"v3_base_score": "",
+  		"v3_base_severity": "",
+  		"v2_base_score": "5.0",
+  		"v2_base_severity": "MEDIUM",
+  		"last_up_date": "2017-07-12",
+  		"vulnerability_description": "The shtml.exe component of Microsoft FrontPage 2000 Server Extensions 1.1 allows remote attackers to determine the physical path of the server components by requesting an invalid URL whose name includes a standard DOS device name.",
+  		"vendors": "['Microsoft']",
+  		"products": "['Frontpage']"
+  	}, {
+  		"vulnerability_number": "CVE-2000-0717",
+  		"v3_base_score": "",
+  		"v3_base_severity": "",
+  		"v2_base_score": "5.0",
+  		"v2_base_severity": "MEDIUM",
+  		"last_up_date": "2017-10-10",
+  		"vulnerability_description": "GoodTech FTP server allows remote attackers to cause a denial of service via a large number of RNTO commands.",
+  		"vendors": "['Goodtech']",
+  		"products": "['Ftp Server Nt 2000']"
+  	}, {
+  		"vulnerability_number": "CVE-2000-0737",
+  		"v3_base_score": "",
+  		"v3_base_severity": "",
+  		"v2_base_score": "4.6",
+  		"v2_base_severity": "MEDIUM",
+  		"last_up_date": "2018-10-12",
+  		"vulnerability_description": "The Service Control Manager (SCM) in Windows 2000 creates predictable named pipes, which allows a local user with console access to gain administrator privileges, aka the \"Service Control Manager Named Pipe Impersonation\" vulnerability.",
+  		"vendors": "['Microsoft']",
+  		"products": "['Windows 2000']"
+  	}],
   	"code": 200
   }
   ```
-
+  
   > 返回参数解释
-
+  
   - `total`该等级的漏洞个数
   - `data`里面存在当前页面100个数据，数据参数解释如下
     - `vulnerability_number`漏洞编号
@@ -304,16 +537,44 @@
     - `vulnerability_description`漏洞说明
     - `vendors`开发商名称
     - `products`产品名称
-
+  
 - 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
 
 - 500：请使用Post请求
 
-- 503：你家有小于0的页码？
+- 503：你家有小于1的页码？
+
+- 505：咋了？查询不知道传数据吗？
+
+### 模糊搜索接口个数统计
+
+`/api/nist_search_statistics/`
+
+```json
+{
+	"token": "xxx",
+	"severity":"xxxx",
+	"key":"xxxx"
+}
+```
+
+> 参数解释
+
+- `token`登录后返回的**token**
+- `severity`严重性等级，可传入参数：NONE、LOW、MEDIUM、HIGH、CRITICAL
+- `key`传入你查询的关键字
+
+> 返回状态码
+
+- 200：返回查询到的全部个数
+
+- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+- 500：请使用Post请求
+- 505：咋了？查询不知道传数据吗？
 
 ### 厂商名称筛选查询
 
-`/api/nist_vendors_filter/`对于严重性等级筛选
+`/api/nist_vendors_filter/`
 
 ```json
 {
@@ -405,7 +666,7 @@
 
 ### 产品名称筛选查询
 
-`/api/nist_products_filter/`对于严重性等级筛选
+`/api/nist_products_filter/`
 
 ```json
 {

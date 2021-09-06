@@ -89,7 +89,8 @@ urlpatterns = [
     path('api/nist_data_bulk_query/', Nist.NistDataBulkQuery),  #监控首页精简数据查询
     path('api/nist_data_detailed_query/', Nist.NistDataDetailedQuery),  #单个CVE详情查询
     path('api/nist_statistics/', Nist.NistStatistics),  # CVE总量数据统计
-    path('api/nist_severity_filter/', Nist.NistSeverityFilter),  # 严重性筛选查询
+    path('api/nist_search/', Nist.NistSearch),  # 模糊搜索接口
+    path('api/nist_search_statistics/', Nist.NistSearchStatistics),  # 模糊搜索接口个数统计
     path('api/nist_vendors_filter/', Nist.NistVendorsFilter),  # 厂商名称筛选查询
     path('api/nist_products_filter/', Nist.NistProductsFilter),  #产品筛选查询
     #DNSLOG

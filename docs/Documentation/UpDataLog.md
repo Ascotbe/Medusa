@@ -2960,3 +2960,15 @@ v1.0.39🌴
 v1.0.40🌴
 修复查询GitHub获取数据接口时，当全部为空数据是错误问题
 ```
+
+
+> 2021.9.6
+
+```
+v1.0.41🌴
+删除一个API接口
+新增两个API接口nist_search、nist_search_statistics
+新增几个NistData表查询方式
+修复一个返回数据json错误问题
+修改API使用文档
+```

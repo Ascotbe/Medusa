@@ -211,6 +211,54 @@ redis-server /etc/redis/redis.conf
 
 最后访问`http://ascotbe.com`即可看到web界面（注意这是你自己的域名
 
+## 关于DNSLOG配置
+
+由于Ubuntu默认会占用53端口，使用命令查看`sudo lsof -i:53`
+
+```bash
+COMMAND   PID            USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+systemd-r 610 systemd-resolve   12u  IPv4  19377      0t0  UDP localhost:domain 
+systemd-r 610 systemd-resolve   13u  IPv4  19378      0t0  TCP localhost:domain (LISTEN)
+```
+
+需要在配置中关闭
+
+```bash
+sudo vim /etc/systemd/resolved.conf
+```
+
+然后把文件`DNSStubListener`修改为no，`DNS`改为谷歌的DNS，具体配置如下图
+
+```bash
+[Resolve]
+DNS=8.8.8.8
+#FallbackDNS=
+#Domains=
+#LLMNR=no
+#MulticastDNS=no
+#DNSSEC=no
+#DNSOverTLS=no
+#Cache=no
+DNSStubListener=no
+#ReadEtcHosts=yes
+```
+
+重启配置
+
+```bash
+sudo systemctl restart systemd-resolved.service
+```
+
+然后启动数据接收脚本
+
+```bash
+python3 DomainNameSystemServer.py
+```
+
+**切记如果是云服务器一定要把安全策略组的TCP和UDP的53端口开放!!!!!**
+
+
+
 ## Docker安装
 
 > docker源请换成官方源，否则下载的容器是几个月前的

@@ -1738,17 +1738,7 @@ class NistData:#存放Nist发布的CVE数据
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_NistData(class)_DetailedQuery(def)", e)
             return None
-    def ModuleDataStatistics(self,**kwargs):  #模块的个数统计
-        try:
-            ModuleName =kwargs.get("module_name")#模块名称。危险的SQL拼接，容易出事，禁止用户传入
-            ModuleContent=kwargs.get("module_content")#模块内容
-            self.cur.execute("SELECT COUNT(1)  FROM CommonVulnerabilitiesAndExposures where "+ModuleName+" like ?",(ModuleContent,))
-            Result=self.cur.fetchall()[0][0]#获取数据个数
-            self.con.close()
-            return Result
-        except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_NistData(class)_ModuleDataStatistics(def)", e)
-            return None
+
     def SearchStatistics(self,**kwargs):  #模糊查询统计个数
         try:
             Severity=kwargs.get("severity")#严重程度
@@ -1760,54 +1750,7 @@ class NistData:#存放Nist发布的CVE数据
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_NistData(class)_SearchStatistics(def)", e)
             return None
-    def VendorsQuery(self, **kwargs):  #供应商数据查询
-        try:
-            NumberOfSinglePages=100#单页数量
-            NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页
-            Vendors=kwargs.get("vendors")#供应商名称
-            self.cur.execute("select vulnerability_number,v3_base_score,v3_base_severity,v2_base_score,v2_base_severity,last_up_date,vulnerability_description,vendors,products  from CommonVulnerabilitiesAndExposures WHERE vendors like ? limit ? offset ?",('%{}%'.format(Vendors),NumberOfSinglePages,NumberOfSinglePages*NumberOfPages,))#通过link %xx%来模糊查询
-            result_list = []
-            for i in self.cur.fetchall():
-                JsonValues = {}
-                JsonValues["vulnerability_number"] = i[0]
-                JsonValues["v3_base_score"] = i[1]
-                JsonValues["v3_base_severity"] = i[2]
-                JsonValues["v2_base_score"] = i[3]
-                JsonValues["v2_base_severity"] = i[4]
-                JsonValues["last_up_date"] = i[5]
-                JsonValues["vulnerability_description"] = i[6]
-                JsonValues["vendors"] = i[7]
-                JsonValues["products"] = i[8]
-                result_list.append(JsonValues)
-            self.con.close()
-            return result_list
-        except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_NistData(class)_VendorsQuery(def)", e)
-            return None
-    def ProductsQuery(self, **kwargs):  #产品数据查询
-        try:
-            NumberOfSinglePages=100#单页数量
-            NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页
-            Products=kwargs.get("products")#产品名称
-            self.cur.execute("select vulnerability_number,v3_base_score,v3_base_severity,v2_base_score,v2_base_severity,last_up_date,vulnerability_description,vendors,products  from CommonVulnerabilitiesAndExposures WHERE products like ? limit ? offset ?",('%{}%'.format(Products),NumberOfSinglePages,NumberOfSinglePages*NumberOfPages,))#通过link %xx%来模糊查询
-            result_list = []
-            for i in self.cur.fetchall():
-                JsonValues = {}
-                JsonValues["vulnerability_number"] = i[0]
-                JsonValues["v3_base_score"] = i[1]
-                JsonValues["v3_base_severity"] = i[2]
-                JsonValues["v2_base_score"] = i[3]
-                JsonValues["v2_base_severity"] = i[4]
-                JsonValues["last_up_date"] = i[5]
-                JsonValues["vulnerability_description"] = i[6]
-                JsonValues["vendors"] = i[7]
-                JsonValues["products"] = i[8]
-                result_list.append(JsonValues)
-            self.con.close()
-            return result_list
-        except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_NistData(class)_ProductsQuery(def)", e)
-            return None
+
     def Update(self, UpdateData) -> bool or None:  # 对数据进行更新
 
         try:

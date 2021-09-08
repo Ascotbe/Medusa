@@ -91,8 +91,6 @@ urlpatterns = [
     path('api/nist_statistics/', Nist.NistStatistics),  # CVE总量数据统计
     path('api/nist_search/', Nist.NistSearch),  # 模糊搜索接口
     path('api/nist_search_statistics/', Nist.NistSearchStatistics),  # 模糊搜索接口个数统计
-    path('api/nist_vendors_filter/', Nist.NistVendorsFilter),  # 厂商名称筛选查询
-    path('api/nist_products_filter/', Nist.NistProductsFilter),  #产品筛选查询
     #DNSLOG
     path('api/domain_name_system_log/', DomainNameSystemData.Query),  # DNSLOG数据查询
     path('api/domain_name_system_log_statistics/', DomainNameSystemData.Statistics),  # DNSLOG数据个数统计

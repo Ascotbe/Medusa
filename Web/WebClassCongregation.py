@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 import time
 import sys
-import base64
 import sqlite3
 import json
 from ClassCongregation import GetDatabaseFilePath,ErrorLog,randoms,GetRootFileLocation,GetNistDatabaseFilePath

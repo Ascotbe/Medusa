@@ -11,6 +11,7 @@ from django.http import JsonResponse,FileResponse
 from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
 from Web.celery import app
 import importlib
+from Web.TrojanOrVirus.TrojanClass import AutoStart,AntiSandbox
 
 
 Language2Command={
@@ -123,6 +124,51 @@ def GetTrojanPlugins(request):#获取用户当前木马插件
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
 
+"""get_anti_sandbox
+{
+	"token": "xxx"
+}
+"""
+def GetAntiSandbox(request):#获取反沙箱方式
+    RequestLogRecord(request, request_api="get_anti_sandbox")
+    if request.method == "POST":
+        try:
+            Token=json.loads(request.body)["token"]
+            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
+            if Uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="get_anti_sandbox", uid=Uid)
+                return JsonResponse({'message': AntiSandbox().__Method__, 'code': 200, })
+            else:
+                return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
+        except Exception as e:
+            ErrorLog().Write("Web_TrojanOrVirus_TrojanInterface_GetAntiSandbox(def)", e)
+            return JsonResponse({'message': "呐呐呐！莎酱被玩坏啦(>^ω^<)", 'code': 169, })
+
+    else:
+        return JsonResponse({'message': '请使用Post请求', 'code': 500, })
+
+"""get_auto_start
+{
+	"token": "xxx"
+}
+"""
+def GetAutoStart(request):#获取反沙箱方式
+    RequestLogRecord(request, request_api="get_auto_start")
+    if request.method == "POST":
+        try:
+            Token=json.loads(request.body)["token"]
+            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
+            if Uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="get_auto_start", uid=Uid)
+                return JsonResponse({'message': AutoStart().__Method__, 'code': 200, })
+            else:
+                return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
+        except Exception as e:
+            ErrorLog().Write("Web_TrojanOrVirus_TrojanInterface_GetAutoStart(def)", e)
+            return JsonResponse({'message': "呐呐呐！莎酱被玩坏啦(>^ω^<)", 'code': 169, })
+
+    else:
+        return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
 
 """shellcode_to_trojan

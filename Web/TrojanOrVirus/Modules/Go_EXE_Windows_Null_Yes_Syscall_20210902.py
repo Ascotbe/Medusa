@@ -5,7 +5,11 @@ __build__=""
 __language__=".go"
 __process__=".exe"
 
-def main(Shellcode):
+def main(**kwargs):
+    Shellcode=kwargs.get("shellcode")
+    Include=kwargs.get("include")
+    AllCode=kwargs.get("all_code")
+    AllFunctionName = kwargs.get("all_function_name")
     BinaryData=BinaryDataTypeConversion().StringToGoArray(ast.literal_eval(repr(Shellcode).replace("\\\\", "\\")))#对数据进行类型转换
     Code ="""
 package main

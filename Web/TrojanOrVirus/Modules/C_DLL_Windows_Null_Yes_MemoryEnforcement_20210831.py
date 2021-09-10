@@ -5,7 +5,11 @@ __build__=""
 __language__=".c"
 __process__=".dll"
 
-def main(Shellcode):
+def main(**kwargs):
+    Shellcode=kwargs.get("shellcode")
+    Include=kwargs.get("include")
+    AllCode=kwargs.get("all_code")
+    AllFunctionName = kwargs.get("all_function_name")
     Code = """
 #include <windows.h>
 #include <stdio.h>

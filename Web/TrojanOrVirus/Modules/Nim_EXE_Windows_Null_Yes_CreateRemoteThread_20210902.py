@@ -5,7 +5,11 @@ __build__=""
 __language__=".nim"
 __process__=".exe"
 
-def main(Shellcode):
+def main(**kwargs):
+    Shellcode=kwargs.get("shellcode")
+    Include=kwargs.get("include")
+    AllCode=kwargs.get("all_code")
+    AllFunctionName = kwargs.get("all_function_name")
     Number,BinaryData=BinaryDataTypeConversion().StringToNim(ast.literal_eval(repr(Shellcode).replace("\\\\", "\\")))#对数据进行类型转换
     Code ="""
 import winim/lean

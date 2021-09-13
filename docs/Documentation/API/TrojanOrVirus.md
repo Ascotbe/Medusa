@@ -67,7 +67,37 @@
 - 200：返回用户当前信息
 
   ```json
-  XX
+  {
+  	"message": [{
+  		"trojan_id": 1,
+  		"shellcode_type": "1",
+  		"trojan_original_file_name": "ggkOx1629870349.c",
+  		"trojan_generate_file_name": "ggkOx1629870349.exe",
+  		"compilation_status": "0",
+  		"creation_time": "1629870357",
+  		"shellcode_architecture": "x64",
+  		"plugin": "test.py"
+  	}, {
+  		"trojan_id": 4,
+  		"shellcode_type": "1",
+  		"trojan_original_file_name": "IJmXK1629877743.c",
+  		"trojan_generate_file_name": "IJmXK1629877743.dll",
+  		"compilation_status": "-1",
+  		"creation_time": "1629877744",
+  		"shellcode_architecture": "x64",
+  		"plugin": "test-dll.py"
+  	}, {
+  		"trojan_id": 5,
+  		"shellcode_type": "1",
+  		"trojan_original_file_name": "ObOfz1630312479.c",
+  		"trojan_generate_file_name": "ObOfz1630312479.dll",
+  		"compilation_status": "1",
+  		"creation_time": "1630312479",
+  		"shellcode_architecture": "x64",
+  		"plugin": "test-dll.py"
+  	}],
+  	"code": 200
+  }
   ```
 
   > 返回参数解释
@@ -78,6 +108,8 @@
   - `virus_generate_file_name`生成编译好的文件名
   - `compilation_status`文件编译状态，0为未完成，1完成，-1出错
   - `creation_time`创建时间
+  - `shellcode_architecture`当前shellcode使用架构
+  - `plugin`生成的插件名称
 
 - 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
 

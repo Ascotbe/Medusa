@@ -320,7 +320,7 @@ def TrojanDataQuery(request):#个人用户免杀数据查询
             Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
             if Uid != None:  # 查到了UID
                 UserOperationLogRecord(request, request_api="trojan_data_query", uid=Uid)
-                AntiAntiVirusDataResult = TrojanData().Query(uid=Uid,number_of_pages=NumberOfPages)  # 获取当前用户的个数
+                AntiAntiVirusDataResult = TrojanData().Query(uid=Uid,number_of_pages=int(NumberOfPages))  # 获取当前用户的个数
                 return JsonResponse({'message': AntiAntiVirusDataResult, 'code': 200, })
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })

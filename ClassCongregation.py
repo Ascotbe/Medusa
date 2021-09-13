@@ -18,6 +18,7 @@ from typing import List, Tuple
 import threading
 import subprocess
 import hashlib
+from Crypto.Cipher import AES
 from config import ceye_dnslog_url, ceye_dnslog_key, debug_mode,dnslog_name,port_threads_number,port_timeout_period,thread_timeout_number,user_agent_browser_type
 import ast
 
@@ -1016,8 +1017,11 @@ class BinaryDataTypeConversion:#对于原始二进制数据的类型转换
 
 
 class ShellcodeEncryptionAndDecryption:#shellcode的加解密函数
-    #只支持\xff格式的16进制
+
     def XOREncryption(self,Value:int, RawShellcode:bytes):
+        """
+        只支持\xff格式的16进制
+        """
         # #逐字节读取，二进制文件数据，单个字节为16进制
         # f=open("payload.bin","rb")
         # code = f.read(1)
@@ -1034,7 +1038,36 @@ class ShellcodeEncryptionAndDecryption:#shellcode的加解密函数
             return Shellcode
         except Exception as e:
             ErrorLog().Write("ClassCongregation_ShellcodeEncryptionAndDecryption(class)_XOREncryption(def)", e)
-
+            return None
+    def AESDecode(self,data, key):
+        """
+        key长度必须为16、24或32位，分别对应AES-128、AES-192和AES-256
+        """
+        try:
+            # 密钥长度必须为16、24或32位，分别对应AES-128、AES-192和AES-256
+            aes = AES.new(str.encode(key), AES.MODE_ECB)  # 初始化加密器
+            decrypted_text = aes.decrypt(base64.decodebytes(bytes(data, encoding='utf8'))).decode("utf8")  # 解密
+            decrypted_text = decrypted_text[:-ord(decrypted_text[-1])]  # 去除多余补位
+            return decrypted_text
+        except Exception as e:
+            ErrorLog().Write("ClassCongregation_ShellcodeEncryptionAndDecryption(class)_AESDecode(def)", e)
+            return None
+    def AESEncode(self,data, key):
+        """
+        加密
+        data传入格式：\\ff\\fa
+        key长度必须为16、24或32位，分别对应AES-128、AES-192和AES-256
+        """
+        # 密钥长度必须为16、24或32位，分别对应AES-128、AES-192和AES-256
+        try:
+            while len(data) % 16 != 0:  # 补足字符串长度为16的倍数
+                data += (16 - len(data) % 16) * chr(16 - len(data) % 16)
+            data = str.encode(data)
+            aes = AES.new(str.encode(key), AES.MODE_ECB)  # 初始化加密器
+            return str(base64.encodebytes(aes.encrypt(data)), encoding='utf8').replace('\n', '')  # 加密
+        except Exception as e:
+            ErrorLog().Write("ClassCongregation_ShellcodeEncryptionAndDecryption(class)_AESEncode(def)", e)
+            return None
 
 class GetPluginsFilePath:  #  插件文件路径
     def Result(self) -> str:

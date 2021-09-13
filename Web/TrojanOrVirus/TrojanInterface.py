@@ -202,9 +202,9 @@ def ShellcodeToTrojan(request):#shellcode转换生成病毒
                 PluginList = os.listdir(TrojanModulesFilePath)#获取文件夹中全部文件
                 try:
                     if not (set(AutoStartFunction) < set(AutoStart().__Method__)):#判断是否是子集，如果是
-                        return JsonResponse({'message': "传入的函数并不在可调用列表中ლ(•̀ _ •́ ლ)", 'code': 402, })
+                        return JsonResponse({'message': "传入自启函数并不在可调用列表中ლ(•̀ _ •́ ლ)", 'code': 402, })
                     elif not (set(AntiSandboxFunction) < set(AntiSandbox().__Method__)):
-                        return JsonResponse({'message': "传入的函数并不在可调用列表中ლ(•̀ _ •́ ლ)", 'code': 405, })
+                        return JsonResponse({'message': "传入反沙箱函数并不在可调用列表中ლ(•̀ _ •́ ლ)", 'code': 405, })
                     else:
                         if Plugin.endswith(".py") and (Plugin in PluginList):#判断传入的是否是python插件，并且插件名称是否在列表中
                             try:
@@ -310,7 +310,7 @@ def ShellcodeToTrojan(request):#shellcode转换生成病毒
 	"number_of_pages":"20"
 }
 """
-
+#####有点问题
 def TrojanDataQuery(request):#个人用户免杀数据查询
     RequestLogRecord(request, request_api="trojan_data_query")
     if request.method == "POST":

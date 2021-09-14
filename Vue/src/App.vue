@@ -1,60 +1,29 @@
 <template>
-<div id="app">
-    <template>
-        
-            <router-view />
-     
-    </template>
-</div>
+  <div id="app">
+    <router-view />
+  </div>
 </template>
 
-<script>
-export default {
-    data() {
-        return {
-
-        };
-    },
-};
-</script>
-
 <style lang="scss">
-/* 定义 */
-@font-face {
-    font-family: 'Lato';
-    src: url('./commonFont/Lato-Regular.ttf');
-    font-weight: normal;
-    font-style: normal;
-
-}
-
-@font-face {
-    font-family: 'NotoSans';
-    src: url('./commonFont/NotoSans-Regular.ttf');
-    font-weight: normal;
-    font-style: normal;
-}
-
-body {
-    margin: 0;
-    padding: 0;
-
-}
-
-html,
-body,
 #app {
-
-    font-family: 'Lato', 'NotoSans';
-    height: 100%;
-    overflow: hidden;
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  height: 100%;
 }
 
-#app {
-    font-family: 'Lato', 'NotoSans';
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+#nav {
+  padding: 30px;
+
+  a {
+    font-weight: bold;
     color: #2c3e50;
-    word-wrap: break-word;
+
+    &.router-link-exact-active {
+      color: #42b983;
+    }
+  }
 }
 </style>

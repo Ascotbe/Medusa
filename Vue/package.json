@@ -1,5 +1,5 @@
 {
-  "name": "Medusa",
+  "name": "medus-vue",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,60 +9,30 @@
   },
   "dependencies": {
     "98.css": "^0.1.17",
-    "ant-design-vue": "^1.7.5",
+    "ant-design-vue": "^1.7.7",
     "axios": "^0.21.1",
-    "codemirror": "^5.62.0",
-    "core-js": "^3.15.0",
+    "core-js": "^3.6.5",
     "echarts": "^5.1.2",
     "js-base64": "^3.6.1",
-    "lib-flexible": "^0.3.2",
     "moment": "^2.29.1",
-    "qs": "^6.10.1",
-    "ssri": "^8.0.1",
-    "vue": "^2.6.14",
-    "vue-codemirror": "^4.0.6",
-    "vue-router": "^3.5.2",
-    "vuex": "^3.6.2"
+    "vue": "^2.6.11",
+    "vue-meditor": "^2.1.1",
+    "vue-router": "^3.2.0",
+    "vuex": "^3.4.0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.5.13",
-    "@vue/cli-plugin-eslint": "^4.5.13",
-    "@vue/cli-plugin-router": "^4.5.13",
-    "@vue/cli-plugin-vuex": "^4.5.13",
-    "@vue/cli-service": "^4.5.13",
-    "@vue/eslint-config-standard": "^6.0.0",
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-plugin-router": "~4.5.0",
+    "@vue/cli-plugin-vuex": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
     "babel-eslint": "^10.1.0",
-    "eslint": "^7.29.0",
-    "eslint-plugin-import": "^2.23.4",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^5.1.0",
-    "eslint-plugin-standard": "^5.0.0",
-    "eslint-plugin-vue": "^7.11.1",
-    "less": "^2.7.2",
-    "less-loader": "^7.0.0",
-    "node-sass": "^6.0.0",
-    "px2rem-loader": "^0.1.9",
-    "sass-loader": "^10",
-    "vue-svg-loader": "^0.16.0",
-    "vue-template-compiler": "^2.6.14"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "@vue/standard"
-    ],
-    "parserOptions": {
-      "parser": "babel-eslint"
-    },
-    "rules": {}
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ]
+    "eslint": "^6.7.2",
+    "eslint-plugin-vue": "^6.2.2",
+    "less": "^4.1.1",
+    "less-loader": "^6.0.0",
+    "sass": "^1.26.5",
+    "sass-loader": "^8.0.2",
+    "vue-template-compiler": "^2.6.11"
+  }
 }

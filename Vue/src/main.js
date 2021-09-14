@@ -1,37 +1,20 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import store from './Vuex'
+import store from './store'
+import Antd from 'ant-design-vue';
 import axios from 'axios'
-import 'lib-flexible'
-import VueCodemirror from 'vue-codemirror'
-import "codemirror/mode/javascript/javascript.js"
-import Antd from 'ant-design-vue'
-import 'ant-design-vue/dist/antd.less' // or 'ant-design-vue/dist/antd.less'
-import * as echarts from 'echarts'
+import * as echarts from 'echarts';
+// import 'ant-design-vue/dist/antd.css';
+import 'ant-design-vue/dist/antd.less'
 import api from './api/rules'
-import qj from './Js/QJfunction' //全局方法
-// import base style
-import 'codemirror/lib/codemirror.css'
-import 'codemirror/theme/duotone-light.css'
-// import more codemirror resource...
-
-// you can set default global options and events when Vue.use
-Vue.use(VueCodemirror, /* {
-  options: { theme: 'base16-dark', ... },
-  events: ['scroll', ...]
-} */)
-Vue.use(qj)
-
-Vue.prototype.$echarts = echarts
+Vue.use(Antd)
 Vue.prototype.$axios = axios
 Vue.prototype.$api = api
-
-
-
-Vue.use(Antd)
-
+Vue.prototype.$store = store
 Vue.config.productionTip = false
+Vue.prototype.$echarts = echarts
+
 new Vue({
   router,
   store,

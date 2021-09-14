@@ -5,9 +5,8 @@ from django.http import JsonResponse
 from ClassCongregation import ErrorLog,GetCrossSiteScriptTemplateFilePath
 import json
 import base64
-from config import default_template_file_list
 from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
-
+import os
 """read_default_cross_site_script_template
 {
 	"token": ""
@@ -23,10 +22,12 @@ def ReadDefaultTemplate(request):#用读取默认的模板文件
                 UserOperationLogRecord(request, request_api="read_default_cross_site_script_template", uid=Uid)
                 DefaultTemplateFileData=[]#用来存放默认模板数据
                 CrossSiteScriptTemplateFilePath=GetCrossSiteScriptTemplateFilePath().Result()#获取模板文件路径
-                for FileName in default_template_file_list:#从配置文件中导入的文件列表
-                    with open(CrossSiteScriptTemplateFilePath+FileName, 'r+',encoding='UTF-8') as f:#读取文件
-                        FileData = f.read()
-                    DefaultTemplateFileData.append({"file_name":FileName,"file_data":base64.b64encode(str(FileData).encode('utf-8')).decode('utf-8')})#把读取到的数据加密后，转换成str类型后存入模板中
+                DefaultTemplateFileList = os.listdir(CrossSiteScriptTemplateFilePath)  # 获取文件夹中全部文件
+                for DefaultTemplateFile in DefaultTemplateFileList:  # 清洗不相关文件
+                    if DefaultTemplateFile.endswith(".js"):
+                        with open(CrossSiteScriptTemplateFilePath+DefaultTemplateFile, 'r+',encoding='UTF-8') as f:#读取文件
+                            FileData = f.read()
+                        DefaultTemplateFileData.append({"file_name":DefaultTemplateFile,"file_data":base64.b64encode(str(FileData).encode('utf-8')).decode('utf-8')})#把读取到的数据加密后，转换成str类型后存入模板中
                 return JsonResponse({'message': DefaultTemplateFileData, 'code': 200, })
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })

@@ -89,7 +89,8 @@ def CreateMarkdownProject(request):#用来创建markdown项目,目前只支持�
 
 """query_markdown_project
 {
-	"token": "xxxx"
+	"token": "xxxx",
+	"number_of_pages":"1"
 }
 """
 def QueryMarkdownProject(request):#用来查询用户所有的项目信息
@@ -97,11 +98,12 @@ def QueryMarkdownProject(request):#用来查询用户所有的项目信息
     if request.method == "POST":
         try:
             UserToken = json.loads(request.body)["token"]
+            NumberOfPages = json.loads(request.body)["number_of_pages"]
             Uid = UserInfo().QueryUidWithToken(UserToken)  # 如果登录成功后就来查询用户名
             if Uid != None:  # 查到了UID
                 UserOperationLogRecord(request, request_api="query_markdown_project", uid=Uid)
 
-                QueryResult=MarkdownRelationship().Query(uid=Uid)#查询的结果返回
+                QueryResult=MarkdownRelationship().Query(uid=Uid,number_of_pages=int(NumberOfPages))#查询的结果返回
                 return JsonResponse({'message': QueryResult, 'code': 200, })
             else:
                 return JsonResponse({'message': "小宝贝这是非操作哦(๑•̀ㅂ•́)و✧", 'code': 403, })
@@ -111,6 +113,31 @@ def QueryMarkdownProject(request):#用来查询用户所有的项目信息
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
+
+"""markdown_project_statistical
+{
+	"token": "xxx"
+}
+"""
+
+def MarkdownProjectStatistical(request):#统计文档数据
+    RequestLogRecord(request, request_api="markdown_project_statistical")
+    if request.method == "POST":
+        try:
+            Token=json.loads(request.body)["token"]
+            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
+            if Uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="markdown_project_statistical", uid=Uid)
+                Number=MarkdownRelationship().QueryStatistics(uid=Uid)#获取当前用户的个数
+                return JsonResponse({'message': Number, 'code': 200, })
+            else:
+                return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
+        except Exception as e:
+            ErrorLog().Write("Web_CollaborationPlatform_Markdown_MarkdownProjectStatistical(def)", e)
+            return JsonResponse({'message': "呐呐呐！莎酱被玩坏啦(>^ω^<)", 'code': 169, })
+
+    else:
+        return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 """save_markdown_data
 {
 	"token": "xxxx",

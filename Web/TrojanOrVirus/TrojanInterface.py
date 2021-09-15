@@ -310,7 +310,6 @@ def ShellcodeToTrojan(request):#shellcode转换生成病毒
 	"number_of_pages":"20"
 }
 """
-#####有点问题
 def TrojanDataQuery(request):#个人用户免杀数据查询
     RequestLogRecord(request, request_api="trojan_data_query")
     if request.method == "POST":

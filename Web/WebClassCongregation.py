@@ -1554,7 +1554,10 @@ class MarkdownRelationship:#markdown文档和用户相关的数据表
     def Query(self, **kwargs):  #用来查询用户所属项目的全部信息
         try:
             Uid=kwargs.get("uid")
-            self.cur.execute("select * from MarkdownRelationship where uid=?", (Uid,))#查询用户相关信息
+            NumberOfSinglePages = 100  # 单页数量
+            NumberOfPages = kwargs.get(
+                "number_of_pages") - 1  # 查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
+            self.cur.execute("select * from MarkdownRelationship where uid=? limit ? offset ?", (Uid,NumberOfSinglePages, NumberOfPages * NumberOfSinglePages,))#查询用户相关信息
             result_list = []
             for i in self.cur.fetchall():
                 JsonValues = {}
@@ -1571,6 +1574,16 @@ class MarkdownRelationship:#markdown文档和用户相关的数据表
             return result_list
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_MarkdownRelationship(class)_Query(def)", e)
+            return None
+    def QueryStatistics(self, **kwargs):  #用来统计用户所属项目个数
+        Uid = kwargs.get("uid")
+        try:
+            self.cur.execute("SELECT COUNT(1)  FROM MarkdownRelationship WHERE uid=?",(Uid,))
+            Result=self.cur.fetchall()[0][0]#获取数据个数
+            self.con.close()
+            return Result
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_MarkdownRelationship(class)_QueryStatistics(def)", e)
             return None
 
 class ApplicationCollection:#存放收集到的应用所有数据

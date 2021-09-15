@@ -58,13 +58,15 @@
 
 ```json
 {
-	"token": "xxxx"
+	"token": "xxxx",
+  "number_of_pages":"1"
 }
 ```
 
 >参数解释
 
 - `token`登录后返回的**token**
+- `number_of_pages`页数
 
 > 返回状态码
 
@@ -104,6 +106,31 @@
 - 403：小宝贝这是非法操作哦(๑•̀ㅂ•́)و✧
 
 - 500：请使用POST请求
+
+
+
+### 统计用户协同作战项目个数
+
+`/api/markdown_project_statistical/`
+
+```json
+{
+	"token": "xxxx"
+}
+```
+
+>参数解释
+
+- `token`登录后返回的**token**
+
+> 返回状态码
+
+- 200：返回个数
+- 403：小宝贝这是非法操作哦(๑•̀ㅂ•́)و✧
+- 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
+- 500：请使用POST请求
+
+
 
 ### 保存Markdown文档数据
 

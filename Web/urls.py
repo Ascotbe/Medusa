@@ -63,7 +63,9 @@ urlpatterns = [
     path('api/create_cross_site_script_project/', CrossSiteScript.GenerateProject),  # 用来创建跨站脚本项目
     path('api/modify_cross_site_script_project/', CrossSiteScript.ModifyProject),  # 用来修改项目生成的文件
     path('api/query_cross_site_script_project/', CrossSiteScript.QueryProject),  # 用来查询跨站脚本项目
+    path('api/statistical_cross_site_script_project/', CrossSiteScript.StatisticalCrossSiteScriptProject),#统计用户所有的协同作战项目
     path('api/query_cross_site_script_project_data/', CrossSiteScript.QueryProjectData),  # 用来查询跨站脚本项目接收的数据
+    path('api/statistical_cross_site_script_project_data/', CrossSiteScript.StatisticalCrossSiteScriptProjectData),  # 用来查询跨站脚本项目接收的数据
     path('api/query_cross_site_script_project_info/', CrossSiteScript.QueryProjectInfo),  # 用来查询跨站脚本项目详细信息
     path('api/read_default_cross_site_script_template/', TemplateManagement.ReadDefaultTemplate),  # 读取默认模板数据
     path('api/read_cross_site_script_template/', TemplateManagement.ReadTemplate),  # 读取用户自定义模板数据

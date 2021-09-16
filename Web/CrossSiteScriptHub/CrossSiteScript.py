@@ -100,6 +100,7 @@ def GenerateProject(request):#用来生成项目，并且生成文件和用户�
 """query_cross_site_script_project
 {
 	"token": "",
+	"number_of_pages":"1"
 }
 """
 def QueryProject(request):#用来查看用户的XSS项目
@@ -107,10 +108,11 @@ def QueryProject(request):#用来查看用户的XSS项目
     if request.method == "POST":
         try:
             UserToken = json.loads(request.body)["token"]
+            NumberOfPages = json.loads(request.body)["number_of_pages"]
             Uid = UserInfo().QueryUidWithToken(UserToken)  # 如果登录成功后就来查询用户名
             if Uid != None :  # 查到了UID
                 UserOperationLogRecord(request, request_api="query_cross_site_script_project", uid=Uid)
-                CrossSiteScriptProjectResult = CrossSiteScriptProject().Query(uid=Uid)  # 查询项目信息
+                CrossSiteScriptProjectResult = CrossSiteScriptProject().Query(uid=Uid,number_of_pages=int(NumberOfPages))  # 查询项目信息
                 return JsonResponse({'message': CrossSiteScriptProjectResult, 'code': 200, })
 
             else:
@@ -121,10 +123,34 @@ def QueryProject(request):#用来查看用户的XSS项目
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
-"""query_cross_site_script_project
+"""statistical_cross_site_script_project
+{
+	"token": "xxx"
+}
+"""
+def StatisticalCrossSiteScriptProject(request):#统计项目个数
+    RequestLogRecord(request, request_api="statistical_cross_site_script_project")
+    if request.method == "POST":
+        try:
+            Token=json.loads(request.body)["token"]
+            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
+            if Uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="statistical_cross_site_script_project", uid=Uid)
+                Number=CrossSiteScriptProject().QueryStatistics(uid=Uid)#获取当前用户的个数
+                return JsonResponse({'message': Number, 'code': 200, })
+            else:
+                return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
+        except Exception as e:
+            ErrorLog().Write("Web_CrossSiteScriptHub_CrossSiteScript_StatisticalCrossSiteScriptProject(def)", e)
+            return JsonResponse({'message': "呐呐呐！莎酱被玩坏啦(>^ω^<)", 'code': 169, })
+
+    else:
+        return JsonResponse({'message': '请使用Post请求', 'code': 500, })
+"""query_cross_site_script_project_data
 {
 	"token": "",
-	"project_associated_file_name":""
+	"project_associated_file_name":"",
+	"number_of_pages":"1"
 }
 """
 def QueryProjectData(request):  # 用来查看用户的XSS项目中接收的数据
@@ -133,13 +159,14 @@ def QueryProjectData(request):  # 用来查看用户的XSS项目中接收的数�
         try:
             ProjectAssociatedFileName = json.loads(request.body)["project_associated_file_name"]#传入项目生成的文件名
             UserToken = json.loads(request.body)["token"]
+            NumberOfPages = json.loads(request.body)["number_of_pages"]
             Uid = UserInfo().QueryUidWithToken(UserToken)  # 如果登录成功后就来查询用户名
             if Uid != None:  # 查到了UID
                 UserOperationLogRecord(request, request_api="query_cross_site_script_project_data", uid=Uid)
                 AuthorityCheck = CrossSiteScriptProject().AuthorityCheck(uid=Uid,file_name=ProjectAssociatedFileName)  # 用来校检CrossSiteScript数据库中文件名和UID相对应
 
                 if AuthorityCheck:
-                    CrossSiteScriptInfoResult=CrossSiteScriptInfo().Query(project_associated_file_name=ProjectAssociatedFileName)#查询数据库中项目的XSS信息
+                    CrossSiteScriptInfoResult=CrossSiteScriptInfo().Query(project_associated_file_name=ProjectAssociatedFileName,number_of_pages=int(NumberOfPages))#查询数据库中项目的XSS信息
                     return JsonResponse({'message': CrossSiteScriptInfoResult, 'code': 200, })
                 else:
                     return JsonResponse({'message': "你没有查询这个项目的权限哦宝贝~", 'code': 404, })
@@ -148,6 +175,36 @@ def QueryProjectData(request):  # 用来查看用户的XSS项目中接收的数�
         except Exception as e:
             ErrorLog().Write("Web_CrossSiteScriptHub_CrossSiteScript_QueryProjectData(def)", e)
             return JsonResponse({'message': '呐呐呐！莎酱被玩坏啦(>^ω^<)', 'code': 169, })
+    else:
+        return JsonResponse({'message': '请使用Post请求', 'code': 500, })
+
+"""statistical_cross_site_script_project_data
+{
+	"token": "xxx",
+	"project_associated_file_name":""
+}
+"""
+def StatisticalCrossSiteScriptProjectData(request):#统计项目个数
+    RequestLogRecord(request, request_api="statistical_cross_site_script_project_data")
+    if request.method == "POST":
+        try:
+            Token=json.loads(request.body)["token"]
+            ProjectAssociatedFileName = json.loads(request.body)["project_associated_file_name"]#传入项目生成的文件名
+            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
+            if Uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="statistical_cross_site_script_project_data", uid=Uid)
+                AuthorityCheck = CrossSiteScriptProject().AuthorityCheck(uid=Uid,file_name=ProjectAssociatedFileName)  # 用来校检CrossSiteScript数据库中文件名和UID相对应
+                if AuthorityCheck:
+                    Number=CrossSiteScriptInfo().QueryStatistics(project_associated_file_name=ProjectAssociatedFileName)#查询数据库中项目的XSS信息
+                    return JsonResponse({'message': Number, 'code': 200, })
+                else:
+                    return JsonResponse({'message': "你没有查询这个项目的权限哦宝贝~", 'code': 404, })
+            else:
+                return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
+        except Exception as e:
+            ErrorLog().Write("Web_CrossSiteScriptHub_CrossSiteScript_StatisticalCrossSiteScriptProjectData(def)", e)
+            return JsonResponse({'message': "呐呐呐！莎酱被玩坏啦(>^ω^<)", 'code': 169, })
+
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 

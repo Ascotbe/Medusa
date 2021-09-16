@@ -201,7 +201,7 @@ def ShellcodeToTrojan(request):#shellcode转换生成病毒
                 TrojanModulesFilePath=GetTrojanModulesFilePath().Result()#获取插件文件夹
                 PluginList = os.listdir(TrojanModulesFilePath)#获取文件夹中全部文件
                 try:
-                    if not (set(AutoStartFunction) < set(AutoStart().__Method__)):#判断是否是子集，如果是
+                    if not (set(AutoStartFunction) < set(AutoStart().__Method__)):#判断是否是子集，如果是c
                         return JsonResponse({'message': "传入自启函数并不在可调用列表中ლ(•̀ _ •́ ლ)", 'code': 402, })
                     elif not (set(AntiSandboxFunction) < set(AntiSandbox().__Method__)):
                         return JsonResponse({'message': "传入反沙箱函数并不在可调用列表中ლ(•̀ _ •́ ლ)", 'code': 405, })

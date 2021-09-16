@@ -3037,3 +3037,12 @@ v1.0.50🌴
 新增markdown_project_statistical数据统计接口
 ```
 
+> 2021.9.16
+
+```
+v1.0.51🌴
+为query_cross_site_script_project_data、query_cross_site_script_project接口添加分页功能
+新增statistical_cross_site_script_project、statistical_cross_site_script_project_data数据统计接口
+修改文档
+```
+

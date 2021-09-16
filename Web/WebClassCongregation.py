@@ -975,7 +975,10 @@ class CrossSiteScriptInfo:#XSS钓鱼接收数据库
     def Query(self, **kwargs):  # 查询查看XSS项目数据
         try:
             ProjectAssociatedFileName = kwargs.get("project_associated_file_name")
-            self.cur.execute("select * from CrossSiteScript where project_associated_file_name=?", (ProjectAssociatedFileName,))
+            NumberOfSinglePages = 100  # 单页数量
+            NumberOfPages = kwargs.get(
+                "number_of_pages") - 1  # 查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
+            self.cur.execute("select * from CrossSiteScript where project_associated_file_name=? limit ? offset ?", (ProjectAssociatedFileName, NumberOfSinglePages, NumberOfPages * NumberOfSinglePages,))
             result_list=[]
             for i in self.cur.fetchall():
                 JsonValues = {}
@@ -992,7 +995,16 @@ class CrossSiteScriptInfo:#XSS钓鱼接收数据库
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_CrossSiteScript(class)_Query(def)", e)
             return None
-
+    def QueryStatistics(self, **kwargs):  #用来统计接收数据个数
+        ProjectAssociatedFileName = kwargs.get("project_associated_file_name")
+        try:
+            self.cur.execute("SELECT COUNT(1)  FROM CrossSiteScript WHERE project_associated_file_name=?",(ProjectAssociatedFileName,))
+            Result=self.cur.fetchall()[0][0]#获取数据个数
+            self.con.close()
+            return Result
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_CrossSiteScript(class)_QueryStatistics(def)", e)
+            return None
 
 class CrossSiteScriptProject:#XSS钓鱼项目信息数据库
     def __init__(self):
@@ -1028,7 +1040,10 @@ class CrossSiteScriptProject:#XSS钓鱼项目信息数据库
     def Query(self, **kwargs):  # 查询查看XSS项目信息
         try:
             Uid = kwargs.get("uid")
-            self.cur.execute("select * from CrossSiteScriptProject where uid =? ", (Uid,))
+            NumberOfSinglePages = 100  # 单页数量
+            NumberOfPages = kwargs.get(
+                "number_of_pages") - 1  # 查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
+            self.cur.execute("select * from CrossSiteScriptProject where uid =? limit ? offset ?", (Uid,NumberOfSinglePages, NumberOfPages * NumberOfSinglePages))
             result_list=[]
             for i in self.cur.fetchall():
                 JsonValues = {}
@@ -1041,7 +1056,16 @@ class CrossSiteScriptProject:#XSS钓鱼项目信息数据库
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_CrossSiteScriptProject(class)_Query(def)", e)
             return None
-
+    def QueryStatistics(self, **kwargs):  #用来项目个数
+        Uid = kwargs.get("uid")
+        try:
+            self.cur.execute("SELECT COUNT(1)  FROM CrossSiteScriptProject WHERE uid=?",(Uid,))
+            Result=self.cur.fetchall()[0][0]#获取数据个数
+            self.con.close()
+            return Result
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_CrossSiteScriptProject(class)_QueryStatistics(def)", e)
+            return None
     def RepeatInvestigation(self,**kwargs):#用来排查file_name是否重复
 
         try:

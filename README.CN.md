@@ -32,7 +32,7 @@ http://medusa.ascotbe.com
 ### :clipboard:安装说明
 
 ```bash
-http://medusa.ascotbe.com/Documentation/#/QuickStart/WebVersionInstallation
+http://medusa.ascotbe.com/Documentation/#/WebVersionInstallation
 ```
 
 ### :space_invader:Web界面

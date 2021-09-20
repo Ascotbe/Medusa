@@ -276,3 +276,32 @@ def QueryProjectInfo(request):  # 查询项目中详细信息
             return JsonResponse({'message': '呐呐呐！莎酱被玩坏啦(>^ω^<)', 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
+
+"""delete_cross_site_script_project
+{
+	"token": "",
+	"project_name":"xx"
+}
+"""
+def DeleteProject(request):#用来删除用户的XSS项目
+    RequestLogRecord(request, request_api="delete_cross_site_script_project")
+    if request.method == "POST":
+        try:
+            UserToken = json.loads(request.body)["token"]
+            ProjectName = json.loads(request.body)["project_name"]
+            Uid = UserInfo().QueryUidWithToken(UserToken)  # 如果登录成功后就来查询用户名
+            if Uid != None :  # 查到了UID
+                UserOperationLogRecord(request, request_api="delete_cross_site_script_project", uid=Uid)
+                Result = CrossSiteScriptProject().Delete(uid=Uid,project_name=ProjectName)  # 查询项目信息
+                if Result:
+                    return JsonResponse({'message': "删除成功~", 'code': 200, })
+                else:
+                    return JsonResponse({'message': "项目删除失败！", 'code': 170, })
+
+            else:
+                return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
+        except Exception as e:
+            ErrorLog().Write("Web_CrossSiteScriptHub_CrossSiteScript_DeleteProject(def)", e)
+            return JsonResponse({'message': '呐呐呐！莎酱被玩坏啦(>^ω^<)', 'code': 169, })
+    else:
+        return JsonResponse({'message': '请使用Post请求', 'code': 500, })

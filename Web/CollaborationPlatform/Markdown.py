@@ -286,4 +286,38 @@ def MarkdownDataComparison (request):#md文档数据对比
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
 
+
+"""delete_markdown
+{
+	"token": "xxxx",
+	"markdown_name": "xxx"
+}
+"""
+def DeleteMarkdown (request):#删除文档项目
+    RequestLogRecord(request, request_api="delete_markdown")
+    if request.method == "POST":
+        try:
+            UserToken = json.loads(request.body)["token"]
+            MarkdownName = json.loads(request.body)["markdown_name"]  # 传入文档名称
+            Uid = UserInfo().QueryUidWithToken(UserToken)  # 如果登录成功后就来查询用户名
+            if Uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="delete_markdown", uid=Uid)
+                ProjectBelongsResult=MarkdownRelationship().ProjectBelongs(markdown_name=MarkdownName,uid=Uid)#检查是否有权限，也就是说这个项目是否属于该用户
+                if ProjectBelongsResult:#检查项目所属
+                    DeleteResult=MarkdownRelationship().Delete(markdown_name=MarkdownName,uid=Uid)#删除表格
+                    if not DeleteResult:
+                        return JsonResponse({'message': "项目删除错误", 'code': 171, })
+                    else:
+                        MarkdownInfo().Delete(markdown_name=MarkdownName)  # 删除数据，有可能会有空数据的情况
+                        return JsonResponse({'message': "项目删除成功~", 'code': 200, })
+                else:
+                    return JsonResponse({'message': "小朋友不是你的东西别乱动哦~~", 'code': 404, })
+            else:
+                return JsonResponse({'message': "小宝贝这是非法操作哦(๑•̀ㅂ•́)و✧", 'code': 403, })
+        except Exception as e:
+            ErrorLog().Write("Web_CollaborationPlatform_Markdown_DeleteMarkdown(def)", e)
+            return JsonResponse({'message': '呐呐呐！莎酱被玩坏啦(>^ω^<)', 'code': 169, })
+    else:
+        return JsonResponse({'message': '请使用Post请求', 'code': 500, })
+
 #数据对比函数，以及关系表中多人相关数据

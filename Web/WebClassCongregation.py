@@ -1094,7 +1094,22 @@ class CrossSiteScriptProject:#XSS钓鱼项目信息数据库
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_CrossSiteScriptProject(class)_AuthorityCheck(def)", e)
             return False
-
+    def Delete(self,**kwargs):#删除项目
+        try:
+            ProjectName = kwargs.get("project_name")
+            Uid=kwargs.get("uid")
+            self.cur.execute("DELETE FROM CrossSiteScriptProject where project_name=? and uid=?", (ProjectName,Uid,))
+            if self.cur.rowcount < 1:  # 用来判断是否更新成功
+                self.con.commit()
+                self.con.close()
+                return False
+            else:
+                self.con.commit()
+                self.con.close()
+                return True
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_CrossSiteScriptProject(class)_Delete(def)", e)
+            return None
 class CrossSiteScriptTemplate:  # XSS钓鱼模板存放
     def __init__(self):
         self.con = sqlite3.connect(GetDatabaseFilePath().result())
@@ -1181,7 +1196,22 @@ class CrossSiteScriptTemplate:  # XSS钓鱼模板存放
 
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_CrossSiteScriptTemplate(class)_Update(def)", e)
-
+    def Delete(self,**kwargs):#删除项目
+        try:
+            TemplateName = kwargs.get("template_name")
+            Uid=kwargs.get("uid")
+            self.cur.execute("DELETE FROM CrossSiteScriptTemplate where template_name=? and uid=?", (TemplateName,Uid,))
+            if self.cur.rowcount < 1:  # 用来判断是否更新成功
+                self.con.commit()
+                self.con.close()
+                return False
+            else:
+                self.con.commit()
+                self.con.close()
+                return True
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_CrossSiteScriptTemplate(class)_Delete(def)", e)
+            return None
 
 class HardwareUsageRateInfo:  # 获取硬件中CPU和内存的使用情况
     def __init__(self):
@@ -1468,6 +1498,21 @@ class MarkdownInfo:#存放markdown文档的所有数据
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_MarkdownInfo(class)_Query(def)", e)
             return None
+    def Delete(self,**kwargs):#删除项目
+        try:
+            MarkdownName=kwargs.get("markdown_name")
+            self.cur.execute("DELETE FROM Markdown where markdown_name=? ", (MarkdownName,))
+            if self.cur.rowcount < 1:  # 用来判断是否更新成功
+                self.con.commit()
+                self.con.close()
+                return False
+            else:
+                self.con.commit()
+                self.con.close()
+                return True
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_MarkdownInfo(class)_Delete(def)", e)
+            return None
 
 class MarkdownRelationship:#markdown文档和用户相关的数据表
     def __init__(self):
@@ -1609,7 +1654,36 @@ class MarkdownRelationship:#markdown文档和用户相关的数据表
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_MarkdownRelationship(class)_QueryStatistics(def)", e)
             return None
-
+    def ProjectBelongs(self,**kwargs):#检测项目是否属于该用户
+        try:
+            MarkdownName=kwargs.get("markdown_name")
+            Uid=kwargs.get("uid")
+            self.cur.execute("select markdown_project_owner from MarkdownRelationship where markdown_name=? and uid=?", (MarkdownName,Uid,))
+            for i in self.cur.fetchall():
+                if i[0]=="1":
+                    self.con.close()
+                    return True
+            else:
+                return False
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_MarkdownRelationship(class)_ProjectBelongs(def)", e)
+            return None
+    def Delete(self,**kwargs):#删除项目
+        try:
+            MarkdownName=kwargs.get("markdown_name")
+            Uid=kwargs.get("uid")
+            self.cur.execute("DELETE FROM MarkdownRelationship where markdown_name=? and uid=?", (MarkdownName,Uid,))
+            if self.cur.rowcount < 1:  # 用来判断是否更新成功
+                self.con.commit()
+                self.con.close()
+                return False
+            else:
+                self.con.commit()
+                self.con.close()
+                return True
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_MarkdownRelationship(class)_Delete(def)", e)
+            return None
 class ApplicationCollection:#存放收集到的应用所有数据
     def __init__(self):
         self.con = sqlite3.connect(GetDatabaseFilePath().result())

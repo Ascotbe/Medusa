@@ -63,6 +63,7 @@ urlpatterns = [
     path('api/create_cross_site_script_project/', CrossSiteScript.GenerateProject),  # 用来创建跨站脚本项目
     path('api/modify_cross_site_script_project/', CrossSiteScript.ModifyProject),  # 用来修改项目生成的文件
     path('api/query_cross_site_script_project/', CrossSiteScript.QueryProject),  # 用来查询跨站脚本项目
+    path('api/delete_cross_site_script_project/', CrossSiteScript.DeleteProject),  # 用来删除跨站脚本项目
     path('api/statistical_cross_site_script_project/', CrossSiteScript.StatisticalCrossSiteScriptProject),#统计用户所有的协同作战项目
     path('api/query_cross_site_script_project_data/', CrossSiteScript.QueryProjectData),  # 用来查询跨站脚本项目接收的数据
     path('api/statistical_cross_site_script_project_data/', CrossSiteScript.StatisticalCrossSiteScriptProjectData),  # 用来查询跨站脚本项目接收的数据
@@ -71,6 +72,7 @@ urlpatterns = [
     path('api/read_cross_site_script_template/', TemplateManagement.ReadTemplate),  # 读取用户自定义模板数据
     path('api/save_cross_site_script_template/', TemplateManagement.SaveTemplate),  # 保存模板数据
     path('api/modify_cross_site_script_template/', TemplateManagement.ModifyTemplate),  # 修改模板数据
+    path('api/delete_cross_site_script_template/', TemplateManagement.DeleteTemplate),  # 删除模板数据
     #杂项工具相关
     path('api/antivirus_software_compared/', AntivirusSoftware.Compared),  # 通过获取数据进行对比目标机器的杀软
     path('api/windows_portable_execute_analysis/', PortableExecute.Windows),  # windows文件上传后进行结构处理
@@ -87,6 +89,7 @@ urlpatterns = [
     path('api/query_markdown_data/', Markdown.QueryMarkdownData),#查询协同作战中文档数据
     path('api/markdown_image_upload/', Markdown.MarkdownImageUpload),#文档中的上传图片接口
     path('api/markdown_data_comparison/', Markdown.MarkdownDataComparison),#文档中的数据对比接口
+    path('api/delete_markdown/', Markdown.DeleteMarkdown),# 删除项目使用
     #CVE监控相关
     path('api/github_monitor_search/', Github.GithubQuery),  # GitHub漏洞利用监控数据模糊搜索功能
     path('api/nist_data_bulk_query/', Nist.NistDataBulkQuery),  #监控首页精简数据查询

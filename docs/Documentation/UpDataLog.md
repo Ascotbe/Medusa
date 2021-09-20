@@ -3056,3 +3056,10 @@ v1.0.53🌴
 添加代码模块消失问题
 ```
 
+> 2021.9.20
+
+```
+v1.0.54🌴
+添加3个删除API接口delete_markdown、delete_cross_site_script_template、delete_cross_site_script_project
+```
+

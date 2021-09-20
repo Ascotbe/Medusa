@@ -130,3 +130,33 @@ def ReadTemplate(request):#用读取数据库中模板文件
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
+
+"""delete_cross_site_script_template
+{
+	"token": "",
+	"template_name":""
+}
+"""
+def DeleteTemplate(request):#删除模板
+    RequestLogRecord(request, request_api="delete_cross_site_script_template")
+    if request.method == "POST":
+        try:
+            UserToken = json.loads(request.body)["token"]
+            TemplateName = json.loads(request.body)["template_name"]#传入需要修改的模板名称
+            Uid = UserInfo().QueryUidWithToken(UserToken)  # 如果登录成功后就来查询用户名
+            if Uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="delete_cross_site_script_template", uid=Uid)
+                Result=CrossSiteScriptTemplate().Delete(template_name=TemplateName,uid=Uid)#删除模板数据
+                if Result:
+                    return JsonResponse({'message': "删除成功", 'code': 200, })
+                else:
+                    return JsonResponse({'message': "删除失败！", 'code': 170, })
+
+            else:
+                return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
+        except Exception as e:
+            ErrorLog().Write("Web_CrossSiteScriptHub_TemplateManagement_ReadTemplate(def)", e)
+            return JsonResponse({'message': '呐呐呐！莎酱被玩坏啦(>^ω^<)', 'code': 169, })
+    else:
+        return JsonResponse({'message': '请使用Post请求', 'code': 500, })
+

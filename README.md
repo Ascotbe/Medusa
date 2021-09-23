@@ -16,9 +16,9 @@
 
 > The project is licensed under `GPL`.Free for non-commercial use.
 >
-> The project development manpower is insufficient. If you find a problem or have comments, please contact us.
->
 > `Web`  Alpha Ver. Online
+>
+> Please download the Releases version, the Master branch is reconstructing the front end
 
 
 #### **[中文文档](https://github.com/Ascotbe/Medusa/blob/master/README.CN.md) | EnglishDocumentation**

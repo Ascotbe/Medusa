@@ -23,6 +23,8 @@ git clone https://github.com/Ascotbe/Medusa.git
 
 ```bash
 #macOS把apt替换成brew即可
+sudo apt install nodejs
+sudo apt install npm
 sudo apt install nginx
 sudo apt install redis
 sudo apt install python3 #需要3.7以上版本

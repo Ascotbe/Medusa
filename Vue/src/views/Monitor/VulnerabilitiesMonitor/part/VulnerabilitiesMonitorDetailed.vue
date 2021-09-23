@@ -13,7 +13,7 @@
           {{description.body}}
         </div>
       </Card>
-      <a-tabs @activeKey="activeKey">
+      <a-tabs @activeKey="activeKey" style="text-align:left">
         <a-tab-pane v-for="(item,i) in tabs" :key="i">
           <span slot="tab">
             {{item.name}}
@@ -69,10 +69,6 @@
     </a-col>
     <a-col :xs="24" :lg="8">
       <Card :name="'Information'" :bodyStyle="bodyStyle" style="textAlign:left">
-        <!-- <a-col v-for="(value,key,i) in information" :key="i">
-          <a-col>{{key}} :{{value }}</a-col>
-          <a-divider v-if="i%2!=0" />
-        </a-col>-->
         <a-col>Published :{{information.Published }}</a-col>
         <a-col>Updated :{{information.Updated }}</a-col>
         <a-divider />
@@ -113,7 +109,7 @@ import Card from '@/components/Card/Card.vue'
 import Tables from '@/components/Tables/Tables.vue'
 import Configurations from './Configurations'
 import { OverallMixins } from "@/js/Mixins/OverallMixins.js"
-import { MarkdownPro } from 'vue-meditor'
+// import { MarkdownPro } from 'vue-meditor'
 import { MarkdownPreview } from 'vue-meditor'
 export default {
   mixins: [OverallMixins],
@@ -122,8 +118,6 @@ export default {
     Tables,
     Configurations,
     MarkdownPreview,
-    MarkdownPro
-    // myicon: MyIcon,
   },
   data () {
     return {

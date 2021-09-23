@@ -42,15 +42,21 @@ import {
   URL_POST_GENERATE_WORD,
   URL_POST_DOWNLOAD_WORD,
 
+  //XSS平台
   URL_POST_CREATE_SCRIPT_PROJECT,
   URL_POST_QUERY_SCRIPT_PROJECT,
   URL_POST_QUERY_SCRIPT_PROJECT_DATA,
+  URL_POST_STATISTICAL_CROSS_SITE_SCRIPT_PROJECT_DATA,
+  URL_POST_STATISTICAL_CROSS_SITE_SCRIPT_PROJECT,
   URL_POST_QUERY_SCRIPT_PROJECT_INFO,
   URL_POST_MODIFY_CROSS_SITE_SCRIPT_PROJECT,
   URL_POST_READ_SCRIPT_TEMPLATE,
   URL_POST_READ_DEFAULT_SCRIPT_TEMPLATE,
   URL_POST_SAVE_CROSS_SITE_SCRIPT_TEMPLATE,
   URL_POST_MODIFY_CROSS_SITE_SCRIPT_TEMPLATE,
+
+
+  //协同作战
   URL_POST_CREATE_MARKDOWN_PROJECT,
   URL_POST_QUERY_MARKDOWN_PROJECT, // 查询协同作战项目
   URL_POST_QUERY_MARKDOWN_DATA, //用来查询Markdown文档数据
@@ -58,6 +64,7 @@ import {
   URL_POST_MARKDOWN_IMAGE_UPLOAD,
   URL_POST_MARKDOWN_DATA_COMPARISON,
   URL_POST_JOIN_MARKDOWN_PROJECT,
+  URL_POST_MARKDOWN_PROJECT_STATISTICAL,
 
 } from './url'
 import store from '@/store'
@@ -331,7 +338,7 @@ const api = {
   async markdown_image_upload (params) {
     let response = await post(URL_POST_MARKDOWN_IMAGE_UPLOAD, params, {
       headers: {
-        token: store.state.token
+        token: store.state.UserStore.token
       }
     })
     return response
@@ -402,6 +409,26 @@ const api = {
     })
     return response
   },
+  async markdown_project_statistical (params) {
+    let response = await post(URL_POST_MARKDOWN_PROJECT_STATISTICAL, params, {
+      headers: {}
+    })
+    return response
+  },
+
+  async statistical_cross_site_script_project_data (params) {
+    let response = await post(URL_POST_STATISTICAL_CROSS_SITE_SCRIPT_PROJECT_DATA, params, {
+      headers: {}
+    })
+    return response
+  },
+  async statistical_cross_site_script_project (params) {
+    let response = await post(URL_POST_STATISTICAL_CROSS_SITE_SCRIPT_PROJECT, params, {
+      headers: {}
+    })
+    return response
+  },
+
 
 }
 

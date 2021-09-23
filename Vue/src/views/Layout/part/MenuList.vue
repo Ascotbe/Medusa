@@ -11,7 +11,7 @@
     <template v-for="(item) in menuList">
       <a-sub-menu :key="item.key" v-if="item.children">
         <span slot="title">
-          <myicon :type="item.iconType" />
+          <MyIcon :type="item.iconType" />
           <span>{{ item.msg }}</span>
         </span>
         <template v-for="i in item.children">
@@ -21,7 +21,7 @@
         </template>
       </a-sub-menu>
       <a-menu-item :key="item.key" v-else>
-        <myicon :type="item.iconType" />
+        <MyIcon :type="item.iconType" />
         <span>{{ item.msg }}</span>
       </a-menu-item>
     </template>
@@ -29,14 +29,14 @@
 </template>
 <script>
 import { Icon } from "ant-design-vue";
+const faceConfig = require("../../../../faceConfig");
 const MyIcon = Icon.createFromIconfontCN({
-  scriptUrl: "//at.alicdn.com/t/font_1734998_iv1ouwpdggf.js",
-
+  scriptUrl: faceConfig.scriptUrl,
 });
 import { mapGetters } from "vuex";
 export default {
   components: {
-    myicon: MyIcon,
+    MyIcon,
   },
   data () {
     return {
@@ -88,20 +88,20 @@ export default {
           ],
         },
         {
-          key: "sub4",
+          key: "CrossSiteScript",
           iconType: "icon-heike",
           msg: "跨站脚本钓鱼",
           children: [
             {
-              key: "createProject",
+              key: "CreateCrossSiteScript",
               msg: "创建项目",
             },
             {
-              key: "projectManagement",
+              key: "ProjectManagement",
               msg: "项目管理",
             },
             {
-              key: "publicTemplate",
+              key: "TemplateManagement",
               msg: "模板管理",
             },
             {
@@ -171,15 +171,17 @@ export default {
     }),
   },
   mounted () {
-    this.StarSelectedKeys != [] ? this.selectedKeys = this.StarSelectedKeys : ''
+    const _this = this
+    _this.StarSelectedKeys != [] ? _this.selectedKeys = _this.StarSelectedKeys : ''
   },
   methods: {
     handleSetSelectedKeys (selectedKeys) {
-      this.selectedKeys = selectedKeys
+      const _this = this
+      _this.selectedKeys = selectedKeys
     },
     handleGoTo ({ item, key, keyPath }) {
-      console.log({ item, key, keyPath })
-      this.$router.push(key)
+      const _this = this
+      _this.$router.push(key)
     }
   },
   // render: function (h) {

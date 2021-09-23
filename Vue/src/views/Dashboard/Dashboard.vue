@@ -18,7 +18,7 @@
     >
       <a-col class="synthetical" :style="{ background: item.background }">
         <div style="padding: 10px 0 10px 0">{{ item.name }}</div>
-        <myicon :type="item.type" class="myicon" />
+        <MyIcon :type="item.type" class="myicon" />
         <span class="syntheticalVal">
           <span style="font-size:36px">{{ item.val }}</span>个
         </span>
@@ -95,16 +95,18 @@ import SystemInforMation from "./part/SystemInforMation.vue"
 import { OverallMixins } from "@/js/Mixins/OverallMixins.js"
 
 import { Icon } from "ant-design-vue";
+const faceConfig = require("../../../faceConfig");
 const MyIcon = Icon.createFromIconfontCN({
-  scriptUrl: "//at.alicdn.com/t/font_1734998_iv1ouwpdggf.js",
+  scriptUrl: faceConfig.scriptUrl,
 });
+
 import { mapGetters } from "vuex";
 export default {
   mixins: [OverallMixins],
   components: {
     Echarts,
     SystemInforMation,
-    myicon: MyIcon,
+    MyIcon,
   },
   data () {
     return {

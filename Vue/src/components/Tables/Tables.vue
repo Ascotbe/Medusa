@@ -1,23 +1,3 @@
-<template>
-  <a-table
-    :columns="columns"
-    :data-source="tableData"
-    :scroll="scrollTable"
-    :pagination="pagination"
-    :total="total"
-    :rowKey="rowKey"
-    @change="handleChange"
-    :expandIcon="handleExpandIcon"
-    :expandedRowKeys="expandedRowKeys"
-  >
-    <div slot="expandedRowRender" slot-scope="record">{{ record.vulnerability_description }}</div>
-    <div slot="footer" style="text-align:left">
-      总共
-      <span style="color:#51c51a">{{total}}</span>条数据
-    </div>
-  </a-table>
-</template>
-
 <script>
 export default {
   props: {
@@ -38,10 +18,10 @@ export default {
       default: 0
     },
     rowKey: {
-      type: String,
-      default: 'key'
+      type: String | Function,
+      default: 'key' | function () { }
     },
-    showExpandedRowKeys: {
+    showExpandedRowKeys: {//是否展开默认行
       type: Boolean,
       default: false
     },
@@ -50,9 +30,19 @@ export default {
       default: () => {
         return { x: 1600, y: 400 }
       }
+    },
+    ExpandedRowRenderCallback: {
+      tyep: Function,
+      default: () => {
+        return function () { }
+      }
+    },
+    ExpandIconCallback: {
+      tyep: Function,
+      default: () => {
+        return function () { }
+      }
     }
-
-
   },
   data () {
     return {
@@ -70,11 +60,25 @@ export default {
     handleChange (pagination, filters, sorter, { currentDataSource }) {
       this.$emit('change', pagination)
     },
-    handleExpandIcon () {
-
+    handleExpandedRowRender (record, index, indent, expanded) {
+      const _this = this
+      const callback = _this.ExpandedRowRenderCallback(record)
+      return callback
     },
-    handleExpandedRowKeys () {
-      this.expandedRowKeys = this.tableData.map(item => item.vulnerability_number)
+    handleFooter (currentPageData) {
+      const _this = this
+      return <div style="text-align:left" v-show={_this.total == 0 ? false : true}>总共<span style="color:#51c51a">{_this.total}</span>条数据</div>
+    },
+    handleExpandedRowKeys () {//全部展开
+      const _this = this
+      _this.$nextTick(() => {
+        _this.expandedRowKeys = _this.tableData.map((item, i) => (typeof (_this.rowKey) === 'function') ? i : item[_this.rowKey])
+      })
+    },
+    handleExpandIcon (props) {
+      const _this = this
+      const callback = _this.ExpandIconCallback(props)
+      return callback
     }
   },
   watch: {
@@ -93,6 +97,29 @@ export default {
       },
       deep: true
     }
+  },
+  render: function (h) {
+    const _this = this
+    return h('a-table', {
+      props: {
+        columns: _this.columns,
+        dataSource: _this.tableData,
+        scroll: _this.scrollTable,
+        pagination: _this.pagination,
+        total: _this.total,
+        rowKey: _this.rowKey,
+        expandedRowKeys: _this.expandedRowKeys,
+        footer: (currentPageData) => _this.handleFooter(currentPageData),
+        expandedRowRender: (record, index, indent, expanded) => _this.handleExpandedRowRender(record, index, indent, expanded),
+        expandIcon: (props) => _this.handleExpandIcon(props),
+      },
+      on: {
+        change: (pagination, filters, sorter, { currentDataSource }) => _this.handleChange(pagination, filters, sorter, { currentDataSource }),
+        expandedRowsChange: (expandedRowKeys) => {
+          _this.expandedRowKeys = expandedRowKeys
+        }
+      }
+    })
   }
 }
 </script>

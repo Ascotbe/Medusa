@@ -1,17 +1,32 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Dashboard from '../views/Dashboard/Dashboard.vue'
 import Login from '../views/Login/Login.vue'
 import Register from '../views/Register/Register.vue'
 import Layout from '../views/Layout/Layout.vue'
+//仪表盘首页
+import Dashboard from '../views/Dashboard/Dashboard.vue'
+//个人信息
 import PersonalSettings from '../views/PersonalSettings/PersonalSettings.vue'
+//主动扫描
 import IssueTask from '../views/ActiveScanning/IssueTask/IssueTask.vue'
 import SiteInforMation from '../views/ActiveScanning/SiteInforMation/SiteInforMation.vue'
+//监控
 import GitHubMonitor from '../views/Monitor/GitHubMonitor/GitHubMonitor.vue'
 import VulnerabilitiesMonitor from '../views/Monitor/VulnerabilitiesMonitor/VulnerabilitiesMonitor.vue'
 import VulnerabilitiesMonitorDetailed from '../views/Monitor/VulnerabilitiesMonitor/part/VulnerabilitiesMonitorDetailed.vue'
+//协同
 import CreateCombine from '../views/Combine/CreateCombine/CreateCombine.vue'
 import CombineList from '../views/Combine/CombineList/CombineList.vue'
+import MarkdownData from '../views/Combine/CombineList/part/MarkdownData.vue'
+import DataComparison from '../views/Combine/CombineList/part/DataComparison.vue'
+//XSS
+import CreateCrossSiteScript from '../views/CrossSiteScript/CreateCrossSiteScript/CreateCrossSiteScript.vue'
+import ProjectManagement from '../views/CrossSiteScript/ProjectManagement/ProjectManagement.vue'
+import QueryProject from '../views/CrossSiteScript/ProjectManagement/part/QueryProject.vue'
+import ModifyProject from '../views/CrossSiteScript/ProjectManagement/part/ModifyProject.vue'
+import TemplateManagement from '../views/CrossSiteScript/TemplateManagement/TemplateManagement.vue'
+
+
 
 
 
@@ -92,7 +107,41 @@ const routes = [
       name: 'CombineList',
       component: CombineList,
     },
-
+    {
+      path: 'MarkdownData',
+      name: 'CombineList/MarkdownData',
+      component: MarkdownData,
+    },
+    {
+      path: 'DataComparison',
+      name: 'CombineList/DataComparison',
+      component: DataComparison,
+    },
+    {
+      path: 'CreateCrossSiteScript',
+      name: 'CreateCrossSiteScript',
+      component: CreateCrossSiteScript,
+    },
+    {
+      path: 'ProjectManagement',
+      name: 'ProjectManagement',
+      component: ProjectManagement,
+    },
+    {
+      path: 'QueryProject',
+      name: 'ProjectManagement/QueryProject',
+      component: QueryProject,
+    },
+    {
+      path: 'ModifyProject',
+      name: 'ProjectManagement/ModifyProject',
+      component: ModifyProject,
+    },
+    {
+      path: 'TemplateManagement',
+      name: 'TemplateManagement',
+      component: TemplateManagement,
+    },
     ]
   },
 ]

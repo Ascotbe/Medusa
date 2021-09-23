@@ -10,7 +10,13 @@
   >
     <a-col :span="24">
       <Card name="项目列表">
-        <Tables :columns="columns" :tableData="data" :rowKey="`markdown_project_invitation_code`" />
+        <Tables
+          :columns="columns"
+          :tableData="data"
+          :total="total"
+          :rowKey="`markdown_project_invitation_code`"
+          @change="handleChange"
+        />
       </Card>
     </a-col>
 
@@ -35,11 +41,13 @@
 import Card from '@/components/Card/Card.vue'
 import Tables from '@/components/Tables/Tables.vue'
 import { mapGetters } from 'vuex'
+import { OverallMixins } from '@/js/Mixins/OverallMixins.js'
 export default {
   components: {
     Card,
     Tables,
   },
+  mixins: [OverallMixins],
   data () {
     return {
       columns: [
@@ -48,36 +56,52 @@ export default {
           dataIndex: "markdown_project_name",
           key: "markdown_project_name",
           width: '15%',
-          // ellipsis: true
+          ellipsis: true
         },
         {
           title: "项目是否所属自己",
           dataIndex: "markdown_project_owner",
           key: "markdown_project_owner",
+          customRender: (text, record, index) => {
+            return text == 0 ? "不属于" : "属于"
+          }
         },
         {
           title: "项目邀请码",
           dataIndex: "markdown_project_invitation_code",
           key: "markdown_project_invitation_code",
           width: '40%',
-          // ellipsis: true
+          customRender: (text, record, index) => {
+            return record.markdown_project_owner == 1 ? text : "您只是参与者，无法获取项目邀请码"
+          },
+          ellipsis: true
         },
         {
           title: "创建时间",
           dataIndex: "creation_time",
           key: "creation_time",
-          // ellipsis: true
+          customRender: (text, record, index) => {
+            return text ? this.moment(text, "X").format('YYYY-MM-DD H:mm:ss') : ""
+          },
+          ellipsis: true
+
         },
         {
           title: "操作",
           key: "action",
-          fixed: "right",
+          // fixed: "right",
           customRender: (text, record, index) => {
-            return <a-tag  >查看</a-tag>
+            return <a-tag v-on:click={() => {
+              this.$store.dispatch("CombineStore/setMarkdown_name", record.markdown_name)
+              this.$store.dispatch("CombineStore/setMarkdown_project_name", record.markdown_project_name)
+              this.$router.push("MarkdownData")
+            }} >查看</a-tag>
           }
         },
       ],
-      data: []
+      data: [],
+      total: 0,
+      current: 1
     }
   },
   mounted () {
@@ -93,11 +117,28 @@ export default {
     handleCombine () {
       const _this = this
       const params = {
-        token: _this.token
+        token: _this.token,
+        number_of_pages: _this.current
       };
       this.$api.query_markdown_project(params).then((res) => {
-        _this.data = res.message
+        if (res.code = 200) {
+          _this.data = res.message
+          const params = {
+            token: _this.token,
+          };
+          _this.$api.markdown_project_statistical(params).then((res) => {
+            if (res.code = 200) _this.total = res.message
+            else _this.$message.error(res.message)
+          })
+        }
+        else _this.$message.error(res.message)
       })
+    },
+
+    handleChange (pagination) {
+      const _this = this
+      _this.current = pagination.current
+      _this.handleCombine()
     }
   }
 }

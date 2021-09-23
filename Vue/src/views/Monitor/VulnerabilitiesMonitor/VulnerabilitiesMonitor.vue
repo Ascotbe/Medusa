@@ -39,15 +39,13 @@
     <a-col :span="6">
       <Card :name="``" :bodyStyle="bodyStyle">
         <div class="myicon">
-          <myicon :type="`icon-ziyuan1`" style="font-size:100px;" />
+          <MyIcon :type="`icon-ziyuan1`" style="font-size:100px;" />
           <div class="total">
             <div :span="24">TOTAL:</div>
             <div :span="24" style="font-weight:800">{{total}}</div>
           </div>
         </div>
       </Card>
-      <!-- <a-col :span="8" class="myicon"></a-col> -->
-      <!-- <a-col :span="16"></a-col> -->
     </a-col>
     <a-col :span="24">
       <Card :name="``" :bodyStyle="bodyStyle">
@@ -58,6 +56,7 @@
           :rowKey="`vulnerability_number`"
           :showExpandedRowKeys="true"
           @change="handleChange"
+          :callback="handleCallback"
         ></Tables>
       </Card>
     </a-col>
@@ -69,14 +68,16 @@ import Card from '@/components/Card/Card.vue'
 import Tables from '@/components/Tables/Tables.vue'
 import { mapGetters } from "vuex";
 import { Icon } from "ant-design-vue";
+const faceConfig = require("../../../../faceConfig");
 const MyIcon = Icon.createFromIconfontCN({
-  scriptUrl: "//at.alicdn.com/t/font_1734998_iv1ouwpdggf.js",
+  scriptUrl: faceConfig.scriptUrl,
 });
+
 export default {
   components: {
     Card,
     Tables,
-    myicon: MyIcon,
+    MyIcon,
   },
   data () {
     return {
@@ -305,6 +306,9 @@ export default {
       _this.$store.commit('MonitorStore/setVulnerabilityCode', item)
       _this.$router.push('VulnerabilitiesMonitorDetailed')
     },
+    handleCallback (record) {//回写展开项内容
+      return record.vulnerability_description
+    }
   }
 }
 </script>

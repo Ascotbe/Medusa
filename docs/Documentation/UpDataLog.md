@@ -3063,3 +3063,10 @@ v1.0.54🌴
 添加3个删除API接口delete_markdown、delete_cross_site_script_template、delete_cross_site_script_project
 ```
 
+> 2021.9.23
+
+```
+v1.0.55🌴
+添加3个删除接口的说明文档
+```
+

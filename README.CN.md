@@ -17,9 +17,9 @@
 
 >本项目使用 `GPL`协议，未经授权，禁止使用商业用途。
 >
->项目开发人力不足，如果您发现问题或者有意见欢迎提相关的issue
->
 >`Web`  **Alpha**版本已上线
+>
+>请下载releases版本使用，master分支正在重构前端
 
 #### **中文文档 |[EnglishDocumentation](https://github.com/Ascotbe/Medusa/blob/master/README.md)**
 

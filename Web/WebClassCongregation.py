@@ -1853,7 +1853,7 @@ class NistData:#存放Nist发布的CVE数据
         try:
             Severity=kwargs.get("severity")#严重程度
             Key = "%" + kwargs.get("key") + "%"  # 查询字段
-            self.cur.execute("select COUNT(1) from CommonVulnerabilitiesAndExposures WHERE v3_base_severity=? and vulnerability_number LIKE ? OR vendors LIKE ? OR products LIKE ? OR vulnerability_description LIKE ?", (Severity,Key,Key,Key,Key,))
+            self.cur.execute("select COUNT(1) from CommonVulnerabilitiesAndExposures WHERE v3_base_severity=? and (vulnerability_number LIKE ? OR vendors LIKE ? OR products LIKE ? OR vulnerability_description LIKE ?)", (Severity,Key,Key,Key,Key,))
             Result=self.cur.fetchall()[0][0]#获取数据个数
             self.con.close()
             return Result
@@ -1893,7 +1893,7 @@ class NistData:#存放Nist发布的CVE数据
             NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页
             Severity=kwargs.get("severity")#严重程度
             Key = "%"+kwargs.get("key")+"%"  # 查询字段
-            self.cur.execute("select vulnerability_number,v3_base_score,v3_base_severity,v2_base_score,v2_base_severity,last_up_date,vulnerability_description,vendors,products  from CommonVulnerabilitiesAndExposures WHERE v3_base_severity=? and vulnerability_number LIKE ? OR vendors LIKE ? OR products LIKE ? OR vulnerability_description LIKE ? limit ? offset ?", (Severity,Key,Key,Key,Key,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))
+            self.cur.execute("select vulnerability_number,v3_base_score,v3_base_severity,v2_base_score,v2_base_severity,last_up_date,vulnerability_description,vendors,products  from CommonVulnerabilitiesAndExposures WHERE v3_base_severity=? and (vulnerability_number LIKE ? OR vendors LIKE ? OR products LIKE ? OR vulnerability_description LIKE ?) limit ? offset ?", (Severity,Key,Key,Key,Key,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))
 
             result_list = []
             for i in self.cur.fetchall():

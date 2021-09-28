@@ -7,7 +7,7 @@
 
 - DNSLOG、邮件发送使用需要配置域名，如何配置后续正式版本添加
 
-- 不太推荐使用docker进行安装
+> 目前不推荐使用docker进行安装!!!!
 
 ## 无SSL证书方式安装
 
@@ -270,7 +270,7 @@ python3 DomainNameSystemServer.py
 
 > docker源请换成官方源，否则下载的容器是几个月前的
 >
-> docker容器不一定是最新版本(目前停留在v0.92)
+> docker容器正在修改，请暂时不要使用
 >
 > 注册中的秘钥在config.py中和手动安装默认秘钥一致
 

@@ -1,7 +1,8 @@
 #!/bin/bash
-cd /Medusa/Vue
-nohup npm run serve &
-cd /Medusa
-nohup redis-server /etc/redis/redis.conf & 
-nohup celery -A Web.Workbench.Tasks worker --loglevel=info --pool=solo & 
-python3 manage.py runserver 0.0.0.0:9999 --insecure --noreload
+if [[ `uname` == 'Linux' ]]; then
+    sudo apt update
+    sudo apt install docker.io -y
+    sudo systemctl start docker
+    sudo docker build -t medusa_web .
+    sudo docker run -d -i -t --name  medusa -p 80:80 -p 443:443 -p 53:53 medusa_web
+fi

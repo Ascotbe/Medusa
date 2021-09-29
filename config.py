@@ -57,7 +57,7 @@ proxies=None
 redis_host="localhost"#连接redis的地址，默认本地
 redis_port="6379"#redis连接端口，默认6379
 redis_db="6"#连接的数据库，默认为6
-redis_password="I_will_always_like_Rei_Ayanami"#连接redis的密码
+redis_password="I_will_always_like_AyanamiRei"#连接redis的密码
 
 
 #########################################################################
@@ -87,8 +87,8 @@ proxy_scan_module_list=["Struts2","Confluence","Nginx","PHPStudy","Jenkins","Har
 #########################################################################
 registration_function_status=True#默认开启注册功能
 forgot_password_function_status=False#默认关闭忘记密码功能
-secret_key_required_for_account_registration="I_will_always_like_Rei_Ayanami"#注册账号需要的秘钥,最好修改为250个随机字符串
-forget_password_key="https://github.com/Ascotbe/Medusa"#修改密码所需要的key
+secret_key_required_for_account_registration="I_will_always_like_SoryuAsukaLangley"#注册账号需要的秘钥,最好修改为250个随机字符串
+forget_password_key="I_will_always_like_KatsuragiMisato"#修改密码所需要的key
 
 #########################################################################
 #XSS项目配置
@@ -129,7 +129,7 @@ nist_update_banner=False#是否开启下载横幅提示，默认关闭
 #########################################################################
 third_party_mail_host = "smtp.163.com"  # 设置第三方服务器
 third_party_mail_user = "ascotbe@163.com"  # 第三方用户名
-third_party_mail_pass = "XXX"  #第三方口令
+third_party_mail_pass = "hello_medusa"  #第三方口令
 
 local_mail_host= "smtp.ascotbe.com"# 设本地的服务器
 local_mail_user= "ascotbe@ascotbe.com" # 用户名

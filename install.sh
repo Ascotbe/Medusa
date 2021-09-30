@@ -50,7 +50,7 @@ if [[ `uname` == 'Linux' ]]; then
         #将parameter对应值的pattern字符串替换成为string字符串
         #/表示只替换一次
         #//表示全部替换
-        sed -i "s/this_is_you_domain_name/https:\/\/$cross_site_script_uses_domain_names/g" Dockerfile
+        sed -i "s/this_is_you_domain_name/$cross_site_script_uses_domain_names/g" Dockerfile
         echo -e "\033[31m current MEDUSA builds domain name \033[35m--->\033[0m\033[0m$cross_site_script_uses_domain_names"
     fi
     if [ "$domain_name_system_address" = "none" ]  ;then

@@ -22,6 +22,7 @@ if [[ `uname` == 'Linux' ]]; then
     else
         #redis密码
         sed -i "s/I_will_always_like_AyanamiRei/$redis_password/g" config.py
+        sed -i "s/redis_passwd123/$redis_password/g" Dockerfile
         echo -e "\033[31m redis password change to \033[35m--->\033[0m\033[0m$redis_password"
     fi
     if [ "$secret_key_required_for_account_registration" = "none" ]  ;then
@@ -43,6 +44,13 @@ if [[ `uname` == 'Linux' ]]; then
     else
         #当前medusa搭建域名
         sed -i "s/127.0.0.1:1234/$cross_site_script_uses_domain_names/g" config.py
+        #${cross_site_script_uses_domain_names//\//\/}
+        #${parameter/pattern/string}
+        #${parameter//pattern/string}
+        #将parameter对应值的pattern字符串替换成为string字符串
+        #/表示只替换一次
+        #//表示全部替换
+        sed -i "s/this_is_you_domain_name/https:\/\/$cross_site_script_uses_domain_names/g" Dockerfile
         echo -e "\033[31m current MEDUSA builds domain name \033[35m--->\033[0m\033[0m$cross_site_script_uses_domain_names"
     fi
     if [ "$domain_name_system_address" = "none" ]  ;then

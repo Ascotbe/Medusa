@@ -51,6 +51,7 @@ if [[ `uname` == 'Linux' ]]; then
         #/表示只替换一次
         #//表示全部替换
         sed -i "s/this_is_you_domain_name/$cross_site_script_uses_domain_names/g" Dockerfile
+        sed -i "s/http:\/\/127.0.0.1:9999/https:\/\/$cross_site_script_uses_domain_names/g" Vue/faceConfig.js
         echo -e "\033[31m current MEDUSA builds domain name \033[35m--->\033[0m\033[0m$cross_site_script_uses_domain_names"
     fi
     if [ "$domain_name_system_address" = "none" ]  ;then
@@ -95,7 +96,8 @@ if [[ `uname` == 'Linux' ]]; then
         sed -i "s/ascotbe@ascotbe.com/$local_mail_user/g" config.py
         echo -e "\033[31m modify the self-built server mailbox \033[35m--->\033[0m\033[0m$local_mail_user"
     fi
-
+    #垃圾docker，copy目录层级有问题死活不修
+    tar zcvf Medusa.tat.gz *
     sudo docker build -t medusa_web .
     sudo docker run -d -i -t --name  medusa -p 80:80 -p 443:443 -p 53:53 medusa_web --no-cache
 fi

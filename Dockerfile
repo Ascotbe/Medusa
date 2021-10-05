@@ -29,8 +29,5 @@ WORKDIR /Medusa
 RUN mv ssl.pem /etc/nginx/cert/
 RUN mv ssl.key /etc/nginx/cert/
 RUN python3 -m pip install -r Medusa.txt
-RUN /bin/bash -c "nohup redis-server /etc/redis/redis.conf &"
-RUN /bin/bash -c "nohup python3 DomainNameSystemServer.py &"
-RUN /bin/bash -c "nohup celery -A Web worker --loglevel=info --pool=solo &"
-RUN nginx
-CMD python3 manage.py runserver 0.0.0.0:9999 --insecure --noreload
+RUN chmod +x run.sh
+CMD ./run.sh

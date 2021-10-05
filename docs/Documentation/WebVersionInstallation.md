@@ -7,8 +7,6 @@
 
 - DNSLOG、邮件发送使用需要配置域名，如何配置后续正式版本添加
 
-> 目前不推荐使用docker进行安装!!!!
-
 ## 无SSL证书方式安装
 
 ### 下载项目
@@ -269,47 +267,37 @@ python3 DomainNameSystemServer.py
 ## Docker安装
 
 > docker源请换成官方源，否则下载的容器是几个月前的
->
-> docker容器正在修改，请暂时不要使用
->
-> 注册中的秘钥在config.py中和手动安装默认秘钥一致
 
-- 首先拉取容器
+首先拉取项目
 
-  ```bash
-  docker pull ascotbe/medusa:latest
-  ```
+```
+git clone --depth=1 https://github.com/Ascotbe/Medusa.git
+```
 
-- 拉取成功后新建一个`dockerfile`文件
+然后进入项目，给install.sh脚本赋予权限
 
-  ```
-  vim Dockerfile
-  ```
+```bash
+cd Medusa
+sudo chmod +x install.sh
+```
 
-- 接着再文件中写入如下内容
+接着把你申请的域名证书覆盖项目中的ssl.key和ssl.pem这两个文件，不然会默认使用测试证书
 
-  > 如果是服务器部署需要替换文中的**http://127.0.0.1:9999**为您服务器的ip地址，否则会照成服务器无法访问后端
+然后执行脚本即可，需要传入10个参数，每个参数解释如下（如果不想修改，只需传入`none`）：
 
-  ```dockerfile
-  FROM ascotbe/medusa:latest
-  MAINTAINER ascotbe
-  #WORKDIR /Medusa
-  #RUN git pull
-  WORKDIR /Medusa/Vue 
-  RUN echo "const { baseURL } = require(\"./src/utils/request\")\nconst faceConfig = () =>{\n    return{\n        basePath: 'http://127.0.0.1:9999/api/',\n        imgPath:'http://127.0.0.1:9999/s/'\n    }\n}\nmodule.exports = faceConfig()">faceConfig.js
-  RUN npm install
-  WORKDIR /Medusa
-  RUN chmod +x run.sh
-  CMD ["./run.sh"]
-  ```
+1. 表示docker环境内的Redis密码（不要传入特殊字符，一般字母+数字即可
+2. 你注册用户所要使用的秘钥
+3. 你忘记密码位置所使用的秘钥
+4. 你需要配置的域名
+5. 你用来接收DNSLOG所需要的域名
+6. 你使用的第三方smtp服务器账号
+7. 你第三方邮件服务器账号
+8. 你第三方邮件服务器秘钥
+9. 自建SMTP服务器（可以不配，传入none这样会默认使用第三方SMTP进行发送邮件
+10. 自建服务器邮箱（同上
 
-- 编译容器后启动
+```bash
+#演示命令如下，参数必须与之对应
+./install.sh "redis_pass" "secret_key_required_for_account_registration" "forget_password_key" "test.medusa.ascotbe.com" "test.dnslog.ascotbe.com" "smtp.163.com" "ascotbe@163.com" "third_party_mail_pass" "smtp.ascotbe.com" "ascotbe@ascotbe.com"
+```
 
-  ```bash
-  docker build -t medusa_web .
-  docker run -d -i -t --name  medusa -p 8082:8082 -p 9999:9999 medusa_web 
-  ```
-
-> 所有的注册KEY都是默认的，可以在config.py文件中找到
-
-执行完命令访问`http://127.0.0.1:8082`即可，如果是服务器访问`http://你服务器IP:8082`

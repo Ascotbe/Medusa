@@ -99,5 +99,5 @@ if [[ `uname` == 'Linux' ]]; then
     echo -e "#\!/bin/bash\nredis-server /etc/redis/redis.conf &\npython3 DomainNameSystemServer.py &\ncelery -A Web worker --loglevel=info --pool=solo &\nnginx\npython3 manage.py runserver 0.0.0.0:9999 --insecure --noreload" >>run.sh
     tar zcvf Medusa.tat.gz *
     sudo docker build -t medusa_web .
-    sudo docker run -d -i -t --name  medusa -p 80:80 -p 443:443 -p 53:53 -p 9999:9999 medusa_web
+    sudo docker run -d -i -t --name  medusa --net=host medusa_web
 fi

@@ -8,7 +8,7 @@
      16, { xs: 4, sm: 8, md: 12, lg: 16 }
     ]"
   >
-    <a-col :xs="{ span: 24 }" :lg="{ span: 24 }">
+    <a-col :xs="{ span: 24 }" :lg="{ span: 12 }">
       <Card :name="'项目代码'" :bodyStyle="bodyStyle">
         <template slot="extraCard">
           <a-button type="primary" @click="handleSave">确认保存</a-button>
@@ -22,7 +22,7 @@
         />
       </Card>
     </a-col>
-    <a-col :xs="{ span: 24 }" :lg="{ span: 24 }">
+    <a-col :xs="{ span: 24 }" :lg="{ span: 12 }">
       <Card :name="'将如下代码植入怀疑出现xss的地方'" :bodyStyle="bodyStyle">
         <MarkdownPreview theme="oneDark" :initialValue="markdownData.the_first_use" />
       </Card>
@@ -87,18 +87,22 @@ export default {
         table: false,
         checked: false,
         notChecked: false,
+        code: false,
+        preview: false
       },
-      projectCode: '```\n请在这内部添加代码\n```',
+      projectCode: '',
       markdownData: {}
     }
   },
   mounted () {
+    // console.log()
     const _this = this
     if (_this.projectAssociatedFileName == '' || _this.projectAssociatedFileName == undefined || _this.projectAssociatedFileName == null) {
       _this.$message.warn('请从项目管理进入')
       _this.$router.push('ProjectManagement')
       return
     }
+    _this.$refs.Markdown.split = false
     _this.handleQueeryProjectInfo()
   },
   methods: {
@@ -111,7 +115,7 @@ export default {
       _this.$api.query_script_project_info(params).then((res) => {
         if (res.code = 200) {
           for (const key in res.message) {
-            if (key == 'project_associated_file_data') _this.projectCode = "```" + `\n${_this.QJBase64Decode(res.message[key])}\n` + "```"
+            if (key == 'project_associated_file_data') _this.projectCode = _this.QJBase64Decode(res.message[key])
             else res.message[key] = "```" + `\n${res.message[key]}\n` + "```"
           }
           _this.markdownData = { ...res.message }
@@ -121,16 +125,16 @@ export default {
     },
     handleSave () {
       const _this = this
-      if (_this.projectCode.indexOf("```\n") != 0 || _this.projectCode.indexOf("\n```") != _this.projectCode.length - 4) {
-        _this.$message.warn('```\n您没有在添加代码\n```')
-        return
-      }
-      const projectCode = _this.projectCode.replace(/```\n/g, "").replace(/\n```/g, "")
+      // if (_this.projectCode.indexOf("```\n") != 0 || _this.projectCode.indexOf("\n```") != _this.projectCode.length - 4) {
+      //   _this.$message.warn('```\n您没有在添加代码\n```')
+      //   return
+      // }
+      // const projectCode = _this.projectCode.replace(/```\n/g, "").replace(/\n```/g, "")
       console.log(projectCode)
       const params = {
         token: _this.token,
         project_associated_file_name: _this.projectAssociatedFileName,
-        project_associated_file_data: _this.QJBase64Encode(projectCode),
+        project_associated_file_data: _this.QJBase64Encode(_this.projectCode),
       };
       this.$api.modify_cross_site_script_project(params).then((res) => {
         if (res.code) {

@@ -183,7 +183,9 @@ export default {
         }
       })
     },
-    handleForget () { },
+    handleForget () {
+      this.$router.push('./ForgetPassWord')
+    },
     handleRegister () {
       this.$router.push('./Register')
     }

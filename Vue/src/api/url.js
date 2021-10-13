@@ -58,7 +58,8 @@ export const URL_POST_READ_SCRIPT_TEMPLATE = `/read_cross_site_script_template/`
 export const URL_POST_READ_DEFAULT_SCRIPT_TEMPLATE = `/read_default_cross_site_script_template/`// 读取默认跨站脚本模板数据
 export const URL_POST_SAVE_CROSS_SITE_SCRIPT_TEMPLATE = `/save_cross_site_script_template/`// 保存用户自定义跨站脚本模板数据
 export const URL_POST_MODIFY_CROSS_SITE_SCRIPT_TEMPLATE = `/modify_cross_site_script_template/`// 修改用户自定义跨站脚本模板数据 
-
+export const URL_POST_DELETE_CROSS_SITE_SCRIPT_TEMPLATE = `/delete_cross_site_script_template/`//删除用户自定义模板数据
+export const URL_POST_DELETE_CROSS_SITE_SCRIPT_PROJECT = `/delete_cross_site_script_project/`//删除跨站脚本钓鱼项目
 
 
 

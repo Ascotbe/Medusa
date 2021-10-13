@@ -105,7 +105,7 @@ export default {
               msg: "模板管理",
             },
             {
-              key: "customTemplate",
+              key: "PrivateTemplate",
               msg: "创建自定义模板",
             },
           ],

@@ -1,5 +1,6 @@
 <template>
   <img
+    class="verificationCode"
     :src="verificationCodePath"
     @click="handleVerificationCode"
     width="100%"
@@ -9,16 +10,16 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       verificationCodePath: "",
     };
   },
-  mounted() {
+  mounted () {
     this.handleVerificationCode();
   },
   methods: {
-    async handleVerificationCode() {
+    async handleVerificationCode () {
       this.verificationCodePath = await this.$api
         .get_verification_code()
         .then((res) => {
@@ -29,5 +30,8 @@ export default {
 };
 </script>
 
-<style>
+<style lang="less" scoped>
+.verificationCode {
+  cursor: pointer;
+}
 </style>

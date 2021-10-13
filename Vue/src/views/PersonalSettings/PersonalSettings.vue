@@ -19,7 +19,7 @@
       <a-col :span="24">{{userinfo.name}}</a-col>
       <a-col :span="24">{{userinfo.email}}</a-col>
       <a-col :span="24">
-        <a-button type="primary" style="margin-right:15px">修改密码</a-button>
+        <a-button type="primary" style="margin-right:15px" @click="handleRevisePassWord">修改密码</a-button>
         <a-upload
           name="file"
           @change="handleHeaderPhoto"
@@ -130,7 +130,6 @@ export default {
     handleCustomRequest (file) {
       let params = new FormData();
       params.append("file", file.file);
-      console.log(params);
       let progress = {
         percent: 0,
       };
@@ -167,6 +166,10 @@ export default {
           if (item.store == key) item.nav = now[key]
         }
       })
+    },
+    handleRevisePassWord () {
+      const _this = this
+      _this.$router.push('/RevisePassWord')
     }
   },
   watch: {

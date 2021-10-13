@@ -54,7 +54,8 @@ import {
   URL_POST_READ_DEFAULT_SCRIPT_TEMPLATE,
   URL_POST_SAVE_CROSS_SITE_SCRIPT_TEMPLATE,
   URL_POST_MODIFY_CROSS_SITE_SCRIPT_TEMPLATE,
-
+  URL_POST_DELETE_CROSS_SITE_SCRIPT_TEMPLATE,
+  URL_POST_DELETE_CROSS_SITE_SCRIPT_PROJECT,
 
   //协同作战
   URL_POST_CREATE_MARKDOWN_PROJECT,
@@ -70,6 +71,7 @@ import {
 import store from '@/store'
 
 const api = {
+  // *******用户*****
   // 登陆接口
   async login (params) {
     let response = await post(URL_POST_LOGIN, params, {
@@ -92,46 +94,9 @@ const api = {
     })
     return response
   },
-
   // 忘记密码
   async forget_password (params) {
     let response = await post(URL_POST_FORGET_PASSWORD, params, {
-      headers: {}
-    })
-    return response
-  },
-  // 扫描任务下发接口
-  async scanning (params) {
-    let response = await post(URL_POST_SCANNING, params, {
-      headers: {}
-    })
-    return response
-  },
-  //列表接口
-  async list_query (params) {
-    let response = await post(URL_POST_LIST_QUERY, params, {
-      headers: {}
-    })
-    return response
-  },
-  //主动扫描端口查询
-  async port_information (params) {
-    let response = await post(URL_POST_PORT_INFORMATION, params, {
-      headers: {}
-    })
-    return response
-  },
-
-  //主动扫描目标漏洞列表查询接口
-  async imfomation_query (params) {
-    let response = await post(URL_POST_INFOMATION_QUERY, params, {
-      headers: {}
-    })
-    return response
-  },
-  //主动扫描目标单个漏洞详细内容查询接口
-  async medusa_query (params) {
-    let response = await post(URL_POST_MEDUSA_QUERY, params, {
       headers: {}
     })
     return response
@@ -152,6 +117,21 @@ const api = {
     })
     return response
   },
+  //上传头像
+  async upload_avatar (params) {
+    console.log(store.state.UserStore.token)
+    let response = await post(URL_POST_UPLOAD_AVATAR, params, {
+      headers: {
+        token: store.state.UserStore.token
+      }
+    })
+    return response
+  },
+  // *******用户结束*****
+
+
+
+  // *******首页*****
   //首页内容
   async homepage_data (params) {
     let response = await post(URL_POST_HOMEPAGE_DEFAULT_DATA, params, {
@@ -173,19 +153,47 @@ const api = {
     })
     return response
   },
-
-  //上传头像
-  async upload_avatar (params) {
-    console.log(store.state.UserStore.token)
-    let response = await post(URL_POST_UPLOAD_AVATAR, params, {
-      headers: {
-        token: store.state.UserStore.token
-      }
+  // 获取当前机器基础信息
+  async hardware_initialization (params) {
+    let response = await post(URL_POST_HARDWARE_INITIALIZATION, params, {
+      headers: {}
     })
     return response
   },
+  // 获取当前机器CPU和内存使用率
+  async hardware_usage_query (params) {
+    let response = await post(URL_POST_HARDWARE_USAGE_QUERY, params, {
+      headers: {}
+    })
+    return response
+  },
+  // *******首页结束*****
 
-  //github监控
+
+
+  // *******cve监控*****
+  //cve监控监控精简数据查询
+  async nist_data_bulk_query (params) {
+    let response = await post(URL_POST_NIST_DATA_BULK_QUERY, params, {
+      headers: {}
+    })
+    return response
+  },
+  //cve监控模糊查询
+  async nist_search_statistics (params) {
+    let response = await post(URL_POST_NIST_SEARCH_STATISTICS, params, {
+      headers: {}
+    })
+    return response
+  },
+  //cve监控模糊查询
+  async nist_search (params) {
+    let response = await post(URL_POST_NIST_SEARCH, params, {
+      headers: {}
+    })
+    return response
+  },
+  //github监控(废弃)
   async github_monitor (params) {
     let response = await post(URL_POST_GITHUB_MONITOR, params, {
       headers: {
@@ -194,7 +202,7 @@ const api = {
     })
     return response
   },
-  //github监控
+  //GitHub监控接口
   async github_monitor_search (params) {
     let response = await post(URL_POST_GITHUB_MONITOR_SEARCH, params, {
       headers: {
@@ -203,109 +211,25 @@ const api = {
     })
     return response
   },
-  //创建钓鱼脚本项目
-  async create_script_project (params) {
-    let response = await post(URL_POST_CREATE_SCRIPT_PROJECT, params, {
-      headers: {
-
-      }
-    })
-    return response
-  },
-  //查询钓鱼脚本项目
-  async query_script_project (params) {
-    let response = await post(URL_POST_QUERY_SCRIPT_PROJECT, params, {
-      headers: {
-
-      }
-    })
-    return response
-  },
-  // 查询跨站脚本钓鱼项目中数据
-  async query_script_project_data (params) {
-    let response = await post(URL_POST_QUERY_SCRIPT_PROJECT_DATA, params, {
-      headers: {
-
-      }
-    })
-    return response
-  },
-  // 查询跨站脚本钓鱼项目中详细信息
-
-  async query_script_project_info (params) {
-    let response = await post(URL_POST_QUERY_SCRIPT_PROJECT_INFO, params, {
-      headers: {
-
-      }
-    })
-    return response
-  },
-
-  // 修改跨站脚本钓鱼项目中详细信息
-  async modify_cross_site_script_project (params) {
-    let response = await post(URL_POST_MODIFY_CROSS_SITE_SCRIPT_PROJECT, params, {
-      headers: {
-
-      }
-    })
-    return response
-  },
-  //读取用户自定义跨站脚本模板数据
-  async read_script_template (params) {
-    let response = await post(URL_POST_READ_SCRIPT_TEMPLATE, params, {
-      headers: {
-
-      }
-    })
-    return response
-  },
-  // 获取当前机器基础信息
-  async hardware_initialization (params) {
-    let response = await post(URL_POST_HARDWARE_INITIALIZATION, params, {
+  //获取CVE编号数据个数
+  async nist_statistics (params) {
+    let response = await post(URL_POST_NIST_STATISTICS, params, {
       headers: {}
     })
     return response
   },
-
-  // 获取当前机器CPU和内存使用率
-  async hardware_usage_query (params) {
-    let response = await post(URL_POST_HARDWARE_USAGE_QUERY, params, {
+  //单个CVE详情查询
+  async nist_data_detailed_query (params) {
+    let response = await post(URL_POST_NIST_DATA_DETAILED_QUERY, params, {
       headers: {}
     })
     return response
   },
+  // *******cve监控结束*****
 
 
 
-  //读取默认跨站脚本模板数据
-  async read_default_script_template (params) {
-    let response = await post(URL_POST_READ_DEFAULT_SCRIPT_TEMPLATE, params, {
-      headers: {
-
-      }
-    })
-    return response
-  },
-
-  // 保存用户自定义跨站脚本模板数据
-  async save_cross_site_script_template (params) {
-    let response = await post(URL_POST_SAVE_CROSS_SITE_SCRIPT_TEMPLATE, params, {
-      headers: {
-
-      }
-    })
-    return response
-  },
-
-  // 修改用户自定义跨站脚本模板数据
-  async modify_cross_site_script_template (params) {
-    let response = await post(URL_POST_MODIFY_CROSS_SITE_SCRIPT_TEMPLATE, params, {
-      headers: {}
-    })
-    return response
-  },
-
-
+  // *******协同作战*****
   // 创建协同作战项目
   async create_markdown_project (params) {
     let response = await post(URL_POST_CREATE_MARKDOWN_PROJECT, params, {
@@ -350,13 +274,167 @@ const api = {
     })
     return response
   },
-  // 加入协同作战项目
+  // 加入协同作战项目(废弃)
   async join_markdown_project (params) {
     let response = await post(URL_POST_JOIN_MARKDOWN_PROJECT, params, {
       headers: {}
     })
     return response
   },
+  // 加入协同作战项目
+  async markdown_project_statistical (params) {
+    let response = await post(URL_POST_MARKDOWN_PROJECT_STATISTICAL, params, {
+      headers: {}
+    })
+    return response
+  },
+  // *******协同作战结束*****
+
+
+
+  // *******XSS平台*****
+  //创建钓鱼脚本项目
+  async create_script_project (params) {
+    let response = await post(URL_POST_CREATE_SCRIPT_PROJECT, params, {
+      headers: {}
+    })
+    return response
+  },
+  //查询钓鱼脚本项目
+  async query_script_project (params) {
+    let response = await post(URL_POST_QUERY_SCRIPT_PROJECT, params, {
+      headers: {}
+    })
+    return response
+  },
+  // 查询跨站脚本钓鱼项目中数据
+  async query_script_project_data (params) {
+    let response = await post(URL_POST_QUERY_SCRIPT_PROJECT_DATA, params, {
+      headers: {}
+    })
+    return response
+  },
+  // 查询跨站脚本钓鱼项目中详细信息
+  async query_script_project_info (params) {
+    let response = await post(URL_POST_QUERY_SCRIPT_PROJECT_INFO, params, {
+      headers: {}
+    })
+    return response
+  },
+  // 修改跨站脚本钓鱼项目中详细信息
+  async modify_cross_site_script_project (params) {
+    let response = await post(URL_POST_MODIFY_CROSS_SITE_SCRIPT_PROJECT, params, {
+      headers: {}
+    })
+    return response
+  },
+  //读取用户自定义跨站脚本模板数据
+  async read_script_template (params) {
+    let response = await post(URL_POST_READ_SCRIPT_TEMPLATE, params, {
+      headers: {}
+    })
+    return response
+  },
+  //读取默认跨站脚本模板数据
+  async read_default_script_template (params) {
+    let response = await post(URL_POST_READ_DEFAULT_SCRIPT_TEMPLATE, params, {
+      headers: {}
+    })
+    return response
+  },
+  // 保存用户自定义跨站脚本模板数据
+  async save_cross_site_script_template (params) {
+    let response = await post(URL_POST_SAVE_CROSS_SITE_SCRIPT_TEMPLATE, params, {
+      headers: {}
+    })
+    return response
+  },
+  // 修改用户自定义跨站脚本模板数据
+  async modify_cross_site_script_template (params) {
+    let response = await post(URL_POST_MODIFY_CROSS_SITE_SCRIPT_TEMPLATE, params, {
+      headers: {}
+    })
+    return response
+  },
+  // 删除用户自定义模板数据
+  async delete_cross_site_script_template (params) {
+    let response = await post(URL_POST_DELETE_CROSS_SITE_SCRIPT_TEMPLATE, params, {
+      headers: {}
+    })
+    return response
+  },
+  // 删除跨站脚本钓鱼项目
+  async delete_cross_site_script_project (params) {
+    let response = await post(URL_POST_DELETE_CROSS_SITE_SCRIPT_PROJECT, params, {
+      headers: {}
+    })
+    return response
+  },
+  // 统计跨站脚本钓鱼项目中数据
+  async statistical_cross_site_script_project_data (params) {
+    let response = await post(URL_POST_STATISTICAL_CROSS_SITE_SCRIPT_PROJECT_DATA, params, {
+      headers: {}
+    })
+    return response
+  },
+  // 统计跨站脚本钓鱼项目个数
+  async statistical_cross_site_script_project (params) {
+    let response = await post(URL_POST_STATISTICAL_CROSS_SITE_SCRIPT_PROJECT, params, {
+      headers: {}
+    })
+    return response
+  },
+  // *******XSS平台结束*****
+
+
+
+
+
+
+
+  // 扫描任务下发接口
+  async scanning (params) {
+    let response = await post(URL_POST_SCANNING, params, {
+      headers: {}
+    })
+    return response
+  },
+  //列表接口
+  async list_query (params) {
+    let response = await post(URL_POST_LIST_QUERY, params, {
+      headers: {}
+    })
+    return response
+  },
+  //主动扫描端口查询
+  async port_information (params) {
+    let response = await post(URL_POST_PORT_INFORMATION, params, {
+      headers: {}
+    })
+    return response
+  },
+  //主动扫描目标漏洞列表查询接口
+  async imfomation_query (params) {
+    let response = await post(URL_POST_INFOMATION_QUERY, params, {
+      headers: {}
+    })
+    return response
+  },
+  //主动扫描目标单个漏洞详细内容查询接口
+  async medusa_query (params) {
+    let response = await post(URL_POST_MEDUSA_QUERY, params, {
+      headers: {}
+    })
+    return response
+  },
+
+
+
+
+
+
+
+
 
   // 杀毒软件进程查询
   async antivirus_software_compared (params) {
@@ -379,55 +457,12 @@ const api = {
     })
     return response
   },
-  async nist_data_bulk_query (params) {
-    let response = await post(URL_POST_NIST_DATA_BULK_QUERY, params, {
-      headers: {}
-    })
-    return response
-  },
-  async nist_statistics (params) {
-    let response = await post(URL_POST_NIST_STATISTICS, params, {
-      headers: {}
-    })
-    return response
-  },
-  async nist_search (params) {
-    let response = await post(URL_POST_NIST_SEARCH, params, {
-      headers: {}
-    })
-    return response
-  },
-  async nist_search_statistics (params) {
-    let response = await post(URL_POST_NIST_SEARCH_STATISTICS, params, {
-      headers: {}
-    })
-    return response
-  },
-  async nist_data_detailed_query (params) {
-    let response = await post(URL_POST_NIST_DATA_DETAILED_QUERY, params, {
-      headers: {}
-    })
-    return response
-  },
-  async markdown_project_statistical (params) {
-    let response = await post(URL_POST_MARKDOWN_PROJECT_STATISTICAL, params, {
-      headers: {}
-    })
-    return response
-  },
 
-  async statistical_cross_site_script_project_data (params) {
-    let response = await post(URL_POST_STATISTICAL_CROSS_SITE_SCRIPT_PROJECT_DATA, params, {
-      headers: {}
-    })
-    return response
-  },
-  async statistical_cross_site_script_project (params) {
-    let response = await post(URL_POST_STATISTICAL_CROSS_SITE_SCRIPT_PROJECT, params, {
-      headers: {}
-    })
-    return response
-  },
+
+
+
+
+
 
 
 }

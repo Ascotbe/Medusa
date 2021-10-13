@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../views/Login/Login.vue'
 import Register from '../views/Register/Register.vue'
+import ForgetPassWord from '../views/ForgetPassWord/ForgetPassWord.vue'
+import RevisePassWord from '../views/RevisePassWord/RevisePassWord.vue'
 import Layout from '../views/Layout/Layout.vue'
 //仪表盘首页
 import Dashboard from '../views/Dashboard/Dashboard.vue'
@@ -25,6 +27,7 @@ import ProjectManagement from '../views/CrossSiteScript/ProjectManagement/Projec
 import QueryProject from '../views/CrossSiteScript/ProjectManagement/part/QueryProject.vue'
 import ModifyProject from '../views/CrossSiteScript/ProjectManagement/part/ModifyProject.vue'
 import TemplateManagement from '../views/CrossSiteScript/TemplateManagement/TemplateManagement.vue'
+import PrivateTemplate from '../views/CrossSiteScript/PrivateTemplate/PrivateTemplate.vue'
 
 
 
@@ -47,6 +50,19 @@ const routes = [
     path: '/register',
     name: 'register',
     component: Register
+  },
+  {
+    path: '/ForgetPassWord',
+    name: 'ForgetPassWord',
+    component: ForgetPassWord
+  },
+  {
+    path: '/RevisePassWord',
+    name: 'RevisePassWord',
+    component: RevisePassWord,
+    meta: {
+      isLogin: true
+    },
   },
   {
     path: '/',
@@ -141,6 +157,11 @@ const routes = [
       path: 'TemplateManagement',
       name: 'TemplateManagement',
       component: TemplateManagement,
+    },
+    {
+      path: 'PrivateTemplate',
+      name: 'PrivateTemplate',
+      component: PrivateTemplate,
     },
     ]
   },

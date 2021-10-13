@@ -1,5 +1,5 @@
 <template>
-  <Win98 ref="win98" @Ok="handleRegister" :task="`Register`">
+  <Win98 ref="win98" @Ok="handleRegister" :task="`Revise PassWord`">
     <a-row
       type="flex"
       justify="center"
@@ -11,19 +11,9 @@
     >
       <a-col :span="24">
         <a-form :form="form" :labelCol="{xs:8,lg:6}" :wrapper-col="{ span: 14,offset:1 }">
-          <a-form-item label="Key">
-            <a-input
-              v-decorator="[
-            'key',
-            { rules: [{ required: true, message: 'Key Cannot be empty' }] }
-          ]"
-            >
-              <a-icon slot="prefix" type="key" style="color: rgba(0, 0, 0, 0.25)" />
-            </a-input>
-          </a-form-item>
-
           <a-form-item label="UserName">
             <a-input
+              disabled
               v-decorator="[
             'username',
             { rules: [{ required: true, message: 'UserName Cannot be empty' }] }
@@ -32,43 +22,35 @@
               <a-icon slot="prefix" type="user" style="color: rgba(0, 0, 0, 0.25)" />
             </a-input>
           </a-form-item>
-          <a-form-item label="show_name">
-            <a-input
-              v-decorator="[
-            'show_name',
-            { rules: [{ required: true, message: 'show_name  Cannot be empty' }] }
-          ]"
-            >
-              <a-icon slot="prefix" type="user" style="color: rgba(0, 0, 0, 0.25)" />
-            </a-input>
-          </a-form-item>
-          <a-form-item label="E-mail">
-            <a-input
-              v-decorator="[
-            'email',
-            { rules: [{ required: true, message: 'E-mail  Cannot be empty' },{type:'email'}] }
-          ]"
-            >
-              <a-icon slot="prefix" type="mail" style="color: rgba(0, 0, 0, 0.25)" />
-            </a-input>
-          </a-form-item>
-          <a-form-item label="Password">
+
+          <a-form-item label="OldPassWord">
             <a-input
               type="password"
               v-decorator="[
-            'passwd',
-            { rules: [{ required: true, message: 'Password Cannot be empty' },{validator:(rule, value, callback)=>this.handlePassWord(rule, value, callback)}] }
+            'old_passwd',
+            { rules: [{ required: true, message: 'OldPassWord Cannot be empty' }] }
           ]"
             >
               <a-icon slot="prefix" type="unlock" style="color: rgba(0, 0, 0, 0.25)" />
             </a-input>
           </a-form-item>
-          <a-form-item label="ConfirmPassword">
+          <a-form-item label="NewPassWord">
+            <a-input
+              type="password"
+              v-decorator="[
+            'new_passwd',
+            {rules: [{ required: true, message: 'NewPassWord Cannot be empty' },{validator:(rule, value, callback)=>this.handlePassWord(rule, value, callback)}] }
+          ]"
+            >
+              <a-icon slot="prefix" type="unlock" style="color: rgba(0, 0, 0, 0.25)" />
+            </a-input>
+          </a-form-item>
+          <a-form-item label="ConfirmPassWord">
             <a-input
               type="password"
               v-decorator="[
             'confirmpasswd',
-            { rules: [{ required: true, message: 'ConfirmPassword  Cannot be empty' },{validator:(rule, value, callback)=>this.handlePassWord(rule, value, callback)}] }
+            { rules: [{ required: true, message: 'ConfirmPassWord  Cannot be empty' },{validator:(rule, value, callback)=>this.handlePassWord(rule, value, callback)}] }
           ]"
             >
               <a-icon slot="prefix" type="unlock" style="color: rgba(0, 0, 0, 0.25)" />
@@ -122,19 +104,18 @@ export default {
       _this.form.validateFields((err, values) => {
         if (!err) {
           const params = {
-            key: values.key,
-            show_name: values.show_name,
             username: values.username,
-            passwd: values.passwd,
-            email: values.email,
+            old_passwd: values.old_passwd,
+            new_passwd: values.new_passwd,
             verification_code_key: _this.verificationcodekey,
             verification_code: values.verificationCode,
           }
-          _this.$api.registered(params).then((res) => {
+          _this.$api.update_password(params).then((res) => {
             if (res.code == 200) {
+              _this.$store.commit('UserStore/setToken', '')
               const success = {
                 title: 'Success',
-                message: 'register has success:是否跳转到登录页?'
+                message: 'register has success:需要重新登录,是否跳转到登录页?'
               }
               const callback = () => {
                 this.$router.push("/login");
@@ -166,7 +147,7 @@ export default {
         callback('Is Null')
       }
       else {
-        if (rule.field == 'passwd') {
+        if (rule.field == 'new_passwd') {
           if (value == form.confirmpasswd) {
             _this.checkPasswd = true
             if (_this.checkConfirmPasswd && _this.checkPasswd) {
@@ -184,14 +165,14 @@ export default {
           }
         }
         else if (rule.field == 'confirmpasswd') {
-          if (value == form.passwd) {
+          if (value == form.new_passwd) {
             _this.checkConfirmPasswd = true
             if (_this.checkConfirmPasswd && _this.checkPasswd) {
               _this.checkConfirmPasswd = false
               _this.checkPasswd = false
             }
             else {
-              _this.form.validateFields(["passwd"])
+              _this.form.validateFields(["new_passwd"])
             }
             callback()
           }
@@ -203,7 +184,12 @@ export default {
       }
 
     }
+  },
+  mounted () {
+    const _this = this
+    _this.form.setFieldsValue({ username: _this.userinfo.name })
   }
+
 }
 </script>
 

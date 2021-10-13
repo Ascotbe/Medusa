@@ -120,19 +120,21 @@ export default {
         token: _this.token,
         number_of_pages: _this.current
       };
-      this.$api.query_markdown_project(params).then((res) => {
-        if (res.code = 200) {
-          _this.data = res.message
-          const params = {
-            token: _this.token,
-          };
-          _this.$api.markdown_project_statistical(params).then((res) => {
-            if (res.code = 200) _this.total = res.message
-            else _this.$message.error(res.message)
-          })
-        }
-        else _this.$message.error(res.message)
-      })
+      this.$api.query_markdown_project(params)
+        .then((res) => {
+          if (res.code = 200) {
+            _this.data = res.message
+            const params = {
+              token: _this.token,
+            };
+            return _this.$api.markdown_project_statistical(params)
+          }
+          else _this.$message.error(res.message)
+        })
+        .then((res) => {
+          if (res.code = 200) _this.total = res.message
+          else _this.$message.error(res.message)
+        })
     },
 
     handleChange (pagination) {

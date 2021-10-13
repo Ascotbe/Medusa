@@ -56,7 +56,7 @@
           :rowKey="`vulnerability_number`"
           :showExpandedRowKeys="true"
           @change="handleChange"
-          :callback="handleCallback"
+          :ExpandedRowRenderCallback="handleCallback"
         ></Tables>
       </Card>
     </a-col>
@@ -213,11 +213,11 @@ export default {
       const _this = this
       const form = _this.form.getFieldsValue()
       if (form.severity && !form.key) {
-        _this.$message.warn('如药进行查询，请填写2个搜索哦条件')
+        _this.$message.warn('如要进行查询，请填写2个搜索条件')
         return
       }
       if (!form.severity && form.key) {
-        _this.$message.warn('如药进行查询，请填写2个搜索哦条件')
+        _this.$message.warn('如要进行查询，请填写2个搜索条件')
         return
       }
       if (form.severity || form.key) {
@@ -285,6 +285,7 @@ export default {
       let arr = text ? eval('(' + text + ')') : []
       let dom = ''
       if (arr.length > 0) {
+        arr = Array.from(new Set(arr))
         dom = arr.map((item) => {
           return <a-tag color="green" v-on:click={() => {
             this.handleClickVendorsAndProducts(item)//暂时没用

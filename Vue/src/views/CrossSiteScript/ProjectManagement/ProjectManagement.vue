@@ -66,11 +66,15 @@ export default {
           //   customRender: "action",
           // },
           customRender: (text, record, index) => {
-            return [<a v-on:click={() => {
-              this.handleSerch(record)
-            }}>查询</a>, <a-divider type="vertical" />, <a v-on:click={() => {
-              this.handleDetails(record)
-            }}>修改</a>]
+            return [
+              <a v-on:click={() => {
+                this.handleSerch(record)
+              }}>查询</a>, <a-divider type="vertical" />, <a v-on:click={() => {
+                this.handleDetails(record)
+              }}>修改</a>, <a-divider type="vertical" />, <a v-on:click={() => {
+                this.handleDelete(record)
+              }}>删除</a>
+            ]
           }
         },
       ],
@@ -90,7 +94,7 @@ export default {
     _this.handleQueryScriptProject()
   },
   methods: {
-    handleQueryScriptProject () {
+    handleQueryScriptProject () {//查询表格信息
       const _this = this
       const params = {
         token: _this.token,
@@ -122,12 +126,12 @@ export default {
         else _this.$message.error(res.message);
       })
     },
-    handleChange (pagination) {
+    handleChange (pagination) {//分页change
       const _this = this
       _this.current = pagination.current
       _this.handleQueryScriptProject()
     },
-    handleRenderCapacity (text, record, index) {
+    handleRenderCapacity (text, record, index) {//容量的渲染
       return <a-progress
         type="line"
         status="normal"
@@ -140,15 +144,30 @@ export default {
       >
       </a-progress>
     },
-    handleSerch (record) {
+    handleSerch (record) {//查看项目详情
       const _this = this
       _this.$store.dispatch('CrossSiteScriptStore/setProjectAssociatedFileName', record.file_name)
       _this.$router.push("QueryProject")
     },
-    handleDetails (record) {
+    handleDetails (record) {//进入项目修改页面
       const _this = this
       _this.$store.dispatch('CrossSiteScriptStore/setProjectAssociatedFileName', record.file_name)
       _this.$router.push("ModifyProject")
+    },
+    handleDelete (record) {//项目删除
+      const _this = this
+      const params = {
+        token: _this.token,
+        project_name: record.project_name
+      };
+      _this.$api.delete_cross_site_script_project(params).then((res) => {
+        if (res.code == 200) {
+          _this.$message.success("项目删除成功");
+          _this.handleQueryScriptProject()
+        } else {
+          _this.$message.error(res.message);
+        }
+      });
     }
   }
 

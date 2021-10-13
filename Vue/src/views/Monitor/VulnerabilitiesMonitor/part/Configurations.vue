@@ -59,8 +59,6 @@ export default {
               props: {
                 xs: items.cpe_match.length == 1 ? 24 : 22
               },
-              style: {
-              }
             },
               items.children.length > 0 ? _this.handleCreateConfigurations(items.children, h, true) : items.cpe_match.map((item) => {
                 return h('a-col', {
@@ -78,7 +76,6 @@ export default {
               props: {
                 xs: 24
               },
-
             }) : '',
           ]
         )

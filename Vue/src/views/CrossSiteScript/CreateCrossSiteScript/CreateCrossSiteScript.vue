@@ -8,12 +8,7 @@
      16, { xs: 4, sm: 8, md: 12, lg: 16 }
     ]"
   >
-    <a-col :xs="{ span: 12 }" :lg="{ span: 24 }">
-      <Card :name="`模板内容`" :bodyStyle="bodyStyle">
-        <MarkdownPreview theme="oneDark" :initialValue="markdownData" />
-      </Card>
-    </a-col>
-    <a-col :xs="{ span: 12 }" :lg="{ span: 24 }">
+    <a-col :xs="{ span: 24 }" :lg="{ span: 12 }">
       <Card :name="`项目基本信息`" :bodyStyle="bodyStyle">
         <a-form
           :form="XSSForm"
@@ -44,6 +39,11 @@
           </a-col>
         </a-form>
       </Card>
+      <Card :name="`模板内容`" :bodyStyle="bodyStyle">
+        <MarkdownPreview theme="oneDark" :initialValue="markdownData" />
+      </Card>
+    </a-col>
+    <a-col :xs="{ span: 24 }" :lg="{ span: 12 }">
       <Card :name="`脚本数据(请输入代码)`" :bodyStyle="bodyStyle">
         <template slot="extraCard">
           <a-button @click="handleInsert">插入模板</a-button>
@@ -52,7 +52,7 @@
         </template>
         <MarkdownPro
           v-model="scriptData"
-          ref="Markdown"
+          ref="MarkdownPro"
           theme="oneDark"
           :autoSave="false"
           :toolbars="toolbars"
@@ -73,7 +73,7 @@ export default {
     return {
       markdownData: '',//模板展示数据
       templateData: '',//模板实际插入数据
-      scriptData: '```\n请在这内部添加代码\n```',//脚本数据
+      scriptData: '',//脚本数据
       toolbars: {
         importmd: false,
         exportmd: false,
@@ -99,6 +99,8 @@ export default {
         table: false,
         checked: false,
         notChecked: false,
+        code: false,
+        preview: false
       },
       bodyStyle: {
         borderTop: '3px solid #51c51a',
@@ -118,10 +120,11 @@ export default {
     const _this = this
     _this.markdownData = "```" + `\n${string}\n` + "```"
     _this.templateData = string
+    _this.$refs.MarkdownPro.split = false
     _this.handleTemplateOption()
   },
   methods: {
-    handleTemplateOption () {
+    handleTemplateOption () {//查询模板信息
       const _this = this
       const params = {
         token: _this.token,
@@ -141,27 +144,27 @@ export default {
         }
       });
     },
-    handleTemplateChange (value) {
+    handleTemplateChange (value) {//选择模板的回调
       const _this = this
       _this.markdownData = "```" + `\n${_this.QJBase64Decode(value)}\n` + "```"
       _this.templateData = _this.QJBase64Decode(value)
     },
-    handleInsert () {
+    handleInsert () {//插入模板
       const _this = this
-      _this.$refs.Markdown.insertContent(_this.templateData)
+      _this.$refs.MarkdownPro.insertContent(_this.templateData)
     },
-    handleCreate () {
+    handleCreate () {//创建项目
       const _this = this
       _this.XSSForm.validateFields((err, values) => {
         if (!err) {
-          if (_this.scriptData.indexOf("```\n") != 0 || _this.scriptData.indexOf("\n```") != _this.scriptData.length - 4) {
-            _this.$message.warn('```\n您没有在添加代码\n```')
-            return
-          }
-          const javascript_data = _this.scriptData.replace(/```\n/g, "").replace(/\n```/g, "")
+          // if (_this.scriptData.indexOf("```\n") != 0 || _this.scriptData.indexOf("\n```") != _this.scriptData.length - 4) {
+          //   _this.$message.warn('```\n您没有在添加代码\n```')
+          //   return
+          // }
+          // const javascript_data = _this.scriptData.replace(/```\n/g, "").replace(/\n```/g, "")
           const params = {
             project_name: values.projectName,
-            javascript_data: _this.QJBase64Encode(javascript_data),
+            javascript_data: _this.QJBase64Encode(_this.scriptData),
             token: _this.token,
           }
           _this.$api.create_script_project(params).then((res) => {

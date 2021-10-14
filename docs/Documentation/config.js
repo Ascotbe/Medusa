@@ -21,32 +21,32 @@ let config = {
             title: '插件编写', type: 'dropdown', items: [
                 {   title: '3.9(当前版本)', path: '/PocVersion/3.9/PocWriting'
             },
-                {   title: '3.8', path: '/PocVersion/3.8/PocWriting'
-            },
-				{   title: '3.7', path: '/PocVersion/3.7/PocWriting'
-                },
-                {   title: '3.6', path: '/PocVersion/3.6/PocWriting'
-            },
-                {   title: '3.5', path: '/PocVersion/3.5/PocWriting'
-                },
-				{   title: '3.4', path: '/PocVersion/3.4/PocWriting'
-                },
-				{   title: '3.3', path: '/PocVersion/3.3/PocWriting'
-                },
-				{   title: '3.2', path: '/PocVersion/3.2/PocWriting'
-                },
-				{   title: '3.1', path: '/PocVersion/3.1/PocWriting'
-                },
-				{   title: '3.0', path: '/PocVersion/3.0/PocWriting'
-                },
-			    {   title: '2.9', path: '/PocVersion/2.9/PocWriting'
-                },
-                {
-                    title: '2.8', path: '/PocVersion/2.8/PocWriting'
-                },
-				{
-                    title: '2.7', path: '/PocVersion/2.7/PocWriting'
-                },
+            //     {   title: '3.8', path: '/PocVersion/3.8/PocWriting'
+            // },
+			// 	{   title: '3.7', path: '/PocVersion/3.7/PocWriting'
+            //     },
+            //     {   title: '3.6', path: '/PocVersion/3.6/PocWriting'
+            // },
+            //     {   title: '3.5', path: '/PocVersion/3.5/PocWriting'
+            //     },
+			// 	{   title: '3.4', path: '/PocVersion/3.4/PocWriting'
+            //     },
+			// 	{   title: '3.3', path: '/PocVersion/3.3/PocWriting'
+            //     },
+			// 	{   title: '3.2', path: '/PocVersion/3.2/PocWriting'
+            //     },
+			// 	{   title: '3.1', path: '/PocVersion/3.1/PocWriting'
+            //     },
+			// 	{   title: '3.0', path: '/PocVersion/3.0/PocWriting'
+            //     },
+			//     {   title: '2.9', path: '/PocVersion/2.9/PocWriting'
+            //     },
+            //     {
+            //         title: '2.8', path: '/PocVersion/2.8/PocWriting'
+            //     },
+			// 	{
+            //         title: '2.7', path: '/PocVersion/2.7/PocWriting'
+            //     },
             ]
         },
         {
@@ -81,9 +81,9 @@ let config = {
                 // {
                 //     title: '主动扫描', path: '/API/ActiveScanning'
                 // },
-                {
-                    title: '被动扫描', path: '/API/PassiveScanning'
-                },
+                // {
+                //     title: '被动扫描', path: '/API/PassiveScanning'
+                // },
                 {
                     title: '验证码', path: '/API/VerificationCode'
                 },
@@ -95,6 +95,9 @@ let config = {
                 },
                 {
                     title: '邮件发送相关', path: '/API/Email'
+                },
+                {
+                    title: '配置信息', path: '/API/Information'
                 },
                 
             ]

@@ -17,7 +17,7 @@ Including another URLconf
 """
 from django.urls import path,re_path
 #from Web.BasicFunctions import VulnerabilityScanning,VulnerabilityQuery,GenerateReport
-from Web.BasicFunctions import Registered,User,ProxyScan,Home,VerificationCode
+from Web.BasicFunctions import Registered,User,ProxyScan,Home,VerificationCode,Information
 from Web.CrossSiteScriptHub import CrossSiteScript,TemplateManagement
 from Web.SystemInfo import HardwareInfo
 from Web.CommonVulnerabilitiesAndExposuresMonitor.VulnerabilityUtilizationMonitoring import Github
@@ -118,4 +118,6 @@ urlpatterns = [
     re_path(r'^b/().*?/$', FishingData.Monitor),  # 邮件钓鱼数据监控
     path('api/fishing_data_details/', FishingData.FishingDataDetails),  # 钓鱼获取数据详情
     path('api/fishing_data_statistics/', FishingData.FishingDataStatistics),  # 钓鱼获取数据统计
+    #项目相关信息
+    path('api/medusa_info/', Information.Config),  # 获取项目相关数据
 ]

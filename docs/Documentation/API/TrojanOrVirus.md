@@ -260,15 +260,17 @@
 
 `/api/trojan_file_download_verification/` 
 
-```json
-{
-	"token": "xxx",
-	"trojan_id":"1",
-	"trojan_generate_file_name":"xxxx.exe"
-}
+```http
+GET /api/trojan_file_download_verification/ HTTP/1.1
+Host: 127.0.0.1
+TrojanId:3
+TrojanGenerateFileName:atAVJ1634304342.dll
+Token:qnHqFPQPuaQWZZxcqsFbgb7ojnPcRYX2npKlBEyHumcHuQvFFKxNuKUV6pdGccyDXhM42Tf5kg7GoKXnAxeO8YIOXk3sppchjpBvkoX5ZOeEYUWDGDgpGgsSOPC2qbVSAPGOJvCxasJglK6lr3awucxxagLxIob3VBc37ezlP6nIVRO9ZFgla4d3F81chM4k4umC4nwgQp741XqmNIkCHGC29e6hNZtMth29g245Y4dxLbGrqO8eM6uSZw
 ```
 
 > 参数解释
+
+参数放到header头中验证
 
 - `token`登录后返回的**token**
 - `trojan_id`通过`api/trojan_data_query`接口获取的值

@@ -366,11 +366,11 @@ def TrojanDataStatistical(request):#个人用户数据统计
 
 def TrojanFileDownloadVerification(request):#木马文件下载验证接口
     RequestLogRecord(request, request_api="trojan_file_download_verification")
-    if request.method == "POST":
+    if request.method == "GET":
         try:
-            Token=json.loads(request.body)["token"]
-            TrojanId = json.loads(request.body)["trojan_id"]
-            TrojanGenerateFileName = json.loads(request.body)["trojan_generate_file_name"]
+            Token = request.headers["Token"]
+            TrojanId = request.headers["TrojanId"]
+            TrojanGenerateFileName = request.headers["TrojanGenerateFileName"]
             Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
             if Uid != None:  # 查到了UID
                 UserOperationLogRecord(request, request_api="trojan_file_download_verification", uid=Uid)
@@ -389,4 +389,4 @@ def TrojanFileDownloadVerification(request):#木马文件下载验证接口
             return JsonResponse({'message': "呐呐呐！莎酱被玩坏啦(>^ω^<)", 'code': 169, })
 
     else:
-        return JsonResponse({'message': '请使用Post请求', 'code': 500, })
+        return JsonResponse({'message': '请使用Get请求', 'code': 500, })

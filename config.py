@@ -2,15 +2,9 @@
 # -*- coding: utf-8 -*-
 #########################################################################
 #DNSLOG配置
-#没有的可以去ceye中申请，http://ceye.io/
-#如果使用的是ceye模式，没有改为你的Key会导致有些远程命令执行无法检测
-#默认使用的是dnslog.cn模式
-#dnslog目前包括(dnslog.cn,ceye)
-#稳定性ceye>dnslog.cn
 #########################################################################
+#默认使用的是dnslog.cn模式
 dnslog_name="dnslog.cn"#切换使用那个dnslog
-ceye_dnslog_url="XXXXX.ceye.io"
-ceye_dnslog_key="XXXXXXXXXXXXXXXXXXXXXXXX"
 
 #########################################################################
 #Debug模式切换位置
@@ -133,3 +127,8 @@ third_party_mail_pass = "hello_medusa"  #第三方口令
 
 local_mail_host= "smtp.ascotbe.com"# 设本地的服务器
 local_mail_user= "ascotbe@ascotbe.com" # 用户名
+
+#########################################################################
+#关于页面配置
+#########################################################################
+version="v1.0.72"

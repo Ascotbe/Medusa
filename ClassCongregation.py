@@ -19,7 +19,7 @@ import threading
 import subprocess
 import hashlib
 from Crypto.Cipher import AES
-from config import ceye_dnslog_url, ceye_dnslog_key, debug_mode,dnslog_name,port_threads_number,port_timeout_period,thread_timeout_number,user_agent_browser_type
+from config import  debug_mode,dnslog_name,port_threads_number,port_timeout_period,thread_timeout_number,user_agent_browser_type
 import ast
 
 def IpProcess(Url: str) -> str:
@@ -502,29 +502,13 @@ class Dnslog:  # Dnslog判断
                 return self.dnslog_cn
             except Exception as e:
                 ErrorLog().Write("ClassCongregation_Dnslog(class)_get_dns_log_url(def)", e)
-        elif dnslog_name=="ceye":
-            return ceye_dnslog_url
 
     def result(self) -> bool:
         # DNS判断后续会有更多的DNS判断，保持准确性
         if dnslog_name=="dnslog.cn":
             return self.dnslog_cn_dns()
-        elif dnslog_name=="ceye":
-            return self.ceye_dns()
 
-    def ceye_dns(self) -> bool:
-        try:
-            # status = requests.post('http://log.ascotbe.com/api/validate', timeout=2,data=data)
-            # code=status.status_code
-            # if code == 200:
-            status = requests.get("http://api.ceye.io/v1/records?token=" + ceye_dnslog_key + "&type=dns&filter=",timeout=6)
-            self.ceye_dnslog_text = status.text
-            if self.ceye_dnslog_text.find(self.host) != -1:  # 如果找到Key
-                return True
-            else:
-                return False
-        except Exception as e:
-            ErrorLog().Write(self.host+"|| ceye_dns",e)
+
 
     def dnslog_cn_dns(self) -> bool:
         try:
@@ -540,8 +524,6 @@ class Dnslog:  # Dnslog判断
     def dns_text(self):
         if dnslog_name=="dnslog.cn":
             return self.dnslog_cn_text
-        elif dnslog_name=="ceye":
-            return self.ceye_dnslog_text
 
 
 class randoms:  # 生成随机数

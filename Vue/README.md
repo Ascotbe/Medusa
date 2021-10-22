@@ -1,4 +1,4 @@
-# medus-vue
+# Medusa
 
 ## Project setup
 ```

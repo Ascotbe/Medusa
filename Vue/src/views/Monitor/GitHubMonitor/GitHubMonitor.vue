@@ -1,5 +1,6 @@
 <template>
   <a-row
+    style="height:100%;min-height: 540px;"
     :gutter="[
       { xs: 8, sm: 16, md: 24, xs: 8 },
       { xs: 4, sm: 8, md: 12, lg: 16 },

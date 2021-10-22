@@ -3,7 +3,7 @@
     type="flex"
     justify="start"
     align="top"
-    style="height:100%"
+    style="height:100%;min-height: 540px;"
     :gutter="[
      16, { xs: 4, sm: 8, md: 12, lg: 16 }
     ]"

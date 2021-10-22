@@ -30,15 +30,20 @@ const state = {
       const token = {
         token: val
       }
-      await api.user_info(token).then((res) => {
-        if (res.code == 200) {
-          commit('setToken', val)
-          commit('setUserinfo', res.message)
-        } else {
-          message.error(res.message)
-          commit('setUserinfo', {})
-        }
-      })
+      await api.user_info(token)
+        .then((res) => {
+          if (res.code == 200) {
+            commit('setToken', val)
+            commit('setUserinfo', res.message)
+          } else {
+            message.error(res.message)
+            commit('setUserinfo', {})
+          }
+        })
+        .catch(err => {
+          commit('setToken', '')
+          commit('setUserinfo', '')
+        })
 
     }
   },

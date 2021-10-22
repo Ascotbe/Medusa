@@ -23,6 +23,11 @@ import {
   //工具库
   URL_POST_ANTIVIRUS_SOFTWARE_COMPARED,
 
+  //DNSLOG
+  URL_POST_DOMAIN_NAME_SYSTEM_LOG,
+  URL_POST_DOMAIN_NAME_SYSTEM_LOG_STATISTICS,
+
+
   //cve监控
   URL_POST_GITHUB_MONITOR,
   URL_POST_GITHUB_MONITOR_SEARCH,
@@ -67,6 +72,17 @@ import {
   URL_POST_JOIN_MARKDOWN_PROJECT,
   URL_POST_MARKDOWN_PROJECT_STATISTICAL,
 
+  //shellcode
+  URL_POST_SHELLCODE_TO_TROJAN,
+  URL_POST_GET_TROJAN_PLUGINS,
+  URL_POST_GET_AUTO_START,
+  URL_POST_GET_ANTI_SANDBOX,
+  URL_POST_TROJAN_DATA_QUERY,
+  URL_POST_TROJAN_DATA_STATISTICAL,
+  URL_GET_TROJAN_FILE_DOWNLOAD_VERIFICATION,
+
+  //about
+  URL_POST_MEDUSA_INFO
 } from './url'
 import store from '@/store'
 
@@ -388,8 +404,104 @@ const api = {
 
 
 
+  // *******工具库*****
+  // 杀毒软件进程查询
+  async antivirus_software_compared (params) {
+    let response = await post(URL_POST_ANTIVIRUS_SOFTWARE_COMPARED, params, {
+      headers: {}
+    })
+    return response
+  },
+  // *******工具库结束*****
 
 
+
+  //*******DNSLOG*****
+  // DNSLOG数据查询
+  async domain_name_system_log (params) {
+    let response = await post(URL_POST_DOMAIN_NAME_SYSTEM_LOG, params, {
+      headers: {}
+    })
+    return response
+  },
+  // DNSLOG数据查询个数统计
+  async domain_name_system_log_statistics (params) {
+    let response = await post(URL_POST_DOMAIN_NAME_SYSTEM_LOG_STATISTICS, params, {
+      headers: {}
+    })
+    return response
+  },
+  // *******DNSLOG结束*****
+
+
+
+  //*******shellcode*****
+  //通过shellcode来生成免杀
+  async shellcode_to_trojan (params) {
+    let response = await post(URL_POST_SHELLCODE_TO_TROJAN, params, {
+      headers: {}
+    })
+    return response
+  },
+  //获取用户当前木马插件内容
+  async get_trojan_plugins (params) {
+    let response = await post(URL_POST_GET_TROJAN_PLUGINS, params, {
+      headers: {}
+    })
+    return response
+  },
+  //获取自启动函数
+  async get_auto_start (params) {
+    let response = await post(URL_POST_GET_AUTO_START, params, {
+      headers: {}
+    })
+    return response
+  },
+  //获取反沙箱函数
+  async get_anti_sandbox (params) {
+    let response = await post(URL_POST_GET_ANTI_SANDBOX, params, {
+      headers: {}
+    })
+    return response
+  },
+  //用户免杀数据查询
+  async trojan_data_query (params) {
+    let response = await post(URL_POST_TROJAN_DATA_QUERY, params, {
+      headers: {}
+    })
+    return response
+  },
+  //用户免杀数据个数
+  async trojan_data_statistical (params) {
+    let response = await post(URL_POST_TROJAN_DATA_STATISTICAL, params, {
+      headers: {}
+    })
+    return response
+  },
+  //木马文件下载验证接口
+  async trojan_file_download_verification (params) {
+    let response = await get(URL_GET_TROJAN_FILE_DOWNLOAD_VERIFICATION, params, {
+      headers: {
+        Token: store.state.UserStore.token,
+        TrojanId: store.state.ShellCodeStore.trojanId,
+        TrojanGenerateFileName: store.state.ShellCodeStore.trojanGenerateFileName,
+      },
+      responseType: 'blob'
+    })
+    return response
+  },
+  //*******shellcode结束*****
+
+
+
+  //*******about*****
+  async medusa_info (params) {
+    let response = await post(URL_POST_MEDUSA_INFO, params, {
+      headers: {}
+    })
+    return response
+  },
+  //*******about结束*****
 
 
   // 扫描任务下发接口
@@ -436,13 +548,7 @@ const api = {
 
 
 
-  // 杀毒软件进程查询
-  async antivirus_software_compared (params) {
-    let response = await post(URL_POST_ANTIVIRUS_SOFTWARE_COMPARED, params, {
-      headers: {}
-    })
-    return response
-  },
+
 
 
   async generate_word (params) {

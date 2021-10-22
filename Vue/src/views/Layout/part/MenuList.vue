@@ -1,5 +1,6 @@
 <template>
   <a-menu
+    class="menu"
     mode="inline"
     theme="dark"
     v-model="selectedKeys"
@@ -50,6 +51,11 @@ export default {
           key: "dashboard",
           iconType: "icon-ziyuan",
           msg: "仪表盘",
+        },
+        {
+          key: "DNSLOG",
+          iconType: "icon-DNSziyuan",
+          msg: "DNSLOG",
         },
         {
           key: "ActiveScanning",
@@ -126,7 +132,18 @@ export default {
           ],
         },
         {
-          key: "sub6",
+          key: "ShellCode",
+          iconType: "icon-heike",
+          msg: "Shell Code",
+          children: [
+            {
+              key: "ShellCodeToTrojan",
+              msg: "免杀生成",
+            },
+          ],
+        },
+        {
+          key: "Toolbar",
           iconType: "icon-gongju",
           msg: "工具栏",
           children: [
@@ -137,9 +154,9 @@ export default {
           ],
         },
         {
-          key: "about_us",
+          key: "About",
           iconType: "icon-Serviceusers",
-          msg: "关于我们",
+          msg: "关于",
         },
       ],
       selectedKeys: ['dashboard']
@@ -239,5 +256,24 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+.menu {
+  height: calc(100% - 60px);
+  min-height: 540px;
+  overflow-y: scroll;
+}
+/*定义整体的宽度*/
+.menu::-webkit-scrollbar {
+  display: none;
+}
+
+/*定义滚动条轨道*/
+.menu::-webkit-scrollbar-track {
+  display: none;
+}
+
+/*定义滑块*/
+.menu::-webkit-scrollbar-thumb {
+  display: none;
+}
 </style>

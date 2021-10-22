@@ -45,6 +45,7 @@ export default {
   // height: calc(100% - 36px);
   padding: 10px;
   height: 100%;
+  min-height: 540px;
   background: #fff;
   overflow: auto;
   overflow-x: hidden;

@@ -1,7 +1,11 @@
 <template>
-  <a-row type="flex" :gutter="[
+  <a-row
+    type="flex"
+    style="height:100%;min-height: 540px;"
+    :gutter="[
      16, { xs: 4, sm: 8, md: 12, lg: 16 }
-    ]">
+    ]"
+  >
     <a-col :span="18">
       <Card :name="``" :bodyStyle="bodyStyle">
         <a-form :form="form" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">

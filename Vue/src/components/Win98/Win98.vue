@@ -1,4 +1,10 @@
 <template>
+  <!-- 进入等待 -->
+  <!-- <div
+    class="windows98_loding"
+    :style="{background:`url(${this.window_loding}) no-repeat`,'background-size': '100% 100%'}"
+    v-if="loding"
+  ></div>-->
   <!-- <div class="windows98" @contextmenu.prevent="handleMouseClick" @click="handleContextMenu"> -->
   <div class="windows98">
     <!-- 桌面 -->
@@ -137,12 +143,6 @@
         <button @click="handleErrClose">Ok</button>
       </div>
     </div>
-    <!-- 进入等待 -->
-    <div
-      class="windows98_loding"
-      :style="{background:`url(${this.window_loding}) no-repeat`,'background-size': '100% 100%'}"
-      v-if="loding"
-    ></div>
   </div>
 </template>
 
@@ -325,23 +325,30 @@ export default {
       _this.$emit('Ok')
     },
   },
-  created () {
-    const _this = this
-    const time = setTimeout(() => {
-      _this.loding = false
-      clearTimeout(time)
-    }, 1000);
-  }
+  // created () {
+  //   const _this = this
+  //   const time = setTimeout(() => {
+  //     _this.loding = false
+  //     clearTimeout(time)
+  //   }, 1000);
+  // }
 };
 </script>
 <style src="../../../node_modules/98.css/dist/98.css" scoped></style>
 <style lang="scss" scoped>
+.windows98_loding {
+  position: absolute;
+  z-index: 101;
+  width: 100%;
+  height: 100%;
+}
 .windows98 {
   font-family: "Pixelated MS Sans Serif", Arial;
   display: -webkit-flex; /* Safari */
   display: flex;
   background-color: teal;
   height: 100%;
+  min-height: 600px;
   overflow: auto;
   overflow-x: hidden;
   overflow-y: hidden;
@@ -440,11 +447,14 @@ export default {
     left: 0;
     height: 100%;
     width: 100%;
+
     .windows98_menu_model {
       position: absolute;
       bottom: 35px;
       left: 0;
-      height: 500px;
+      max-height: 500px;
+      height: 50%;
+      min-height: 353px;
       width: 250px;
       display: -webkit-flex; /* Safari */
       display: flex;
@@ -555,12 +565,7 @@ export default {
     transform: translate(-50%, -50%);
     font-size: 14px;
   }
-  .windows98_loding {
-    position: absolute;
-    z-index: 101;
-    width: 100%;
-    height: 100%;
-  }
+
   .windows98_hover {
     background: linear-gradient(0deg, navy, #1084d0);
     color: #fff;

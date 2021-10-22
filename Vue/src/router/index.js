@@ -28,8 +28,12 @@ import QueryProject from '../views/CrossSiteScript/ProjectManagement/part/QueryP
 import ModifyProject from '../views/CrossSiteScript/ProjectManagement/part/ModifyProject.vue'
 import TemplateManagement from '../views/CrossSiteScript/TemplateManagement/TemplateManagement.vue'
 import PrivateTemplate from '../views/CrossSiteScript/PrivateTemplate/PrivateTemplate.vue'
-
-
+//工具库
+import DNSLOG from '../views/DNSLOG/DNSLOG.vue'
+//ShellCode
+import ShellCodeToTrojan from '../views/ShellCode/ShellCodeToTrojan/ShellCodeToTrojan.vue'
+//关于
+import About from '../views/About/About.vue'
 
 
 
@@ -41,21 +45,32 @@ import store from '@/store'
 Vue.use(VueRouter)
 
 const routes = [
+  //重定向
+  {
+    path: '/',
+    name: 'layout',
+    component: Layout,
+    redirect: '/layout/dashboard',
+  },
+  //登录
   {
     path: '/login',
     name: 'login',
     component: Login
   },
+  //注册
   {
     path: '/register',
     name: 'register',
     component: Register
   },
+  //忘记密码
   {
     path: '/ForgetPassWord',
     name: 'ForgetPassWord',
     component: ForgetPassWord
   },
+  //修改密码
   {
     path: '/RevisePassWord',
     name: 'RevisePassWord',
@@ -64,12 +79,7 @@ const routes = [
       isLogin: true
     },
   },
-  {
-    path: '/',
-    name: 'layout',
-    component: Layout,
-    redirect: '/layout/dashboard',
-  },
+  //布局页
   {
     path: '/layout',
     name: 'layout',
@@ -78,93 +88,124 @@ const routes = [
       isLogin: true
     },
     redirect: '/layout/dashboard',
-    children: [{
-      path: 'dashboard',
-      name: 'dashboard',
-      component: Dashboard,
-    },
-    {
-      path: 'personalSettings',
-      name: 'personalSettings',
-      component: PersonalSettings,
-    },
-    {
-      path: 'issueTasks',
-      name: 'issueTasks',
-      component: IssueTask,
-    },
-    {
-      path: 'siteInformation',
-      name: 'siteInformation',
-      component: SiteInforMation,
-    },
-    {
-      path: 'GitHubMonitor',
-      name: 'GitHubMonitor',
-      component: GitHubMonitor,
-    },
-    {
-      path: 'VulnerabilitiesMonitor',
-      name: 'VulnerabilitiesMonitor',
-      component: VulnerabilitiesMonitor,
-    },
-    {
-      path: 'VulnerabilitiesMonitorDetailed',
-      name: 'VulnerabilitiesMonitor/VulnerabilitiesMonitorDetailed',
-      component: VulnerabilitiesMonitorDetailed,
-    },
-    {
-      path: 'CreateCombine',
-      name: 'CreateCombine',
-      component: CreateCombine,
-    },
-    {
-      path: 'CombineList',
-      name: 'CombineList',
-      component: CombineList,
-    },
-    {
-      path: 'MarkdownData',
-      name: 'CombineList/MarkdownData',
-      component: MarkdownData,
-    },
-    {
-      path: 'DataComparison',
-      name: 'CombineList/DataComparison',
-      component: DataComparison,
-    },
-    {
-      path: 'CreateCrossSiteScript',
-      name: 'CreateCrossSiteScript',
-      component: CreateCrossSiteScript,
-    },
-    {
-      path: 'ProjectManagement',
-      name: 'ProjectManagement',
-      component: ProjectManagement,
-    },
-    {
-      path: 'QueryProject',
-      name: 'ProjectManagement/QueryProject',
-      component: QueryProject,
-    },
-    {
-      path: 'ModifyProject',
-      name: 'ProjectManagement/ModifyProject',
-      component: ModifyProject,
-    },
-    {
-      path: 'TemplateManagement',
-      name: 'TemplateManagement',
-      component: TemplateManagement,
-    },
-    {
-      path: 'PrivateTemplate',
-      name: 'PrivateTemplate',
-      component: PrivateTemplate,
-    },
+    children: [
+      //仪表盘
+      {
+        path: 'dashboard',
+        name: 'dashboard',
+        component: Dashboard,
+      },
+      //个人界面
+      {
+        path: 'personalSettings',
+        name: 'personalSettings',
+        component: PersonalSettings,
+      },
+      //主动攻击
+      {
+        path: 'issueTasks',
+        name: 'issueTasks',
+        component: IssueTask,
+      },
+      {
+        path: 'siteInformation',
+        name: 'siteInformation',
+        component: SiteInforMation,
+      },
+      //监控页面
+      {
+        path: 'GitHubMonitor',
+        name: 'GitHubMonitor',
+        component: GitHubMonitor,
+      },
+      {
+        path: 'VulnerabilitiesMonitor',
+        name: 'VulnerabilitiesMonitor',
+        component: VulnerabilitiesMonitor,
+      },
+      {
+        path: 'VulnerabilitiesMonitorDetailed',
+        name: 'VulnerabilitiesMonitor/VulnerabilitiesMonitorDetailed',
+        component: VulnerabilitiesMonitorDetailed,
+      },
+      //协同作战
+      {
+        path: 'CreateCombine',
+        name: 'CreateCombine',
+        component: CreateCombine,
+      },
+      {
+        path: 'CombineList',
+        name: 'CombineList',
+        component: CombineList,
+      },
+      {
+        path: 'MarkdownData',
+        name: 'CombineList/MarkdownData',
+        component: MarkdownData,
+      },
+      {
+        path: 'DataComparison',
+        name: 'CombineList/DataComparison',
+        component: DataComparison,
+      },
+      //跨站脚本钓鱼
+      {
+        path: 'CreateCrossSiteScript',
+        name: 'CreateCrossSiteScript',
+        component: CreateCrossSiteScript,
+      },
+      {
+        path: 'ProjectManagement',
+        name: 'ProjectManagement',
+        component: ProjectManagement,
+      },
+      {
+        path: 'QueryProject',
+        name: 'ProjectManagement/QueryProject',
+        component: QueryProject,
+      },
+      {
+        path: 'ModifyProject',
+        name: 'ProjectManagement/ModifyProject',
+        component: ModifyProject,
+      },
+      {
+        path: 'TemplateManagement',
+        name: 'TemplateManagement',
+        component: TemplateManagement,
+      },
+      {
+        path: 'PrivateTemplate',
+        name: 'PrivateTemplate',
+        component: PrivateTemplate,
+      },
+      //DNSLOG
+      {
+        path: 'DNSLOG',
+        name: 'DNSLOG',
+        component: DNSLOG,
+      },
+      //ShellCode
+      {
+        path: 'ShellCodeToTrojan',
+        name: 'ShellCodeToTrojan',
+        component: ShellCodeToTrojan,
+      },
+      //About
+      {
+        path: 'About',
+        name: 'About',
+        component: About,
+      },
     ]
   },
+  // 最后是404页面
+  // {
+  //   path: '*',
+  //   meta: { requireAuth: true },
+  //   component: Notfound
+  // }
 ]
 
 const originalPush = VueRouter.prototype.push

@@ -13,7 +13,7 @@ import config
 """
 
 info={
-    "version":"v1.0.68",#版本号
+    "version":config.version,#版本号
     "latest_version":"https://github.com/Ascotbe/Medusa/releases",#最新版本
     "official_documentation":"https://medusa.ascotbe.com/",#官方文档
     "registration_function_status":config.registration_function_status,#注册功能状态

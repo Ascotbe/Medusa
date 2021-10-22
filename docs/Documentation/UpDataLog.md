@@ -3168,4 +3168,6 @@ v1.0.71🌴
 新增DNSLOG,ShellCode功能页面,重构About页面
 v1.0.72🌴
 修改配置文件内容
+v1.0.73🌴
+修改shellcode_to_trojan接口和相关表
 ```

@@ -1989,6 +1989,7 @@ class TrojanData:#免杀木马相关数据库
             self.cur.execute("CREATE TABLE TrojanData\
                                 (trojan_id INTEGER PRIMARY KEY,\
                                 uid TEXT NOT NULL,\
+                                shellcode_name NOT NULL,\
                                 shellcode_type TEXT NOT NULL,\
                                 trojan_original_file_name TEXT NOT NULL,\
                                 trojan_generate_file_name TEXT NOT NULL,\
@@ -2004,6 +2005,7 @@ class TrojanData:#免杀木马相关数据库
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
         Uid = kwargs.get("uid")
         TrojanOriginalFileName=kwargs.get("trojan_original_file_name")
+        ShellcodeName = kwargs.get("shellcode_name")#项目名称
         ShellcodeType = kwargs.get("shellcode_type")#1为MSF类型的，2为CS类型的
         TrojanGenerateFileName = kwargs.get("trojan_generate_file_name")
         CompilationStatus = kwargs.get("compilation_status")#状态0为未完成，1完成，-1出错
@@ -2012,8 +2014,8 @@ class TrojanData:#免杀木马相关数据库
         ShellcodeArchitecture = kwargs.get("shellcode_architecture")#shellcode的架构类型 x86 或者x64
         Plugin = kwargs.get("plugin")#当前使用的插件名称
         try:
-            self.cur.execute("INSERT INTO TrojanData(uid,shellcode_type,trojan_original_file_name,trojan_generate_file_name,compilation_status,redis_id,creation_time,shellcode_architecture,plugin)\
-                VALUES (?,?,?,?,?,?,?,?,?)", (Uid,ShellcodeType,TrojanOriginalFileName, TrojanGenerateFileName,CompilationStatus,RedisId, CreationTime,ShellcodeArchitecture,Plugin,))
+            self.cur.execute("INSERT INTO TrojanData(uid,shellcode_name,shellcode_type,trojan_original_file_name,trojan_generate_file_name,compilation_status,redis_id,creation_time,shellcode_architecture,plugin)\
+                VALUES (?,?,?,?,?,?,?,?,?,?)", (Uid,ShellcodeName,ShellcodeType,TrojanOriginalFileName, TrojanGenerateFileName,CompilationStatus,RedisId, CreationTime,ShellcodeArchitecture,Plugin,))
             self.con.commit()  # 只发送数据不结束
             self.con.close()
             return True
@@ -2057,13 +2059,14 @@ class TrojanData:#免杀木马相关数据库
             for i in self.cur.fetchall():
                 JsonValues = {}
                 JsonValues["trojan_id"] = i[0]
-                JsonValues["shellcode_type"] = i[2]
-                JsonValues["trojan_original_file_name"] = i[3]
-                JsonValues["trojan_generate_file_name"] = i[4]
-                JsonValues["compilation_status"] = i[5]
-                JsonValues["creation_time"] = i[7]
-                JsonValues["shellcode_architecture"] = i[8]
-                JsonValues["plugin"] = i[9]
+                JsonValues["shellcode_name"] = i[2]
+                JsonValues["shellcode_type"] = i[3]
+                JsonValues["trojan_original_file_name"] = i[4]
+                JsonValues["trojan_generate_file_name"] = i[5]
+                JsonValues["compilation_status"] = i[6]
+                JsonValues["creation_time"] = i[8]
+                JsonValues["shellcode_architecture"] = i[9]
+                JsonValues["plugin"] = i[10]
                 result_list.append(JsonValues)
             self.con.close()
             return result_list

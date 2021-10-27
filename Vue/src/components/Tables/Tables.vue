@@ -42,6 +42,12 @@ export default {
       default: () => {
         return function () { }
       }
+    },
+    ShowTotal: {
+      tyep: Function,
+      default: () => {
+        return function () { }
+      }
     }
   },
   data () {
@@ -50,7 +56,17 @@ export default {
         position: 'bottom',
         defaultPageSize: 100,
         pageSizeOptions: ['100'],
-        hideOnSinglePage: true,
+        hideOnSinglePage: false,
+        showTotal: (total, range) => {
+          const _this = this
+          const Dom = <span style="text-align:left;padding-right:10px" v-show={total == 0 ? false : true}>总共<span style="color:#51c51a">{total}</span>条数据</span>
+          const callback = _this.ShowTotal(Dom, total, range)
+          console.log(callback)
+          if (callback) {
+            return callback
+          }
+          else return Dom
+        },
         total: 0
       },
       expandedRowKeys: []
@@ -100,26 +116,43 @@ export default {
   },
   render: function (h) {
     const _this = this
-    return h('a-table', {
-      props: {
-        columns: _this.columns,
-        dataSource: _this.tableData,
-        scroll: _this.scrollTable,
-        pagination: _this.pagination,
-        total: _this.total,
-        rowKey: _this.rowKey,
-        expandedRowKeys: _this.expandedRowKeys,
-        footer: (currentPageData) => _this.handleFooter(currentPageData),
-        expandedRowRender: (record, index, indent, expanded) => _this.handleExpandedRowRender(record, index, indent, expanded),
-        expandIcon: (props) => _this.handleExpandIcon(props),
-      },
-      on: {
-        change: (pagination, filters, sorter, { currentDataSource }) => _this.handleChange(pagination, filters, sorter, { currentDataSource }),
-        expandedRowsChange: (expandedRowKeys) => {
-          _this.expandedRowKeys = expandedRowKeys
+    if (_this.expandedRowKeys.length == 0) {
+      return h('a-table', {
+        props: {
+          columns: _this.columns,
+          dataSource: _this.tableData,
+          scroll: _this.scrollTable,
+          pagination: _this.pagination,
+          total: _this.total,
+          rowKey: _this.rowKey,
+        },
+        on: {
+          change: (pagination, filters, sorter, { currentDataSource }) => _this.handleChange(pagination, filters, sorter, { currentDataSource }),
         }
-      }
-    })
+      })
+    }
+    else {
+      return h('a-table', {
+        props: {
+          columns: _this.columns,
+          dataSource: _this.tableData,
+          scroll: _this.scrollTable,
+          pagination: _this.pagination,
+          total: _this.total,
+          rowKey: _this.rowKey,
+          expandedRowKeys: _this.expandedRowKeys,
+          // footer: (currentPageData) => _this.handleFooter(currentPageData),
+          expandedRowRender: (record, index, indent, expanded) => _this.handleExpandedRowRender(record, index, indent, expanded),
+          expandIcon: (props) => _this.handleExpandIcon(props),
+        },
+        on: {
+          change: (pagination, filters, sorter, { currentDataSource }) => _this.handleChange(pagination, filters, sorter, { currentDataSource }),
+          expandedRowsChange: (expandedRowKeys) => {
+            _this.expandedRowKeys = expandedRowKeys
+          }
+        }
+      })
+    }
   }
 }
 </script>

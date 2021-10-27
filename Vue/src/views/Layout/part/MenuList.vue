@@ -31,6 +31,7 @@
 <script>
 import { Icon } from "ant-design-vue";
 const faceConfig = require("../../../../faceConfig");
+const menuList = require("../../../../MenuConfig");
 const MyIcon = Icon.createFromIconfontCN({
   scriptUrl: faceConfig.scriptUrl,
 });
@@ -41,124 +42,7 @@ export default {
   },
   data () {
     return {
-      menuList: [
-        {
-          key: "personalSettings",
-          iconType: "icon-Serviceusers",
-          msg: "个人界面",
-        },
-        {
-          key: "dashboard",
-          iconType: "icon-ziyuan",
-          msg: "仪表盘",
-        },
-        {
-          key: "DNSLOG",
-          iconType: "icon-DNSziyuan",
-          msg: "DNSLOG",
-        },
-        {
-          key: "ActiveScanning",
-          iconType: "icon-saomiao1",
-          msg: "主动扫描",
-          children: [
-            {
-              key: "issueTasks",
-              msg: "下发任务",
-            },
-            {
-              key: "siteInformation",
-              msg: "站点扫描",
-            },
-          ],
-        },
-        {
-          key: "sub2",
-          iconType: "icon-saomiao2",
-          msg: "被动扫描",
-          children: [],
-        },
-        {
-          key: "Monitor",
-          iconType: "icon-jiankong",
-          msg: "监控页面",
-          children: [
-            {
-              key: "GitHubMonitor",
-              msg: "GitHub监控",
-            },
-            {
-              key: "VulnerabilitiesMonitor",
-              msg: "CVE监控",
-            },
-          ],
-        },
-        {
-          key: "CrossSiteScript",
-          iconType: "icon-heike",
-          msg: "跨站脚本钓鱼",
-          children: [
-            {
-              key: "CreateCrossSiteScript",
-              msg: "创建项目",
-            },
-            {
-              key: "ProjectManagement",
-              msg: "项目管理",
-            },
-            {
-              key: "TemplateManagement",
-              msg: "模板管理",
-            },
-            {
-              key: "PrivateTemplate",
-              msg: "创建自定义模板",
-            },
-          ],
-        },
-        {
-          key: "Combine",
-          iconType: "icon-xietong",
-          msg: "协同作战",
-          children: [
-            {
-              key: "CreateCombine",
-              msg: "创建/加入项目",
-            },
-            {
-              key: "CombineList",
-              msg: "项目列表",
-            },
-          ],
-        },
-        {
-          key: "ShellCode",
-          iconType: "icon-heike",
-          msg: "Shell Code",
-          children: [
-            {
-              key: "ShellCodeToTrojan",
-              msg: "免杀生成",
-            },
-          ],
-        },
-        {
-          key: "Toolbar",
-          iconType: "icon-gongju",
-          msg: "工具栏",
-          children: [
-            {
-              key: "antivirusSoftwareCompared",
-              msg: "杀毒软件进程查询接口",
-            },
-          ],
-        },
-        {
-          key: "About",
-          iconType: "icon-Serviceusers",
-          msg: "关于",
-        },
-      ],
+      menuList,
       selectedKeys: ['dashboard']
     }
   },
@@ -169,18 +53,6 @@ export default {
         return [];
       },
     },
-    // defaultSelectedKeys: {
-    //   type: Array,
-    //   default: () => {
-    //     return ['personalSettings'];
-    //   },
-    // },
-    // selectedKeys: {
-    //   type: Array,
-    //   default: () => {
-    //     return ['personalSettings'];
-    //   },
-    // }
   },
   computed: {
     ...mapGetters({
@@ -201,58 +73,6 @@ export default {
       _this.$router.push(key)
     }
   },
-  // render: function (h) {
-  //   return h(
-  //     'a-menu',   // 标签名称
-  //     {
-  //       props: {
-  //         theme: "dark",
-  //         mode: 'inline',
-  //         // selectedKeys: this.activeIndex,
-  //         defaultSelectedKeys: this.defaultSelectedKeys
-  //       },
-  //     },
-  //     this.menuList.map((item) => {
-  //       // return item.children ?
-  //       //   <a-sub-menu key={item.key}>
-  //       //     <span>{item.msg}</span>
-  //       //   </a-sub-menu> :
-  //       //   <a-menu-item key={item.key}>
-  //       //     <span>{item.msg}</span>
-  //       //   </a-menu-item>
-  //       if (item.children) {
-  //         return h('a-sub-menu',
-  //           {
-  //             props: {
-  //               title: item.msg,
-  //               key: item.key
-  //             },
-  //           },
-  //           item.children.map((itemChildren) => {
-  //             console.log('itemChildren', itemChildren)
-  //             return h('a-menu-item',
-  //               {
-  //                 domProps: {
-  //                   key: itemChildren.key
-  //                 },
-  //               },
-  //               itemChildren.msg)
-  //           })
-  //         )
-  //       }
-  //       else {
-  //         console.log('item', item)
-  //         return h('a-menu-item',
-  //           {
-  //             props: {
-  //               key: item.key
-  //             },
-  //           },
-  //           item.msg)
-  //       }
-  //     })
-  //   )
-  // },
 }
 </script>
 

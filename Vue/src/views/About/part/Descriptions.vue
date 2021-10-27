@@ -28,11 +28,11 @@ export default {
           break
         case 'latest_version':
           attribute.label = '最新版本'
-          attribute.urlName = 'GitHub Ascotbe'
+          attribute.urlName = 'GitHub Releases '
           break
         case 'official_documentation':
           attribute.label = '官方文档'
-          attribute.urlName = 'Medusa Ascotbe'
+          attribute.urlName = 'Medusa'
           break
         case 'registration_function_status':
           attribute.label = '注册功能状态'

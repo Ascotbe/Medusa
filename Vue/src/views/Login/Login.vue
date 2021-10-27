@@ -8,7 +8,7 @@
   >
     <a-form :form="form" :layout="`vertical`" :wrapper-col="{ span: 14, offset: 4 }">
       <a-form-item>
-        <img width="75%" :src="medusaUrl" />
+        <img width="100%" :src="medusaUrl" />
       </a-form-item>
       <a-form-item>
         <a-input

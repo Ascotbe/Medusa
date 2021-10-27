@@ -302,10 +302,11 @@ export default {
         start_time: _this.moment(dateArr[0]).unix(),
         end_time: _this.moment(dateArr[1]).unix(),
       }
+      //关闭方法 不报错
       _this.$api.homepage_vulnerability_distributiont_data(params)
         .then(async (res) => {
           if (res.code != 200) {
-            this.$message.error(res.message)
+            // this.$message.error(res.message)
             _this.leakEchartsData = [_this.handleFillArray(dateArr[0], dateArr[1], [])]
             return
           }

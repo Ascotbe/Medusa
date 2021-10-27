@@ -9,15 +9,21 @@
     ]"
   >
     <a-col :xs="24" :lg="8">
-      <Card :name="'生成免杀程序'" :bodyStyle="bodyStyle">
-        <template slot="extraCard">
-          <a-button @click="handleShellCodeToTrojan" type="primary">免杀生成</a-button>
-        </template>
+      <Card :name="''" :bodyStyle="bodyStyle">
         <a-form
           :form="form"
           :labelCol="{xs:8,lg:6}"
           :wrapper-col="{xs:{span: 15, offset: 1},lg:{span: 17, offset: 1}}"
         >
+          <a-form-item label="项目名称">
+            <a-input
+              :options="pluginOptions"
+              v-decorator="[
+            'shellcode_name',
+            { rules: [{ required: true, message: 'ShellcodeName Cannot be empty' }] }
+          ]"
+            ></a-input>
+          </a-form-item>
           <a-form-item label="插件名称">
             <a-select
               :options="pluginOptions"
@@ -82,14 +88,14 @@
           ]"
             ></a-input>-->
           </a-form-item>
+          <a-form-item>
+            <a-button @click="handleShellCodeToTrojan" type="primary">免杀生成</a-button>
+          </a-form-item>
         </a-form>
       </Card>
     </a-col>
     <a-col :xs="24" :lg="16">
-      <Card :name="'免杀列表'" :bodyStyle="bodyStyle">
-        <template slot="extraCard">
-          <a-button @click="handleTrojan(current)" type="primary">刷新</a-button>
-        </template>
+      <Card :name="''" :bodyStyle="bodyStyle">
         <Tables
           :columns="columns"
           :tableData="data"
@@ -97,7 +103,12 @@
           :scrollTable="{x:1000,y:400}"
           :total="total"
           @change="handleChange"
-        ></Tables>
+          :ShowTotal="handleShowTotal"
+        >
+          <template slot="btn">
+            <a-button @click="handleTrojan(current)" type="primary">刷新</a-button>
+          </template>
+        </Tables>
       </Card>
     </a-col>
   </a-row>
@@ -131,11 +142,11 @@ export default {
       sandboxOptions: [],//反沙箱函数
       shellCodeTypeOptions: [//生成类型
         {
-          label: 'MSF',
+          label: 'MetasploitFramework',
           value: '1'
         },
         {
-          label: 'CS',
+          label: 'CobaltStrike',
           value: '2'
         },
       ],
@@ -151,10 +162,10 @@ export default {
       ],
       columns: [
         {
-          title: "插件名称",
-          dataIndex: "plugin",
+          title: "项目名称",
+          dataIndex: "shellcode_name",
           ellipsis: true,
-          width: 400,
+          width: 200,
           align: 'center'
         },
         {
@@ -342,6 +353,11 @@ export default {
           download.href = link
           download.click()
         })
+    },
+    handleShowTotal (Dom, total, range) {
+      const _this = this
+      const Btn = <a-button v-on:click={() => { _this.handleTrojan(_this.current) }} type="primary">刷新</a-button>
+      return [Dom, Btn]
     }
   },
 }

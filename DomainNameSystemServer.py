@@ -4,6 +4,7 @@ import socketserver
 import struct
 from Web.WebClassCongregation import DomainNameSystemLog
 from ClassCongregation import ErrorLog
+from config import server_ip
 # DNS Query
 class DNSQuery:
     def __init__(self, data):
@@ -112,5 +113,5 @@ class DNSServer:
 
 if __name__ == '__main__':
     sev = DNSServer()
-    sev.addname('*', '127.0.0.1')  # default address
+    sev.addname('*', server_ip)  # default address
     sev.start()

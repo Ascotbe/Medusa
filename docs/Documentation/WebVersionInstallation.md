@@ -190,6 +190,15 @@ server {
     server_name  ascotbe.com; #你的域名
     return 301 https://$server_name$request_uri;
 }
+server {
+    listen       80;
+    server_name  dnslogtest.ascotbe.com;#你的DNSLOG的域名
+    location / {
+        proxy_pass  http://127.0.0.1:8888; # 转发
+        proxy_set_header Host $host;
+	   proxy_set_header X-Real-IP $remote_addr; #一般的web服务器用这个 X-Real-IP 来获取源IP
+        proxy_set_header x-forwarded-for $proxy_add_x_forwarded_for; 	   #如果nginx 服务器是作为反向代理服务器的，则这个配置项是必须的；否则看不到源IP
+    }
 ```
 
 接着重新启动Nginx

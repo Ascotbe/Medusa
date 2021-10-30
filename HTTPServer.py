@@ -1,7 +1,8 @@
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
 from http.server import BaseHTTPRequestHandler, HTTPServer
-
+from Web.WebClassCongregation import DomainNameSystemLog
+import base64
 class Server(BaseHTTPRequestHandler):
     def Response(self):
         self.response_headers=""
@@ -10,17 +11,18 @@ class Server(BaseHTTPRequestHandler):
         for i in self._headers_buffer:
             self.response_headers+=str(i.decode("utf-8"))
         self.end_headers()
-        print(self.response_headers)
 
     def do_GET(self):
-        print(str(self.requestline)+"\n"+str(self.headers))
+        Request=str(self.requestline)+"\n"+str(self.headers)
         self.Response()
+        DomainNameSystemLog().Write(ip="", domain_name="", type="http", response=base64.b64encode(self.response_headers.encode('utf-8')), request=base64.b64encode(Request.encode('utf-8')))
         #self.wfile.write("GET request for {}".format(self.path).encode('utf-8'))
     def do_POST(self):
         ContentLength = int(self.headers['Content-Length'])  # <--- Gets the size of data
         PostData = self.rfile.read(ContentLength)  # <--- Gets the data itself
-        print(str(self.requestline)+"\n"+str(self.headers)+"\n"+PostData.decode("utf-8"))
+        Request=str(self.requestline)+"\n"+str(self.headers)+"\n"+PostData.decode("utf-8")
         self.Response()
+        DomainNameSystemLog().Write(ip="", domain_name="", type="http", response=base64.b64encode(self.response_headers.encode('utf-8')), request=base64.b64encode(Request.encode('utf-8')))
         #self.wfile.write("POST request for {}".format(self.path).encode('utf-8'))
 
 

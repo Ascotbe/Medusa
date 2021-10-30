@@ -1925,6 +1925,9 @@ class DomainNameSystemLog:  # 存放DNSLOG数据
                                 (dnslog_id INTEGER PRIMARY KEY,\
                                 domain_name TEXT NOT NULL,\
                                 ip TEXT NOT NULL,\
+                                type TEXT NOT NULL,\
+                                request TEXT NOT NULL,\
+                                response TEXT NOT NULL,\
                                 creation_time TEXT NOT NULL)")
 
 
@@ -1935,13 +1938,28 @@ class DomainNameSystemLog:  # 存放DNSLOG数据
         CreationTime = str(int(time.time()))  # 创建时间
         Ip = kwargs.get("ip")  # 请求IP不一定准确
         DomainName = kwargs.get("domain_name")  # 获取解析域名
+        Type= kwargs.get("type")  # 获取解析类型
+        Request= kwargs.get("request")  # 获取请求完整数据包
+        Response= kwargs.get("response")  # 获取返回完整数据包
         try:
-            DomainNameSystemAddressLength=len("."+domain_name_system_address)#获取长度，加点是为了截断域名
-            TreatmentDomainName=DomainName[-DomainNameSystemAddressLength:]#进行截断处理
-            if TreatmentDomainName=="."+domain_name_system_address:
+            if Type=="dns":
+                DomainNameSystemAddressLength=len("."+domain_name_system_address)#获取长度，加点是为了截断域名
+                TreatmentDomainName=DomainName[-DomainNameSystemAddressLength:]#进行截断处理
+                if TreatmentDomainName=="."+domain_name_system_address:
+                    try:
+                        self.cur.execute("INSERT INTO DomainNameSystemLog(domain_name,ip,type,request,response,creation_time)\
+                            VALUES (?,?,?,?,?,?)",(DomainName,Ip,Type,Request,Response,CreationTime,))
+                        # 提交
+                        self.con.commit()  # 只发送数据不结束
+                        self.con.close()
+                        return True
+                    except Exception as e:
+                        ErrorLog().Write("Web_WebClassCongregation_DomainNameSystemLog(class)_Write(def)", e)
+                        return False
+            elif Type=="http":
                 try:
-                    self.cur.execute("INSERT INTO DomainNameSystemLog(domain_name,ip,creation_time)\
-                        VALUES (?,?,?)",(DomainName,Ip,CreationTime,))
+                    self.cur.execute("INSERT INTO DomainNameSystemLog(domain_name,ip,type,request,response,creation_time)\
+                        VALUES (?,?,?,?,?,?)", (DomainName, Ip, Type, Request, Response, CreationTime,))
                     # 提交
                     self.con.commit()  # 只发送数据不结束
                     self.con.close()

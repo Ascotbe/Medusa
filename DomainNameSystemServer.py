@@ -84,7 +84,7 @@ class DNSUDPHandler(socketserver.BaseRequestHandler):
                 name = dns.getname()
                 toip = namemap['*']
                 dns.setip(toip)
-                DomainNameSystemLog().Write(ip=self.client_address[0],domain_name=name)
+                DomainNameSystemLog().Write(ip=self.client_address[0],domain_name=name,type="dns",response="",request="")
                 #print('%s:%s-->%s' % (self.client_address[0], name, toip))
                 socket.sendto(dns.getbytes(), self.client_address)
             else:

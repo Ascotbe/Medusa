@@ -1,5 +1,5 @@
 #!/bin/bash
-if [ $# != 10 ] ; then
+if [ $# != 11 ] ; then
     echo "Please enter 10 parameters, use the default value, use 'none' instead of the input"
     exit 1;
 fi
@@ -13,6 +13,7 @@ third_party_mail_user=$7
 third_party_mail_pass=$8
 local_mail_host=$9
 local_mail_user=${10}
+server_ip=${11}
 if [[ `uname` == 'Linux' ]]; then
     sudo apt update
     sudo apt install docker.io -y
@@ -96,6 +97,14 @@ if [[ `uname` == 'Linux' ]]; then
         sed -i "s/ascotbe@ascotbe.com/$local_mail_user/g" config.py
         echo -e "\033[31m modify the self-built server mailbox \033[35m--->\033[0m\033[0m$local_mail_user"
     fi
+    if [ "$server_ip" = "none" ]  ;then
+        echo -e "\033[32m Uncomplete to the server IP address, will cause the dnslog function to not be available !\033[0m"
+    else
+        #本机服务器代码
+        sed -i "s/192.168.1.1/$third_party_mail_host/g" config.py
+        echo -e "\033[31m This machine IP has been set to \033[35m--->\033[0m\033[0m$third_party_mail_host"
+    fi
+    sleep 3
     echo -e "#\!/bin/bash\nredis-server /etc/redis/redis.conf &\npython3 DomainNameSystemServer.py &\ncelery -A Web worker --loglevel=info --pool=solo &\nnginx\npython3 manage.py runserver 0.0.0.0:9999 --insecure --noreload" >>run.sh
     tar zcvf Medusa.tat.gz *
     sudo docker build -t medusa_web .

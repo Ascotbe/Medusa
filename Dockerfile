@@ -30,5 +30,6 @@ WORKDIR /Medusa
 RUN mv ssl.pem /etc/nginx/cert/
 RUN mv ssl.key /etc/nginx/cert/
 RUN python3 -m pip install -r Medusa.txt
+RUN nginx
 RUN chmod +x run.sh
 CMD ./run.sh

@@ -102,7 +102,7 @@ if [[ `uname` == 'Linux' ]]; then
         echo -e "\033[32m Uncomplete to the server IP address, will cause the dnslog function to not be available !\033[0m"
     else
         #本机服务器代码
-        sed -i "s/192.168.1.1/$third_party_mail_host/g" config.py
+        sed -i "s/192.168.1.1/$server_ip/g" config.py
         echo -e "\033[31m This machine IP has been set to \033[35m--->\033[0m\033[0m$third_party_mail_host"
     fi
     sleep 3

@@ -60,6 +60,7 @@ if [[ `uname` == 'Linux' ]]; then
     else
         #DNSLOG接收域名
         sed -i "s/dnslog.ascotbe.com/$domain_name_system_address/g" config.py
+        sed -i "s/this_is_your_dnslog_name/$domain_name_system_address/g" Dockerfile
         echo -e "\033[31m modify dnslog domain name \033[35m--->\033[0m\033[0m$domain_name_system_address"
     fi
     if [ "$third_party_mail_host" = "none" ]  ;then

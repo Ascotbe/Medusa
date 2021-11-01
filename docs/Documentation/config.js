@@ -15,7 +15,7 @@ let config = {
             title: '简介', path: '/'
         },
         {
-            title: '安装说明', path: '/WebVersionInstallation'
+            title: '安装说明', path: '/Installation'
         },
 		{
             title: '插件编写', type: 'dropdown', items: [

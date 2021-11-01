@@ -3,7 +3,7 @@
 - 前端页面在重构，请下载打包版本手动安装，望周知（
 
 
-- 所有的配置域名都只需要一个即可
+- 所有的配置只需要拥有一个域名
 
 ## 无SSL证书方式安装
 
@@ -155,7 +155,7 @@ server {
     # 服务器端口使用443，开启ssl, 这里ssl就是上面安装的ssl模块
     listen       443 ssl;
     #填写绑定证书的域名
-    server_name  ascotbe.com; ##你的域名
+    server_name  medusa.ascotbe.com; #你的域名
     
     # ssl证书地址，从阿里云或者腾讯云免费申请
     ssl_certificate     /etc/nginx/cert/ssl.pem;  #证书文件名称
@@ -187,18 +187,28 @@ server {
 }
 server {
     listen       80;
-    server_name  ascotbe.com; #你的域名
+    server_name  medusa.ascotbe.com; #你的域名
     return 301 https://$server_name$request_uri;
 }
-server {
+server {#这个只是单纯接管一个dnslogtest.ascotbe.com
     listen       80;
     server_name  dnslogtest.ascotbe.com;#你的DNSLOG的域名
     location / {
         proxy_pass  http://127.0.0.1:8888; # 转发
         proxy_set_header Host $host;
-	   proxy_set_header X-Real-IP $remote_addr; #一般的web服务器用这个 X-Real-IP 来获取源IP
+	      proxy_set_header X-Real-IP $remote_addr; #一般的web服务器用这个 X-Real-IP 来获取源IP
         proxy_set_header x-forwarded-for $proxy_add_x_forwarded_for; 	   #如果nginx 服务器是作为反向代理服务器的，则这个配置项是必须的；否则看不到源IP
     }
+server {#这个是接管所有的关于dnslogtest.ascotbe.com的子域名
+    listen       80;
+    server_name  *.dnslogtest.ascotbe.com;
+    location / {
+        proxy_pass  http://127.0.0.1:8888;
+        proxy_set_header Host $host;
+	      proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header x-forwarded-for $proxy_add_x_forwarded_for; 	  
+    }
+}
 ```
 
 接着重新启动Nginx
@@ -242,7 +252,7 @@ sudo chmod +x install.sh
 
 接着把你申请的域名证书覆盖项目中的ssl.key和ssl.pem这两个文件，不然会默认使用测试证书
 
-然后执行脚本即可，需要传入10个参数，每个参数解释如下（如果不想修改，只需传入`none`）：
+然后执行脚本即可，需要传入11个参数，每个参数解释如下（如果不想修改，只需传入`none`）：
 
 1. 表示docker环境内的Redis密码（不要传入特殊字符，一般字母+数字即可
 2. 你注册用户所要使用的秘钥
@@ -254,10 +264,11 @@ sudo chmod +x install.sh
 8. 你第三方邮件服务器秘钥
 9. 自建SMTP服务器（可以不配，传入none这样会默认使用第三方SMTP进行发送邮件
 10. 自建服务器邮箱（同上
+11. 你服务器的IP值（必填
 
 ```bash
 #演示命令如下，参数必须与之对应
-./install.sh "redis_pass" "secret_key_required_for_account_registration" "forget_password_key" "test.medusa.ascotbe.com" "test.dnslog.ascotbe.com" "smtp.163.com" "ascotbe@163.com" "third_party_mail_pass" "smtp.ascotbe.com" "ascotbe@ascotbe.com"
+./install.sh "redis_pass" "secret_key_required_for_account_registration" "forget_password_key" "test.medusa.ascotbe.com" "test.dnslog.ascotbe.com" "smtp.163.com" "ascotbe@163.com" "third_party_mail_pass" "smtp.ascotbe.com" "ascotbe@ascotbe.com" "you_server_ip"
 ```
 
 ## 关于DNSLOG配置
@@ -304,6 +315,7 @@ sudo systemctl restart systemd-resolved.service
 
 ```bash
 python3 DomainNameSystemServer.py
+python3 HTTPServer.py
 ```
 
 **切记如果是云服务器一定要把安全策略组的TCP和UDP的53端口开放!!!!!**

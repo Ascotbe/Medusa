@@ -16,6 +16,8 @@ RUN sed -i "s/I_will_always_like_AyanamiRei/redis_passwd123/g" /etc/redis/redis.
 ADD ./Medusa.tat.gz /Medusa
 #COPY ./*  ./Medusa/
 RUN sed -i "s/medusa.ascotbe.com/this_is_you_domain_name/g" /etc/nginx/sites-enabled/default
+RUN sed -i "s/\*.dnslogtest.ascotbe.com/this_is_your_dnslog_name/g" /etc/nginx/sites-enabled/default
+RUN sed -i "s/dnslogtest.ascotbe.com/this_is_your_dnslog_name/g" /etc/nginx/sites-enabled/default
 WORKDIR /Medusa/Vue/
 RUN rm -rf package-lock.json
 RUN npm install npm@6.14.15 -g

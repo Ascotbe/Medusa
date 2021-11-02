@@ -103,7 +103,7 @@ if [[ `uname` == 'Linux' ]]; then
     else
         #本机服务器代码
         sed -i "s/192.168.1.1/$server_ip/g" config.py
-        echo -e "\033[31m This machine IP has been set to \033[35m--->\033[0m\033[0m$third_party_mail_host"
+        echo -e "\033[31m This machine IP has been set to \033[35m--->\033[0m\033[0m$server_ip"
     fi
     sleep 3
     echo -e "#\!/bin/bash\nredis-server /etc/redis/redis.conf &\npython3 DomainNameSystemServer.py &\ncelery -A Web worker --loglevel=info --pool=solo &\nnginx\npython3 manage.py runserver 0.0.0.0:9999 --insecure --noreload &\npython3 HTTPServer.py " >>run.sh

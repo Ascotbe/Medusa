@@ -72,12 +72,12 @@ export PYTHONIOENCODING=utf-8
 redis_host="localhost"#连接redis的地址，默认本地
 redis_port="6379"#redis连接端口，默认6379
 redis_db="6"#连接的数据库，默认为6
-redis_password="I_will_always_like_Rei_Ayanami"#连接redis的密码
+redis_password="I_will_always_like_AyanamiRei"#连接redis的密码
 #开启功能和修改默认参数
 registration_function_status=True#默认开启注册功能，注册完毕请手段关闭
 forgot_password_function_status=False#默认关闭忘记密码功能
-secret_key_required_for_account_registration="I_will_always_like_Rei_Ayanami"#注册账号需要的秘钥,最好修改为250个随机字符串
-forget_password_key="https://github.com/Ascotbe/Medusa"#修改密码所需要的key
+secret_key_required_for_account_registration="I_will_always_like_SoryuAsukaLangley"#注册账号需要的秘钥,最好修改为250个随机字符串
+forget_password_key="I_will_always_like_KatsuragiMisato"#修改密码所需要的key
 ```
 
 > 配置前端
@@ -100,16 +100,18 @@ module.exports = faceConfig()
 
 > 启动项目
 
-在更目录中，分别打开3个命令行窗口，运行下面三条命令
+在更目录中，分别打开5个命令行窗口，运行下面三条命令
 
 - 注意启动的端口要和前端配置文件中的相同
 - 注意启动Redis的时候，配置文件的路径请按自己的路径进行替换
-- 以下三条命令都在**Medusa/**根目录下面运行
+- 以下五条命令都在**Medusa/**根目录下面运行
 
 ```bash
 celery -A Web worker --loglevel=info --pool=solo
 python3 manage.py runserver 0.0.0.0:9999 --insecure --noreload
+python3 DomainNameSystemServer.py
 redis-server /etc/redis/redis.conf
+python3 HTTPServer.py
 ```
 
 接着再打开一个窗口，在**Medusa/Vue/**目录运行以下命令
@@ -220,16 +222,18 @@ sudo systemctl restart nginx
 
 > 启动项目
 
-运行下面三条命令
+运行下面五条命令
 
 - 注意启动的端口要和前端配置文件中的相同
 - 注意启动Redis的时候，配置文件的路径请按自己的路径进行替换
-- 以下三条命令都在**Medusa/**根目录下面运行
+- 以下五条命令都在**Medusa/**根目录下面运行
 
 ```bash
-nohup celery -A Web worker --loglevel=info --pool=solo &
-nohup python3 manage.py runserver 0.0.0.0:9999 --insecure --noreload &
+celery -A Web worker --loglevel=info --pool=solo
+python3 manage.py runserver 0.0.0.0:9999 --insecure --noreload
+python3 DomainNameSystemServer.py
 redis-server /etc/redis/redis.conf
+python3 HTTPServer.py
 ```
 
 最后访问`http://ascotbe.com`即可看到web界面（注意这是你自己的域名
@@ -323,15 +327,22 @@ python3 HTTPServer.py
 
 ### 配置域名
 
-接收的IP为medusa搭建的那台机器
+接收的IP(1.1.1.1)为medusa搭建的那台机器
 
-![image-20211006120541088](https://raw.staticdn.net/Ascotbe/Random-img/master/Medusa/DNSLOG.png)
+```
+主机记录            记录类型            线路类型           记录值              
+ns1                A                  默认              1.1.1.1
+dnslog　　　　　　　 MX                 默认              ns1.ascotbe.com
+```
 
 ## 关于域名配置
 
-![img](https://raw.staticdn.net/Ascotbe/Random-img/master/Medusa/DomainName.png)
+接收的IP(1.1.1.1)为medusa搭建的那台机器
 
-
+```
+主机记录            记录类型            线路类型           记录值              
+test.medusa        A                  默认              1.1.1.1
+```
 
 ## 关于自建邮服配置
 

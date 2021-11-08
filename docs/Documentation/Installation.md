@@ -2,6 +2,7 @@
 
 - 前端页面在重构，请下载打包版本手动安装，望周知（
 
+- 别用阿里云服务器，他们25端口开不了(腾讯云没测
 
 - 所有的配置只需要拥有一个域名
 
@@ -19,15 +20,15 @@ git clone https://github.com/Ascotbe/Medusa.git
 
 ```bash
 #macOS把apt替换成brew即可
-sudo apt install nodejs
-sudo apt install npm
-sudo apt install nginx
-sudo apt install redis
-sudo apt install python3 #需要3.7以上版本
-sudo apt install python3-pip
-sudo apt install mingw-w64
-sudo apt install golang-go
-sudo apt install nim
+sudo apt install nodejs -y
+sudo apt install npm -y
+sudo apt install nginx -y
+sudo apt install redis -y
+sudo apt install python3 -y#需要3.7以上版本
+sudo apt install python3-pip -y
+sudo apt install mingw-w64 -y
+sudo apt install golang-go -y
+sudo apt install nim -y
 ```
 
 > 安装前后端依赖

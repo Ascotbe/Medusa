@@ -59,6 +59,7 @@ def SendMail(MailMessage,Attachment,MailTitle,Sender,GoalMailbox,ThirdParty,Forg
                 SMTP.sendmail(third_party_mail_user, Target, EmailBox.as_string())
             else:
                 SMTP.connect(local_mail_host, 25)  # 25 为 SMTP 端口号
+                #SMTP.set_debuglevel(True)
                 SMTP.sendmail(local_mail_user, Target, EmailBox.as_string())
             MailStatus[Target] = "1"  # 写到状态表中
             SMTP.quit()
@@ -76,7 +77,7 @@ def SendMail(MailMessage,Attachment,MailTitle,Sender,GoalMailbox,ThirdParty,Forg
 	"mail_message":"<p>警戒警戒！莎莎检测到有人入侵！数据以保存喵~</p>",
     "attachment": {"Medusa.txt":"AeId9BrGeELFRudpjb7wG22LidVLlJuGgepkJb3pK7CXZCvmM51628131056"},
     "mail_title":"测试邮件",
-    "sender":"喵狗子",
+    "sender":"瓜皮大笨蛋",
     "goal_mailbox":["ascotbe@gmail.com","ascotbe@163.com"],
     "third_party":"0",
     "forged_address":"helpdesk@ascotbe.com"

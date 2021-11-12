@@ -29,9 +29,12 @@ def SendMail(MailMessage,Attachment,MailTitle,Sender,GoalMailbox,ThirdParty,Forg
     for Target in list(set(GoalMailbox)):  # 先去重，然后像多个目标发送
         try:
             EmailBox = MIMEMultipart()  # 创建容器
-            EmailBox['From'] = Sender + "<" + ForgedAddress + ">" # 发送人
-            EmailBox['To'] = Target# 发给谁
+
+            EmailBox['From'] = Header(Sender + "<" + ForgedAddress + ">", 'utf-8') # 发送人
+            EmailBox['To'] = Header(Target, 'utf-8')# 发给谁
             EmailBox['Subject'] = Header(MailTitle, 'utf-8')  # 标题
+            EmailBox["Accept-Language"] = "zh-CN"
+            EmailBox["Accept-Charset"] = "ISO-8859-1,utf-8"
             # 发送附件
             for i in Attachment:
                 Temp = TempFilePath + i  # 文件名字

@@ -21,7 +21,7 @@
 >
 >请下载releases版本使用，master分支正在重构前端
 
-#### **中文文档 |[EnglishDocumentation](https://github.com/Ascotbe/Medusa/blob/master/README.md)**
+#### **中文文档 | [EnglishDocumentation](https://github.com/Ascotbe/Medusa/blob/master/README.md)**
 
 ### :bulb:使用文档
 

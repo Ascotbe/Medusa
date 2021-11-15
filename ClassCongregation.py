@@ -625,87 +625,87 @@ class ProcessPool:  # 进程池，解决pythonGIL锁问题，单核跳舞实在�
 
 
 
-
-class CommandLineWidth:  # 输出横幅，就是每个组件加载后输出的东西
-    def getTerminalSize(self):
-        import platform  # 获取使用这个软件的平台
-        current_os = platform.system()  # 获取操作系统的具体类型
-        tuple_xy = None
-        if current_os == 'Windows':
-            tuple_xy = self._getTerminalSize_windows()
-            if tuple_xy is None:
-                tuple_xy = self._getTerminalSize_tput()
-                # needed for window's python in cygwin's xterm!
-        if current_os == 'Linux' or current_os == 'Darwin' or current_os.startswith('CYGWIN'):
-            tuple_xy = self._getTerminalSize_linux()
-        if tuple_xy is None:
-            tuple_xy = (80, 25)  # default value
-        return tuple_xy
-
-    # 函数名前下划线代表这是一个私有方法 这样我们在导入我们的这个模块的时候 python是不会导入方法名前带有下划线的方法的
-    def _getTerminalSize_windows(self):
-        res = None
-        try:
-            from ctypes import windll, create_string_buffer
-            """
-            STD_INPUT_HANDLE = -10  获取输入的句柄
-            STD_OUTPUT_HANDLE = -11 获取输出的句柄
-            STD_ERROR_HANDLE = -12  获取错误的句柄
-            """
-            h = windll.kernel32.GetStdHandle(-12)  # 获得输入、输出/错误的屏幕缓冲区的句柄
-            csbi = create_string_buffer(22)
-            res = windll.kernel32.GetConsoleScreenBufferInfo(h, csbi)
-        except:
-            return None
-        if res:
-            import struct
-            (bufx, bufy, curx, cury, wattr,
-             left, top, right, bottom, maxx, maxy) = struct.unpack("hhhhHhhhhhh", csbi.raw)
-            sizex = right - left + 1
-            sizey = bottom - top + 1
-            return sizex, sizey
-        else:
-            return None
-
-    # 函数名前下划线代表这是一个私有方法 这样我们在导入我们的这个模块的时候 python是不会导入方法名前带有下划线的方法的
-
-    def _getTerminalSize_tput(self):
-        try:
-            import subprocess
-            proc = subprocess.Popen(["tput", "cols"], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-            output = proc.communicate(input=None)
-            cols = int(output[0])
-            proc = subprocess.Popen(["tput", "lines"], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-            output = proc.communicate(input=None)
-            rows = int(output[0])
-            return (cols, rows)
-        except:
-            return None
-
-    def _getTerminalSize_linux(self):
-        def ioctl_GWINSZ(fd):
-            try:
-                import fcntl, termios, struct, os
-                cr = struct.unpack('hh', fcntl.ioctl(fd, termios.TIOCGWINSZ, '1234'))
-            except:
-                return None
-            return cr
-
-        cr = ioctl_GWINSZ(0) or ioctl_GWINSZ(1) or ioctl_GWINSZ(2)
-        if not cr:
-            try:
-                fd = os.open(os.ctermid(), os.O_RDONLY)
-                cr = ioctl_GWINSZ(fd)
-                os.close(fd)
-            except:
-                pass
-        if not cr:
-            try:
-                env = os.environ
-                cr = (env['LINES'], env['COLUMNS'])
-            except:
-                return None
-        return int(cr[1]), int(cr[0])
+#
+# class CommandLineWidth:  # 输出横幅，就是每个组件加载后输出的东西
+#     def getTerminalSize(self):
+#         import platform  # 获取使用这个软件的平台
+#         current_os = platform.system()  # 获取操作系统的具体类型
+#         tuple_xy = None
+#         if current_os == 'Windows':
+#             tuple_xy = self._getTerminalSize_windows()
+#             if tuple_xy is None:
+#                 tuple_xy = self._getTerminalSize_tput()
+#                 # needed for window's python in cygwin's xterm!
+#         if current_os == 'Linux' or current_os == 'Darwin' or current_os.startswith('CYGWIN'):
+#             tuple_xy = self._getTerminalSize_linux()
+#         if tuple_xy is None:
+#             tuple_xy = (80, 25)  # default value
+#         return tuple_xy
+#
+#     # 函数名前下划线代表这是一个私有方法 这样我们在导入我们的这个模块的时候 python是不会导入方法名前带有下划线的方法的
+#     def _getTerminalSize_windows(self):
+#         res = None
+#         try:
+#             from ctypes import windll, create_string_buffer
+#             """
+#             STD_INPUT_HANDLE = -10  获取输入的句柄
+#             STD_OUTPUT_HANDLE = -11 获取输出的句柄
+#             STD_ERROR_HANDLE = -12  获取错误的句柄
+#             """
+#             h = windll.kernel32.GetStdHandle(-12)  # 获得输入、输出/错误的屏幕缓冲区的句柄
+#             csbi = create_string_buffer(22)
+#             res = windll.kernel32.GetConsoleScreenBufferInfo(h, csbi)
+#         except:
+#             return None
+#         if res:
+#             import struct
+#             (bufx, bufy, curx, cury, wattr,
+#              left, top, right, bottom, maxx, maxy) = struct.unpack("hhhhHhhhhhh", csbi.raw)
+#             sizex = right - left + 1
+#             sizey = bottom - top + 1
+#             return sizex, sizey
+#         else:
+#             return None
+#
+#     # 函数名前下划线代表这是一个私有方法 这样我们在导入我们的这个模块的时候 python是不会导入方法名前带有下划线的方法的
+#
+#     def _getTerminalSize_tput(self):
+#         try:
+#             import subprocess
+#             proc = subprocess.Popen(["tput", "cols"], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+#             output = proc.communicate(input=None)
+#             cols = int(output[0])
+#             proc = subprocess.Popen(["tput", "lines"], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+#             output = proc.communicate(input=None)
+#             rows = int(output[0])
+#             return (cols, rows)
+#         except:
+#             return None
+#
+#     def _getTerminalSize_linux(self):
+#         def ioctl_GWINSZ(fd):
+#             try:
+#                 import fcntl, termios, struct, os
+#                 cr = struct.unpack('hh', fcntl.ioctl(fd, termios.TIOCGWINSZ, '1234'))
+#             except:
+#                 return None
+#             return cr
+#
+#         cr = ioctl_GWINSZ(0) or ioctl_GWINSZ(1) or ioctl_GWINSZ(2)
+#         if not cr:
+#             try:
+#                 fd = os.open(os.ctermid(), os.O_RDONLY)
+#                 cr = ioctl_GWINSZ(fd)
+#                 os.close(fd)
+#             except:
+#                 pass
+#         if not cr:
+#             try:
+#                 env = os.environ
+#                 cr = (env['LINES'], env['COLUMNS'])
+#             except:
+#                 return None
+#         return int(cr[1]), int(cr[0])
 
 
 
@@ -713,31 +713,31 @@ class GetRootFileLocation:  # 获取当前文件路径类
     def Result(self) -> str:
         system_type = sys.platform
         if system_type == "win32" or system_type == "cygwin":
-            RootFileLocation = os.path.split(os.path.realpath(__file__))[0]
-            return RootFileLocation
+            Path = os.path.split(os.path.realpath(__file__))[0]
+            return Path
         elif system_type == "linux" or system_type == "darwin":
-            RootFileLocation = os.path.split(os.path.realpath(__file__))[0]
-            return RootFileLocation
+            Path = os.path.split(os.path.realpath(__file__))[0]
+            return Path
 
 class GetToolFilePath:  # 获取TOOL文件路径类
     def Result(self) -> str:
         system_type = sys.platform
         if system_type == "win32" or system_type == "cygwin":
-            ToolFilePath = GetRootFileLocation().Result()+"\\Tool\\"
-            return ToolFilePath
+            v = GetRootFileLocation().Result()+"\\Tool\\"
+            return Path
         elif system_type == "linux" or system_type == "darwin":
-            ToolFilePath = GetRootFileLocation().Result()+"/Tool/"
-            return ToolFilePath
+            Path = GetRootFileLocation().Result()+"/Tool/"
+            return Path
 
 class GetTempFilePath:  # 获取Temp文件路径类
     def Result(self) -> str:
         system_type = sys.platform
         if system_type == "win32" or system_type == "cygwin":
-            TempFilePath = GetRootFileLocation().Result()+"\\Temp\\"
-            return TempFilePath
+            Path = GetRootFileLocation().Result()+"\\Temp\\"
+            return Path
         elif system_type == "linux" or system_type == "darwin":
-            TempFilePath = GetRootFileLocation().Result()+"/Temp/"
-            return TempFilePath
+            Path = GetRootFileLocation().Result()+"/Temp/"
+            return Path
 
 class ExecuteChildprocess:  # 执行子进程类
     def Execute(self, command: List[str]) -> None:
@@ -858,51 +858,51 @@ class GetImageFilePath:  # 获取Image文件路径类
     def Result(self) -> str:
         system_type = sys.platform
         if system_type == "win32" or system_type == "cygwin":
-            ImageFilePath = GetRootFileLocation().Result()+"\\Web\\Image\\"
-            return ImageFilePath
+            Path = GetRootFileLocation().Result()+"\\Web\\Image\\"
+            return Path
         elif system_type == "linux" or system_type == "darwin":
-            ImageFilePath = GetRootFileLocation().Result()+"/Web/Image/"
-            return ImageFilePath
+            Path = GetRootFileLocation().Result()+"/Web/Image/"
+            return Path
 
 class GetJavaScriptFilePath:  # 获取JavaScript文件路径类
     def Result(self) -> str:
         system_type = sys.platform
         if system_type == "win32" or system_type == "cygwin":
-            JavaScriptFilePath = GetRootFileLocation().Result()+"\\Web\\CrossSiteScriptHub\\CrossSiteScriptProject\\"
-            return JavaScriptFilePath
+            Path = GetRootFileLocation().Result()+"\\Web\\CrossSiteScriptHub\\CrossSiteScriptProject\\"
+            return Path
         elif system_type == "linux" or system_type == "darwin":
-            JavaScriptFilePath = GetRootFileLocation().Result()+"/Web/CrossSiteScriptHub/CrossSiteScriptProject/"
-            return JavaScriptFilePath
+            Path = GetRootFileLocation().Result()+"/Web/CrossSiteScriptHub/CrossSiteScriptProject/"
+            return Path
 
 class GetCrossSiteScriptTemplateFilePath:  # 获取CrossSiteScriptTemplate文件路径类
     def Result(self) -> str:
         system_type = sys.platform
         if system_type == "win32" or system_type == "cygwin":
-            CrossSiteScriptTemplateFilePath = GetRootFileLocation().Result()+"\\Web\\CrossSiteScriptHub\\CrossSiteScriptTemplate\\"
-            return CrossSiteScriptTemplateFilePath
+            Path = GetRootFileLocation().Result()+"\\Web\\CrossSiteScriptHub\\CrossSiteScriptTemplate\\"
+            return Path
         elif system_type == "linux" or system_type == "darwin":
-            CrossSiteScriptTemplateFilePath = GetRootFileLocation().Result()+"/Web/CrossSiteScriptHub/CrossSiteScriptTemplate/"
-            return CrossSiteScriptTemplateFilePath
+            Path = GetRootFileLocation().Result()+"/Web/CrossSiteScriptHub/CrossSiteScriptTemplate/"
+            return Path
 
 class GetAnalysisFileStoragePath:  # 获取分析文件存储路径类
     def Result(self) -> str:
         system_type = sys.platform
         if system_type == "win32" or system_type == "cygwin":
-            AnalysisFileStoragePath = GetRootFileLocation().Result()+"\\Web\\ToolsUtility\\BinaryAnalysis\\AnalysisFileStorage\\"
-            return AnalysisFileStoragePath
+            Path = GetRootFileLocation().Result()+"\\Web\\ToolsUtility\\BinaryAnalysis\\AnalysisFileStorage\\"
+            return Path
         elif system_type == "linux" or system_type == "darwin":
-            AnalysisFileStoragePath = GetRootFileLocation().Result()+"/Web/ToolsUtility/BinaryAnalysis/AnalysisFileStorage/"
-            return AnalysisFileStoragePath
+            Path = GetRootFileLocation().Result()+"/Web/ToolsUtility/BinaryAnalysis/AnalysisFileStorage/"
+            return Path
 
 class GetTrojanFilePath:  # 获取生成好的病毒文件路径
     def Result(self) -> str:
         system_type = sys.platform
         if system_type == "win32" or system_type == "cygwin":
-            TrojanFilePath = GetRootFileLocation().Result()+"\\Web\\TrojanOrVirus\\TrojanFile\\"
-            return TrojanFilePath
+            Path = GetRootFileLocation().Result()+"\\Web\\TrojanOrVirus\\TrojanFile\\"
+            return Path
         elif system_type == "linux" or system_type == "darwin":
-            TrojanFilePath = GetRootFileLocation().Result()+"/Web/TrojanOrVirus/TrojanFile/"
-            return TrojanFilePath
+            Path = GetRootFileLocation().Result()+"/Web/TrojanOrVirus/TrojanFile/"
+            return Path
 
 def PortReplacement(Url,Prot):#替换URL里面的端口
     try:
@@ -915,11 +915,11 @@ def PortReplacement(Url,Prot):#替换URL里面的端口
 class GetNistDatabaseFilePath:  #  Nist数据库文件路径返回值
     def result(self) -> str:
         if sys.platform == "win32" or sys.platform == "cygwin":
-            NistDatabaseFilePath = GetRootFileLocation().Result() + "\\Nist.db"
-            return NistDatabaseFilePath
+            Path = GetRootFileLocation().Result() + "\\Nist.db"
+            return Path
         elif sys.platform == "linux" or sys.platform == "darwin":
-            NistDatabaseFilePath = GetRootFileLocation().Result() + "/Nist.db"
-            return NistDatabaseFilePath
+            Path = GetRootFileLocation().Result() + "/Nist.db"
+            return Path
 
 
 class BinaryDataTypeConversion:#对于原始二进制数据的类型转换
@@ -1054,11 +1054,11 @@ class ShellcodeEncryptionAndDecryption:#shellcode的加解密函数
 class GetPluginsFilePath:  #  插件文件路径
     def Result(self) -> str:
         if sys.platform == "win32" or sys.platform == "cygwin":
-            PluginsFilePath = GetRootFileLocation().Result() + "\\Plugins\\"
-            return PluginsFilePath
+            Path = GetRootFileLocation().Result() + "\\Plugins\\"
+            return Path
         elif sys.platform == "linux" or sys.platform == "darwin":
-            PluginsFilePath = GetRootFileLocation().Result() + "/Plugins/"
-            return PluginsFilePath
+            Path = GetRootFileLocation().Result() + "/Plugins/"
+            return Path
 
 class Plugins:#扫描插件相关数据库,里面存放yml插件
     def __init__(self):
@@ -1117,25 +1117,34 @@ class Plugins:#扫描插件相关数据库,里面存放yml插件
 class GetTrojanModulesFilePath:  #  木马插件模块位置
     def Result(self) -> str:
         if sys.platform == "win32" or sys.platform == "cygwin":
-            TrojanModulesFilePath = GetRootFileLocation().Result() + "\\Web\\TrojanOrVirus\\Modules\\"
-            return TrojanModulesFilePath
+            Path = GetRootFileLocation().Result() + "\\Web\\TrojanOrVirus\\Modules\\"
+            return Path
         elif sys.platform == "linux" or sys.platform == "darwin":
-            TrojanModulesFilePath = GetRootFileLocation().Result() + "/Web/TrojanOrVirus/Modules/"
-            return TrojanModulesFilePath
+            Path = GetRootFileLocation().Result() + "/Web/TrojanOrVirus/Modules/"
+            return Path
 
 class GetMailAttachmentFilePath:  #  邮件附件位置
     def Result(self) -> str:
         if sys.platform == "win32" or sys.platform == "cygwin":
-            MailAttachmentFilePath = GetRootFileLocation().Result() + "\\Web\\Mail\\Attachment\\"
-            return MailAttachmentFilePath
+            Path = GetRootFileLocation().Result() + "\\Web\\Mail\\Attachment\\"
+            return Path
         elif sys.platform == "linux" or sys.platform == "darwin":
-            MailAttachmentFilePath = GetRootFileLocation().Result() + "/Web/Mail/Attachment/"
-            return MailAttachmentFilePath
+            Path = GetRootFileLocation().Result() + "/Web/Mail/Attachment/"
+            return Path
 class GetMailImageFilePath:  #  邮件图片位置
     def Result(self) -> str:
         if sys.platform == "win32" or sys.platform == "cygwin":
-            MailImageFilePath = GetRootFileLocation().Result() + "\\Web\\Mail\\Image\\"
-            return MailImageFilePath
+            Path = GetRootFileLocation().Result() + "\\Web\\Mail\\Image\\"
+            return Path
         elif sys.platform == "linux" or sys.platform == "darwin":
-            MailImageFilePath = GetRootFileLocation().Result() + "/Web/Mail/Image/"
-            return MailImageFilePath
+            Path = GetRootFileLocation().Result() + "/Web/Mail/Image/"
+            return Path
+
+class FileAcquisitionPath:  #  文件采集器文件路径
+    def Result(self) -> str:
+        if sys.platform == "win32" or sys.platform == "cygwin":
+            Path = GetRootFileLocation().Result() + "\\Web\\FileAcquisition\\File\\"
+            return Path
+        elif sys.platform == "linux" or sys.platform == "darwin":
+            Path = GetRootFileLocation().Result() + "/Web/FileAcquisition/File/"
+            return Path

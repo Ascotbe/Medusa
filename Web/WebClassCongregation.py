@@ -304,7 +304,15 @@ class UserInfo:#用户表
         except Exception as e:
             ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)_ForgetPassword(def)", e)
             return False
-
+    def QueryUidWithKey(self,Key:str):#利用Key反向查唯一的UID
+        try:
+            self.cur.execute("select * from UserInfo where key =?", (Key,))
+            for tuple in self.cur.fetchall():
+                return tuple[1]
+            return None
+        except Exception as e:
+            ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)_QueryUidWithToken(def)", e)
+            return None
 
 
 class ActiveScanList:#用户主动扫描网站信息列表,写入父表中的SID

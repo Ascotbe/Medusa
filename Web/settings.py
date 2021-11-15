@@ -118,6 +118,9 @@ CORS_ALLOW_HEADERS = (
     'Pragma',
     'TrojanGenerateFileName',
     'TrojanId',
+    'Key',
+    'FileFullPath',
+    'UUID',
 )
 
 

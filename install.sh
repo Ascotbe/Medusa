@@ -87,9 +87,10 @@ if [[ `uname` == 'Linux' ]]; then
     if [ "$local_mail_host" = "none" ]  ;then
         echo -e "\033[32m no self-built SMTP server is modified, causing this feature unavailable ! \033[0m"
     else
-        #修改自建SMTP服务器
-        sed -i "s/smtp.ascotbe.com/$local_mail_host/g" config.py
-        echo -e "\033[31m modify self-built SMTP server \033[35m--->\033[0m\033[0m$local_mail_host"
+        #修改自建SMTP服务器,只能传入域名，邮箱@后面的值
+        sed -i "s/smtp.ascotbe.com/smtp.$local_mail_host/g" config.py
+        sed -i "s/this_is_your_mail_server_domain_name/$local_mail_host/g" Dockerfile
+        echo -e "\033[31m modify self-built SMTP server \033[35m--->\033[0m\033[0m smtp.$local_mail_host"
     fi
     if [ "$local_mail_user" = "none" ]  ;then
         echo -e "\033[32m no self-built server mailbox is not modified, causing this feature unavailable ~ \033[0m"

@@ -6,15 +6,17 @@
 
 - 所有的配置只需要拥有一个域名
 
-## 无SSL证书方式安装
+## 手动安装项目
 
-### 下载项目
+### 无SSL证书方式安装
+
+#### 下载项目
 
 ```bash
 git clone https://github.com/Ascotbe/Medusa.git
 ```
 
-### Linux&Mac
+#### Linux&Mac
 
 > 必要环境
 
@@ -123,7 +125,7 @@ npm run serve
 
 最后，如果您在上面的配置中都未修改端口以及IP，那么访问`http://127.0.0.1:8082`即可看到web界面
 
-## 使用SSL证书方式安装
+### 使用SSL证书方式安装
 
 后端和环境依赖都和无证书的配置一样，从前端开始有区别
 
@@ -239,45 +241,7 @@ python3 HTTPServer.py
 
 最后访问`http://ascotbe.com`即可看到web界面（注意这是你自己的域名
 
-## Docker安装
-
-> docker源请换成官方源，否则下载的容器是几个月前的
-
-首先拉取项目
-
-```
-git clone --depth=1 https://github.com/Ascotbe/Medusa.git
-```
-
-然后进入项目，给install.sh脚本赋予权限
-
-```bash
-cd Medusa
-sudo chmod +x install.sh
-```
-
-接着把你申请的域名证书覆盖项目中的ssl.key和ssl.pem这两个文件，不然会默认使用测试证书
-
-然后执行脚本即可，需要传入11个参数，每个参数解释如下（如果不想修改，只需传入`none`）：
-
-1. 表示docker环境内的Redis密码（不要传入特殊字符，一般字母+数字即可
-2. 你注册用户所要使用的秘钥
-3. 你忘记密码位置所使用的秘钥
-4. 你需要配置的域名
-5. 你用来接收DNSLOG所需要的域名
-6. 你使用的第三方smtp服务器账号
-7. 你第三方邮件服务器账号
-8. 你第三方邮件服务器秘钥
-9. 自建SMTP服务器（可以不配，传入none这样会默认使用第三方SMTP进行发送邮件
-10. 自建服务器邮箱（同上
-11. 你服务器的IP值（必填
-
-```bash
-#演示命令如下，参数必须与之对应
-./install.sh "redis_pass" "secret_key_required_for_account_registration" "forget_password_key" "test.medusa.ascotbe.com" "test.dnslog.ascotbe.com" "smtp.163.com" "ascotbe@163.com" "third_party_mail_pass" "smtp.ascotbe.com" "ascotbe@ascotbe.com" "you_server_ip"
-```
-
-## 关于DNSLOG配置
+### 某些服务器DNSLOG配置的坑
 
 > 如果你服务器不会占用该端口，可以忽略修改，直接跳到域名配置
 
@@ -326,26 +290,90 @@ python3 HTTPServer.py
 
 **切记如果是云服务器一定要把安全策略组的TCP和UDP的53端口开放!!!!!**
 
-### 配置域名
+## Docker自动安装
+
+> docker源请换成官方源，否则下载的容器是几个月前的
+
+首先拉取项目
+
+```
+git clone --depth=1 https://github.com/Ascotbe/Medusa.git
+```
+
+然后进入项目，给install.sh脚本赋予权限
+
+```bash
+cd Medusa
+sudo chmod +x install.sh
+```
+
+接着把你申请的域名证书覆盖项目中的ssl.key和ssl.pem这两个文件，不然会默认使用测试证书
+
+> 演示所用到的几个域名
+>
+> 搭建medusa的域名：medusa.test.ascotbe.com
+>
+> dnslog的域名：dnslog.test.ascotbe.com
+>
+> 邮件服务器域名：smtp.ascotbe.com
+>
+> 你搭建服务器的IP：1.1.1.1
+
+然后执行脚本即可，需要传入11个参数，每个参数解释如下（如果不想修改，只需传入`none`）：
+
+1. 表示docker环境内的Redis密码（不要传入特殊字符，一般字母+数字即可
+2. 你注册用户所要使用的秘钥
+3. 你忘记密码位置所使用的秘钥
+4. 你需要配置的域名
+5. 你用来接收DNSLOG所需要的域名
+6. 你使用的第三方smtp服务器账号
+7. 你第三方邮件服务器账号
+8. 你第三方邮件服务器秘钥
+9. 自建SMTP服务器（只能传入域名，邮箱@后面的值
+10. 自建服务器邮箱（看这个参数值就知道第9点是什么意思了
+11. 你服务器的IP值（必填
+
+```bash
+#演示命令如下，参数必须与之对应
+./install.sh "redis_pass" "secret_key_required_for_account_registration" "forget_password_key" "medusa.test.ascotbe.com" "dnslog.test.ascotbe.com" "smtp.163.com" "ascotbe@163.com" "third_party_mail_pass" "ascotbe.com" "test@ascotbe.com" "1.1.1.1"
+```
+
+## 配置DNSLOG域名
 
 接收的IP(1.1.1.1)为medusa搭建的那台机器
 
 ```
 主机记录            记录类型            线路类型           记录值              
 ns1                A                  默认              1.1.1.1
-dnslog　　　　　　　 MX                 默认              ns1.ascotbe.com
+dnslog.test　　　　 MX                 默认              ns1.ascotbe.com
 ```
 
-## 关于域名配置
+## 配置主站域名
 
 接收的IP(1.1.1.1)为medusa搭建的那台机器
 
 ```
 主机记录            记录类型            线路类型           记录值              
-test.medusa        A                  默认              1.1.1.1
+medusa.test        A                  默认              1.1.1.1
 ```
 
-## 关于自建邮服配置
+## 配置自建邮服域名
 
-[参考文章](https://www.ascotbe.com/2021/08/17/Office_0x02/)的第一节:搭建邮件服务器
+> 手动搭建的[参考文章](https://www.ascotbe.com/2021/08/17/Office_0x02/)的第一节:搭建邮件服务器
+
+> docker搭建的只需要配置域名即可
+
+接收的IP(1.1.1.1)为medusa搭建的那台机器
+
+```
+主机记录            记录类型            线路类型           记录值              
+@                  TXT                默认              v=spf1 ip4:1.1.1.1 -all
+@                  A                  默认              1.1.1.1
+@                  MX                 默认              mail.ascotbe.com | 10
+mail               A                  默认              1.1.1.1
+pop3               CNAME              默认              mail.ascotbe.com
+pop                CNAME              默认              mail.ascotbe.com
+imap               CNAME              默认              mail.ascotbe.com
+smtp               CNAME              默认              mail.ascotbe.com
+```
 

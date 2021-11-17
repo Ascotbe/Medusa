@@ -17,17 +17,24 @@
       style="min-width:158px;"
     >
       <a-col class="synthetical" :style="{ background: item.background }">
-        <div style="padding: 10px 0 10px 0">{{ item.name }}</div>
+        <a-col :span="24" style="padding: 10px 0 10px 0">{{ item.name }}</a-col>
         <MyIcon :type="item.type" class="myicon" />
         <span class="syntheticalVal">
-          <span style="font-size:36px">{{ item.val }}</span>个
+          <span style="font-size:50px;padding-left: 30px;">{{ item.val }}</span>个
         </span>
       </a-col>
     </a-col>
     <a-col :xs="{ span: 24 }" :lg="{ span: 12 }" class="Itemized">
       <a-col :xs="{ span: 24 }" class="Itemized-name">等级分布</a-col>
       <a-col :xs="{ span: 24 }" class="Itemized-nav">
-        <Echarts :echartsData="lvEchartsData" :echartsDeploy="lvDeploy" />
+        <Echarts
+          :echartsData="lvEchartsData"
+          type="bar"
+          :xAxis="lvXAxis"
+          :yAxis="lvYAxis"
+          :echartsSeries="lvEchartsSeries"
+          :universalTransition="true"
+        />
       </a-col>
     </a-col>
     <a-col :xs="{ span: 24 }" :lg="{ span: 12 }" class="Itemized">
@@ -50,7 +57,14 @@
         </a-col>
       </a-col>
       <a-col :xs="{ span: 24 }" class="Itemized-nav">
-        <Echarts :echartsData="leakEchartsData" :echartsDeploy="leakDeploy" />
+        <Echarts
+          :echartsData="leakEchartsData"
+          type="line"
+          :xAxis="leakXAxis"
+          :yAxis="leakYAxis"
+          :echartsSeries="leakEchartsSeries"
+          :universalTransition="true"
+        />
       </a-col>
     </a-col>
     <a-col :lg="{ span: 24 }" class="Itemized">
@@ -67,23 +81,42 @@
         </a-col>
       </a-col>
       <a-col :xs="{ span: 24 }" class="Itemized-nav">
-        <Echarts :echartsData="gitHubEchartsData" :echartsDeploy="gitHubDeploy" />
+        <Echarts
+          :echartsData="gitHubEchartsData"
+          type="line"
+          :xAxis="gitHubXAxis"
+          :yAxis="gitHubYAxis"
+          :echartsSeries="gitHubEchartsSeries"
+          :universalTransition="true"
+        />
       </a-col>
     </a-col>
     <a-col :lg="{ span: 24 }" class="Itemized">
       <a-col :xs="{ span: 24 }" class="Itemized-name">
-        <a-col :xs="{ span: 12}">CPU监控</a-col>
+        <a-col :xs="{ span: 24}">CPU监控</a-col>
       </a-col>
       <a-col :xs="{ span: 24 }" class="Itemized-nav">
-        <Echarts :echartsData="cpuEchartsData" :echartsDeploy="cpuDeploy" />
+        <Echarts
+          :echartsData="cpuEchartsData"
+          type="line"
+          :xAxis="cpuXAxis"
+          :yAxis="cpuYAxis"
+          :echartsSeries="cpuEchartsSeries"
+        />
       </a-col>
     </a-col>
     <a-col :lg="{ span: 24 }" class="Itemized">
       <a-col :xs="{ span: 24 }" class="Itemized-name">
-        <a-col :xs="{ span: 12}">内存监控</a-col>
+        <a-col :xs="{ span: 24}">内存监控</a-col>
       </a-col>
       <a-col :xs="{ span: 24 }" class="Itemized-nav">
-        <Echarts :echartsData="memoryEchartsData" :echartsDeploy="memoryDeploy" />
+        <Echarts
+          :echartsData="memoryEchartsData"
+          type="line"
+          :xAxis="memoryXAxis"
+          :yAxis="memoryYAxis"
+          :echartsSeries="memoryEchartsSeries"
+        />
       </a-col>
     </a-col>
   </a-row>
@@ -140,14 +173,17 @@ export default {
           val: 0,
         },
       ],
+
+
       lvEchartsData: [], //等级分布 的 数据 
-      lvDeploy: {  //等级分布 的 参数
-        seriesType: 'bar',
-        xType: "category",
-        yType: "value",
-        // titleText: "等级分布",
-        xData: ["低危", "中危", "高危"],
-        seriesItemStyle: [
+      lvXAxis: {
+        type: 'category',
+      },
+      lvYAxis: [{
+        type: 'value'
+      }],
+      lvEchartsSeries: {
+        itemStyle: [
           {
             color: function (params) {
               // build a color map as your need.
@@ -161,40 +197,181 @@ export default {
           }
         ]
       },
-      gitHubEchartsData: [], //githu监控 的 数据
-      gitHubDeploy: { //githu监控 的参数
-        seriesName: ["gitHub"],
-        seriesType: 'line',
-        xType: "category",
-        yType: "value",
-        seriesItemStyle: [
+      // lvDeploy: {  //等级分布 的 参数
+      //   seriesType: 'bar',
+      //   xType: "category",
+      //   yType: "value",
+      //   // titleText: "等级分布",
+      //   xData: ["低危", "中危", "高危"],
+      //   seriesItemStyle: [
+      //     {
+      //       color: function (params) {
+      //         // build a color map as your need.
+      //         let colorList = [
+      //           "rgb(254, 67, 101)",
+      //           "rgb(250, 218, 141)",
+      //           "rgb(137, 190, 178)",
+      //         ];
+      //         return colorList[params.dataIndex];
+      //       },
+      //     }
+      //   ]
+      // },
 
+
+
+      gitHubEchartsData: [], //githu监控 的 数据
+      gitHubXAxis: {
+        type: 'category',
+      },
+      gitHubYAxis: [{
+        type: 'value'
+      }],
+      gitHubEchartsSeries: {
+        name: ["gitHub"],
+        areaStyle: [
+          {
+            color: {
+              type: "linear",
+              x: 0,
+              y: 0,
+              x2: 0,
+              y2: 1,
+              colorStops: [
+                {
+                  offset: 0,
+                  color: "rgba(164,189,247,1)",
+                },
+                {
+                  offset: 1,
+                  color: "rgba(254,254,255,1)",
+                },
+              ],
+            },
+          },
+        ]
+      },
+      // gitHubDeploy: { //githu监控 的参数
+      //   seriesName: ["gitHub"],
+      //   seriesType: 'line',
+      //   xType: "category",
+      //   yType: "value",
+      //   seriesItemStyle: [
+
+      //   ]
+      // },
+
+      cpuEchartsData: [],//cpu的 数据
+      cpuXAxis: {
+        type: 'category',
+      },
+      cpuYAxis: [
+        {
+          type: 'value',
+          splitNumber: 5,
+          minInterval: 25,
+          max: 100,
+          axisLabel: {
+            show: true,
+            color: "rgba(169,169,169,1)",
+            formatter: "{value} %",
+          },
+        }
+      ],
+      cpuEchartsSeries: {
+        name: ["核心", "cpu0", "cpu1", "cpu2", "cpu3", "cpu4", "cpu5", "cpu6", "cpu7", "cpu8", "cpu9", "cpu10", "cpu11", "cpu12", "cpu13", "cpu14", "cpu15"]
+      },
+      // cpuDeploy: {//cpu 的 参数
+      //   seriesName: ["核心", "cpu0", "cpu1", "cpu2", "cpu3", "cpu4", "cpu5", "cpu6", "cpu7", "cpu8", "cpu9", "cpu10", "cpu11", "cpu12", "cpu13", "cpu14", "cpu15"],
+      //   seriesType: 'line',
+      //   xType: "category",
+      //   yType: "value",
+      // },
+
+
+
+      leakXAxis: {
+        type: 'category',
+      },
+      leakYAxis: [{
+        type: 'value'
+      }],
+      leakEchartsSeries: {
+        name: ["leak"],
+        areaStyle: [
+          {
+            color: {
+              type: "linear",
+              x: 0,
+              y: 0,
+              x2: 0,
+              y2: 1,
+              colorStops: [
+                {
+                  offset: 0,
+                  color: "rgba(164,189,247,1)",
+                },
+                {
+                  offset: 1,
+                  color: "rgba(254,254,255,1)",
+                },
+              ],
+            },
+          },
         ]
       },
       leakEchartsData: [],//漏洞分布 的 数据
-      leakDeploy: {//漏洞分布 的 参数
-        seriesName: ["leak"],
-        seriesType: 'line',
-        xType: "category",
-        yType: "value",
-        seriesItemStyle: [
+      // leakDeploy: {//漏洞分布 的 参数
+      //   seriesName: ["leak"],
+      //   seriesType: 'line',
+      //   xType: "category",
+      //   yType: "value",
+      //   seriesItemStyle: [
 
-        ]
+      //   ]
+      // },
+
+
+
+      memoryXAxis: {
+        type: 'category',
       },
-      cpuEchartsData: [],//cpu的 数据
-      cpuDeploy: {//cpu 的 参数
-        seriesName: ["核心", "cpu0", "cpu1", "cpu2", "cpu3", "cpu4", "cpu5", "cpu6", "cpu7", "cpu8", "cpu9", "cpu10", "cpu11", "cpu12", "cpu13", "cpu14", "cpu15"],
-        seriesType: 'line',
-        xType: "category",
-        yType: "value",
+      memoryYAxis: [
+        {
+          type: 'value',
+          name: '使用率',
+          splitNumber: 5,
+          minInterval: 25,
+          max: 100,
+          axisLabel: {
+            show: true,
+            color: "rgba(169,169,169,1)",
+            formatter: "{value} %",
+          },
+        },
+        {
+          type: 'value',
+          name: 'Gb',
+          splitNumber: 5,
+          max: 100,
+          axisLabel: {
+            show: true,
+            color: "rgba(169,169,169,1)",
+            formatter: "{value}",
+          },
+        }
+      ],
+      memoryEchartsSeries: {
+        name: ["未使用", "使用百分比"],
+        yAxisIndex: [1, 0]
       },
       memoryEchartsData: [],//内存监控的数据
-      memoryDeploy: { //内存监控的参数
-        seriesName: ["已使用", "未使用", "使用百分比"],
-        seriesType: 'line',
-        xType: "category",
-        yType: "value",
-      },
+      // memoryDeploy: { //内存监控的参数
+      //   seriesName: ["已使用", "未使用", "使用百分比"],
+      //   seriesType: 'line',
+      //   xType: "category",
+      //   yType: "value",
+      // },
       defaultDate: []
 
     }
@@ -228,7 +405,7 @@ export default {
           })
           _this.lvEchartsData = [
             [
-              res.message.low_risk_number, res.message.mid_risk_number, res.message.high_risk_number
+              ['低危', res.message.low_risk_number], ['中危', res.message.mid_risk_number], ['高危', res.message.high_risk_number],
             ]
           ]
         } else {
@@ -393,8 +570,11 @@ export default {
           memory_percent.push([_this.moment(res.message[i].creation_time, "X").format('H:mm:ss'), res.message[i].memory_percent])
         }
         thread.unshift(core)
+        //计算内存最大值
+        const memory_max = (parseFloat(memory_used[0][1]) + parseFloat(memory_free[0][1])).toFixed(2)
+        _this.memoryYAxis[1].max = memory_max
         _this.cpuEchartsData = thread
-        memory = [memory_used, memory_free, memory_percent]
+        memory = [memory_used, memory_free]
         _this.memoryEchartsData = memory
       });
     },
@@ -412,6 +592,9 @@ export default {
   text-align: left;
   font-weight: 800;
   color: aliceblue;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   .myicon {
     display: inline-block;
     border: 1px solid #88888870;
@@ -419,13 +602,14 @@ export default {
     box-shadow: 0px 2px 5px #6b6b6b inset;
     overflow: hidden;
     padding: 10px;
-    font-size: 40px;
+    font-size: 50px;
   }
   .syntheticalVal {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    font-size: 25px;
+    // position: absolute;
+    // left: 50%;
+    // top: 50%;
+    // transform: translate(-50%, -50%);
   }
 }
 .Itemized-name {

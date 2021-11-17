@@ -7,98 +7,108 @@
     ]"
   >
     <a-col :xs="24" :lg="16">
-      <Card :name="vulnerabilityCode" :bodyStyle="bodyStyle">
-        <div style="text-align:left">
-          <span style="font-size:24px; color:#51c51a">{{description.head}}</span>
-          {{description.body}}
-        </div>
-      </Card>
-      <a-tabs @activeKey="activeKey" style="text-align:left">
-        <a-tab-pane v-for="(item,i) in tabs" :key="i">
-          <span slot="tab">
-            {{item.name}}
-            <a-tag
-              :color="handleColor(item.body.severity?item.body.severity:item.body.cvssV2?item.body.cvssV2.baseSeverity:item.body.cvssV3.baseSeverity)"
-            >
-              {{item.body.cvssV2?item.body.cvssV2.baseScore:item.body.cvssV3.baseScore}}
-              {{item.body.severity?item.body.severity:item.body.cvssV2?item.body.cvssV2.baseSeverity:item.body.cvssV3.baseSeverity}}
-            </a-tag>
-          </span>
-          <a-col :xs="24" :lg="8" class="inner">
-            <a-col
-              :style="{background:handleColor(item.body.severity?item.body.severity:item.body.cvssV2?item.body.cvssV2.baseSeverity:item.body.cvssV3.baseSeverity) }"
-              class="innerFont"
-            >
-              <span
-                style="font-size:32px"
-              >{{item.body.cvssV2?item.body.cvssV2.baseScore:item.body.cvssV3.baseScore}}</span>
-              <span>/10</span>
-              <div>
-                {{item.body.cvssV2?'cvssV2:':'cvssV3:'}}
-                {{item.body.severity?item.body.severity:item.body.cvssV2?item.body.cvssV2.baseSeverity:item.body.cvssV3.baseSeverity}}
-              </div>
-            </a-col>
-            <a-col>Vector :{{item.body.cvssV3?item.body.cvssV3.version:item.body.cvssV2.version}}</a-col>
-            <a-col>Exploitability :{{item.body.exploitabilityScore?item.body.exploitabilityScore:''}}/Impact :{{item.body.impactScore?item.body.impactScore:''}}</a-col>
-          </a-col>
-          <a-col :xs="24" :lg="16">
-            <a-col :xs="24" :lg="12" v-for="(value,key,index) in (item.cvssV)" :key="index">
-              <div class="cvssV">
-                <span>{{key}}</span>
-                <a-tag :color="handleColor(value)">
-                  <span>{{value}}</span>
+      <a-col :xs="24">
+        <Card :name="vulnerabilityCode" :bodyStyle="bodyStyle">
+          <div style="text-align:left">
+            <span style="font-size:24px; color:#51c51a">{{description.head}}</span>
+            {{description.body}}
+          </div>
+          <a-tabs @activeKey="activeKey" style="text-align:left;">
+            <a-tab-pane v-for="(item,i) in tabs" :key="i">
+              <span slot="tab">
+                {{item.name}}
+                <a-tag
+                  :color="handleColor(item.body.severity?item.body.severity:item.body.cvssV2?item.body.cvssV2.baseSeverity:item.body.cvssV3.baseSeverity)"
+                >
+                  {{item.body.cvssV2?item.body.cvssV2.baseScore:item.body.cvssV3.baseScore}}
+                  {{item.body.severity?item.body.severity:item.body.cvssV2?item.body.cvssV2.baseSeverity:item.body.cvssV3.baseSeverity}}
                 </a-tag>
-              </div>
-            </a-col>
-          </a-col>
-        </a-tab-pane>
-      </a-tabs>
-      <Card :name="'References'" :headStyle="bodyStyle">
-        <!-- <a-icon slot="extraCard"  type="minus" /> -->
-        <Tables
-          :columns="columns"
-          :tableData="data"
-          :rowKey="`name`"
-          :scrollTable="{x:1000,y:400}"
-          :total="total"
-        />
-      </Card>
-      <Card :name="'Configurations'" :headStyle="bodyStyle">
-        <Configurations :configurations="configurations" />
-      </Card>
+              </span>
+              <a-col :xs="24" :lg="8" class="inner">
+                <a-col
+                  :style="{background:handleColor(item.body.severity?item.body.severity:item.body.cvssV2?item.body.cvssV2.baseSeverity:item.body.cvssV3.baseSeverity) }"
+                  class="innerFont"
+                >
+                  <span
+                    style="font-size:32px"
+                  >{{item.body.cvssV2?item.body.cvssV2.baseScore:item.body.cvssV3.baseScore}}</span>
+                  <span>/10</span>
+                  <div>
+                    {{item.body.cvssV2?'cvssV2:':'cvssV3:'}}
+                    {{item.body.severity?item.body.severity:item.body.cvssV2?item.body.cvssV2.baseSeverity:item.body.cvssV3.baseSeverity}}
+                  </div>
+                </a-col>
+                <a-col>Vector :{{item.body.cvssV3?item.body.cvssV3.version:item.body.cvssV2.version}}</a-col>
+                <a-col>Exploitability :{{item.body.exploitabilityScore?item.body.exploitabilityScore:''}}/Impact :{{item.body.impactScore?item.body.impactScore:''}}</a-col>
+              </a-col>
+              <a-col :xs="24" :lg="16">
+                <a-col :xs="24" :lg="12" v-for="(value,key,index) in (item.cvssV)" :key="index">
+                  <div class="cvssV">
+                    <span>{{key}}</span>
+                    <a-tag :color="handleColor(value)">
+                      <span>{{value}}</span>
+                    </a-tag>
+                  </div>
+                </a-col>
+              </a-col>
+            </a-tab-pane>
+          </a-tabs>
+        </Card>
+      </a-col>
+      <a-col :xs="24">
+        <Card :name="'References'" :headStyle="bodyStyle">
+          <!-- <a-icon slot="extraCard"  type="minus" /> -->
+          <Tables
+            :columns="columns"
+            :tableData="data"
+            :rowKey="`name`"
+            :scrollTable="{x:1000,y:400}"
+            :total="total"
+          />
+        </Card>
+      </a-col>
+      <a-col :xs="24">
+        <Card :name="'Configurations'" :headStyle="bodyStyle">
+          <Configurations :configurations="configurations" />
+        </Card>
+      </a-col>
     </a-col>
     <a-col :xs="24" :lg="8">
-      <Card :name="'Information'" :bodyStyle="bodyStyle" style="textAlign:left">
-        <a-col>Published :{{information.Published }}</a-col>
-        <a-col>Updated :{{information.Updated }}</a-col>
-        <a-divider />
-        <a-col>
-          <a-icon type="export" style="margin-right: 5px" />NVD link :
-          <a :href="information.NVDLink">{{vulnerabilityCode}}</a>
-        </a-col>
-        <a-col>
-          <a-icon type="export" style="margin-right: 5px" />Mitre link :
-          <a :href="information.MitreLink">{{vulnerabilityCode}}</a>
-        </a-col>
-        <a-divider />
-        <a-col>
-          <a-icon type="unordered-list" style="margin-right: 5px" />JSON object :
-          <a @click="()=>{this.informationVisible= true}">View</a>
-        </a-col>
-        <a-modal v-model="informationVisible" :footer="null" width="50%">
-          <MarkdownPreview theme="oneDark" :initialValue="information.JSONObject" />
-        </a-modal>
-      </Card>
-      <Card :name="'Products Affected'" :bodyStyle="bodyStyle">
-        <!-- <MarkdownPreview /> -->
-        <a-col v-for="(items,i) in productsAffected" :key="i" style="text-align:left">
-          <a-col style="font-weight: 800">{{items.name}}</a-col>
-          <a-col v-for="(item,i) in items.body" :key="i">
-            <a-icon type="tag" />
-            {{item}}
+      <a-col :xs="24">
+        <Card :name="'Information'" :bodyStyle="bodyStyle" style="textAlign:left">
+          <a-col>Published :{{information.Published }}</a-col>
+          <a-col>Updated :{{information.Updated }}</a-col>
+          <a-divider />
+          <a-col>
+            <a-icon type="export" style="margin-right: 5px" />NVD link :
+            <a :href="information.NVDLink">{{vulnerabilityCode}}</a>
           </a-col>
-        </a-col>
-      </Card>
+          <a-col>
+            <a-icon type="export" style="margin-right: 5px" />Mitre link :
+            <a :href="information.MitreLink">{{vulnerabilityCode}}</a>
+          </a-col>
+          <a-divider />
+          <a-col>
+            <a-icon type="unordered-list" style="margin-right: 5px" />JSON object :
+            <a @click="()=>{this.informationVisible= true}">View</a>
+          </a-col>
+          <a-modal v-model="informationVisible" :footer="null" width="50%">
+            <MarkdownPreview theme="oneDark" :initialValue="information.JSONObject" />
+          </a-modal>
+        </Card>
+      </a-col>
+      <a-col :xs="24">
+        <Card :name="'Products Affected'" :bodyStyle="bodyStyle">
+          <!-- <MarkdownPreview /> -->
+          <a-col v-for="(items,i) in productsAffected" :key="i" style="text-align:left">
+            <a-col style="font-weight: 800">{{items.name}}</a-col>
+            <a-col v-for="(item,i) in items.body" :key="i">
+              <a-icon type="tag" />
+              {{item}}
+            </a-col>
+          </a-col>
+        </Card>
+      </a-col>
     </a-col>
   </a-row>
 </template>

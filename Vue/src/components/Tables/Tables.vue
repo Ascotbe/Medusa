@@ -21,6 +21,10 @@ export default {
       type: String | Function,
       default: 'key' | function () { }
     },
+    showPagination: {//是否分页
+      type: Boolean,
+      default: false
+    },
     showExpandedRowKeys: {//是否展开默认行
       type: Boolean,
       default: false
@@ -28,7 +32,7 @@ export default {
     scrollTable: {
       type: Object,
       default: () => {
-        return { x: 1600, y: 400 }
+        return { x: 1600, y: 450 }
       }
     },
     ExpandedRowRenderCallback: {
@@ -53,20 +57,30 @@ export default {
   data () {
     return {
       pagination: {
+        showQuickJumper: true,
         position: 'bottom',
         defaultPageSize: 100,
         pageSizeOptions: ['100'],
         hideOnSinglePage: false,
         showTotal: (total, range) => {
           const _this = this
-          const Dom = <span style="text-align:left;padding-right:10px" v-show={total == 0 ? false : true}>总共<span style="color:#51c51a">{total}</span>条数据</span>
+          const Dom = <span style="display: flex;align-items: center;padding-right:10px;font-size:20px" v-show={total == 0 ? false : true}>共<span style="color:#51c51a;padding:0 10px 0 10px"><a-statistic value={total} valueStyle={{ color: '#51c51a' }} >
+          </a-statistic></span>条</span>
           const callback = _this.ShowTotal(Dom, total, range)
-          console.log(callback)
           if (callback) {
             return callback
           }
           else return Dom
         },
+        // itemRender: (page, type, originalElement) => {
+        //   console.log(page, type, originalElement)
+        //   if (type === 'prev') {
+        //     return <a>Previous</a>;
+        //   } else if (type === 'next') {
+        //     return <a>Next</a>;
+        //   }
+        //   return originalElement;
+        // },
         total: 0
       },
       expandedRowKeys: []
@@ -122,7 +136,7 @@ export default {
           columns: _this.columns,
           dataSource: _this.tableData,
           scroll: _this.scrollTable,
-          pagination: _this.pagination,
+          pagination: _this.showPagination ? false : _this.pagination,
           total: _this.total,
           rowKey: _this.rowKey,
         },
@@ -158,6 +172,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+// ::v-deep .ant-table {
+//   minheight: ;
+// }
 /*定义整体的宽度*/
 ::v-deep .ant-table-body::-webkit-scrollbar {
   height: 5px;

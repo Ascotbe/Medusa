@@ -33,7 +33,6 @@ export default {
   methods: {
     handleGetSelectedKeys (selectedKeys) {
       this.$refs.MenuList.handleSetSelectedKeys(selectedKeys)
-
     }
   }
 }
@@ -46,7 +45,7 @@ export default {
   padding: 10px;
   height: 100%;
   min-height: 540px;
-  background: #fff;
+  // background: #fff;
   overflow: auto;
   overflow-x: hidden;
 }

@@ -1,21 +1,31 @@
 <template>
   <a-row
     type="flex"
-    justify="start"
-    align="top"
     style="height:100%;text-align:left"
     :gutter="[
      16, { xs: 4, sm: 8, md: 12, lg: 16 }
     ]"
   >
-    <a-col :sm="24" :lg="12">
-      <Card :name="''">
+    <Card
+      class="about"
+      :name="''"
+      :bodyStyle="{
+          'display': 'flex',
+          'align-content': 'center',
+          'align-items': 'center',
+          'flex-direction': 'row',
+          'justify-content': 'center',
+          'flex-wrap': 'wrap'
+        }"
+    >
+      <a-col :sm="24" :lg="8">
         <Descriptions :aboutInfo="aboutInfo" />
-      </Card>
-    </a-col>
-    <a-col :sm="24" :lg="12">
-      <img :src="AscotbeUrl" alt width="100%" style="padding-top:5%" />
-    </a-col>
+      </a-col>
+      <a-col :sm="24" :lg="12">
+        <img :src="AscotbeUrl" alt width="100%" style="padding-top:5%" />
+      </a-col>
+    </Card>
+
     <!-- <img :src="AscotbeUrl" alt height="100%" /> -->
   </a-row>
 </template>
@@ -103,6 +113,24 @@ export default {
   background: url("../../assets/Ascotbe.png") no-repeat;
   background-size: auto 100%;
   background-position: top right;
+}
+.about {
+  // display: flex;
+  overflow-y: scroll;
+}
+/*定义整体的宽度*/
+.about::-webkit-scrollbar {
+  display: none;
+}
+
+/*定义滚动条轨道*/
+.about::-webkit-scrollbar-track {
+  display: none;
+}
+
+/*定义滑块*/
+.about::-webkit-scrollbar-thumb {
+  display: none;
 }
 /deep/ .ant-card {
   // background: rgba(0, 0, 0, 0);

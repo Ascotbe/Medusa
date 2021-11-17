@@ -2,7 +2,6 @@
   <a-row
     type="flex"
     justify="center"
-    align="top"
     style="height:100%;min-height: 540px;text-align:left"
     :gutter="[
      16, { xs: 4, sm: 8, md: 12, lg: 16 }
@@ -41,19 +40,23 @@ export default {
         {
           title: "项目名",
           dataIndex: "project_name",
+          align: 'center',
         },
         {
           title: "文件名",
           dataIndex: "file_name",
+          align: 'center',
         },
         {
           title: "创建时间",
           dataIndex: "creation_time",
+          align: 'center',
           customRender: (text, record, index) => { return this.moment(text, "X").format('YYYY-MM-DD H:mm:ss') }
         },
         {
           title: "容量",
           dataIndex: "capacity",
+          align: 'center',
           // scopedSlots: {
           //   customRender: "capacity",
           // },
@@ -62,6 +65,7 @@ export default {
         {
           title: "操作",
           key: "action",
+          align: 'center',
           // scopedSlots: {
           //   customRender: "action",
           // },

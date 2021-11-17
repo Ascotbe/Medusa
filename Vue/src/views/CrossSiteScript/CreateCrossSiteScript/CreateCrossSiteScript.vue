@@ -2,7 +2,6 @@
   <a-row
     type="flex"
     justify="center"
-    align="top"
     style="height:100%;min-height: 540px;text-align:left"
     :gutter="[
      16, { xs: 4, sm: 8, md: 12, lg: 16 }
@@ -38,9 +37,9 @@
             </a-form-item>
           </a-col>
         </a-form>
-      </Card>
-      <Card :name="`模板内容`" :bodyStyle="bodyStyle">
-        <MarkdownPreview theme="oneDark" :initialValue="markdownData" />
+        <a-col :span="24">
+          <MarkdownPreview theme="oneDark" :initialValue="markdownData" />
+        </a-col>
       </Card>
     </a-col>
     <a-col :xs="{ span: 24 }" :lg="{ span: 12 }">

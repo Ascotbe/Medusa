@@ -2,7 +2,6 @@
   <a-row
     type="flex"
     justify="center"
-    align="top"
     style="height:100%"
     :gutter="[
      16, { xs: 4, sm: 8, md: 12, lg: 16 }
@@ -56,12 +55,14 @@ export default {
           dataIndex: "markdown_project_name",
           key: "markdown_project_name",
           width: '15%',
+          align: 'center',
           ellipsis: true
         },
         {
           title: "项目是否所属自己",
           dataIndex: "markdown_project_owner",
           key: "markdown_project_owner",
+          align: 'center',
           customRender: (text, record, index) => {
             return text == 0 ? "不属于" : "属于"
           }
@@ -71,6 +72,7 @@ export default {
           dataIndex: "markdown_project_invitation_code",
           key: "markdown_project_invitation_code",
           width: '40%',
+          align: 'center',
           customRender: (text, record, index) => {
             return record.markdown_project_owner == 1 ? text : "您只是参与者，无法获取项目邀请码"
           },
@@ -80,6 +82,7 @@ export default {
           title: "创建时间",
           dataIndex: "creation_time",
           key: "creation_time",
+          align: 'center',
           customRender: (text, record, index) => {
             return text ? this.moment(text, "X").format('YYYY-MM-DD H:mm:ss') : ""
           },
@@ -89,6 +92,7 @@ export default {
         {
           title: "操作",
           key: "action",
+          align: 'center',
           // fixed: "right",
           customRender: (text, record, index) => {
             return <a-tag v-on:click={() => {

@@ -5,8 +5,23 @@
 </template>
 
 <style lang="scss">
+/* 定义 */
+@font-face {
+  font-family: "Lato";
+  src: url("./assets/font/Lato-Regular.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NotoSans";
+  src: url("./assets/font/NotoSans-Regular.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Lato", "NotoSans";
+  // font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

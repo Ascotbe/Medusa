@@ -2,7 +2,6 @@
   <a-row
     type="flex"
     justify="center"
-    align="top"
     style="height:100%;min-height: 540px;text-align:left"
     :gutter="[
      16, { xs: 4, sm: 8, md: 12, lg: 16 }
@@ -23,21 +22,31 @@
       </Card>
     </a-col>
     <a-col :xs="{ span: 24 }" :lg="{ span: 12 }">
-      <Card :name="'将如下代码植入怀疑出现xss的地方'" :bodyStyle="bodyStyle">
-        <MarkdownPreview theme="oneDark" :initialValue="markdownData.the_first_use" />
-      </Card>
-      <Card :name="'再或者以你任何想要的方式插入'" :bodyStyle="bodyStyle">
-        <MarkdownPreview theme="oneDark" :initialValue="markdownData.exploit_path" />
-      </Card>
-      <Card :name="'极限代码~！'" :bodyStyle="bodyStyle">
-        <MarkdownPreview theme="oneDark" :initialValue="markdownData.the_second_use" />
-      </Card>
-      <Card :name="'图片插件'" :bodyStyle="bodyStyle">
-        <MarkdownPreview theme="oneDark" :initialValue="markdownData.the_third_use" />
-      </Card>
-      <Card :name="'编码poc'" :bodyStyle="bodyStyle">
-        <MarkdownPreview theme="oneDark" :initialValue="markdownData.coding_exploit" />
-      </Card>
+      <a-col :xs="{ span: 24 }">
+        <Card :name="'将如下代码植入怀疑出现xss的地方'" :bodyStyle="bodyStyle">
+          <MarkdownPreview theme="oneDark" :initialValue="markdownData.the_first_use" />
+        </Card>
+      </a-col>
+      <a-col :xs="{ span: 24 }">
+        <Card :name="'再或者以你任何想要的方式插入'" :bodyStyle="bodyStyle">
+          <MarkdownPreview theme="oneDark" :initialValue="markdownData.exploit_path" />
+        </Card>
+      </a-col>
+      <a-col :xs="{ span: 24 }">
+        <Card :name="'极限代码~！'" :bodyStyle="bodyStyle">
+          <MarkdownPreview theme="oneDark" :initialValue="markdownData.the_second_use" />
+        </Card>
+      </a-col>
+      <a-col :xs="{ span: 24 }">
+        <Card :name="'图片插件'" :bodyStyle="bodyStyle">
+          <MarkdownPreview theme="oneDark" :initialValue="markdownData.the_third_use" />
+        </Card>
+      </a-col>
+      <a-col :xs="{ span: 24 }">
+        <Card :name="'编码poc'" :bodyStyle="bodyStyle">
+          <MarkdownPreview theme="oneDark" :initialValue="markdownData.coding_exploit" />
+        </Card>
+      </a-col>
     </a-col>
   </a-row>
 </template>

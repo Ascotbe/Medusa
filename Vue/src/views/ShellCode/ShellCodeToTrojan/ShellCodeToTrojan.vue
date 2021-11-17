@@ -1,8 +1,6 @@
 <template>
   <a-row
     type="flex"
-    justify="center"
-    align="top"
     style="height:100%"
     :gutter="[
      16, { xs: 4, sm: 8, md: 12, lg: 16 }
@@ -356,8 +354,11 @@ export default {
     },
     handleShowTotal (Dom, total, range) {
       const _this = this
-      const Btn = <a-button v-on:click={() => { _this.handleTrojan(_this.current) }} type="primary">刷新</a-button>
-      return [Dom, Btn]
+      const Btn = <div style="display: flex;align-items: center;">
+        {Dom}
+        <a-button v-on:click={() => { _this.handleTrojan(_this.current) }} type="primary">刷新</a-button>
+      </div>
+      return [Btn]
     }
   },
 }

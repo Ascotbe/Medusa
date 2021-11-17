@@ -78,6 +78,7 @@ export default {
 
 <style lang="scss" scoped>
 .menu {
+  text-align: left;
   height: calc(100% - 60px);
   min-height: 540px;
   overflow-y: scroll;

@@ -1,5 +1,5 @@
 <template>
-  <a-card :bordered="false" v-bind="$props" v-on="$listeners">
+  <a-card :bordered="false" v-bind="$props" v-on="$listeners" class="interval">
     <div slot="title" class="titleSolt" v-if="name">{{name}}</div>
     <slot name="extraCard" slot="extra">
       <!-- <a-icon @click="handlecloseAndOpen" :type="icon" /> -->
@@ -46,6 +46,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.interval {
+  height: 100%;
+  // border: 4px solid #f1f2f6;
+}
 .titleSolt {
   font-size: 20px;
   text-align: left;

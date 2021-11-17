@@ -2,16 +2,15 @@
   <a-row
     type="flex"
     justify="center"
-    align="top"
     style="height:100%"
     :gutter="[
      16, { xs: 4, sm: 8, md: 12, lg: 16 }
     ]"
   >
-    <a-col :xs="16">
-      <a-form :form="form" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+    <a-form :form="form" :label-col="{ span: 24 }" :wrapper-col="{ span: 24 }">
+      <a-col :xs="24" style="height:50%">
         <Card name="创建协同项目" :headStyle="bodyStyle">
-          <a-col :xs="16">
+          <a-col :xs="24">
             <a-form-item label="项目名称">
               <a-input
                 placeholder="项目名称"
@@ -21,12 +20,14 @@
               ></a-input>
             </a-form-item>
           </a-col>
-          <a-col :xs="16">
+          <a-col :xs="24">
             <a-button type="primary" @click="handleCombine('Create')">创建协同任务</a-button>
           </a-col>
         </Card>
+      </a-col>
+      <a-col :xs="24" style="height:50%">
         <Card name="加入协同项目" :headStyle="bodyStyle">
-          <a-col :xs="16">
+          <a-col :xs="24">
             <a-form-item label="项目邀请码">
               <a-input
                 placeholder="项目邀请码"
@@ -36,12 +37,12 @@
               ></a-input>
             </a-form-item>
           </a-col>
-          <a-col :xs="16">
+          <a-col :xs="24">
             <a-button type="primary" @click="handleCombine('Join')">加入协同项目</a-button>
           </a-col>
         </Card>
-      </a-form>
-    </a-col>
+      </a-col>
+    </a-form>
   </a-row>
 </template>
 

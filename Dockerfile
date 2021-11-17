@@ -1,5 +1,6 @@
 FROM ascotbe/medusa:latest
 MAINTAINER ascotbe
+#所有启动服务放在run.sh中用RUN结束后会终止该命令
 #安装所需的包
 RUN apt clean
 RUN apt update
@@ -24,8 +25,6 @@ RUN sed -i "s/dnslogtest.ascotbe.com/this_is_your_dnslog_name/g" /etc/nginx/site
 RUN echo "\nthis_is_your_mail_server_domain_name\nmail.this_is_your_mail_server_domain_name" >> /etc/mail/local-host-names
 #生成流
 RUN m4 /etc/mail/sendmail.mc > /etc/mail/sendmail.cf
-#启动邮服
-RUN service sendmail start
 #安装配置vue
 WORKDIR /Medusa/Vue/
 RUN rm -rf package-lock.json

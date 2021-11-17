@@ -9,19 +9,21 @@
       { xs: 4, sm: 8, md: 12, lg: 16 },
     ]"
   >
-    <a-col span="20">
-      <img :src="src" height="200px" />
-    </a-col>
-    <a-col span="20">
-      <Card :name="``" :bodyStyle="bodyStyle">
-        <Tables
-          :scrollTable="{ x: 1200, y: 500 }"
-          :columns="columns"
-          :tableData="data"
-          :total="total"
-          :rowKey="(record,index)=>index"
-          @change="handleChange"
-        />
+    <a-col span="24">
+      <Card :name="``">
+        <img :src="src" height="200px" />
+        <a-col span="24">
+          <Card :name="``" :bodyStyle="bodyStyle">
+            <Tables
+              :scrollTable="{ x: 1200, y: 500 }"
+              :columns="columns"
+              :tableData="data"
+              :total="total"
+              :rowKey="(record,index)=>index"
+              @change="handleChange"
+            />
+          </Card>
+        </a-col>
       </Card>
     </a-col>
   </a-row>

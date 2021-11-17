@@ -1,62 +1,67 @@
 <template>
   <a-row
+    type="flex"
     style="height:100%;min-height: 540px;"
     :gutter="[
       { xs: 8, sm: 16, md: 24, xs: 8 },
       { xs: 4, sm: 8, md: 12, lg: 16 },
     ]"
   >
-    <Card :name="`筛选条件`">
-      <template slot="extra">
-        <a-button type="primary" @click="handleSearch">查询</a-button>
-      </template>
-      <template>
-        <a-form :form="form" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
-          <a-col :span="8">
-            <a-form-item label="项目名称">
-              <a-input
-                placeholder="搜索项目名称"
-                v-on:keyup.enter.native="handleSearch"
-                v-decorator="[
+    <a-col :xs="24">
+      <Card :name="`筛选条件`">
+        <template slot="extra">
+          <a-button type="primary" @click="handleSearch">查询</a-button>
+        </template>
+        <template>
+          <a-form :form="form" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+            <a-col :span="8">
+              <a-form-item label="项目名称">
+                <a-input
+                  placeholder="搜索项目名称"
+                  v-on:keyup.enter.native="handleSearch"
+                  v-decorator="[
               'name',
             ]"
-              ></a-input>
-            </a-form-item>
-          </a-col>
-          <a-col :span="8">
-            <a-form-item label="GitHubId">
-              <a-input
-                placeholder="搜索GitHubId"
-                v-on:keyup.enter.native="handleSearch"
-                v-decorator="[
+                ></a-input>
+              </a-form-item>
+            </a-col>
+            <a-col :span="8">
+              <a-form-item label="GitHubId">
+                <a-input
+                  placeholder="搜索GitHubId"
+                  v-on:keyup.enter.native="handleSearch"
+                  v-decorator="[
               'github_id',
             ]"
-              ></a-input>
-            </a-form-item>
-          </a-col>
-          <a-col :span="8">
-            <a-form-item label="项目连接">
-              <a-input
-                placeholder="搜索项目连接"
-                v-on:keyup.enter.native="handleSearch"
-                v-decorator="[
+                ></a-input>
+              </a-form-item>
+            </a-col>
+            <a-col :span="8">
+              <a-form-item label="项目连接">
+                <a-input
+                  placeholder="搜索项目连接"
+                  v-on:keyup.enter.native="handleSearch"
+                  v-decorator="[
               'html_url',
             ]"
-              ></a-input>
-            </a-form-item>
-          </a-col>
-        </a-form>
-      </template>
-    </Card>
-    <Card :name="`GitHub监控信息`">
-      <Tables
-        :columns="columns"
-        :tableData="data"
-        :total="total"
-        :rowKey="`github_id`"
-        @change="handleChange"
-      />
-    </Card>
+                ></a-input>
+              </a-form-item>
+            </a-col>
+          </a-form>
+        </template>
+      </Card>
+    </a-col>
+    <a-col :xs="24">
+      <Card :name="`GitHub监控信息`">
+        <Tables
+          :columns="columns"
+          :tableData="data"
+          :total="total"
+          :rowKey="`github_id`"
+          @change="handleChange"
+        />
+      </Card>
+    </a-col>
   </a-row>
 </template>
 

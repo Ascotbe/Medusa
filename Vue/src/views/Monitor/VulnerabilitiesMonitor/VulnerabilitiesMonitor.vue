@@ -6,10 +6,10 @@
      16, { xs: 4, sm: 8, md: 12, lg: 16 }
     ]"
   >
-    <a-col :span="18">
+    <a-col :xs="24" :lg="18">
       <Card :name="``" :bodyStyle="bodyStyle">
-        <a-form :form="form" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
-          <a-col :span="8">
+        <a-form :form="form" :label-col="{ span: 0 }" :wrapper-col="{ span: 24 }">
+          <a-col :xs="24" :lg="8">
             <a-form-item>
               <a-select
                 placeholder="Filter by cvss v3 score"
@@ -21,7 +21,7 @@
               ></a-select>
             </a-form-item>
           </a-col>
-          <a-col :span="8">
+          <a-col :xs="24" :lg="8">
             <a-form-item>
               <a-input
                 placeholder="Search in CVEs"
@@ -32,7 +32,7 @@
               ></a-input>
             </a-form-item>
           </a-col>
-          <a-col :span="8">
+          <a-col :xs="24" :lg="8">
             <a-button @click="handleReset" style="margin-right:15px">重置</a-button>
             <a-button type="primary" @click="handleNistQuery">Search</a-button>
           </a-col>
@@ -40,7 +40,7 @@
       </Card>
     </a-col>
 
-    <a-col :span="6">
+    <a-col :xs="24" :lg="6">
       <Card :name="``" :bodyStyle="bodyStyle">
         <div class="myicon">
           <MyIcon :type="`icon-ziyuan1`" style="font-size:100px;" />
@@ -51,6 +51,7 @@
         </div>
       </Card>
     </a-col>
+
     <a-col :span="24">
       <Card :name="``" :bodyStyle="bodyStyle">
         <Tables

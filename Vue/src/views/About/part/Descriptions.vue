@@ -89,7 +89,6 @@ export default {
             },
           },
           [
-            // h('br', {}, 1),
             item.tag ? [h('a-tag',
               {
                 props: {
@@ -109,7 +108,7 @@ export default {
                 h('a-tag',
                   {
                     props: {
-                      color: item.value.state ? 'orange' : 'green'
+                      color: item.value.state ? 'red' : 'green'
                     },
                   },
                   item.value.state ? '已修改' : '未修改'
@@ -133,10 +132,10 @@ export default {
               ] : [h('a-tag',
                 {
                   props: {
-                    color: item.value ? 'green' : 'orange'
+                    color: item.value ? 'green' : 'red'
                   }
                 },
-                item.value
+                item.value ? '开启' : '关闭'
               )]
 
           ]
@@ -147,5 +146,13 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less" scoped>
+/deep/ .ant-descriptions-row > td {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  padding: 10px;
+  font-size: 40px;
+  // background: rgba(0, 0, 0, 0);
+}
 </style>

@@ -2,7 +2,6 @@
   <a-row
     type="flex"
     justify="center"
-    align="top"
     style="height:100%;min-height: 540px;text-align:left"
     :gutter="[
      16, { xs: 4, sm: 8, md: 12, lg: 16 }
@@ -18,6 +17,7 @@
           :rowKey="(record,index)=>index"
           @change="handleChange"
           ref="tables"
+          :showExpandedRowKeys="true"
           :ExpandedRowRenderCallback="handleCallback"
           :ExpandIconCallback="handleExpandIcon"
         ></Tables>
@@ -50,17 +50,20 @@ export default {
         {
           title: "创建时间",
           dataIndex: "creation_time",
+          align: 'center',
           customRender: (text, record, index) => { return this.moment(text, "X").format('YYYY-MM-DD H:mm:ss') }
         },
         {
           title: "数据包内容",
           dataIndex: "data_pack",
           ellipsis: true,
+          align: 'center',
           customRender: (text, record, index) => { return this.QJBase64Decode(text) }
         },
         {
           title: "真实地址",
           dataIndex: "ip",
+          align: 'center',
         }
       ],
       data: [],
@@ -165,7 +168,7 @@ export default {
           tabs.map(item => {
             return (<a-tab-pane key={item} tab={item}>
               {
-                <Tables columns={columns} tableData={item == record.request_method ? record.requestData : item == 'Cookie' ? record.Cookie : item == 'HTTP请求信息' ? record.headerData : record.Other} rowKey={`key`}></Tables>
+                <Tables columns={columns} tableData={item == record.request_method ? record.requestData : item == 'Cookie' ? record.Cookie : item == 'HTTP请求信息' ? record.headerData : record.Other} showPagination={true} rowKey={`key`}></Tables>
               }
             </a-tab-pane>)
           })

@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Web.BasicFunctions',
-    'werkzeug_debugger_runserver',
     'django_extensions',
 ]
 

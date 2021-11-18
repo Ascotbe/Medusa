@@ -107,7 +107,7 @@ if [[ `uname` == 'Linux' ]]; then
         echo -e "\033[31m This machine IP has been set to \033[35m--->\033[0m\033[0m$server_ip"
     fi
     sleep 3
-    echo -e "#\!/bin/bash\nredis-server /etc/redis/redis.conf &\nservice sendmail start &\npython3 DomainNameSystemServer.py &\ncelery -A Web worker --loglevel=info --pool=solo &\nnginx\npython3 manage.py runserver 0.0.0.0:9999 --insecure --noreload &\npython3 HTTPServer.py " > run.sh
+    echo -e "#\!/bin/bash\nredis-server /etc/redis/redis.conf &\nservice sendmail start &\npython3 DomainNameSystemServer.py &\ncelery -A Web worker -B --loglevel=info --pool=solo &\nnginx\npython3 manage.py runserver 0.0.0.0:9999 --insecure --noreload &\npython3 HTTPServer.py " > run.sh
     tar zcvf Medusa.tat.gz *
     sudo docker build -t medusa_web .
     sudo docker run -d -i -t --name  medusa --net=host medusa_web

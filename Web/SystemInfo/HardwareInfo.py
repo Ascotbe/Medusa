@@ -7,8 +7,9 @@ import json
 from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
 import psutil  # 进程运行情况
 import platform  # 包含系统信息查询函数
+from celery import shared_task
 
-
+@shared_task
 def Monitor():#用于监控系统信息
     try:
         MemoryInfo = psutil.virtual_memory()  # 获取完整内存信息

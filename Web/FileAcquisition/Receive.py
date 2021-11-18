@@ -9,12 +9,12 @@ import base64
 import json
 def Upload(request):#接收所需数据文件
     RequestLogRecord(request, request_api="file_acquisition_receive")
-    Key =request.headers["key"]
+    Key =request.headers["Key"]
     FileFullPath=request.headers["FileFullPath"]
     UUID = request.headers["UUID"]
     if request.method == "POST":
         try:
-            Uid = UserInfo().QueryUidWithToken(Key)  # 通过key来查询UID
+            Uid = UserInfo().QueryUidWithKey(Key)  # 通过key来查询UID
             if Uid != None:  # 查到了UID
                 UserOperationLogRecord(request, request_api="file_acquisition_receive", uid=Uid)  # 查询到了在计入
                 ReceiveData = request.FILES.get('file', None)#获取文件数据

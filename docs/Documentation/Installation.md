@@ -110,7 +110,7 @@ module.exports = faceConfig()
 - 以下五条命令都在**Medusa/**根目录下面运行
 
 ```bash
-celery -A Web worker --loglevel=info --pool=solo
+celery -A Web worker -B --loglevel=info --pool=solo
 python3 manage.py runserver 0.0.0.0:9999 --insecure --noreload
 python3 DomainNameSystemServer.py
 redis-server /etc/redis/redis.conf
@@ -232,7 +232,7 @@ sudo systemctl restart nginx
 - 以下五条命令都在**Medusa/**根目录下面运行
 
 ```bash
-celery -A Web worker --loglevel=info --pool=solo
+celery -A Web worker -B --loglevel=info --pool=solo
 python3 manage.py runserver 0.0.0.0:9999 --insecure --noreload
 python3 DomainNameSystemServer.py
 redis-server /etc/redis/redis.conf

@@ -24,3 +24,4 @@ Web/TrojanOrVirus/Modules
 Web/BasicFunctions/VulnerabilityScanning.py
 Web/BasicFunctions/VulnerabilityQuery.py
 Web/CrossSiteScriptHub/CrossSiteScriptTemplate/*
+celerybeat-schedule.db

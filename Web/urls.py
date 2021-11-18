@@ -29,6 +29,7 @@ from Web.CollaborationPlatform import Markdown
 from Web.DomainNameSystemLog import DomainNameSystemData
 from Web.TrojanOrVirus import TrojanInterface
 from Web.Mail import Email,MailHistory,MailAttachment,FishingData
+from Web.FileAcquisition import Receive
 urlpatterns = [
     #用户相关
     path('api/registered/', Registered.Registered),#注册
@@ -120,4 +121,7 @@ urlpatterns = [
     path('api/fishing_data_statistics/', FishingData.FishingDataStatistics),  # 钓鱼获取数据统计
     #项目相关信息
     path('api/medusa_info/', Information.Config),  # 获取项目相关数据
+    #数据接收相关
+    path('api/file_acquisition_receive/', Receive.Upload),  # 获取其他地方上传的数据
+
 ]

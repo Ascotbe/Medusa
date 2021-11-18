@@ -61,9 +61,9 @@ class AgentHeader:  # 使用随机头类
                 return (ua.opera)
             elif self.Values.lower() == "chrome":  # 谷歌浏览器
                 return (ua.chrome)
-            elif self.Values.lower() == "AppleWebKit":  # AppleWebKit
+            elif self.Values.lower() == "applewebkit":  # AppleWebKit
                 return (ua.google)
-            elif self.Values.lower() == "Gecko":  # Gecko
+            elif self.Values.lower() == "gecko":  # Gecko
                 return (ua.ff)
             elif self.Values.lower() == "safari":  # apple safari
                 return (ua.safari)

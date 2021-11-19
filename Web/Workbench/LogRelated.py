@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from Web.WebClassCongregation import RequestLog,UserOperationLog
+from Web.DatabaseHub import RequestLog,UserOperationLog
 import base64
 def GetIp(request):
     '''获取请求者的IP信息'''

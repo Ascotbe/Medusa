@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from Web.WebClassCongregation import UserInfo,MailAttachment
+from Web.DatabaseHub import UserInfo,MailAttachment
 from django.http import JsonResponse
 from ClassCongregation import ErrorLog,randoms,FileAcquisitionPath
 from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord

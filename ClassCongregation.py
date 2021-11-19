@@ -19,9 +19,11 @@ import threading
 import subprocess
 import hashlib
 from Crypto.Cipher import AES
-from config import  debug_mode,dnslog_name,port_threads_number,port_timeout_period,thread_timeout_number,user_agent_browser_type
+from config import debug_mode,dnslog_name,port_threads_number,port_timeout_period,thread_timeout_number,user_agent_browser_type
 import ast
-
+############################################
+#这里面的关于数据库的表都是没用的后续会慢慢移除重写#
+############################################
 def IpProcess(Url: str) -> str:
     if Url.startswith("http"):  # 记个小知识点：必须带上https://这个头不然urlparse就不能正确提取hostname导致后面运行出差错
         res = urllib.parse.urlparse(Url)  # 小知识点2：如果只导入import urllib包使用parse这个类的话会报错，必须在import requests导入这个包才能正常运行
@@ -222,141 +224,6 @@ class PortDB:  # 端口数据表
                 return None
 
 
-
-class GithubCveApi:  # CVE写入表
-    def __init__(self,**kwargs):
-        try:
-            self.cve_id = kwargs.get("id")  # 唯一的ID
-            self.cve_name = kwargs.get("name")   # 名字
-            self.cve_html_url = kwargs.get("html_url")    # 链接
-            self.cve_created_at = kwargs.get("created_at")  # 创建时间
-            self.cve_updated_at = kwargs.get("updated_at")  # 更新时间
-            self.cve_pushed_at = kwargs.get("pushed_at")  # push时间
-            self.cve_forks_count = kwargs.get("forks_count")  # fork人数
-            self.cve_watchers_count =kwargs.get("watchers_count")  # star人数
-            self.cve_write_time = str(int(time.time()))  # 写入时间
-            # 如果数据库不存在的话，将会自动创建一个 数据库
-            self.con = sqlite3.connect(GetDatabaseFilePath().result())
-            # 获取所创建数据的游标
-            self.cur = self.con.cursor()
-            # 创建表
-
-            # 如果设置了主键那么就导致主健值不能相同，如果相同就写入报错
-            self.cur.execute("CREATE TABLE GithubMonitor\
-                        (id INTEGER PRIMARY KEY,\
-                        github_id TEXT NOT NULL,\
-                        name TEXT NOT NULL,\
-                        html_url TEXT NOT NULL,\
-                        created_at TEXT NOT NULL,\
-                        updated_at TEXT NOT NULL,\
-                        pushed_at TEXT NOT NULL,\
-                        forks_count TEXT NOT NULL,\
-                        watchers_count TEXT NOT NULL,\
-                        write_time TEXT NOT NULL,\
-                        update_write_time TEXT NOT NULL)")
-        except Exception as e:
-            pass
-            #ErrorLog().Write("ClassCongregation_GithubCveApi(class)_init(def)", e)
-
-    def Write(self):
-        try:
-            self.cur.execute("""INSERT INTO GithubMonitor (github_id,name,html_url,created_at,updated_at,pushed_at,forks_count,watchers_count,write_time,update_write_time) \
-    VALUES (?,?,?,?,?,?,?,?,?,?)""", (
-            self.cve_id, self.cve_name, self.cve_html_url, self.cve_created_at, self.cve_updated_at, self.cve_pushed_at,
-            self.cve_forks_count, self.cve_watchers_count, self.cve_write_time, self.cve_write_time,))
-            # 提交
-            self.con.commit()
-            self.con.close()
-        except Exception as e:
-                ErrorLog().Write("ClassCongregation_GithubCveApi(class)_Write(def)", e)
-
-    def Update(self):
-        UpdateTime=str(int(time.time()))
-        try:
-            self.cur.execute(
-                """UPDATE GithubMonitor SET forks_count = ?,updated_at=?,pushed_at=?,watchers_count=?,update_write_time=?  WHERE github_id = ?""",
-                (self.cve_forks_count, self.cve_updated_at, self.cve_pushed_at, self.cve_watchers_count,
-                 UpdateTime, self.cve_id,))
-            # 提交
-            self.con.commit()
-            self.con.close()
-        except Exception as e:
-            ErrorLog().Write("ClassCongregation_GithubCveApi(class)_Update(def)", e)
-
-    def Judgment(self) -> bool:#用于判断是否更新
-        try:
-            self.cur.execute(
-                """SELECT * FROM GithubMonitor WHERE github_id=?""", (self.cve_id,))
-            values = self.cur.fetchall()
-            cve_query_results = True
-            if len(values) == 0:
-                cve_query_results = False
-            else:
-                cve_query_results = True
-            # 提交
-            self.con.commit()
-            self.con.close()
-            return cve_query_results
-        except Exception as e:
-            ErrorLog().Write("ClassCongregation_GithubCveApi(class)_Judgment(def)", e)
-    def StatisticalData(self,**kwargs):  # 整体个数统计
-        try:
-            StatementProcessing = ""
-            TupleContainer = ()  # 存放处理后的数据
-            for x, i in enumerate(kwargs):
-                if i == "number_of_pages":
-                    continue
-                if x == len(kwargs) - 1:  # 判断是不是最后一个参数
-                    StatementProcessing += i + " like ? "
-                else:
-                    StatementProcessing += i + " like ? and "
-                TupleContainer += (str(kwargs.get(i)),)
-            if StatementProcessing!="":
-                StatementProcessing=" WHERE "+StatementProcessing
-            self.cur.execute("SELECT COUNT(1)  FROM GithubMonitor"+StatementProcessing,TupleContainer)
-            Result=self.cur.fetchall()[0][0]#获取数据个数
-            self.con.close()
-            return Result
-        except Exception as e:
-            ErrorLog().Write("ClassCongregation_GithubCveApi(class)_StatisticalData(def)", e)
-            return None
-
-    def Query(self,**kwargs):#查询函数，可以进行联合查询
-        NumberOfSinglePages = 100  # 单页数量
-        NumberOfPages = kwargs.get(
-            "number_of_pages") - 1  # 查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
-        StatementProcessing = ""
-        TupleContainer = ()#存放处理后的数据
-        for x,i in enumerate(kwargs):
-            if i=="number_of_pages":
-                continue
-            if x==len(kwargs)-1:#判断是不是最后一个参数
-                StatementProcessing += i + " like ? "
-            else:
-                StatementProcessing += i + " like ? and "
-            TupleContainer += (str(kwargs.get(i)),)
-        try:
-            ProcessedData=[]
-            if StatementProcessing!="":
-                StatementProcessing=" WHERE "+StatementProcessing
-            self.cur.execute(
-                "select *  from GithubMonitor "+StatementProcessing+" limit ? offset ?",TupleContainer+(NumberOfSinglePages,NumberOfSinglePages*NumberOfPages,))  # 查询用户相关信息
-
-            for i in self.cur.fetchall():
-                JsonValues = {}
-                JsonValues["github_id"]= i[1]
-                JsonValues["name"]= i[2]
-                JsonValues["html_url"]= i[3]
-                JsonValues["created_at"]= i[4]
-                JsonValues["updated_at"]= i[5]
-                JsonValues["pushed_at"]= i[6]
-                JsonValues["forks_count"]= i[7]
-                JsonValues["watchers_count"]= i[8]
-                ProcessedData.append(JsonValues)
-
-            return ProcessedData
-        except Exception as e:
-            ErrorLog().Write("ClassCongregation_GithubCveApi(class)_Query(def)", e)
 
 
 class VulnerabilityDetails:  # 所有数据库写入都是用同一个类
@@ -723,7 +590,7 @@ class GetToolFilePath:  # 获取TOOL文件路径类
     def Result(self) -> str:
         system_type = sys.platform
         if system_type == "win32" or system_type == "cygwin":
-            v = GetRootFileLocation().Result()+"\\Tool\\"
+            Path = GetRootFileLocation().Result()+"\\Tool\\"
             return Path
         elif system_type == "linux" or system_type == "darwin":
             Path = GetRootFileLocation().Result()+"/Tool/"

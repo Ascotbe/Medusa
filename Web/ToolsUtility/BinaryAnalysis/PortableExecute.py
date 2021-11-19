@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from Web.WebClassCongregation import UserInfo,PortableExecutableAnalyticalData
+from Web.DatabaseHub import UserInfo,PortableExecutableAnalyticalData
 from django.http import JsonResponse
 from ClassCongregation import ErrorLog,GetAnalysisFileStoragePath
 import time

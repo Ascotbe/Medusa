@@ -9,7 +9,7 @@ import base64
 import shutil
 from email.mime.image import MIMEImage
 from config import third_party_mail_host,third_party_mail_user,third_party_mail_pass,local_mail_host,local_mail_user
-from Web.WebClassCongregation import UserInfo,MaliciousEmail
+from Web.DatabaseHub import UserInfo,MaliciousEmail
 from django.http import JsonResponse
 from ClassCongregation import ErrorLog,GetMailAttachmentFilePath,GetTempFilePath
 import json

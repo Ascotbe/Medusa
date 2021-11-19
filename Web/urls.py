@@ -16,6 +16,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path,re_path
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 #from Web.BasicFunctions import VulnerabilityScanning,VulnerabilityQuery,GenerateReport
 from Web.BasicFunctions import Registered,User,ProxyScan,Home,VerificationCode,Information
 from Web.CrossSiteScriptHub import CrossSiteScript,TemplateManagement
@@ -30,6 +31,7 @@ from Web.DomainNameSystemLog import DomainNameSystemData
 from Web.TrojanOrVirus import TrojanInterface
 from Web.Mail import Email,MailHistory,MailAttachment,FishingData
 from Web.FileAcquisition import Receive
+
 urlpatterns = [
     #用户相关
     path('api/registered/', Registered.Registered),#注册
@@ -125,3 +127,4 @@ urlpatterns = [
     path('api/file_acquisition_receive/', Receive.Upload),  # 获取其他地方上传的数据
 
 ]
+urlpatterns += staticfiles_urlpatterns()

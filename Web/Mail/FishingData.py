@@ -4,7 +4,7 @@ from django.http import HttpResponse,JsonResponse
 from ClassCongregation import ErrorLog
 import json
 import base64
-from Web.WebClassCongregation import FishingData,UserInfo
+from Web.DatabaseHub import FishingData,UserInfo
 from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
 import re
 """

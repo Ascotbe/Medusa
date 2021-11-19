@@ -32,7 +32,7 @@ class UserInfo:#用户表
                             token_update_time TEXT NOT NULL,\
                             creation_time TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)_init(def)",e)
+            ErrorLog().Write("Web_DatabaseHub_UserInfo(class)_init(def)",e)
     def VerifyUsername(self,Name:str)->bool or None:#查询用户名是否存在，True表示有数据，False只表示用户不存在，None表示报错
         try:
             self.cur.execute("select * from UserInfo where name =? ", (Name,))
@@ -42,7 +42,7 @@ class UserInfo:#用户表
             else:
                 return False
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)_VerifyUsername(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_UserInfo(class)_VerifyUsername(def)", e)
             return None
     def VerifyEmail(self,Email:str)->bool or None:#查询邮箱是否存在，True表示有数据，False表示邮箱不存在，None表示报错
         try:
@@ -53,7 +53,7 @@ class UserInfo:#用户表
             else:
                 return False
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)_VerifyEmail(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_UserInfo(class)_VerifyEmail(def)", e)
             return None
     def UserLogin(self,Username,Passwd)->str or None:#用户登录，如果登录成功返回Token，如果失败返回None
         try:
@@ -62,7 +62,7 @@ class UserInfo:#用户表
                 return tuple[4] # 返回Token
             return None
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)_UserLogin(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_UserInfo(class)_UserLogin(def)", e)
             return None
     def WhetherTheKeyConflicts(self,Key:str)->bool:#查询用户kEY是否存在，True表示有数据，False表示各种问题
         try:
@@ -73,7 +73,7 @@ class UserInfo:#用户表
             else:
                 return False
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)_WhetherTheKeyConflicts(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_UserInfo(class)_WhetherTheKeyConflicts(def)", e)
             return False
     def Write(self,**kwargs:str)->bool or None:#写入新用户，True表示成功，False表示用户已存在，None表示报错
         CreationTime = str(int(time.time())) # 创建时间
@@ -97,7 +97,7 @@ class UserInfo:#用户表
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)_Write(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_UserInfo(class)_Write(def)", e)
             return None
     def UpdatePasswd(self,**kwargs:str)->bool:#更新用户密码，True表示成功，False表示失败
         Name = kwargs.get("name")
@@ -120,12 +120,12 @@ class UserInfo:#用户表
                             self.con.close()
                             return True
                     except Exception as e:
-                        ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)_UpdatePasswd(def)ChangePassword", e)
+                        ErrorLog().Write("Web_DatabaseHub_UserInfo(class)_UpdatePasswd(def)ChangePassword", e)
                         return False
                 else:
                     return False
             except Exception as e:
-                ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)_UpdatePasswd(def)QueryPassword", e)
+                ErrorLog().Write("Web_DatabaseHub_UserInfo(class)_UpdatePasswd(def)QueryPassword", e)
                 return False
         else:return False
     def UpdateShowName(self,**kwargs:str)->bool:#更新用户显示名字，True表示成功，False表示失败
@@ -145,7 +145,7 @@ class UserInfo:#用户表
                     self.con.close()
                     return True
             except Exception as e:
-                ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)_UpdateShowName(def)", e)
+                ErrorLog().Write("Web_DatabaseHub_UserInfo(class)_UpdateShowName(def)", e)
                 return False
         else:return False
     def UpdateEmail(self,**kwargs:str)->bool:#更新用户邮箱，True表示成功，False表示失败
@@ -165,7 +165,7 @@ class UserInfo:#用户表
                     self.con.close()
                     return True
             except Exception as e:
-                ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)_UpdateEmail(def)", e)
+                ErrorLog().Write("Web_DatabaseHub_UserInfo(class)_UpdateEmail(def)", e)
                 return False
         else:return False
     def UpdateAvatar(self,**kwargs:str)->bool:#更新用户头像路径，True表示成功，False表示各失败
@@ -185,7 +185,7 @@ class UserInfo:#用户表
                     self.con.close()
                     return True
             except Exception as e:
-                ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)_UpdateImgPath(def)", e)
+                ErrorLog().Write("Web_DatabaseHub_UserInfo(class)_UpdateImgPath(def)", e)
                 return False
         else:return False
     def UpdateKey(self,**kwargs:str)->bool:#更新用户Key，True表示成功，False表示失败
@@ -205,7 +205,7 @@ class UserInfo:#用户表
                     self.con.close()
                     return True
             except Exception as e:
-                ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)_UpdateKey(def)", e)
+                ErrorLog().Write("Web_DatabaseHub_UserInfo(class)_UpdateKey(def)", e)
                 return False
         else:return False
     def UpdateToken(self,**kwargs:str)->bool:#更新用户Token，True表示成功，False表示失败
@@ -225,7 +225,7 @@ class UserInfo:#用户表
                     self.con.close()
                     return True
             except Exception as e:
-                ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)_UpdateToken(def)", e)
+                ErrorLog().Write("Web_DatabaseHub_UserInfo(class)_UpdateToken(def)", e)
                 return False
         else:return False
     def QueryTokenCreationTime(self,**kwargs:str)->bool or None:#查询用户Token创建时间，True表示Token不能用，False表示Token还能用
@@ -242,7 +242,7 @@ class UserInfo:#用户表
 
                 return True#如果为找到数据，返回True，表示需要重新写入或者登录
             except Exception as e:
-                ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)_QueryTokenCreationTime(def)", e)
+                ErrorLog().Write("Web_DatabaseHub_UserInfo(class)_QueryTokenCreationTime(def)", e)
                 return None
         else:return True#报错返回True
     def QueryTokenValidity(self,Token:str)->bool or None:#用来查询Token是否重复了
@@ -254,7 +254,7 @@ class UserInfo:#用户表
             else:
                 return False
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)_QueryTokenValidity(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_UserInfo(class)_QueryTokenValidity(def)", e)
             return None
     def QueryUidWithToken(self,Token:str):#利用Token反向查唯一的UID
         try:
@@ -263,7 +263,7 @@ class UserInfo:#用户表
                 return tuple[1]
             return None
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)_QueryUidWithToken(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_UserInfo(class)_QueryUidWithToken(def)", e)
             return None
     def QueryUserInfo(self,Token:str):#利用Token,查询完整的用户信息，除了更新时间都有
         try:
@@ -282,7 +282,7 @@ class UserInfo:#用户表
                 return JsonValues#由于用户信息不可能有多个的所有这边直接返回
             return None#如果没查到数据就返回空
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)_QueryUserInfo(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_UserInfo(class)_QueryUserInfo(def)", e)
             return None
     def ForgetPassword(self,**kwargs):#忘记密码函数
         Name = kwargs.get("name")
@@ -302,7 +302,7 @@ class UserInfo:#用户表
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)_ForgetPassword(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_UserInfo(class)_ForgetPassword(def)", e)
             return False
     def QueryUidWithKey(self,Key:str):#利用Key反向查唯一的UID
         try:
@@ -311,7 +311,7 @@ class UserInfo:#用户表
                 return tuple[1]
             return None
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_UserInfo(class)_QueryUidWithToken(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_UserInfo(class)_QueryUidWithToken(def)", e)
             return None
 
 
@@ -333,7 +333,7 @@ class ActiveScanList:#用户主动扫描网站信息列表,写入父表中的SID
                             module TEXT NOT NULL,\
                             redis_id TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_ActiveScanList(class)_init(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_ActiveScanList(class)_init(def)", e)
     def Write(self,**kwargs):#写入相关信息,如果写入成功返回Sid值，如果失败返回None
         CreationTime = str(int(time.time())) # 创建时间
         Uid=kwargs.get("uid")
@@ -352,7 +352,7 @@ class ActiveScanList:#用户主动扫描网站信息列表,写入父表中的SID
             self.con.close()
             return GetActiveScanId#获取主键的ID值，也就是sid的值
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_ActiveScanList(class)_Write(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_ActiveScanList(class)_Write(def)", e)
             return None
     def Query(self,**kwargs):#通过UID来查询信息
         Uid = kwargs.get("uid")
@@ -372,7 +372,7 @@ class ActiveScanList:#用户主动扫描网站信息列表,写入父表中的SID
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_ActiveScanList(class)_Query(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_ActiveScanList(class)_Query(def)", e)
             return None
 
     def UpdateRedisId(self,**kwargs):#更新redis id的值后面用来更新扫描状态
@@ -391,7 +391,7 @@ class ActiveScanList:#用户主动扫描网站信息列表,写入父表中的SID
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_ActiveScanList(class)_UpdateRedisId(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_ActiveScanList(class)_UpdateRedisId(def)", e)
             return False
 
     def UpdateStatus(self,**kwargs)->bool:#利用主键ID来判断后更新数据
@@ -408,7 +408,7 @@ class ActiveScanList:#用户主动扫描网站信息列表,写入父表中的SID
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_ActiveScanList(class)_UpdateStatus(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_ActiveScanList(class)_UpdateStatus(def)", e)
             return False
 
 
@@ -455,7 +455,7 @@ class MedusaQuery:#单个漏洞的详细内容查询表，具体写入表在Clas
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_MedusaQuery(class)_Query(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_MedusaQuery(class)_Query(def)", e)
             return None
     def QueryBySid(self, **kwargs):#生成word文档数据查询
         try:
@@ -477,7 +477,7 @@ class MedusaQuery:#单个漏洞的详细内容查询表，具体写入表在Clas
             self.con.close()
             return result_list,url
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_MedusaQuery(class)_QueryBySid(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_MedusaQuery(class)_QueryBySid(def)", e)
             return None
 
 class RequestLog:#操作日志
@@ -497,7 +497,7 @@ class RequestLog:#操作日志
                             request_url TEXT NOT NULL,\
                             post_date TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_RequestRecord(class)_init(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_RequestRecord(class)_init(def)", e)
     def Write(self,**kwargs)->bool or None:#写入相关信息,如果写入成功返回Sid值，如果失败返回None
         CreationTime = str(int(time.time())) # 创建时间
         RequestApi=kwargs.get("request_api")
@@ -514,7 +514,7 @@ class RequestLog:#操作日志
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_RequestRecord(class)_Write(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_RequestRecord(class)_Write(def)", e)
             return None
 
 class UserOperationLog:#用户操作日志
@@ -535,7 +535,7 @@ class UserOperationLog:#用户操作日志
                             request_url TEXT NOT NULL,\
                             post_date TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_UserOperationRecord(class)_init(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_UserOperationRecord(class)_init(def)", e)
     def Write(self,**kwargs)->bool or None:#写入相关信息,如果写入成功返回Sid值，如果失败返回None
         CreationTime = str(int(time.time())) # 创建时间
         Uid=kwargs.get("uid")
@@ -553,7 +553,7 @@ class UserOperationLog:#用户操作日志
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_UserOperationRecord(class)_Write(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_UserOperationRecord(class)_Write(def)", e)
             return None
 
 class ReportGenerationList:#报告生成相关表
@@ -570,7 +570,7 @@ class ReportGenerationList:#报告生成相关表
                             creation_time TEXT NOT NULL,\
                             active_scan_id TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_ReportGenerationList(class)_init(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_ReportGenerationList(class)_init(def)", e)
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
         CreationTime = str(int(time.time()))  # 创建时间
@@ -585,7 +585,7 @@ class ReportGenerationList:#报告生成相关表
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_ReportGenerationList(class)_Write(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_ReportGenerationList(class)_Write(def)", e)
             return None
     def Query(self,**kwargs)->bool or None:#查询该文件是否是该用户所有
         Uid = kwargs.get("uid")
@@ -598,7 +598,7 @@ class ReportGenerationList:#报告生成相关表
             else:
                 return False
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_ReportGenerationList(class)_Query(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_ReportGenerationList(class)_Query(def)", e)
             return None
 
 
@@ -640,7 +640,7 @@ class ProxyScanList:#代理列表，一个代理项目一条数据
                                 proxy_username TEXT NOT NULL,\
                                 proxy_project_name TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_ProxyScanList(class)_init(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_ProxyScanList(class)_init(def)", e)
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
         CreationTime = str(int(time.time()))  # 创建时间
@@ -661,7 +661,7 @@ class ProxyScanList:#代理列表，一个代理项目一条数据
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_ProxyScanList(class)_Write(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_ProxyScanList(class)_Write(def)", e)
             return None
 
     def QueryProxyProjectName(self,**kwargs)->bool or None:#查询扫描项目是否冲突,一个项目不能存在相同的项目名和用户名
@@ -676,7 +676,7 @@ class ProxyScanList:#代理列表，一个代理项目一条数据
             else:
                 return False
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_ProxyScanList(class)_QueryScanProjectName(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_ProxyScanList(class)_QueryScanProjectName(def)", e)
             return None
     def ProxyAuthentication(self,**kwargs)->bool or None:#查询用来认证用户的账号和密码是否复核UID
         ProxyUsername = kwargs.get("proxy_username")
@@ -689,7 +689,7 @@ class ProxyScanList:#代理列表，一个代理项目一条数据
                 JsonValues["uid"] = i[1]
                 return JsonValues
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_ProxyScanList(class)_ProxyAuthentication(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_ProxyScanList(class)_ProxyAuthentication(def)", e)
             return None
 
     # def Query(self,**kwargs)->bool or None:#查询该文件是否是该用户所有
@@ -703,7 +703,7 @@ class ProxyScanList:#代理列表，一个代理项目一条数据
     #         else:
     #             return False
     #     except Exception as e:
-    #         ErrorLog().Write("Web_WebClassCongregation_ProxyScanList(class)_Query(def)", e)
+    #         ErrorLog().Write("Web_DatabaseHub_ProxyScanList(class)_Query(def)", e)
     #         return None
 
 
@@ -730,7 +730,7 @@ class OriginalProxyData:#从代理中获取数据包进行存储
                                 issue_task_status TEXT NOT NULL,\
                                 redis_id TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_OriginalProxyData(class)_init(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_OriginalProxyData(class)_init(def)", e)
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
         CreationTime = str(int(time.time()))  # 创建时间
@@ -755,7 +755,7 @@ class OriginalProxyData:#从代理中获取数据包进行存储
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_OriginalProxyData(class)_Write(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_OriginalProxyData(class)_Write(def)", e)
             return None
     def UpdateScanStatus(self, **kwargs) -> bool or None:#更新扫描状态
         Uid = kwargs.get("uid")
@@ -773,7 +773,7 @@ class OriginalProxyData:#从代理中获取数据包进行存储
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_ReportGenerationList(class)_QueryTokenValidity(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_ReportGenerationList(class)_QueryTokenValidity(def)", e)
             return False
 #查询暂时无
     # def Query(self, **kwargs) -> bool or None:
@@ -787,7 +787,7 @@ class OriginalProxyData:#从代理中获取数据包进行存储
     #         else:
     #             return False
     #     except Exception as e:
-    #         ErrorLog().Write("Web_WebClassCongregation_ReportGenerationList(class)_QueryTokenValidity(def)", e)
+    #         ErrorLog().Write("Web_DatabaseHub_ReportGenerationList(class)_QueryTokenValidity(def)", e)
     #         return None
 class HomeInfo:#查询首页信息表
     def __init__(self):
@@ -811,7 +811,7 @@ class HomeInfo:#查询首页信息表
             self.cur.execute("select scan_info_id from Medusa where uid =? and rank='低危'", (Uid,))
             self.info["low_risk_number"] = str(len(self.cur.fetchall()))
         except Exception as e:#设置默认值
-            ErrorLog().Write("Web_WebClassCongregation_HomeInfo(class)_NumberOfVulnerabilities(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_HomeInfo(class)_NumberOfVulnerabilities(def)", e)
             self.info["number_of_vulnerabilities"]="0"
             self.info["high_risk_number"] ="0"
             self.info["mid_risk_number"] ="0"
@@ -827,7 +827,7 @@ class HomeInfo:#查询首页信息表
             self.info["number_of_websites"]=str(len(self.cur.fetchall()))
 
         except Exception as e:#设置默认值
-            ErrorLog().Write("Web_WebClassCongregation_HomeInfo(class)_NumberOfWebsites(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_HomeInfo(class)_NumberOfWebsites(def)", e)
             self.info["number_of_websites"]="0"
     def NumberOfPorts(self, Uid):#查询全部端口发现数量，通过PortInfo表查询
         try:
@@ -835,14 +835,14 @@ class HomeInfo:#查询首页信息表
             self.cur.execute("select * from PortInfo where uid=?", (Uid,))
             self.info["number_of_port"]=str(len(self.cur.fetchall()))
         except Exception as e:#设置默认值
-            ErrorLog().Write("Web_WebClassCongregation_HomeInfo(class)_NumberOfPorts(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_HomeInfo(class)_NumberOfPorts(def)", e)
             self.info["number_of_port"] ="0"
 
     def NumberOfAgentTasks(self,Uid):  # 查询代理扫描数量，暂无模块,所有返回值直接为0
         try:
             self.info["number_of_agent_tasks"] = "0"
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_HomeInfo(class)_GithubMonitorDate(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_HomeInfo(class)_GithubMonitorDate(def)", e)
             self.info["number_of_agent_tasks"] = "0"
     def GithubMonitor(self, **kwargs):#查询GitHub监控数据
         StartTime = kwargs.get("start_time")
@@ -860,7 +860,7 @@ class HomeInfo:#查询首页信息表
             SortResult = sorted(CountDict.items(), key=lambda item: item[0])
             return SortResult#直接返回数据
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_HomeInfo(class)_GithubMonitor(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_HomeInfo(class)_GithubMonitor(def)", e)
             return None
 
     def VulnerabilityDistribution(self, **kwargs):#查询时间段中，漏洞分布，通过查询medusa表来获取所有个数
@@ -881,7 +881,7 @@ class HomeInfo:#查询首页信息表
             SortResult = sorted(CountDict.items(), key=lambda item: item[0])
             return SortResult#直接返回数据
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_HomeInfo(class)_TimeDistribution(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_HomeInfo(class)_TimeDistribution(def)", e)
             return None
 
     def DefaultData(self,**kwargs):#返回默认数据，该数据恒定不变
@@ -911,7 +911,7 @@ class ProxyTempUrl:#代理转储数据,为了防止重复下发任务做的
                                 proxy_id TEXT NOT NULL,\
                                 redis_id TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_ProxyTempUrl(class)_init(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_ProxyTempUrl(class)_init(def)", e)
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
         CreationTime = str(int(time.time()))  # 创建时间
@@ -927,7 +927,7 @@ class ProxyTempUrl:#代理转储数据,为了防止重复下发任务做的
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_ProxyTempUrl(class)_Write(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_ProxyTempUrl(class)_Write(def)", e)
             return False
 
     def Query(self, **kwargs):  # 查询查看url的创建时间
@@ -939,7 +939,7 @@ class ProxyTempUrl:#代理转储数据,为了防止重复下发任务做的
             #self.cur.execute("select * from ProxyTempUrl where uid =? ", (Uid,))
             return self.cur.fetchall()[-1][0]#返回最新的一条数据
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_ProxyTempUrl(class)_Query(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_ProxyTempUrl(class)_Query(def)", e)
             return None
 
 class CrossSiteScriptInfo:#XSS钓鱼接收数据库
@@ -959,7 +959,7 @@ class CrossSiteScriptInfo:#XSS钓鱼接收数据库
                                 request_method TEXT NOT NULL,\
                                 data_pack TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_CrossSiteScriptInfo(class)_init(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_CrossSiteScriptInfo(class)_init(def)", e)
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
         CreationTime = str(int(time.time()))  # 创建时间
@@ -977,7 +977,7 @@ class CrossSiteScriptInfo:#XSS钓鱼接收数据库
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_CrossSiteScriptInfo(class)_Write(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_CrossSiteScriptInfo(class)_Write(def)", e)
             return False
 
     def Query(self, **kwargs):  # 查询查看XSS项目数据
@@ -1001,7 +1001,7 @@ class CrossSiteScriptInfo:#XSS钓鱼接收数据库
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_CrossSiteScript(class)_Query(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_CrossSiteScript(class)_Query(def)", e)
             return None
     def QueryStatistics(self, **kwargs):  #用来统计接收数据个数
         ProjectAssociatedFileName = kwargs.get("project_associated_file_name")
@@ -1011,7 +1011,7 @@ class CrossSiteScriptInfo:#XSS钓鱼接收数据库
             self.con.close()
             return Result
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_CrossSiteScript(class)_QueryStatistics(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_CrossSiteScript(class)_QueryStatistics(def)", e)
             return None
 
 class CrossSiteScriptProject:#XSS钓鱼项目信息数据库
@@ -1028,7 +1028,7 @@ class CrossSiteScriptProject:#XSS钓鱼项目信息数据库
                                 file_name TEXT NOT NULL,\
                                 creation_time TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_CrossSiteScriptProject(class)_init(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_CrossSiteScriptProject(class)_init(def)", e)
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
         CreationTime = str(int(time.time()))  # 创建时间
@@ -1043,7 +1043,7 @@ class CrossSiteScriptProject:#XSS钓鱼项目信息数据库
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_CrossSiteScriptProject(class)_Write(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_CrossSiteScriptProject(class)_Write(def)", e)
             return False
     def Query(self, **kwargs):  # 查询查看XSS项目信息
         try:
@@ -1062,7 +1062,7 @@ class CrossSiteScriptProject:#XSS钓鱼项目信息数据库
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_CrossSiteScriptProject(class)_Query(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_CrossSiteScriptProject(class)_Query(def)", e)
             return None
     def QueryStatistics(self, **kwargs):  #用来项目个数
         Uid = kwargs.get("uid")
@@ -1072,7 +1072,7 @@ class CrossSiteScriptProject:#XSS钓鱼项目信息数据库
             self.con.close()
             return Result
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_CrossSiteScriptProject(class)_QueryStatistics(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_CrossSiteScriptProject(class)_QueryStatistics(def)", e)
             return None
     def RepeatInvestigation(self,**kwargs):#用来排查file_name是否重复
 
@@ -1085,7 +1085,7 @@ class CrossSiteScriptProject:#XSS钓鱼项目信息数据库
             else:
                 return False
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_CrossSiteScriptProject(class)_RepeatInvestigation(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_CrossSiteScriptProject(class)_RepeatInvestigation(def)", e)
             return False
 
     def AuthorityCheck(self,**kwargs):#用来校检CrossSiteScript数据库中文件名和UID相对应
@@ -1100,7 +1100,7 @@ class CrossSiteScriptProject:#XSS钓鱼项目信息数据库
             else:
                 return False
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_CrossSiteScriptProject(class)_AuthorityCheck(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_CrossSiteScriptProject(class)_AuthorityCheck(def)", e)
             return False
     def Delete(self,**kwargs):#删除项目
         try:
@@ -1116,7 +1116,7 @@ class CrossSiteScriptProject:#XSS钓鱼项目信息数据库
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_CrossSiteScriptProject(class)_Delete(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_CrossSiteScriptProject(class)_Delete(def)", e)
             return None
 class CrossSiteScriptTemplate:  # XSS钓鱼模板存放
     def __init__(self):
@@ -1133,7 +1133,7 @@ class CrossSiteScriptTemplate:  # XSS钓鱼模板存放
                                 creation_time TEXT NOT NULL,\
                                 update_time TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_CrossSiteScriptProject(class)_init(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_CrossSiteScriptProject(class)_init(def)", e)
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
         CreationTime = str(int(time.time()))  # 创建时间
@@ -1149,7 +1149,7 @@ class CrossSiteScriptTemplate:  # XSS钓鱼模板存放
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_CrossSiteScriptTemplate(class)_Write(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_CrossSiteScriptTemplate(class)_Write(def)", e)
             return False
 
     def Query(self, **kwargs):  # 查询查看XSS项目信息
@@ -1167,7 +1167,7 @@ class CrossSiteScriptTemplate:  # XSS钓鱼模板存放
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_CrossSiteScriptTemplate(class)_Query(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_CrossSiteScriptTemplate(class)_Query(def)", e)
             return None
     def RepeatInvestigation(self,**kwargs):#用来排查template_name是否重复
 
@@ -1181,7 +1181,7 @@ class CrossSiteScriptTemplate:  # XSS钓鱼模板存放
             else:
                 return False
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_CrossSiteScriptTemplate(class)_RepeatInvestigation(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_CrossSiteScriptTemplate(class)_RepeatInvestigation(def)", e)
             return False
     def Update(self,**kwargs):
         UpdateTime=str(int(time.time()))
@@ -1203,7 +1203,7 @@ class CrossSiteScriptTemplate:  # XSS钓鱼模板存放
                 return True
 
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_CrossSiteScriptTemplate(class)_Update(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_CrossSiteScriptTemplate(class)_Update(def)", e)
     def Delete(self,**kwargs):#删除项目
         try:
             TemplateName = kwargs.get("template_name")
@@ -1218,7 +1218,7 @@ class CrossSiteScriptTemplate:  # XSS钓鱼模板存放
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_CrossSiteScriptTemplate(class)_Delete(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_CrossSiteScriptTemplate(class)_Delete(def)", e)
             return None
 
 class HardwareUsageRateInfo:  # 获取硬件中CPU和内存的使用情况
@@ -1237,7 +1237,7 @@ class HardwareUsageRateInfo:  # 获取硬件中CPU和内存的使用情况
                                 central_processing_unit_usage_rate TEXT NOT NULL,\
                                 per_core_central_processing_unit_usage_rate TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_HardwareUsageRateInfo(class)_init(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_HardwareUsageRateInfo(class)_init(def)", e)
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
         CreationTime = str(int(time.time()))  # 创建时间
@@ -1254,7 +1254,7 @@ class HardwareUsageRateInfo:  # 获取硬件中CPU和内存的使用情况
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_HardwareUsageRateInfo(class)_Write(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_HardwareUsageRateInfo(class)_Write(def)", e)
             return False
 
     def Query(self):  # 查询查看CPU和内存使用信息
@@ -1275,7 +1275,7 @@ class HardwareUsageRateInfo:  # 获取硬件中CPU和内存的使用情况
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_HardwareUsageRateInfo(class)_Query(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_HardwareUsageRateInfo(class)_Query(def)", e)
             return None
 
 class PortableExecutableAnalyticalData:  # PE文件分析后数据存储
@@ -1306,7 +1306,7 @@ class PortableExecutableAnalyticalData:  # PE文件分析后数据存储
                                 image_resource_directory TEXT NOT NULL,\
                                 image_tls_directory TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_PortableExecutableAnalyticalData(class)_init(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_PortableExecutableAnalyticalData(class)_init(def)", e)
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
         CreationTime = str(int(time.time()))  # 创建时间
@@ -1336,7 +1336,7 @@ class PortableExecutableAnalyticalData:  # PE文件分析后数据存储
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_PortableExecutableAnalyticalData(class)_Write(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_PortableExecutableAnalyticalData(class)_Write(def)", e)
             return False
 
     # def Query(self):
@@ -1356,7 +1356,7 @@ class PortableExecutableAnalyticalData:  # PE文件分析后数据存储
     #         self.con.close()
     #         return result_list
     #     except Exception as e:
-    #         ErrorLog().Write("Web_WebClassCongregation_PortableExecutableAnalyticalData(class)_Query(def)", e)
+    #         ErrorLog().Write("Web_DatabaseHub_PortableExecutableAnalyticalData(class)_Query(def)", e)
     #         return None
 
 
@@ -1374,7 +1374,7 @@ class VerificationCode:#验证码相关数据库，用来验证验证码合法�
                                 creation_time TEXT NOT NULL,\
                                 verification_code_status TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_VerificationCode(class)_init(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_VerificationCode(class)_init(def)", e)
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
         CreationTime = str(int(time.time()))  # 创建时间
@@ -1389,7 +1389,7 @@ class VerificationCode:#验证码相关数据库，用来验证验证码合法�
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_VerificationCode(class)_Write(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_VerificationCode(class)_Write(def)", e)
             return False
 
     def Query(self, **kwargs):  #查询验证码是否正确
@@ -1413,7 +1413,7 @@ class VerificationCode:#验证码相关数据库，用来验证验证码合法�
                     return True
 
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_VerificationCode(class)_Query(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_VerificationCode(class)_Query(def)", e)
             return None
 
 class MarkdownInfo:#存放markdown文档的所有数据
@@ -1430,7 +1430,7 @@ class MarkdownInfo:#存放markdown文档的所有数据
                                 creation_time TEXT NOT NULL,\
                                 update_time TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_MarkdownInfo(class)_init(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_MarkdownInfo(class)_init(def)", e)
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
         CreationTime = str(int(time.time()))  # 创建时间
@@ -1445,7 +1445,7 @@ class MarkdownInfo:#存放markdown文档的所有数据
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_MarkdownInfo(class)_Write(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_MarkdownInfo(class)_Write(def)", e)
             return False
     def CheckConflict(self,**kwargs):#检查name是否会冲突
         try:
@@ -1457,7 +1457,7 @@ class MarkdownInfo:#存放markdown文档的所有数据
             else:
                 return False
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_MarkdownInfo(class)_CheckConflict(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_MarkdownInfo(class)_CheckConflict(def)", e)
             return None
     def Update(self, **kwargs) -> bool or None:  # 如果存在就进行更新
         UpdateTime = str(int(time.time()))  # 当前时间
@@ -1477,7 +1477,7 @@ class MarkdownInfo:#存放markdown文档的所有数据
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_MarkdownInfo(class)_Write(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_MarkdownInfo(class)_Write(def)", e)
             return None
     def Query(self,**kwargs):  # 文本具体数据
         try:
@@ -1494,7 +1494,7 @@ class MarkdownInfo:#存放markdown文档的所有数据
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_MarkdownInfo(class)_Query(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_MarkdownInfo(class)_Query(def)", e)
             return None
     def QueryMarkdownData(self,**kwargs):  # 只查询docker 数据
         try:
@@ -1504,7 +1504,7 @@ class MarkdownInfo:#存放markdown文档的所有数据
                 self.con.close()
                 return i[2]#直接返回数据
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_MarkdownInfo(class)_Query(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_MarkdownInfo(class)_Query(def)", e)
             return None
     def Delete(self,**kwargs):#删除项目
         try:
@@ -1519,7 +1519,7 @@ class MarkdownInfo:#存放markdown文档的所有数据
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_MarkdownInfo(class)_Delete(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_MarkdownInfo(class)_Delete(def)", e)
             return None
 
 class MarkdownRelationship:#markdown文档和用户相关的数据表
@@ -1538,7 +1538,7 @@ class MarkdownRelationship:#markdown文档和用户相关的数据表
                                 markdown_name TEXT NOT NULL,\
                                 creation_time TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_MarkdownRelationship(class)_init(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_MarkdownRelationship(class)_init(def)", e)
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
         CreationTime = str(int(time.time()))  # 创建时间
@@ -1555,7 +1555,7 @@ class MarkdownRelationship:#markdown文档和用户相关的数据表
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_MarkdownRelationship(class)_Write(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_MarkdownRelationship(class)_Write(def)", e)
             return False
     def CheckInvitationCode(self,**kwargs):#检查邀请码是否会冲突
         try:
@@ -1567,7 +1567,7 @@ class MarkdownRelationship:#markdown文档和用户相关的数据表
             else:
                 return False
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_MarkdownRelationship(class)_CheckInvitationCode(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_MarkdownRelationship(class)_CheckInvitationCode(def)", e)
             return None
     def InvitationCodeToQueryProjectInformation(self,**kwargs):#通过验证码查询项目信息，用来加入项目使用
         try:
@@ -1586,7 +1586,7 @@ class MarkdownRelationship:#markdown文档和用户相关的数据表
             else:
                 return result_list
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_MarkdownRelationship(class)_InvitationCodeToQueryProjectInformation(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_MarkdownRelationship(class)_InvitationCodeToQueryProjectInformation(def)", e)
             return None
     def DetectionOfRepeatedAddition(self,**kwargs):#检测是否重复加入
         try:
@@ -1599,7 +1599,7 @@ class MarkdownRelationship:#markdown文档和用户相关的数据表
             else:
                 return False
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_MarkdownRelationship(class)_InvitationCodeToQueryProjectInformation(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_MarkdownRelationship(class)_InvitationCodeToQueryProjectInformation(def)", e)
             return None
     def CheckConflict(self,**kwargs):#检查name是否会冲突
         try:
@@ -1611,7 +1611,7 @@ class MarkdownRelationship:#markdown文档和用户相关的数据表
             else:
                 return False
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_MarkdownRelationship(class)_CheckConflict(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_MarkdownRelationship(class)_CheckConflict(def)", e)
             return None
     def CheckPermissions(self,**kwargs):#检测用户是否有该项目的权限
 
@@ -1625,7 +1625,7 @@ class MarkdownRelationship:#markdown文档和用户相关的数据表
             else:
                 return False
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_MarkdownRelationship(class)_CheckPermissions(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_MarkdownRelationship(class)_CheckPermissions(def)", e)
             return None
 
     def Query(self, **kwargs):  #用来查询用户所属项目的全部信息
@@ -1650,7 +1650,7 @@ class MarkdownRelationship:#markdown文档和用户相关的数据表
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_MarkdownRelationship(class)_Query(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_MarkdownRelationship(class)_Query(def)", e)
             return None
     def QueryStatistics(self, **kwargs):  #用来统计用户所属项目个数
         Uid = kwargs.get("uid")
@@ -1660,7 +1660,7 @@ class MarkdownRelationship:#markdown文档和用户相关的数据表
             self.con.close()
             return Result
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_MarkdownRelationship(class)_QueryStatistics(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_MarkdownRelationship(class)_QueryStatistics(def)", e)
             return None
     def ProjectBelongs(self,**kwargs):#检测项目是否属于该用户
         try:
@@ -1674,7 +1674,7 @@ class MarkdownRelationship:#markdown文档和用户相关的数据表
             else:
                 return False
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_MarkdownRelationship(class)_ProjectBelongs(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_MarkdownRelationship(class)_ProjectBelongs(def)", e)
             return None
     def Delete(self,**kwargs):#删除项目
         try:
@@ -1690,7 +1690,7 @@ class MarkdownRelationship:#markdown文档和用户相关的数据表
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_MarkdownRelationship(class)_Delete(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_MarkdownRelationship(class)_Delete(def)", e)
             return None
 class ApplicationCollection:#存放收集到的应用所有数据
     def __init__(self):
@@ -1711,7 +1711,7 @@ class ApplicationCollection:#存放收集到的应用所有数据
                                 total_number_of_applications TEXT NOT NULL,\
                                 number_of_failures TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_ApplicationCollection(class)_init(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_ApplicationCollection(class)_init(def)", e)
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
         CreationTime = str(int(time.time()))  # 创建时间
         Uid = kwargs.get("uid")  # 用户id
@@ -1730,7 +1730,7 @@ class ApplicationCollection:#存放收集到的应用所有数据
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_ApplicationCollection(class)_Write(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_ApplicationCollection(class)_Write(def)", e)
             return False
     def Update(self, **kwargs) -> bool or None:  # 对数据进行更新
         Uid = kwargs.get("uid")  # 用户id
@@ -1754,7 +1754,7 @@ class ApplicationCollection:#存放收集到的应用所有数据
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_ApplicationCollection(class)_Update(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_ApplicationCollection(class)_Update(def)", e)
             return None
     def Query(self, **kwargs):  #用来查询用户的项目
         try:
@@ -1774,7 +1774,7 @@ class ApplicationCollection:#存放收集到的应用所有数据
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_ApplicationCollection(class)_Query(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_ApplicationCollection(class)_Query(def)", e)
             return None
 
 class NistData:#存放Nist发布的CVE数据
@@ -1799,7 +1799,7 @@ class NistData:#存放Nist发布的CVE数据
 
 
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_NistData(class)_init(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_NistData(class)_init(def)", e)
     def Write(self, DataSet:list) -> bool or None:  # 写入相关信息
 
         try:
@@ -1809,7 +1809,7 @@ class NistData:#存放Nist发布的CVE数据
             self.con.commit()#只发送数据不结束
             return True
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_NistData(class)_Write(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_NistData(class)_Write(def)", e)
             return False
 
     def BulkQuery(self, **kwargs):  #分页查询数据内容
@@ -1834,7 +1834,7 @@ class NistData:#存放Nist发布的CVE数据
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_NistData(class)_BulkQuery(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_NistData(class)_BulkQuery(def)", e)
             return None
 
     def StatisticalData(self):  # 整体个数统计
@@ -1844,7 +1844,7 @@ class NistData:#存放Nist发布的CVE数据
             self.con.close()
             return Result
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_NistData(class)_StatisticalData(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_NistData(class)_StatisticalData(def)", e)
             return None
     def DetailedQuery(self, **kwargs):  #单个CVE数据具体内容查询
         try:
@@ -1854,7 +1854,7 @@ class NistData:#存放Nist发布的CVE数据
             self.con.close()
             return Result#返回原始数据
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_NistData(class)_DetailedQuery(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_NistData(class)_DetailedQuery(def)", e)
             return None
 
     def SearchStatistics(self,**kwargs):  #模糊查询统计个数
@@ -1866,7 +1866,7 @@ class NistData:#存放Nist发布的CVE数据
             self.con.close()
             return Result
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_NistData(class)_SearchStatistics(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_NistData(class)_SearchStatistics(def)", e)
             return None
 
     def Update(self, UpdateData) -> bool or None:  # 对数据进行更新
@@ -1882,7 +1882,7 @@ class NistData:#存放Nist发布的CVE数据
                 self.con.commit()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_NistData(class)_Update(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_NistData(class)_Update(def)", e)
             return False
     def UniqueInquiry(self, **kwargs) -> bool or None:  # 对更新的数据进行检查，判断数据库中是否是唯一的
         try:
@@ -1893,7 +1893,7 @@ class NistData:#存放Nist发布的CVE数据
             else:
                 return False
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_NistData(class)_UniqueInquiry(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_NistData(class)_UniqueInquiry(def)", e)
             return None
     def Search(self,**kwargs):  #模糊查询
         try:
@@ -1919,7 +1919,7 @@ class NistData:#存放Nist发布的CVE数据
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_NistData(class)_Search(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_NistData(class)_Search(def)", e)
             return None
 
 class DomainNameSystemLog:  # 存放DNSLOG数据
@@ -1940,7 +1940,7 @@ class DomainNameSystemLog:  # 存放DNSLOG数据
 
 
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_DomainNameSystemLog(class)_init(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_DomainNameSystemLog(class)_init(def)", e)
 
     def Write(self,**kwargs) -> bool or None:  # 写入相关信息
         CreationTime = str(int(time.time()))  # 创建时间
@@ -1962,7 +1962,7 @@ class DomainNameSystemLog:  # 存放DNSLOG数据
                         self.con.close()
                         return True
                     except Exception as e:
-                        ErrorLog().Write("Web_WebClassCongregation_DomainNameSystemLog(class)_Write(def)", e)
+                        ErrorLog().Write("Web_DatabaseHub_DomainNameSystemLog(class)_Write(def)", e)
                         return False
             elif Type=="http":
                 try:
@@ -1973,10 +1973,10 @@ class DomainNameSystemLog:  # 存放DNSLOG数据
                     self.con.close()
                     return True
                 except Exception as e:
-                    ErrorLog().Write("Web_WebClassCongregation_DomainNameSystemLog(class)_Write(def)", e)
+                    ErrorLog().Write("Web_DatabaseHub_DomainNameSystemLog(class)_Write(def)", e)
                     return False
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_DomainNameSystemLog(class)_Write(def)-TreatmentDomainName", e)
+            ErrorLog().Write("Web_DatabaseHub_DomainNameSystemLog(class)_Write(def)-TreatmentDomainName", e)
             return None
     def Query(self, **kwargs):  #用来查询数据
         try:
@@ -1993,7 +1993,7 @@ class DomainNameSystemLog:  # 存放DNSLOG数据
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_DomainNameSystemLog(class)_Query(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_DomainNameSystemLog(class)_Query(def)", e)
             return None
     def StatisticalData(self):  # 整体个数统计
         try:
@@ -2002,7 +2002,7 @@ class DomainNameSystemLog:  # 存放DNSLOG数据
             self.con.close()
             return Result
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_DomainNameSystemLog(class)_StatisticalData(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_DomainNameSystemLog(class)_StatisticalData(def)", e)
             return None
 
 class TrojanData:#免杀木马相关数据库
@@ -2027,7 +2027,7 @@ class TrojanData:#免杀木马相关数据库
 
 
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_TrojanData(class)_init(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_TrojanData(class)_init(def)", e)
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
         Uid = kwargs.get("uid")
         TrojanOriginalFileName=kwargs.get("trojan_original_file_name")
@@ -2046,7 +2046,7 @@ class TrojanData:#免杀木马相关数据库
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_TrojanData(class)_Write(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_TrojanData(class)_Write(def)", e)
             return False
     def StatisticalData(self,**kwargs):  # 当前用户个数统计
         Uid = kwargs.get("uid")
@@ -2056,7 +2056,7 @@ class TrojanData:#免杀木马相关数据库
             self.con.close()
             return Result
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_TrojanData(class)_StatisticalData(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_TrojanData(class)_StatisticalData(def)", e)
             return None
     def UpdateStatus(self,**kwargs)->bool:#利用主键ID来判断后更新数据
         RedisId = kwargs.get("redis_id")
@@ -2073,7 +2073,7 @@ class TrojanData:#免杀木马相关数据库
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_TrojanData(class)_UpdateStatus(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_TrojanData(class)_UpdateStatus(def)", e)
             return False
     def Query(self, **kwargs):  #用来查询数据
         try:
@@ -2097,7 +2097,7 @@ class TrojanData:#免杀木马相关数据库
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_TrojanData(class)_Query(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_TrojanData(class)_Query(def)", e)
             return None
     def DownloadVerification(self, **kwargs):  # 用来验证下载数据是否属于用户
         try:
@@ -2113,7 +2113,7 @@ class TrojanData:#免杀木马相关数据库
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_TrojanData(class)_DownloadVerification(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_TrojanData(class)_DownloadVerification(def)", e)
             return None
 class MaliciousEmail:  # 钓鱼邮件
     def __init__(self):
@@ -2135,7 +2135,7 @@ class MaliciousEmail:  # 钓鱼邮件
                                 compilation_status TEXT NOT NULL,\
                                 creation_time TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_MaliciousEmail(class)_init(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_init(def)", e)
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
         CreationTime = str(int(time.time()))  # 创建时间
@@ -2157,7 +2157,7 @@ class MaliciousEmail:  # 钓鱼邮件
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_MaliciousEmail(class)_Write(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_Write(def)", e)
             return False
 
     def Query(self, **kwargs):
@@ -2181,7 +2181,7 @@ class MaliciousEmail:  # 钓鱼邮件
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_MaliciousEmail(class)_Query(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_Query(def)", e)
             return None
     def Quantity(self,**kwargs):  # 查看数量有哪些
         Uid = kwargs.get("uid")
@@ -2191,7 +2191,7 @@ class MaliciousEmail:  # 钓鱼邮件
             self.con.close()
             return Result
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_MaliciousEmail(class)_Quantity(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_Quantity(def)", e)
             return None
     def UpdateStatus(self,**kwargs)->bool:#利用主键ID来判断后更新数据
         RedisId = kwargs.get("redis_id")
@@ -2209,7 +2209,7 @@ class MaliciousEmail:  # 钓鱼邮件
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_MaliciousEmail(class)_UpdateStatus(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_UpdateStatus(def)", e)
             return False
 
 class MailAttachment:  # 钓鱼邮件附件
@@ -2227,7 +2227,7 @@ class MailAttachment:  # 钓鱼邮件附件
                                 document_real_name TEXT NOT NULL,\
                                 creation_time TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_MailAttachment(class)_init(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_MailAttachment(class)_init(def)", e)
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
         CreationTime = str(int(time.time()))  # 创建时间
@@ -2243,7 +2243,7 @@ class MailAttachment:  # 钓鱼邮件附件
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_MailAttachment(class)_Write(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_MailAttachment(class)_Write(def)", e)
             return False
 
     def Query(self, **kwargs):
@@ -2263,7 +2263,7 @@ class MailAttachment:  # 钓鱼邮件附件
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_MailAttachment(class)_Query(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_MailAttachment(class)_Query(def)", e)
             return None
     def Quantity(self,**kwargs):  # 查看数量有哪些
         Uid = kwargs.get("uid")
@@ -2273,7 +2273,7 @@ class MailAttachment:  # 钓鱼邮件附件
             self.con.close()
             return Result
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_MailAttachment(class)_Quantity(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_MailAttachment(class)_Quantity(def)", e)
             return None
 
 class FishingData:  # 钓鱼邮件数据接收
@@ -2292,7 +2292,7 @@ class FishingData:  # 钓鱼邮件数据接收
                                 data_pack_info TEXT NOT NULL,\
                                 creation_time TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_FishingData(class)_init(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_FishingData(class)_init(def)", e)
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
         CreationTime = str(int(time.time()))  # 创建时间
@@ -2309,7 +2309,7 @@ class FishingData:  # 钓鱼邮件数据接收
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_FishingData(class)_Write(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_FishingData(class)_Write(def)", e)
             return False
 
     def Query(self, **kwargs):
@@ -2330,7 +2330,7 @@ class FishingData:  # 钓鱼邮件数据接收
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_FishingData(class)_Query(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_FishingData(class)_Query(def)", e)
             return None
     def Quantity(self,**kwargs):  # 查看数量有哪些
         RequestKey = kwargs.get("request_key")
@@ -2340,5 +2340,142 @@ class FishingData:  # 钓鱼邮件数据接收
             self.con.close()
             return Result
         except Exception as e:
-            ErrorLog().Write("Web_WebClassCongregation_FishingData(class)_Quantity(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_FishingData(class)_Quantity(def)", e)
             return None
+
+
+
+
+class GithubCve:  # GitHub的CVE监控写入表
+    def __init__(self,**kwargs):
+        try:
+            self.cve_id = kwargs.get("id")  # 唯一的ID
+            self.cve_name = kwargs.get("name")   # 名字
+            self.cve_html_url = kwargs.get("html_url")    # 链接
+            self.cve_created_at = kwargs.get("created_at")  # 创建时间
+            self.cve_updated_at = kwargs.get("updated_at")  # 更新时间
+            self.cve_pushed_at = kwargs.get("pushed_at")  # push时间
+            self.cve_forks_count = kwargs.get("forks_count")  # fork人数
+            self.cve_watchers_count =kwargs.get("watchers_count")  # star人数
+            self.cve_write_time = str(int(time.time()))  # 写入时间
+            # 如果数据库不存在的话，将会自动创建一个 数据库
+            self.con = sqlite3.connect(GetDatabaseFilePath().result())
+            # 获取所创建数据的游标
+            self.cur = self.con.cursor()
+            # 创建表
+
+            # 如果设置了主键那么就导致主健值不能相同，如果相同就写入报错
+            self.cur.execute("CREATE TABLE GithubMonitor\
+                        (id INTEGER PRIMARY KEY,\
+                        github_id TEXT NOT NULL,\
+                        name TEXT NOT NULL,\
+                        html_url TEXT NOT NULL,\
+                        created_at TEXT NOT NULL,\
+                        updated_at TEXT NOT NULL,\
+                        pushed_at TEXT NOT NULL,\
+                        forks_count TEXT NOT NULL,\
+                        watchers_count TEXT NOT NULL,\
+                        write_time TEXT NOT NULL,\
+                        update_write_time TEXT NOT NULL)")
+        except Exception as e:
+            pass
+
+    def Write(self):
+        try:
+            self.cur.execute("""INSERT INTO GithubMonitor (github_id,name,html_url,created_at,updated_at,pushed_at,forks_count,watchers_count,write_time,update_write_time) \
+    VALUES (?,?,?,?,?,?,?,?,?,?)""", (
+            self.cve_id, self.cve_name, self.cve_html_url, self.cve_created_at, self.cve_updated_at, self.cve_pushed_at,
+            self.cve_forks_count, self.cve_watchers_count, self.cve_write_time, self.cve_write_time,))
+            # 提交
+            self.con.commit()
+            self.con.close()
+        except Exception as e:
+                ErrorLog().Write("Web_DatabaseHub_GithubCve(class)_Write(def)", e)
+
+    def Update(self):
+        UpdateTime=str(int(time.time()))
+        try:
+            self.cur.execute(
+                """UPDATE GithubMonitor SET forks_count = ?,updated_at=?,pushed_at=?,watchers_count=?,update_write_time=?  WHERE github_id = ?""",
+                (self.cve_forks_count, self.cve_updated_at, self.cve_pushed_at, self.cve_watchers_count,
+                 UpdateTime, self.cve_id,))
+            # 提交
+            self.con.commit()
+            self.con.close()
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_GithubCve(class)_Update(def)", e)
+
+    def Judgment(self) -> bool:#用于判断是否更新
+        try:
+            self.cur.execute(
+                """SELECT * FROM GithubMonitor WHERE github_id=?""", (self.cve_id,))
+            values = self.cur.fetchall()
+            cve_query_results = True
+            if len(values) == 0:
+                cve_query_results = False
+            else:
+                cve_query_results = True
+            # 提交
+            self.con.commit()
+            self.con.close()
+            return cve_query_results
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_GithubCve(class)_Judgment(def)", e)
+    def StatisticalData(self,**kwargs):  # 整体个数统计
+        try:
+            StatementProcessing = ""
+            TupleContainer = ()  # 存放处理后的数据
+            for x, i in enumerate(kwargs):
+                if i == "number_of_pages":
+                    continue
+                if x == len(kwargs) - 1:  # 判断是不是最后一个参数
+                    StatementProcessing += i + " like ? "
+                else:
+                    StatementProcessing += i + " like ? and "
+                TupleContainer += (str(kwargs.get(i)),)
+            if StatementProcessing!="":
+                StatementProcessing=" WHERE "+StatementProcessing
+            self.cur.execute("SELECT COUNT(1)  FROM GithubMonitor"+StatementProcessing,TupleContainer)
+            Result=self.cur.fetchall()[0][0]#获取数据个数
+            self.con.close()
+            return Result
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_GithubCve(class)_StatisticalData(def)", e)
+            return None
+
+    def Query(self,**kwargs):#查询函数，可以进行联合查询
+        NumberOfSinglePages = 100  # 单页数量
+        NumberOfPages = kwargs.get(
+            "number_of_pages") - 1  # 查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
+        StatementProcessing = ""
+        TupleContainer = ()#存放处理后的数据
+        for x,i in enumerate(kwargs):
+            if i=="number_of_pages":
+                continue
+            if x==len(kwargs)-1:#判断是不是最后一个参数
+                StatementProcessing += i + " like ? "
+            else:
+                StatementProcessing += i + " like ? and "
+            TupleContainer += (str(kwargs.get(i)),)
+        try:
+            ProcessedData=[]
+            if StatementProcessing!="":
+                StatementProcessing=" WHERE "+StatementProcessing
+            self.cur.execute(
+                "select *  from GithubMonitor "+StatementProcessing+" limit ? offset ?",TupleContainer+(NumberOfSinglePages,NumberOfSinglePages*NumberOfPages,))  # 查询用户相关信息
+
+            for i in self.cur.fetchall():
+                JsonValues = {}
+                JsonValues["github_id"]= i[1]
+                JsonValues["name"]= i[2]
+                JsonValues["html_url"]= i[3]
+                JsonValues["created_at"]= i[4]
+                JsonValues["updated_at"]= i[5]
+                JsonValues["pushed_at"]= i[6]
+                JsonValues["forks_count"]= i[7]
+                JsonValues["watchers_count"]= i[8]
+                ProcessedData.append(JsonValues)
+
+            return ProcessedData
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_GithubCve(class)_Query(def)", e)

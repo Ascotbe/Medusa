@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from Web.WebClassCongregation import UserInfo,ProxyScanList
+from Web.DatabaseHub import UserInfo,ProxyScanList
 from ClassCongregation import ErrorLog,Md5Encryption
 from django.http import JsonResponse
 import json

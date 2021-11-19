@@ -17,7 +17,7 @@ https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-serv
 
 """
 from Web.celery import app
-from Web.WebClassCongregation import UserInfo,ApplicationCollection
+from Web.DatabaseHub import UserInfo,ApplicationCollection
 from django.http import JsonResponse
 from ClassCongregation import ErrorLog
 import json

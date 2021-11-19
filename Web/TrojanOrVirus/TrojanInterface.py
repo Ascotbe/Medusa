@@ -6,7 +6,7 @@ import json
 import sys
 import os
 from ClassCongregation import ErrorLog,GetTempFilePath,GetTrojanFilePath,GetTrojanModulesFilePath,randoms
-from Web.WebClassCongregation import UserInfo,TrojanData
+from Web.DatabaseHub import UserInfo,TrojanData
 from django.http import JsonResponse,FileResponse
 from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
 from Web.celery import app

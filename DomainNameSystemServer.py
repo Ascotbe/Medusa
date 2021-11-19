@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import socketserver
 import struct
-from Web.WebClassCongregation import DomainNameSystemLog
+from Web.DatabaseHub import DomainNameSystemLog
 from ClassCongregation import ErrorLog
 from config import server_ip
 # DNS Query

@@ -1,7 +1,7 @@
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from Web.WebClassCongregation import DomainNameSystemLog
+from Web.DatabaseHub import DomainNameSystemLog
 import base64
 class Server(BaseHTTPRequestHandler):
     def Response(self):

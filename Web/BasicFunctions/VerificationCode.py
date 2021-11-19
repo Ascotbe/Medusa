@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from captcha.image import ImageCaptcha
-from Web.WebClassCongregation import VerificationCode
+from Web.DatabaseHub import VerificationCode
 from django.http import JsonResponse,HttpResponse
 from ClassCongregation import ErrorLog,randoms
 from Web.Workbench.LogRelated import RequestLogRecord

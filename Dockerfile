@@ -42,7 +42,7 @@ RUN mv ssl.key /etc/nginx/cert/
 #安装后端所需的包
 RUN python3 -m pip install -r Medusa.txt
 #启动Nginx
-RUN nginx
+#RUN nginx
 #启动运行脚本
 RUN chmod +x run.sh
 CMD ./run.sh

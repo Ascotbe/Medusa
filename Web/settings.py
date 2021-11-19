@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'wme1h&*11s!m)5fb)yjo97zt=bx^s3^$bb*18-#a!00&=k9(4o'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True #这边还是要设置为开启，不然没办法加载静态文件，而且开启也没关系，反正项目是开源的
 
 ALLOWED_HOSTS = ['*']
 

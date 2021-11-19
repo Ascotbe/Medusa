@@ -2479,3 +2479,42 @@ class GithubCve:  # GitHub的CVE监控写入表
             return ProcessedData
         except Exception as e:
             ErrorLog().Write("Web_DatabaseHub_GithubCve(class)_Query(def)", e)
+
+class FileAcquisitionData:  # 文件接收数据库
+    def __init__(self):
+        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        # 获取所创建数据的游标
+        self.cur = self.con.cursor()
+        # 创建表
+        try:
+            self.cur.execute("CREATE TABLE FileAcquisition\
+                                (file_acquisition_id INTEGER PRIMARY KEY,\
+                                uid TEXT NOT NULL,\
+                                file_full_path TEXT NOT NULL,\
+                                old_file_name TEXT NOT NULL,\
+                                file_size TEXT NOT NULL,\
+                                new_file_name TEXT NOT NULL,\
+                                target_machine TEXT NOT NULL,\
+                                creation_time TEXT NOT NULL)")
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_FishingData(class)_init(def)", e)
+
+    def Write(self, **kwargs) -> bool or None:  # 写入相关信息
+        CreationTime = str(int(time.time()))  # 创建时间
+        Uid= kwargs.get("uid")
+        FileFullPath= kwargs.get("file_full_path")  # 该文件在目标机器完整的路径
+        OldFileName = kwargs.get("old_file_name")  # 该文件在目标机器的文件名
+        FileSize= kwargs.get("file_size")   # 文件大小
+        NewFileName = kwargs.get("new_file_name")  # 重命名后存储在本地的文件名
+        TargetMachine = kwargs.get("target_machine")  # 目标值，来确认机器是那一台
+
+        try:
+            self.cur.execute("INSERT INTO FileAcquisition(uid,file_full_path,old_file_name,file_size,new_file_name,target_machine,creation_time)\
+                VALUES (?,?,?,?,?,?,?)", (Uid,FileFullPath, OldFileName, FileSize,NewFileName,TargetMachine,CreationTime,))
+            # 提交
+            self.con.commit()
+            self.con.close()
+            return True
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_FileAcquisition(class)_Write(def)", e)
+            return False

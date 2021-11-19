@@ -1,10 +1,9 @@
 > 写在开头
 
 - 前端页面在重构，请下载打包版本手动安装，望周知（
-
 - 别用阿里云服务器，他们25端口开不了(腾讯云没测
-
 - 所有的配置只需要拥有一个域名
+- docker启动服务器最低需要1核2G配置
 
 ## 手动安装项目
 
@@ -103,18 +102,11 @@ module.exports = faceConfig()
 
 > 启动项目
 
-在更目录中，分别打开5个命令行窗口，运行下面三条命令
-
-- 注意启动的端口要和前端配置文件中的相同
-- 注意启动Redis的时候，配置文件的路径请按自己的路径进行替换
-- 以下五条命令都在**Medusa/**根目录下面运行
+在**Medusa/**根目录下面运行
 
 ```bash
-celery -A Web worker -B --loglevel=info --pool=solo
-python3 manage.py runserver 0.0.0.0:9999 --insecure --noreload
-python3 DomainNameSystemServer.py
-redis-server /etc/redis/redis.conf
-python3 HTTPServer.py
+chmod +x run.sh 
+./run.sh
 ```
 
 接着再打开一个窗口，在**Medusa/Vue/**目录运行以下命令
@@ -225,18 +217,11 @@ sudo systemctl restart nginx
 
 > 启动项目
 
-运行下面五条命令
-
-- 注意启动的端口要和前端配置文件中的相同
-- 注意启动Redis的时候，配置文件的路径请按自己的路径进行替换
-- 以下五条命令都在**Medusa/**根目录下面运行
+在**Medusa/**根目录下面运行
 
 ```bash
-celery -A Web worker -B --loglevel=info --pool=solo
-python3 manage.py runserver 0.0.0.0:9999 --insecure --noreload
-python3 DomainNameSystemServer.py
-redis-server /etc/redis/redis.conf
-python3 HTTPServer.py
+chmod +x run.sh 
+./run.sh
 ```
 
 最后访问`http://ascotbe.com`即可看到web界面（注意这是你自己的域名

@@ -2518,3 +2518,147 @@ class FileAcquisitionData:  # 文件接收数据库
         except Exception as e:
             ErrorLog().Write("Web_DatabaseHub_FileAcquisition(class)_Write(def)", e)
             return False
+    def DocumentAuthentication(self,Data) -> bool or None:  # 文件鉴权
+        ReturnList=[]
+        try:
+            for i in Data:
+                self.cur.execute("select * from FileAcquisition WHERE uid=? and new_file_name=?", i)#查询用户相关信息
+                ReturnData=self.cur.fetchone()
+                if ReturnData is None:#判断是否有空数据
+                    return False
+                else:
+                    tmp=(ReturnData[3],ReturnData[5])
+                    ReturnList.append(tmp)
+            self.con.close()
+            return ReturnList
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_FileAcquisition(class)_Write(def)", e)
+            return False
+    def Query(self, **kwargs):
+        try:
+            Uid = kwargs.get("uid")
+            NumberOfSinglePages=100#单页数量
+            NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
+            self.cur.execute("select file_full_path,old_file_name,file_size,new_file_name,target_machine,creation_time  from FileAcquisition WHERE uid=? limit ? offset ?", (Uid,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询用户相关信息
+            result_list = []
+            for i in self.cur.fetchall():
+                JsonValues = {}
+                JsonValues["file_full_path"] = i[0]
+                JsonValues["old_file_name"] = i[1]
+                JsonValues["file_size"] = i[2]
+                JsonValues["new_file_name"] = i[3]
+                JsonValues["target_machine"] = i[4]
+                JsonValues["creation_time"] = i[5]
+                result_list.append(JsonValues)
+            self.con.close()
+            return result_list
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_FileAcquisition(class)_Query(def)", e)
+            return None
+    def Quantity(self,**kwargs):  # 查看数量有哪些
+        Uid = kwargs.get("uid")
+        try:
+            self.cur.execute("SELECT COUNT(1)  FROM FileAcquisition  WHERE uid=?", (Uid,))
+            Result=self.cur.fetchall()[0][0]#获取数据个数
+            self.con.close()
+            return Result
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_FileAcquisition(class)_Quantity(def)", e)
+            return None
+
+class FileAcquisitionPack:  # 打包接收函数
+    def __init__(self):
+        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        # 获取所创建数据的游标
+        self.cur = self.con.cursor()
+        # 创建表
+        try:
+            self.cur.execute("CREATE TABLE FileAcquisitionPack\
+                                (file_acquisition_pack_id INTEGER PRIMARY KEY,\
+                                uid TEXT NOT NULL,\
+                                file_name TEXT NOT NULL,\
+                                state TEXT NOT NULL,\
+                                redis_id TEXT NOT NULL,\
+                                creation_time TEXT NOT NULL)")
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_FileAcquisitionPack(class)_init(def)", e)
+
+    def Write(self, **kwargs) -> bool or None:  # 写入相关信息
+        CreationTime = str(int(time.time()))  # 创建时间
+        Uid= kwargs.get("uid")
+        FileName = kwargs.get("file_name")  # 存储在本地的文件名
+        State = kwargs.get("state")  # 获取文件状态,1表示成功，0表示正在执行，-1表示失败
+        RedisId = kwargs.get("redis_id")  # 获取redis值
+
+
+        try:
+            self.cur.execute("INSERT INTO FileAcquisitionPack(uid,file_name,state,redis_id,creation_time)\
+                VALUES (?,?,?,?,?)", (Uid,FileName,State,RedisId,CreationTime,))
+            # 提交
+            self.con.commit()
+            self.con.close()
+            return True
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_FileAcquisitionPack(class)_Write(def)", e)
+            return False
+    def UpdateStatus(self,**kwargs)->bool:#利用主键ID来判断后更新数据
+        RedisId = kwargs.get("redis_id")
+        FileName = kwargs.get("file_name")
+        State = kwargs.get("state")
+        try:
+            self.cur.execute("""UPDATE FileAcquisitionPack SET state = ?,file_name=? WHERE redis_id= ?""",(State,FileName, RedisId,))
+            # 提交
+            if self.cur.rowcount < 1:  # 用来判断是否更新成功
+                self.con.commit()
+                self.con.close()
+                return False
+            else:
+                self.con.commit()
+                self.con.close()
+                return True
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_FileAcquisitionPack(class)_UpdateStatus(def)", e)
+            return False
+    def DownloadAuthentication(self,**kwargs)->bool:#下载鉴权
+        Uid = kwargs.get("uid")
+        FileName = kwargs.get("file_name")
+        try:
+            self.cur.execute("select *  from FileAcquisitionPack WHERE uid=? and file_name=?", (Uid,FileName,))
+
+            if self.cur.fetchone() is None:  # 判断是否有空数据
+                self.con.close()
+                return False
+            else:
+                self.con.close()
+                return True
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_FileAcquisitionPack(class)_DownloadAuthentication(def)", e)
+            return False
+    def Query(self, **kwargs):
+        try:
+            Uid = kwargs.get("uid")
+            NumberOfSinglePages=100#单页数量
+            NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
+            self.cur.execute("select file_name,state,creation_time  from FileAcquisitionPack WHERE uid=? limit ? offset ?", (Uid,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询用户相关信息
+            result_list = []
+            for i in self.cur.fetchall():
+                JsonValues = {}
+                JsonValues["file_name"] = i[0]
+                JsonValues["state"] = i[1]
+                JsonValues["creation_time"] = i[2]
+                result_list.append(JsonValues)
+            self.con.close()
+            return result_list
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_FileAcquisitionPack(class)_Query(def)", e)
+            return None
+    def Quantity(self,**kwargs):  # 查看数量有哪些
+        Uid = kwargs.get("uid")
+        try:
+            self.cur.execute("SELECT COUNT(1)  FROM FileAcquisitionPack  WHERE uid=?", (Uid,))
+            Result=self.cur.fetchall()[0][0]#获取数据个数
+            self.con.close()
+            return Result
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_FileAcquisitionPack(class)_Quantity(def)", e)
+            return None

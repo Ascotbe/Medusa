@@ -18,4 +18,3 @@
 #     b += 'HTTP/1.1'
 # b+=" "+str(a.raw.status)+" "+str(a.raw.reason+"\n")+str(a.raw._fp.msg) + a.text
 # print(b)
-

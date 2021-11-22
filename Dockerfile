@@ -28,8 +28,6 @@ RUN m4 /etc/mail/sendmail.mc > /etc/mail/sendmail.cf
 #安装配置vue
 WORKDIR /Medusa/Vue/
 RUN rm -rf package-lock.json
-RUN npm install npm@6.14.15 -g
-RUN npm cache clean --force
 RUN npm install highcharts --save  --registry=http://registry.cnpmjs.org
 RUN npm run build
 RUN mv dist/ /var/www/html/

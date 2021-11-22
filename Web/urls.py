@@ -30,7 +30,7 @@ from Web.CollaborationPlatform import Markdown
 from Web.DomainNameSystemLog import DomainNameSystemData
 from Web.TrojanOrVirus import TrojanInterface
 from Web.Mail import Email,MailHistory,MailAttachment,FishingData
-from Web.FileAcquisition import Receive
+from Web.FileAcquisition import Receive,Query
 
 urlpatterns = [
     #用户相关
@@ -125,6 +125,14 @@ urlpatterns = [
     path('api/medusa_info/', Information.Config),  # 获取项目相关数据
     #数据接收相关
     path('api/file_acquisition_receive/', Receive.Upload),  # 获取其他地方上传的数据
+    path('api/file_acquisition_file_pack/', Receive.FilePack),  # 下发任务打包文件
+    path('api/file_acquisition_pack_download/', Receive.Download),  # 下载打包文件
+    path('api/file_acquisition_pack_query/', Query.PockQuery),  # 打包文件查询
+    path('api/file_acquisition_pack_attachment/', Query.PackAttachment),  # 打包文件个数统计
+    path('api/file_acquisition_query/', Query.Query),  # 获取文件查询
+    path('api/file_acquisition_attachment/', Query.Attachment),  # 获取文件个数查询
+
+
 
 ]
 urlpatterns += staticfiles_urlpatterns()

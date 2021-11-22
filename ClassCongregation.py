@@ -1015,3 +1015,11 @@ class FileAcquisitionPath:  #  文件采集器文件路径
         elif sys.platform == "linux" or sys.platform == "darwin":
             Path = GetRootFileLocation().Result() + "/Web/FileAcquisition/File/"
             return Path
+class FileAcquisitionZipPath:  #  文件打包下载路径
+    def Result(self) -> str:
+        if sys.platform == "win32" or sys.platform == "cygwin":
+            Path = GetRootFileLocation().Result() + "\\Web\\FileAcquisition\\Zip\\"
+            return Path
+        elif sys.platform == "linux" or sys.platform == "darwin":
+            Path = GetRootFileLocation().Result() + "/Web/FileAcquisition/Zip/"
+            return Path

@@ -1,4 +1,5 @@
 #!/bin/bash
+python3 -c 'from Web.CommonVulnerabilitiesAndExposuresMonitor.VulnerabilityNumberMonitoring.NistInitialization import NistInitialization;from Web.ActiveScan import InitializationPlugin;InitializationPlugin.Run();NistInitialization()'
 redis-server /etc/redis/redis.conf &
 service sendmail start &
 python3 DomainNameSystemServer.py &

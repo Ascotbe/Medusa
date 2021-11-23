@@ -26,3 +26,4 @@ Web/BasicFunctions/VulnerabilityQuery.py
 Web/CrossSiteScriptHub/CrossSiteScriptTemplate/*
 celerybeat-schedule.db
 Web/FileAcquisition/File/*
+Web/FileAcquisition/Zip/*

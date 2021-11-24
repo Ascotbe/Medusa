@@ -25,27 +25,17 @@
   	"message": [{
   		"domain_name": "test8.dnslog.ascotbe.com",
   		"ip": "27.115.80.227",
+  		"type": "dns",
+  		"request": "",
+  		"response": "",
   		"creation_time": "1618133942"
   	}, {
-  		"domain_name": "test10.dnslog.ascotbe.com",
-  		"ip": "112.65.184.227",
-  		"creation_time": "1618136087"
-  	}, {
-  		"domain_name": "test10.dnslog.ascotbe.com",
-  		"ip": "112.65.184.227",
-  		"creation_time": "1618136087"
-  	}, {
-  		"domain_name": "test11.dnslog.ascotbe.com",
-  		"ip": "112.65.184.227",
-  		"creation_time": "1618136105"
-  	}, {
-  		"domain_name": "123.dnslog.ascotbe.com",
-  		"ip": "112.65.184.229",
-  		"creation_time": "1618136107"
-  	}, {
-  		"domain_name": "123.dnslog.ascotbe.com",
-  		"ip": "112.65.184.229",
-  		"creation_time": "1618136107"
+  		"domain_name": "",
+  		"ip": "",
+  		"type": "http",
+  		"request": "R0VUIC8gSFRUUC8xLjEKSG9zdDogMTI3LjAuMC4xOjg4ODgKVXNlci1BZ2VudDogTW96aWxsYS81LjAgemdyYWIvMC54CkFjY2VwdDogKi8qCkFjY2VwdC1FbmNvZGluZzogZ3ppcAoK",
+  		"response": "SFRUUC8xLjAgMjAwIE9LDQpTZXJ2ZXI6IEJhc2VIVFRQLzAuNiBQeXRob24vMy44LjEwDQpEYXRlOiBUdWUsIDIzIE5vdiAyMDIxIDA5OjE2OjU2IEdNVA0KQ29udGVudC10eXBlOiB0ZXh0L2h0bWwNCg==",
+  		"creation_time": "1618133942"
   	}],
   	"code": 200
   }
@@ -53,8 +43,13 @@
 
   > 返回参数解释
 
-  - `domain_name`域名信息
-  - `ip`请求IP
+  每种类型数据独立拥有，其他的值为空
+
+  - `domain_name`DNS类型域名信息
+  - `ip`DNS类型请求IP
+  - `type`解析类型，有DNS和HTTP
+  - `request`HTTP类型请求数据，需要使用base64解密
+  - `response`HTTP类型返回数据，需要使用base64解密
   - `creation_time`接收时间
 
 - 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧

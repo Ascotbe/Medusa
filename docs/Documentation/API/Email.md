@@ -199,7 +199,7 @@ XXXXXXXXXXXXXXX
 
 - 500：请使用Post请求
 
-### 统计通过邮箱获取到的请求数据
+### 统计钓鱼获取的数据量
 
 `/api/fishing_data_statistics/`
 
@@ -221,7 +221,7 @@ XXXXXXXXXXXXXXX
 - 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
 - 500：请使用Post请求
 
-### 邮件附件详情查询
+### 钓鱼获取的数据详情
 
 `/api/fishing_data_details/`
 

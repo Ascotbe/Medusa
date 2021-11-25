@@ -26,7 +26,7 @@
 
 ## Demo
 
-<img alt="Release" src="https://github.com/Ascotbe/Random-img/blob/master/Medusa/web_demo.gif?raw=true"  >
+<img alt="Release" src="https://github.com/Ascotbe/Image/blob/master/Medusa/web_demo.gif?raw=true"  >
 
 ## 讨论区
 

@@ -37,7 +37,7 @@ http://medusa.ascotbe.com/Documentation/#/WebVersionInstallation
 
 ### :space_invader:Web界面
 
-![demo](https://github.com/Ascotbe/Random-img/blob/master/Medusa/web_demo.gif?raw=true)
+![demo](https://github.com/Ascotbe/Image/blob/master/Medusa/web_demo.gif?raw=true)
 
 ### :rocket:加速下载
 

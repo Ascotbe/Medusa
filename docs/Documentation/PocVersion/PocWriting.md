@@ -572,7 +572,7 @@ def task(**kwargs):
 
 ###### 代码中未使用的Package尽量删除
 
-![1.png](https://github.com/Ascotbe/Random-img/blob/master/docute/1.png?raw=true)
+![1.png](https://github.com/Ascotbe/Image/blob/master/docute/1.png?raw=true)
 
 ###### 命令执行规范
 

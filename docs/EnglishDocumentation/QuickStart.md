@@ -1,6 +1,6 @@
 ## Demo
 
-![Bashdemo](https://github.com/Ascotbe/Random-img/blob/master/Medusa/demo.gif?raw=true)
+![Bashdemo](https://github.com/Ascotbe/Image/blob/master/Medusa/demo.gif?raw=true)
 
 ## Parameters
 

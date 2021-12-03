@@ -2007,6 +2007,20 @@ class DomainNameSystemLog:  # 存放DNSLOG数据
         except Exception as e:
             ErrorLog().Write("Web_DatabaseHub_DomainNameSystemLog(class)_StatisticalData(def)", e)
             return None
+    def Verification(self,**kwargs) -> bool or None:
+        DomainName=kwargs.get("value")
+        try:
+            self.cur.execute("select creation_time  from DomainNameSystemLog WHERE domain_name=?", (DomainName,))#查询相关信息
+            for i in self.cur.fetchall():
+                if (int(time.time())-int(i[0])) <= 60:#判断是否在60秒内,请求的数据
+                    self.con.close()
+                    return True
+            #循环结束还是没找到就判断为不存在
+            self.con.close()
+            return False
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_DomainNameSystemLog(class)_Verification(def)", e)
+            return False
 
 class TrojanData:#免杀木马相关数据库
     def __init__(self):

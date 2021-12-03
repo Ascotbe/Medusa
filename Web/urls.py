@@ -27,7 +27,7 @@ from Web.ToolsUtility.AntivirusSoftwareMatching import AntivirusSoftware
 from Web.ToolsUtility.BinaryAnalysis import PortableExecute
 from Web.ApplicationCollection import CollectionWork
 from Web.CollaborationPlatform import Markdown
-from Web.DomainNameSystemLog import DomainNameSystemData
+from Web.DomainNameSystemLog import Data
 from Web.TrojanOrVirus import TrojanInterface
 from Web.Mail import Email,MailHistory,MailAttachment,FishingData
 from Web.FileAcquisition import Receive,Query
@@ -101,8 +101,9 @@ urlpatterns = [
     path('api/nist_search/', Nist.NistSearch),  # 模糊搜索接口
     path('api/nist_search_statistics/', Nist.NistSearchStatistics),  # 模糊搜索接口个数统计
     #DNSLOG
-    path('api/domain_name_system_log/', DomainNameSystemData.Query),  # DNSLOG数据查询
-    path('api/domain_name_system_log_statistics/', DomainNameSystemData.Statistics),  # DNSLOG数据个数统计
+    path('api/domain_name_system_log/', Data.Query),  # DNSLOG数据查询
+    path('api/domain_name_system_log_statistics/', Data.Statistics),  # DNSLOG数据个数统计
+    path('api/domain_name_system_log_verification/', Data.Verification),  # DNSLOG数据验证
     #免杀生成
     path('api/shellcode_to_trojan/', TrojanInterface.ShellcodeToTrojan),  # 通过shellcode来进行代码生成
     path('api/trojan_data_query/', TrojanInterface.TrojanDataQuery),  # 查询当前用户的数据

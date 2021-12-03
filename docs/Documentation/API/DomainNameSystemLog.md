@@ -81,3 +81,27 @@
 - 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
 
 - 500：请使用Post请求
+
+
+
+### DNSLOG数据验证
+
+`/api/domain_name_system_log_verification/`
+
+```json
+{
+	"value": ""
+}
+```
+
+> 参数解释
+
+- `value`你的DNSLOG值，比如`aaa.dnslog.ascotbe.com`，这是目前唯一一个不需要验证的接口
+
+> 返回状态码
+
+- 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
+
+- 200：返回数据大小
+
+- 500：请使用Post请求

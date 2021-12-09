@@ -1,0 +1,40 @@
+name: 🍭 功能需求
+description: 机械永生,刻不容缓!
+labels: ['Medusa enhancement']
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        请确保已阅读 [文档](http://medusa.ascotbe.com) 内相关部分，并按照模版提供信息，否则 issue 将被立即关闭。谢谢大家的配合，祝大家有美好的一天~
+        如果您使用的是最新版本，会有前后端解析不对应的问题，如果您想使用稳定版本请下载打包版本，并配合当docs文件中安装文档食用
+
+  - type: textarea
+    id: feature
+    attributes:
+      label: 这是一个什么样的功能？
+      placeholder: 请描述你想看到的功能。
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: 这个功能可以解决什么问题？
+      placeholder: 请描述该功能解决的问题。
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: 额外描述
+      placeholder: 任何补充说明。
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: 这不是重复的功能请求
+      options:
+        - label: 我已经搜索了[现有 issue](https://github.com/ascotbe/Medusa/issues)，以确保这项功能尚未被请求。
+          required: true

@@ -1,0 +1,88 @@
+name: 💚 Bug 报告
+description: 机械永生,刻不容缓!
+labels: ['Medusa bug']
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        请确保已阅读 [文档](http://medusa.ascotbe.com) 内相关部分，并按照模版提供信息，否则 issue 将被立即关闭。谢谢大家的配合，祝大家有美好的一天~
+        如果您使用的是最新版本，会有前后端解析不对应的问题，如果您想使用稳定版本请下载打包版本，并配合当docs文件中安装文档食用
+
+  - type: checkboxes
+    id: operating_systems
+    attributes:
+      label: 当前使用的操作系统
+      description: 从下面选择一个
+      options:
+        - label: macOS
+        - label: Windows
+        - label: Linux
+
+  - type: input
+    id: description_error
+    attributes:
+      label: 描述错误
+      description: 清楚简洁地说明错误是什么
+      placeholder: 由于....
+    validations:
+      required: true
+
+  - type: textarea
+    id: step
+    attributes:
+      label: 重现步骤
+      description: 如何重现所述问题步骤，并贴上相关的数据
+      placeholder: |
+        1.
+        2.
+        3.
+        ...
+      render: bash
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: 如果觉得文字无法描述清楚，可以贴上您相关的运行截图，图片请不要使用外链
+  - type: input
+    id: interface
+    attributes:
+      label: 接口位置
+      description: 与之相对应的接口
+      placeholder: https://www.test.com/api/...
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: 相关环境说明
+      description: 详细的系统版本，内核等信息，Python相关的版本号，项目版本号
+      placeholder: |
+        python x.x.x 
+        version x.x.x
+        system x.x.x
+        ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: 日志内容
+      placeholder: |
+        2021-11-22 09:30:23,796 - MainProcess[79706] - INFO: Web_ClassCongregation_Plugins(class)_init(def)
+        2021-11-22 09:30:23,796 - MainProcess[79706] - WARNING: table Plugins already exists
+        2021-11-22 09:30:24,145 - MainProcess[79706] - INFO: Watching for file changes with StatReloader
+        ...
+    validations:
+      required: true
+
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: 这不是重复的 issue
+      options:
+        - label: 我已经搜索了[现有 issue](https://github.com/ascotbe/Medusa/issues)，以确保该错误尚未被报告。
+          required: true

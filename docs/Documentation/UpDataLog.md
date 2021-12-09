@@ -3336,3 +3336,11 @@ v1.0.98🌴
 更新文档
 修改文件DomainNameSystemLogData为Data
 ```
+
+2021.12.9
+
+```
+v1.0.99🌴
+修改issue模板文件
+修改FUNDING文件
+```

@@ -13,7 +13,7 @@ http://127.0.0.1:9999/b/aaaaaaaaaa/?dasd=dasd
 def Monitor(request,data):#用于接收信息的监控
     RequestLogRecord(request, request_api="email")
     GetRequestFragment=""
-    try:#正则匹配获取项XSS目生成文件名
+    try:
         GetRequestFragment = re.search(r'/[a-zA-Z0-9]{10}', str(request.get_full_path), re.I).group(0)  # 对URL进行提取处理
         #print(GetRequestFragment[1:11])
     except Exception as e:

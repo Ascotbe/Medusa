@@ -6,15 +6,4 @@
 # linux redis-server /etc/redis/redis.conf
 # git commit -m  "v1.0.0:palm_tree:"
 # pip install python-magic-bin==0.4.14
-
-# b=""
-# import requests
-# a=requests.get('https://www.v2ex.com/favicon.ico')
-# if a.raw.version== 10:
-#     b+= 'HTTP/1.0'
-# elif a.raw.version==9:
-#     b +=  'HTTP/0.9'
-# elif a.raw.version==11:
-#     b += 'HTTP/1.1'
-# b+=" "+str(a.raw.status)+" "+str(a.raw.reason+"\n")+str(a.raw._fp.msg) + a.text
-# print(b)
+#新增一个数据表DNSLOG，每个用户会自动分配一个5个字符的前置字符串，用于区分不同用户的DNS记录

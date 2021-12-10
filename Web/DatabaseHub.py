@@ -1982,7 +1982,7 @@ class DomainNameSystemLog:  # 存放DNSLOG数据
         try:
             NumberOfSinglePages=100#单页数量
             NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
-            self.cur.execute("select domain_name,ip,type,request,response,creation_time  from DomainNameSystemLog limit ? offset ?", (NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询相关信息
+            self.cur.execute("select domain_name,ip,type,request,response,creation_time  from DomainNameSystemLog ORDER BY dnslog_id DESC limit ? offset ?", (NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询相关信息,倒叙查询
             result_list = []
             for i in self.cur.fetchall():
                 JsonValues = {}

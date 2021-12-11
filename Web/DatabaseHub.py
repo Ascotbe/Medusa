@@ -77,13 +77,13 @@ class UserInfo:#用户表
             return False
     def Write(self,**kwargs:str)->bool or None:#写入新用户，True表示成功，False表示用户已存在，None表示报错
         CreationTime = str(int(time.time())) # 创建时间
-        Uid=randoms().result(100)
+        Uid=kwargs.get("uid")
         Name=kwargs.get("name")
         ShowName=kwargs.get("show_name")
         Passwd=kwargs.get("passwd")
         Email=kwargs.get("email")
         Avatar=kwargs.get("avatar")
-        Key=randoms().result(40)
+        Key=kwargs.get("key")
         Token=kwargs.get("token")#这个是用来验证用户登录的
         while True:#判断Key否存在
             if not self.WhetherTheKeyConflicts(Key):#如果未找到就跳出循环进行下去
@@ -1816,7 +1816,7 @@ class NistData:#存放Nist发布的CVE数据
         try:
             NumberOfSinglePages=100#单页数量
             NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
-            self.cur.execute("select vulnerability_number,v3_base_score,v3_base_severity,v2_base_score,v2_base_severity,last_up_date,vulnerability_description,vendors,products  from CommonVulnerabilitiesAndExposures limit ? offset ?", (NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询用户相关信息
+            self.cur.execute("select vulnerability_number,v3_base_score,v3_base_severity,v2_base_score,v2_base_severity,last_up_date,vulnerability_description,vendors,products  from CommonVulnerabilitiesAndExposures ORDER BY common_vulnerabilities_and_exposures_id DESC limit ? offset ?", (NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询用户相关信息
 
             result_list = []
             for i in self.cur.fetchall():
@@ -1849,7 +1849,7 @@ class NistData:#存放Nist发布的CVE数据
     def DetailedQuery(self, **kwargs):  #单个CVE数据具体内容查询
         try:
             CommonVulnerabilitiesAndExposures=kwargs.get("common_vulnerabilities_and_exposures")#查询第几页
-            self.cur.execute("select raw_data from CommonVulnerabilitiesAndExposures where vulnerability_number=?", (CommonVulnerabilitiesAndExposures,))
+            self.cur.execute("select raw_data from CommonVulnerabilitiesAndExposures where vulnerability_number=? ORDER BY common_vulnerabilities_and_exposures_id DESC ", (CommonVulnerabilitiesAndExposures,))
             Result=self.cur.fetchall()[0][0]
             self.con.close()
             return Result#返回原始数据
@@ -1978,49 +1978,105 @@ class DomainNameSystemLog:  # 存放DNSLOG数据
         except Exception as e:
             ErrorLog().Write("Web_DatabaseHub_DomainNameSystemLog(class)_Write(def)-TreatmentDomainName", e)
             return None
-    def Query(self, **kwargs):  #用来查询数据
+    def Query2DNS(self, **kwargs):  #用来DNS类型查询数据
         try:
             NumberOfSinglePages=100#单页数量
+            Key="%."+kwargs.get("key")
             NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
-            self.cur.execute("select domain_name,ip,type,request,response,creation_time  from DomainNameSystemLog ORDER BY dnslog_id DESC limit ? offset ?", (NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询相关信息,倒叙查询
+            self.cur.execute("select domain_name,ip,creation_time  from DomainNameSystemLog WHERE domain_name Like ? ORDER BY dnslog_id DESC limit ? offset ?", (Key,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询相关信息,倒叙查询
             result_list = []
             for i in self.cur.fetchall():
                 JsonValues = {}
                 JsonValues["domain_name"] = i[0]
                 JsonValues["ip"] = i[1]
-                JsonValues["type"] = i[2]
-                JsonValues["request"] = i[3]
-                JsonValues["response"] = i[4]
-                JsonValues["creation_time"] = i[5]
+                JsonValues["creation_time"] = i[2]
                 result_list.append(JsonValues)
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_DomainNameSystemLog(class)_Query(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_DomainNameSystemLog(class)_Query2DNS(def)", e)
             return None
-    def StatisticalData(self):  # 整体个数统计
+    def Statistical2DNS(self, **kwargs):  # 统计DNS类型的数量
+        Key = "%." + kwargs.get("key")
         try:
-            self.cur.execute("SELECT COUNT(1)  FROM DomainNameSystemLog",)  # 查询用户相关信息
+            self.cur.execute("SELECT COUNT(1)  FROM DomainNameSystemLog WHERE domain_name Like ?",(Key,))  # 查询用户相关信息
             Result=self.cur.fetchall()[0][0]#获取数据个数
             self.con.close()
             return Result
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_DomainNameSystemLog(class)_StatisticalData(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_DomainNameSystemLog(class)_Statistical2DNS(def)", e)
             return None
-    def Verification(self,**kwargs) -> bool or None:
-        DomainName=kwargs.get("value")
+    def Query2HTTP(self, **kwargs):  #用来查询HTTP类型数据
         try:
-            self.cur.execute("select creation_time  from DomainNameSystemLog WHERE domain_name=?", (DomainName,))#查询相关信息
+            NumberOfSinglePages=100#单页数量
+            NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
+            self.cur.execute("select request,response,creation_time  from DomainNameSystemLog WHERE type= ? ORDER BY dnslog_id DESC limit ? offset ?", ("http",NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询相关信息,倒叙查询
+            result_list = []
             for i in self.cur.fetchall():
-                if (int(time.time())-int(i[0])) <= 60:#判断是否在60秒内,请求的数据
-                    self.con.close()
-                    return True
-            #循环结束还是没找到就判断为不存在
+                JsonValues = {}
+                JsonValues["request"] = i[0].decode()
+                JsonValues["response"] = i[1].decode()
+                JsonValues["creation_time"] = i[2]
+                result_list.append(JsonValues)
             self.con.close()
-            return False
+            return result_list
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_DomainNameSystemLog(class)_Verification(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_DomainNameSystemLog(class)_Query2HTTP(def)", e)
+            return None
+    def Statistical2HTTP(self):  # 统计http类型的数量
+
+        try:
+            self.cur.execute("SELECT COUNT(1)  FROM DomainNameSystemLog WHERE type= ?",("http",))  # 查询用户相关信息
+            Result=self.cur.fetchall()[0][0]#获取数据个数
+            self.con.close()
+            return Result
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_DomainNameSystemLog(class)_Statistical2HTTP(def)", e)
+            return None
+
+
+class DomainNameSystemLogKeyword(object):
+    def __init__(self):
+        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        # 获取所创建数据的游标
+        self.cur = self.con.cursor()
+        # 创建表
+        try:
+            self.cur.execute("CREATE TABLE DomainNameSystemLogKeyword\
+                                (dnslog_keyword_id INTEGER PRIMARY KEY,\
+                                uid TEXT NOT NULL,\
+                                key TEXT NOT NULL,\
+                                creation_time TEXT NOT NULL)")
+
+
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_DomainNameSystemLogKeyword(class)_init(def)", e)
+
+    def Write(self,**kwargs) -> bool or None:  # 写入相关信息
+        CreationTime = str(int(time.time()))  # 创建时间
+        Uid = kwargs.get("uid")  # 用户UID
+        Key = kwargs.get("key")  # 生成的key，值为5位
+        try:
+            self.cur.execute("INSERT INTO DomainNameSystemLogKeyword(uid,key,creation_time)\
+                VALUES (?,?,?)", (Uid, Key, CreationTime,))
+            # 提交
+            self.con.commit()
+            self.con.close()
+            return True
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_DomainNameSystemLogKeyword(class)_Write(def)", e)
             return False
+
+    def Query(self, **kwargs):  #用来查询数据
+        try:
+            Uid = kwargs.get("uid")  # 用户UID
+            self.cur.execute("select * from DomainNameSystemLogKeyword WHERE uid=?", (Uid,))
+            for i in self.cur.fetchall():
+                return i[2]
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_DomainNameSystemLogKeyword(class)_Query(def)", e)
+            return None
+
 
 class TrojanData:#免杀木马相关数据库
     def __init__(self):

@@ -101,9 +101,11 @@ urlpatterns = [
     path('api/nist_search/', Nist.NistSearch),  # 模糊搜索接口
     path('api/nist_search_statistics/', Nist.NistSearchStatistics),  # 模糊搜索接口个数统计
     #DNSLOG
-    path('api/domain_name_system_log/', Data.Query),  # DNSLOG数据查询
-    path('api/domain_name_system_log_statistics/', Data.Statistics),  # DNSLOG数据个数统计
-    path('api/domain_name_system_log_verification/', Data.Verification),  # DNSLOG数据验证
+    path('api/domain_name_system_log/', Data.DNSQuery),  # 获取DNS类型的数据
+    path('api/domain_name_system_log_statistics/', Data.DNSStatistics),  # DNS类型数据统计
+    path('api/http_domain_name_system_log/', Data.HTTPQuery),  # 获取HTTPS类型的数据
+    path('api/http_domain_name_system_log_statistics/', Data.HTTPStatistics),  # HTTPS类型数据统计
+    path('api/get_domain_name_system_log/', Data.GetDNSLog),  # 获取当前用户的DNSLOG值
     #免杀生成
     path('api/shellcode_to_trojan/', TrojanInterface.ShellcodeToTrojan),  # 通过shellcode来进行代码生成
     path('api/trojan_data_query/', TrojanInterface.TrojanDataQuery),  # 查询当前用户的数据

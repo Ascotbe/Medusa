@@ -3351,3 +3351,14 @@ v1.0.100🌴
 更新Dockerfile文件
 修改DNSLOG数据为倒叙查询
 ```
+
+2021.12.12
+```
+v1.0.101🌴
+重写DNSLOG功能，区分为HTTP类型和DNSLOG类型
+添加随机数函数中小写字母函数
+修改DNSLOG文档
+添加DomainNameSystemLogKeyword数据库
+重写DomainNameSystemLog数据库
+修改注册函数，注册后就写入DomainNameSystemLogKeyword值
+```

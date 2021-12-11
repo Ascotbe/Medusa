@@ -144,7 +144,6 @@ def UpdateKey(request):#更新Key
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
-#还差更新邮箱和更新头像功能
 
 """user_info
 {

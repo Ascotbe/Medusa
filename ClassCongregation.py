@@ -418,6 +418,12 @@ class randoms:  # 生成随机数
         for i in range(nub):
             salt += random.choice(H)
         return salt
+    def Lowercase(self, nub: int) -> str:#生成小写字母
+        H = "abcdefghijklmnopqrstuvwxyz"
+        salt = ""
+        for i in range(nub):
+            salt += random.choice(H)
+        return salt
 
 
 class UrlProcessing:  # URL处理函数

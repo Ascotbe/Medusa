@@ -7,3 +7,6 @@
 # git commit -m  "v1.0.0:palm_tree:"
 # pip install python-magic-bin==0.4.14
 #新增一个数据表DNSLOG，每个用户会自动分配一个5个字符的前置字符串，用于区分不同用户的DNS记录
+b=b"asdasdasdasd"
+print(b.decode())
+print(type(b.decode()))

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from Web.DatabaseHub import UserInfo,VerificationCode
+from Web.DatabaseHub import UserInfo,VerificationCode,DomainNameSystemLogKeyword
 from ClassCongregation import ErrorLog,randoms
 from django.http import JsonResponse
 import json
@@ -8,7 +8,7 @@ from config import secret_key_required_for_account_registration,registration_fun
 from ClassCongregation import Md5Encryption
 from Web.Workbench.LogRelated import RequestLogRecord
 
-"""
+"""registered
 {
 	"show_name": "7777777",
 	"username": "ascotbe",
@@ -49,9 +49,13 @@ def Registered(request):
                                     return JsonResponse({'message': '报错了🙄', 'code': 404, })
                                 elif not VerifyUsername or not VerifyEmail:
                                     Token=randoms().result(250)
+                                    Uid = randoms().result(100)#生成随机数,用户UID
+                                    Key = randoms().result(40) #生成key值
+                                    DomainNameSystemLogKey = randoms().LowercaseAndNumbers(5)  # 生成DNSLOGkey值
                                     Md5Passwd=Md5Encryption().Md5Result(Passwd)#进行加密
                                     UserWrite=UserInfo().Write(name=Username, show_name=ShowName, token=Token, passwd=Md5Passwd,
-                                                     email=Email, avatar="admin.jpg")
+                                                     email=Email, uid=Uid,key=Key,avatar="admin.jpg")
+                                    DomainNameSystemLogKeyword().Write(uid=Uid,key=DomainNameSystemLogKey)
                                     if UserWrite:
                                         return JsonResponse({'message': '注册成功', 'code': 200, })
                                     elif UserWrite is None:

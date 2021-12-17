@@ -3362,3 +3362,9 @@ v1.0.101🌴
 重写DomainNameSystemLog数据库
 修改注册函数，注册后就写入DomainNameSystemLogKeyword值
 ```
+
+2021.12.17
+```
+v1.0.102🌴
+重构免杀框架中（
+```

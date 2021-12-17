@@ -766,6 +766,15 @@ class GetAnalysisFileStoragePath:  # 获取分析文件存储路径类
         elif system_type == "linux" or system_type == "darwin":
             Path = GetRootFileLocation().Result()+"/Web/ToolsUtility/BinaryAnalysis/AnalysisFileStorage/"
             return Path
+class GetTrojanPluginsPath:  # 获取木马插件名称
+    def Result(self) -> str:
+        system_type = sys.platform
+        if system_type == "win32" or system_type == "cygwin":
+            Path = GetRootFileLocation().Result()+"\\Web\\TrojanOrVirus\\Modules\\"
+            return Path
+        elif system_type == "linux" or system_type == "darwin":
+            Path = GetRootFileLocation().Result()+"/Web/TrojanOrVirus/Modules/"
+            return Path
 
 class GetTrojanFilePath:  # 获取生成好的病毒文件路径
     def Result(self) -> str:

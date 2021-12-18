@@ -424,6 +424,8 @@ class randoms:  # 生成随机数
         for i in range(nub):
             salt += random.choice(H)
         return salt
+    def XOR(self) -> int: #生成随机的xor字符，1-255
+        return random.randint(1, 255)
 
 
 class UrlProcessing:  # URL处理函数

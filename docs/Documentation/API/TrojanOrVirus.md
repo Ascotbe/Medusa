@@ -173,23 +173,18 @@
   ```json
   {
   	"message": {
-  		"Cpp_DLL_Windows_XOR_Yes_CreateThread_20210903.py": "Cpp-DLL-Windows-XOR-Yes-CreateThread-20210902-6/66",
-  		"Cpp_EXE_Windows_AES_Yes_ProcessingControlBlock_20210910.py": "Cpp-EXE-Windows-AES-Yes-ProcessingControlBlock-20210910-1/72",
-  		"Go_EXE_Windows_Null_Yes_Syscall_20210902.py": "Go-EXE-Windows-Null-Yes-Syscall-20210902-12/72",
-  		"Nim_EXE_Windows_Null_Yes_CreateRemoteThread_20210902.py": "Nim-EXE-Windows-Null-Yes-CreateRemoteThread-20210902-11/72",
-  		"C_DLL_Windows_Null_Yes_MemoryEnforcement_20210831.py": "C-DLL-Windows-Null-Yes-MemoryEnforcement-20210901-15/72",
-  		"C_EXE_Windows_XOR_Yes_MemoryEnforcement_20210901.py": "C-EXE-Windows-XOR-Yes-MemoryEnforcement-20210901-12/72",
-  		"Cpp_EXE_Windows_Null_Yes_CreateThreatPoolWait_20210908.py": "Cpp-EXE-Windows-Null-Yes-CreateThreatPoolWait-20210908-1/72",
-  		"Go_EXE_Windows_Null_No_ShellcodeLoader_20210907.py": "Go-EXE-Windows-Null-No-ShellcodeLoader-20210907-3/72"
+  		"1631074271-Cpp-EXE-Windows-Null-Yes-CreateThreatPoolWait.yaml": "CPP-EXE-Windows-XOR-Yes-MemoryEnforcement",
+  		"1630383071-C-DLL-Windows-Null-Yes-MemoryEnforcement.yaml": "C-DLL-Windows-Null-Yes-MemoryEnforcement",
+  		"1630469471-C-EXE-Windows-XOR-Yes-MemoryEnforcement.yaml": "C-EXE-Windows-XOR-Yes-MemoryEnforcement"
   	},
   	"code": 200
   }
   ```
-
+  
   > 返回参数解释
-
-  - `Cpp_DLL_Windows_XOR_Yes_CreateThread_20210903.py`该值为左边，本地文件名字需要传入`api/shellcode_to_trojan`接口的`plugin`参数中
-  - `Cpp-EXE-Windows-Null-Yes-CreateThreatPoolWait-20210908-1/72`该值为右边，显示在前端页面上的
+  
+  - `1631074271-Cpp-EXE-Windows-Null-Yes-CreateThreatPoolWait.yaml`该值为左边，本地文件名字需要传入`api/shellcode_to_trojan`接口的`plugin`参数中
+  - `CPP-EXE-Windows-XOR-Yes-MemoryEnforcement`该值为右边，显示在前端页面上的
 
 - 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
 

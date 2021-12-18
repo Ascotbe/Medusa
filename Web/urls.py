@@ -114,7 +114,6 @@ urlpatterns = [
     path('api/trojan_file_download_verification/', TrojanInterface.TrojanFileDownloadVerification),  # 进行生成木马文件下载
     path('api/get_auto_start/', TrojanInterface.GetAutoStart),# 获取内置类函数中自启动的列表
     path('api/get_anti_sandbox/', TrojanInterface.GetAntiSandbox),# 获取内置类函数中反沙箱的列表
-    path('api/shellcode/', TrojanInterface.TestShellcodeToTrojan),#测试接口
     #钓鱼邮件相关
     path('api/send_fishing_mail/', Email.SendFishingMail),  # 发送钓鱼邮件
     path('api/statistics_malicious_email/', MailHistory.StatisticsMaliciousEmail),  # 统计当前用户钓鱼邮件发送个数

@@ -1,6 +1,6 @@
 from jinja2 import Template
-from ClassCongregation import randoms
-
+from ClassCongregation import randoms,BinaryDataTypeConversion,ShellcodeEncryptionAndDecryption
+import ast
 def Run(**kwargs):
 
     RawData = kwargs.get("yaml_raw_data") #获取yaml的原始数据
@@ -17,7 +17,9 @@ def Run(**kwargs):
         TreatedFunction = []
         TreatedClass = []
         for i in Expression:
-            Placeholder[i] = eval(Expression[i])
+            Tmp = Template(Expression[i])#进行模板替换表达式中的占位符
+            Replace=Tmp.render(Placeholder)#尝试进行替换，如果没有的占位符的话，就继续下一部
+            Placeholder[i] = eval(Replace)
         for x in Function:
             Tmp = Template(x)
             TreatedFunction.append(Tmp.render(Placeholder)) #处理占位符
@@ -38,4 +40,9 @@ def Run(**kwargs):
     return SourceCode
 
 
-
+# import yaml
+# import time
+# YamlRawData = yaml.safe_load(open("/Users/ascotbe/code/Medusa/Web/TrojanOrVirus/Modules/1630469471-C-EXE-Windows-XOR-Yes-MemoryEnforcement.yaml")) # 读取yaml文件
+#
+# A=Run(yaml_raw_data = YamlRawData,shellcode="\\x75\\x33") # 读取yaml文件)
+# time.sleep(1)

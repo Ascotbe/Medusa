@@ -20,7 +20,6 @@ Banner.py
 Web/Mail/Attachment/*
 Web/Mail/MailboxDetection.py
 /Modules
-Web/TrojanOrVirus/Modules
 Web/BasicFunctions/VulnerabilityScanning.py
 Web/BasicFunctions/VulnerabilityQuery.py
 Web/CrossSiteScriptHub/CrossSiteScriptTemplate/*

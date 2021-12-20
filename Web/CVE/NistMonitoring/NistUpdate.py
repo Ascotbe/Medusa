@@ -27,7 +27,7 @@ def NistUpdateDownload():#更新数据下载
         NistUpdateProcessing(TempFilePath+SaveFileName,FileName[:-4])#调用数据处理函数，传入文件路径和提取文件名
     except Exception as e:
         NistUpdateDownload(TempFilePath)#如果还是报错就再次循环自身
-        ErrorLog().Write("Web_CommonVulnerabilitiesAndExposuresMonitor_VulnerabilityNumberMonitoring_NistUpdata_NistUpdateDownload(def)", e)
+        ErrorLog().Write("Web_CVE_NistMonitoring_NistUpdata_NistUpdateDownload(def)", e)
 
 
 def NistUpdateProcessing(ZipFilePath,ZipFileData):#更新数据库处理函数
@@ -132,4 +132,4 @@ def NistUpdateProcessing(ZipFilePath,ZipFileData):#更新数据库处理函数
     except Exception as e:
         NistUpdateDownload(TempFilePath)#如果文件不是zip文件，就是表明可能下载错误了
         ErrorLog().Write(
-            "Web_CommonVulnerabilitiesAndExposuresMonitor_VulnerabilityNumberMonitoring_NistUpdata_NistUpdateProcessing(def)", e)
+            "Web_CVE_NistMonitoring_NistUpdata_NistUpdateProcessing(def)", e)

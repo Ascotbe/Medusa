@@ -1,8 +1,8 @@
 #!/bin/bash
-python3 -c 'from Web.CommonVulnerabilitiesAndExposuresMonitor.VulnerabilityNumberMonitoring.NistInitialization import NistInitialization;from Web.ActiveScan import InitializationPlugin;InitializationPlugin.Run();NistInitialization()'
+python3 -c 'from Web.CVE.NistMonitoring.NistInitialization import NistInitialization;from Web.ActiveScan import InitializationPlugin;InitializationPlugin.Run();NistInitialization()'
 redis-server /etc/redis/redis.conf &
 service sendmail start &
-python3 DomainNameSystemServer.py &
+python3 DNSServer.py &
 python3 HTTPServer.py &
 celery -A Web worker -B --loglevel=info --pool=solo &
 nginx &

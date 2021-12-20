@@ -81,11 +81,13 @@ Language2Command={
 
 @app.task
 def CompileCode(Command):#代码编译处理函数
-    p = subprocess.call(Command, shell=True)  # 执行生成命令
-    if p==0:#执行成功
+    try:
+        p = subprocess.run(Command, shell=True, timeout=30, check=True)  # 执行生成命令
+        p.check_returncode()
         TrojanData().UpdateStatus(compilation_status="1", redis_id=CompileCode.request.id)  # 任务结束后更新状态
-    else:
+    except subprocess.CalledProcessError as e:
         TrojanData().UpdateStatus(compilation_status="-1", redis_id=CompileCode.request.id)  # 任务结束后更新状态
+        ErrorLog().Write("Web_TrojanOrVirus_TrojanInterface_CompileCode(def)", e)
 
 
 

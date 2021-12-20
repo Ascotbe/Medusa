@@ -21,8 +21,8 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from Web.BasicFunctions import Registered,User,ProxyScan,Home,VerificationCode,Information
 from Web.CrossSiteScriptHub import CrossSiteScript,TemplateManagement
 from Web.SystemInfo import HardwareInfo
-from Web.CommonVulnerabilitiesAndExposuresMonitor.VulnerabilityUtilizationMonitoring import Github
-from Web.CommonVulnerabilitiesAndExposuresMonitor.VulnerabilityNumberMonitoring import Nist
+from Web.CVE.GithubMonitoring import Github
+from Web.CVE.NistMonitoring import Nist
 from Web.ToolsUtility.AntivirusSoftwareMatching import AntivirusSoftware
 from Web.ToolsUtility.BinaryAnalysis import PortableExecute
 from Web.ApplicationCollection import CollectionWork

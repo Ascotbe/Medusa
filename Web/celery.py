@@ -23,11 +23,11 @@ app.conf.beat_schedule ={
             'schedule':timedelta(seconds=hardware_info_monitor_job_time),
         },
         'GithubCveMonitor':{
-            'task':'Web.CommonVulnerabilitiesAndExposuresMonitor.VulnerabilityUtilizationMonitoring.Github.Monitor',
+            'task':'Web.CVE.GithubMonitoring.Github.Monitor',
             'schedule':timedelta(seconds=github_cve_monitor_job_time),
         },
         'NistMonitor': {
-        'task': 'Web.CommonVulnerabilitiesAndExposuresMonitor.VulnerabilityNumberMonitoring.NistUpdate.NistUpdateDownload',
+        'task': 'Web.CVE.NistMonitoring.NistUpdate.NistUpdateDownload',
         'schedule': timedelta(seconds=nist_update_job_time),
         },
 

@@ -44,7 +44,7 @@ class DNSAnswer:
             res = res + struct.pack('BBBB', int(s[0]), int(s[1]), int(s[2]), int(s[3]))
             return res
         except Exception as e:
-            ErrorLog().Write("DomainNameSystemServer_DNSAnswer(class)_getbytes(def)", e)
+            ErrorLog().Write("DNSServer_DNSAnswer(class)_getbytes(def)", e)
 
 # DNS frame
 class DNSFrame:
@@ -92,7 +92,7 @@ class DNSUDPHandler(socketserver.BaseRequestHandler):
                 socket.sendto(data, self.client_address)
 
         except Exception as e:
-            ErrorLog().Write("DomainNameSystemServer_DNSUDPHandler(class)_getbytes(def)", e)
+            ErrorLog().Write("DNSServer_DNSUDPHandler(class)_getbytes(def)", e)
 
 
 # DNS Server

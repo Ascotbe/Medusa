@@ -7,12 +7,12 @@ process: exe
 set:
   #下面两个都要从写
   r1: randoms().XOR()  #随机xor字符
-  xor_shellcode: ShellcodeEncryptionAndDecryption().XOREncryption({{r1}},BinaryDataTypeConversion().StringToBytes(ast.literal_eval(repr(kwargs.get("shellcode")).replace("\\\\", "\\"))))  #执行xor运行
+  xor_shellcode: ShellCode().XOR({{r1}},Binary().String2Bytes(kwargs.get("shellcode")))  #执行xor运行
 include:
   - '#include <windows.h>'
   - '#include <stdio.h>'
   - '#include <string.h>'
-pragma:
+state:
   - '#pragma comment(linker,"/subsystem:\"Windows\" /entry:\"mainCRTStartup\"")'
 define: ~
 class: ~

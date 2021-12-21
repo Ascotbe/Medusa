@@ -11,7 +11,7 @@ from Web.DatabaseHub import UserInfo,TrojanData
 from django.http import JsonResponse,FileResponse
 from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
 from Web.celery import app
-from Web.TrojanOrVirus import C2CFuck
+from Web.TrojanOrVirus import Cpp,Go
 # from Web.TrojanOrVirus.TrojanClass import AutoStart,AntiSandbox
 
 
@@ -177,7 +177,15 @@ def ShellcodeToTrojan(request):##shellcode转换生成病毒
                                     return JsonResponse({'message': "暂不支持Windows免杀方式~敬请关注后续更新", 'code': 601, })
                                 elif sys.platform == "darwin" or sys.platform == "linux":#判断当前运行的机器类型
                                     File = open(VirusOriginalFilePath, "w+")
-                                    File.write(C2CFuck.Run(shellcode=Shellcode,yaml_raw_data=YamlRawData))#获取shellcode传入动态调用函数中，然后写入本地文件
+                                    #需要判断插件语言类型，进行针对处理
+                                    if SourceFileSuffix.lower()=="c" or SourceFileSuffix.lower()=="cpp":#如果是c或者cpp
+                                        File.write(Cpp.Run(shellcode=Shellcode,
+                                                           yaml_raw_data=YamlRawData))  # 获取shellcode传入动态调用函数中，然后写入本地文件
+                                    elif SourceFileSuffix.lower()=="go":#如果是go
+                                        File.write(Go.Run(shellcode=Shellcode,
+                                                           yaml_raw_data=YamlRawData))
+                                    else:
+                                        return JsonResponse({'message': "插件语言不在支持列表中", 'code': 490, })
                                     File.close()
                                     if ShellcodeArchitecture!="x86" and ShellcodeArchitecture!="x64":#判断对应架构
                                         return JsonResponse({'message': "暂不支持其他架构~", 'code': 440, })

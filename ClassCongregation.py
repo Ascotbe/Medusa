@@ -806,19 +806,18 @@ class GetNistDatabaseFilePath:  #  Nist数据库文件路径返回值
             return Path
 
 
-class BinaryDataTypeConversion:#对于原始二进制数据的类型转换
-    """
-    字符串样式1:\xff
-    字符串样式2:\\xff
-    1.当前类只支持样式1的形式转换
-    2.如果要使用样式2的形式进行转换需要使用下面代码进行处理过后传入
-    import ast
-    ast.literal_eval(repr(Shellcode).replace("\\\\", "\\"))
-    """
-    def BytesToString(self,BytesTypeBinaryData: bytes):  # 类型转换
+class Binary:#对于原始二进制数据的类型转换
+    def Bytes2String(self,BytesTypeData: bytes):  # 类型转换
+        """
+        只允许传入一下类型字符串
+        字符串样式1:b'\xff'
+        返回字符串格式
+        '\\xff'
+        """
+        BytesTypeData=ast.literal_eval(repr(BytesTypeData).replace( "\\","\\\\"))
         try:
             BinaryData = ""
-            for i in BytesTypeBinaryData:
+            for i in BytesTypeData:
                 # 如果是bytes类型的字符串，for循环会读取单个16进制然后转换成10进制
                 Data = hex(i)  # 转换会16进制
                 Data = Data.replace('0x', '')
@@ -828,12 +827,20 @@ class BinaryDataTypeConversion:#对于原始二进制数据的类型转换
 
             return ast.literal_eval(repr(BinaryData).replace('\\\\', '\\'))#先repr将字符串转为python原生字符串，然后替换双斜杠，最后eval转回正常字符串
         except Exception as e:
-            ErrorLog().Write("ClassCongregation_BinaryDataTypeConversion(class)_BytesToString(def)", e)
+            ErrorLog().Write("ClassCongregation_Binary(class)_Bytes2String(def)", e)
 
-    def StringToBytes(self,StringTypeBinaryData: str):
+    def String2Bytes(self,StringTypeData: str):# 类型转换，一般用在需要对shellcode进行处理的时候，比如加密，异或之类的
+        """
+        支持一下两种字符串格式
+        字符串样式1:'\xff'
+        字符串样式2:'\\xff'
+        返回字符串格式
+        b'\xff'
+        """
+        StringTypeData=ast.literal_eval(repr(StringTypeData).replace("\\\\", "\\"))
         try:
             BinaryData = b""
-            for i in StringTypeBinaryData:
+            for i in StringTypeData:
                 Code = hex(ord(i))
                 Code = bytes(Code.replace('0x', ''), encoding="utf-8")
                 if (len(Code) == 1):
@@ -843,48 +850,55 @@ class BinaryDataTypeConversion:#对于原始二进制数据的类型转换
             return ast.literal_eval(repr(BinaryData).replace('\\\\', '\\'))
 
         except Exception as e:
-            ErrorLog().Write("ClassCongregation_BinaryDataTypeConversion(class)_StringToBytes(def)", e)
+            ErrorLog().Write("ClassCongregation_Binary(class)_String2Bytes(def)", e)
 
-    def StringToNim(self,StringTypeBinaryData: str):
+    def String2Nim(self,StringTypeData: str):
         """字符串转换成nim语言类型的shellcode
         样例：var shellcode: array[519, byte] = [ byte 72, 49]"""
         try:
             BinaryData = []
-            for i in StringTypeBinaryData:
+            for i in StringTypeData:
                 Code = ord(i)
                 BinaryData.append(Code)
 
             return str(len(BinaryData)),str(BinaryData).replace("[","[ byte ")#返回容器个数，和shellcode内容
         except Exception as e:
-            ErrorLog().Write("ClassCongregation_BinaryDataTypeConversion(class)_StringToNim(def)", e)
+            ErrorLog().Write("ClassCongregation_Binary(class)_String2Nim(def)", e)
 
-    def StringToGoArray(self,StringTypeBinaryData: str):
-        """字符串转换成Go语言数组类型的shellcode
-        样例：shellcode = []byte { 72, 49, 201, 72 }"""
-        try:
-            BinaryData = []
-            for i in StringTypeBinaryData:
-                Code = ord(i)
-                BinaryData.append(Code)
-            return " []byte " +str(BinaryData).replace("[","{").replace("]","}")#shellcode内容
-        except Exception as e:
-            ErrorLog().Write("ClassCongregation_BinaryDataTypeConversion(class)_StringToGoArray(def)", e)
-    def StringToGoHex(self,StringTypeBinaryData: str):
-        """字符串转换成Go语言hex类型的shellcode
-        样例：\x48\x31\xc9\x48\x81\xe9\xc4\xff\xff -----> 4831c94881e9c4ffff
+    def String2GoArray(self,StringTypeData: str):
+        """
+        支持一下两种字符串格式
+        字符串样式1:'\xff\xfa\xfb\xfc\xfd\xfe\xff'
+        字符串样式2:'\\xff\\xfa\\xfb\\xfc\\xfd\\xfe\\xff'
+        返回字符串格式: 0xff,0xfa,0xfb,0xfc,0xfd,0xfe,0xff
         """
         try:
+            StringTypeData = ast.literal_eval(repr(StringTypeData).replace("\\\\", "\\"))
+            Shellcode = ""
+            for i in StringTypeData:
+                Shellcode+= hex(ord(i))+","
+            return Shellcode[:-1]
+        except Exception as e:
+            ErrorLog().Write("ClassCongregation_Binary(class)_String2GoArray(def)", e)
+    def String2GoHex(self,StringTypeData: str):
+        """
+        支持一下两种字符串格式
+        字符串样式1:'\xff\xfa\xfb\xfc\xfd\xfe\xff'
+        字符串样式2:'\\xff\\xfa\\xfb\\xfc\\xfd\\xfe\\xff'
+        返回字符串格式: fffafbfcfdfeff
+        """
+        try:
+            StringTypeData = ast.literal_eval(repr(StringTypeData).replace("\\\\", "\\"))
             BinaryData = ""
-            for i in StringTypeBinaryData:
-                BinaryData = hex(ord(i)).replace("0x", "")
+            for i in StringTypeData:
+                BinaryData += hex(ord(i)).replace("0x", "")
             return BinaryData
         except Exception as e:
-            ErrorLog().Write("ClassCongregation_BinaryDataTypeConversion(class)_StringToGoHex(def)", e)
+            ErrorLog().Write("ClassCongregation_Binary(class)_String2GoHex(def)", e)
 
 
-class ShellcodeEncryptionAndDecryption:#shellcode的加解密函数
-
-    def XOREncryption(self,Value:int, RawShellcode:bytes):
+class ShellCode:#shellcode的加解密函数
+    def XOR(self,Value:int, RawShellcode:bytes):
         """
         只支持\xff格式的16进制
         """
@@ -903,7 +917,7 @@ class ShellcodeEncryptionAndDecryption:#shellcode的加解密函数
                 Shellcode += '\\x' + Code
             return Shellcode
         except Exception as e:
-            ErrorLog().Write("ClassCongregation_ShellcodeEncryptionAndDecryption(class)_XOREncryption(def)", e)
+            ErrorLog().Write("ClassCongregation_ShellCode(class)_XOR(def)", e)
             return None
     def AESDecode(self,data, key):
         """
@@ -916,7 +930,7 @@ class ShellcodeEncryptionAndDecryption:#shellcode的加解密函数
             decrypted_text = decrypted_text[:-ord(decrypted_text[-1])]  # 去除多余补位
             return decrypted_text
         except Exception as e:
-            ErrorLog().Write("ClassCongregation_ShellcodeEncryptionAndDecryption(class)_AESDecode(def)", e)
+            ErrorLog().Write("ClassCongregation_ShellCode(class)_AESDecode(def)", e)
             return None
     def AESEncode(self,data, key):
         """
@@ -932,7 +946,7 @@ class ShellcodeEncryptionAndDecryption:#shellcode的加解密函数
             aes = AES.new(str.encode(key), AES.MODE_ECB)  # 初始化加密器
             return str(base64.encodebytes(aes.encrypt(data)), encoding='utf8').replace('\n', '')  # 加密
         except Exception as e:
-            ErrorLog().Write("ClassCongregation_ShellcodeEncryptionAndDecryption(class)_AESEncode(def)", e)
+            ErrorLog().Write("ClassCongregation_ShellCode(class)_AESEncode(def)", e)
             return None
 
 class GetPluginsFilePath:  #  插件文件路径

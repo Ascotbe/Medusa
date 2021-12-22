@@ -27,6 +27,11 @@ export const URL_POST_ANTIVIRUS_SOFTWARE_COMPARED = `/antivirus_software_compare
 
 
 //DNSLOG
+
+export const URL_POST_HTTP_DOMAIN_NAME_SYSTEM_LOG = `/http_domain_name_system_log/`//HTTP类型数据查询
+export const URL_POST_HTTP_DOMAIN_NAME_SYSTEM_LOG_STATISTICS = `/http_domain_name_system_log_statistics/`//HTTP类型的数据统计
+
+export const URL_POST_GET_DOMAIN_NAME_SYSTEM_LOG = `/get_domain_name_system_log/`//获取DNSLOG
 export const URL_POST_DOMAIN_NAME_SYSTEM_LOG = `/domain_name_system_log/`//DNSLOG数据查询
 export const URL_POST_DOMAIN_NAME_SYSTEM_LOG_STATISTICS = `/domain_name_system_log_statistics/`//DNSLOG数据查询个数统计
 
@@ -83,11 +88,22 @@ export const URL_GET_TROJAN_FILE_DOWNLOAD_VERIFICATION = `/trojan_file_download_
 
 
 
-//about
+//邮件发送
+export const URL_POST_SEND_FISHING_MAIL = `/send_fishing_mail/`//邮件发送
+export const URL_POST_UPLOAD_MAIL_ATTACHMENT = `/upload_mail_attachment/`//附件上传
+export const URL_POST_STATISTICAL_MAIL_ATTACHMENT = `/statistical_mail_attachment/`//邮件附件个数统计
+export const URL_POST_EMAIL_ATTACHMENT_QUERY = `/email_attachment_query/`//邮件附件详情查询
+export const URL_POST_MALICIOUS_MAIL_QUERY = `/malicious_mail_query/`//邮件发送数据详情
+export const URL_POST_STATISTICS_MALICIOUS_EMAIL = `/statistics_malicious_email/`//邮件发送数据个数统计
+
+
+
+
+
+
+
+//关于
 export const URL_POST_MEDUSA_INFO = `/medusa_info/`//关于
-
-
-
 
 
 

@@ -394,24 +394,32 @@ export default {
       const params = {
         token: _this.token,
       };
-      _this.$api.homepage_data(params).then((res) => {
-        if ((res.code = 200)) {
-          _this.syntheticalList.map((item) => {
-            for (let key in res.message) {
-              if (item.id = res.message[key]) {
-                item.val = res.message[key]
+      _this.$api.homepage_data(params)
+        .then((res) => {
+          if ((res.code = 200)) {
+            _this.syntheticalList.map((item) => {
+              for (let key in res.message) {
+                if (item.id = res.message[key]) {
+                  item.val = res.message[key]
+                }
               }
-            }
-          })
+            })
+            _this.lvEchartsData = [
+              [
+                ['低危', res.message.low_risk_number], ['中危', res.message.mid_risk_number], ['高危', res.message.high_risk_number],
+              ]
+            ]
+          } else {
+            _this.$message.error(res.message);
+          }
+        })
+        .catch((err) => {
           _this.lvEchartsData = [
             [
-              ['低危', res.message.low_risk_number], ['中危', res.message.mid_risk_number], ['高危', res.message.high_risk_number],
+              ['低危', 0], ['中危', 0], ['高危', 0],
             ]
           ]
-        } else {
-          _this.$message.error(res.message);
-        }
-      });
+        })
     },
     handleDefaultDate () { // 获取 默认时间
       const _this = this
@@ -547,38 +555,38 @@ export default {
       let params = {
         token: _this.token,
       };
-      _this.$api.hardware_usage_query(params).then((res) => {
-        let thread = [] // 线程
-        let core = []// 核心
-        let memory = []
-        let memory_used = [] //内存使用
-        let memory_free = []// 空闲的内存
-        let memory_percent = []// 内存使用率
-        thread.length = res.message[0].per_core_central_processing_unit_usage_rate.length
-        for (let i = 0; i < thread.length; i++) {
-          thread[i] = []
-        }
-        for (let i = 0; i < res.message.length; i++) {
-          // cpu 核心 和 线程 格式调整
-          core.push([_this.moment(res.message[i].creation_time, "X").format('H:mm:ss'), res.message[i].central_processing_unit_usage_rate])
-          for (let j = 0; j < thread.length; j++) {
-            thread[j].push([_this.moment(res.message[i].creation_time, "X").format('H:mm:ss'), res.message[i].per_core_central_processing_unit_usage_rate[j]])
+      _this.$api.hardware_usage_query(params)
+        .then((res) => {
+          let thread = [] // 线程
+          let core = []// 核心
+          let memory = []
+          let memory_used = [] //内存使用
+          let memory_free = []// 空闲的内存
+          let memory_percent = []// 内存使用率
+          thread.length = res.message[0].per_core_central_processing_unit_usage_rate.length
+          for (let i = 0; i < thread.length; i++) {
+            thread[i] = []
           }
-          // 内存使用 未使用内存 内存使用率 格式调整
-          memory_used.push([_this.moment(res.message[i].creation_time, "X").format('H:mm:ss'), _this.QJMemorySize(res.message[i].memory_used)])
-          memory_free.push([_this.moment(res.message[i].creation_time, "X").format('H:mm:ss'), _this.QJMemorySize(res.message[i].memory_free)])
-          memory_percent.push([_this.moment(res.message[i].creation_time, "X").format('H:mm:ss'), res.message[i].memory_percent])
-        }
-        thread.unshift(core)
-        //计算内存最大值
-        const memory_max = (parseFloat(memory_used[0][1]) + parseFloat(memory_free[0][1])).toFixed(2)
-        _this.memoryYAxis[1].max = memory_max
-        _this.cpuEchartsData = thread
-        memory = [memory_used, memory_free]
-        _this.memoryEchartsData = memory
-      });
+          for (let i = 0; i < res.message.length; i++) {
+            // cpu 核心 和 线程 格式调整
+            core.push([_this.moment(res.message[i].creation_time, "X").format('H:mm:ss'), res.message[i].central_processing_unit_usage_rate])
+            for (let j = 0; j < thread.length; j++) {
+              thread[j].push([_this.moment(res.message[i].creation_time, "X").format('H:mm:ss'), res.message[i].per_core_central_processing_unit_usage_rate[j]])
+            }
+            // 内存使用 未使用内存 内存使用率 格式调整
+            memory_used.push([_this.moment(res.message[i].creation_time, "X").format('H:mm:ss'), _this.QJMemorySize(res.message[i].memory_used)])
+            memory_free.push([_this.moment(res.message[i].creation_time, "X").format('H:mm:ss'), _this.QJMemorySize(res.message[i].memory_free)])
+            memory_percent.push([_this.moment(res.message[i].creation_time, "X").format('H:mm:ss'), res.message[i].memory_percent])
+          }
+          thread.unshift(core)
+          //计算内存最大值
+          const memory_max = (parseFloat(memory_used[0][1]) + parseFloat(memory_free[0][1])).toFixed(2)
+          _this.memoryYAxis[1].max = memory_max
+          _this.cpuEchartsData = thread
+          memory = [memory_used, memory_free]
+          _this.memoryEchartsData = memory
+        })
     },
-
   }
 }
 </script>

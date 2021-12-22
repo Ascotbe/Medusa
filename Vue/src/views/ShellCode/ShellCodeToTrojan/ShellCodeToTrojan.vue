@@ -101,7 +101,7 @@
           :scrollTable="{x:1000,y:400}"
           :total="total"
           @change="handleChange"
-          :ShowTotal="handleShowTotal"
+          :showTotalDIY="handleShowTotal"
         >
           <template slot="btn">
             <a-button @click="handleTrojan(current)" type="primary">刷新</a-button>

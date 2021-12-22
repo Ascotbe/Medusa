@@ -1,6 +1,6 @@
 <template>
   <a-layout style="height:100%">
-    <a-layout-sider>
+    <a-layout-sider width="170">
       <div style="height:60px">
         <img width="100%" height="100%" src="@/assets/logo.png" />
       </div>

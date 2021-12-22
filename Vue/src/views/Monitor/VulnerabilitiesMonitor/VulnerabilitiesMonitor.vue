@@ -1,58 +1,60 @@
 <template>
   <a-row
     type="flex"
-    style="height:100%;min-height: 540px;"
+    style="height:100%;min-height: 540px;lex-wrap: nowrap;flex-direction: column;"
     :gutter="[
      16, { xs: 4, sm: 8, md: 12, lg: 16 }
     ]"
   >
-    <a-col :xs="24" :lg="18">
-      <Card :name="``" :bodyStyle="bodyStyle">
-        <a-form :form="form" :label-col="{ span: 0 }" :wrapper-col="{ span: 24 }">
-          <a-col :xs="24" :lg="8">
-            <a-form-item>
-              <a-select
-                placeholder="Filter by cvss v3 score"
-                :options="options"
-                allowClear
-                v-decorator="[
+    <a-col :xs="24" style="display: flex;flex-shrink: 1;">
+      <a-col :xs="14" :lg="18">
+        <Card :name="``" :bodyStyle="bodyStyle">
+          <a-form :form="form" :label-col="{ span: 0 }" :wrapper-col="{ span: 24 }">
+            <a-col :xs="24" :lg="8">
+              <a-form-item>
+                <a-select
+                  placeholder="Filter by cvss v3 score"
+                  :options="options"
+                  allowClear
+                  v-decorator="[
               'severity',
             ]"
-              ></a-select>
-            </a-form-item>
-          </a-col>
-          <a-col :xs="24" :lg="8">
-            <a-form-item>
-              <a-input
-                placeholder="Search in CVEs"
-                v-on:keyup.enter.native="handleNistQuery"
-                v-decorator="[
+                ></a-select>
+              </a-form-item>
+            </a-col>
+            <a-col :xs="24" :lg="8">
+              <a-form-item>
+                <a-input
+                  placeholder="Search in CVEs"
+                  v-on:keyup.enter.native="handleNistQuery"
+                  v-decorator="[
               'key',
             ]"
-              ></a-input>
-            </a-form-item>
-          </a-col>
-          <a-col :xs="24" :lg="8">
-            <a-button @click="handleReset" style="margin-right:15px">重置</a-button>
-            <a-button type="primary" @click="handleNistQuery">Search</a-button>
-          </a-col>
-        </a-form>
-      </Card>
-    </a-col>
+                ></a-input>
+              </a-form-item>
+            </a-col>
+            <a-col :xs="24" :lg="8">
+              <a-button @click="handleReset" style="margin-right:4px">重置</a-button>
+              <a-button type="primary" @click="handleNistQuery">Search</a-button>
+            </a-col>
+          </a-form>
+        </Card>
+      </a-col>
 
-    <a-col :xs="24" :lg="6">
-      <Card :name="``" :bodyStyle="bodyStyle">
-        <div class="myicon">
-          <MyIcon :type="`icon-ziyuan1`" style="font-size:100px;" />
-          <div class="total">
-            <div :span="24">TOTAL:</div>
-            <div :span="24" style="font-weight:800">{{total}}</div>
+      <a-col :xs="10" :lg="6">
+        <Card :name="``" :bodyStyle="bodyStyle">
+          <div class="myicon">
+            <MyIcon :type="`icon-ziyuan1`" style="font-size:100px;" />
+            <div class="total">
+              <div :span="24">TOTAL:</div>
+              <div :span="24" style="font-weight:800">{{total}}</div>
+            </div>
           </div>
-        </div>
-      </Card>
+        </Card>
+      </a-col>
     </a-col>
 
-    <a-col :span="24">
+    <a-col :span="24" style="flex-shrink: 1;flex-grow:1">
       <Card :name="``" :bodyStyle="bodyStyle">
         <Tables
           :columns="columns"

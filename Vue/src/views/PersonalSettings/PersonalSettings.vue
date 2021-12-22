@@ -134,11 +134,9 @@ export default {
         file.type === "image/jpeg" ||
         file.type === "image/jpg" ||
         file.type === "image/png";
-      console.log(isJpgOrPng);
       if (!isJpgOrPng) {
         this.$message.error("只能上传jpg/png/jpeg格式的头像!");
       }
-      // console.log(file.size);
       const isLt10M = file.size / 1024 / 1024 < 10;
       const isLt10K = file.size / 1024 > 10;
       if (!isLt10M) {

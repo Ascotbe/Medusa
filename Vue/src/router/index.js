@@ -28,13 +28,17 @@ import QueryProject from '../views/CrossSiteScript/ProjectManagement/part/QueryP
 import ModifyProject from '../views/CrossSiteScript/ProjectManagement/part/ModifyProject.vue'
 import TemplateManagement from '../views/CrossSiteScript/TemplateManagement/TemplateManagement.vue'
 import PrivateTemplate from '../views/CrossSiteScript/PrivateTemplate/PrivateTemplate.vue'
-//工具库
-import DNSLOG from '../views/DNSLOG/DNSLOG.vue'
+//DNSLOG
+import DNS from '../views/DNSLOG/DNS/DNS.vue'
+import HTTP from '../views/DNSLOG/HTTP/HTTP.vue'
+
+
 //ShellCode
 import ShellCodeToTrojan from '../views/ShellCode/ShellCodeToTrojan/ShellCodeToTrojan.vue'
 //关于
 import About from '../views/About/About.vue'
-
+//邮件
+import SendMail from '../views/Mail/SendMail/SendMail.vue'
 
 
 import { message } from 'ant-design-vue'
@@ -182,9 +186,14 @@ const routes = [
       },
       //DNSLOG
       {
-        path: 'DNSLOG',
-        name: 'DNSLOG',
-        component: DNSLOG,
+        path: 'DNS',
+        name: 'DNS',
+        component: DNS,
+      },
+      {
+        path: 'HTTP',
+        name: 'HTTP',
+        component: HTTP,
       },
       //ShellCode
       {
@@ -198,6 +207,13 @@ const routes = [
         name: 'About',
         component: About,
       },
+      //邮件发送
+      {
+        path: 'SendMail',
+        name: 'SendMail',
+        component: SendMail,
+      },
+
     ]
   },
   // 最后是404页面

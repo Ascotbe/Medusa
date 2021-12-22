@@ -47,7 +47,27 @@ export default {
         return function () { }
       }
     },
-    ShowTotal: {
+    showTotalDIY: {
+      tyep: Function,
+      default: () => {
+        return function () { }
+      }
+    },
+    size: {
+      tyep: String,
+      default: 'default'
+    },
+    rowSelection: {
+      type: Object,
+      default: () => {
+        return undefined
+      }
+    },
+    showHeader: {//显示表头
+      type: Boolean,
+      default: true
+    },
+    customRow: {
       tyep: Function,
       default: () => {
         return function () { }
@@ -62,11 +82,12 @@ export default {
         defaultPageSize: 100,
         pageSizeOptions: ['100'],
         hideOnSinglePage: false,
+        size: "small",
         showTotal: (total, range) => {
           const _this = this
           const Dom = <span style="display: flex;align-items: center;padding-right:10px;font-size:20px" v-show={total == 0 ? false : true}>共<span style="color:#51c51a;padding:0 10px 0 10px"><a-statistic value={total} valueStyle={{ color: '#51c51a' }} >
           </a-statistic></span>条</span>
-          const callback = _this.ShowTotal(Dom, total, range)
+          const callback = _this.showTotalDIY(Dom, total, range)
           if (callback) {
             return callback
           }
@@ -95,7 +116,7 @@ export default {
       const callback = _this.ExpandedRowRenderCallback(record)
       return callback
     },
-    handleFooter (currentPageData) {
+    handleFooter (currentPageData) {//废弃
       const _this = this
       return <div style="text-align:left" v-show={_this.total == 0 ? false : true}>总共<span style="color:#51c51a">{_this.total}</span>条数据</div>
     },
@@ -109,6 +130,13 @@ export default {
       const _this = this
       const callback = _this.ExpandIconCallback(props)
       return callback
+    },
+    handleCustomRow (record, index) {
+      const _this = this
+      const callback = _this.customRow(record, index)
+      if (callback) {
+        return callback
+      }
     }
   },
   watch: {
@@ -130,7 +158,8 @@ export default {
   },
   render: function (h) {
     const _this = this
-    if (_this.expandedRowKeys.length == 0) {
+    //正常表格
+    if (_this.expandedRowKeys.length == 0 && !_this.rowSelection) {
       return h('a-table', {
         props: {
           columns: _this.columns,
@@ -139,12 +168,36 @@ export default {
           pagination: _this.showPagination ? false : _this.pagination,
           total: _this.total,
           rowKey: _this.rowKey,
+          size: _this.size,
+          showHeader: _this.showHeader,
+          customRow: (record, index) => _this.handleCustomRow(record, index)
         },
         on: {
           change: (pagination, filters, sorter, { currentDataSource }) => _this.handleChange(pagination, filters, sorter, { currentDataSource }),
         }
       })
     }
+    //选项表格
+    else if (_this.rowSelection) {
+      return h('a-table', {
+        props: {
+          columns: _this.columns,
+          dataSource: _this.tableData,
+          scroll: _this.scrollTable,
+          pagination: _this.showPagination ? false : _this.pagination,
+          total: _this.total,
+          rowKey: _this.rowKey,
+          size: _this.size,
+          showHeader: _this.showHeader,
+          rowSelection: _this.rowSelection,
+          customRow: (record, index) => _this.handleCustomRow(record, index)
+        },
+        on: {
+          change: (pagination, filters, sorter, { currentDataSource }) => _this.handleChange(pagination, filters, sorter, { currentDataSource }),
+        }
+      })
+    }
+    //展开表格
     else {
       return h('a-table', {
         props: {
@@ -154,10 +207,13 @@ export default {
           pagination: _this.pagination,
           total: _this.total,
           rowKey: _this.rowKey,
+          size: _this.size,
+          showHeader: this.showHeader,
           expandedRowKeys: _this.expandedRowKeys,
           // footer: (currentPageData) => _this.handleFooter(currentPageData),
           expandedRowRender: (record, index, indent, expanded) => _this.handleExpandedRowRender(record, index, indent, expanded),
           expandIcon: (props) => _this.handleExpandIcon(props),
+          customRow: (record, index) => _this.handleCustomRow(record, index)
         },
         on: {
           change: (pagination, filters, sorter, { currentDataSource }) => _this.handleChange(pagination, filters, sorter, { currentDataSource }),

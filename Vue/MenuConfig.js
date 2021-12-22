@@ -110,6 +110,27 @@ const MenuConfig = () => {
       key: "DNSLOG",
       iconType: "icon-DNSziyuan",
       msg: "DNSLOG",
+      children: [
+        {
+          key: "DNS",
+          msg: "DNS",
+        },
+        {
+          key: "HTTP",
+          msg: "HTTP",
+        },
+      ],
+    },
+    {
+      key: "Mail",
+      iconType: "icon-saomiao2",
+      msg: "邮件",
+      children: [
+        {
+          key: "SendMail",
+          msg: "邮件发送",
+        },
+      ],
     },
     {
       key: "About",

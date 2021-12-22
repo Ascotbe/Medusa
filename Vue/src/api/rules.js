@@ -1,7 +1,8 @@
 import {
   get,
   post,
-  postDownload
+  postDownload,
+  postParams
 } from './request'
 import {
   // 用户
@@ -24,6 +25,9 @@ import {
   URL_POST_ANTIVIRUS_SOFTWARE_COMPARED,
 
   //DNSLOG
+  URL_POST_HTTP_DOMAIN_NAME_SYSTEM_LOG,
+  URL_POST_HTTP_DOMAIN_NAME_SYSTEM_LOG_STATISTICS,
+  URL_POST_GET_DOMAIN_NAME_SYSTEM_LOG,
   URL_POST_DOMAIN_NAME_SYSTEM_LOG,
   URL_POST_DOMAIN_NAME_SYSTEM_LOG_STATISTICS,
 
@@ -81,6 +85,14 @@ import {
   URL_POST_TROJAN_DATA_STATISTICAL,
   URL_GET_TROJAN_FILE_DOWNLOAD_VERIFICATION,
 
+  //邮件发送
+  URL_POST_SEND_FISHING_MAIL,
+  URL_POST_STATISTICAL_MAIL_ATTACHMENT,
+  URL_POST_UPLOAD_MAIL_ATTACHMENT,
+  URL_POST_EMAIL_ATTACHMENT_QUERY,
+  URL_POST_MALICIOUS_MAIL_QUERY,
+  URL_POST_STATISTICS_MALICIOUS_EMAIL,
+
   //about
   URL_POST_MEDUSA_INFO
 } from './url'
@@ -135,7 +147,6 @@ const api = {
   },
   //上传头像
   async upload_avatar (params) {
-    console.log(store.state.UserStore.token)
     let response = await post(URL_POST_UPLOAD_AVATAR, params, {
       headers: {
         token: store.state.UserStore.token
@@ -417,9 +428,30 @@ const api = {
 
 
   //*******DNSLOG*****
+  // HTTP类型数据查询
+  async http_domain_name_system_log (params) {
+    let response = await post(URL_POST_HTTP_DOMAIN_NAME_SYSTEM_LOG, params, {
+      headers: {}
+    })
+    return response
+  },
+  // HTTP类型的数据统计
+  async http_domain_name_system_log_statistics (params) {
+    let response = await post(URL_POST_HTTP_DOMAIN_NAME_SYSTEM_LOG_STATISTICS, params, {
+      headers: {}
+    })
+    return response
+  },
   // DNSLOG数据查询
   async domain_name_system_log (params) {
     let response = await post(URL_POST_DOMAIN_NAME_SYSTEM_LOG, params, {
+      headers: {}
+    })
+    return response
+  },
+  // 获取DNSLOG
+  async get_domain_name_system_log (params) {
+    let response = await post(URL_POST_GET_DOMAIN_NAME_SYSTEM_LOG, params, {
       headers: {}
     })
     return response
@@ -491,6 +523,57 @@ const api = {
     return response
   },
   //*******shellcode结束*****
+
+
+
+  //*******邮件发送*****
+  //邮件发送
+  async send_fishing_mail (params) {
+    let response = await post(URL_POST_SEND_FISHING_MAIL, params, {
+      headers: {}
+    })
+    return response
+  },
+  //邮件附件个数统计
+  async statistical_mail_attachment (params) {
+    let response = await post(URL_POST_STATISTICAL_MAIL_ATTACHMENT, params, {
+      headers: {}
+    })
+    return response
+  },
+  //附件上传
+  async upload_mail_attachment (params) {
+    let response = await post(URL_POST_UPLOAD_MAIL_ATTACHMENT, params, {
+      headers: {
+        token: store.state.UserStore.token
+      }
+    })
+    return response
+  },
+
+  //邮件附件详情查询
+  async email_attachment_query (params) {
+    let response = await post(URL_POST_EMAIL_ATTACHMENT_QUERY, params, {
+      headers: {}
+    })
+    return response
+  },
+  //邮件发送数据详情
+  async malicious_mail_query (params) {
+    let response = await post(URL_POST_MALICIOUS_MAIL_QUERY, params, {
+      headers: {}
+    })
+    return response
+  },
+  //邮件发送数据个数统计详情
+  async statistics_malicious_email (params) {
+    let response = await post(URL_POST_STATISTICS_MALICIOUS_EMAIL, params, {
+      headers: {}
+    })
+    return response
+  },
+  //*******邮件发送结束*****
+
 
 
 

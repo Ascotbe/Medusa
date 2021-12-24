@@ -7,7 +7,8 @@
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://visitor-badge.glitch.me/badge?page_id=https://github.com/Ascotbe/Medusa/README.md"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/Version-1.0-red"></a>
     <a href="https://github.com/Ascotbe/Medusa"><img alt="Release" src="https://img.shields.io/badge/LICENSE-GPL-ff69b4"></a>
-	<a href="https://github.com/ascotbe/Medusa/stargazers"><img alt="Release" src="https://img.shields.io/github/stars/ascotbe/Medusa.svg"></a>
+    <a href="https://hub.docker.com/r/ascotbe/medusa"><img alt="Release" src="https://img.shields.io/docker/pulls/ascotbe/medusa.svg"></a>
+    <a href="https://github.com/ascotbe/Medusa/stargazers"><img alt="Release" src="https://img.shields.io/github/stars/ascotbe/Medusa.svg"></a>
 </p>
 
 <h1 align="center" >Welcome to Medusa</h1>

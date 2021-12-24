@@ -6,6 +6,7 @@ from django.http import JsonResponse
 import json
 from Web.Workbench.LogRelated import RequestLogRecord,UserOperationLogRecord
 import config
+import requests
 """medusa_info
 {
     "token": ""
@@ -56,3 +57,26 @@ def Config(request):#获取版本等信息
             return JsonResponse({'message': '呐呐呐！莎酱被玩坏啦(>^ω^<)', 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
+
+
+def Update(request):#更新版本
+
+    try:
+        headers = {
+            'Accept-Encoding': 'gzip, deflate',
+            'Accept': '*/*',
+            'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36",
+        }
+        GitApi = requests.get("https://api.github.com/repos/ascotbe/medusa/releases/latest",
+            headers=headers, timeout=10)
+        GitApiJson = json.loads(GitApi.text)
+        LatestVersion = GitApiJson["tag_name"]
+        #不用类型转换，字符串就能毕竟大小，离谱
+        if config.version[1:]<LatestVersion[1:]:
+            return JsonResponse({'message': "发现最新版本！", 'code': 200, })
+        else:
+            return JsonResponse({'message': "已经是最新版本了！", 'code': 200, })
+
+    except Exception as e:
+        ErrorLog().Write("Web_CVE_GithubMonitoring_Github_Monitor(def)", e)
+

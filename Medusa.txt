@@ -39,3 +39,4 @@ django-werkzeug-debugger-runserver==0.3.1
 tzlocal==2.1
 gunicorn==20.1.0
 jinja2==3.0.2
+mmh3==3.0.0

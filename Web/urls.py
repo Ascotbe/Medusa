@@ -126,6 +126,8 @@ urlpatterns = [
     path('api/fishing_data_statistics/', FishingData.FishingDataStatistics),  # 钓鱼获取数据统计
     #项目相关信息
     path('api/medusa_info/', Information.Config),  # 获取项目相关数据
+    path('api/medusa_update/', Information.Update),  # test网站
+
     #数据接收相关
     path('api/file_acquisition_receive/', Receive.Upload),  # 获取其他地方上传的数据
     path('api/file_acquisition_file_pack/', Receive.FilePack),  # 下发任务打包文件

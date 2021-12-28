@@ -70,8 +70,9 @@ Add the following content to the original [protocol](https://github.com/Ascotbe/
 
 ![commit](https://opencollective.com/Medusa/contributors.svg?width=890&button=false)
 
-
 ### :checkered_flag:Timeline
+
+![Alt](https://repobeats.axiom.co/api/embed/dde3107e3339aa21a9b244749737e8a39a650ab9.svg "Repobeats analytics image")
 
 ![star](https://starchart.cc/Ascotbe/Medusa.svg)
 

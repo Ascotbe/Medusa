@@ -9,6 +9,10 @@ import json
 from celery import shared_task
 from config import github_cve_monitor_key
 from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
+import time
+import dateutil.parser
+import pytz
+
 """github_monitor_search
 {
 	"token": "xxx",
@@ -64,9 +68,12 @@ def Monitor():
             GithubId=i["id"]
             Name=i["name"]
             HtmlUrl=i["html_url"]
-            Created=i["created_at"]
-            Updated=i["updated_at"]
-            Pushed=i["pushed_at"]
+            CreatedAt=dateutil.parser.parse(i["created_at"]).astimezone(pytz.timezone('Asia/Shanghai'))  # 解析string 并转换为北京时区
+            Created = str(int(time.mktime(CreatedAt.timetuple())))  # 转换为时间戳
+            UpdatedAt=dateutil.parser.parse(i["updated_at"]).astimezone(pytz.timezone('Asia/Shanghai'))  # 解析string 并转换为北京时区
+            Updated = str(int(time.mktime(UpdatedAt.timetuple())))  # 转换为时间戳
+            PushedAt=dateutil.parser.parse(i["pushed_at"]).astimezone(pytz.timezone('Asia/Shanghai'))  # 解析string 并转换为北京时区
+            Pushed = str(int(time.mktime(PushedAt.timetuple())))  # 转换为时间戳
             ForksCount=i["forks_count"]
             WatchersCount=i["watchers_count"]
             GithubCveSekect=GithubCve(id=GithubId,name=Name,html_url=HtmlUrl,created_at=Created,updated_at=Updated,pushed_at=Pushed,forks_count=ForksCount,watchers_count=WatchersCount).Judgment()#先查询数据库
@@ -78,4 +85,3 @@ def Monitor():
 
     except Exception as e:
         ClassCongregation.ErrorLog().Write("Web_CVE_GithubMonitoring_Github_Monitor(def)", e)
-

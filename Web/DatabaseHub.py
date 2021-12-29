@@ -2535,7 +2535,7 @@ class GithubCve:  # GitHub的CVE监控写入表
             if StatementProcessing!="":
                 StatementProcessing=" WHERE "+StatementProcessing
             self.cur.execute(
-                "select *  from GithubMonitor "+StatementProcessing+" limit ? offset ?",TupleContainer+(NumberOfSinglePages,NumberOfSinglePages*NumberOfPages,))  # 查询用户相关信息
+                "select *  from GithubMonitor "+StatementProcessing+" ORDER BY created_at DESC  limit ? offset ?",TupleContainer+(NumberOfSinglePages,NumberOfSinglePages*NumberOfPages,))  # 查询用户相关信息
 
             for i in self.cur.fetchall():
                 JsonValues = {}

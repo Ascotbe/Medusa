@@ -14,5 +14,5 @@ jobs:
       uses: fluttercandies/no-free-usage-action@v1.0.1
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        forked: '--no-forked'
+        forked: --no-forked
         words: To support our project, please file the issue after you starred the repo. Thanks! :)

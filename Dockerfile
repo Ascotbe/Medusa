@@ -5,7 +5,11 @@ MAINTAINER ascotbe
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get clean
 RUN echo "deb http://mirrors.aliyun.com/ubuntu/ focal main restricted universe multiverse\ndeb-src http://mirrors.aliyun.com/ubuntu/ focal main restricted universe multiverse\ndeb http://mirrors.aliyun.com/ubuntu/ focal-security main restricted universe multiverse\ndeb-src http://mirrors.aliyun.com/ubuntu/ focal-security main restricted universe multiverse\ndeb http://mirrors.aliyun.com/ubuntu/ focal-updates main restricted universe multiverse\ndeb-src http://mirrors.aliyun.com/ubuntu/ focal-updates main restricted universe multiverse\ndeb http://mirrors.aliyun.com/ubuntu/ focal-proposed main restricted universe multiverse\ndeb-src http://mirrors.aliyun.com/ubuntu/ focal-proposed main restricted universe multiverse\ndeb http://mirrors.aliyun.com/ubuntu/ focal-backports main restricted universe multiverse\ndeb-src http://mirrors.aliyun.com/ubuntu/ focal-backports main restricted universe multiverse\n" > /etc/apt/sources.list
+RUN dpkg --add-architecture i386
 RUN apt-get update
+RUN apt-get install wine -y
+RUN apt-get install wine32 -y
+RUN apt-get install libwine -y
 RUN apt-get install git -y
 RUN apt-get install nodejs -y
 RUN apt-get install npm -y

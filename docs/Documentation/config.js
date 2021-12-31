@@ -21,9 +21,6 @@ let config = {
             title: '插件编写',  path: '/PocVersion/PocWriting'
         },
         {
-            title: '功能详情', path: '/FunctionDetails'
-        },
-        {
             title: '接口描述', type: 'dropdown', items: [
                 {
                     title: '用户', path: '/API/User'

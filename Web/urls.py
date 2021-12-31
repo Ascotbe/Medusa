@@ -112,6 +112,8 @@ urlpatterns = [
     path('api/trojan_data_statistical/', TrojanInterface.TrojanDataStatistical),  # 对当前用户病毒数量统计
     path('api/get_trojan_plugins/', TrojanInterface.GetTrojanPlugins),  # 获取用户插件方法
     path('api/trojan_file_download_verification/', TrojanInterface.TrojanFileDownloadVerification),  # 进行生成木马文件下载
+    path('api/pe2shellcode/', TrojanInterface.PE2Shellcode),  # PE文件转换为shellcode文件
+
     # path('api/get_auto_start/', TrojanInterface.GetAutoStart),# 获取内置类函数中自启动的列表
     # path('api/get_anti_sandbox/', TrojanInterface.GetAntiSandbox),# 获取内置类函数中反沙箱的列表
     #钓鱼邮件相关

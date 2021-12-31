@@ -21,9 +21,9 @@ XXXXXXXXXXXXXXX
 """
 def UploadMailAttachment (request):#上传邮件附件
     RequestLogRecord(request, request_api="upload_mail_attachment")
-    Token =request.headers["token"]
     if request.method == "POST":
         try:
+            Token = request.headers["token"]
             Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
             if Uid != None:  # 查到了UID
                 UserOperationLogRecord(request, request_api="upload_mail_attachment", uid=Uid)  # 查询到了在计入

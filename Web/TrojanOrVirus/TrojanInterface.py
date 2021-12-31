@@ -6,8 +6,8 @@ import json
 import sys
 import os
 import yaml
-from ClassCongregation import ErrorLog,GetTempFilePath,GetTrojanFilePath,GetTrojanModulesFilePath,randoms,GetTrojanPluginsPath
-from Web.DatabaseHub import UserInfo,TrojanData
+from ClassCongregation import ErrorLog,GetTempFilePath,GetTrojanFilePath,GetTrojanModulesFilePath,randoms,GetTrojanPluginsPath,PortableExecutableFilePath,ShellcodeFilePath,PE2ShellcodeFilePath
+from Web.DatabaseHub import UserInfo,TrojanData,PortableExecutable2Shellcode
 from django.http import JsonResponse,FileResponse
 from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
 from Web.celery import app
@@ -88,6 +88,23 @@ def CompileCode(Command):#代码编译处理函数
     except subprocess.CalledProcessError as e:
         TrojanData().UpdateStatus(compilation_status="-1", redis_id=CompileCode.request.id)  # 任务结束后更新状态
         ErrorLog().Write("Web_TrojanOrVirus_TrojanInterface_CompileCode(def)", e)
+
+@app.task
+def CompilePortableExecutableFile(**kwargs):#编译处理PE文件
+    try:
+        ShellcodeFileName = kwargs.get("shellcode_file_name")
+        FileName = kwargs.get("file_name")  # pe文件
+        Command=""
+        if sys.platform == "win32" or sys.platform == "cygwin":
+            Command =PE2ShellcodeFilePath().Result() + " pe2shc.exe " + FileName + " " + ShellcodeFilePath().Result()+ShellcodeFileName
+        elif sys.platform == "linux" or sys.platform == "darwin":
+            Command = "wine " + PE2ShellcodeFilePath().Result() + " pe2shc.exe " + FileName + " " + ShellcodeFilePath().Result()+ShellcodeFileName
+        p = subprocess.run(Command, shell=True, timeout=30, check=True)  # 执行生成命令
+        p.check_returncode()
+        PortableExecutable2Shellcode().UpdateStatus(status="1", redis_id=CompilePortableExecutableFile.request.id)  # 任务结束后更新状态
+    except subprocess.CalledProcessError as e:
+        PortableExecutable2Shellcode().UpdateStatus(status="-1", redis_id=CompilePortableExecutableFile.request.id)  # 任务结束后更新状态
+        ErrorLog().Write("Web_TrojanOrVirus_TrojanInterface_CompilePortableExecutableFile(def)", e)
 
 
 
@@ -319,7 +336,46 @@ def TrojanFileDownloadVerification(request):#木马文件下载验证接口
     else:
         return JsonResponse({'message': '请使用Get请求', 'code': 500, })
 
+"""pe2shellcode
+POST /api/pe2shellcode/ HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryaFtQbWz7pBzNgCOv
+token:XXXXXXXXXXXXXXXX
 
+------WebKitFormBoundaryaFtQbWz7pBzNgCOv
+Content-Disposition: form-data; name="file"; filename="test.exe"
+Content-Type: application/x-msdownload
+
+XXXXXXXXXXXXXXX
+------WebKitFormBoundaryaFtQbWz7pBzNgCOv--
+"""
+def PE2Shellcode(request):#PE文件转换成Shellcode
+    RequestLogRecord(request, request_api="pe2shellcode")
+    if request.method == "POST":
+        try:
+            Token = request.headers["token"]
+            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
+            if Uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="pe2shellcode", uid=Uid)
+                PictureData = request.FILES.get('file', None)#获取文件数据
+                PictureName = PictureData.name # 获取文件名
+                if 0<PictureData.size:#内容不能为空
+                    SaveFileName=randoms().result(5)+str(int(time.time()))#重命名文件
+                    SaveRoute=PortableExecutableFilePath().Result()+SaveFileName#获得保存路径
+                    ShellcodeFileName=randoms().result(5)+str(int(time.time()))#获取shellcode文件随机名
+                    with open(SaveRoute, 'wb') as f:
+                        for line in PictureData:
+                            f.write(line)
+                    RedisTask = CompilePortableExecutableFile.delay(shellcode_file_name=ShellcodeFileName,file_name=SaveFileName)#异步执行
+                    PortableExecutable2Shellcode().Write(original_file_name=PictureName,shellcode_file_name=ShellcodeFileName,redis_id=RedisTask.task_id,file_name=SaveFileName,uid=Uid)
+                return JsonResponse({'message': "任务下发成功(๑•̀ㅂ•́)و✧", 'code': 200, })
+            else:
+                return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
+        except Exception as e:
+            ErrorLog().Write("Web_TrojanOrVirus_TrojanInterface_PE2Shellcode(def)", e)
+            return JsonResponse({'message': "呐呐呐！莎酱被玩坏啦(>^ω^<)", 'code': 169, })
+
+    else:
+        return JsonResponse({'message': '请使用POST请求', 'code': 500, })
 
 # """get_anti_sandbox
 # {

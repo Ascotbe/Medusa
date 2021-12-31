@@ -21,6 +21,7 @@ git clone https://github.com/Ascotbe/Medusa.git
 
 ```bash
 #macOS把apt替换成brew即可
+sudo dpkg --add-architecture i386
 sudo apt install nodejs -y
 sudo apt install npm -y
 sudo apt install nginx -y
@@ -30,6 +31,9 @@ sudo apt install python3-pip -y
 sudo apt install mingw-w64 -y
 sudo apt install golang-go -y
 sudo apt install nim -y
+sudo apt install wine -y
+sudo apt install wine32 -y
+sudo apt install libwine -y
 ```
 
 > 安装前后端依赖

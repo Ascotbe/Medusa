@@ -2188,6 +2188,64 @@ class TrojanData:#免杀木马相关数据库
         except Exception as e:
             ErrorLog().Write("Web_DatabaseHub_TrojanData(class)_DownloadVerification(def)", e)
             return None
+
+class PortableExecutable2Shellcode:  # PE文件转换为shellcode表
+    def __init__(self):
+        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        # 获取所创建数据的游标
+        self.cur = self.con.cursor()
+        # 创建表
+        try:
+            self.cur.execute("CREATE TABLE PortableExecutable2Shellcode\
+                                (shellcode_id INTEGER PRIMARY KEY,\
+                                uid TEXT NOT NULL,\
+                                original_file_name TEXT NOT NULL,\
+                                file_name TEXT NOT NULL,\
+                                shellcode_file_name TEXT NOT NULL,\
+                                status TEXT NOT NULL,\
+                                redis_id TEXT NOT NULL,\
+                                creation_time TEXT NOT NULL)")
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_PortableExecutable2Shellcode(class)_init(def)", e)
+
+
+    def Write(self, **kwargs) -> bool or None:  # 写入相关信息
+        CreationTime = str(int(time.time()))  # 创建时间
+        Uid = kwargs.get("uid")
+        OriginalFileName= kwargs.get("original_file_name")#原始文件名
+        FileName = kwargs.get("file_name")  # pe文件
+        ShellcodeFileName= kwargs.get("shellcode_file_name")#shellcode文件名
+        Status= 0 #状态
+        RedisId= kwargs.get("redis_id")
+
+        try:
+            self.cur.execute("INSERT INTO PortableExecutable2Shellcode(uid,original_file_name,file_name,shellcode_file_name,status,redis_id,creation_time)\
+                VALUES (?,?,?,?,?,?,?)", (Uid,OriginalFileName, FileName, ShellcodeFileName, Status,RedisId,CreationTime,))
+            # 提交
+            self.con.commit()
+            self.con.close()
+            return True
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_PortableExecutable2Shellcode(class)_Write(def)", e)
+            return False
+    def UpdateStatus(self,**kwargs)->bool:#利用主键ID来判断后更新数据
+        RedisId = kwargs.get("redis_id")
+        Status = kwargs.get("status")
+        try:
+            self.cur.execute("""UPDATE PortableExecutable2Shellcode SET status = ? WHERE redis_id= ?""",(Status, RedisId,))
+            # 提交
+            if self.cur.rowcount < 1:  # 用来判断是否更新成功
+                self.con.commit()
+                self.con.close()
+                return False
+            else:
+                self.con.commit()
+                self.con.close()
+                return True
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_PortableExecutable2Shellcode(class)_UpdateStatus(def)", e)
+            return False
+
 class MaliciousEmail:  # 钓鱼邮件
     def __init__(self):
         self.con = sqlite3.connect(GetDatabaseFilePath().result())

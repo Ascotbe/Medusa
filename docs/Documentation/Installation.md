@@ -157,7 +157,7 @@ server {
     listen       443 ssl;
     #填写绑定证书的域名
     server_name  medusa.ascotbe.com; #你的域名
-    
+    client_max_body_size 100m;
     # ssl证书地址，从阿里云或者腾讯云免费申请
     ssl_certificate     /etc/nginx/cert/ssl.pem;  #证书文件名称
     ssl_certificate_key  /etc/nginx/cert/ssl.key; # 私钥文件名称
@@ -193,6 +193,7 @@ server {
 }
 server {#这个只是单纯接管一个dnslogtest.ascotbe.com
     listen       80;
+  	client_max_body_size 100m;
     server_name  dnslogtest.ascotbe.com;#你的DNSLOG的域名
     location / {
         proxy_pass  http://127.0.0.1:8888; # 转发
@@ -203,6 +204,7 @@ server {#这个只是单纯接管一个dnslogtest.ascotbe.com
 }
 server {#这个是接管所有的关于dnslogtest.ascotbe.com的子域名
     listen       80;
+  	client_max_body_size 100m;
     server_name  *.dnslogtest.ascotbe.com;
     location / {
         proxy_pass  http://127.0.0.1:8888;

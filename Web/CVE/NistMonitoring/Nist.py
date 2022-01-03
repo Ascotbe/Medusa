@@ -32,6 +32,8 @@ def NistDataBulkQuery(request):#查询Nist的基础数据监控数据
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
             ErrorLog().Write("Web_CVE_NistMonitoring_Nist_NistDataBulkQuery(def)", e)
+            return JsonResponse({'message': '自己去看报错日志！', 'code': 169, })
+
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
@@ -56,6 +58,8 @@ def NistDataDetailedQuery(request):#查询单个CVE细节数据
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
             ErrorLog().Write("Web_CVE_NistMonitoring_Nist_NistDataDetailedQuery(def)", e)
+            return JsonResponse({'message': '自己去看报错日志！', 'code': 169, })
+
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
@@ -78,6 +82,8 @@ def NistStatistics(request):#对当前的CVE个数进行统计
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
             ErrorLog().Write("Web_CVE_NistMonitoring_Nist_NistStatistics(def)", e)
+            return JsonResponse({'message': '自己去看报错日志！', 'code': 169, })
+
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
@@ -107,6 +113,8 @@ def NistSearchStatistics(request):#模糊搜索数据统计
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
             ErrorLog().Write("Web_CVE_NistMonitoring_Nist_NistSearchStatistics(def)", e)
+            return JsonResponse({'message': '自己去看报错日志！', 'code': 169, })
+
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 

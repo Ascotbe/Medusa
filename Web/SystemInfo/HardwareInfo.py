@@ -29,6 +29,7 @@ def Monitor():#用于监控系统信息
         ErrorLog().Write("Web_SystemInfo_HardwareInfo_Monitor(def)", e)
 
 
+
 """system_hardware_initialization
 {
 	"token": "",
@@ -63,6 +64,8 @@ def Initialization(request):#用于初始化获取基础信息
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
             ErrorLog().Write("Web_SystemInfo_HardwareInfo_Initialization(def)", e)
+            return JsonResponse({'message': '自己去看报错日志！', 'code': 169, })
+
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
@@ -87,6 +90,8 @@ def UsageQuery(request):  # 用于查询CPU和硬件的使用情况
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
             ErrorLog().Write("Web_SystemInfo_HardwareInfo_UsageQuery(def)", e)
+            return JsonResponse({'message': '自己去看报错日志！', 'code': 169, })
+
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 

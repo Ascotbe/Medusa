@@ -79,4 +79,6 @@ def Update(request):#更新版本
 
     except Exception as e:
         ErrorLog().Write("Web_CVE_GithubMonitoring_Github_Monitor(def)", e)
+        return JsonResponse({'message': '自己去看报错日志！', 'code': 169, })
+
 

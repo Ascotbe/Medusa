@@ -66,6 +66,8 @@ def StatisticalMailAttachment(request):#统计邮件附件个数
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
             ErrorLog().Write("Web_Mail_MailAttachment_StatisticalMailAttachment(def)", e)
+            return JsonResponse({'message': '自己去看报错日志！', 'code': 169, })
+
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
@@ -93,5 +95,7 @@ def EmailAttachmentQuery(request):#查询附件文件
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
             ErrorLog().Write("Web_Mail_MailAttachment_EmailAttachmentQuery(def)", e)
+            return JsonResponse({'message': '自己去看报错日志！', 'code': 169, })
+
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })

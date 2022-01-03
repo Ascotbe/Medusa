@@ -50,6 +50,8 @@ def GithubQuery(request):#查询github监控数据
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
             ErrorLog().Write("Web_CVE_VulnerabilityUtilizationMonitoring_Github_GithubQuery(def)", e)
+            return JsonResponse({'message': '自己去看报错日志！', 'code': 169, })
+
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 

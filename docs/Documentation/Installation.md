@@ -42,7 +42,7 @@ sudo apt install libwine -y
 #进入文件夹
 cd Medusa
 #一键安装后端依赖
-python3 -m pip install -r Medusa.txt
+python3 -m pip install --ignore-installed -r Medusa.txt
 #进入前端文件夹
 cd Vue
 #安装前端依赖

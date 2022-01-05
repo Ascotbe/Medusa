@@ -1057,24 +1057,24 @@ class FileAcquisitionZipPath:  #  文件打包下载路径
 class PortableExecutableFilePath:  # 上传的PE文件路径
     def Result(self) -> str:
         if sys.platform == "win32" or sys.platform == "cygwin":
-            Path = GetRootFileLocation().Result() + "\\Web\\TrojanOrVirus\\PE2Shellcode\\PE\\"
+            Path = GetRootFileLocation().Result() + "\\Web\\TrojanOrVirus\\PE\\"
             return Path
         elif sys.platform == "linux" or sys.platform == "darwin":
-            Path = GetRootFileLocation().Result() + "/Web/TrojanOrVirus/PE2Shellcode/PE/"
+            Path = GetRootFileLocation().Result() + "/Web/TrojanOrVirus/PE/"
             return Path
 class ShellcodeFilePath:  #  生成的shellcode文件路径
     def Result(self) -> str:
         if sys.platform == "win32" or sys.platform == "cygwin":
-            Path = GetRootFileLocation().Result() + "\\Web\\TrojanOrVirus\\PE2Shellcode\\Shellcode\\"
+            Path = GetRootFileLocation().Result() + "\\Web\\TrojanOrVirus\\Shellcode\\"
             return Path
         elif sys.platform == "linux" or sys.platform == "darwin":
-            Path = GetRootFileLocation().Result() + "/Web/TrojanOrVirus/PE2Shellcode/Shellcode/"
+            Path = GetRootFileLocation().Result() + "/Web/TrojanOrVirus/Shellcode/"
             return Path
 class PE2ShellcodeFilePath:  #  获取PE2SHELLCODE路径
     def Result(self) -> str:
         if sys.platform == "win32" or sys.platform == "cygwin":
-            Path = GetRootFileLocation().Result() + "\\Web\\TrojanOrVirus\\PE2Shellcode\\"
+            Path = GetRootFileLocation().Result() + "\\Web\\TrojanOrVirus\\"
             return Path
         elif sys.platform == "linux" or sys.platform == "darwin":
-            Path = GetRootFileLocation().Result() + "/Web/TrojanOrVirus/PE2Shellcode/"
+            Path = GetRootFileLocation().Result() + "/Web/TrojanOrVirus/"
             return Path

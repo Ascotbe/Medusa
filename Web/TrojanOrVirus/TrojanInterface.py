@@ -96,9 +96,9 @@ def CompilePortableExecutableFile(**kwargs):#编译处理PE文件
         FileName = kwargs.get("file_name")  # pe文件
         Command=""
         if sys.platform == "win32" or sys.platform == "cygwin":
-            Command =PE2ShellcodeFilePath().Result() + " pe2shc.exe " + FileName + " " + ShellcodeFilePath().Result()+ShellcodeFileName
+            Command =PE2ShellcodeFilePath().Result() + "pe2shc.exe " + PortableExecutableFilePath().Result()+FileName + " " + ShellcodeFilePath().Result()+ShellcodeFileName
         elif sys.platform == "linux" or sys.platform == "darwin":
-            Command = "wine " + PE2ShellcodeFilePath().Result() + " pe2shc.exe " + FileName + " " + ShellcodeFilePath().Result()+ShellcodeFileName
+            Command = "wine " + PE2ShellcodeFilePath().Result() + "pe2shc.exe " + PortableExecutableFilePath().Result()+FileName + " " + ShellcodeFilePath().Result()+ShellcodeFileName
         p = subprocess.run(Command, shell=True, timeout=30, check=True)  # 执行生成命令
         p.check_returncode()
         PortableExecutable2Shellcode().UpdateStatus(status="1", redis_id=CompilePortableExecutableFile.request.id)  # 任务结束后更新状态

@@ -15,18 +15,18 @@
 git clone https://github.com/Ascotbe/Medusa.git
 ```
 
-#### Linux&Mac
+#### Linux
 
 > 必要环境
 
 ```bash
-#macOS把apt替换成brew即可
 sudo dpkg --add-architecture i386
 sudo apt install nodejs -y
 sudo apt install npm -y
 sudo apt install nginx -y
 sudo apt install redis -y
-sudo apt install python3 -y#需要3.7以上版本
+#需要3.7以上的Python版本
+sudo apt install python3 -y
 sudo apt install python3-pip -y
 sudo apt install mingw-w64 -y
 sudo apt install golang-go -y

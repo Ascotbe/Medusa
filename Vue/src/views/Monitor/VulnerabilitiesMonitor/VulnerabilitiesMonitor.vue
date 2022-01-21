@@ -6,10 +6,17 @@
      16, { xs: 4, sm: 8, md: 12, lg: 16 }
     ]"
   >
-    <a-col :xs="24" style="display: flex;flex-shrink: 1;">
-      <a-col :xs="14" :lg="18">
-        <Card :name="``" :bodyStyle="bodyStyle">
-          <a-form :form="form" :label-col="{ span: 0 }" :wrapper-col="{ span: 24 }">
+  <a-col :span='24'>
+    <div style="text-align: left; font-size: 18px;">
+      Vulnerabilities (CVE)
+    </div>
+   </a-col>
+   
+    <a-col :span="24" style="display: flex;flex-shrink: 1;">
+      <a-col :xs="14" :lg="18" >
+        <!-- <Card :name="``" :bodyStyle="bodyStyle"> -->
+          <a-col :span='24' style="background: #fff;">
+          <a-form :form="form" :label-col="{ span: 0 }" :wrapper-col="{ span: 24 }" >
             <a-col :xs="24" :lg="8">
               <a-form-item>
                 <a-select
@@ -33,29 +40,33 @@
                 ></a-input>
               </a-form-item>
             </a-col>
-            <a-col :xs="24" :lg="8">
+            <a-col :xs="24" :lg="8" style="text-align: left;">
               <a-button @click="handleReset" style="margin-right:4px">重置</a-button>
               <a-button type="primary" @click="handleNistQuery">Search</a-button>
             </a-col>
           </a-form>
-        </Card>
+          </a-col>
+        <!-- </Card> -->
       </a-col>
 
       <a-col :xs="10" :lg="6">
-        <Card :name="``" :bodyStyle="bodyStyle">
-          <div class="myicon">
-            <MyIcon :type="`icon-ziyuan1`" style="font-size:100px;" />
-            <div class="total">
-              <div :span="24">TOTAL:</div>
-              <div :span="24" style="font-weight:800">{{total}}</div>
+        <!-- <Card :name="``" :bodyStyle="bodyStyle"> -->
+          <div style="display: flex;background: #fff;">
+            <div style="height: 96px; font-size: 60px; line-height: 90px; width: 80px; text-align: center;">
+              <a-icon type="safety-certificate" />
+            </div>
+            
+            <div class="total" style="text-align: left;">
+              <div style="font-size: 14px; line-height: 3;">TOTAL:</div>
+              <div style="font-size: 18px; line-height: 1;font-weight: 800;">{{total}}</div>
             </div>
           </div>
-        </Card>
+        <!-- </Card> -->
       </a-col>
     </a-col>
 
-    <a-col :span="24" style="flex-shrink: 1;flex-grow:1">
-      <Card :name="``" :bodyStyle="bodyStyle">
+    <a-col :span="24">
+      <Card name="" :bodyStyle="bodyStyle">
         <Tables
           :columns="columns"
           :tableData="data"
@@ -95,41 +106,13 @@ export default {
       },
       columns: [
         {
-          title: "漏洞编号",
+          title: "CVE",
           dataIndex: "vulnerability_number",
           key: "vulnerability_number",
           customRender: (text, record, index) => this.handleRenderVulnerabilityNumber(text, record, index)
         },
         {
-          title: "CVSS v3 分数",
-          dataIndex: "v3_base_score",
-          key: "v3_base_score",
-        },
-        {
-          title: "CVSS v3 分级",
-          dataIndex: "v3_base_severity",
-          key: "v3_base_severity",
-          customRender: (text, record, index) => this.handleRenderTag(text, record, index)
-        },
-        {
-          title: "CVSS v2 分数",
-          dataIndex: "v2_base_score",
-          key: "v2_base_score",
-        },
-        {
-          title: "CVSS v2 分级",
-          dataIndex: "v2_base_severity",
-          key: "v2_base_severity",
-          customRender: (text, record, index) => this.handleRenderTag(text, record, index)
-
-        },
-        {
-          title: "最后更新时间",
-          dataIndex: "last_up_date",
-          key: "last_up_date",
-        },
-        {
-          title: "开发商名称",
+          title: "vendors",
           dataIndex: "vendors",
           key: "vendors",
           width: 300,
@@ -137,12 +120,44 @@ export default {
 
         },
         {
-          title: "产品名称",
+          title: "Products",
           dataIndex: "products",
           key: "products",
           width: 300,
           customRender: (text, record, index) => this.handleRenderVendorsAndProducts(text, record, index)
         },
+        {
+          title: "Updated",
+          dataIndex: "last_up_date",
+          key: "last_up_date",
+           width: 120,
+        },
+        // {
+        //   title: "CVSS v3 分数",
+        //   dataIndex: "v3_base_score",
+        //   key: "v3_base_score",
+        // },
+        {
+          title: "CVSS v2",
+          dataIndex: "v2_base_severity",
+          key: "v2_base_severity",
+          width: 120,
+          customRender: (text, record, index) => this.handleRenderTag(text, record, index,'v2')
+
+        },
+        {
+          title: "CVSS v3",
+          dataIndex: "v3_base_severity",
+          key: "v3_base_severity",
+          width: 120,
+          customRender: (text, record, index) => this.handleRenderTag(text, record, index)
+        },
+        // {
+        //   title: "CVSS v2 分数",
+        //   dataIndex: "v2_base_score",
+        //   key: "v2_base_score",
+        // },
+       
       ],
       data: [],
       total: 0,
@@ -263,7 +278,7 @@ export default {
       _this.current = pagination.current
       _this.handleNistQuery()
     },
-    handleRenderTag (text, record, index) {
+    handleRenderTag (text, record, index,type) {
       //NONE、LOW、MEDIUM、HIGH、CRITICAL
       let color = ''
       switch (text) {
@@ -282,11 +297,11 @@ export default {
         case 'CRITICAL':
           color = "#FF6666"
           break;
-        // default:
-        //   color = "#00FFCC"
-        //   break;
+        default:
+          color = "#909399"
+          break;
       }
-      return text ? <a-tag color={color}> {text} </a-tag > : ''
+      return text ? <a-tag color={color}>{type === 'v2'?record.v2_base_score:record.v3_base_score}{text} </a-tag > : <a-tag color={color}>N/A</a-tag>
     },
     handleRenderVendorsAndProducts (text, record, index) {
       let arr = text ? eval('(' + text + ')') : []

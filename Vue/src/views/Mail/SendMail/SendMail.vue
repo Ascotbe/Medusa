@@ -157,7 +157,7 @@ export default {
           dataIndex: "mail_title",
           ellipsis: true,
           width: 150,
-          align: 'center',
+          // align: 'center',
           customRender: (text) => this.QJBase64Decode(text)
         },
         // {
@@ -180,7 +180,7 @@ export default {
           dataIndex: "sender",
           ellipsis: true,
           width: 120,
-          align: 'center',
+          // align: 'center',
           customRender: (text) => this.QJBase64Decode(text)
         },
         {
@@ -188,7 +188,7 @@ export default {
           dataIndex: "forged_address",
           ellipsis: true,
           width: 150,
-          align: 'center',
+          // align: 'center',
           customRender: (text) => this.QJBase64Decode(text)
 
         },
@@ -204,7 +204,7 @@ export default {
           dataIndex: "compilation_status",
           ellipsis: true,
           width: 150,
-          align: 'center',
+          // align: 'center',
           customRender: (text) => text == 1 ? <a-tag color="green">已完成</a-tag> : <a-tag color="blue">未完成</a-tag>
 
         },
@@ -212,7 +212,7 @@ export default {
           title: '操作',
           dataIndex: "action",
           ellipsis: true,
-          align: 'center',
+          // align: 'center',
           width: 150,
           customRender: (text, record) => {
             const actions = <a onClick={

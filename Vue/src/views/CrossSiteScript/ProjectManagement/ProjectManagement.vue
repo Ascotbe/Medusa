@@ -8,7 +8,7 @@
     ]"
   >
     <a-col :span="24">
-      <Card :name="'跨站脚本钓鱼项目列表'" :bodyStyle="bodyStyle">
+      <!-- <Card :name="'跨站脚本钓鱼项目列表'" :bodyStyle="bodyStyle"> -->
         <Tables
           :columns="columns"
           :tableData="data"
@@ -17,7 +17,7 @@
           :total="total"
           @change="handleChange"
         ></Tables>
-      </Card>
+      <!-- </Card> -->
     </a-col>
   </a-row>
 </template>
@@ -40,23 +40,23 @@ export default {
         {
           title: "项目名",
           dataIndex: "project_name",
-          align: 'center',
+          // align: 'center',
         },
         {
           title: "文件名",
           dataIndex: "file_name",
-          align: 'center',
+          // align: 'center',
         },
         {
           title: "创建时间",
           dataIndex: "creation_time",
-          align: 'center',
+          // align: 'center',
           customRender: (text, record, index) => { return this.moment(text, "X").format('YYYY-MM-DD H:mm:ss') }
         },
         {
           title: "容量",
           dataIndex: "capacity",
-          align: 'center',
+          // align: 'center',
           // scopedSlots: {
           //   customRender: "capacity",
           // },
@@ -65,7 +65,7 @@ export default {
         {
           title: "操作",
           key: "action",
-          align: 'center',
+          // align: 'center',
           // scopedSlots: {
           //   customRender: "action",
           // },
@@ -155,8 +155,8 @@ export default {
     },
     handleDetails (record) {//进入项目修改页面
       const _this = this
-      _this.$store.dispatch('CrossSiteScriptStore/setProjectAssociatedFileName', record.file_name)
-      _this.$router.push("ModifyProject")
+      // _this.$store.dispatch('CrossSiteScriptStore/setProjectAssociatedFileName', record.file_name)
+      _this.$router.push({path:"/layout/ModifyProject",query: {name: record.file_name}})
     },
     handleDelete (record) {//项目删除
       const _this = this

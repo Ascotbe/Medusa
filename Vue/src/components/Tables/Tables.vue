@@ -85,8 +85,10 @@ export default {
         size: "small",
         showTotal: (total, range) => {
           const _this = this
-          const Dom = <span style="display: flex;align-items: center;padding-right:10px;font-size:20px" v-show={total == 0 ? false : true}>共<span style="color:#51c51a;padding:0 10px 0 10px"><a-statistic value={total} valueStyle={{ color: '#51c51a' }} >
-          </a-statistic></span>条</span>
+          // const Dom = <span style="display: flex;align-items: center;padding-right:10px;font-size:20px" v-show={total == 0 ? false : true}>共<span style="color:#51c51a;padding:0 10px 0 10px"><a-statistic value={total} valueStyle={{ color: '#51c51a' }} >
+          // </a-statistic></span>条</span>
+          const Dom = <span style="font-size:16px;line-height: 22px;" v-show={total == 0 ? false : true}>共<span style="color:#51c51a;padding: 0 6px;">
+          <span>{total}</span></span>条</span>
           const callback = _this.showTotalDIY(Dom, total, range)
           if (callback) {
             return callback
@@ -232,19 +234,19 @@ export default {
 //   minheight: ;
 // }
 /*定义整体的宽度*/
-::v-deep .ant-table-body::-webkit-scrollbar {
-  height: 5px;
-  width: 5px;
-}
+// ::v-deep .ant-table-body::-webkit-scrollbar {
+//   height: 5px;
+//   width: 5px;
+// }
 
 /*定义滚动条轨道*/
-::v-deep .ant-table-body::-webkit-scrollbar-track {
-  border-radius: 2px;
-}
+// ::v-deep .ant-table-body::-webkit-scrollbar-track {
+//   border-radius: 2px;
+// }
 
 /*定义滑块*/
-::v-deep .ant-table-body::-webkit-scrollbar-thumb {
-  border-radius: 2px;
-  background: rgba(0, 255, 42, 0.5);
-}
+// ::v-deep .ant-table-body::-webkit-scrollbar-thumb {
+//   border-radius: 2px;
+//   background: rgba(0, 255, 42, 0.5);
+// }
 </style>

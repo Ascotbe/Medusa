@@ -30,13 +30,14 @@
           </a-col>
           <a-col :span="24">
             <a-form-item label="模板内容:">
-              <MarkdownPro
+              <!-- <MarkdownPro
                 v-model="templateCode"
                 theme="oneDark"
                 :autoSave="false"
                 :toolbars="toolbars"
                 ref="MarkdownPro"
-              />
+              /> -->
+              <codemirror v-model="templateCode" :options="{mode: 'text/javascript',lineNumbers: true,theme:'base16-light'}"></codemirror>
             </a-form-item>
           </a-col>
         </a-form>
@@ -49,7 +50,13 @@
 import { mapGetters } from 'vuex'
 import Card from '@/components/Card/Card.vue'
 import { OverallMixins } from '@/js/Mixins/OverallMixins.js'
-import { MarkdownPro } from 'vue-meditor'
+// import { MarkdownPro } from 'vue-meditor'
+import { codemirror } from 'vue-codemirror'
+
+// import base style
+import 'codemirror/lib/codemirror.css'
+import 'codemirror/theme/base16-light.css'
+import 'codemirror/mode/javascript/javascript.js'
 export default {
   mixins: [OverallMixins],
   computed: {
@@ -57,7 +64,8 @@ export default {
       token: "UserStore/token",
     })
   },
-  components: { Card, MarkdownPro },
+  // components: { Card, MarkdownPro },
+  components: { Card, codemirror },
   data () {
     return {
       bodyStyle: {

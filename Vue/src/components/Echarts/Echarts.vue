@@ -191,7 +191,7 @@ export default {
           type: _this.yAxis[0].type,
           splitNumber: _this.yAxis[0]?.splitNumber ? _this.yAxis[0].splitNumber : '',
           minInterval: _this.yAxis[0]?.minInterval ? _this.yAxis[0].minInterval : '',
-          max: _this.yAxis[0]?.max ? _this.yAxis[0].max : 'dataMax',
+          max: _this.yAxis[0]?.max ? _this.yAxis[0].max : '',
           axisLabel: _this.yAxis[0]?.axisLabel ? _this.yAxis[0].axisLabel : {}
         }
         return yAxis
@@ -203,7 +203,8 @@ export default {
             type: item.type,
             splitNumber: item.splitNumber ? item.splitNumber : '',
             minInterval: item.minInterval ? item.minInterval : '',
-            max: item.max ? item.max : 'dataMax',
+            interval: item.interval || '',
+            max: item.max ? item.max : '',
             axisLabel: item.axisLabel ? item.axisLabel : {}
           }
           return menu
@@ -435,7 +436,6 @@ export default {
           xAxis: _this.handleXAxis(),
           yAxis: _this.handleYAxis(),
           legend: _this.handleLegend(flag),
-          tooltip: _this.handleTooltip(),
           dataset: _this.handleDataset(flag, data),
           series: _this.handleLine(flag, data, universalTransition)
         }
@@ -445,7 +445,6 @@ export default {
           xAxis: _this.handleXAxis(),
           yAxis: _this.handleYAxis(),
           legend: _this.handleLegend(flag),
-          tooltip: _this.handleTooltip(),
           dataset: _this.handleDataset(flag, data),
           series: _this.handleScatter(flag, data, universalTransition)
         }

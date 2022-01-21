@@ -225,7 +225,8 @@ export default {
         type: 'category',
       },
       gitHubYAxis: [{
-        type: 'value'
+        type: 'value',
+        splitNumber:5
       }],
       gitHubEchartsSeries: {
         name: ["gitHub"],
@@ -340,30 +341,31 @@ export default {
         {
           type: 'value',
           name: '使用率',
-          splitNumber: 5,
-          minInterval: 25,
+          splitNumber: 4,
+          interval: 25,
           max: 100,
           axisLabel: {
             show: true,
-            color: "rgba(169,169,169,1)",
+            // color: "rgba(169,169,169,1)",
             formatter: "{value} %",
           },
         },
         {
           type: 'value',
           name: 'Gb',
-          splitNumber: 5,
+          splitNumber: 4,
           max: 100,
           axisLabel: {
             show: true,
-            color: "rgba(169,169,169,1)",
+            // color: "rgba(169,169,169,1)",
             formatter: "{value}",
           },
         }
       ],
       memoryEchartsSeries: {
-        name: ["未使用", "使用百分比"],
-        yAxisIndex: [1, 0]
+        name: ["内存占用率","内存未使用" ],
+        yAxisIndex: [0, 1],
+        color: ['#f00','#00f']
       },
       memoryEchartsData: [],//内存监控的数据
       // memoryDeploy: { //内存监控的参数
@@ -432,7 +434,7 @@ export default {
       const params = {
         token: _this.token,
         start_time: _this.moment(dateArr[0]).unix(),
-        end_time: _this.moment(dateArr[1]).unix(),
+        end_time: _this.moment(dateArr[1]).unix()+24*60*60,
       }
       _this.$api.homepage_github_monitor_data(params)
         .then(async (res) => {
@@ -452,12 +454,10 @@ export default {
               if (i == res.message.length - 1) {
                 itemVal += item[1]
                 Arr.push([now, itemVal])
-              }
-              else {
+              }else {
                 itemVal += item[1]
               }
-            }
-            else {
+            }else {
               if (i == res.message.length - 1) {
                 Arr.push([old, itemVal])
                 itemVal = 0
@@ -537,7 +537,7 @@ export default {
       let daysList = [];
       const start = _this.moment(startDate)
       const end = _this.moment(endDate)
-      const day = end.diff(start, "days");
+      const day = end.diff(start, "days")+1;
       for (let i = 0; i < day; i++) {
         let flag = 0
         Array.map((item) => {
@@ -584,7 +584,7 @@ export default {
           _this.memoryYAxis[1].max = memory_max
           _this.cpuEchartsData = thread
           memory = [memory_used, memory_free]
-          _this.memoryEchartsData = memory
+          _this.memoryEchartsData = memory.reverse()
         })
     },
   }

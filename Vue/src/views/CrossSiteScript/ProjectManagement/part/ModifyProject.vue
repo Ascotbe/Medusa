@@ -1,118 +1,66 @@
 <template>
-  <a-row
-    type="flex"
-    justify="center"
-    style="height:100%;min-height: 540px;text-align:left"
-    :gutter="[
-     16, { xs: 4, sm: 8, md: 12, lg: 16 }
-    ]"
-  >
-    <a-col :xs="{ span: 24 }" :lg="{ span: 12 }">
-      <Card :name="'项目代码'" :bodyStyle="bodyStyle">
-        <template slot="extraCard">
-          <a-button type="primary" @click="handleSave">确认保存</a-button>
-        </template>
-        <MarkdownPro
-          v-model="projectCode"
-          ref="Markdown"
-          theme="oneDark"
-          :autoSave="false"
-          :toolbars="toolbars"
-        />
-      </Card>
-    </a-col>
-    <a-col :xs="{ span: 24 }" :lg="{ span: 12 }">
-      <a-col :xs="{ span: 24 }">
-        <Card :name="'将如下代码植入怀疑出现xss的地方'" :bodyStyle="bodyStyle">
-          <MarkdownPreview theme="oneDark" :initialValue="markdownData.the_first_use" />
-        </Card>
-      </a-col>
-      <a-col :xs="{ span: 24 }">
-        <Card :name="'再或者以你任何想要的方式插入'" :bodyStyle="bodyStyle">
-          <MarkdownPreview theme="oneDark" :initialValue="markdownData.exploit_path" />
-        </Card>
-      </a-col>
-      <a-col :xs="{ span: 24 }">
-        <Card :name="'极限代码~！'" :bodyStyle="bodyStyle">
-          <MarkdownPreview theme="oneDark" :initialValue="markdownData.the_second_use" />
-        </Card>
-      </a-col>
-      <a-col :xs="{ span: 24 }">
-        <Card :name="'图片插件'" :bodyStyle="bodyStyle">
-          <MarkdownPreview theme="oneDark" :initialValue="markdownData.the_third_use" />
-        </Card>
-      </a-col>
-      <a-col :xs="{ span: 24 }">
-        <Card :name="'编码poc'" :bodyStyle="bodyStyle">
-          <MarkdownPreview theme="oneDark" :initialValue="markdownData.coding_exploit" />
-        </Card>
-      </a-col>
-    </a-col>
-  </a-row>
+  <div style="text-align: left;">
+    <a-form>
+      <a-form-item label='项目代码'>
+        <codemirror  v-model='projectCode' :options="{mode: 'text/javascript',lineNumbers: true,theme:'base16-light'}"></codemirror>
+      </a-form-item>
+      <a-form-item label='将如下代码植入怀疑出现xss的地方' class="code">
+        <codemirror v-model='markdownData.the_first_use' :options="{mode: 'text/javascript',lineNumbers: false,theme:'base16-light'}"></codemirror>
+      </a-form-item>
+       <a-form-item label='再或者以你任何想要的方式插入' class="code">
+        <codemirror v-model='markdownData.exploit_path' :options="{mode: 'text/javascript',lineNumbers: false,theme:'base16-light'}"></codemirror>
+      </a-form-item>
+       <a-form-item label='极限代码~！：' class="code">
+        <codemirror v-model='markdownData.the_second_use' :options="{mode: 'text/javascript',lineNumbers: false,theme:'base16-light'}"></codemirror>
+      </a-form-item>
+      <a-form-item label='图片插件' class="code">
+        <codemirror v-model='markdownData.the_third_use' :options="{mode: 'text/javascript',lineNumbers: false,theme:'base16-light'}"></codemirror>
+      </a-form-item>
+      <a-form-item label='编码poc' class="code">
+        <codemirror v-model='markdownData.coding_exploit' :options="{mode: 'text/javascript',lineNumbers: false,theme:'base16-light'}"></codemirror>
+      </a-form-item>
+      <a-form-item style="text-align: center;">
+        <a-button type='primary' @click="reset">重置</a-button>
+        <a-button type='primary' style="margin-left: 10px;" @click="handleSave">保存修改</a-button>
+      </a-form-item>
+    </a-form>
+  </div>
 </template>
 
 <script>
-import { MarkdownPro, MarkdownPreview } from 'vue-meditor'
 import { mapGetters } from 'vuex'
-import Card from '@/components/Card/Card.vue'
 import { OverallMixins } from '@/js/Mixins/OverallMixins.js'
+import { codemirror } from 'vue-codemirror'
+
+// import base style
+import 'codemirror/lib/codemirror.css'
+import 'codemirror/theme/base16-light.css'
+import 'codemirror/mode/javascript/javascript.js'
 export default {
   mixins: [OverallMixins],
   computed: {
     ...mapGetters({
       token: "UserStore/token",
-      projectAssociatedFileName: "CrossSiteScriptStore/projectAssociatedFileName"
     })
   },
-  components: { Card, MarkdownPro, MarkdownPreview },
+  components: { codemirror },
   data () {
     return {
-      bodyStyle: {
-        borderTop: '3px solid #51c51a',
-        borderBottom: '0px'
-      },
-      toolbars: {
-        importmd: false,
-        exportmd: false,
-        fullscreen: false,
-        theme: false,
-        split: false,
-        strong: false,
-        overline: false,
-        italic: false,
-        h1: false,
-        h2: false,
-        h3: false,
-        h4: false,
-        h5: false,
-        h6: false,
-        hr: false,
-        quote: false,
-        ul: false,
-        ol: false,
-        pl: false,
-        link: false,
-        image: false,
-        table: false,
-        checked: false,
-        notChecked: false,
-        code: false,
-        preview: false
-      },
       projectCode: '',
-      markdownData: {}
+      projectCodeOrigin: '',
+      markdownData: {},
+      markdownDataOrigin: {},
+      projectAssociatedFileName:''
     }
   },
   mounted () {
-    // console.log()
-    const _this = this
-    if (_this.projectAssociatedFileName == '' || _this.projectAssociatedFileName == undefined || _this.projectAssociatedFileName == null) {
-      _this.$message.warn('请从项目管理进入')
-      _this.$router.push('ProjectManagement')
-      return
+    this.projectAssociatedFileName = this.$route.query.name
+    if (this.projectAssociatedFileName == '' || this.projectAssociatedFileName == undefined || this.projectAssociatedFileName == null) {
+      this.$message.warn('请从项目管理进入')
+      this.$router.push('ProjectManagement')
+    }else {
+      this.handleQueeryProjectInfo()
     }
-    _this.$refs.Markdown.split = false
-    _this.handleQueeryProjectInfo()
   },
   methods: {
     handleQueeryProjectInfo () {
@@ -122,15 +70,23 @@ export default {
         project_associated_file_name: _this.projectAssociatedFileName,
       };
       _this.$api.query_script_project_info(params).then((res) => {
-        if (res.code = 200) {
+        if (res.code == 200) {
           for (const key in res.message) {
-            if (key == 'project_associated_file_data') _this.projectCode = _this.QJBase64Decode(res.message[key])
-            else res.message[key] = "```" + `\n${res.message[key]}\n` + "```"
+            if (key == 'project_associated_file_data') {
+              _this.projectCode = _this.QJBase64Decode(res.message[key])
+              _this.projectCodeOrigin = _this.QJBase64Decode(res.message[key])
+            }
+            // else res.message[key] = "```" + `\n${res.message[key]}\n` + "```"
           }
           _this.markdownData = { ...res.message }
+          _this.markdownDataOrigin = { ...res.message }
         }
         else _this.$message.warn(res.message)
       })
+    },
+    reset() {
+      this.markdownData = { ...this.markdownDataOrigin }
+      this.projectCode = this.projectCodeOrigin
     },
     handleSave () {
       const _this = this
@@ -139,7 +95,6 @@ export default {
       //   return
       // }
       // const projectCode = _this.projectCode.replace(/```\n/g, "").replace(/\n```/g, "")
-      console.log(projectCode)
       const params = {
         token: _this.token,
         project_associated_file_name: _this.projectAssociatedFileName,
@@ -149,8 +104,7 @@ export default {
         if (res.code) {
           _this.$message.success(res.message)
           _this.handleQueeryProjectInfo()
-        }
-        else _this.$message.success(res.message)
+        }else _this.$message.success(res.message)
       })
     }
   }
@@ -158,4 +112,8 @@ export default {
 </script>
 
 <style>
+.code  .CodeMirror {
+  height: auto !important;
+  max-height: 300px;
+}
 </style>

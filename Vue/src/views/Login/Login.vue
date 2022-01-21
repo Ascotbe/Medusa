@@ -195,6 +195,9 @@ export default {
     handleRegister () {
       this.$router.push('./Register')
     }
+  },
+  mounted() {
+    this.form.setFieldsValue({userName:'ascotbe',passWord:'ascotbe'})
   }
 }
 </script>

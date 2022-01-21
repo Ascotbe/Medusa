@@ -120,7 +120,7 @@ urlpatterns = [
     path('api/send_fishing_mail/', Email.SendFishingMail),  # 发送钓鱼邮件
     path('api/statistics_malicious_email/', MailHistory.StatisticsMaliciousEmail),  # 统计当前用户钓鱼邮件发送个数
     path('api/malicious_mail_query/', MailHistory.MaliciousMailQuery),  # 钓鱼邮件详情查询
-    path('api/upload_mail_attachment/', MailAttachment.UploadMailAttachment),  # 上传钓鱼附件
+    path('api/mail_upload_files/', MailAttachment.UploadFiles),  # 文件上传
     path('api/statistical_mail_attachment/', MailAttachment.StatisticalMailAttachment),  # 统计当前用户邮件附件个数
     path('api/email_attachment_query/', MailAttachment.EmailAttachmentQuery),  # 钓鱼邮件附件详情
     re_path(r'^b/().*?/$', FishingData.Monitor),  # 邮件钓鱼数据监控

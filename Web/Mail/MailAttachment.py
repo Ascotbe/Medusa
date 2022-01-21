@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 from Web.DatabaseHub import UserInfo,MailAttachment
 from django.http import JsonResponse
-from ClassCongregation import ErrorLog,randoms,GetMailAttachmentFilePath
+from ClassCongregation import ErrorLog,randoms,GetMailUploadFilePath
 from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
 import time
 import base64
 import json
-"""upload_mail_attachment
+"""mail_upload_files
 POST /api/upload_mail_attachment/ HTTP/1.1
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryaFtQbWz7pBzNgCOv
 token:XXXXXXXXXXXXXXXX
@@ -19,19 +19,19 @@ Content-Type: image/jpeg
 XXXXXXXXXXXXXXX
 ------WebKitFormBoundaryaFtQbWz7pBzNgCOv--
 """
-def UploadMailAttachment (request):#上传邮件附件
-    RequestLogRecord(request, request_api="upload_mail_attachment")
+def UploadFiles (request):#上传文件
+    RequestLogRecord(request, request_api="mail_upload_files")
     if request.method == "POST":
         try:
             Token = request.headers["token"]
             Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
             if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="upload_mail_attachment", uid=Uid)  # 查询到了在计入
+                UserOperationLogRecord(request, request_api="mail_upload_files", uid=Uid)  # 查询到了在计入
                 PictureData = request.FILES.get('file', None)#获取文件数据
                 PictureName = PictureData.name # 获取文件名
                 if 0<PictureData.size:#内容不能为空
                     SaveFileName=randoms().result(50)+str(int(time.time()))#重命名文件
-                    SaveRoute=GetMailAttachmentFilePath().Result()+SaveFileName#获得保存路径
+                    SaveRoute=GetMailUploadFilePath().Result()+SaveFileName#获得保存路径
                     with open(SaveRoute, 'wb') as f:
                         for line in PictureData:
                             f.write(line)

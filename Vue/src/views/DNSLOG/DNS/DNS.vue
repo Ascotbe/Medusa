@@ -10,11 +10,10 @@
   >
     <a-col span="24">
       <Card :name="``">
-        <img :src="src" height="200px" />
+        <img :src="src" height="100px" />
         <a-col span="24" style="font-size:16px;">
-          <a-icon type="compass" />
-          :
-          {{DNSLOG}}
+          <!-- <a-icon type="smile" style="font-size: 18px;color: #E6A23C;" /> -->
+          😃：{{DNSLOG}}
         </a-col>
         <a-col span="24">
           <Card :name="``" :bodyStyle="bodyStyle">
@@ -55,21 +54,14 @@ export default {
         {
           title: "DNS Query Record",
           dataIndex: "domain_name",
-          align: 'center',
-          width: '30%',
         },
         {
           title: "IP Address",
           dataIndex: "ip",
-          align: 'center',
-          width: '45%',
-
         },
         {
           title: "Created Time",
           dataIndex: "creation_time",
-          align: 'center',
-          width: '35%',
           customRender: (text, record, index) => {
             return text ? this.moment(text, "X").format('YYYY-MM-DD H:mm:ss') : ""
           },

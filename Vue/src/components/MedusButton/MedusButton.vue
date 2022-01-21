@@ -73,6 +73,7 @@ export default {
   box-sizing: border-box;
   text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
   display: inline-block;
+  cursor: pointer;
   .name {
     // transition-delay: 0s;
     -moz-user-select: none;

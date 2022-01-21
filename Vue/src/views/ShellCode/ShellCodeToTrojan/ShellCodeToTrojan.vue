@@ -15,21 +15,14 @@
         >
           <a-form-item label="项目名称">
             <a-input
-              :options="pluginOptions"
-              v-decorator="[
-            'shellcode_name',
-            { rules: [{ required: true, message: 'ShellcodeName Cannot be empty' }] }
-          ]"
-            ></a-input>
+              clearable
+              v-decorator="['shellcode_name',{ rules: [{ required: true, message: 'ShellcodeName Cannot be empty' }] }]">
+            </a-input>
           </a-form-item>
           <a-form-item label="插件名称">
             <a-select
               :options="pluginOptions"
-              v-decorator="[
-            'plugin',
-            { rules: [{ required: true, message: 'Plugin Cannot be empty' }] }
-          ]"
-            ></a-select>
+              v-decorator="['plugin',{ rules: [{ required: true, message: 'Plugin Cannot be empty' }] }]"></a-select>
           </a-form-item>
           <a-form-item label="生成类型">
             <a-select
@@ -71,6 +64,7 @@
             <a-input
               placeholder="这里填写shellcode，目前只支持\x86\x64格式..."
               :type="`textarea`"
+              :autoSize="{minRows: 4}"
               v-decorator="[
             'shellcode',
             { rules: [{ required: true, message: 'Shell Code Cannot be empty' },{validator:(rule, value, callback)=>this.handleShellCodePin(rule, value, callback)}] }
@@ -104,7 +98,7 @@
           :showTotalDIY="handleShowTotal"
         >
           <template slot="btn">
-            <a-button @click="handleTrojan(current)" type="primary">刷新</a-button>
+            <a-button @click="handleTrojan(current)" type="primary" size='small' style="margin-left: 5px;">刷新</a-button>
           </template>
         </Tables>
       </Card>
@@ -196,14 +190,14 @@ export default {
           align: 'center',
           customRender: (text, record, index) => { return this.moment(text, "X").format('YYYY-MM-DD H:mm:ss') }
         },
-        {
-          title: "操作",
-          dataIndex: "action",
-          align: 'center',
-          customRender: (text, record, index) => {
-            return <a-button type="link" v-on:click={() => this.handleEXE(record)} >下载</a-button>
-          }
-        },
+        // {
+        //   title: "操作",
+        //   dataIndex: "action",
+        //   align: 'center',
+        //   customRender: (text, record, index) => {
+        //     return <a-button type="link" v-on:click={() => this.handleEXE(record)} >下载</a-button>
+        //   }
+        // },
       ],
       data: [],
       current: 1,
@@ -223,38 +217,47 @@ export default {
       const params = {
         token: _this.token
       }
-      const plugins = _this.$api.get_trojan_plugins(params)
-      const auto = _this.$api.get_auto_start(params)
-      const sandbox = _this.$api.get_anti_sandbox(params)
-      Promise.all([plugins, auto, sandbox]).then(res => {
-        res.map((items, i) => {
-          if (items.code == '200') {
-            switch (i) {
-              case 0:
-                const pluginsOptions = []
-                for (const item in items.message) {
-                  pluginsOptions.push({ label: items.message[item], value: item })
-                }
-                _this.pluginOptions = pluginsOptions
-                break;
-              case 1:
-                const autoOptions = []
-                items.message.map(item => {
-                  autoOptions.push({ label: item, value: item })
-                })
-                _this.autoOptions = autoOptions
-                break;
-              case 2:
-                const sandboxOptions = []
-                items.message.map(item => {
-                  sandboxOptions.push({ label: item, value: item })
-                })
-                _this.sandboxOptions = sandboxOptions
-                break;
-            }
+      // const plugins = _this.$api.get_trojan_plugins(params)
+      // const auto = _this.$api.get_auto_start(params)
+      // const sandbox = _this.$api.get_anti_sandbox(params)
+      _this.$api.get_trojan_plugins(params).then(res => {
+        if (res.code == '200') {
+          let pluginsOptions = []
+          for (let item in res.message) {
+            pluginsOptions.push({ label: res.message[item], value: item })
           }
-        })
+          _this.pluginOptions = pluginsOptions
+        }
       })
+      // Promise.all([plugins, auto, sandbox]).then(res => {
+      //   res.map((items, i) => {
+      //     if (items.code == '200') {
+      //       switch (i) {
+      //         case 0:
+      //           const pluginsOptions = []
+      //           for (const item in items.message) {
+      //             pluginsOptions.push({ label: items.message[item], value: item })
+      //           }
+      //           _this.pluginOptions = pluginsOptions
+      //           break;
+      //         case 1:
+      //           const autoOptions = []
+      //           items.message.map(item => {
+      //             autoOptions.push({ label: item, value: item })
+      //           })
+      //           _this.autoOptions = autoOptions
+      //           break;
+      //         case 2:
+      //           const sandboxOptions = []
+      //           items.message.map(item => {
+      //             sandboxOptions.push({ label: item, value: item })
+      //           })
+      //           _this.sandboxOptions = sandboxOptions
+      //           break;
+      //       }
+      //     }
+      //   })
+      // })
 
     },
     //表格信息获取

@@ -2,28 +2,28 @@
   <a-row
     type="flex"
     justify="center"
-    style="height:100%"
+    style="height:100%;"
     :gutter="[
       { xs: 8, sm: 16, md: 24, xs: 8 },
       { xs: 4, sm: 8, md: 12, lg: 16 },
     ]"
   >
     <a-col :xs="24" :md="8" :xxl="6">
-      <Card :name="``" :bodyStyle="bodyStyle">
+      <!-- <Card :name="``" :bodyStyle="bodyStyle"> -->
         <Tables
+          style="margin-top: 60px;"
           :customRow="handleCustomRow"
           :scrollTable="{ x: '100%', y: 700 }"
           :columns="columns"
           :tableData="data"
           :total="total"
-          :showTotalDIY="handleShowTotal"
           :rowKey="(record,index)=>index"
           @change="handleChange"
         />
-      </Card>
+      <!-- </Card> -->
     </a-col>
     <a-col :xs="24" :md="16" :xxl="18">
-      <Card :name="``" :bodyStyle="bodyStyle2">
+      <!-- <Card :name="``" :bodyStyle="bodyStyle2"> -->
         <a-col :xs="24" :md="12" v-for="(value,key) in record" :key="key">
           <a-col class="title">{{key}}</a-col>
           <a-col :xs="24" class="border" @click="handleCopy(value)">
@@ -37,29 +37,38 @@
               v-else
               theme="oneDark"
               :initialValue="'```' + `\n${value}\n` + '```'"
-            />-->
-            <pre v-else class="pre">
+            /> -->
+             <codemirror style="text-align: left;" v-else :value="value" :options="{mode: 'message/http',lineNumbers: false,theme:'default'}"></codemirror>
+            <!-- <pre v-else class="pre" style="color: #666;font-size: 14px;">
               {{value}}
-            </pre>
+            </pre> -->
           </a-col>
         </a-col>
-      </Card>
+      <!-- </Card> -->
     </a-col>
   </a-row>
 </template>
 
 <script>
-import Card from '@/components/Card/Card.vue'
+// import Card from '@/components/Card/Card.vue'
 import Tables from '@/components/Tables/Tables.vue'
 import { mapGetters } from "vuex";
 import { OverallMixins } from '@/js/Mixins/OverallMixins.js'
-import { MarkdownPreview } from 'vue-meditor'
+// import { MarkdownPreview } from 'vue-meditor'
+
+import { codemirror } from 'vue-codemirror'
+
+// import base style
+import 'codemirror/lib/codemirror.css'
+// import 'codemirror/theme/base16-light.css'
+import 'codemirror/mode/http/http.js'
 export default {
   mixins: [OverallMixins],
   components: {
-    Card,
+    // Card,
     Tables,
-    MarkdownPreview
+    // MarkdownPreview,
+    codemirror
   },
   data () {
     return {
@@ -86,7 +95,7 @@ export default {
           },
         },
         {
-          title: "Created Time",
+          title: "TIME",
           dataIndex: "creation_time",
           align: 'center',
           ellipsis: true,
@@ -188,7 +197,9 @@ export default {
   font-size: 24px;
 }
 .border {
-  border: 1px solid #808080;
+  // border: 1px solid #808080;
+  border: 1px solid #fff;
+  background: #fff;
   min-height: 500px;
   height: calc(100% - 56px);
   border-radius: 5px;

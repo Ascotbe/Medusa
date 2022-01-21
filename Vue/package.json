@@ -16,6 +16,7 @@
     "js-base64": "^3.6.1",
     "moment": "^2.29.1",
     "vue": "^2.6.11",
+    "vue-codemirror": "^4.0.6",
     "vue-meditor": "^2.1.1",
     "vue-router": "^3.2.0",
     "vuex": "^3.4.0"

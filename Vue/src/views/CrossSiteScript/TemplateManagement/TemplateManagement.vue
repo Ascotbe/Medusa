@@ -8,34 +8,34 @@
     ]"
   >
     <a-col :xs="{ span: 24 }" :lg="{ span: 8 }">
-      <Card :name="`模板库`" :bodyStyle="bodyStyle">
-        <a-tabs v-model="activeKey" @change="handleTemplate">
-          <a-tab-pane :key="items.key" :tab="items.tab" v-for="items in tabs">
-            <a-list item-layout="horizontal" :data-source="templateList">
-              <a-list-item slot="renderItem" slot-scope="item">
+      <Card name="">
+        <!-- <a-tabs v-model="activeKey" @change="handleTemplate">
+          <a-tab-pane :key="items.key" :tab="items.tab" v-for="items in tabs"> -->
+            <a-list item-layout="horizontal" :data-source="templateList" v-for="items in tabs" :key="items.key">
+              <a-list-item slot="renderItem" slot-scope="item" style="cursor: pointer;" @click="handleClick(items.key,item)" :class="{active: activeName === item.file_name}">
                 <a-list-item-meta>
                   <a
                     slot="title"
-                    @click="handleClick(items.key,item)"
+                    style="font-size: 16px;"
                   >{{items.key == 'public'?item.file_name :item.template_name}}</a>
                   <!-- <a-col
                     slot="description"
                     class="description"
                   >{{items.key == 'public'?item.file_data:item.template_data}}</a-col>-->
-                  <MyIcon type="icon-js" slot="avatar" style="font-size: 40px;" />
+                  <MyIcon type="icon-js" slot="avatar" style="font-size: 24px;" />
                 </a-list-item-meta>
               </a-list-item>
             </a-list>
-          </a-tab-pane>
-        </a-tabs>
+          <!-- </a-tab-pane>
+        </a-tabs> -->
       </Card>
     </a-col>
     <a-col :xs="{ span: 24 }" :lg="{ span: 16 }">
-      <Card :name="`模板修改`" :bodyStyle="bodyStyle">
-        <template slot="extraCard" v-if="!disabled">
+      <Card name="">
+        <!-- <template slot="extraCard" v-if="!disabled">
           <a-button type="danger" style="margin-right:2px" @click="handleDelete">删除模板</a-button>
           <a-button type="primary" @click="handleSave">保存修改</a-button>
-        </template>
+        </template> -->
         <a-form
           :form="templateForm"
           :layout="`vertical`"
@@ -55,7 +55,7 @@
           </a-col>
           <a-col :span="24">
             <a-form-item label="模板内容:">
-              <MarkdownPreview v-if="disabled" theme="oneDark" :initialValue="templateCode" />
+              <!-- <MarkdownPreview v-if="disabled" theme="oneDark" :initialValue="templateCode" />
               <MarkdownPro
                 v-model="templateCode"
                 ref="MarkdownPro"
@@ -63,7 +63,8 @@
                 :autoSave="false"
                 :toolbars="toolbars"
                 v-else
-              />
+              /> -->
+               <codemirror v-model="templateCode" :options="{mode: 'text/javascript',lineNumbers: true,theme:'base16-light'}"></codemirror>
             </a-form-item>
           </a-col>
         </a-form>
@@ -76,7 +77,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import Card from '@/components/Card/Card.vue'
-import { MarkdownPro, MarkdownPreview } from 'vue-meditor'
+// import { MarkdownPro, MarkdownPreview } from 'vue-meditor'
 import { OverallMixins } from '@/js/Mixins/OverallMixins.js'
 import { Icon } from "ant-design-vue";
 const faceConfig = require("../../../../faceConfig");
@@ -84,6 +85,12 @@ const MyIcon = Icon.createFromIconfontCN({
   scriptUrl: faceConfig.scriptUrl,
 });
 
+import { codemirror } from 'vue-codemirror'
+
+// import base style
+import 'codemirror/lib/codemirror.css'
+import 'codemirror/theme/base16-light.css'
+import 'codemirror/mode/javascript/javascript.js'
 export default {
   mixins: [OverallMixins],
   computed: {
@@ -91,9 +98,11 @@ export default {
       token: "UserStore/token",
     })
   },
-  components: { MyIcon, Card, MarkdownPreview, MarkdownPro },
+  // components: { MyIcon, Card, MarkdownPreview, MarkdownPro },
+  components: { MyIcon, Card, codemirror },
   data () {
     return {
+      activeName:'',
       bodyStyle: {
         borderTop: '3px solid #51c51a',
         borderBottom: '0px'
@@ -103,10 +112,10 @@ export default {
           key: "public",
           tab: "公共模板"
         },
-        {
-          key: "private",
-          tab: "个人模板"
-        },
+        // {
+        //   key: "private",
+        //   tab: "个人模板"
+        // },
       ],
       activeKey: 'public',
       templateList: [],
@@ -146,7 +155,7 @@ export default {
   mounted () {
     const _this = this
     _this.handleTemplate("public")
-    _this.$refs.MarkdownPro.split = false
+    // _this.$refs.MarkdownPro.split = false
   },
   methods: {
     handleTemplate (key) {//查询模板
@@ -176,18 +185,20 @@ export default {
       }
     },
     handleClick (key, item) {//选中模板渲染
+      this.activeName = item.file_name
       const _this = this
       if (key == 'public') {
         _this.disabled = true
         _this.templateForm.setFieldsValue({ template_name: item.file_name })
-        _this.templateCode = "```" + `\n${item.file_data}\n` + "```"
+        // _this.templateCode = "```" + `\n${item.file_data}\n` + "```"
+        _this.templateCode = item.file_data
       }
       else {
         _this.disabled = false
         _this.templateForm.setFieldsValue({ template_name: item.template_name })
         _this.$nextTick(() => {
           _this.templateCode = item.template_data
-          _this.$refs.MarkdownPro.split = false
+          // _this.$refs.MarkdownPro.split = false
         })
       }
     },
@@ -247,5 +258,8 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.active a {
+  color: #51c51a;
 }
 </style>

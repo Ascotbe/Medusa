@@ -3,6 +3,7 @@
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
+from email.mime.image import MIMEImage
 from email.mime.text import MIMEText
 from email.header import Header
 import base64
@@ -10,7 +11,7 @@ import shutil
 from config import third_party_mail_host,third_party_mail_user,third_party_mail_pass,local_mail_host,local_mail_user
 from Web.DatabaseHub import UserInfo,MaliciousEmail
 from django.http import JsonResponse
-from ClassCongregation import ErrorLog,GetMailAttachmentFilePath,GetTempFilePath
+from ClassCongregation import ErrorLog,GetMailUploadFilePath,GetTempFilePath
 import json
 from Web.celery import app
 from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
@@ -20,11 +21,11 @@ from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
 
 
 @app.task
-def SendMail(MailMessage,Attachment,MailTitle,Sender,GoalMailbox,ThirdParty,ForgedAddress):
+def SendMail(MailMessage,Attachment,Image,MailTitle,Sender,GoalMailbox,ThirdParty,ForgedAddress):
     MailStatus = {}
     # 邮件内容
     TempFilePath = GetTempFilePath().Result()
-    MailAttachmentFilePath = GetMailAttachmentFilePath().Result()  # 本地文件路径
+    MailUploadFilePath = GetMailUploadFilePath().Result()  # 本地文件路径
     for Target in list(set(GoalMailbox)):  # 先去重，然后像多个目标发送
         try:
             EmailBox = MIMEMultipart()  # 创建容器
@@ -37,7 +38,7 @@ def SendMail(MailMessage,Attachment,MailTitle,Sender,GoalMailbox,ThirdParty,Forg
             # 发送附件
             for i in Attachment:
                 Temp = TempFilePath + i  # 文件名字
-                AttachmentName = MailAttachmentFilePath + Attachment[i]  # 文件真实名字
+                AttachmentName = MailUploadFilePath + Attachment[i]  # 文件真实名字
                 shutil.copy(AttachmentName, Temp)  # 复制到temp目录
                 AttachmentData = MIMEApplication(open(Temp, 'rb').read())  # 使用temp文件的重命名文件进行发送
                 AttachmentData.add_header('Content-Disposition', 'attachment', filename=i)
@@ -46,14 +47,11 @@ def SendMail(MailMessage,Attachment,MailTitle,Sender,GoalMailbox,ThirdParty,Forg
             TextMessage = MIMEMultipart('alternative')
             EmailBox.attach(TextMessage)
             TextMessage.attach(MIMEText(MailMessage, 'html', 'utf-8'))
-            # # 指定图片为当前目录
-            # MailImageFilePath = GetMailImageFilePath().Result()
-            # file = open(image_file, "rb")
-            # img_data = file.read()
-            # file.close()
-            # img = MIMEImage(img_data)
-            # img.add_header('Content-ID', 'dns_config')
-            # EmailBox.attach(img)
+            # 正文图片
+            for x in Image:
+                pic = MIMEImage(open(MailUploadFilePath + x,'rb').read())
+                pic.add_header('Content-ID', '<'+x+'>')
+                TextMessage.attach(pic)
             SMTP = smtplib.SMTP()
             if int(ThirdParty) == 1:  # 判断是否使用自建服务器
                 SMTP.connect(third_party_mail_host, 25)  # 25 为 SMTP 端口号
@@ -78,6 +76,7 @@ def SendMail(MailMessage,Attachment,MailTitle,Sender,GoalMailbox,ThirdParty,Forg
 	"token": "xxxx",
 	"mail_message":"<p>警戒警戒！莎莎检测到有人入侵！数据以保存喵~</p>",
     "attachment": {"Medusa.txt":"AeId9BrGeELFRudpjb7wG22LidVLlJuGgepkJb3pK7CXZCvmM51628131056"},
+    "image":["2DvWXQc8ufvWMIrhwV5MxrzZZA2oy2f3b5qj5r6VTzb247nQYP1642744866"]
     "mail_title":"测试邮件",
     "sender":"瓜皮大笨蛋",
     "goal_mailbox":["ascotbe@gmail.com","ascotbe@163.com"],
@@ -93,6 +92,7 @@ def SendFishingMail(request):#发送邮件信息
             Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
             MailMessage = json.loads(request.body)["mail_message"]  # 文本内容
             Attachment = json.loads(request.body)["attachment"]  # 附件列表
+            Image=json.loads(request.body)["image"]  # 获取内容图片
             MailTitle = json.loads(request.body)["mail_title"]  # 邮件标题
             Sender = json.loads(request.body)["sender"]  # 发送人姓名
             GoalMailbox = json.loads(request.body)["goal_mailbox"]  # 目标邮箱
@@ -100,10 +100,11 @@ def SendFishingMail(request):#发送邮件信息
             ForgedAddress=json.loads(request.body)["forged_address"]  # 伪造发件人
             if Uid != None:  # 查到了UID
                 UserOperationLogRecord(request, request_api="send_fishing_mail", uid=Uid)  # 查询到了在计入
-                SendMailForRedis=SendMail.delay(MailMessage,Attachment,MailTitle,Sender,GoalMailbox,ThirdParty,ForgedAddress)#调用下发任务
+                SendMailForRedis=SendMail.delay(MailMessage,Attachment,Image,MailTitle,Sender,GoalMailbox,ThirdParty,ForgedAddress)#调用下发任务
                 MaliciousEmail().Write(uid=Uid,
                                        mail_message=base64.b64encode(str(MailMessage).encode('utf-8')).decode('utf-8'),
                                        attachment=Attachment,
+                                       image=Image,
                                        mail_title=base64.b64encode(str(MailTitle).encode('utf-8')).decode('utf-8'),
                                        sender=base64.b64encode(str(Sender).encode('utf-8')).decode('utf-8'),
                                        forged_address=base64.b64encode(str(ForgedAddress).encode('utf-8')).decode('utf-8'),

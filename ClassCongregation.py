@@ -1021,22 +1021,15 @@ class GetTrojanModulesFilePath:  #  木马插件模块位置
             Path = GetRootFileLocation().Result() + "/Web/TrojanOrVirus/Modules/"
             return Path
 
-class GetMailAttachmentFilePath:  #  邮件附件位置
+class GetMailUploadFilePath:  #  邮件附件位置
     def Result(self) -> str:
         if sys.platform == "win32" or sys.platform == "cygwin":
-            Path = GetRootFileLocation().Result() + "\\Web\\Mail\\Attachment\\"
+            Path = GetRootFileLocation().Result() + "\\Web\\Mail\\UploadFiles\\"
             return Path
         elif sys.platform == "linux" or sys.platform == "darwin":
-            Path = GetRootFileLocation().Result() + "/Web/Mail/Attachment/"
+            Path = GetRootFileLocation().Result() + "/Web/Mail/UploadFiles/"
             return Path
-class GetMailImageFilePath:  #  邮件图片位置
-    def Result(self) -> str:
-        if sys.platform == "win32" or sys.platform == "cygwin":
-            Path = GetRootFileLocation().Result() + "\\Web\\Mail\\Image\\"
-            return Path
-        elif sys.platform == "linux" or sys.platform == "darwin":
-            Path = GetRootFileLocation().Result() + "/Web/Mail/Image/"
-            return Path
+
 
 class FileAcquisitionPath:  #  文件采集器文件路径
     def Result(self) -> str:

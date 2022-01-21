@@ -7,6 +7,7 @@
 	"token": "xxxx",
 	"mail_message":"<p>警戒警戒！莎莎检测到有人入侵！数据以保存喵~</p>",
     "attachment": {"Medusa.txt":"AeId9BrGeELFRudpjb7wG22LidVLlJuGgepkJb3pK7CXZCvmM51628131056"},
+      "image":["2DvWXQc8ufvWMIrhwV5MxrzZZA2oy2f3b5qj5r6VTzb247nQYP1642744866"],
     "mail_title":"测试邮件",
     "sender":"喵狗子",
     "goal_mailbox":["ascotbe@gmail.com","ascotbe@163.com"],
@@ -20,6 +21,7 @@
 - `token`登录后返回的**token**
 - `mail_message`发送数据内容
 - `attachment`使用本地附件，通过email_attachment_query这个api接口获取相关信息
+- `image`邮件中插入的图片，通过email_attachment_query这个api接口获取相关信息
 - `mail_title`邮件标题
 - `sender`发件人名称
 - `goal_mailbox`发送到哪些邮箱中，传入一个列表的形式
@@ -58,6 +60,7 @@
   	"message": [{
   		"mail_message": "PHA+6K2m5oiS6K2m5oiS77yB6I6O6I6O5qOA5rWL5Yiw5pyJ5Lq65YWl5L6177yB5pWw5o2u5Lul5L+d5a2Y5Za1fjwvcD4=",
   		"attachment": "{}",
+      "image": "[]",
   		"mail_title": "5rWL6K+V6YKu5Lu2",
   		"sender": "dGVzdA==",
   		"forged_address": "YUdWc2NHUmxjMnRBZEhKcGNDNWpiMjA9",
@@ -72,7 +75,8 @@
   > 返回参数解释
 
   - `mail_message`发送的数据内容，使用base64加密
-  - `attachment`使用那个本地附件
+  - `attachment`使用哪个本地附件
+  - `image`使用哪个图片
   - `mail_title`邮件标题，使用base64加密
   - `sender`发件人名称，使用base64加密
   - `forged_address`发送的邮件服务器
@@ -105,12 +109,12 @@
 - 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
 - 500：请使用Post请求
 
-### 邮件附件上传接口
+### 邮件上传接口
 
-`/api/upload_mail_attachment/`
+`/api/mail_upload_files/`
 
 ```json
-POST /api/upload_mail_attachment/ HTTP/1.1
+POST /api/mail_upload_files/ HTTP/1.1
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryaFtQbWz7pBzNgCOv
 token:XXXXXXXXXXXXXXXX
 

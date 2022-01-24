@@ -37,10 +37,10 @@ def SendMail(MailMessage,Attachment,Image,MailTitle,Sender,GoalMailbox,ThirdPart
             EmailBox["Accept-Charset"] = "ISO-8859-1,utf-8"
             # 发送附件
             for i in Attachment:
-                Temp = TempFilePath + i  # 文件名字
+                AttachmentTemp = TempFilePath + i  # 文件名字
                 AttachmentName = MailUploadFilePath + Attachment[i]  # 文件真实名字
-                shutil.copy(AttachmentName, Temp)  # 复制到temp目录
-                AttachmentData = MIMEApplication(open(Temp, 'rb').read())  # 使用temp文件的重命名文件进行发送
+                shutil.copy(AttachmentName, AttachmentTemp)  # 复制到temp目录
+                AttachmentData = MIMEApplication(open(AttachmentTemp, 'rb').read())  # 使用temp文件的重命名文件进行发送
                 AttachmentData.add_header('Content-Disposition', 'attachment', filename=i)
                 EmailBox.attach(AttachmentData)
             # 消息正文
@@ -49,7 +49,10 @@ def SendMail(MailMessage,Attachment,Image,MailTitle,Sender,GoalMailbox,ThirdPart
             TextMessage.attach(MIMEText(MailMessage, 'html', 'utf-8'))
             # 正文图片
             for x in Image:
-                pic = MIMEImage(open(MailUploadFilePath + x,'rb').read())
+                ImageTemp = TempFilePath + x  # 文件名字
+                ImageName = MailUploadFilePath + Image[x]  # 文件真实名字
+                shutil.copy(ImageName, ImageTemp)  # 复制到temp目录
+                pic = MIMEImage(open(ImageTemp,'rb').read())
                 pic.add_header('Content-ID', '<'+x+'>')
                 TextMessage.attach(pic)
             SMTP = smtplib.SMTP()
@@ -76,7 +79,7 @@ def SendMail(MailMessage,Attachment,Image,MailTitle,Sender,GoalMailbox,ThirdPart
 	"token": "xxxx",
 	"mail_message":"<p>警戒警戒！莎莎检测到有人入侵！数据以保存喵~</p>",
     "attachment": {"Medusa.txt":"AeId9BrGeELFRudpjb7wG22LidVLlJuGgepkJb3pK7CXZCvmM51628131056"},
-    "image":["2DvWXQc8ufvWMIrhwV5MxrzZZA2oy2f3b5qj5r6VTzb247nQYP1642744866"]
+    "image":{"Medusa.jpg":"2DvWXQc8ufvWMIrhwV5MxrzZZA2oy2f3b5qj5r6VTzb247nQYP1642744866"}
     "mail_title":"测试邮件",
     "sender":"瓜皮大笨蛋",
     "goal_mailbox":["ascotbe@gmail.com","ascotbe@163.com"],

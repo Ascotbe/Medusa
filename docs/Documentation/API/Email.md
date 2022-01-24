@@ -5,11 +5,11 @@
 ```json
 {
 	"token": "xxxx",
-	"mail_message":"<p>警戒警戒！莎莎检测到有人入侵！数据以保存喵~</p>",
+	"mail_message":"<p>警戒警戒！莎莎检测到有人入侵！数据以保存喵~</p><img src=\"cid:Medusa.jpg\">",
     "attachment": {"Medusa.txt":"AeId9BrGeELFRudpjb7wG22LidVLlJuGgepkJb3pK7CXZCvmM51628131056"},
-      "image":["2DvWXQc8ufvWMIrhwV5MxrzZZA2oy2f3b5qj5r6VTzb247nQYP1642744866"],
+    "image":{"Medusa.jpg":"2DvWXQc8ufvWMIrhwV5MxrzZZA2oy2f3b5qj5r6VTzb247nQYP1642744866"}
     "mail_title":"测试邮件",
-    "sender":"喵狗子",
+    "sender":"瓜皮大笨蛋",
     "goal_mailbox":["ascotbe@gmail.com","ascotbe@163.com"],
     "third_party":"0",
     "forged_address":"helpdesk@ascotbe.com"
@@ -60,7 +60,7 @@
   	"message": [{
   		"mail_message": "PHA+6K2m5oiS6K2m5oiS77yB6I6O6I6O5qOA5rWL5Yiw5pyJ5Lq65YWl5L6177yB5pWw5o2u5Lul5L+d5a2Y5Za1fjwvcD4=",
   		"attachment": "{}",
-      "image": "[]",
+      "image": "{}",
   		"mail_title": "5rWL6K+V6YKu5Lu2",
   		"sender": "dGVzdA==",
   		"forged_address": "YUdWc2NHUmxjMnRBZEhKcGNDNWpiMjA9",

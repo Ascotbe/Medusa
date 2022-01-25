@@ -35,6 +35,10 @@ def SendMail(MailMessage,Attachment,Image,MailTitle,Sender,GoalMailbox,ThirdPart
             EmailBox['Subject'] = Header(MailTitle, 'utf-8')  # 标题
             EmailBox["Accept-Language"] = "zh-CN"
             EmailBox["Accept-Charset"] = "ISO-8859-1,utf-8"
+            # 消息正文
+            TextMessage = MIMEMultipart('alternative')
+            EmailBox.attach(TextMessage)
+            TextMessage.attach(MIMEText(MailMessage, 'html', 'utf-8'))
             # 发送附件
             for i in Attachment:
                 AttachmentTemp = TempFilePath + i  # 文件名字
@@ -42,18 +46,16 @@ def SendMail(MailMessage,Attachment,Image,MailTitle,Sender,GoalMailbox,ThirdPart
                 shutil.copy(AttachmentName, AttachmentTemp)  # 复制到temp目录
                 AttachmentData = MIMEApplication(open(AttachmentTemp, 'rb').read())  # 使用temp文件的重命名文件进行发送
                 AttachmentData.add_header('Content-Disposition', 'attachment', filename=i)
-                EmailBox.attach(AttachmentData)
-            # 消息正文
-            TextMessage = MIMEMultipart('alternative')
-            EmailBox.attach(TextMessage)
-            TextMessage.attach(MIMEText(MailMessage, 'html', 'utf-8'))
+                TextMessage.attach(AttachmentData)
             # 正文图片
             for x in Image:
                 ImageTemp = TempFilePath + x  # 文件名字
                 ImageName = MailUploadFilePath + Image[x]  # 文件真实名字
                 shutil.copy(ImageName, ImageTemp)  # 复制到temp目录
-                pic = MIMEImage(open(ImageTemp,'rb').read())
+                pic = MIMEApplication(open(ImageTemp,'rb').read())
+                pic.add_header("Content-Disposition", "attachment", filename=x)
                 pic.add_header('Content-ID', '<'+x+'>')
+                pic.add_header("X-Attachment-Id", "x")
                 TextMessage.attach(pic)
             SMTP = smtplib.SMTP()
             if int(ThirdParty) == 1:  # 判断是否使用自建服务器

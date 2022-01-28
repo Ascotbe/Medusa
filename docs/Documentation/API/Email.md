@@ -273,3 +273,31 @@ XXXXXXXXXXXXXXX
 - 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
 
 - 500：请使用Post请求
+
+
+
+
+
+### 加载预览文件
+
+`/api/email_image_preview/`
+
+```json
+{
+	"token": "xxx",
+	"number_of_pages":"1"
+}
+```
+
+> 参数解释
+
+- `token`登录后返回的**token**
+- `document_real_name`通过email_attachment_query这个api接口获取相关信息
+
+> 返回状态码
+
+- 169：你不对劲！为什么报错了？
+- 200：如果查询到返回的是二进制流和验证码一样
+- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+- 500：请使用Post请求
+- 603：没有这个文件~

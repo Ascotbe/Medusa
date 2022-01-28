@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from Web.DatabaseHub import UserInfo,MailAttachment
-from django.http import JsonResponse
+from django.http import JsonResponse,HttpResponse
 from ClassCongregation import ErrorLog,randoms,GetMailUploadFilePath
 from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
 import time
@@ -46,6 +46,37 @@ def UploadFiles (request):#上传文件
             return JsonResponse({'message': '你不对劲！为什么报错了？',  'code': 169,})
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
+
+"""email_image_preview
+{
+	"token": "xxx",
+	"document_real_name":"xxxx"
+}
+"""
+def EmailImagePreview (request):#查询加载的文件
+    RequestLogRecord(request, request_api="email_image_preview")
+    if request.method == "POST":
+        try:
+            Token = request.headers["token"]
+            DocumentRealName = request.headers["document_real_name"]
+
+            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
+            if Uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="email_image_preview", uid=Uid)  # 查询到了在计入
+                Result = MailAttachment().Verify(uid=Uid,document_real_name=DocumentRealName)
+                if Result:#如果存在
+                    PictureBitstream=open(GetMailUploadFilePath().Result()+DocumentRealName,'rb').read()
+                    return HttpResponse(PictureBitstream)  # 把图片比特流复制给返回包
+                else:
+                    return JsonResponse({'message': '没有这个文件~',  'code': 603, })
+            else:
+                return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
+        except Exception as e:
+            ErrorLog().Write("Web_Mail_MailAttachment_EmailImagePreview(def)", e)
+            return JsonResponse({'message': '你不对劲！为什么报错了？',  'code': 169,})
+    else:
+        return JsonResponse({'message': '请使用Post请求', 'code': 500, })
+
 
 """statistical_mail_attachment
 {

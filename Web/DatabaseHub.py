@@ -2410,6 +2410,22 @@ class MailAttachment:  # 所有钓鱼的上传文件都在这里
             ErrorLog().Write("Web_DatabaseHub_MailAttachment(class)_Quantity(def)", e)
             return None
 
+    def Verify(self,**kwargs):  # 验证图片是否为真的
+        Uid = kwargs.get("uid")
+        DocumentRealName = kwargs.get("document_real_name")  # 真实的文件名
+
+        try:
+            self.cur.execute("select *  from MailAttachment WHERE uid=? and document_real_name=?", (Uid,DocumentRealName,))#查询用户相关信息
+            if self.cur.fetchall():  # 判断是否有数据
+                self.con.close()
+                return True
+            else:
+                return False
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_MailAttachment(class)_Verify(def)", e)
+            return False
+
+
 class FishingData:  # 钓鱼邮件数据接收
     def __init__(self):
         self.con = sqlite3.connect(GetDatabaseFilePath().result())

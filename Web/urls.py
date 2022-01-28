@@ -126,9 +126,12 @@ urlpatterns = [
     re_path(r'^b/().*?/$', FishingData.Monitor),  # 邮件钓鱼数据监控
     path('api/fishing_data_details/', FishingData.FishingDataDetails),  # 钓鱼获取数据详情
     path('api/fishing_data_statistics/', FishingData.FishingDataStatistics),  # 钓鱼获取数据统计
+    path('api/email_image_preview/', MailAttachment.EmailImagePreview),  # 加载预览图片
+
+
     #项目相关信息
     path('api/medusa_info/', Information.Config),  # 获取项目相关数据
-    path('api/medusa_update/', Information.Update),  # test网站
+    #path('api/medusa_update/', Information.Update),  # test网站
 
     #数据接收相关
     path('api/file_acquisition_receive/', Receive.Upload),  # 获取其他地方上传的数据

@@ -174,6 +174,35 @@ server {
         index  index.html;
     }
     location /api {
+    		#后端API接口
+    		proxy_pass http://127.0.0.1:9999/api;
+    		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+    location /s {
+    		#图片资源
+    		proxy_pass http://127.0.0.1:9999/s;
+    		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+    location /a {
+    		#数据接收
+    		proxy_pass http://127.0.0.1:9999/a;
+    		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+    location /b {
+    		#邮件数据接收
+    		proxy_pass http://127.0.0.1:9999/a;
+    		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}
+server {
+    listen       80;
+    server_name  trip.medusa.ascotbe.com;
+    location / {
+    		#网站主页路径。此路径仅供参考，具体请您按照实际目录操作
+        root   /var/www/html/dist;
+        index  index.html;
+    }
+    location /api {
     		proxy_pass http://127.0.0.1:9999/api;
     		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     }
@@ -185,12 +214,17 @@ server {
     		proxy_pass http://127.0.0.1:9999/a;
     		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     }
+    location /b {
+    		proxy_pass http://127.0.0.1:9999/a;
+    		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
 }
-server {
-    listen       80;
-    server_name  medusa.ascotbe.com; #你的域名
-    return 301 https://$server_name$request_uri;
-}
+#不使用HTTP
+#server {
+#    listen       80;
+#    server_name  medusa.ascotbe.com; #你的域名
+#    return 301 https://$server_name$request_uri;
+#}
 server {#这个只是单纯接管一个dnslogtest.ascotbe.com
     listen       80;
   	client_max_body_size 100m;

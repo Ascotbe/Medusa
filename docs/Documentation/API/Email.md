@@ -1,18 +1,22 @@
 ### 邮件批量发送功能
 
-`/api/send_fishing_mail/`
+`/api/send_user_mail/`
 
 ```json
 {
 	"token": "xxxx",
-	"mail_message":"<p>警戒警戒！莎莎检测到有人入侵！数据以保存喵~</p><img src=\"cid:Medusa.jpg\">",
-    "attachment": {"Medusa.txt":"AeId9BrGeELFRudpjb7wG22LidVLlJuGgepkJb3pK7CXZCvmM51628131056"},
-    "image":{"Medusa.jpg":"2DvWXQc8ufvWMIrhwV5MxrzZZA2oy2f3b5qj5r6VTzb247nQYP1642744866"}
-    "mail_title":"测试邮件",
-    "sender":"瓜皮大笨蛋",
-    "goal_mailbox":["ascotbe@gmail.com","ascotbe@163.com"],
-    "third_party":"0",
-    "forged_address":"helpdesk@ascotbe.com"
+	"mail_message": "<p>警戒警戒！莎莎检测到有人入侵！数据以保存喵~</p><img src=\"cid:Medusa.jpg\">",
+	"attachment": {
+		"Medusa.txt": "AeId9BrGeELFRudpjb7wG22LidVLlJuGgepkJb3pK7CXZCvmM51628131056"
+	},
+	"image": {
+		"Medusa.jpg": "2DvWXQc8ufvWMIrhwV5MxrzZZA2oy2f3b5qj5r6VTzb247nQYP1642744866"
+	},
+	"mail_title": "测试邮件",
+	"sender": "瓜皮大笨蛋",
+	"goal_mailbox": ["ascotbe@gmail.com", "ascotbe@163.com"],
+	"third_party": "0",
+	"forged_address": "helpdesk@ascotbe.com"
 }
 ```
 
@@ -35,9 +39,9 @@
 - 500：请使用Post请求
 - 503：未知错误(๑•̀ㅂ•́)و✧
 
-### 邮件发送数据详情
+### 邮件内容摘要查询
 
-`/api/malicious_mail_query/`
+`/api/mail_summary_query/`
 
 ```json
 {
@@ -58,9 +62,56 @@
   ```json
   {
   	"message": [{
+  		"email_id": "1",
+  		"mail_title": "5rWL6K+V6YKu5Lu2",
+  		"sender": "dGVzdA==",
+  		"compilation_status": "1",
+  		"creation_time": "1628652828"
+  	}],
+  	"code": 200
+  }
+  ```
+
+  > 返回参数解释
+
+  - `email_id`邮件ID
+  - `mail_title`邮件标题，使用base64加密
+  - `sender`发件人名称，使用base64加密
+  - `compilation_status`任务状态，1表示已经完成，0表示未完成
+  - `creation_time`邮件发送时间
+
+- 400：你家页数是负数的？？？？
+
+- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+
+- 500：请使用Post请求
+
+### 邮件发送数据详情
+
+`/api/mail_data_query/`
+
+```json
+{
+	"token": "xxx",
+	"email_id":"1"
+}
+```
+
+> 参数解释
+
+- `token`登录后返回的**token**
+- `email_id`查看的邮件值
+
+> 返回状态码
+
+- 200：返回查询到的数据，**会有多个数组的集合**
+
+  ```json
+  {
+  	"message": [{
   		"mail_message": "PHA+6K2m5oiS6K2m5oiS77yB6I6O6I6O5qOA5rWL5Yiw5pyJ5Lq65YWl5L6177yB5pWw5o2u5Lul5L+d5a2Y5Za1fjwvcD4=",
   		"attachment": "{}",
-      "image": "{}",
+  		"image": "{}",
   		"mail_title": "5rWL6K+V6YKu5Lu2",
   		"sender": "dGVzdA==",
   		"forged_address": "YUdWc2NHUmxjMnRBZEhKcGNDNWpiMjA9",
@@ -82,8 +133,7 @@
   - `forged_address`发送的邮件服务器
   - `mail_status`各个邮件发送的状态，1表示成功，0表示失败
   - `compilation_status`任务状态，1表示已经完成，0表示未完成
-
-- 400：你家页数是负数的？？？？
+  - `creation_time`邮件发送时间
 
 - 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
 
@@ -91,7 +141,7 @@
 
 ### 邮件发送个数统计
 
-`/api/statistics_malicious_email/`
+`/api/statistics_user_email/`
 
 ```json
 {
@@ -111,7 +161,7 @@
 
 ### 邮件上传接口
 
-`/api/mail_upload_files/`
+`/api/mail_file_upload/`
 
 ```json
 POST /api/mail_upload_files/ HTTP/1.1
@@ -203,9 +253,9 @@ XXXXXXXXXXXXXXX
 
 - 500：请使用Post请求
 
-### 统计钓鱼获取的数据量
+### 邮件接收到的数据统计
 
-`/api/fishing_data_statistics/`
+`/api/mail_receive_data_statistics/`
 
 ```json
 {
@@ -225,9 +275,9 @@ XXXXXXXXXXXXXXX
 - 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
 - 500：请使用Post请求
 
-### 钓鱼获取的数据详情
+### 邮件接收到的数据详情
 
-`/api/fishing_data_details/`
+`/api/mail_receive_data_details/`
 
 ```json
 {
@@ -285,7 +335,7 @@ XXXXXXXXXXXXXXX
 ```json
 {
 	"token": "xxx",
-	"number_of_pages":"1"
+	"document_real_name":"xxx"
 }
 ```
 

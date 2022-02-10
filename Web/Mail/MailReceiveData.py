@@ -44,41 +44,41 @@ def Monitor(request,data):#用于接收信息的监控
     return HttpResponse("")
 
 
-"""fishing_data_statistics
+"""mail_receive_data_statistics
 {
 	"token": "xxx",
 	"request_key":"aaaaaaaaaa"
 }
 """
-def FishingDataStatistics(request):#统计钓鱼获取到的数据
-    RequestLogRecord(request, request_api="fishing_data_statistics")
+def DataStatistics(request):#统计邮件获取到的数据
+    RequestLogRecord(request, request_api="mail_receive_data_statistics")
     if request.method == "POST":
         try:
             Token=json.loads(request.body)["token"]
             RequestKey = json.loads(request.body)["request_key"]
             Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
             if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="fishing_data_statistics", uid=Uid)  # 查询到了在计入
+                UserOperationLogRecord(request, request_api="mail_receive_data_statistics", uid=Uid)  # 查询到了在计入
                 Result=FishingData().Quantity(request_key=RequestKey)
                 return JsonResponse({'message': Result, 'code': 200, })
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_Mail_FishingData_FishingDataStatistics(def)", e)
+            ErrorLog().Write("Web_Mail_MailReceiveData_DataStatistics(def)", e)
             return JsonResponse({'message': '自己去看报错日志！', 'code': 169, })
 
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
-"""fishing_data_details
+"""mail_receive_data_details
 {
 	"token": "xxx",
 	"request_key":"aaaaaaaaaa",
 	"number_of_pages":"1"
 }
 """
-def FishingDataDetails(request):#钓鱼获取的数据详情
-    RequestLogRecord(request, request_api="fishing_data_details")
+def DataDetails(request):#邮件获取的数据详情
+    RequestLogRecord(request, request_api="mail_receive_data_details")
     if request.method == "POST":
         try:
             Token=json.loads(request.body)["token"]
@@ -86,7 +86,7 @@ def FishingDataDetails(request):#钓鱼获取的数据详情
             NumberOfPages=json.loads(request.body)["number_of_pages"]
             Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
             if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="fishing_data_details", uid=Uid)  # 查询到了在计入
+                UserOperationLogRecord(request, request_api="mail_receive_data_details", uid=Uid)  # 查询到了在计入
                 if int(NumberOfPages)>0:
                     Result=FishingData().Query(request_key=RequestKey,number_of_pages=int(NumberOfPages))
                     return JsonResponse({'message': Result, 'code': 200, })
@@ -95,7 +95,7 @@ def FishingDataDetails(request):#钓鱼获取的数据详情
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_Mail_FishingData_FishingDataDetails(def)", e)
+            ErrorLog().Write("Web_Mail_MailReceiveData_DataDetails(def)", e)
             return JsonResponse({'message': '自己去看报错日志！', 'code': 169, })
 
     else:

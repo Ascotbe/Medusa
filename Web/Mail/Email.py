@@ -76,8 +76,9 @@ def SendMail(MailMessage,Attachment,Image,MailTitle,Sender,GoalMailbox,ThirdPart
 
 
 
-"""send_fishing_mail
+"""send_user_mail
 {
+    "email_id": "1",
 	"token": "xxxx",
 	"mail_message":"<p>警戒警戒！莎莎检测到有人入侵！数据以保存喵~</p>",
     "attachment": {"Medusa.txt":"AeId9BrGeELFRudpjb7wG22LidVLlJuGgepkJb3pK7CXZCvmM51628131056"},
@@ -89,8 +90,8 @@ def SendMail(MailMessage,Attachment,Image,MailTitle,Sender,GoalMailbox,ThirdPart
     "forged_address":"helpdesk@ascotbe.com"
 }
 """
-def SendFishingMail(request):#发送邮件信息
-    RequestLogRecord(request, request_api="send_fishing_mail")
+def SendUserMail(request):#发送邮件信息
+    RequestLogRecord(request, request_api="send_user_mail")
     if request.method == "POST":
         try:
             Token=json.loads(request.body)["token"]
@@ -104,7 +105,7 @@ def SendFishingMail(request):#发送邮件信息
             ThirdParty = json.loads(request.body)["third_party"]  # 判断是否是第三方服务器
             ForgedAddress=json.loads(request.body)["forged_address"]  # 伪造发件人
             if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="send_fishing_mail", uid=Uid)  # 查询到了在计入
+                UserOperationLogRecord(request, request_api="send_user_mail", uid=Uid)  # 查询到了在计入
                 SendMailForRedis=SendMail.delay(MailMessage,Attachment,Image,MailTitle,Sender,GoalMailbox,ThirdParty,ForgedAddress)#调用下发任务
                 MaliciousEmail().Write(uid=Uid,
                                        mail_message=base64.b64encode(str(MailMessage).encode('utf-8')).decode('utf-8'),
@@ -118,7 +119,7 @@ def SendFishingMail(request):#发送邮件信息
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_Mail_Eamil_SendFishingMail(def)", e)
+            ErrorLog().Write("Web_Mail_Eamil_SendUserMail(def)", e)
             return JsonResponse({'message': "未知错误(๑•̀ㅂ•́)و✧", 'code': 503, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })

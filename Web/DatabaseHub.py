@@ -2246,7 +2246,7 @@ class PortableExecutable2Shellcode:  # PE文件转换为shellcode表
             ErrorLog().Write("Web_DatabaseHub_PortableExecutable2Shellcode(class)_UpdateStatus(def)", e)
             return False
 
-class MaliciousEmail:  # 钓鱼邮件
+class MaliciousEmail:  # 邮件
     def __init__(self):
         self.con = sqlite3.connect(GetDatabaseFilePath().result())
         # 获取所创建数据的游标
@@ -2293,12 +2293,31 @@ class MaliciousEmail:  # 钓鱼邮件
             ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_Write(def)", e)
             return False
 
-    def Query(self, **kwargs):
+    def SummaryQuery(self, **kwargs):
         try:
             Uid = kwargs.get("uid")
             NumberOfSinglePages=100#单页数量
             NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
-            self.cur.execute("select mail_message,attachment,image,mail_title,sender,forged_address,mail_status,compilation_status,creation_time  from MaliciousEmail WHERE uid=? limit ? offset ?", (Uid,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询用户相关信息
+            self.cur.execute("select malicious_email_id,mail_title,sender,compilation_status,creation_time  from MaliciousEmail WHERE uid=? limit ? offset ?", (Uid,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询用户相关信息
+            result_list = []
+            for i in self.cur.fetchall():
+                JsonValues = {}
+                JsonValues["email_id"] = i[0]
+                JsonValues["mail_title"] = i[1]
+                JsonValues["sender"] = i[2]
+                JsonValues["compilation_status"] = i[3]
+                JsonValues["creation_time"] = i[4]
+                result_list.append(JsonValues)
+            self.con.close()
+            return result_list
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_SummaryQuery(def)", e)
+            return None
+    def Query(self, **kwargs):#详情查询
+        try:
+            Uid = kwargs.get("uid")
+            EmailId=kwargs.get("email_id")
+            self.cur.execute("select mail_message,attachment,image,mail_title,sender,forged_address,mail_status,compilation_status,creation_time  from MaliciousEmail WHERE uid=? and malicious_email_id=?", (Uid,EmailId,))#查询用户相关信息
             result_list = []
             for i in self.cur.fetchall():
                 JsonValues = {}

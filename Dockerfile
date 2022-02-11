@@ -49,8 +49,8 @@ RUN mv ssl.pem /etc/nginx/cert/
 RUN mv ssl.key /etc/nginx/cert/
 #安装后端所需的包
 RUN python3 -m pip install -r Medusa.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
-#启动Nginx
-#RUN nginx
+#生成脚本
+RUN echo "#!/bin/bash\npython3 -c 'from Web.CVE.NistMonitoring.NistInitialization import NistInitialization;from Web.ActiveScan import InitializationPlugin;InitializationPlugin.Run();NistInitialization()'\nredis-server /etc/redis/redis.conf &\nservice sendmail start &\npython3 DNSServer.py &\npython3 HTTPServer.py &\ncelery -A Web worker -B --loglevel=info --pool=solo &\nnginx &\ngunicorn Web.wsgi:application --bind 0.0.0.0:9999 --workers 6" > run.sh
 #启动运行脚本
 RUN chmod +x run.sh
 CMD ./run.sh

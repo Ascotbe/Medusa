@@ -16,6 +16,9 @@ local_mail_user=${10}
 server_ip=${11}
 if [[ `uname` == 'Linux' ]]; then
     sudo apt update
+    sudo apt install git -y
+    sudo git clone https://github.com/Ascotbe/Medusa.git
+    sudo cd Medusa
     sudo apt install docker.io -y
     sudo systemctl start docker
     if [ "$redis_password" = "none" ]  ;then

@@ -20,6 +20,7 @@ if [[ `uname` == 'Linux' ]]; then
     sudo git clone https://github.com/Ascotbe/Medusa.git
     sudo cd Medusa
     sudo apt install docker.io -y
+    sudo pwd
     sudo systemctl start docker
     if [ "$redis_password" = "none" ]  ;then
         echo -e "\033[32m redis password no change ~ \033[0m"

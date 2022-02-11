@@ -293,7 +293,10 @@ nohup ./run.sh &
 
 ```bash
 #演示命令如下，参数必须与之对应
-curl https://raw.githubusercontent.com/Ascotbe/Medusa/master/install.sh | bash -s "redis_pass" "secret_key_required_for_account_registration" "forget_password_key" "medusa.test.ascotbe.com" "dnslog.test.ascotbe.com" "smtp.163.com" "ascotbe@163.com" "third_party_mail_pass" "ascotbe.com" "test@ascotbe.com" "1.1.1.1"
+git clone https://github.com/Ascotbe/Medusa.git
+cd Medusa
+sudo chmod +x install.sh
+./install.sh "redis_pass" "secret_key_required_for_account_registration" "forget_password_key" "medusa.test.ascotbe.com" "dnslog.test.ascotbe.com" "smtp.163.com" "ascotbe@163.com" "third_party_mail_pass" "ascotbe.com" "test@ascotbe.com" "1.1.1.1"
 ```
 
 ## 配置DNSLOG域名

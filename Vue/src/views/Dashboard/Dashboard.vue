@@ -91,7 +91,7 @@
         />
       </a-col>
     </a-col>
-    <a-col :lg="{ span: 24 }" class="Itemized">
+    <a-col span='24' class="Itemized">
       <a-col :xs="{ span: 24 }" class="Itemized-name">
         <a-col :xs="{ span: 24}">CPU监控</a-col>
       </a-col>
@@ -105,7 +105,7 @@
         />
       </a-col>
     </a-col>
-    <a-col :lg="{ span: 24 }" class="Itemized">
+    <a-col span='24' class="Itemized">
       <a-col :xs="{ span: 24 }" class="Itemized-name">
         <a-col :xs="{ span: 24}">内存监控</a-col>
       </a-col>
@@ -280,7 +280,7 @@ export default {
         }
       ],
       cpuEchartsSeries: {
-        name: ["核心", "cpu0", "cpu1", "cpu2", "cpu3", "cpu4", "cpu5", "cpu6", "cpu7", "cpu8", "cpu9", "cpu10", "cpu11", "cpu12", "cpu13", "cpu14", "cpu15"]
+        name: []
       },
       // cpuDeploy: {//cpu 的 参数
       //   seriesName: ["核心", "cpu0", "cpu1", "cpu2", "cpu3", "cpu4", "cpu5", "cpu6", "cpu7", "cpu8", "cpu9", "cpu10", "cpu11", "cpu12", "cpu13", "cpu14", "cpu15"],
@@ -564,8 +564,10 @@ export default {
           let memory_free = []// 空闲的内存
           let memory_percent = []// 内存使用率
           thread.length = res.message[0].per_core_central_processing_unit_usage_rate.length
+          _this.cpuEchartsSeries.name = ['核心']
           for (let i = 0; i < thread.length; i++) {
             thread[i] = []
+            _this.cpuEchartsSeries.name.push('cpu'+i)
           }
           for (let i = 0; i < res.message.length; i++) {
             // cpu 核心 和 线程 格式调整

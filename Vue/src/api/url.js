@@ -89,12 +89,14 @@ export const URL_GET_TROJAN_FILE_DOWNLOAD_VERIFICATION = `/trojan_file_download_
 
 
 //邮件发送
-export const URL_POST_SEND_FISHING_MAIL = `/send_fishing_mail/`//邮件发送
-export const URL_POST_UPLOAD_MAIL_ATTACHMENT = `/upload_mail_attachment/`//附件上传
+export const URL_POST_SEND_FISHING_MAIL = `/send_user_mail/`//邮件发送
+// export const URL_POST_UPLOAD_MAIL_ATTACHMENT = `/upload_mail_attachment/`//附件上传
+export const URL_POST_UPLOAD_MAIL_ATTACHMENT = `/mail_file_upload/`//附件上传
 export const URL_POST_STATISTICAL_MAIL_ATTACHMENT = `/statistical_mail_attachment/`//邮件附件个数统计
 export const URL_POST_EMAIL_ATTACHMENT_QUERY = `/email_attachment_query/`//邮件附件详情查询
-export const URL_POST_MALICIOUS_MAIL_QUERY = `/malicious_mail_query/`//邮件发送数据详情
-export const URL_POST_STATISTICS_MALICIOUS_EMAIL = `/statistics_malicious_email/`//邮件发送数据个数统计
+export const URL_POST_MALICIOUS_MAIL_QUERY = `/mail_summary_query/`//邮件列表
+export const URL_POST_MAIL_DETAIL_QUERY = `/mail_data_query/`// 单条邮件详情
+export const URL_POST_STATISTICS_MALICIOUS_EMAIL = `/statistics_user_email/`//邮件发送数据个数统计
 
 
 

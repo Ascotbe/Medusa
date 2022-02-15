@@ -1,59 +1,51 @@
 <template>
-  <a-row
-    type="flex"
-    style="height:100%;min-height: 540px;"
-    :gutter="[
-      { xs: 8, sm: 16, md: 24, xs: 8 },
-      { xs: 4, sm: 8, md: 12, lg: 16 },
-    ]"
-  >
-    <a-col :xs="24">
-      <Card :name="`筛选条件`">
-        <template slot="extra">
-          <a-button type="primary" @click="handleSearch">查询</a-button>
-        </template>
-        <template>
-          <a-form :form="form" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
-            <a-col :span="8">
-              <a-form-item label="项目名称">
-                <a-input
-                  placeholder="搜索项目名称"
-                  v-on:keyup.enter.native="handleSearch"
-                  v-decorator="[
-              'name',
-            ]"
-                ></a-input>
-              </a-form-item>
-            </a-col>
-            <a-col :span="8">
-              <a-form-item label="GitHubId">
-                <a-input
-                  placeholder="搜索GitHubId"
-                  v-on:keyup.enter.native="handleSearch"
-                  v-decorator="[
-              'github_id',
-            ]"
-                ></a-input>
-              </a-form-item>
-            </a-col>
-            <a-col :span="8">
-              <a-form-item label="项目连接">
-                <a-input
-                  placeholder="搜索项目连接"
-                  v-on:keyup.enter.native="handleSearch"
-                  v-decorator="[
-              'html_url',
-            ]"
-                ></a-input>
-              </a-form-item>
-            </a-col>
-          </a-form>
-        </template>
-      </Card>
-    </a-col>
-    <a-col :xs="24">
-      <Card :name="`GitHub监控信息`">
+  <div>
+    <a-form :form="form">
+      <a-row :gutter="[16,{ xs:0, md:10}]">
+        <a-col :xs='24' :md="7" :lg='4'>
+          <a-form-item label="">
+            <a-input
+              placeholder="搜索项目名称"
+              v-on:keyup.enter.native="handleSearch"
+              v-decorator="[
+          'name',
+        ]"
+            ></a-input>
+          </a-form-item>
+        </a-col>
+        <a-col :xs='24' :md="7" :lg='4'>
+          <a-form-item label="">
+            <a-input
+              placeholder="搜索GitHubId"
+              v-on:keyup.enter.native="handleSearch"
+              v-decorator="[
+          'github_id',
+        ]"
+            ></a-input>
+          </a-form-item>
+        </a-col>
+        <a-col :xs='24' :md="7" :lg='4'>
+          <a-form-item label="">
+            <a-input
+              placeholder="搜索项目连接"
+              v-on:keyup.enter.native="handleSearch"
+              v-decorator="[
+          'html_url',
+        ]"
+            ></a-input>
+          </a-form-item>
+        </a-col>
+        <a-col :xs='24' :md='3' :lg='2' style="text-align: left;">
+          <a-form-item>
+            <a-button type="primary" @click="handleSearch">查询</a-button>
+          </a-form-item>
+        </a-col>
+      </a-row>
+    </a-form>
+   
+      <Card name="">
         <Tables
+          :loading='loading'
           :columns="columns"
           :tableData="data"
           :total="total"
@@ -61,13 +53,13 @@
           @change="handleChange"
         />
       </Card>
-    </a-col>
-  </a-row>
+   
+ </div>
 </template>
 
 <script>
 import Card from '@/components/Card/Card.vue'
-import Tables from '@/components/Tables/Tables.vue'
+import Tables from '@/components/Tables/CTables.vue'
 import { mapGetters } from "vuex";
 
 export default {
@@ -78,6 +70,7 @@ export default {
   },
   data () {
     return {
+      loading: false,
       columns,
       form: this.$form.createForm(this, { name: 'form' }),
       data: [],
@@ -109,6 +102,7 @@ export default {
         github_id: form.github_id ? form.github_id : '',
         html_url: form.html_url ? form.html_url : '',
       };
+      this.loading = true
       _this.$api.github_monitor_search(params).then((res) => {
         if (res.code == 200) {
           _this.data = res.message.data
@@ -116,7 +110,9 @@ export default {
         } else {
           _this.$message.error(res.message);
         }
-      });
+      }).then(() => {
+        this.loading = false
+      })
     },
     handleChange (pagination) {
       const _this = this

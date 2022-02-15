@@ -1,7 +1,8 @@
 <template>
-  <div class="attachment">
-    <a-form :form="form" :layout="'vertical'">
-      <a-form-item label="附件">
+  <!-- <a-row class="attachment" > -->
+    <a-form :form="form">
+      <a-col :xs='24' :lg='12'>
+      <a-form-item label="附件" >
         <a-select
           :labelInValue="true"
           v-decorator="[
@@ -32,6 +33,8 @@
           
         ></a-input>-->
       </a-form-item>
+      </a-col>
+       <a-col :xs='24' :lg='12'>
       <a-form-item label="附件上传">
         <a-upload-dragger
           name="file"
@@ -45,8 +48,9 @@
           <p class="ant-upload-text">Click or drag file to this area to upload</p>
         </a-upload-dragger>
       </a-form-item>
+       </a-col>
     </a-form>
-  </div>
+  <!-- </a-row> -->
 </template>
 
 <script>
@@ -68,7 +72,7 @@ export default {
         {
           dataIndex: "file_name",
           ellipsis: true,
-          align: 'center',
+          // align: 'center',
           customRender: (text) => this.QJBase64Decode(text)
         },
       ],

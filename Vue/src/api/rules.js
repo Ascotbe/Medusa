@@ -91,6 +91,7 @@ import {
   URL_POST_UPLOAD_MAIL_ATTACHMENT,
   URL_POST_EMAIL_ATTACHMENT_QUERY,
   URL_POST_MALICIOUS_MAIL_QUERY,
+  URL_POST_MAIL_DETAIL_QUERY,
   URL_POST_STATISTICS_MALICIOUS_EMAIL,
 
   //about
@@ -561,6 +562,13 @@ const api = {
   //邮件发送数据详情
   async malicious_mail_query (params) {
     let response = await post(URL_POST_MALICIOUS_MAIL_QUERY, params, {
+      headers: {}
+    })
+    return response
+  },
+  //单条邮件详情
+  async mail_detail_query (params) {
+    let response = await post(URL_POST_MAIL_DETAIL_QUERY, params, {
       headers: {}
     })
     return response

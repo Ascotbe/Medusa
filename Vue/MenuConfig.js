@@ -130,6 +130,10 @@ const MenuConfig = () => {
           key: "SendMail",
           msg: "邮件发送",
         },
+        {
+          key: "MailList",
+          msg: "邮件列表",
+        },
       ],
     },
     {

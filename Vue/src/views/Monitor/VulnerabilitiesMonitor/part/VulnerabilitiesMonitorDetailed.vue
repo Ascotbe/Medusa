@@ -119,7 +119,6 @@ import Card from '@/components/Card/Card.vue'
 import Tables from '@/components/Tables/Tables.vue'
 import Configurations from './Configurations'
 import { OverallMixins } from "@/js/Mixins/OverallMixins.js"
-// import { MarkdownPro } from 'vue-meditor'
 import { MarkdownPreview } from 'vue-meditor'
 export default {
   mixins: [OverallMixins],

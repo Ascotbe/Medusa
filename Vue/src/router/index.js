@@ -246,7 +246,20 @@ const routes = [
         // component: SendMail,
         component: () => import('@/views/Mail/SendMail/SendMail'),
       },
-
+      //邮件列表
+      {
+        path: 'MailList',
+        name: 'MailList',
+        // component: SendMail,
+        component: () => import('@/views/Mail/MailList'),
+      },
+      // 邮件详情
+      {
+        path: 'MailDetail',
+        name: 'MailDetail',
+        // component: SendMail,
+        component: () => import('@/views/Mail/MailDetail'),
+      },
     ]
   },
   // 最后是404页面

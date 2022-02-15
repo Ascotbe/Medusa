@@ -1,169 +1,47 @@
 <template>
-  <a-row
-    type="flex"
-    justify="start"
-    style="height:100%;text-align: left;"
-    :gutter="[
-     16, { xs: 4, sm: 8, md: 12, lg: 16 }
-    ]"
-  >
-    <!-- <a-col :xs="24" :lg="12"> -->
-      <a-col span='24'>
-      <Card name="" style="text-align: left;" >
-        <!-- <template slot="extraCard">
-          <a-button @click="handleSendFishingMail" type="primary">发送</a-button>
+    <transition name="show" mode="out-in">
+      <div>
+    <!-- <Card name="" :key="visable" :bodyStyle="bodyStyle">
+        <template slot="extraCard">
+        <a-button
+            @click="visable?handleSearchPage():handleClose()"
+            type="primary"
+        >{{visable?'刷新':'返回'}}</a-button>
         </template> -->
-        <a-form :form="form">
-          <a-col :xs='24' :lg='12'>
-          <a-form-item label="邮件标题">
-            <a-input
-              v-decorator="[
-            'mail_title',
-            { rules: [{ required: true, message: 'title Cannot be empty' }] }
-          ]"
-            ></a-input>
-          </a-form-item>
-          </a-col>
-          <a-col :xs='24' :lg='12'>
-          <a-form-item label="发件人">
-            <a-input
-              v-decorator="[
-            'sender',
-            { rules: [{ required: true, message: 'sender Cannot be empty' }] }
-          ]"
-            ></a-input>
-          </a-form-item>
-          </a-col>
-          <a-col :xs='24' :lg='12'>
-          <a-form-item label="收件人">
-            <a-select
-              placeholder="输入收件地址多个地址输入逗号自动分词"
-              :open="false"
-              :token-separators="[',']"
-              mode="tags"
-              v-decorator="[
-            'goal_mailbox',
-            { rules: [{ required: true, message: 'goalMailbox Cannot be empty' }] }
-          ]"
-            ></a-select>
-          </a-form-item>
-          </a-col>
-          <a-col :xs='24' :lg='12'>
-          <a-form-item label="邮件服务器">
-            <a-select
-              v-decorator="[
-            'third_party',
-            { rules: [{ required: true, message: 'thirdParty Cannot be empty' }] }
-          ]"
-              :options="thirdPartyOptions"
-            ></a-select>
-          </a-form-item>
-          </a-col>
-          <a-col :xs='24' :lg='12'>
-          <a-form-item label="发送服务器">
-            <a-input
-              v-decorator="[
-            'forged_address',
-            { rules: [{ required: true, message: 'forgedAddress Cannot be empty' }] }
-          ]"
-            ></a-input>
-          </a-form-item>
-          </a-col>
-          <!-- <a-col :xs='24' :lg='12'> -->
-          <Attachment ref="attachment" />
-          <!-- </a-col> -->
-          <a-col :span='24'>
-          <a-form-item label="内容" required>
-            <!-- <a-input
-              placeholder
-              :type="`textarea`"
-              v-decorator="[
-            'mail_message',
-            { rules: [{ required: true, message: 'message Code Cannot be empty' }] }
-          ]"
-            ></a-input>-->
-            <!-- <MarkdownPro
-              v-model="mailMessage"
-              theme="oneDark"
-              :autoSave="false"
-              :toolbars="toolbars"
-              ref="MarkdownPro"
-            /> -->
-            <a-row :gutter="{xs: 0, lg: 20}">
-              <a-col :xs='24' :lg='12'>
-                <codemirror style="text-align: left;" v-model="mailMessage" :options="{mode: 'text/html',lineNumbers: true,theme:'default'}"></codemirror>
-              </a-col>
-              <a-col :xs='24' :lg='12'>
-                <div v-html="mailMessage" style="background: #ffffe0;height: 300px;overflow: auto;"></div>
-              </a-col>
-            </a-row>
-          </a-form-item>
-          </a-col>
-          <!-- <a-col :span="24">
-            <a-button @click="handleSendFishingMail" type="primary">发送</a-button>
-          </a-col>-->
-          <a-col :span='24'>
-          <a-form-item>
-            <a-button @click="handleSendFishingMail" type="primary">发送</a-button>
-          </a-form-item>
-          </a-col>
-        </a-form>
-      </Card>
-    </a-col>
-    <a-col v-if="0" :xs="24" :lg="16">
-      <transition name="show" mode="out-in">
-        <Card :name="`邮件${visable?'列表':'详情'}`" :key="visable" :bodyStyle="bodyStyle">
-          <template slot="extraCard">
-            <a-button
-              @click="visable?handleSearchPage():handleClose()"
-              type="primary"
-            >{{visable?'刷新':'返回'}}</a-button>
-          </template>
-          <Tables
-            :columns="visable?columns:columnsDetails"
-            :tableData="visable?data:dataDetails"
-            :rowKey="(record,index)=>index"
-            :scrollTable="{x:1000,y:400}"
-            :total="visable?total:totalDetails"
-            @change="visable?handleChange():()=>{}"
-          />
-          <Card :name="`邮件内容`" v-show="!visable" :bodyStyle="bodyStyle">
-            <MarkdownPreview theme="oneDark" :initialValue="mailMessageShow" />
-          </Card>
-          <!-- <MarkdownPreview v-show="!visable" theme="oneDark" :initialValue="mailMessageShow" /> -->
-        </Card>
-      </transition>
-    </a-col>
-  </a-row>
+        <Tables
+          :loading='loading'
+          :columns="columns"
+          :tableData="data"
+          :rowKey="(record,index)=>index"
+          :scrollTable="{x:1000,y:400}"
+          :total="total"
+          @change="handleChange" />
+        <!-- <Card :name="`邮件内容`" v-show="!visable" :bodyStyle="bodyStyle">
+        <MarkdownPreview theme="oneDark" :initialValue="mailMessageShow" />
+        </Card> -->
+        <!-- <MarkdownPreview v-show="!visable" theme="oneDark" :initialValue="mailMessageShow" /> -->
+    <!-- </Card> -->
+    </div>
+    </transition>
 </template>
 
 <script>
-import Card from '@/components/Card/Card.vue'
-import Tables from '@/components/Tables/Tables.vue'
+// import Card from '@/components/Card/Card.vue'
+import Tables from '@/components/Tables/CTables.vue'
 import { mapGetters } from 'vuex'
-import Attachment from './part/Attachment'
 import { OverallMixins } from '@/js/Mixins/OverallMixins.js'
-import { MarkdownPreview } from 'vue-meditor'
-
-import { codemirror } from 'vue-codemirror'
-
-// import base style
-import 'codemirror/lib/codemirror.css'
-// import 'codemirror/theme/base16-light.css'
-import 'codemirror/mode/htmlmixed/htmlmixed.js'
+// import { MarkdownPreview } from 'vue-meditor'
 
 export default {
   mixins: [OverallMixins],
   components: {
-    Card,
+    // Card,
     Tables,
-    Attachment,
-    codemirror,
-    MarkdownPreview
+    // MarkdownPreview
   },
   computed: {
     ...mapGetters({
-      token: "UserStore/token",
+      token: "UserStore/token"
     })
   },
   data () {
@@ -219,15 +97,15 @@ export default {
           // align: 'center',
           customRender: (text) => this.QJBase64Decode(text)
         },
-        {
-          title: "发送服务器",
-          dataIndex: "forged_address",
-          ellipsis: true,
-          width: 150,
-          // align: 'center',
-          customRender: (text) => this.QJBase64Decode(text)
+        // {
+        //   title: "发送服务器",
+        //   dataIndex: "forged_address",
+        //   ellipsis: true,
+        //   width: 150,
+        //   // align: 'center',
+        //   customRender: (text) => this.QJBase64Decode(text)
 
-        },
+        // },
         // {
         //   title: "目标邮件发送的状态",
         //   dataIndex: "mail_status",
@@ -302,7 +180,7 @@ export default {
           dataIndex: "title",
           ellipsis: true,
           width: 150,
-          // align: 'center',
+        //   align: 'center',
           customRender: (text) => this.QJBase64Decode(text)
         },
         {
@@ -310,7 +188,7 @@ export default {
           dataIndex: "attachment",
           ellipsis: true,
           width: 120,
-          // align: 'center',
+        //   align: 'center',
           customRender: (text) => {
             const pattern = /\'/g
             const string = text.replace(pattern, '"')
@@ -327,14 +205,14 @@ export default {
           dataIndex: "addressee",
           ellipsis: true,
           width: 150,
-          // align: 'center'
+        //   align: 'center'
         },
         {
           title: "完成状态",
           dataIndex: "status",
           ellipsis: true,
           width: 150,
-          // align: 'center',
+        //   align: 'center',
           customRender: (text) => text == 1 ? '成功' : text == 0 ? '失败' : ''
         },
       ],
@@ -343,7 +221,8 @@ export default {
       ],
       totalDetails: 0,
       //邮件发送内容回显
-      mailMessageShow: ''
+      mailMessageShow: '',
+      loading: false
     }
   },
   created () {
@@ -364,8 +243,7 @@ export default {
             token: _this.token,
             ...values,
             ..._this.$refs.attachment.handleGetFieldsValue(),
-            mail_message: _this.mailMessage,
-            image: {}
+            mail_message: _this.mailMessage
           }
           _this.$api.send_fishing_mail(params).then(res => {
             if (res.code == 200) {
@@ -381,11 +259,12 @@ export default {
     //分页查询表格数据
     handleSearchPage () {
       const _this = this
-      const hide = _this.$message.loading('查询中...', 0)
+      // const hide = _this.$message.loading('查询中...', 0)
       const params = {
         token: _this.token,
         number_of_pages: _this.current
       }
+      this.loading = true
       _this.$api.malicious_mail_query(params)
         .then(res => {
           if (res.code == 200) {
@@ -402,8 +281,9 @@ export default {
           }
         })
         .finally(() => {
-          setTimeout(hide)
-          _this.$message.success('查询结束')
+          this.loading = false
+          // setTimeout(hide)
+          // _this.$message.success('查询结束')
         })
         .then(res => {
           if (res?.code == 200) _this.total = res.message
@@ -417,6 +297,7 @@ export default {
     handleChange (pagination) {
       const _this = this
       _this.current = pagination.current
+      this.handleSearchPage()
     },
     //返回列表页
     handleClose () {
@@ -425,6 +306,9 @@ export default {
     },
     //展示详情页
     handleShow (record) {
+        this.$router.push({path:'/layout/MailDetail',query: {id: record.email_id}})
+        return false
+
       const _this = this
       _this.visable = false
       const mailStatus = JSON.parse(record.mail_status)

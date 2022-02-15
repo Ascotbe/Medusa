@@ -8,12 +8,12 @@
       { xs: 4, sm: 8, md: 12, lg: 16 },
     ]"
   >
-    <a-col :xs="24" :md="8" :xxl="6">
+    <a-col :xs="24" :md="8" :xxl="6" style="height: 100%;overflow-y: auto;">
       <!-- <Card :name="``" :bodyStyle="bodyStyle"> -->
+         <!-- :scrollTable="{ x: '100%', y: 700 }" -->
         <Tables
-          style="margin-top: 60px;"
           :customRow="handleCustomRow"
-          :scrollTable="{ x: '100%', y: 700 }"
+         :scrollTable="{ x: '100%', y: '100%' }"
           :columns="columns"
           :tableData="data"
           :total="total"
@@ -22,15 +22,22 @@
         />
       <!-- </Card> -->
     </a-col>
-    <a-col :xs="24" :md="16" :xxl="18">
+    <a-col :xs="24" :md="16" :xxl="18" style="height: 100%;">
       <!-- <Card :name="``" :bodyStyle="bodyStyle2"> -->
-        <a-col :xs="24" :md="12" v-for="(value,key) in record" :key="key">
-          <a-col class="title">{{key}}</a-col>
-          <a-col :xs="24" class="border" @click="handleCopy(value)">
-            <div class="copy">
+        <a-col :xs="24" :md="12" v-for="(value,key) in record" :key="key" style="padding-top: 0;padding-bottom: 0;height: 100%;">
+          <!-- <a-col class="title">{{key}}</a-col> -->
+          <a-col :xs="24" class="border" @click="handleCopy(value)" style="height: 100%;">
+            <!-- <div class="copy">
               COPY
               <a-icon type="copy" />
-            </div>
+            </div> -->
+            <a-col style="display: flex;padding-left: 0;">
+              <div style="flex: 1;font-size: 24px;text-align: left;">{{key}}</div>
+              <div class="copy">
+                COPY
+              <a-icon type="copy" />
+              </div>
+            </a-col>
             <a-empty v-if="!value" :description="`未选择表格项`" />
             <!-- <MarkdownPreview
               class="pre"
@@ -88,7 +95,7 @@ export default {
       columns: [
         {
           title: "#",
-          align: 'center',
+          // align: 'center',
           width: 60,
           customRender: (text, record, index) => {
             return ++index
@@ -97,7 +104,7 @@ export default {
         {
           title: "TIME",
           dataIndex: "creation_time",
-          align: 'center',
+          // align: 'center',
           ellipsis: true,
           customRender: (text, record, index) => {
             return text ? this.moment(text, "X").format('YYYY-MM-DD H:mm:ss') : ""
@@ -205,16 +212,17 @@ export default {
   border-radius: 5px;
 }
 .copy {
-  position: relative;
+  // position: relative;
   display: inline-block;
   padding: 0;
   margin: 0;
   height: 20px;
   width: 60px;
   line-height: 20px;
-  top: -10px;
-  left: calc(50% - 30px);
-  transform: translateY(-50%);
+  margin-top: 8px;
+  // top: -10px;
+  // left: calc(50% - 30px);
+  // transform: translateY(-50%);
   border: 1px solid #51c51a;
   border-radius: 5px;
   background: #51c51a;

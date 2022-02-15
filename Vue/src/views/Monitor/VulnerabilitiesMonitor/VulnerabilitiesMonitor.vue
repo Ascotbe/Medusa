@@ -1,7 +1,5 @@
 <template>
   <a-row
-    type="flex"
-    style="height:100%;min-height: 540px;lex-wrap: nowrap;flex-direction: column;"
     :gutter="[
      16, { xs: 4, sm: 8, md: 12, lg: 16 }
     ]"
@@ -11,63 +9,60 @@
       Vulnerabilities (CVE)
     </div>
    </a-col>
-   
-    <a-col :span="24" style="display: flex;flex-shrink: 1;">
-      <a-col :xs="14" :lg="18" >
-        <!-- <Card :name="``" :bodyStyle="bodyStyle"> -->
-          <a-col :span='24' style="background: #fff;">
-          <a-form :form="form" :label-col="{ span: 0 }" :wrapper-col="{ span: 24 }" >
-            <a-col :xs="24" :lg="8">
-              <a-form-item>
-                <a-select
-                  placeholder="Filter by cvss v3 score"
-                  :options="options"
-                  allowClear
-                  v-decorator="[
-              'severity',
-            ]"
-                ></a-select>
-              </a-form-item>
-            </a-col>
-            <a-col :xs="24" :lg="8">
-              <a-form-item>
-                <a-input
-                  placeholder="Search in CVEs"
-                  v-on:keyup.enter.native="handleNistQuery"
-                  v-decorator="[
-              'key',
-            ]"
-                ></a-input>
-              </a-form-item>
-            </a-col>
-            <a-col :xs="24" :lg="8" style="text-align: left;">
-              <a-button @click="handleReset" style="margin-right:4px">重置</a-button>
-              <a-button type="primary" @click="handleNistQuery">Search</a-button>
-            </a-col>
-          </a-form>
+    <a-col :span='24'>
+      <a-col :xs="24" :lg="18" style="background: #fff;">
+        <a-form  class="search-form" :form="form">
+          <a-col :xs="24" :lg="8">
+            <a-form-item>
+              <a-select
+                placeholder="Filter by cvss v3 score"
+                :options="options"
+                allowClear
+                v-decorator="[
+            'severity',
+          ]"
+              ></a-select>
+            </a-form-item>
           </a-col>
-        <!-- </Card> -->
+          <a-col :xs="24" :lg="8">
+            <a-form-item>
+              <a-input
+                placeholder="Search in CVEs"
+                v-on:keyup.enter.native="handleNistQuery"
+                v-decorator="[
+            'key',
+          ]"
+              ></a-input>
+            </a-form-item>
+          </a-col>
+          <a-col :xs="24" :lg="8">
+            <a-form-item>
+              <div style="text-align:left;">
+                <a-button @click="handleReset" style="margin-right:4px">重置</a-button>
+                <a-button type="primary" @click="handleNistQuery">查询</a-button>
+              </div>
+            </a-form-item>
+          </a-col>
+        </a-form>
       </a-col>
-
-      <a-col :xs="10" :lg="6">
-        <!-- <Card :name="``" :bodyStyle="bodyStyle"> -->
-          <div style="display: flex;background: #fff;">
-            <div style="height: 96px; font-size: 60px; line-height: 90px; width: 80px; text-align: center;">
-              <a-icon type="safety-certificate" />
-            </div>
-            
-            <div class="total" style="text-align: left;">
-              <div style="font-size: 14px; line-height: 3;">TOTAL:</div>
-              <div style="font-size: 18px; line-height: 1;font-weight: 800;">{{total}}</div>
-            </div>
+      <a-col :xs='0' :lg='1'></a-col>
+      <a-col :xs="24" :lg="5" style="display: flex;background: #fff;">
+        <div style="display: flex;">
+          <div style="height: 56px; font-size: 50px; line-height: 56px; width: 80px; text-align: center;">
+            <a-icon type="safety-certificate" />
           </div>
-        <!-- </Card> -->
+          <div class="total" style="text-align: left;">
+            <div style="font-size: 14px; line-height: 2;">TOTAL:</div>
+            <div style="font-size: 18px; line-height: 1;font-weight: 800;">{{total}}</div>
+          </div>
+        </div>
       </a-col>
     </a-col>
 
-    <a-col :span="24">
-      <Card name="" :bodyStyle="bodyStyle">
+    <a-col :span="24" >
+      <Card name="">
         <Tables
+          :loading='loading'
           :columns="columns"
           :tableData="data"
           :total="total"
@@ -83,7 +78,7 @@
 
 <script>
 import Card from '@/components/Card/Card.vue'
-import Tables from '@/components/Tables/Tables.vue'
+import Tables from '@/components/Tables/CTables.vue'
 import { mapGetters } from "vuex";
 import { Icon } from "ant-design-vue";
 const faceConfig = require("../../../../faceConfig");
@@ -99,6 +94,7 @@ export default {
   },
   data () {
     return {
+      loading: true,
       form: this.$form.createForm(this, { name: 'form' }),
       bodyStyle: {
         borderTop: '3px solid #51c51a',
@@ -232,6 +228,7 @@ export default {
       }
     },
     handleNistQuery () {
+      this.loading = true
       const _this = this
       const form = _this.form.getFieldsValue()
       if (form.severity && !form.key) {
@@ -256,6 +253,8 @@ export default {
           } else {
             _this.$message.error(res.message);
           }
+        }).finally(() => {
+          this.loading = false
         })
       }
       else {
@@ -270,6 +269,8 @@ export default {
           } else {
             _this.$message.error(res.message);
           }
+        }).finally(() => {
+          this.loading = false
         })
       }
     },
@@ -345,5 +346,8 @@ export default {
   }
   // border-top: 3px solid #51c51a;
   // background: #51c51a;
+}
+.search-form .ant-form-item {
+  margin-bottom: 0;
 }
 </style>

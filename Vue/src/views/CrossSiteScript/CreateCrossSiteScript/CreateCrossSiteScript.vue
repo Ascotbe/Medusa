@@ -60,7 +60,7 @@
           </a-form-item>
         </a-form>
         <div style="text-align: center;margin-top: 20px;">
-          <a-button @click="handleInsert" type="primary">插入模板</a-button>
+          <a-button @click="handleInsert" type="primary" ghost>插入模板</a-button>
           <a-button @click="handleCreate" type="primary" style="margin-left: 10px;">创建项目</a-button>
         </div>
          

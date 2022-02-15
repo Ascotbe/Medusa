@@ -157,13 +157,11 @@ export default {
           title: "项目名称",
           dataIndex: "shellcode_name",
           ellipsis: true,
-          width: 200,
-          align: 'center'
+          width: 200
         },
         {
           title: "类型",
           dataIndex: "shellcode_type",
-          align: 'center',
           customRender: (text, record, index) => {
             return <a-tag color={text == '1' ? 'cyan' : 'blue'}> {text == '1' ? 'MSF' : 'CS'} </a-tag>
           }
@@ -171,13 +169,11 @@ export default {
         {
           title: "类型",
           dataIndex: "shellcode_architecture",
-          align: 'center',
           customRender: (text, record, index) => text == 'x86' ? <span style="color:rgb(255 190 8)"> {text} </span> : <a> {text} </a>
         },
         {
           title: "状态",
           dataIndex: "compilation_status",
-          align: 'center',
           customRender: (text, record, index) => {
             const flag = text == 0 ? '未完成' : text == 1 ? '完成' : '错误'
             return [<a-icon type={text == 0 ? "loading" : text == 1 ? "check-circle" : "close-circle"} style={text == 0 ? { 'color': '#00adff', 'margin-right': '2px' } : text == 1 ? { 'color': '#54c741', 'margin-right': '2px' } : { 'color': '#e0b22e', 'margin-right': '2px' }} />, <a style={text == 0 ? { 'color': '#00adff' } : text == 1 ? { 'color': '#54c741' } : { 'color': '#e0b22e' }} >{flag}</a>]
@@ -187,7 +183,6 @@ export default {
           title: "创建时间",
           dataIndex: "creation_time",
           width: 180,
-          align: 'center',
           customRender: (text, record, index) => { return this.moment(text, "X").format('YYYY-MM-DD H:mm:ss') }
         },
         // {

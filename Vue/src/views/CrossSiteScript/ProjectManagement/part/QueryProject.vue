@@ -50,20 +50,20 @@ export default {
         {
           title: "创建时间",
           dataIndex: "creation_time",
-          align: 'center',
+          // align: 'center',
           customRender: (text, record, index) => { return this.moment(text, "X").format('YYYY-MM-DD H:mm:ss') }
         },
         {
           title: "数据包内容",
           dataIndex: "data_pack",
           ellipsis: true,
-          align: 'center',
+          // align: 'center',
           customRender: (text, record, index) => { return this.QJBase64Decode(text) }
         },
         {
           title: "真实地址",
           dataIndex: "ip",
-          align: 'center',
+          // align: 'center',
         }
       ],
       data: [],

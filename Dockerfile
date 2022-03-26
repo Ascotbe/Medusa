@@ -4,6 +4,7 @@ MAINTAINER ascotbe
 #安装所需的包
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get clean
+#服务器不在大陆可以注释下面这一行
 RUN echo "deb http://mirrors.aliyun.com/ubuntu/ focal main restricted universe multiverse\ndeb-src http://mirrors.aliyun.com/ubuntu/ focal main restricted universe multiverse\ndeb http://mirrors.aliyun.com/ubuntu/ focal-security main restricted universe multiverse\ndeb-src http://mirrors.aliyun.com/ubuntu/ focal-security main restricted universe multiverse\ndeb http://mirrors.aliyun.com/ubuntu/ focal-updates main restricted universe multiverse\ndeb-src http://mirrors.aliyun.com/ubuntu/ focal-updates main restricted universe multiverse\ndeb http://mirrors.aliyun.com/ubuntu/ focal-proposed main restricted universe multiverse\ndeb-src http://mirrors.aliyun.com/ubuntu/ focal-proposed main restricted universe multiverse\ndeb http://mirrors.aliyun.com/ubuntu/ focal-backports main restricted universe multiverse\ndeb-src http://mirrors.aliyun.com/ubuntu/ focal-backports main restricted universe multiverse\n" > /etc/apt/sources.list
 RUN dpkg --add-architecture i386
 RUN apt-get update
@@ -38,7 +39,9 @@ RUN m4 /etc/mail/sendmail.mc > /etc/mail/sendmail.cf
 #安装配置vue
 WORKDIR /Medusa/Vue/
 RUN rm -rf package-lock.json
-RUN npm install highcharts --save  --registry=http://registry.cnpmjs.org
+#npm安装所有依赖，服务器不在大陆可以去掉后面的--registry部分
+RUN npm install --registry=http://registry.cnpmjs.org
+#RUN npm install highcharts --save  --registry=http://registry.cnpmjs.org
 RUN npm run build
 RUN mv dist/ /var/www/html/
 WORKDIR /etc/nginx/

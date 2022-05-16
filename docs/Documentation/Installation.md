@@ -303,26 +303,21 @@ nohup ./run.sh &
 
 > docker源请换成官方源，否则下载的容器是几个月前的
 
-接着把你申请的域名证书覆盖项目中的ssl.key和ssl.pem这两个文件，不然会默认使用测试证书，然后执行脚本即可，需要传入11个参数，每个参数解释如下（如果不想修改，只需传入`none`）：
+接着把你申请的域名证书覆盖项目中的ssl.key和ssl.pem这两个文件，不然会默认使用测试证书，然后执行脚本即可，需要传入对应参数即可，每个参数解释如下：
 
-1. 表示docker环境内的Redis密码（不要传入特殊字符，一般字母+数字即可
-2. 你注册用户所要使用的秘钥
-3. 你忘记密码位置所使用的秘钥
-4. 你需要配置的域名
-5. 你用来接收DNSLOG所需要的域名
-6. 你使用的第三方smtp服务器账号
-7. 你第三方邮件服务器账号
-8. 你第三方邮件服务器秘钥
-9. 自建SMTP服务器（只能传入域名，邮箱@后面的值
-10. 自建服务器邮箱（看这个参数值就知道第9点是什么意思了
-11. 你服务器的IP值（必填
+1. Web端域名（必填
+2. 接收DNSLOG所需要的域名（必填
+3. 第三方SMTP服务器
+4. 第三方SMTP账号
+5. 第三方SMTP秘钥
+6. 自建SMTP服务器（只能传入域名，邮箱@后面的值
 
 ```bash
 #演示命令如下，参数必须与之对应
 git clone https://github.com/Ascotbe/Medusa.git
 cd Medusa
 sudo chmod +x install.sh
-./install.sh "redis_pass" "secret_key_required_for_account_registration" "forget_password_key" "medusa.test.ascotbe.com" "dnslog.test.ascotbe.com" "smtp.163.com" "ascotbe@163.com" "third_party_mail_pass" "ascotbe.com" "test@ascotbe.com" "1.1.1.1"
+./install.sh -u medusa.test.ascotbe.com -d dnslog.test.ascotbe.com -s ascotbe.com -m smtp.163.com -n ascotbe@163.com -k third_party_mail_pass
 ```
 
 ## 配置DNSLOG域名

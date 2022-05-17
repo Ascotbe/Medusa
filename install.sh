@@ -29,14 +29,11 @@ done
 
 #判断是否传入最基础的两个参数
 if [ "$cross_site_script_uses_domain_names" = "" ] || [ "$domain_name_system_address" = "" ] ;then
-    func;;
+    func
 else
     echo -e "\033[32m Installing..... \033[0m"
 fi
-redis_password=`pwgen 26 -c 5 -n 5`
-secret_key_required_for_account_registration=`pwgen 40 -c 5 -n 5`
-forget_password_key=`pwgen 40 -c 5 -n 5`
-local_mail_host=$9
+
 server_ip=`curl ip.0xc2.cn`
 if [[ `uname` == 'Linux' ]]; then
     sudo apt update
@@ -44,6 +41,10 @@ if [[ `uname` == 'Linux' ]]; then
     sudo apt install docker.io -y
     sudo apt install pwgen -y
     sudo systemctl start docker
+    redis_password=`pwgen 26 -c 5 -n 5`
+    secret_key_required_for_account_registration=`pwgen 40 -c 5 -n 5`
+    forget_password_key=`pwgen 40 -c 5 -n 5`
+
     #当前medusa搭建域名
     sed -i "s/127.0.0.1:1234/$cross_site_script_uses_domain_names/g" config.py
     #${cross_site_script_uses_domain_names//\//\/}

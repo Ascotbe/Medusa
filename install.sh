@@ -41,9 +41,9 @@ if [[ `uname` == 'Linux' ]]; then
     sudo apt install docker.io -y
     sudo apt install pwgen -y
     sudo systemctl start docker
-    redis_password=`pwgen 26 -c 5 -n 5`
-    secret_key_required_for_account_registration=`pwgen 40 -c 5 -n 5`
-    forget_password_key=`pwgen 40 -c 5 -n 5`
+    redis_password=`pwgen 26 -c 1 -n 5`
+    secret_key_required_for_account_registration=`pwgen 40 -c 1 -n 5`
+    forget_password_key=`pwgen 40 -c 1 -n 5`
 
     #当前medusa搭建域名
     sed -i "s/127.0.0.1:1234/$cross_site_script_uses_domain_names/g" config.py
@@ -108,6 +108,7 @@ if [[ `uname` == 'Linux' ]]; then
     tar zcvf Medusa.tat.gz *
     sudo docker build -t medusa_web .
     sudo docker run -d -i -t --name  medusa --net=host medusa_web
+    sleep 2
     echo -e "\033[31m[ + ] redis password change to \033[35m--->\033[0m\033[0m$redis_password"
     echo -e "\033[31m[ + ] modify registration required key \033[35m--->\033[0m\033[0m$secret_key_required_for_account_registration"
     echo -e "\033[31m[ + ] modify the secret required for forgot password \033[35m--->\033[0m\033[0m$forget_password_key"

@@ -40,12 +40,6 @@ http://medusa.ascotbe.com/Documentation/#/WebVersionInstallation
 
 ![demo](https://github.com/Ascotbe/Image/blob/master/Medusa/web_demo.gif?raw=true)
 
-### :rocket:加速下载
-
-```bash
-# 国内仓库下载
-git clone https://gitee.com/asc0t6e/Medusa.git
-```
 
 ### :four_leaf_clover:更新日志
 

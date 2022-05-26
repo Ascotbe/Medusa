@@ -17,8 +17,8 @@ CrossSiteScriptProject
 MedusaScan.py
 ProxyServer.py
 Banner.py
-Web/Mail/UploadFiles/*
-Web/Mail/MailboxDetection.py
+Web/Email/UploadFiles/*
+Web/Email/MailboxDetection.py
 /Modules
 Web/BasicFunctions/VulnerabilityScanning.py
 Web/BasicFunctions/VulnerabilityQuery.py

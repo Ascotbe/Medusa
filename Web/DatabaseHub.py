@@ -2246,6 +2246,161 @@ class PortableExecutable2Shellcode:  # PE文件转换为shellcode表
             ErrorLog().Write("Web_DatabaseHub_PortableExecutable2Shellcode(class)_UpdateStatus(def)", e)
             return False
 
+class EmailProject:  # 邮件项目
+    def __init__(self):
+        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        # 获取所创建数据的游标
+        self.cur = self.con.cursor()
+        # 创建表
+        try:
+            self.cur.execute("CREATE TABLE EmailProject\
+                                (email_project_id INTEGER PRIMARY KEY,\
+                                uid TEXT NOT NULL,\
+                                goal_mailbox TEXT NOT NULL,\
+                                end_time TEXT NOT NULL,\
+                                project_key TEXT NOT NULL,\
+                                mail_message TEXT NOT NULL,\
+                                attachment TEXT NOT NULL,\
+                                image TEXT NOT NULL,\
+                                mail_title TEXT NOT NULL,\
+                                sender TEXT NOT NULL,\
+                                forged_address TEXT NOT NULL,\
+                                mail_status TEXT NOT NULL,\
+                                redis_id TEXT NOT NULL,\
+                                compilation_status TEXT NOT NULL,\
+                                interval TEXT NOT NULL,\
+                                project_status TEXT NOT NULL,\
+                                creation_time TEXT NOT NULL)")
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_Email(class)_init(def)", e)
+
+    def Write(self, **kwargs) -> bool or None:  # 写入相关信息
+        CreationTime = str(int(time.time()))  # 创建时间
+        Uid = kwargs.get("uid")
+        EndTime= ""#项目结束时间，结束后不再接受任何数据
+        ProjectKey= kwargs.get("project_key")#项目唯一关键字，用于判断接收数据所属
+        MailMessage= ""#正文内容，需要用base64加密
+        Attachment= ""#附件文件，需要传入json格式，使用的是本地名称
+        Image = ""  # 图片文件，使用列表形式窜入
+        MailTitle= ""#邮件头
+        Sender= ""#发送人名称
+        GoalMailbox =""# 目标邮箱列表
+        ForgedAddress = ""# 伪造的发件人地址
+        MailStatus= ""#邮件的状态{"xxxx@qq.com":"0","aaa@qq.com":"1"},1表示成功，0表示失败，退信也算发送成功
+        RedisId ="" # id值
+        CompilationStatus = "0"  # 状态0表示未完成，1表示完成
+        Interval ="" # 邮件发送间隔
+        ProjectStatus="0"#项目状态，0表示未启动，1表示启动，启动中无法修改项目
+
+        try:
+            self.cur.execute("INSERT INTO EmailProject(uid,goal_mailbox,end_time,project_key,mail_message,attachment,image,mail_title,sender,forged_address,mail_status,redis_id,compilation_status,interval,project_status,creation_time)\
+                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (Uid,str(GoalMailbox),str(EndTime), str(ProjectKey),MailMessage, str(Attachment), str(Image),MailTitle,Sender,str(ForgedAddress),str(MailStatus),RedisId,CompilationStatus,Interval,ProjectStatus,CreationTime,))
+            # 提交
+            self.con.commit()
+            self.con.close()
+            return True
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_Write(def)", e)
+            return False
+    def Updata(self,**kwargs)->bool:#利用主键ID来判断后更新数据
+        Uid = kwargs.get("uid")
+        ProjectKey= kwargs.get("project_key")#项目唯一关键字，用于判断接收数据所属
+        EndTime= kwargs.get("end_time")#项目结束时间，结束后不再接受任何数据
+        MailMessage= kwargs.get("mail_message")#正文内容，需要用base64加密
+        Attachment= kwargs.get("attachment")#附件文件，需要传入json格式，使用的是本地名称
+        Image = kwargs.get("image")  # 图片文件，使用列表形式窜入
+        MailTitle= kwargs.get("mail_title")#邮件头
+        Sender= kwargs.get("sender")#发送人名称
+        GoalMailbox = kwargs.get("goal_mailbox") # 目标邮箱列表
+        ForgedAddress = kwargs.get("forged_address")  # 伪造的发件人地址
+        Interval = kwargs.get("interval")  # 邮件发送间隔
+        try:
+            self.cur.execute("""UPDATE EmailProject SET end_time=?,mail_message=?,attachment=?,image=?,mail_title=?,sender=?,goal_mailbox=?,forged_address=?,interval=? WHERE uid= ? and project_key=?""",(str(EndTime),str(MailMessage),str(Attachment),str(Image) ,MailTitle,Sender,str(GoalMailbox),ForgedAddress ,Interval,Uid ,ProjectKey,))
+            # 提交
+            if self.cur.rowcount < 1:  # 用来判断是否更新成功
+                self.con.commit()
+                self.con.close()
+                return False
+            else:
+                self.con.commit()
+                self.con.close()
+                return True
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_UpdateStatus(def)", e)
+            return False
+    #
+    # def SummaryQuery(self, **kwargs):
+    #     try:
+    #         Uid = kwargs.get("uid")
+    #         NumberOfSinglePages=100#单页数量
+    #         NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
+    #         self.cur.execute("select malicious_email_id,mail_title,sender,compilation_status,creation_time  from MaliciousEmail WHERE uid=? limit ? offset ?", (Uid,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询用户相关信息
+    #         result_list = []
+    #         for i in self.cur.fetchall():
+    #             JsonValues = {}
+    #             JsonValues["email_id"] = i[0]
+    #             JsonValues["mail_title"] = i[1]
+    #             JsonValues["sender"] = i[2]
+    #             JsonValues["compilation_status"] = i[3]
+    #             JsonValues["creation_time"] = i[4]
+    #             result_list.append(JsonValues)
+    #         self.con.close()
+    #         return result_list
+    #     except Exception as e:
+    #         ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_SummaryQuery(def)", e)
+    #         return None
+    # def Query(self, **kwargs):#详情查询
+    #     try:
+    #         Uid = kwargs.get("uid")
+    #         EmailId=kwargs.get("email_id")
+    #         self.cur.execute("select mail_message,attachment,image,mail_title,sender,forged_address,mail_status,compilation_status,creation_time  from MaliciousEmail WHERE uid=? and malicious_email_id=?", (Uid,EmailId,))#查询用户相关信息
+    #         result_list = []
+    #         for i in self.cur.fetchall():
+    #             JsonValues = {}
+    #             JsonValues["mail_message"] = i[0]
+    #             JsonValues["attachment"] = i[1]
+    #             JsonValues["image"] = i[2]
+    #             JsonValues["mail_title"] = i[3]
+    #             JsonValues["sender"] = i[4]
+    #             JsonValues["forged_address"] = i[5]
+    #             JsonValues["mail_status"] = i[6]
+    #             JsonValues["compilation_status"] = i[7]
+    #             JsonValues["creation_time"] = i[8]
+    #             result_list.append(JsonValues)
+    #         self.con.close()
+    #         return result_list
+    #     except Exception as e:
+    #         ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_Query(def)", e)
+    #         return None
+    # def Quantity(self,**kwargs):  # 查看数量有哪些
+    #     Uid = kwargs.get("uid")
+    #     try:
+    #         self.cur.execute("SELECT COUNT(1)  FROM MaliciousEmail  WHERE uid=?", (Uid,))
+    #         Result=self.cur.fetchall()[0][0]#获取数据个数
+    #         self.con.close()
+    #         return Result
+    #     except Exception as e:
+    #         ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_Quantity(def)", e)
+    #         return None
+    # def UpdateStatus(self,**kwargs)->bool:#利用主键ID来判断后更新数据
+    #     RedisId = kwargs.get("redis_id")
+    #     MailStatus = kwargs.get("mail_status")
+    #     CompilationStatus = "1"
+    #     try:
+    #         self.cur.execute("""UPDATE MaliciousEmail SET compilation_status = ?,mail_status=? WHERE redis_id= ?""",(CompilationStatus,MailStatus, RedisId,))
+    #         # 提交
+    #         if self.cur.rowcount < 1:  # 用来判断是否更新成功
+    #             self.con.commit()
+    #             self.con.close()
+    #             return False
+    #         else:
+    #             self.con.commit()
+    #             self.con.close()
+    #             return True
+    #     except Exception as e:
+    #         ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_UpdateStatus(def)", e)
+    #         return False
+
 class MaliciousEmail:  # 邮件
     def __init__(self):
         self.con = sqlite3.connect(GetDatabaseFilePath().result())
@@ -2281,6 +2436,7 @@ class MaliciousEmail:  # 邮件
         MailStatus= ""#邮件的状态{"xxxx@qq.com":"0","aaa@qq.com":"1"},1表示成功，0表示失败，退信也算发送成功
         RedisId = kwargs.get("redis_id")  # id值
         CompilationStatus = "0"  # 状态0表示未完成，1表示完成
+        Interval = kwargs.get("interval")  # 邮件发送间隔
 
         try:
             self.cur.execute("INSERT INTO MaliciousEmail(uid,mail_message,attachment,image,mail_title,sender,forged_address,mail_status,redis_id,compilation_status,creation_time)\
@@ -2291,78 +2447,6 @@ class MaliciousEmail:  # 邮件
             return True
         except Exception as e:
             ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_Write(def)", e)
-            return False
-
-    def SummaryQuery(self, **kwargs):
-        try:
-            Uid = kwargs.get("uid")
-            NumberOfSinglePages=100#单页数量
-            NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
-            self.cur.execute("select malicious_email_id,mail_title,sender,compilation_status,creation_time  from MaliciousEmail WHERE uid=? limit ? offset ?", (Uid,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询用户相关信息
-            result_list = []
-            for i in self.cur.fetchall():
-                JsonValues = {}
-                JsonValues["email_id"] = i[0]
-                JsonValues["mail_title"] = i[1]
-                JsonValues["sender"] = i[2]
-                JsonValues["compilation_status"] = i[3]
-                JsonValues["creation_time"] = i[4]
-                result_list.append(JsonValues)
-            self.con.close()
-            return result_list
-        except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_SummaryQuery(def)", e)
-            return None
-    def Query(self, **kwargs):#详情查询
-        try:
-            Uid = kwargs.get("uid")
-            EmailId=kwargs.get("email_id")
-            self.cur.execute("select mail_message,attachment,image,mail_title,sender,forged_address,mail_status,compilation_status,creation_time  from MaliciousEmail WHERE uid=? and malicious_email_id=?", (Uid,EmailId,))#查询用户相关信息
-            result_list = []
-            for i in self.cur.fetchall():
-                JsonValues = {}
-                JsonValues["mail_message"] = i[0]
-                JsonValues["attachment"] = i[1]
-                JsonValues["image"] = i[2]
-                JsonValues["mail_title"] = i[3]
-                JsonValues["sender"] = i[4]
-                JsonValues["forged_address"] = i[5]
-                JsonValues["mail_status"] = i[6]
-                JsonValues["compilation_status"] = i[7]
-                JsonValues["creation_time"] = i[8]
-                result_list.append(JsonValues)
-            self.con.close()
-            return result_list
-        except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_Query(def)", e)
-            return None
-    def Quantity(self,**kwargs):  # 查看数量有哪些
-        Uid = kwargs.get("uid")
-        try:
-            self.cur.execute("SELECT COUNT(1)  FROM MaliciousEmail  WHERE uid=?", (Uid,))
-            Result=self.cur.fetchall()[0][0]#获取数据个数
-            self.con.close()
-            return Result
-        except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_Quantity(def)", e)
-            return None
-    def UpdateStatus(self,**kwargs)->bool:#利用主键ID来判断后更新数据
-        RedisId = kwargs.get("redis_id")
-        MailStatus = kwargs.get("mail_status")
-        CompilationStatus = "1"
-        try:
-            self.cur.execute("""UPDATE MaliciousEmail SET compilation_status = ?,mail_status=? WHERE redis_id= ?""",(CompilationStatus,MailStatus, RedisId,))
-            # 提交
-            if self.cur.rowcount < 1:  # 用来判断是否更新成功
-                self.con.commit()
-                self.con.close()
-                return False
-            else:
-                self.con.commit()
-                self.con.close()
-                return True
-        except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_UpdateStatus(def)", e)
             return False
 
 class MailAttachment:  # 所有钓鱼的上传文件都在这里

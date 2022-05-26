@@ -1024,10 +1024,10 @@ class GetTrojanModulesFilePath:  #  木马插件模块位置
 class GetMailUploadFilePath:  #  邮件附件位置
     def Result(self) -> str:
         if sys.platform == "win32" or sys.platform == "cygwin":
-            Path = GetRootFileLocation().Result() + "\\Web\\Mail\\UploadFiles\\"
+            Path = GetRootFileLocation().Result() + "\\Web\\Email\\UploadFiles\\"
             return Path
         elif sys.platform == "linux" or sys.platform == "darwin":
-            Path = GetRootFileLocation().Result() + "/Web/Mail/UploadFiles/"
+            Path = GetRootFileLocation().Result() + "/Web/Email/UploadFiles/"
             return Path
 
 
@@ -1071,3 +1071,4 @@ class PE2ShellcodeFilePath:  #  获取PE2SHELLCODE路径
         elif sys.platform == "linux" or sys.platform == "darwin":
             Path = GetRootFileLocation().Result() + "/Web/TrojanOrVirus/"
             return Path
+

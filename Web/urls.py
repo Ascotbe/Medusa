@@ -29,7 +29,7 @@ from Web.ApplicationCollection import CollectionWork
 from Web.CollaborationPlatform import Markdown
 from Web.DomainNameSystemLog import Data
 from Web.TrojanOrVirus import TrojanInterface
-from Web.Mail import Email,MailHistory,MailAttachment,MailReceiveData
+from Web.Email import EmailProject,Send,MailHistory,MailAttachment,MailReceiveData
 from Web.FileAcquisition import Receive,Query
 
 urlpatterns = [
@@ -117,17 +117,19 @@ urlpatterns = [
     # path('api/get_auto_start/', TrojanInterface.GetAutoStart),# 获取内置类函数中自启动的列表
     # path('api/get_anti_sandbox/', TrojanInterface.GetAntiSandbox),# 获取内置类函数中反沙箱的列表
     #邮件相关
-    path('api/send_user_mail/', Email.SendUserMail),  # 发送邮件
-    path('api/mail_summary_query/', MailHistory.MailSummaryQuery),  # 邮件内容摘要查询
-    path('api/mail_data_query/', MailHistory.MailDataQuery),  # 邮件内容详情查询
-    path('api/statistics_user_email/', MailHistory.StatisticsUserEmail),  # 统计当前用户邮件发送个数
-    path('api/mail_file_upload/', MailAttachment.UploadFiles),  # 文件上传
-    path('api/statistical_mail_attachment/', MailAttachment.StatisticalMailAttachment),  # 统计当前用户邮件附件个数
-    path('api/email_attachment_query/', MailAttachment.EmailAttachmentQuery),  # 邮件附件详情
-    re_path(r'^b/().*?/$', MailReceiveData.Monitor),  # 邮件接收数据监控
-    path('api/mail_receive_data_statistics/', MailReceiveData.DataStatistics),  # 邮件接收到的数据统计
-    path('api/mail_receive_data_details/', MailReceiveData.DataDetails),  # 邮件接收到的数据详情
-    path('api/email_image_preview/', MailAttachment.EmailImagePreview),  # 加载预览图片
+    path('api/create_email_project/', EmailProject.Creation),  # 创建邮件项目
+    path('api/updata_email_project/', EmailProject.Updata),  # 更新邮件数据
+    # path('api/send_user_mail/', Send.SendUserMail),  # 发送邮件
+    # path('api/mail_summary_query/', MailHistory.MailSummaryQuery),  # 邮件内容摘要查询
+    # path('api/mail_data_query/', MailHistory.MailDataQuery),  # 邮件内容详情查询
+    # path('api/statistics_user_email/', MailHistory.StatisticsUserEmail),  # 统计当前用户邮件发送个数
+    # path('api/mail_file_upload/', MailAttachment.UploadFiles),  # 文件上传
+    # path('api/statistical_mail_attachment/', MailAttachment.StatisticalMailAttachment),  # 统计当前用户邮件附件个数
+    # path('api/email_attachment_query/', MailAttachment.EmailAttachmentQuery),  # 邮件附件详情
+    # re_path(r'^b/().*?/$', MailReceiveData.Monitor),  # 邮件接收数据监控
+    # path('api/mail_receive_data_statistics/', MailReceiveData.DataStatistics),  # 邮件接收到的数据统计
+    # path('api/mail_receive_data_details/', MailReceiveData.DataDetails),  # 邮件接收到的数据详情
+    # path('api/email_image_preview/', MailAttachment.EmailImagePreview),  # 加载预览图片
 
 
     #项目相关信息

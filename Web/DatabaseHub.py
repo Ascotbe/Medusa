@@ -2288,7 +2288,7 @@ class EmailProject:  # 邮件项目
         ForgedAddress = ""# 伪造的发件人地址
         MailStatus= ""#邮件的状态{"xxxx@qq.com":"0","aaa@qq.com":"1"},1表示成功，0表示失败，退信也算发送成功
         RedisId ="" # id值
-        CompilationStatus = "0"  # 状态0表示未完成，1表示完成
+        CompilationStatus = "0"  # 状态0表示未完成，1表示完成，如果值为1那么久不再能够更新项目内容
         Interval ="" # 邮件发送间隔
         ProjectStatus="0"#项目状态，0表示未启动，1表示启动，启动中无法修改项目
 
@@ -2328,7 +2328,73 @@ class EmailProject:  # 邮件项目
         except Exception as e:
             ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_UpdateStatus(def)", e)
             return False
-    #
+    def ProjectStatus(self, **kwargs):#用来验证项目状态
+        try:
+            Uid = kwargs.get("uid")
+            ProjectKey = kwargs.get("project_key")  # 项目唯一关键字，用于判断接收数据所属
+            self.cur.execute("select project_status  from EmailProject WHERE uid=? and project_key=?", (Uid,ProjectKey,))
+            for i in self.cur.fetchall():
+                if i[0]=="1":
+                    self.con.close()
+                    return True
+                elif i[0]=="0":
+                    self.con.close()
+                    return False
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_SummaryQuery(def)", e)
+            return None
+
+    def ModifyProjectStatus(self, **kwargs):#修改项目的状态
+        Uid = kwargs.get("uid")
+        ProjectKey= kwargs.get("project_key")#项目唯一关键字，用于判断接收数据所属
+        ProjectStatus= kwargs.get("project_status")#项目状态，0表示未启动，1表示启动，启动中无法修改项目
+        try:
+            self.cur.execute("""UPDATE EmailProject SET project_status=? WHERE uid= ? and project_key=?""",(ProjectStatus,Uid ,ProjectKey,))
+            # 提交
+            if self.cur.rowcount < 1:  # 用来判断是否更新成功
+                self.con.commit()
+                self.con.close()
+                return False
+            else:
+                self.con.commit()
+                self.con.close()
+                return True
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_UpdateStatus(def)", e)
+            return False
+    def CompilationStatus(self, **kwargs):#用来验证项目是否完成
+        try:
+            Uid = kwargs.get("uid")
+            ProjectKey = kwargs.get("project_key")  # 项目唯一关键字，用于判断接收数据所属
+            self.cur.execute("select compilation_status  from EmailProject WHERE uid=? and project_key=?", (Uid,ProjectKey,))
+            for i in self.cur.fetchall():
+                if i[0]=="1":
+                    self.con.close()
+                    return True
+                elif i[0]=="0":
+                    self.con.close()
+                    return False
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_SummaryQuery(def)", e)
+            return None
+    def ModifyCompilationStatus(self, **kwargs):#修改项目是否完成
+        Uid = kwargs.get("uid")
+        ProjectKey= kwargs.get("project_key")#项目唯一关键字，用于判断接收数据所属
+        CompilationStatus= kwargs.get("compilation_status")# 状态0表示未完成，1表示完成，如果值为1那么久不再能够更新项目内容
+        try:
+            self.cur.execute("""UPDATE EmailProject SET compilation_status=? WHERE uid= ? and project_key=?""",(CompilationStatus,Uid ,ProjectKey,))
+            # 提交
+            if self.cur.rowcount < 1:  # 用来判断是否更新成功
+                self.con.commit()
+                self.con.close()
+                return False
+            else:
+                self.con.commit()
+                self.con.close()
+                return True
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_UpdateStatus(def)", e)
+            return False
     # def SummaryQuery(self, **kwargs):
     #     try:
     #         Uid = kwargs.get("uid")

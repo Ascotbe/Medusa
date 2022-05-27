@@ -119,6 +119,8 @@ urlpatterns = [
     #邮件相关
     path('api/create_email_project/', EmailProject.Creation),  # 创建邮件项目
     path('api/updata_email_project/', EmailProject.Updata),  # 更新邮件数据
+    path('api/run_email_project/', EmailProject.Run),  # 启动项目
+    path('api/stop_email_project/', EmailProject.Stop),  # 停止项目
     # path('api/send_user_mail/', Send.SendUserMail),  # 发送邮件
     # path('api/mail_summary_query/', MailHistory.MailSummaryQuery),  # 邮件内容摘要查询
     # path('api/mail_data_query/', MailHistory.MailDataQuery),  # 邮件内容详情查询

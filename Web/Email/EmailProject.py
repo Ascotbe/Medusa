@@ -72,22 +72,29 @@ def Updata(request):#更新项目数据
             if Uid != None:  # 查到了UID
                 UserOperationLogRecord(request, request_api="updata_email_project", uid=Uid)  # 查询到了在计入
                 if int(EndTime)-int(time.time())<10000000:
-                    Result=EmailProject().Updata(uid=Uid,
-                                        mail_message=base64.b64encode(str(MailMessage).encode('utf-8')).decode('utf-8'),
-                                        attachment=Attachment,
-                                        image=Image,
-                                        mail_title=base64.b64encode(str(MailTitle).encode('utf-8')).decode('utf-8'),
-                                        sender=base64.b64encode(str(Sender).encode('utf-8')).decode('utf-8'),
-                                        forged_address=base64.b64encode(str(ForgedAddress).encode('utf-8')).decode('utf-8'),
-                                        redis_id="",
-                                        project_key=Key,
-                                        end_time=EndTime,
-                                        goal_mailbox=list(set(GoalMailbox)),#去重数据
-                                        interval=Interval)
-                    if Result:
-                        return JsonResponse({'message': "更新成功！", 'code': 200, })
+                    ProjectStatus= EmailProject().ProjectStatus(uid=Uid,project_key=Key)#查看项目是否启动
+                    CompilationStatus = EmailProject().CompilationStatus(uid=Uid, project_key=Key)#查看项目是否完成
+                    if CompilationStatus:
+                        return JsonResponse({'message': "项目已经运行结束禁止修改其中内容！", 'code': 409, })
+                    if ProjectStatus:
+                        return JsonResponse({'message': "项目已经开启禁止修改，如需修改请停止运行！", 'code': 406, })
                     else:
-                        return JsonResponse({'message': "更新失败！", 'code': 507, })
+                        Result=EmailProject().Updata(uid=Uid,
+                                            mail_message=base64.b64encode(str(MailMessage).encode('utf-8')).decode('utf-8'),
+                                            attachment=Attachment,
+                                            image=Image,
+                                            mail_title=base64.b64encode(str(MailTitle).encode('utf-8')).decode('utf-8'),
+                                            sender=base64.b64encode(str(Sender).encode('utf-8')).decode('utf-8'),
+                                            forged_address=base64.b64encode(str(ForgedAddress).encode('utf-8')).decode('utf-8'),
+                                            redis_id="",
+                                            project_key=Key,
+                                            end_time=EndTime,
+                                            goal_mailbox=list(set(GoalMailbox)),#去重数据
+                                            interval=Interval)
+                        if Result:
+                            return JsonResponse({'message': "更新成功！", 'code': 200, })
+                        else:
+                            return JsonResponse({'message': "更新失败！", 'code': 507, })
                 else:
                     return JsonResponse({'message': "时间间隔太长了！", 'code': 506, })
 
@@ -99,4 +106,60 @@ def Updata(request):#更新项目数据
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
+"""run_email_project
+{
 
+	"token": "xxxx",
+	"project_key":"eNVqsIHXAV"
+}
+"""
+def Run(request):#运行项目
+    RequestLogRecord(request, request_api="run_email_project")
+    if request.method == "POST":
+        try:
+            Token=json.loads(request.body)["token"]
+            Key = json.loads(request.body)["project_key"]
+            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
+            if Uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="run_email_project", uid=Uid)  # 查询到了在计入
+                #下发任务后修改项目状态（下发任务留空），任务完成后项目就不可修改
+                Result=EmailProject().ModifyProjectStatus(uid=Uid,project_key=Key,project_status="1")
+                if Result:
+                    return JsonResponse({'message': "项目启动成功！", 'code': 200, })
+                else:
+                    return JsonResponse({'message': "项目启动失败！", 'code': 505, })
+            else:
+                return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
+        except Exception as e:
+            ErrorLog().Write("Web_Email_EmailProject_Creation(def)", e)
+    else:
+        return JsonResponse({'message': '请使用Post请求', 'code': 500, })
+
+"""stop_email_project
+{
+
+	"token": "xxxx",
+	"project_key":"eNVqsIHXAV"
+}
+"""
+def Stop(request):#运行项目
+    RequestLogRecord(request, request_api="stop_email_project")
+    if request.method == "POST":
+        try:
+            Token=json.loads(request.body)["token"]
+            Key = json.loads(request.body)["project_key"]
+            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
+            if Uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="stop_email_project", uid=Uid)  # 查询到了在计入
+                #结束任务后修改项目状态（结束任务留空）
+                Result=EmailProject().ModifyProjectStatus(uid=Uid,project_key=Key,project_status="0")
+                if Result:
+                    return JsonResponse({'message': "项目停止成功！", 'code': 200, })
+                else:
+                    return JsonResponse({'message': "项目停止失败！", 'code': 505, })
+            else:
+                return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
+        except Exception as e:
+            ErrorLog().Write("Web_Email_EmailProject_Creation(def)", e)
+    else:
+        return JsonResponse({'message': '请使用Post请求', 'code': 500, })

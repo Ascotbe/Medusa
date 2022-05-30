@@ -29,7 +29,7 @@ from Web.ApplicationCollection import CollectionWork
 from Web.CollaborationPlatform import Markdown
 from Web.DomainNameSystemLog import Data
 from Web.TrojanOrVirus import TrojanInterface
-from Web.Email import EmailProject,Send,MailHistory,MailAttachment,MailReceiveData
+from Web.Email import EmailProject,Send,MailHistory,MailAttachment,ReceiveData
 from Web.FileAcquisition import Receive,Query
 
 urlpatterns = [

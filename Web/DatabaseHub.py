@@ -2265,7 +2265,6 @@ class EmailProject:  # 邮件项目
                                 mail_title TEXT NOT NULL,\
                                 sender TEXT NOT NULL,\
                                 forged_address TEXT NOT NULL,\
-                                mail_status TEXT NOT NULL,\
                                 redis_id TEXT NOT NULL,\
                                 compilation_status TEXT NOT NULL,\
                                 interval TEXT NOT NULL,\
@@ -2286,15 +2285,14 @@ class EmailProject:  # 邮件项目
         Sender= ""#发送人名称
         GoalMailbox =""# 目标邮箱列表
         ForgedAddress = ""# 伪造的发件人地址
-        MailStatus= ""#邮件的状态{"xxxx@qq.com":"0","aaa@qq.com":"1"},1表示成功，0表示失败，退信也算发送成功
         RedisId ="" # id值
         CompilationStatus = "0"  # 状态0表示未完成，1表示完成，如果值为1那么久不再能够更新项目内容
         Interval ="" # 邮件发送间隔
         ProjectStatus="0"#项目状态，0表示未启动，1表示启动，启动中无法修改项目
 
         try:
-            self.cur.execute("INSERT INTO EmailProject(uid,goal_mailbox,end_time,project_key,mail_message,attachment,image,mail_title,sender,forged_address,mail_status,redis_id,compilation_status,interval,project_status,creation_time)\
-                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (Uid,str(GoalMailbox),str(EndTime), str(ProjectKey),MailMessage, str(Attachment), str(Image),MailTitle,Sender,str(ForgedAddress),str(MailStatus),RedisId,CompilationStatus,Interval,ProjectStatus,CreationTime,))
+            self.cur.execute("INSERT INTO EmailProject(uid,goal_mailbox,end_time,project_key,mail_message,attachment,image,mail_title,sender,forged_address,redis_id,compilation_status,interval,project_status,creation_time)\
+                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (Uid,str(GoalMailbox),str(EndTime), str(ProjectKey),MailMessage, str(Attachment), str(Image),MailTitle,Sender,str(ForgedAddress),RedisId,CompilationStatus,Interval,ProjectStatus,CreationTime,))
             # 提交
             self.con.commit()
             self.con.close()
@@ -2395,6 +2393,41 @@ class EmailProject:  # 邮件项目
         except Exception as e:
             ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_UpdateStatus(def)", e)
             return False
+    def ProjectCompletion(self, **kwargs):#通过redis值改把任务改为完工
+        RedisId= kwargs.get("redis_id")#项目唯一关键字，用于判断接收数据所属
+        try:
+            self.cur.execute("""UPDATE EmailProject SET compilation_status=? WHERE RedisId= ?""",("1",RedisId,))
+            # 提交
+            if self.cur.rowcount < 1:  # 用来判断是否更新成功
+                self.con.commit()
+                self.con.close()
+                return False
+            else:
+                self.con.commit()
+                self.con.close()
+                return True
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_UpdateStatus(def)", e)
+            return False
+    def UpdataRedis(self,**kwargs)->bool:#更新redis id值
+        Uid = kwargs.get("uid")
+        ProjectKey= kwargs.get("project_key")#项目唯一关键字，用于判断接收数据所属
+        RedisId= kwargs.get("redis_id")
+
+        try:
+            self.cur.execute("""UPDATE EmailProject SET redis_id=? WHERE uid= ? and project_key=?""",(RedisId,Uid ,ProjectKey,))
+            # 提交
+            if self.cur.rowcount < 1:  # 用来判断是否更新成功
+                self.con.commit()
+                self.con.close()
+                return False
+            else:
+                self.con.commit()
+                self.con.close()
+                return True
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_UpdateStatus(def)", e)
+            return False
     # def SummaryQuery(self, **kwargs):
     #     try:
     #         Uid = kwargs.get("uid")
@@ -2415,29 +2448,16 @@ class EmailProject:  # 邮件项目
     #     except Exception as e:
     #         ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_SummaryQuery(def)", e)
     #         return None
-    # def Query(self, **kwargs):#详情查询
-    #     try:
-    #         Uid = kwargs.get("uid")
-    #         EmailId=kwargs.get("email_id")
-    #         self.cur.execute("select mail_message,attachment,image,mail_title,sender,forged_address,mail_status,compilation_status,creation_time  from MaliciousEmail WHERE uid=? and malicious_email_id=?", (Uid,EmailId,))#查询用户相关信息
-    #         result_list = []
-    #         for i in self.cur.fetchall():
-    #             JsonValues = {}
-    #             JsonValues["mail_message"] = i[0]
-    #             JsonValues["attachment"] = i[1]
-    #             JsonValues["image"] = i[2]
-    #             JsonValues["mail_title"] = i[3]
-    #             JsonValues["sender"] = i[4]
-    #             JsonValues["forged_address"] = i[5]
-    #             JsonValues["mail_status"] = i[6]
-    #             JsonValues["compilation_status"] = i[7]
-    #             JsonValues["creation_time"] = i[8]
-    #             result_list.append(JsonValues)
-    #         self.con.close()
-    #         return result_list
-    #     except Exception as e:
-    #         ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_Query(def)", e)
-    #         return None
+    def Query(self, **kwargs):#详情查询
+        try:
+            Uid = kwargs.get("uid")
+            ProjectKey = kwargs.get("project_key")  # 项目唯一关键字，用于判断接收数据所属
+            self.cur.execute("select * from EmailProject WHERE uid=? and project_key=?", (Uid,ProjectKey,))#查询用户相关信息
+            for i in self.cur.fetchall():
+                return i
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_Query(def)", e)
+            return None
     # def Quantity(self,**kwargs):  # 查看数量有哪些
     #     Uid = kwargs.get("uid")
     #     try:
@@ -2467,46 +2487,32 @@ class EmailProject:  # 邮件项目
     #         ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_UpdateStatus(def)", e)
     #         return False
 
-class MaliciousEmail:  # 邮件
+class EmailDetails:  # 邮件详情，发送状态
     def __init__(self):
         self.con = sqlite3.connect(GetDatabaseFilePath().result())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表
         try:
-            self.cur.execute("CREATE TABLE MaliciousEmail\
-                                (malicious_email_id INTEGER PRIMARY KEY,\
-                                uid TEXT NOT NULL,\
-                                mail_message TEXT NOT NULL,\
-                                attachment TEXT NOT NULL,\
-                                image TEXT NOT NULL,\
-                                mail_title TEXT NOT NULL,\
-                                sender TEXT NOT NULL,\
-                                forged_address TEXT NOT NULL,\
-                                mail_status TEXT NOT NULL,\
-                                redis_id TEXT NOT NULL,\
-                                compilation_status TEXT NOT NULL,\
+            self.cur.execute("CREATE TABLE EmailDetails\
+                                (email_details INTEGER PRIMARY KEY,\
+                                email TEXT NOT NULL,\
+                                email_md5 TEXT NOT NULL,\
+                                status TEXT NOT NULL,\
+                                project_key TEXT NOT NULL,\
                                 creation_time TEXT NOT NULL)")
         except Exception as e:
             ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_init(def)", e)
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
         CreationTime = str(int(time.time()))  # 创建时间
-        Uid = kwargs.get("uid")
-        MailMessage= kwargs.get("mail_message")#正文内容，需要用base64加密
-        Attachment= kwargs.get("attachment")#附件文件，需要传入json格式，使用的是本地名称
-        Image = kwargs.get("image")  # 图片文件，使用列表形式窜入
-        MailTitle= kwargs.get("mail_title")#邮件头
-        Sender= kwargs.get("sender")#发送人名称
-        ForgedAddress = kwargs.get("forged_address")  # 伪造的发件人地址
-        MailStatus= ""#邮件的状态{"xxxx@qq.com":"0","aaa@qq.com":"1"},1表示成功，0表示失败，退信也算发送成功
-        RedisId = kwargs.get("redis_id")  # id值
-        CompilationStatus = "0"  # 状态0表示未完成，1表示完成
-        Interval = kwargs.get("interval")  # 邮件发送间隔
-
+        Email = kwargs.get("email") #目标
+        MD5= kwargs.get("email_md5")#目标的md5值
+        Status= kwargs.get("status")#邮件是否发送成功1是成功，0是失败
+        ProjectKey = kwargs.get("project_key")  # 项目key
         try:
-            self.cur.execute("INSERT INTO MaliciousEmail(uid,mail_message,attachment,image,mail_title,sender,forged_address,mail_status,redis_id,compilation_status,creation_time)\
-                VALUES (?,?,?,?,?,?,?,?,?,?,?)", (Uid, MailMessage, str(Attachment), str(Image),MailTitle,Sender,str(ForgedAddress),str(MailStatus),RedisId,CompilationStatus,CreationTime,))
+            self.cur.execute("INSERT INTO EmailDetails(email,email_md5,status,project_key,creation_time)\
+                VALUES (?,?,?,?,?)", (Email, MD5, Status, ProjectKey,CreationTime,))
             # 提交
             self.con.commit()
             self.con.close()

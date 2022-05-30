@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from Web.DatabaseHub import UserInfo,MaliciousEmail
+from Web.DatabaseHub import UserInfo
 from django.http import JsonResponse
 from ClassCongregation import ErrorLog
 import json

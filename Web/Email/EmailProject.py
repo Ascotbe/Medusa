@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from Web.DatabaseHub import UserInfo,MaliciousEmail,EmailProject
+from Web.DatabaseHub import UserInfo,EmailProject
 from django.http import JsonResponse
 from ClassCongregation import ErrorLog,randoms
 import json
 import time
 import base64
+import ast
+from Web.Email.Send import SendMail
 from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
 
 """create_email_project
@@ -71,9 +73,13 @@ def Updata(request):#更新项目数据
             Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
             if Uid != None:  # 查到了UID
                 UserOperationLogRecord(request, request_api="updata_email_project", uid=Uid)  # 查询到了在计入
+                if len(GoalMailbox)<=0:
+                    return JsonResponse({'message': "未传入邮件接收人！", 'code': 414, })
                 if int(EndTime)-int(time.time())<10000000:
                     ProjectStatus= EmailProject().ProjectStatus(uid=Uid,project_key=Key)#查看项目是否启动
                     CompilationStatus = EmailProject().CompilationStatus(uid=Uid, project_key=Key)#查看项目是否完成
+                    Image=Image if Image else ""#如果内内容就置空
+                    Attachment=Attachment if Attachment else ""#如果内内容就置空
                     if CompilationStatus:
                         return JsonResponse({'message': "项目已经运行结束禁止修改其中内容！", 'code': 409, })
                     if ProjectStatus:
@@ -123,11 +129,31 @@ def Run(request):#运行项目
             if Uid != None:  # 查到了UID
                 UserOperationLogRecord(request, request_api="run_email_project", uid=Uid)  # 查询到了在计入
                 #下发任务后修改项目状态（下发任务留空），任务完成后项目就不可修改
-                Result=EmailProject().ModifyProjectStatus(uid=Uid,project_key=Key,project_status="1")
-                if Result:
-                    return JsonResponse({'message': "项目启动成功！", 'code': 200, })
+                ProjectResult=EmailProject().Query(uid=Uid,project_key=Key)#获取目标
+                if ProjectResult[12]=="0" and ProjectResult[14]=="0":
+                    TargetList=ast.literal_eval(ProjectResult[2])#目标
+                    MailMessage = ProjectResult[5]  # 正文内容，需要用base64加密
+                    Attachment = ast.literal_eval(ProjectResult[6])  # 附件文件，需要传入json格式，使用的是本地名称
+                    Image = ast.literal_eval(ProjectResult[7])  # 图片文件，使用列表形式窜入
+                    MailTitle =ProjectResult[8] # 邮件头
+                    Sender = ProjectResult[9]  # 发送人名称
+                    ForgedAddress = ProjectResult[10]  # 伪造的发件人地址
+                    Interval = ProjectResult[13]  # 邮件发送间隔
+                    if TargetList!=0:
+
+                        SendMailForRedis = SendMail.delay(MailMessage, Attachment, Image, MailTitle, Sender, TargetList,
+                                                         ForgedAddress,Interval,Key)  # 调用下发任务
+                        EmailProject().UpdataRedis(uid=Uid, project_key=Key, redis_id = SendMailForRedis.task_id)
+                        Result = EmailProject().ModifyProjectStatus(uid=Uid, project_key=Key, project_status="1")
+
+                        if Result:
+                            return JsonResponse({'message': "项目启动成功！", 'code': 200, })
+                        else:
+                            return JsonResponse({'message': "项目启动失败！", 'code': 505, })
+                    else:
+                        return JsonResponse({'message': "不存在目标无法启动！", 'code': 406, })
                 else:
-                    return JsonResponse({'message': "项目启动失败！", 'code': 505, })
+                    return JsonResponse({'message': "项目已经启动或者已经完成！", 'code': 410, })
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:

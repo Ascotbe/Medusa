@@ -6,7 +6,7 @@ from ClassCongregation import ErrorLog
 import json
 from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
 
-"""statistics_user_email
+"""email_statistics
 {
 	"token": "xxx"
 }

@@ -2271,7 +2271,7 @@ class EmailProject:  # 邮件项目
                                 project_status TEXT NOT NULL,\
                                 creation_time TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_Email(class)_init(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_EmailProject(class)_init(def)", e)
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
         CreationTime = str(int(time.time()))  # 创建时间
@@ -2298,7 +2298,7 @@ class EmailProject:  # 邮件项目
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_Write(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_EmailProject(class)_Write(def)", e)
             return False
     def Updata(self,**kwargs)->bool:#利用主键ID来判断后更新数据
         Uid = kwargs.get("uid")
@@ -2324,7 +2324,7 @@ class EmailProject:  # 邮件项目
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_UpdateStatus(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_EmailProject(class)_Updata(def)", e)
             return False
     def ProjectStatus(self, **kwargs):#用来验证项目状态
         try:
@@ -2339,7 +2339,7 @@ class EmailProject:  # 邮件项目
                     self.con.close()
                     return False
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_SummaryQuery(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_EmailProject(class)_ProjectStatus(def)", e)
             return None
 
     def ModifyProjectStatus(self, **kwargs):#修改项目的状态
@@ -2358,7 +2358,7 @@ class EmailProject:  # 邮件项目
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_UpdateStatus(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_EmailProject(class)_ModifyProjectStatus(def)", e)
             return False
     def CompilationStatus(self, **kwargs):#用来验证项目是否完成
         try:
@@ -2373,7 +2373,7 @@ class EmailProject:  # 邮件项目
                     self.con.close()
                     return False
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_SummaryQuery(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_EmailProject(class)_CompilationStatus(def)", e)
             return None
     def ModifyCompilationStatus(self, **kwargs):#修改项目是否完成
         Uid = kwargs.get("uid")
@@ -2391,7 +2391,7 @@ class EmailProject:  # 邮件项目
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_UpdateStatus(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_EmailProject(class)_ModifyCompilationStatus(def)", e)
             return False
     def ProjectCompletion(self, **kwargs):#通过redis值改把任务改为完工
         RedisId= kwargs.get("redis_id")#项目唯一关键字，用于判断接收数据所属
@@ -2407,7 +2407,7 @@ class EmailProject:  # 邮件项目
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_UpdateStatus(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_EmailProject(class)_ProjectCompletion(def)", e)
             return False
     def UpdataRedis(self,**kwargs)->bool:#更新redis id值
         Uid = kwargs.get("uid")
@@ -2426,7 +2426,7 @@ class EmailProject:  # 邮件项目
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_UpdateStatus(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_EmailProject(class)_UpdataRedis(def)", e)
             return False
     # def SummaryQuery(self, **kwargs):
     #     try:
@@ -2456,7 +2456,16 @@ class EmailProject:  # 邮件项目
             for i in self.cur.fetchall():
                 return i
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_Query(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_EmailProject(class)_Query(def)", e)
+            return None
+    def MonitorQuery(self, **kwargs):#用于查询监控数据
+        try:
+            ProjectKey = kwargs.get("project_key")  # 项目唯一关键字，用于判断接收数据所属
+            self.cur.execute("select end_time from EmailProject WHERE project_key=?", (ProjectKey,))#查询用户相关信息
+            for i in self.cur.fetchall():
+                return i[0]
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_EmailProject(class)_Query(def)", e)
             return None
     # def Quantity(self,**kwargs):  # 查看数量有哪些
     #     Uid = kwargs.get("uid")
@@ -2502,7 +2511,7 @@ class EmailDetails:  # 邮件详情，发送状态
                                 project_key TEXT NOT NULL,\
                                 creation_time TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_init(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_EmailDetails(class)_init(def)", e)
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
         CreationTime = str(int(time.time()))  # 创建时间
@@ -2518,7 +2527,7 @@ class EmailDetails:  # 邮件详情，发送状态
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_Write(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_EmailDetails(class)_Write(def)", e)
             return False
 
 class MailAttachment:  # 所有钓鱼的上传文件都在这里
@@ -2601,71 +2610,71 @@ class MailAttachment:  # 所有钓鱼的上传文件都在这里
             return False
 
 
-class FishingData:  # 钓鱼邮件数据接收
+class EmailReceiveData:  # 邮件数据接收
     def __init__(self):
         self.con = sqlite3.connect(GetDatabaseFilePath().result())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表
         try:
-            self.cur.execute("CREATE TABLE FishingData\
-                                (fishing_data_id INTEGER PRIMARY KEY,\
-                                request_key TEXT NOT NULL,\
+            self.cur.execute("CREATE TABLE EmailReceiveData\
+                                (email_receive_data_id INTEGER PRIMARY KEY,\
+                                project_key TEXT NOT NULL,\
                                 full_url TEXT NOT NULL,\
                                 request_method TEXT NOT NULL,\
-                                headers_info TEXT NOT NULL,\
+                                target TEXT NOT NULL,\
                                 data_pack_info TEXT NOT NULL,\
                                 creation_time TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_FishingData(class)_init(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_EmailReceiveData(class)_init(def)", e)
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
         CreationTime = str(int(time.time()))  # 创建时间
-        RequestKey= kwargs.get("request_key")#必须为10个
-        HeadersInfo = kwargs.get("headers_info")  # 头数据
+        ProjectKey= kwargs.get("project_key")#项目key
+        Target = kwargs.get("target")  # 目标，用来定位人
         FullUrl= kwargs.get("full_url")  # 完整的路径
         RequestMethod = kwargs.get("request_method")  # 请求模式
         DataPackInfo= kwargs.get("data_pack_info")#真实的文件名
         try:
-            self.cur.execute("INSERT INTO FishingData(request_key,full_url,request_method,headers_info,data_pack_info,creation_time)\
-                VALUES (?,?,?,?,?,?)", (RequestKey,FullUrl,RequestMethod, HeadersInfo, DataPackInfo,CreationTime,))
+            self.cur.execute("INSERT INTO EmailReceiveData(project_key,full_url,request_method,target,data_pack_info,creation_time)\
+                VALUES (?,?,?,?,?,?)", (ProjectKey,FullUrl,RequestMethod, Target, DataPackInfo,CreationTime,))
             # 提交
             self.con.commit()
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_FishingData(class)_Write(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_EmailReceiveData(class)_Write(def)", e)
             return False
 
     def Query(self, **kwargs):
         try:
-            RequestKey = kwargs.get("request_key")
+            ProjectKey = kwargs.get("project_key")  # 项目key
             NumberOfSinglePages=100#单页数量
             NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
-            self.cur.execute("select full_url,request_method,headers_info,data_pack_info,creation_time  from FishingData WHERE request_key=? limit ? offset ?", (RequestKey,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询用户相关信息
+            self.cur.execute("select full_url,request_method,target,data_pack_info,creation_time  from EmailReceiveData WHERE project_key=? limit ? offset ?", (ProjectKey,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询用户相关信息
             result_list = []
             for i in self.cur.fetchall():
                 JsonValues = {}
                 JsonValues["full_url"] = i[0]
                 JsonValues["request_method"] = i[1]
-                JsonValues["headers_info"] = i[2]
+                JsonValues["target"] = i[2]
                 JsonValues["data_pack_info"] = i[3]
                 JsonValues["creation_time"] = i[4]
                 result_list.append(JsonValues)
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_FishingData(class)_Query(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_EmailReceiveData(class)_Query(def)", e)
             return None
     def Quantity(self,**kwargs):  # 查看数量有哪些
-        RequestKey = kwargs.get("request_key")
+        ProjectKey= kwargs.get("project_key")#项目key
         try:
-            self.cur.execute("SELECT COUNT(1)  FROM FishingData  WHERE request_key=?", (RequestKey,))
+            self.cur.execute("SELECT COUNT(1)  FROM EmailReceiveData  WHERE project_key=?", (ProjectKey,))
             Result=self.cur.fetchall()[0][0]#获取数据个数
             self.con.close()
             return Result
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_FishingData(class)_Quantity(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_EmailReceiveData(class)_Quantity(def)", e)
             return None
 
 

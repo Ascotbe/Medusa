@@ -7,7 +7,7 @@ from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
 import time
 import base64
 import json
-"""mail_file_upload
+"""email_file_upload
 POST /api/upload_mail_attachment/ HTTP/1.1
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryaFtQbWz7pBzNgCOv
 token:XXXXXXXXXXXXXXXX
@@ -20,13 +20,13 @@ XXXXXXXXXXXXXXX
 ------WebKitFormBoundaryaFtQbWz7pBzNgCOv--
 """
 def UploadFiles (request):#上传文件
-    RequestLogRecord(request, request_api="mail_file_upload")
+    RequestLogRecord(request, request_api="email_file_upload")
     if request.method == "POST":
         try:
             Token = request.headers["token"]
             Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
             if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="mail_file_upload", uid=Uid)  # 查询到了在计入
+                UserOperationLogRecord(request, request_api="email_file_upload", uid=Uid)  # 查询到了在计入
                 PictureData = request.FILES.get('file', None)#获取文件数据
                 PictureName = PictureData.name # 获取文件名
                 if 0<PictureData.size:#内容不能为空

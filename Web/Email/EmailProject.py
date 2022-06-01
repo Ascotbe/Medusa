@@ -157,7 +157,7 @@ def Run(request):#运行项目
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_Email_EmailProject_Creation(def)", e)
+            ErrorLog().Write("Web_Email_EmailProject_Run(def)", e)
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
@@ -186,6 +186,82 @@ def Stop(request):#运行项目
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_Email_EmailProject_Creation(def)", e)
+            ErrorLog().Write("Web_Email_EmailProject_Stop(def)", e)
+    else:
+        return JsonResponse({'message': '请使用Post请求', 'code': 500, })
+
+
+"""statistics_email_project
+{
+	"token": "xxx"
+}
+"""
+def Statistics(request):#统计项目个数
+    RequestLogRecord(request, request_api="statistics_email_project")
+    if request.method == "POST":
+        try:
+            Token=json.loads(request.body)["token"]
+            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
+            if Uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="statistics_email_project", uid=Uid)  # 查询到了在计入
+                Result=EmailProject().Statistics(uid=Uid)
+                return JsonResponse({'message': Result, 'code': 200, })
+            else:
+                return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
+        except Exception as e:
+            ErrorLog().Write("Web_Email_EmailProject_Statistics(def)", e)
+    else:
+        return JsonResponse({'message': '请使用Post请求', 'code': 500, })
+
+"""email_project_details
+{
+	"token": "xxx",
+	"project_key":"1"
+}
+"""
+def Details(request):#查询邮件详情
+    RequestLogRecord(request, request_api="email_project_details")
+    if request.method == "POST":
+        try:
+            Token=json.loads(request.body)["token"]
+            Key = json.loads(request.body)["project_key"]
+            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
+            if Uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="email_project_details", uid=Uid)  # 查询到了在计入
+                Result=EmailProject().Query(uid=Uid,project_key=Key)
+                return JsonResponse({'message': Result[2:], 'code': 200, })
+
+            else:
+                return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
+        except Exception as e:
+            ErrorLog().Write("Web_Email_EmailProject_Details(def)", e)
+    else:
+        return JsonResponse({'message': '请使用Post请求', 'code': 500, })
+
+
+"""email_project_summary
+{
+	"token": "xxx",
+	"number_of_pages":"1"
+}
+"""
+def Summary(request):#查询邮件摘要详情
+    RequestLogRecord(request, request_api="email_project_summary")
+    if request.method == "POST":
+        try:
+            Token=json.loads(request.body)["token"]
+            NumberOfPages=json.loads(request.body)["number_of_pages"]
+            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
+            if Uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="email_project_summary", uid=Uid)  # 查询到了在计入
+                if int(NumberOfPages)>0:
+                    Result=EmailProject().Summary(uid=Uid,number_of_pages=int(NumberOfPages))
+                    return JsonResponse({'message': Result, 'code': 200, })
+                else:
+                    return JsonResponse({'message': "你家页数是负数的？？？？", 'code': 400, })
+            else:
+                return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
+        except Exception as e:
+            ErrorLog().Write("Web_Email_EmailProject_Summary(def)", e)
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })

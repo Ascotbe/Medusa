@@ -18,7 +18,7 @@ def Monitor(request,data):#用于接收信息的监控
         GetRequestFragment = re.search(r'/[a-zA-Z0-9]{10}', str(request.get_full_path), re.I).group(0)[1:11]
         #print(GetRequestFragment[1:11])
     except Exception as e:
-        ErrorLog().Write("Web_Mail_FishingData_Monitor(def)-GetRequestFragment", e)
+        ErrorLog().Write("Web_Email_ReceiveData_Monitor(def)-GetRequestFragment", e)
     EndTime=EmailProject().MonitorQuery(project_key=GetRequestFragment)#查询项目接受数据时间
     if EndTime!=None and int(EndTime)>int(time.time()):#判断项目是否结束
         if request.method == "POST":
@@ -35,7 +35,7 @@ def Monitor(request,data):#用于接收信息的监控
                     EmailReceiveData().Write(full_url=str(request.build_absolute_uri()),
                                     request_method="POST",project_key=GetRequestFragment,target=Key,data_pack_info=base64.b64encode(DataPackInfo).decode('utf-8'))
             except Exception as e:
-                ErrorLog().Write("Web_Mail_FishingData_Monitor(def)-POST", e)
+                ErrorLog().Write("Web_Email_ReceiveData_Monitor(def)-POST", e)
         elif request.method == "GET":
             try:
 
@@ -47,7 +47,7 @@ def Monitor(request,data):#用于接收信息的监控
                                     request_method="GET",project_key=GetRequestFragment,target=Key,data_pack_info=base64.b64encode(ParameterInfo).decode('utf-8'))
 
             except Exception as e:
-                ErrorLog().Write("Web_Mail_FishingData_Monitor(def)-GET", e)
+                ErrorLog().Write("Web_Email_ReceiveData_Monitor(def)-GET", e)
 
     return HttpResponse("")
 

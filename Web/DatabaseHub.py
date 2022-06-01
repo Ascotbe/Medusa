@@ -2428,26 +2428,27 @@ class EmailProject:  # 邮件项目
         except Exception as e:
             ErrorLog().Write("Web_DatabaseHub_EmailProject(class)_UpdataRedis(def)", e)
             return False
-    # def SummaryQuery(self, **kwargs):
-    #     try:
-    #         Uid = kwargs.get("uid")
-    #         NumberOfSinglePages=100#单页数量
-    #         NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
-    #         self.cur.execute("select malicious_email_id,mail_title,sender,compilation_status,creation_time  from MaliciousEmail WHERE uid=? limit ? offset ?", (Uid,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询用户相关信息
-    #         result_list = []
-    #         for i in self.cur.fetchall():
-    #             JsonValues = {}
-    #             JsonValues["email_id"] = i[0]
-    #             JsonValues["mail_title"] = i[1]
-    #             JsonValues["sender"] = i[2]
-    #             JsonValues["compilation_status"] = i[3]
-    #             JsonValues["creation_time"] = i[4]
-    #             result_list.append(JsonValues)
-    #         self.con.close()
-    #         return result_list
-    #     except Exception as e:
-    #         ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_SummaryQuery(def)", e)
-    #         return None
+    def Summary(self, **kwargs):#邮件项目摘要
+        try:
+            Uid = kwargs.get("uid")
+            NumberOfSinglePages=100#单页数量
+            NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
+            self.cur.execute("select end_time,project_key,project_status,interval,compilation_status,creation_time  from EmailProject WHERE uid=? limit ? offset ?", (Uid,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询用户相关信息
+            result_list = []
+            for i in self.cur.fetchall():
+                JsonValues = {}
+                JsonValues["end_time"] = i[0]
+                JsonValues["project_key"] = i[1]
+                JsonValues["project_status"] = i[2]
+                JsonValues["interval"] = i[3]
+                JsonValues["compilation_status"] = i[4]
+                JsonValues["creation_time"] = i[5]
+                result_list.append(JsonValues)
+            self.con.close()
+            return result_list
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_EmailProject(class)_Summary(def)", e)
+            return None
     def Query(self, **kwargs):#详情查询
         try:
             Uid = kwargs.get("uid")
@@ -2467,16 +2468,16 @@ class EmailProject:  # 邮件项目
         except Exception as e:
             ErrorLog().Write("Web_DatabaseHub_EmailProject(class)_Query(def)", e)
             return None
-    # def Quantity(self,**kwargs):  # 查看数量有哪些
-    #     Uid = kwargs.get("uid")
-    #     try:
-    #         self.cur.execute("SELECT COUNT(1)  FROM MaliciousEmail  WHERE uid=?", (Uid,))
-    #         Result=self.cur.fetchall()[0][0]#获取数据个数
-    #         self.con.close()
-    #         return Result
-    #     except Exception as e:
-    #         ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_Quantity(def)", e)
-    #         return None
+    def Statistics(self,**kwargs):  # 统计项目数量
+        Uid = kwargs.get("uid")
+        try:
+            self.cur.execute("SELECT COUNT(1)  FROM EmailProject  WHERE uid=?", (Uid,))
+            Result=self.cur.fetchall()[0][0]#获取数据个数
+            self.con.close()
+            return Result
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_EmailProject(class)_Statistics(def)", e)
+            return None
     # def UpdateStatus(self,**kwargs)->bool:#利用主键ID来判断后更新数据
     #     RedisId = kwargs.get("redis_id")
     #     MailStatus = kwargs.get("mail_status")

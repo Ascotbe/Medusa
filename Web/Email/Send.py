@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import smtplib
 import time
+from jinja2 import Template
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
 from email.mime.image import MIMEImage
@@ -9,7 +10,7 @@ from email.mime.text import MIMEText
 from email.header import Header
 import hashlib
 import shutil
-from config import third_party_mail_host,third_party_mail_user,third_party_mail_pass,local_mail_host,local_mail_user
+from config import local_mail_host,local_mail_user
 from Web.DatabaseHub import EmailDetails,EmailProject
 from ClassCongregation import ErrorLog,GetMailUploadFilePath,GetTempFilePath
 from Web.celery import app
@@ -38,6 +39,7 @@ def SendMail(MailMessage,Attachment,Image,MailTitle,Sender,GoalMailbox,ForgedAdd
             # 消息正文
             TextMessage = MIMEMultipart('alternative')
             EmailBox.attach(TextMessage)
+            MailMessage = Template(MailMessage).render(md5=MD5)#对里面的模板进行处理,目前固定为{{ md5 }}占位符
             TextMessage.attach(MIMEText(MailMessage, 'html', 'utf-8'))
             # 发送附件
             for i in Attachment:

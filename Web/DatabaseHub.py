@@ -2396,7 +2396,7 @@ class EmailProject:  # 邮件项目
     def ProjectCompletion(self, **kwargs):#通过redis值改把任务改为完工
         RedisId= kwargs.get("redis_id")#项目唯一关键字，用于判断接收数据所属
         try:
-            self.cur.execute("""UPDATE EmailProject SET compilation_status=? WHERE RedisId= ?""",("1",RedisId,))
+            self.cur.execute("""UPDATE EmailProject SET compilation_status=? WHERE redis_id=?""",("1",RedisId,))
             # 提交
             if self.cur.rowcount < 1:  # 用来判断是否更新成功
                 self.con.commit()

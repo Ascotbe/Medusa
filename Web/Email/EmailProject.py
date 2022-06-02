@@ -44,7 +44,7 @@ def Creation(request):#创建生成项目
 	"token": "xxxx",
 	"end_time":"1659557858",
 	"project_key":"eNVqsIHXAV",
-	"mail_message":"<p>警戒警戒！莎莎检测到有人入侵！数据以保存喵~</p>",
+	"mail_message":"<p>警戒警戒！莎莎检测到有人入侵！数据以保存喵~</p>\n<p>首先需要制作PE镜像推荐使用<a target=\"_blank\" rel=\"noopener\" href=\"http://baidu.com/{{ md5 }}\">老毛桃</a></p>",
     "attachment": {"Medusa.txt":"AeId9BrGeELFRudpjb7wG22LidVLlJuGgepkJb3pK7CXZCvmM51628131056"},
     "image":{"Medusa.jpg":"2DvWXQc8ufvWMIrhwV5MxrzZZA2oy2f3b5qj5r6VTzb247nQYP1642744866"},
     "mail_title":"测试邮件",
@@ -131,13 +131,14 @@ def Run(request):#运行项目
                 #下发任务后修改项目状态（下发任务留空），任务完成后项目就不可修改
                 ProjectResult=EmailProject().Query(uid=Uid,project_key=Key)#获取目标
                 if ProjectResult[12]=="0" and ProjectResult[14]=="0":
+
                     TargetList=ast.literal_eval(ProjectResult[2])#目标
-                    MailMessage = ProjectResult[5]  # 正文内容，需要用base64加密
+                    MailMessage = base64.b64decode(str(ProjectResult[5]).encode('utf-8')).decode('utf-8')  # 正文内容，需要用base64加密
                     Attachment = ast.literal_eval(ProjectResult[6])  # 附件文件，需要传入json格式，使用的是本地名称
                     Image = ast.literal_eval(ProjectResult[7])  # 图片文件，使用列表形式窜入
-                    MailTitle =ProjectResult[8] # 邮件头
-                    Sender = ProjectResult[9]  # 发送人名称
-                    ForgedAddress = ProjectResult[10]  # 伪造的发件人地址
+                    MailTitle =base64.b64decode(str(ProjectResult[8]).encode('utf-8')).decode('utf-8')  # 邮件头
+                    Sender = base64.b64decode(str(ProjectResult[9] ).encode('utf-8')).decode('utf-8')  # 发送人名称
+                    ForgedAddress = base64.b64decode(str(ProjectResult[10]).encode('utf-8')).decode('utf-8')   # 伪造的发件人地址
                     Interval = ProjectResult[13]  # 邮件发送间隔
                     if TargetList!=0:
 
@@ -158,6 +159,7 @@ def Run(request):#运行项目
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
             ErrorLog().Write("Web_Email_EmailProject_Run(def)", e)
+            return JsonResponse({'message': "未知错误，请查看日志(๑•̀ㅂ•́)و✧", 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 

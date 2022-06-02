@@ -10,7 +10,7 @@ from email.mime.text import MIMEText
 from email.header import Header
 import hashlib
 import shutil
-from config import local_mail_host,local_mail_user
+from config import email_test,third_party_mail_host,third_party_mail_user,third_party_mail_pass,local_mail_host,local_mail_user
 from Web.DatabaseHub import EmailDetails,EmailProject
 from ClassCongregation import ErrorLog,GetMailUploadFilePath,GetTempFilePath
 from Web.celery import app
@@ -26,7 +26,7 @@ def SendMail(MailMessage,Attachment,Image,MailTitle,Sender,GoalMailbox,ForgedAdd
     TempFilePath = GetTempFilePath().Result()
     MailUploadFilePath = GetMailUploadFilePath().Result()  # 本地文件路径
     for Target in GoalMailbox:  # 向多个目标发送
-        time.sleep(Interval)#邮件发送间隔
+        time.sleep(float(Interval))#邮件发送间隔
         MD5=hashlib.md5(Target.encode()).hexdigest()#计算文件MD5值
         try:
             EmailBox = MIMEMultipart()  # 创建容器
@@ -60,16 +60,14 @@ def SendMail(MailMessage,Attachment,Image,MailTitle,Sender,GoalMailbox,ForgedAdd
                 pic.add_header("X-Attachment-Id", "x")
                 TextMessage.attach(pic)
             SMTP = smtplib.SMTP()
-            SMTP.connect(local_mail_host, 25)  # 25 为 SMTP 端口号
-            SMTP.sendmail(local_mail_user, Target, EmailBox.as_string())
-            # if int(ThirdParty) == 1:  # 判断是否使用自建服务器
-            #     SMTP.connect(third_party_mail_host, 25)  # 25 为 SMTP 端口号
-            #     SMTP.login(third_party_mail_user, third_party_mail_pass)
-            #     SMTP.sendmail(third_party_mail_user, Target, EmailBox.as_string())
-            # else:
-            #     SMTP.connect(local_mail_host, 25)  # 25 为 SMTP 端口号
-            #     #SMTP.set_debuglevel(True)
-            #     SMTP.sendmail(local_mail_user, Target, EmailBox.as_string())
+            if email_test:  #判断是否测试用例
+                SMTP.connect(third_party_mail_host, 25)  # 25 为 SMTP 端口号
+                SMTP.login(third_party_mail_user, third_party_mail_pass)
+                SMTP.sendmail(third_party_mail_user, Target, EmailBox.as_string())
+            else:
+                SMTP.connect(local_mail_host, 25)  # 25 为 SMTP 端口号
+                #SMTP.set_debuglevel(True)
+                SMTP.sendmail(local_mail_user, Target, EmailBox.as_string())
             SMTP.quit()
             SMTP.close()
             EmailDetails().Write(email=Target,email_md5=MD5,status="1",project_key=Key)

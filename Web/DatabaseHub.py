@@ -2510,6 +2510,7 @@ class EmailDetails:  # 邮件详情，发送状态
                                 email_md5 TEXT NOT NULL,\
                                 status TEXT NOT NULL,\
                                 project_key TEXT NOT NULL,\
+                                department  TEXT NOT NULL,\
                                 creation_time TEXT NOT NULL)")
         except Exception as e:
             ErrorLog().Write("Web_DatabaseHub_EmailDetails(class)_init(def)", e)
@@ -2517,12 +2518,13 @@ class EmailDetails:  # 邮件详情，发送状态
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
         CreationTime = str(int(time.time()))  # 创建时间
         Email = kwargs.get("email") #目标
+        Department=kwargs.get("department") #部门
         MD5= kwargs.get("email_md5")#目标的md5值
         Status= kwargs.get("status")#邮件是否发送成功1是成功，0是失败
         ProjectKey = kwargs.get("project_key")  # 项目key
         try:
-            self.cur.execute("INSERT INTO EmailDetails(email,email_md5,status,project_key,creation_time)\
-                VALUES (?,?,?,?,?)", (Email, MD5, Status, ProjectKey,CreationTime,))
+            self.cur.execute("INSERT INTO EmailDetails(email,email_md5,status,project_key,department,creation_time)\
+                VALUES (?,?,?,?,?,?)", (Email, MD5, Status, ProjectKey,Department,CreationTime,))
             # 提交
             self.con.commit()
             self.con.close()

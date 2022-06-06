@@ -8,9 +8,13 @@ from ClassCongregation import GetTempFilePath,ErrorLog
 from config import headers,nist_update_banner
 import time
 import requests
+from celery import shared_task
+
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 TempFilePath = GetTempFilePath().Result()  # 获取TMP文件路径
-def NistUpdateDownload():#更新数据下载
+
+@shared_task
+def Download():#更新数据下载
     try:
         FileName="nvdcve-1.1-" + str("modified") + ".json.zip"#下载文件名
         SaveFileName="nvdcve-1.1-" + str("modified") +str(int(time.time()))+ ".json.zip"
@@ -26,7 +30,7 @@ def NistUpdateDownload():#更新数据下载
             time.time() - StartingTime) + "S \033[0m")
         NistUpdateProcessing(TempFilePath+SaveFileName,FileName[:-4])#调用数据处理函数，传入文件路径和提取文件名
     except Exception as e:
-        NistUpdateDownload(TempFilePath)#如果还是报错就再次循环自身
+        Download(TempFilePath)#如果还是报错就再次循环自身
         ErrorLog().Write("Web_CVE_NistMonitoring_NistUpdata_NistUpdateDownload(def)", e)
 
 
@@ -41,7 +45,7 @@ def NistUpdateProcessing(ZipFilePath,ZipFileData):#更新数据库处理函数
         ExtractData=json.loads(ZipData)["CVE_Items"]#提取需要的数据
 
         if len(ExtractData)==0:#判断文件是否下载错误
-            NistUpdateDownload(TempFilePath)  # 如果下载错误就重新下载
+            Download(TempFilePath)  # 如果下载错误就重新下载
             return 0
         DataSet=[]#存放所有tuple类型数据容器
         UpdateData = []  # 存放所有需要更新的数据
@@ -130,6 +134,6 @@ def NistUpdateProcessing(ZipFilePath,ZipFileData):#更新数据库处理函数
         zipFile.close()
 
     except Exception as e:
-        NistUpdateDownload(TempFilePath)#如果文件不是zip文件，就是表明可能下载错误了
+        Download(TempFilePath)#如果文件不是zip文件，就是表明可能下载错误了
         ErrorLog().Write(
             "Web_CVE_NistMonitoring_NistUpdata_NistUpdateProcessing(def)", e)

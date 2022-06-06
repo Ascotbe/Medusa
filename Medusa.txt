@@ -10,7 +10,7 @@ tqdm==4.38.0
 py3dns==3.2.1
 tldextract==2.2.2
 django==3.0.5
-Celery==5.0.5
+Celery==5.2.7
 django_redis==4.11.0
 eventlet==0.25.1
 pyDES==2.0.1

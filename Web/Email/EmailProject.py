@@ -42,17 +42,25 @@ def Creation(request):#创建生成项目
 {
 
 	"token": "xxxx",
-	"end_time":"1659557858",
-	"project_key":"eNVqsIHXAV",
-	"mail_message":"<p>警戒警戒！莎莎检测到有人入侵！数据以保存喵~</p>\n<p>首先需要制作PE镜像推荐使用<a target=\"_blank\" rel=\"noopener\" href=\"http://baidu.com/{{ md5 }}\">老毛桃</a></p>",
-    "attachment": {"Medusa.txt":"AeId9BrGeELFRudpjb7wG22LidVLlJuGgepkJb3pK7CXZCvmM51628131056"},
-    "image":{"Medusa.jpg":"2DvWXQc8ufvWMIrhwV5MxrzZZA2oy2f3b5qj5r6VTzb247nQYP1642744866"},
-    "mail_title":"测试邮件",
-    "sender":"瓜皮大笨蛋",
-    "goal_mailbox":["ascotbe@gmail.com","ascotbe@163.com"],
-    "third_party":"0",
-    "forged_address":"helpdesk@ascotbe.com",
-    "interval":"0.1"
+	"end_time": "1659557858",
+	"project_key": "eNVqsIHXAV",
+	"mail_message": "<p>警戒警戒！莎莎检测到有人入侵！数据以保存喵~</p>\n<p>首先需要制作PE镜像推荐使用<a target=\"_blank\" rel=\"noopener\" href=\"http://baidu.com/{{ md5 }}\">老毛桃</a></p>",
+	"attachment": {
+		"Medusa.txt": "AeId9BrGeELFRudpjb7wG22LidVLlJuGgepkJb3pK7CXZCvmM51628131056"
+	},
+	"image": {
+		"Medusa.jpg": "2DvWXQc8ufvWMIrhwV5MxrzZZA2oy2f3b5qj5r6VTzb247nQYP1642744866"
+	},
+	"mail_title": "测试邮件",
+	"sender": "瓜皮大笨蛋",
+	"goal_mailbox": {
+		"信息安全": ["ascotbe@gmail.com", "ascotbe@163.com"],
+		"大数据": ["ascotbe@qq.com"],
+		"客服": ["1099482542@qq.com"]
+	},
+	"third_party": "0",
+	"forged_address": "helpdesk@ascotbe.com",
+	"interval": "0.1"
 }
 """
 def Updata(request):#更新项目数据
@@ -73,13 +81,13 @@ def Updata(request):#更新项目数据
             Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
             if Uid != None:  # 查到了UID
                 UserOperationLogRecord(request, request_api="updata_email_project", uid=Uid)  # 查询到了在计入
-                if len(GoalMailbox)<=0:
+                if len(GoalMailbox)<=0 and type(GoalMailbox)==dict:
                     return JsonResponse({'message': "未传入邮件接收人！", 'code': 414, })
+                if type(Attachment)!=dict or type(Image)!=dict:
+                    return JsonResponse({'message': "附件或者图片必须传入字典类型，不可置空！", 'code': 415, })
                 if int(EndTime)-int(time.time())<10000000:
                     ProjectStatus= EmailProject().ProjectStatus(uid=Uid,project_key=Key)#查看项目是否启动
                     CompilationStatus = EmailProject().CompilationStatus(uid=Uid, project_key=Key)#查看项目是否完成
-                    Image=Image if Image else ""#如果内内容就置空
-                    Attachment=Attachment if Attachment else ""#如果内内容就置空
                     if CompilationStatus:
                         return JsonResponse({'message': "项目已经运行结束禁止修改其中内容！", 'code': 409, })
                     if ProjectStatus:
@@ -95,7 +103,7 @@ def Updata(request):#更新项目数据
                                             redis_id="",
                                             project_key=Key,
                                             end_time=EndTime,
-                                            goal_mailbox=list(set(GoalMailbox)),#去重数据
+                                            goal_mailbox=GoalMailbox,#list(set(GoalMailbox)),#去重数据
                                             interval=Interval)
                         if Result:
                             return JsonResponse({'message': "更新成功！", 'code': 200, })

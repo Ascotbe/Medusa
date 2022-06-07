@@ -125,13 +125,12 @@ urlpatterns = [
     path('api/email_project_details/', EmailProject.Details),  # 邮件内容详情
     path('api/email_project_summary/', EmailProject.Summary),  # 邮件项目内容摘要查询
     re_path(r'^b/().*?/$', ReceiveData.Monitor),  # 邮件接收数据监控
-    path('api/mail_file_upload/', Attachment.UploadFiles),  # 文件上传
-    path('api/statistical_mail_attachment/', Attachment.StatisticalMailAttachment),  # 统计当前用户邮件附件个数
-    path('api/email_attachment_query/', Attachment.EmailAttachmentQuery),  # 邮件附件详情
+    path('api/email_file_upload/', Attachment.UploadFiles),  # 文件上传
+    path('api/email_attachment_statistical/', Attachment.StatisticalMailAttachment),  # 统计当前用户邮件附件个数
+    path('api/email_attachment_details/', Attachment.EmailAttachmentQuery),  # 邮件附件详情
     path('api/email_image_preview/', Attachment.EmailImagePreview),  # 加载预览图片
-
-    # path('api/mail_receive_data_statistics/', MailReceiveData.DataStatistics),  # 邮件接收到的数据统计
-    # path('api/mail_receive_data_details/', MailReceiveData.DataDetails),  # 邮件接收到的数据详情
+    path('api/email_receive_data_statistics/', ReceiveData.Statistics),  # 全量数据统计
+    path('api/email_receive_data_details/', ReceiveData.Details),  # 全量数据详情查询
 
 
     #项目相关信息

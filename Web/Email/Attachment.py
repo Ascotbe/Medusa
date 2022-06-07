@@ -78,19 +78,19 @@ def EmailImagePreview (request):#查询加载的文件
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
 
-"""statistical_mail_attachment
+"""email_attachment_statistical
 {
 	"token": "xxx"
 }
 """
 def StatisticalMailAttachment(request):#统计邮件附件个数
-    RequestLogRecord(request, request_api="statistical_mail_attachment")
+    RequestLogRecord(request, request_api="email_attachment_statistical")
     if request.method == "POST":
         try:
             Token=json.loads(request.body)["token"]
             Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
             if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="statistical_mail_attachment", uid=Uid)  # 查询到了在计入
+                UserOperationLogRecord(request, request_api="email_attachment_statistical", uid=Uid)  # 查询到了在计入
                 StatisticalMailAttachmentResult=MailAttachment().Quantity(uid=Uid)
                 return JsonResponse({'message': StatisticalMailAttachmentResult, 'code': 200, })
             else:
@@ -102,21 +102,21 @@ def StatisticalMailAttachment(request):#统计邮件附件个数
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
-"""email_attachment_query
+"""email_attachment_details
 {
 	"token": "xxx",
 	"number_of_pages":"1"
 }
 """
 def EmailAttachmentQuery(request):#查询附件文件
-    RequestLogRecord(request, request_api="email_attachment_query")
+    RequestLogRecord(request, request_api="email_attachment_details")
     if request.method == "POST":
         try:
             Token=json.loads(request.body)["token"]
             NumberOfPages=json.loads(request.body)["number_of_pages"]
             Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
             if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="email_attachment_query", uid=Uid)  # 查询到了在计入
+                UserOperationLogRecord(request, request_api="email_attachment_details", uid=Uid)  # 查询到了在计入
                 if int(NumberOfPages)>0:
                     EmailAttachmentQueryResult=MailAttachment().Query(uid=Uid,number_of_pages=int(NumberOfPages))
                     return JsonResponse({'message': EmailAttachmentQueryResult, 'code': 200, })

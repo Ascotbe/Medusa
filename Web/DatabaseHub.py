@@ -2532,6 +2532,17 @@ class EmailDetails:  # 邮件详情，发送状态
         except Exception as e:
             ErrorLog().Write("Web_DatabaseHub_EmailDetails(class)_Write(def)", e)
             return False
+    def EmailAndDepartment(self, **kwargs) -> bool or None:  # 通过MD5和项目key查询email和部门
+        MD5= kwargs.get("email_md5")#目标的md5值
+        ProjectKey = kwargs.get("project_key")  # 项目key
+        try:
+            self.cur.execute("select email,department from EmailDetails WHERE email_md5=? and project_key=?", (MD5,ProjectKey,))#查询用户相关信息
+            for i in self.cur.fetchall():
+                return i
+
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_EmailDetails(class)_EmailQuery(def)", e)
+            return None
 
 class MailAttachment:  # 所有钓鱼的上传文件都在这里
     def __init__(self):
@@ -2622,25 +2633,31 @@ class EmailReceiveData:  # 邮件数据接收
         try:
             self.cur.execute("CREATE TABLE EmailReceiveData\
                                 (email_receive_data_id INTEGER PRIMARY KEY,\
+                                email TEXT NOT NULL,\
+                                department TEXT NOT NULL,\
                                 project_key TEXT NOT NULL,\
                                 full_url TEXT NOT NULL,\
                                 request_method TEXT NOT NULL,\
                                 target TEXT NOT NULL,\
                                 data_pack_info TEXT NOT NULL,\
+                                incidental_data TEXT NOT NULL,\
                                 creation_time TEXT NOT NULL)")
         except Exception as e:
             ErrorLog().Write("Web_DatabaseHub_EmailReceiveData(class)_init(def)", e)
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
         CreationTime = str(int(time.time()))  # 创建时间
+        Email= kwargs.get("email")#邮件
+        Department = kwargs.get("department")  # 部门
         ProjectKey= kwargs.get("project_key")#项目key
         Target = kwargs.get("target")  # 目标，用来定位人
         FullUrl= kwargs.get("full_url")  # 完整的路径
         RequestMethod = kwargs.get("request_method")  # 请求模式
-        DataPackInfo= kwargs.get("data_pack_info")#真实的文件名
+        DataPackInfo= kwargs.get("data_pack_info")# 完整数据内容
+        IncidentalData = kwargs.get("incidental_data")  # 除了target以外附带的数据
         try:
-            self.cur.execute("INSERT INTO EmailReceiveData(project_key,full_url,request_method,target,data_pack_info,creation_time)\
-                VALUES (?,?,?,?,?,?)", (ProjectKey,FullUrl,RequestMethod, Target, DataPackInfo,CreationTime,))
+            self.cur.execute("INSERT INTO EmailReceiveData(email,department,project_key,full_url,request_method,target,data_pack_info,incidental_data,creation_time)\
+                VALUES (?,?,?,?,?,?,?,?,?)", (Email,Department,ProjectKey,FullUrl,RequestMethod, Target, DataPackInfo,IncidentalData,CreationTime,))
             # 提交
             self.con.commit()
             self.con.close()
@@ -2648,28 +2665,29 @@ class EmailReceiveData:  # 邮件数据接收
         except Exception as e:
             ErrorLog().Write("Web_DatabaseHub_EmailReceiveData(class)_Write(def)", e)
             return False
-
-    def Query(self, **kwargs):
+    def Query(self, **kwargs):#全量数据查询
         try:
             ProjectKey = kwargs.get("project_key")  # 项目key
             NumberOfSinglePages=100#单页数量
             NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
-            self.cur.execute("select full_url,request_method,target,data_pack_info,creation_time  from EmailReceiveData WHERE project_key=? limit ? offset ?", (ProjectKey,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询用户相关信息
+            self.cur.execute("select * from EmailReceiveData WHERE project_key=? limit ? offset ?", (ProjectKey,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询用户相关信息
             result_list = []
             for i in self.cur.fetchall():
                 JsonValues = {}
-                JsonValues["full_url"] = i[0]
-                JsonValues["request_method"] = i[1]
-                JsonValues["target"] = i[2]
-                JsonValues["data_pack_info"] = i[3]
-                JsonValues["creation_time"] = i[4]
+                JsonValues["email"] = i[0]
+                JsonValues["department"] = i[1]
+                JsonValues["full_url"] = i[3]
+                JsonValues["request_method"] = i[4]
+                JsonValues["data_pack_info"] = i[6]
+                JsonValues["incidental_data"] = i[7]
+                JsonValues["creation_time"] = i[8]
                 result_list.append(JsonValues)
             self.con.close()
             return result_list
         except Exception as e:
             ErrorLog().Write("Web_DatabaseHub_EmailReceiveData(class)_Query(def)", e)
             return None
-    def Quantity(self,**kwargs):  # 查看数量有哪些
+    def Statistics(self,**kwargs):  # 全量数据统计
         ProjectKey= kwargs.get("project_key")#项目key
         try:
             self.cur.execute("SELECT COUNT(1)  FROM EmailReceiveData  WHERE project_key=?", (ProjectKey,))
@@ -2677,7 +2695,7 @@ class EmailReceiveData:  # 邮件数据接收
             self.con.close()
             return Result
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailReceiveData(class)_Quantity(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_EmailReceiveData(class)_Statistics(def)", e)
             return None
 
 

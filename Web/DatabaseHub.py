@@ -2698,8 +2698,67 @@ class EmailReceiveData:  # 邮件数据接收
             ErrorLog().Write("Web_DatabaseHub_EmailReceiveData(class)_Statistics(def)", e)
             return None
 
+    def Search(self,**kwargs):  #模糊查询
+        try:
+            NumberOfSinglePages=100#单页数量
+            NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页
+            ProjectKey = kwargs.get("project_key")
+            Email = "%"+kwargs.get("email")+"%"
+            Department = "%"+kwargs.get("department")+"%"
+            CreationTime = "%"+kwargs.get("creation_time")+"%"
 
+            self.cur.execute("select * from EmailReceiveData WHERE project_key=? and email LIKE ? and department LIKE ? and creation_time LIKE ? limit ? offset ?", (ProjectKey,Email,Department,CreationTime,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))
+            result_list = []
+            for i in self.cur.fetchall():
+                JsonValues = {}
+                JsonValues["email"] = i[0]
+                JsonValues["department"] = i[1]
+                JsonValues["full_url"] = i[3]
+                JsonValues["request_method"] = i[4]
+                JsonValues["data_pack_info"] = i[6]
+                JsonValues["incidental_data"] = i[7]
+                JsonValues["creation_time"] = i[8]
+                result_list.append(JsonValues)
+            self.con.close()
+            return result_list
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_EmailReceiveData(class)_Search(def)", e)
+            return None
 
+    def SearchQuantity(self, **kwargs):  # 模糊查询统计数量
+        try:
+            ProjectKey = kwargs.get("project_key")
+            Email = "%" + kwargs.get("email") + "%"
+            Department = "%" + kwargs.get("department") + "%"
+            CreationTime = "%" + kwargs.get("creation_time") + "%"
+
+            self.cur.execute(
+                "select COUNT(1) from EmailReceiveData WHERE project_key=? and email LIKE ? and department LIKE ? and creation_time LIKE ? limit ? offset ?",
+                (ProjectKey, Email, Department, CreationTime,))
+            Result=self.cur.fetchall()[0][0]#获取数据个数
+            self.con.close()
+            return Result
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_EmailReceiveData(class)_SearchQuantity(def)", e)
+            return None
+
+    def NotNull(self, **kwargs):  # 查询不为空的字段
+        try:
+            ProjectKey = kwargs.get("project_key")
+            self.cur.execute(
+                "select email,department from EmailReceiveData where trim(incidental_data) !='' AND project_key=?",
+                (ProjectKey,))
+            result_list = []
+            for i in self.cur.fetchall():
+                JsonValues = {}
+                JsonValues["email"] = i[0]
+                JsonValues["department"] = i[1]
+                result_list.append(JsonValues)
+            self.con.close()
+            return result_list
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_EmailReceiveData(class)_SearchQuantity(def)", e)
+            return None
 
 class GithubCve:  # GitHub的CVE监控写入表
     def __init__(self,**kwargs):

@@ -83,7 +83,6 @@ def Monitor(request,data):#用于接收信息的监控
     return HttpResponse("")
 
 """
-数据筛选，按BU等进行筛选
 统计各个BU的点开量以及填写数据量，已下发任务的形式，进行生成，单独一张表，表格内容可以更新覆盖
 """
 
@@ -139,6 +138,83 @@ def Details(request):#邮件获取的数据详情
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
             ErrorLog().Write("Web_Email_ReceiveData_Details(def)", e)
+            return JsonResponse({'message': '自己去看报错日志！', 'code': 169, })
+
+    else:
+        return JsonResponse({'message': '请使用Post请求', 'code': 500, })
+
+
+"""email_receive_data_search
+{
+	"token": "xxx",
+	"project_key":"aaaaaaaaaa",
+	"email":"163",
+	"department":"",
+	"creation_time":"",
+	"number_of_pages":"1"
+}
+"""
+def Search(request):#条件查询
+    RequestLogRecord(request, request_api="email_receive_data_search")
+    if request.method == "POST":
+        try:
+            Token=json.loads(request.body)["token"]
+            ProjectKey = json.loads(request.body)["project_key"]
+            Email = json.loads(request.body)["email"]#模糊查询条件，如果没有可以传入空字符串
+            Department = json.loads(request.body)["department"]#模糊查询条件，如果没有可以传入空字符串
+            CreationTime = json.loads(request.body)["creation_time"]#模糊查询条件，如果没有可以传入空字符串
+            NumberOfPages=json.loads(request.body)["number_of_pages"]
+            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
+            if Uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="email_receive_data_search", uid=Uid)  # 查询到了在计入
+                if int(NumberOfPages)>0:
+                    Result=EmailReceiveData().Search(project_key=ProjectKey,
+                                                     number_of_pages=int(NumberOfPages),
+                                                     email=Email,
+                                                     department=Department,
+                                                     creation_time=CreationTime)
+                    return JsonResponse({'message': Result, 'code': 200, })
+                else:
+                    return JsonResponse({'message': "你家页数是负数的？？？？", 'code': 400, })
+            else:
+                return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
+        except Exception as e:
+            ErrorLog().Write("Web_Email_ReceiveData_Details(def)", e)
+            return JsonResponse({'message': '自己去看报错日志！', 'code': 169, })
+
+    else:
+        return JsonResponse({'message': '请使用Post请求', 'code': 500, })
+
+"""email_receive_data_search_quantity
+{
+	"token": "xxx",
+	"project_key":"aaaaaaaaaa",
+	"email":"163",
+	"department":"",
+	"creation_time":""
+}
+"""
+def SearchQuantity(request):#搜索数量
+    RequestLogRecord(request, request_api="email_receive_data_search_quantity")
+    if request.method == "POST":
+        try:
+            Token=json.loads(request.body)["token"]
+            ProjectKey = json.loads(request.body)["project_key"]
+            Email = json.loads(request.body)["email"]  # 模糊查询条件，如果没有可以传入空字符串
+            Department = json.loads(request.body)["department"]  # 模糊查询条件，如果没有可以传入空字符串
+            CreationTime = json.loads(request.body)["creation_time"]  # 模糊查询条件，如果没有可以传入空字符串
+            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
+            if Uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="email_receive_data_search_quantity", uid=Uid)  # 查询到了在计入
+                Result = EmailReceiveData().SearchQuantity(project_key=ProjectKey,
+                                                   email=Email,
+                                                   department=Department,
+                                                   creation_time=CreationTime)
+                return JsonResponse({'message': Result, 'code': 200, })
+            else:
+                return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
+        except Exception as e:
+            ErrorLog().Write("Web_Email_ReceiveData_SearchQuantity(def)", e)
             return JsonResponse({'message': '自己去看报错日志！', 'code': 169, })
 
     else:

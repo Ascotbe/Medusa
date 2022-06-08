@@ -129,9 +129,10 @@ urlpatterns = [
     path('api/email_attachment_statistical/', Attachment.StatisticalMailAttachment),  # 统计当前用户邮件附件个数
     path('api/email_attachment_details/', Attachment.EmailAttachmentQuery),  # 邮件附件详情
     path('api/email_image_preview/', Attachment.EmailImagePreview),  # 加载预览图片
-    path('api/email_receive_data_statistics/', ReceiveData.Statistics),  # 全量数据统计
-    path('api/email_receive_data_details/', ReceiveData.Details),  # 全量数据详情查询
-
+    path('api/email_receive_data_statistics/', ReceiveData.Statistics),  # 接收数据全量数据统计
+    path('api/email_receive_data_details/', ReceiveData.Details),  # 接收数据全量数据详情查询
+    path('api/email_receive_data_search/', ReceiveData.Search),  # 接收数据模糊查询
+    path('api/email_receive_data_search_quantity/', ReceiveData.SearchQuantity),  # 接收数据模糊查询统计
 
     #项目相关信息
     path('api/medusa_info/', Information.Config),  # 获取项目相关数据

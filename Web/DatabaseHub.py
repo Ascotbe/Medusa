@@ -2757,7 +2757,101 @@ class EmailReceiveData:  # 邮件数据接收
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailReceiveData(class)_SearchQuantity(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_EmailReceiveData(class)_NotNull(def)", e)
+            return None
+    def IsNull(self, **kwargs):  # 查询为空的字段
+        try:
+            ProjectKey = kwargs.get("project_key")
+            self.cur.execute(
+                "select email,department from EmailReceiveData where trim(incidental_data) ='' AND project_key=?",
+                (ProjectKey,))
+            result_list = []
+            for i in self.cur.fetchall():
+                JsonValues = {}
+                JsonValues["email"] = i[0]
+                JsonValues["department"] = i[1]
+                result_list.append(JsonValues)
+            self.con.close()
+            return result_list
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_EmailReceiveData(class)_IsNull(def)", e)
+            return None
+
+class EmailGraph:  # 邮件数据接收
+    def __init__(self):
+        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        # 获取所创建数据的游标
+        self.cur = self.con.cursor()
+        # 创建表
+        try:
+            self.cur.execute("CREATE TABLE EmailGraph\
+                                (email_graph_id INTEGER PRIMARY KEY,\
+                                uid TEXT NOT NULL,\
+                                project_key TEXT NOT NULL,\
+                                graph_data TEXT NOT NULL,\
+                                status TEXT NOT NULL,\
+                                creation_time TEXT NOT NULL)")
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_EmailGraph(class)_init(def)", e)
+
+    def Write(self, **kwargs) -> bool or None:  # 写入相关信息
+        CreationTime = str(int(time.time()))  # 创建时间
+        Uid= kwargs.get("uid")#用户ID
+        ProjectKey= kwargs.get("project_key")#项目key
+        GraphData = kwargs.get("graph_data")  # 数据内容
+        Status="0"#0表示未完成 1表示完成
+
+        try:
+            self.cur.execute("INSERT INTO EmailGraph(uid,project_key,graph_data,status,creation_time)\
+                VALUES (?,?,?,?,?)", (Uid,ProjectKey,GraphData,Status,CreationTime,))
+            # 提交
+            self.con.commit()
+            self.con.close()
+            return True
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_EmailGraph(class)_Write(def)", e)
+            return False
+    def Query(self, **kwargs):#全量数据查询
+        try:
+            Uid = kwargs.get("uid")  # 用户ID
+            ProjectKey = kwargs.get("project_key")  #项目key
+            self.cur.execute("select graph_data from EmailGraph WHERE project_key=? and uid=?", (ProjectKey,Uid,))#查询用户相关信息
+            for i in self.cur.fetchall():
+                return i[0]
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_EmailGraph(class)_Query(def)", e)
+            return None
+    def Updata(self, **kwargs):#更新数据
+        try:
+            Uid = kwargs.get("uid")  # 用户ID
+            ProjectKey = kwargs.get("project_key")  #项目key
+            GraphData = kwargs.get("graph_data")  # 数据内容
+            self.cur.execute("""UPDATE EmailGraph SET graph_data=?,status=? WHERE uid= ? and project_key=?""",
+                                 (GraphData,"1",Uid, ProjectKey,))
+            # 提交
+            if self.cur.rowcount < 1:  # 用来判断是否更新成功
+                self.con.commit()
+                self.con.close()
+                return False
+            else:
+                self.con.commit()
+                self.con.close()
+                return True
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_EmailGraph(class)_Updata(def)", e)
+            return None
+    def Verification(self, **kwargs):#查询数据是否存在
+        try:
+            Uid = kwargs.get("uid")  # 用户ID
+            ProjectKey = kwargs.get("project_key")  #项目key
+            self.cur.execute("select COUNT(1) from EmailGraph WHERE project_key=? and uid=?", (ProjectKey,Uid,))#查询用户相关信息
+            Result=self.cur.fetchall()[0][0]#获取数据个数
+            if int(Result)==0:
+                return False
+            else:
+                return True
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_EmailGraph(class)_Verification(def)", e)
             return None
 
 class GithubCve:  # GitHub的CVE监控写入表

@@ -29,7 +29,7 @@ from Web.ApplicationCollection import CollectionWork
 from Web.CollaborationPlatform import Markdown
 from Web.DomainNameSystemLog import Data
 from Web.TrojanOrVirus import TrojanInterface
-from Web.Email import EmailProject,Send,Attachment,ReceiveData
+from Web.Email import EmailProject,Attachment,ReceiveData,Graph
 from Web.FileAcquisition import Receive,Query
 
 urlpatterns = [
@@ -133,6 +133,8 @@ urlpatterns = [
     path('api/email_receive_data_details/', ReceiveData.Details),  # 接收数据全量数据详情查询
     path('api/email_receive_data_search/', ReceiveData.Search),  # 接收数据模糊查询
     path('api/email_receive_data_search_quantity/', ReceiveData.SearchQuantity),  # 接收数据模糊查询统计
+    path('api/email_data_graph_statistics/', Graph.Statistics),  # 数据表格统计
+    path('api/email_data_graph_query/', Graph.Query),  # 数据表格查询
 
     #项目相关信息
     path('api/medusa_info/', Information.Config),  # 获取项目相关数据

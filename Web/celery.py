@@ -18,13 +18,14 @@ app = Celery('Medusa')  # 这边要加上redis不然默认是mq的
 #   should have a `CELERY_` prefix.
 app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks({"Web.ApplicationCollection.CollectionWork.AppleCollectionWork",
-"Web.CVE.GithubMonitoring.Github.Monitor",
-"Web.CVE.NistMonitoring.Update.Download",
-"Web.Email.Send.SendMail",
-"Web.FileAcquisition.Receive.Pack",
-"Web.SystemInfo.HardwareInfo.Monitor",
-"Web.TrojanOrVirus.TrojanInterface.CompileCode",
-"Web.TrojanOrVirus.TrojanInterface.CompilePortableExecutableFile"})# 自动搜索并加载任务，任务列表防止找不到任务而报错
+                        "Web.CVE.GithubMonitoring.Github.Monitor",
+                        "Web.CVE.NistMonitoring.Update.Download",
+                        "Web.Email.Send.SendMail",
+                        "Web.FileAcquisition.Receive.Pack",
+                        "Web.SystemInfo.HardwareInfo.Monitor",
+                        "Web.TrojanOrVirus.TrojanInterface.CompileCode",
+                        "Web.TrojanOrVirus.TrojanInterface.CompilePortableExecutableFile",
+                        "Web.Email.Graph.Manufacture"})# 自动搜索并加载任务，任务列表防止找不到任务而报错
 app.conf.beat_schedule = {
         'HardwareInfoMonitor': {
             'task': 'Web.SystemInfo.HardwareInfo.Monitor',

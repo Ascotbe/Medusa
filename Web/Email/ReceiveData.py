@@ -82,9 +82,6 @@ def Monitor(request,data):#用于接收信息的监控
 
     return HttpResponse("")
 
-"""
-统计各个BU的点开量以及填写数据量，已下发任务的形式，进行生成，单独一张表，表格内容可以更新覆盖
-"""
 
 """email_receive_data_statistics
 {

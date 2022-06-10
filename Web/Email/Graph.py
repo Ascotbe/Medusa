@@ -82,7 +82,7 @@ def Query(request):#数据表格查询
             if Uid != None:  # 查到了UID
                 UserOperationLogRecord(request, request_api="email_data_graph_query", uid=Uid)  # 查询到了在计入
                 Result=EmailGraph().Query(project_key=ProjectKey, uid=Uid)
-                return JsonResponse({'message': Result, 'code': 200, })
+                return JsonResponse({'message': ast.literal_eval(Result), 'code': 200, })
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:

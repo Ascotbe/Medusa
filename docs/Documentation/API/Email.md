@@ -1,11 +1,35 @@
-### 邮件批量发送功能
+### 创建邮件项目
 
-`/api/send_user_mail/`
+`/api/create_email_project/`
 
 ```json
 {
+	"token": "xxxx"
+}
+```
+
+> 参数解释
+
+- `token`登录后返回的**token**
+
+> 返回状态码
+
+- 200：返回该项目的key值
+- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+- 500：请使用Post请求
+- 505：创建失败！
+
+### 更新项目数据
+
+`/api/updata_email_project/`
+
+```json
+{
+
 	"token": "xxxx",
-	"mail_message": "<p>警戒警戒！莎莎检测到有人入侵！数据以保存喵~</p><img src=\"cid:Medusa.jpg\">",
+	"end_time": "1659557858",
+	"project_key": "eNVqsIHXAV",
+	"mail_message": "<p>警戒警戒！莎莎检测到有人入侵！数据以保存喵~</p>\n<p>首先需要制作PE镜像推荐使用<a target=\"_blank\" rel=\"noopener\" href=\"http://baidu.com/{{ md5 }}\">老毛桃</a></p>",
 	"attachment": {
 		"Medusa.txt": "AeId9BrGeELFRudpjb7wG22LidVLlJuGgepkJb3pK7CXZCvmM51628131056"
 	},
@@ -14,34 +38,206 @@
 	},
 	"mail_title": "测试邮件",
 	"sender": "瓜皮大笨蛋",
-	"goal_mailbox": ["ascotbe@gmail.com", "ascotbe@163.com"],
+	"goal_mailbox": {
+		"信息安全": ["ascotbe@gmail.com", "ascotbe@163.com"],
+		"大数据": ["ascotbe@qq.com"],
+		"客服": ["12345@qq.com"]
+	},
 	"third_party": "0",
-	"forged_address": "helpdesk@ascotbe.com"
+	"forged_address": "helpdesk@ascotbe.com",
+	"interval": "0.1"
 }
 ```
 
 > 参数解释
 
 - `token`登录后返回的**token**
-- `mail_message`发送数据内容
-- `attachment`使用本地附件，通过email_attachment_query这个api接口获取相关信息
-- `image`邮件中插入的图片，通过email_attachment_query这个api接口获取相关信息
+- `end_time` 项目停止接收数据时间
+- `project_key`项目的key值，通过创建项目接口获取的，在create_email_project接口
+- `mail_message` 支持HTML格式，在引入的页面添加占位符`{{ md5 }}`参考上面数据，如果是还需要统计点开邮件用户可以再最下面添加一个图片标签，只发送请求到接收数据接口，不发送数据的那种，同样需要占位符
+- `attachment`使用本地附件，通过email_attachment_query这个api接口获取相关信息，如果为空也必须传入`{}`符号
+- `image`邮件中插入的图片，通过email_attachment_query这个api接口获取相关信息，如果为空也必须传入`{}`符号
 - `mail_title`邮件标题
 - `sender`发件人名称
-- `goal_mailbox`发送到哪些邮箱中，传入一个列表的形式
-- `third_party`判断是否是用第三方邮件服务器，0表示本地自己搭建（需要在配置文件中填上你的自建邮服务），1表示使用qq或者163等第三方邮件服务器（需要配置文件中修改你的key）
+- `goal_mailbox`发送到哪些邮箱中，必须是字典类型，并且不能为空
+- `interval`邮件发送的间隔
 - `forged_address`发送的邮件服务器（可以伪造
 
 > 返回状态码
 
-- 200：任务下发成功~
+- 169：未知错误(๑•̀ㅂ•́)و✧
+- 200：更新成功！
+- 400：你家页数是负数的？？？？
+- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+- 406：项目已经开启禁止修改，如需修改请停止运行！
+- 409：项目已经运行结束禁止修改其中内容！
+- 414：未传入邮件接收人！
+- 415：附件或者图片必须传入字典类型，不可置空！
+- 500：请使用Post请求
+- 506：时间间隔太长了！
+- 507：更新失败！
+
+### 启动项目
+
+`/api/run_email_project/`
+
+```json
+{
+	"token": "xxxx",
+	"project_key":"eNVqsIHXAV"
+}
+```
+
+> 参数解释
+
+- `token`登录后返回的**token**
+- `project_key`邮件项目的key
+
+> 返回状态码
+
+- 169：未知错误，请查看日志(๑•̀ㅂ•́)و✧
+- 200：项目启动成功！
+- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+- 406：不存在目标无法启动！
+- 410：项目已经启动或者已经完成！
+- 500：请使用Post请求
+- 505：项目启动失败！
+
+### 停止项目（暂时无用
+
+`/api/stop_email_project/`
+
+```json
+{
+	"token": "xxxx",
+	"project_key":"eNVqsIHXAV"
+}
+```
+
+> 参数解释
+
+- `token`登录后返回的**token**
+- `project_key`邮件项目的key
+
+> 返回状态码
+
+- 169：未知错误，请查看日志(๑•̀ㅂ•́)و✧
+- 200：项目停止成功！
 - 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
 - 500：请使用Post请求
-- 503：未知错误(๑•̀ㅂ•́)و✧
+- 505：项目停止失败！
 
-### 邮件内容摘要查询
+### 统计邮件项目个数
 
-`/api/mail_summary_query/`
+`/api/email_project_statistics/`
+
+```json
+{
+	"token": "xxx"
+}
+```
+
+> 参数解释
+
+- `token`登录后返回的**token**
+
+> 返回状态码
+
+- 200：返回统计个数
+- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+- 500：请使用Post请求
+
+### 邮件内容详情
+
+`/api/email_project_details/`
+
+```json
+{
+	"token": "xxx",
+	"project_key":"wAmDVUCHev"
+}
+```
+
+> 参数解释
+
+- `token`登录后返回的**token**
+- `number_of_pages`页数
+
+> 返回状态码
+
+- 169：未知错误，请查看日志(๑•̀ㅂ•́)و✧
+
+- 200：返回详情内容，**会有多个数组的集合**
+
+  ```json
+  {
+  	"message": {
+  		"goal_mailbox": {
+  			"\u4fe1\u606f\u5b89\u5168": ["ascotbe@gmail.com", "ascotbe@163.com"],
+  			"\u5927\u6570\u636e": ["ascotbe@qq.com"],
+  			"\u5ba2\u670d": ["1099482542@qq.com"]
+  		},
+  		"end_time": "1659557858",
+  		"project_key": "wAmDVUCHev",
+  		"mail_message": "PHA+6K2m5oiS6K2m5oiS77yB6I6O6I6O5qOA5rWL5Yiw5pyJ5Lq65YWl5L6177yB5pWw5o2u5Lul5L+d5a2Y5Za1fjwvcD4KPHA+6aaW5YWI6ZyA6KaB5Yi25L2cUEXplZzlg4/mjqjojZDkvb/nlKg8YSB0YXJnZXQ9Il9ibGFuayIgcmVsPSJub29wZW5lciIgaHJlZj0iaHR0cDovL2JhaWR1LmNvbS97eyBtZDUgfX0iPuiAgeavm+ahgzwvYT48L3A+",
+  		"attachment": {},
+  		"image": {},
+  		"mail_title": "5rWL6K+V6YKu5Lu2",
+  		"sender": "55Oc55qu5aSn56yo6JuL",
+  		"forged_address": "aGVscGRlc2tAYXNjb3RiZS5jb20=",
+  		"redis_id": "da8b3bb8-4907-43ad-b90c-c503a9f4f626",
+  		"compilation_status": "1",
+  		"interval": "0.1",
+  		"project_status": "1",
+  		"creation_time ": "1654076229"
+  	},
+  	"code": 200
+  }
+  ```
+
+  > 参数解释
+
+  - `goal_mailbox`目标邮箱列表
+
+  - `end_time`项目结束时间，结束后不再接受任何数据
+
+  - `project_key`项目唯一关键字，用于判断接收数据所属
+
+  - `mail_message`邮件正文，需要base64解密
+
+  - `attachment`附件文件
+
+  - `image` 图片文件
+
+  - `mail_title`邮件头，需要base64解密
+
+  - `sender`发送人名称，需要base64解密
+
+  - `forged_address`伪造的发件人地址，需要base64解密
+
+  - `redis_id`Redis值
+
+  - `compilation_status`任务状态，0表示未完成，1表示完成，如果值为1那么就不再能够更新项目内容
+
+  - `interval`间隔
+
+  - `project_status`项目状态，0表示未运行，1表示运行完毕
+
+  - `creation_time `项目创建时间
+
+    
+
+- 400：你家页数是负数的？？？？
+
+- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+
+- 500：请使用Post请求
+
+
+
+### 邮件项目内容摘要查询
+
+`/api/email_project_summary/`
 
 ```json
 {
@@ -57,28 +253,37 @@
 
 > 返回状态码
 
-- 200：返回查询到的数据，**会有多个数组的集合**
+- 200：返回详情内容，**会有多个数组的集合**
 
   ```json
   {
   	"message": [{
-  		"email_id": "1",
-  		"mail_title": "5rWL6K+V6YKu5Lu2",
-  		"sender": "dGVzdA==",
+  		"end_time": "1659557858",
+  		"project_key": "eNVqsIHXAV",
+  		"project_status": "1",
+  		"interval": "0.1",
   		"compilation_status": "1",
-  		"creation_time": "1628652828"
+  		"creation_time": "1654075687"
+  	}, {
+  		"end_time": "1659557858",
+  		"project_key": "wAmDVUCHev",
+  		"project_status": "1",
+  		"interval": "0.1",
+  		"compilation_status": "1",
+  		"creation_time": "1654076229"
   	}],
   	"code": 200
   }
   ```
 
-  > 返回参数解释
+  > 参数解释
 
-  - `email_id`邮件ID
-  - `mail_title`邮件标题，使用base64加密
-  - `sender`发件人名称，使用base64加密
-  - `compilation_status`任务状态，1表示已经完成，0表示未完成
-  - `creation_time`邮件发送时间
+  - `end_time`项目停止接收数据时间
+  - `project_key`项目的key值
+  - `project_status`项目状态，0表示未启动，1表示启动，启动中无法修改项目
+  - `interval`邮件发送间隔
+  - `compilation_status`任务状态，0表示未完成，1表示完成，如果值为1那么就不再能够更新项目内容
+  - `creation_time`创建时间
 
 - 400：你家页数是负数的？？？？
 
@@ -86,82 +291,11 @@
 
 - 500：请使用Post请求
 
-### 邮件发送数据详情
 
-`/api/mail_data_query/`
 
-```json
-{
-	"token": "xxx",
-	"email_id":"1"
-}
-```
+### 文件上传
 
-> 参数解释
-
-- `token`登录后返回的**token**
-- `email_id`查看的邮件值
-
-> 返回状态码
-
-- 200：返回查询到的数据，**会有多个数组的集合**
-
-  ```json
-  {
-  	"message": [{
-  		"mail_message": "PHA+6K2m5oiS6K2m5oiS77yB6I6O6I6O5qOA5rWL5Yiw5pyJ5Lq65YWl5L6177yB5pWw5o2u5Lul5L+d5a2Y5Za1fjwvcD4=",
-  		"attachment": "{}",
-  		"image": "{}",
-  		"mail_title": "5rWL6K+V6YKu5Lu2",
-  		"sender": "dGVzdA==",
-  		"forged_address": "YUdWc2NHUmxjMnRBZEhKcGNDNWpiMjA9",
-  		"mail_status": "{\"test@ascotbe.com\": \"1\"}",
-  		"compilation_status": "1",
-  		"creation_time": "1628652828"
-  	}],
-  	"code": 200
-  }
-  ```
-
-  > 返回参数解释
-
-  - `mail_message`发送的数据内容，使用base64加密
-  - `attachment`使用哪个本地附件
-  - `image`使用哪个图片
-  - `mail_title`邮件标题，使用base64加密
-  - `sender`发件人名称，使用base64加密
-  - `forged_address`发送的邮件服务器
-  - `mail_status`各个邮件发送的状态，1表示成功，0表示失败
-  - `compilation_status`任务状态，1表示已经完成，0表示未完成
-  - `creation_time`邮件发送时间
-
-- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
-
-- 500：请使用Post请求
-
-### 邮件发送个数统计
-
-`/api/statistics_user_email/`
-
-```json
-{
-	"token": "xxx"
-}
-```
-
-> 参数解释
-
-- `token`登录后返回的**token**
-
-> 返回状态码
-
-- 200：所有发送的邮件任务个数
-- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
-- 500：请使用Post请求
-
-### 邮件上传接口
-
-`/api/mail_file_upload/`
+`/api/email_file_upload/`
 
 ```json
 POST /api/mail_upload_files/ HTTP/1.1
@@ -190,7 +324,7 @@ XXXXXXXXXXXXXXX
 
 ### 邮件附件个数统计
 
-`/api/statistical_mail_attachment/`
+`/api/email_attachment_statistical/`
 
 ```json
 {
@@ -210,7 +344,7 @@ XXXXXXXXXXXXXXX
 
 ### 邮件附件详情查询
 
-`/api/email_attachment_query/`
+`/api/email_attachment_details/`
 
 ```json
 {
@@ -253,81 +387,6 @@ XXXXXXXXXXXXXXX
 
 - 500：请使用Post请求
 
-### 邮件接收到的数据统计
-
-`/api/mail_receive_data_statistics/`
-
-```json
-{
-	"token": "xxx",
-	"request_key":"aaaaaaaaaa"
-}
-```
-
-> 参数解释
-
-- `token`登录后返回的**token**
-- `request_key`该值为10位，通过`http://127.0.0.1:9999/b/aaaaaaaaaa/?dasd=dasd`请求获取
-
-> 返回状态码
-
-- 200：返回统计个数
-- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
-- 500：请使用Post请求
-
-### 邮件接收到的数据详情
-
-`/api/mail_receive_data_details/`
-
-```json
-{
-	"token": "xxx",
-	"request_key":"aaaaaaaaaa",
-	"number_of_pages":"1"
-}
-```
-
-> 参数解释
-
-- `token`登录后返回的**token**
-- `request_key`该值为10位，通过`http://127.0.0.1:9999/b/aaaaaaaaaa/?dasd=dasd`请求获取
-- `number_of_pages`页数
-
-> 返回状态码
-
-- 200：返回详情内容，**会有多个数组的集合**
-
-  ```json
-  {
-  	"message": [{
-  		"full_url": "http://127.0.0.1:9999/b/aaaaaaaaaa/?dasd=fsalsdkalsjflahgkahguiwfkjaldfnlsjjgblakjdg",
-  		"request_method": "GET",
-  		"headers_info": "eydDb250ZW50LUxlbmd0aCc6ICcnLCAnQ29udGVudC1UeXBlJzogJ3RleHQvcGxhaW4nLCAnSG9zdCc6ICcxMjcuMC4wLjE6OTk5OScsICdDb25uZWN0aW9uJzogJ2tlZXAtYWxpdmUnLCAnU2VjLUNoLVVhJzogJyJDaHJvbWl1bSI7dj0iOTIiLCAiIE5vdCBBO0JyYW5kIjt2PSI5OSIsICJHb29nbGUgQ2hyb21lIjt2PSI5MiInLCAnU2VjLUNoLVVhLU1vYmlsZSc6ICc/MCcsICdVcGdyYWRlLUluc2VjdXJlLVJlcXVlc3RzJzogJzEnLCAnVXNlci1BZ2VudCc6ICdNb3ppbGxhLzUuMCAoTWFjaW50b3NoOyBJbnRlbCBNYWMgT1MgWCAxMF8xMF8zKSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvODMuMC40MTAzLjg3IFNhZmFyaS81MzcuMzYnLCAnQWNjZXB0JzogJ3RleHQvaHRtbCxhcHBsaWNhdGlvbi94aHRtbCt4bWwsYXBwbGljYXRpb24veG1sO3E9MC45LGltYWdlL2F2aWYsaW1hZ2Uvd2VicCxpbWFnZS9hcG5nLCovKjtxPTAuOCxhcHBsaWNhdGlvbi9zaWduZWQtZXhjaGFuZ2U7dj1iMztxPTAuOScsICdTZWMtRmV0Y2gtU2l0ZSc6ICdub25lJywgJ1NlYy1GZXRjaC1Nb2RlJzogJ25hdmlnYXRlJywgJ1NlYy1GZXRjaC1Vc2VyJzogJz8xJywgJ1NlYy1GZXRjaC1EZXN0JzogJ2RvY3VtZW50JywgJ0FjY2VwdC1FbmNvZGluZyc6ICdnemlwLCBkZWZsYXRlLCBicicsICdBY2NlcHQtTGFuZ3VhZ2UnOiAnemgtQ04semg7cT0wLjksZW47cT0wLjgnLCAnRG50JzogJzEnLCAnU2VjLUdwYyc6ICcxJ30=",
-  		"data_pack_info": "eydkYXNkJzogJ2ZzYWxzZGthbHNqZmxhaGdrYWhndWl3ZmtqYWxkZm5sc2pqZ2JsYWtqZGcnfQ==",
-  		"creation_time": "1628673894"
-  	}],
-  	"code": 200
-  }
-  ```
-
-  > 参数解释
-
-  - `full_url`请求的完整地址
-  - `request_method`请求的方式，有GET和POST
-  - `headers_info`请求头内容，base64加密
-  - `data_pack_info`请求数据包内容，base64加密
-  - `creation_time`创建时间
-
-- 400：你家页数是负数的？？？？
-
-- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
-
-- 500：请使用Post请求
-
-
-
-
-
 ### 加载预览文件
 
 `/api/email_image_preview/`
@@ -351,3 +410,297 @@ XXXXXXXXXXXXXXX
 - 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
 - 500：请使用Post请求
 - 603：没有这个文件~
+
+
+
+### 接收数据全量数据统计
+
+`/api/email_receive_data_statistics/`
+
+```json
+{
+	"token": "xxx",
+	"project_key":"aaaaaaaaaa"
+}
+```
+
+> 参数解释
+
+- `token`登录后返回的**token**
+- `project_key`项目的key
+
+> 返回状态码
+
+- 169：自己去看报错日志！
+- 200：返回当前数量
+- 400：你家页数是负数的？？？？
+- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+- 500：请使用Post请求
+
+
+
+### 接收数据全量数据详情查询
+
+`/api/email_receive_data_details/`
+
+```json
+{
+	"token": "xxx",
+	"project_key":"aaaaaaaaaa",
+	"number_of_pages":"1"
+}
+```
+
+> 参数解释
+
+- `token`登录后返回的**token**
+- `project_key`项目的key
+- `number_of_pages`页数
+
+> 返回状态码
+
+- 169：自己去看报错日志！
+
+- 200：返回详情内容，**会有多个数组的集合**
+
+  ```json
+  {
+  	"message": [{
+  		"email": "ascotbe@gmail.com",
+  		"department": "\u4fe1\u606f\u5b89\u5168",
+  		"full_url": "http://127.0.0.1:9999/b/wAmDVUCHev/",
+  		"request_method": "POST",
+  		"data_pack_info": "eydrZXknOiAnMzdiMDJmMjhjZDdlODk1OTBhZjM2NjExYjI1NTJmMzQnLCAndXNlJzogJ2FhYWRkZGRkJywgJ3Bhc3NzJzogJ2Rhc2Rhc2QnfQ==",
+  		"incidental_data": "eyd1c2UnOiAnYWFhZGRkZGQnLCAncGFzc3MnOiAnZGFzZGFzZCd9",
+  		"creation_time": "1654667885"
+  	}, {
+  		"email": "ascotbe@163.com",
+  		"department": "\u5927\u6570\u636e",
+  		"full_url": "http://127.0.0.1:9999/b/wAmDVUCHev/?key=7adfffee50ed9cb5a49e6e6bb07cd538&use=aaaddddd&passs=dasdasd",
+  		"request_method": "GET",
+  		"data_pack_info": "eydrZXknOiAnN2FkZmZmZWU1MGVkOWNiNWE0OWU2ZTZiYjA3Y2Q1MzgnLCAndXNlJzogJ2FhYWRkZGRkJywgJ3Bhc3NzJzogJ2Rhc2Rhc2QnfQ==",
+  		"incidental_data": "eyd1c2UnOiAnYWFhZGRkZGQnLCAncGFzc3MnOiAnZGFzZGFzZCd9",
+  		"creation_time": "1654567715"
+  	}],
+  	"code": 200
+  }
+  ```
+
+  > 参数解释
+
+  - `email`接收邮件
+  - `department`部门
+  - `full_url`完整请求
+  - `request_method`请求方式
+  - `data_pack_info`完整的数据内容
+  - `incidental_data`除了key值以外的数据内容
+  - `creation_time`创建时间
+
+- 400：你家页数是负数的？？？？
+
+- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+
+- 500：请使用Post请求
+
+
+
+### 接收数据模糊查询
+
+`/api/email_receive_data_search/`
+
+```json
+{
+	"token": "xxx",
+	"project_key":"aaaaaaaaaa",
+	"email":"163",
+	"department":"",
+	"start_time":"1654567716",
+	"end_time":"19999999999",
+	"number_of_pages":"1"
+}
+```
+
+> 参数解释
+
+- `token`登录后返回的**token**
+- `project_key`项目key
+- `email`邮箱的模糊查询值，可以为空
+- `department`部门的模糊查询值，可以为空
+- `start_time`起始时间
+- `end_time`结束时间
+- `number_of_pages`页数不能为0
+
+> 返回状态码
+
+- 200：返回详情内容，**会有多个数组的集合**
+
+  ```json
+  {
+  	"message": [{
+  		"email": "ascotbe@163.com",
+  		"department": "\u4fe1\u606f\u5b89\u5168",
+  		"full_url": "http://127.0.0.1:9999/b/wAmDVUCHev/",
+  		"request_method": "POST",
+  		"data_pack_info": "eydrZXknOiAnNGFiYjA0ODY5MTQ2YWU3N2YyZGNmMWJhZDY3ZGFiMzcnLCAndXNlJzogJ2FhYWRkZGRkJywgJ3Bhc3NzJzogJ2Rhc2Rhc2QnfQ==",
+  		"incidental_data": "eyd1c2UnOiAnYWFhZGRkZGQnLCAncGFzc3MnOiAnZGFzZGFzZCd9",
+  		"creation_time": "1654667892"
+  	}, {
+  		"email": "ascotbe@163.com",
+  		"department": "\u4fe1\u606f\u5b89\u5168",
+  		"full_url": "http://127.0.0.1:9999/b/wAmDVUCHev/",
+  		"request_method": "POST",
+  		"data_pack_info": "eydrZXknOiAnNGFiYjA0ODY5MTQ2YWU3N2YyZGNmMWJhZDY3ZGFiMzcnfQ==",
+  		"incidental_data": "",
+  		"creation_time": "1654669608"
+  	}, {
+  		"email": "ascotbe@163.com",
+  		"department": "\u4fe1\u606f\u5b89\u5168",
+  		"full_url": "http://127.0.0.1:9999/b/wAmDVUCHev/",
+  		"request_method": "POST",
+  		"data_pack_info": "eydrZXknOiAnNGFiYjA0ODY5MTQ2YWU3N2YyZGNmMWJhZDY3ZGFiMzcnLCAndXNlJzogJ2FhYWRkZGRkJywgJ3Bhc3NzJzogJ2Rhc2Rhc2QnfQ==",
+  		"incidental_data": "eyd1c2UnOiAnYWFhZGRkZGQnLCAncGFzc3MnOiAnZGFzZGFzZCd9",
+  		"creation_time": "1654669616"
+  	}],
+  	"code": 200
+  }
+  ```
+
+  > 参数解释
+
+  - `email`接收邮件
+  - `department`部门
+  - `full_url`完整请求
+  - `request_method`请求方式
+  - `data_pack_info`完整的数据内容
+  - `incidental_data`除了key值以外的数据内容
+  - `creation_time`创建时间
+
+- 400：你家页数是负数的？？？？
+
+- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+
+- 500：请使用Post请求
+
+
+
+### 接收数据模糊查询统计
+
+`/api/email_receive_data_search_quantity/`
+
+```json
+{
+	"token": "xxx",
+	"project_key":"aaaaaaaaaa",
+	"email":"163",
+	"department":"",
+	"start_time":"",
+	"end_time":""
+}
+```
+
+> 参数解释
+
+- `token`登录后返回的**token**
+- `project_key`项目key
+- `email`邮箱的模糊查询值，可以为空
+- `department`部门的模糊查询值，可以为空
+- `start_time`起始时间
+- `end_time`结束时间
+
+> 返回状态码
+
+- 200：返回个数
+- 400：你家页数是负数的？？？？
+- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+- 500：请使用Post请求
+
+
+
+### 数据表格统计
+
+`/api/email_data_graph_statistics/`
+
+```json
+{
+	"token": "xxx",
+	"project_key":"aaaaaaaaaa"
+}
+```
+
+> 参数解释
+
+- `token`登录后返回的**token**
+- `project_key`项目key
+
+> 返回状态码
+
+- 200：任务下发成功！
+
+- 400：你家页数是负数的？？？？
+
+- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+
+- 500：请使用Post请求
+
+
+
+### 数据表格查询
+
+`/api/email_data_graph_query/`
+
+```json
+{
+	"token": "xxx",
+	"project_key":"aaaaaaaaaa"
+}
+```
+
+> 参数解释
+
+- `token`登录后返回的**token**
+- `project_key`项目key
+
+> 返回状态码
+
+- 200：返回详情内容，**会有多个数组的集合**
+
+  ```json
+  {
+  	"message": {
+  		"\u4fe1\u606f\u5b89\u5168": {
+  			"total_amount": 2,
+  			"open_hits": 1,
+  			"fooled_hits": 1
+  		},
+  		"\u5927\u6570\u636e": {
+  			"total_amount": 1,
+  			"open_hits": 0,
+  			"fooled_hits": 1
+  		},
+  		"\u5ba2\u670d": {
+  			"total_amount": 1,
+  			"open_hits": 1,
+  			"fooled_hits": 0
+  		},
+  		"open_email_user_data": ["12345@qq.com", "ascotbe@163.com"],
+  		"hooked_email_user_data": ["ascotbe@qq.com", "ascotbe@gmail.com", "ascotbe@163.com"]
+  	},
+  	"code": 200
+  }
+  ```
+
+  > 参数解释
+
+  - `open_email_user_data`打开邮件的用户
+  - `hooked_email_user_data`填写数据的用户
+  - 剩余的都是每个部门作为关键字
+    - `total_amount`该部门发送量
+    - `open_hits`打开邮件量
+    - `fooled_hits`填写数据量
+
+- 400：你家页数是负数的？？？？
+
+- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+
+- 500：请使用Post请求
+

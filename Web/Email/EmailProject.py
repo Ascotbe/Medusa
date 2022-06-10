@@ -197,29 +197,31 @@ def Stop(request):#运行项目
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
             ErrorLog().Write("Web_Email_EmailProject_Stop(def)", e)
+            return JsonResponse({'message': "未知错误，请查看日志(๑•̀ㅂ•́)و✧", 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
 
-"""statistics_email_project
+"""mail_project_statistics
 {
 	"token": "xxx"
 }
 """
 def Statistics(request):#统计项目个数
-    RequestLogRecord(request, request_api="statistics_email_project")
+    RequestLogRecord(request, request_api="mail_project_statistics")
     if request.method == "POST":
         try:
             Token=json.loads(request.body)["token"]
             Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
             if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="statistics_email_project", uid=Uid)  # 查询到了在计入
+                UserOperationLogRecord(request, request_api="mail_project_statistics", uid=Uid)  # 查询到了在计入
                 Result=EmailProject().Statistics(uid=Uid)
                 return JsonResponse({'message': Result, 'code': 200, })
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
             ErrorLog().Write("Web_Email_EmailProject_Statistics(def)", e)
+            return JsonResponse({'message': "未知错误，请查看日志(๑•̀ㅂ•́)و✧", 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
@@ -239,12 +241,29 @@ def Details(request):#查询邮件详情
             if Uid != None:  # 查到了UID
                 UserOperationLogRecord(request, request_api="email_project_details", uid=Uid)  # 查询到了在计入
                 Result=EmailProject().Query(uid=Uid,project_key=Key)
-                return JsonResponse({'message': Result[2:], 'code': 200, })
+                JsonValues={}
+                JsonValues["goal_mailbox"] = ast.literal_eval(Result[2])
+                JsonValues["end_time"] = Result[3]
+                JsonValues["project_key"] = Result[4]
+                JsonValues["mail_message"] = Result[5]
+                JsonValues["attachment"] = ast.literal_eval(Result[6])
+                JsonValues["image"] = ast.literal_eval(Result[7])
+                JsonValues["mail_title"] = Result[8]
+                JsonValues["sender"] = Result[9]
+                JsonValues["forged_address"] = Result[10]
+                JsonValues["redis_id"] = Result[11]
+                JsonValues["compilation_status"] = Result[12]
+                JsonValues["interval"] = Result[13]
+                JsonValues["project_status"] = Result[14]
+                JsonValues["creation_time "] = Result[15]
+
+                return JsonResponse({'message': JsonValues, 'code': 200, })
 
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
             ErrorLog().Write("Web_Email_EmailProject_Details(def)", e)
+            return JsonResponse({'message': "未知错误，请查看日志(๑•̀ㅂ•́)و✧", 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
@@ -273,5 +292,6 @@ def Summary(request):#查询邮件摘要详情
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
             ErrorLog().Write("Web_Email_EmailProject_Summary(def)", e)
+            return JsonResponse({'message': "未知错误，请查看日志(๑•̀ㅂ•́)و✧", 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })

@@ -147,7 +147,8 @@ def Details(request):#邮件获取的数据详情
 	"project_key":"aaaaaaaaaa",
 	"email":"163",
 	"department":"",
-	"creation_time":"",
+	"start_time":"",
+	"end_time":"",
 	"number_of_pages":"1"
 }
 """
@@ -159,7 +160,8 @@ def Search(request):#条件查询
             ProjectKey = json.loads(request.body)["project_key"]
             Email = json.loads(request.body)["email"]#模糊查询条件，如果没有可以传入空字符串
             Department = json.loads(request.body)["department"]#模糊查询条件，如果没有可以传入空字符串
-            CreationTime = json.loads(request.body)["creation_time"]#模糊查询条件，如果没有可以传入空字符串
+            StartTime = json.loads(request.body)["start_time"] # 开始时间
+            EndTime = json.loads(request.body)["end_time"]# 结束时间
             NumberOfPages=json.loads(request.body)["number_of_pages"]
             Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
             if Uid != None:  # 查到了UID
@@ -169,7 +171,8 @@ def Search(request):#条件查询
                                                      number_of_pages=int(NumberOfPages),
                                                      email=Email,
                                                      department=Department,
-                                                     creation_time=CreationTime)
+                                                     start_time=StartTime,
+                                                     end_time=EndTime)
                     return JsonResponse({'message': Result, 'code': 200, })
                 else:
                     return JsonResponse({'message': "你家页数是负数的？？？？", 'code': 400, })
@@ -188,7 +191,8 @@ def Search(request):#条件查询
 	"project_key":"aaaaaaaaaa",
 	"email":"163",
 	"department":"",
-	"creation_time":""
+	"start_time":"",
+	"end_time":""
 }
 """
 def SearchQuantity(request):#搜索数量
@@ -199,14 +203,16 @@ def SearchQuantity(request):#搜索数量
             ProjectKey = json.loads(request.body)["project_key"]
             Email = json.loads(request.body)["email"]  # 模糊查询条件，如果没有可以传入空字符串
             Department = json.loads(request.body)["department"]  # 模糊查询条件，如果没有可以传入空字符串
-            CreationTime = json.loads(request.body)["creation_time"]  # 模糊查询条件，如果没有可以传入空字符串
+            StartTime = json.loads(request.body)["start_time"]  # 开始时间
+            EndTime = json.loads(request.body)["end_time"]  # 结束时间
             Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
             if Uid != None:  # 查到了UID
                 UserOperationLogRecord(request, request_api="email_receive_data_search_quantity", uid=Uid)  # 查询到了在计入
                 Result = EmailReceiveData().SearchQuantity(project_key=ProjectKey,
-                                                   email=Email,
-                                                   department=Department,
-                                                   creation_time=CreationTime)
+                                                           email=Email,
+                                                           department=Department,
+                                                           start_time=StartTime,
+                                                           end_time=EndTime)
                 return JsonResponse({'message': Result, 'code': 200, })
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })

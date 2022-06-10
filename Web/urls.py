@@ -121,7 +121,7 @@ urlpatterns = [
     path('api/updata_email_project/', EmailProject.Updata),  # 更新项目数据
     path('api/run_email_project/', EmailProject.Run),  # 启动项目
     path('api/stop_email_project/', EmailProject.Stop),  # 停止项目
-    path('api/statistics_email_project/', EmailProject.Statistics),  # 统计邮件项目个数
+    path('api/email_project_statistics/', EmailProject.Statistics),  # 统计邮件项目个数
     path('api/email_project_details/', EmailProject.Details),  # 邮件内容详情
     path('api/email_project_summary/', EmailProject.Summary),  # 邮件项目内容摘要查询
     re_path(r'^b/().*?/$', ReceiveData.Monitor),  # 邮件接收数据监控

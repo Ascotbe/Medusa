@@ -2286,7 +2286,7 @@ class EmailProject:  # 邮件项目
         GoalMailbox =""# 目标邮箱列表
         ForgedAddress = ""# 伪造的发件人地址
         RedisId ="" # id值
-        CompilationStatus = "0"  # 状态0表示未完成，1表示完成，如果值为1那么久不再能够更新项目内容
+        CompilationStatus = "0"  # 状态0表示未完成，1表示完成，如果值为1那么就不再能够更新项目内容
         Interval ="" # 邮件发送间隔
         ProjectStatus="0"#项目状态，0表示未启动，1表示启动，启动中无法修改项目
 
@@ -2674,13 +2674,13 @@ class EmailReceiveData:  # 邮件数据接收
             result_list = []
             for i in self.cur.fetchall():
                 JsonValues = {}
-                JsonValues["email"] = i[0]
-                JsonValues["department"] = i[1]
-                JsonValues["full_url"] = i[3]
-                JsonValues["request_method"] = i[4]
-                JsonValues["data_pack_info"] = i[6]
-                JsonValues["incidental_data"] = i[7]
-                JsonValues["creation_time"] = i[8]
+                JsonValues["email"] = i[1]
+                JsonValues["department"] = i[2]
+                JsonValues["full_url"] = i[4]
+                JsonValues["request_method"] = i[5]
+                JsonValues["data_pack_info"] = i[7]
+                JsonValues["incidental_data"] = i[8]
+                JsonValues["creation_time"] = i[9]
                 result_list.append(JsonValues)
             self.con.close()
             return result_list
@@ -2703,21 +2703,22 @@ class EmailReceiveData:  # 邮件数据接收
             NumberOfSinglePages=100#单页数量
             NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页
             ProjectKey = kwargs.get("project_key")
+            StartTime = kwargs.get("start_time")#开始时间
+            EndTime = kwargs.get("end_time")#结束时间
             Email = "%"+kwargs.get("email")+"%"
             Department = "%"+kwargs.get("department")+"%"
-            CreationTime = "%"+kwargs.get("creation_time")+"%"
 
-            self.cur.execute("select * from EmailReceiveData WHERE project_key=? and email LIKE ? and department LIKE ? and creation_time LIKE ? limit ? offset ?", (ProjectKey,Email,Department,CreationTime,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))
+            self.cur.execute("select * from EmailReceiveData WHERE project_key=? and creation_time<=? and creation_time>=? and email LIKE ? and department LIKE ? limit ? offset ?", (ProjectKey,EndTime,StartTime,Email,Department,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))
             result_list = []
             for i in self.cur.fetchall():
                 JsonValues = {}
-                JsonValues["email"] = i[0]
-                JsonValues["department"] = i[1]
-                JsonValues["full_url"] = i[3]
-                JsonValues["request_method"] = i[4]
-                JsonValues["data_pack_info"] = i[6]
-                JsonValues["incidental_data"] = i[7]
-                JsonValues["creation_time"] = i[8]
+                JsonValues["email"] = i[1]
+                JsonValues["department"] = i[2]
+                JsonValues["full_url"] = i[4]
+                JsonValues["request_method"] = i[5]
+                JsonValues["data_pack_info"] = i[7]
+                JsonValues["incidental_data"] = i[8]
+                JsonValues["creation_time"] = i[9]
                 result_list.append(JsonValues)
             self.con.close()
             return result_list
@@ -2728,13 +2729,13 @@ class EmailReceiveData:  # 邮件数据接收
     def SearchQuantity(self, **kwargs):  # 模糊查询统计数量
         try:
             ProjectKey = kwargs.get("project_key")
+            StartTime = kwargs.get("start_time")#开始时间
+            EndTime = kwargs.get("end_time")#结束时间
             Email = "%" + kwargs.get("email") + "%"
             Department = "%" + kwargs.get("department") + "%"
-            CreationTime = "%" + kwargs.get("creation_time") + "%"
-
             self.cur.execute(
-                "select COUNT(1) from EmailReceiveData WHERE project_key=? and email LIKE ? and department LIKE ? and creation_time LIKE ? limit ? offset ?",
-                (ProjectKey, Email, Department, CreationTime,))
+                "select COUNT(1) from EmailReceiveData WHERE project_key=? and creation_time<=? and creation_time>=? and email LIKE ? and department LIKE ?",
+                (ProjectKey, EndTime,StartTime,Email, Department,))
             Result=self.cur.fetchall()[0][0]#获取数据个数
             self.con.close()
             return Result

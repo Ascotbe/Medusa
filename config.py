@@ -118,7 +118,7 @@ nist_update_banner=False#是否开启下载横幅提示，默认关闭
 ###############
 #钓鱼邮箱邮件配置# <---------------（必须修改
 ###############
-email_test=True#测试用163
+email_test=False#测试用163
 third_party_mail_host = "smtp.163.com"  # 设置第三方服务器
 third_party_mail_user = "ascotbe@163.com"  # 第三方用户名
 third_party_mail_pass = "hello_medusa"  #第三方口令

@@ -29,6 +29,7 @@
 	"token": "xxxx",
 	"end_time": "1659557858",
 	"project_key": "eNVqsIHXAV",
+  "project_name": "my_name",
 	"mail_message": "<p>警戒警戒！莎莎检测到有人入侵！数据以保存喵~</p>\n<p>首先需要制作PE镜像推荐使用<a target=\"_blank\" rel=\"noopener\" href=\"http://baidu.com/{{ md5 }}\">老毛桃</a></p>",
 	"attachment": {
 		"Medusa.txt": "AeId9BrGeELFRudpjb7wG22LidVLlJuGgepkJb3pK7CXZCvmM51628131056"
@@ -54,6 +55,7 @@
 - `token`登录后返回的**token**
 - `end_time` 项目停止接收数据时间
 - `project_key`项目的key值，通过创建项目接口获取的，在create_email_project接口
+- `project_name`项目名称
 - `mail_message` 支持HTML格式，在引入的页面添加占位符`{{ md5 }}`参考上面数据，如果是还需要统计点开邮件用户可以再最下面添加一个图片标签，只发送请求到接收数据接口，不发送数据的那种，同样需要占位符
 - `attachment`使用本地附件，通过email_attachment_query这个api接口获取相关信息，如果为空也必须传入`{}`符号
 - `image`邮件中插入的图片，通过email_attachment_query这个api接口获取相关信息，如果为空也必须传入`{}`符号
@@ -179,6 +181,7 @@
   		},
   		"end_time": "1659557858",
   		"project_key": "wAmDVUCHev",
+      "project_name": "my_name",
   		"mail_message": "PHA+6K2m5oiS6K2m5oiS77yB6I6O6I6O5qOA5rWL5Yiw5pyJ5Lq65YWl5L6177yB5pWw5o2u5Lul5L+d5a2Y5Za1fjwvcD4KPHA+6aaW5YWI6ZyA6KaB5Yi25L2cUEXplZzlg4/mjqjojZDkvb/nlKg8YSB0YXJnZXQ9Il9ibGFuayIgcmVsPSJub29wZW5lciIgaHJlZj0iaHR0cDovL2JhaWR1LmNvbS97eyBtZDUgfX0iPuiAgeavm+ahgzwvYT48L3A+",
   		"attachment": {},
   		"image": {},
@@ -202,6 +205,8 @@
   - `end_time`项目结束时间，结束后不再接受任何数据
 
   - `project_key`项目唯一关键字，用于判断接收数据所属
+
+  - `project_name`邮件的名称
 
   - `mail_message`邮件正文，需要base64解密
 
@@ -282,7 +287,7 @@
   - `project_key`项目的key值
   - `project_status`项目状态，0表示未启动，1表示启动，启动中无法修改项目
   - `interval`邮件发送间隔
-  - `compilation_status`任务状态，0表示未完成，1表示完成，如果值为1那么就不再能够更新项目内容
+  - `compilation_status`任务状态，0表示未完成，1表示完成，-1表示运行失败，如果值为1那么就不再能够更新项目内容
   - `creation_time`创建时间
 
 - 400：你家页数是负数的？？？？

@@ -74,7 +74,7 @@ def SendMail(MailMessage,Attachment,Image,MailTitle,Sender,GoalMailbox,ForgedAdd
                 EmailDetails().Write(email=Target,email_md5=MD5,status="1",project_key=Key,department=Department)
             except Exception as e:
                 ErrorLog().Write("Mail delivery failed->" + str(Target), e)
-                EmailDetails().Write(email=Target,email_md5=MD5,status="0",project_key=Key,department=Department)
+                EmailDetails().Write(email=Target,email_md5=MD5,status="-1",project_key=Key,department=Department)
     EmailProject().ProjectCompletion(redis_id=SendMail.request.id)#修改为完工
 
 

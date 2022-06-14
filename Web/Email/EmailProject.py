@@ -44,6 +44,7 @@ def Creation(request):#创建生成项目
 	"token": "xxxx",
 	"end_time": "1659557858",
 	"project_key": "eNVqsIHXAV",
+	"project_name": "my_name",
 	"mail_message": "<p>警戒警戒！莎莎检测到有人入侵！数据以保存喵~</p>\n<p>首先需要制作PE镜像推荐使用<a target=\"_blank\" rel=\"noopener\" href=\"http://baidu.com/{{ md5 }}\">老毛桃</a></p>",
 	"attachment": {
 		"Medusa.txt": "AeId9BrGeELFRudpjb7wG22LidVLlJuGgepkJb3pK7CXZCvmM51628131056"
@@ -70,6 +71,7 @@ def Updata(request):#更新项目数据
             EndTime = json.loads(request.body)["end_time"]
             Token = json.loads(request.body)["token"]
             Key = json.loads(request.body)["project_key"]  # 项目Key
+            Name = json.loads(request.body)["project_name"]  # 项目名称
             MailMessage = json.loads(request.body)["mail_message"]  # 文本内容
             Attachment = json.loads(request.body)["attachment"]  # 附件列表
             Image = json.loads(request.body)["image"]  # 获取内容图片
@@ -85,6 +87,8 @@ def Updata(request):#更新项目数据
                     return JsonResponse({'message': "未传入邮件接收人！", 'code': 414, })
                 if type(Attachment)!=dict or type(Image)!=dict:
                     return JsonResponse({'message': "附件或者图片必须传入字典类型，不可置空！", 'code': 415, })
+                if len(Name)==0:
+                    return JsonResponse({'message': "项目名称必须填入参数！", 'code': 416, })
                 if int(EndTime)-int(time.time())<10000000:
                     ProjectStatus= EmailProject().ProjectStatus(uid=Uid,project_key=Key)#查看项目是否启动
                     CompilationStatus = EmailProject().CompilationStatus(uid=Uid, project_key=Key)#查看项目是否完成
@@ -94,17 +98,18 @@ def Updata(request):#更新项目数据
                         return JsonResponse({'message': "项目已经开启禁止修改，如需修改请停止运行！", 'code': 406, })
                     else:
                         Result=EmailProject().Updata(uid=Uid,
-                                            mail_message=base64.b64encode(str(MailMessage).encode('utf-8')).decode('utf-8'),
-                                            attachment=Attachment,
-                                            image=Image,
-                                            mail_title=base64.b64encode(str(MailTitle).encode('utf-8')).decode('utf-8'),
-                                            sender=base64.b64encode(str(Sender).encode('utf-8')).decode('utf-8'),
-                                            forged_address=base64.b64encode(str(ForgedAddress).encode('utf-8')).decode('utf-8'),
-                                            redis_id="",
-                                            project_key=Key,
-                                            end_time=EndTime,
-                                            goal_mailbox=GoalMailbox,#list(set(GoalMailbox)),#去重数据
-                                            interval=Interval)
+                                                    mail_message=base64.b64encode(str(MailMessage).encode('utf-8')).decode('utf-8'),
+                                                    attachment=Attachment,
+                                                    project_name=Name,
+                                                    image=Image,
+                                                    mail_title=base64.b64encode(str(MailTitle).encode('utf-8')).decode('utf-8'),
+                                                    sender=base64.b64encode(str(Sender).encode('utf-8')).decode('utf-8'),
+                                                    forged_address=base64.b64encode(str(ForgedAddress).encode('utf-8')).decode('utf-8'),
+                                                    redis_id="",
+                                                    project_key=Key,
+                                                    end_time=EndTime,
+                                                    goal_mailbox=GoalMailbox,#list(set(GoalMailbox)),#去重数据
+                                                    interval=Interval)
                         if Result:
                             return JsonResponse({'message': "更新成功！", 'code': 200, })
                         else:
@@ -138,16 +143,16 @@ def Run(request):#运行项目
                 UserOperationLogRecord(request, request_api="run_email_project", uid=Uid)  # 查询到了在计入
                 #下发任务后修改项目状态（下发任务留空），任务完成后项目就不可修改
                 ProjectResult=EmailProject().Query(uid=Uid,project_key=Key)#获取目标
-                if ProjectResult[12]=="0" and ProjectResult[14]=="0":
+                if ProjectResult[13]=="0" and ProjectResult[15]=="0":
 
                     TargetList=ast.literal_eval(ProjectResult[2])#目标
-                    MailMessage = base64.b64decode(str(ProjectResult[5]).encode('utf-8')).decode('utf-8')  # 正文内容，需要用base64加密
-                    Attachment = ast.literal_eval(ProjectResult[6])  # 附件文件，需要传入json格式，使用的是本地名称
-                    Image = ast.literal_eval(ProjectResult[7])  # 图片文件，使用列表形式窜入
-                    MailTitle =base64.b64decode(str(ProjectResult[8]).encode('utf-8')).decode('utf-8')  # 邮件头
-                    Sender = base64.b64decode(str(ProjectResult[9] ).encode('utf-8')).decode('utf-8')  # 发送人名称
-                    ForgedAddress = base64.b64decode(str(ProjectResult[10]).encode('utf-8')).decode('utf-8')   # 伪造的发件人地址
-                    Interval = ProjectResult[13]  # 邮件发送间隔
+                    MailMessage = base64.b64decode(str(ProjectResult[6]).encode('utf-8')).decode('utf-8')  # 正文内容，需要用base64加密
+                    Attachment = ast.literal_eval(ProjectResult[7])  # 附件文件，需要传入json格式，使用的是本地名称
+                    Image = ast.literal_eval(ProjectResult[8])  # 图片文件，使用列表形式窜入
+                    MailTitle =base64.b64decode(str(ProjectResult[9]).encode('utf-8')).decode('utf-8')  # 邮件头
+                    Sender = base64.b64decode(str(ProjectResult[10]).encode('utf-8')).decode('utf-8')  # 发送人名称
+                    ForgedAddress = base64.b64decode(str(ProjectResult[11]).encode('utf-8')).decode('utf-8')   # 伪造的发件人地址
+                    Interval = ProjectResult[14]  # 邮件发送间隔
                     if TargetList!=0:
 
                         SendMailForRedis = SendMail.delay(MailMessage, Attachment, Image, MailTitle, Sender, TargetList,
@@ -245,17 +250,18 @@ def Details(request):#查询邮件详情
                 JsonValues["goal_mailbox"] = ast.literal_eval(Result[2])
                 JsonValues["end_time"] = Result[3]
                 JsonValues["project_key"] = Result[4]
-                JsonValues["mail_message"] = Result[5]
-                JsonValues["attachment"] = ast.literal_eval(Result[6])
-                JsonValues["image"] = ast.literal_eval(Result[7])
-                JsonValues["mail_title"] = Result[8]
-                JsonValues["sender"] = Result[9]
-                JsonValues["forged_address"] = Result[10]
-                JsonValues["redis_id"] = Result[11]
-                JsonValues["compilation_status"] = Result[12]
-                JsonValues["interval"] = Result[13]
-                JsonValues["project_status"] = Result[14]
-                JsonValues["creation_time "] = Result[15]
+                JsonValues["project_name"] = Result[5]
+                JsonValues["mail_message"] = Result[6]
+                JsonValues["attachment"] = ast.literal_eval(Result[7])
+                JsonValues["image"] = ast.literal_eval(Result[8])
+                JsonValues["mail_title"] = Result[9]
+                JsonValues["sender"] = Result[10]
+                JsonValues["forged_address"] = Result[11]
+                JsonValues["redis_id"] = Result[12]
+                JsonValues["compilation_status"] = Result[13]
+                JsonValues["interval"] = Result[14]
+                JsonValues["project_status"] = Result[15]
+                JsonValues["creation_time "] = Result[16]
 
                 return JsonResponse({'message': JsonValues, 'code': 200, })
 

@@ -2259,6 +2259,7 @@ class EmailProject:  # 邮件项目
                                 goal_mailbox TEXT NOT NULL,\
                                 end_time TEXT NOT NULL,\
                                 project_key TEXT NOT NULL,\
+                                project_name TEXT NOT NULL,\
                                 mail_message TEXT NOT NULL,\
                                 attachment TEXT NOT NULL,\
                                 image TEXT NOT NULL,\
@@ -2278,6 +2279,7 @@ class EmailProject:  # 邮件项目
         Uid = kwargs.get("uid")
         EndTime= ""#项目结束时间，结束后不再接受任何数据
         ProjectKey= kwargs.get("project_key")#项目唯一关键字，用于判断接收数据所属
+        ProjectName= ""#项目名称
         MailMessage= ""#正文内容，需要用base64加密
         Attachment= ""#附件文件，需要传入json格式，使用的是本地名称
         Image = ""  # 图片文件，使用列表形式窜入
@@ -2291,8 +2293,8 @@ class EmailProject:  # 邮件项目
         ProjectStatus="0"#项目状态，0表示未启动，1表示启动，启动中无法修改项目
 
         try:
-            self.cur.execute("INSERT INTO EmailProject(uid,goal_mailbox,end_time,project_key,mail_message,attachment,image,mail_title,sender,forged_address,redis_id,compilation_status,interval,project_status,creation_time)\
-                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (Uid,str(GoalMailbox),str(EndTime), str(ProjectKey),MailMessage, str(Attachment), str(Image),MailTitle,Sender,str(ForgedAddress),RedisId,CompilationStatus,Interval,ProjectStatus,CreationTime,))
+            self.cur.execute("INSERT INTO EmailProject(uid,goal_mailbox,end_time,project_key,project_name,mail_message,attachment,image,mail_title,sender,forged_address,redis_id,compilation_status,interval,project_status,creation_time)\
+                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (Uid,str(GoalMailbox),str(EndTime), str(ProjectKey),str(ProjectName),MailMessage, str(Attachment), str(Image),MailTitle,Sender,str(ForgedAddress),RedisId,CompilationStatus,Interval,ProjectStatus,CreationTime,))
             # 提交
             self.con.commit()
             self.con.close()
@@ -2303,6 +2305,7 @@ class EmailProject:  # 邮件项目
     def Updata(self,**kwargs)->bool:#利用主键ID来判断后更新数据
         Uid = kwargs.get("uid")
         ProjectKey= kwargs.get("project_key")#项目唯一关键字，用于判断接收数据所属
+        ProjectName= kwargs.get("project_name")#项目名称
         EndTime= kwargs.get("end_time")#项目结束时间，结束后不再接受任何数据
         MailMessage= kwargs.get("mail_message")#正文内容，需要用base64加密
         Attachment= kwargs.get("attachment")#附件文件，需要传入json格式，使用的是本地名称
@@ -2313,7 +2316,7 @@ class EmailProject:  # 邮件项目
         ForgedAddress = kwargs.get("forged_address")  # 伪造的发件人地址
         Interval = kwargs.get("interval")  # 邮件发送间隔
         try:
-            self.cur.execute("""UPDATE EmailProject SET end_time=?,mail_message=?,attachment=?,image=?,mail_title=?,sender=?,goal_mailbox=?,forged_address=?,interval=? WHERE uid= ? and project_key=?""",(str(EndTime),str(MailMessage),str(Attachment),str(Image) ,MailTitle,Sender,str(GoalMailbox),ForgedAddress ,Interval,Uid ,ProjectKey,))
+            self.cur.execute("""UPDATE EmailProject SET end_time=?,project_name=?,mail_message=?,attachment=?,image=?,mail_title=?,sender=?,goal_mailbox=?,forged_address=?,interval=? WHERE uid= ? and project_key=?""",(str(EndTime),str(ProjectName),str(MailMessage),str(Attachment),str(Image) ,MailTitle,Sender,str(GoalMailbox),ForgedAddress ,Interval,Uid ,ProjectKey,))
             # 提交
             if self.cur.rowcount < 1:  # 用来判断是否更新成功
                 self.con.commit()
@@ -2433,7 +2436,7 @@ class EmailProject:  # 邮件项目
             Uid = kwargs.get("uid")
             NumberOfSinglePages=100#单页数量
             NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
-            self.cur.execute("select end_time,project_key,project_status,interval,compilation_status,creation_time  from EmailProject WHERE uid=? limit ? offset ?", (Uid,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询用户相关信息
+            self.cur.execute("select end_time,project_key,project_status,interval,compilation_status,creation_time,project_name  from EmailProject WHERE uid=? limit ? offset ?", (Uid,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询用户相关信息
             result_list = []
             for i in self.cur.fetchall():
                 JsonValues = {}
@@ -2443,6 +2446,7 @@ class EmailProject:  # 邮件项目
                 JsonValues["interval"] = i[3]
                 JsonValues["compilation_status"] = i[4]
                 JsonValues["creation_time"] = i[5]
+                JsonValues["project_name"] = i[6]
                 result_list.append(JsonValues)
             self.con.close()
             return result_list
@@ -2478,24 +2482,7 @@ class EmailProject:  # 邮件项目
         except Exception as e:
             ErrorLog().Write("Web_DatabaseHub_EmailProject(class)_Statistics(def)", e)
             return None
-    # def UpdateStatus(self,**kwargs)->bool:#利用主键ID来判断后更新数据
-    #     RedisId = kwargs.get("redis_id")
-    #     MailStatus = kwargs.get("mail_status")
-    #     CompilationStatus = "1"
-    #     try:
-    #         self.cur.execute("""UPDATE MaliciousEmail SET compilation_status = ?,mail_status=? WHERE redis_id= ?""",(CompilationStatus,MailStatus, RedisId,))
-    #         # 提交
-    #         if self.cur.rowcount < 1:  # 用来判断是否更新成功
-    #             self.con.commit()
-    #             self.con.close()
-    #             return False
-    #         else:
-    #             self.con.commit()
-    #             self.con.close()
-    #             return True
-    #     except Exception as e:
-    #         ErrorLog().Write("Web_DatabaseHub_MaliciousEmail(class)_UpdateStatus(def)", e)
-    #         return False
+
 
 class EmailDetails:  # 邮件详情，发送状态
     def __init__(self):

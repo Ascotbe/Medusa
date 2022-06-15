@@ -15,7 +15,9 @@ from Web.DatabaseHub import EmailDetails,EmailProject
 from ClassCongregation import ErrorLog,GetMailUploadFilePath,GetTempFilePath
 from Web.celery import app
 """
+<p>这是一段文字</p>
 <p><img src="cid:dns_config"></p>
+<p>这个也是</p>
 """
 
 

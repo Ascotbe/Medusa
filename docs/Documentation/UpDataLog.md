@@ -3671,3 +3671,10 @@ v1.0.148🌴
 修改EmailProject表，添加project_name字段
 修改EmailProject表相关的函数和api文档
 ```
+
+2022.6.15
+
+```
+v1.0.149🌴
+修改邮件图片的默认参数
+```

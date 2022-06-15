@@ -45,12 +45,12 @@ def Creation(request):#创建生成项目
 	"end_time": "1659557858",
 	"project_key": "eNVqsIHXAV",
 	"project_name": "my_name",
-	"mail_message": "<p>警戒警戒！莎莎检测到有人入侵！数据以保存喵~</p>\n<p>首先需要制作PE镜像推荐使用<a target=\"_blank\" rel=\"noopener\" href=\"http://baidu.com/{{ md5 }}\">老毛桃</a></p>",
+	"mail_message": "<p>警戒警戒！莎莎检测到有人入侵！数据以保存喵~</p>\n<p><img src=\"cid:Medusa.jpg\"></p><p>快快看看这个<a target=\"_blank\" rel=\"noopener\" href=\"http://baidu.com/{{ md5 }}\">数据</a></p>",
 	"attachment": {
 		"Medusa.txt": "AeId9BrGeELFRudpjb7wG22LidVLlJuGgepkJb3pK7CXZCvmM51628131056"
 	},
 	"image": {
-		"Medusa.jpg": "2DvWXQc8ufvWMIrhwV5MxrzZZA2oy2f3b5qj5r6VTzb247nQYP1642744866"
+		"Medusa.jpg": "5x8SfyxamrejUHa6sBMztSUxH2skl6yBZ81lDDhj96264YLiRb1655199840"
 	},
 	"mail_title": "测试邮件",
 	"sender": "瓜皮大笨蛋",

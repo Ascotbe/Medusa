@@ -35,7 +35,7 @@ def SendMail(MailMessage,Attachment,Image,MailTitle,Sender,GoalMailbox,ForgedAdd
                 EmailBox = MIMEMultipart()  # 创建容器
 
                 EmailBox['From'] = Header(Sender + "<" + ForgedAddress + ">", 'utf-8') # 发送人
-                EmailBox['To'] = Header(Target, 'utf-8')# 发给谁
+                EmailBox['To'] = Header(Target)# 发给谁
                 EmailBox['Subject'] = Header(MailTitle, 'utf-8')  # 标题
                 EmailBox["Accept-Language"] = "zh-CN"
                 EmailBox["Accept-Charset"] = "ISO-8859-1,utf-8"

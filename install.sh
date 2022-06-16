@@ -5,24 +5,21 @@
 #fi
 func() {
     echo "Usage:"
-    echo "install.sh [-u WebDomain] [-d DNSLogDomain] [-s LocalSMTP] [-m ThirdPartySMTP] [-n ThirdPartyName] [-k ThirdPartyKey]"
+    echo "install.sh [-u WebDomain] [-d DNSLogDomain] [-s LocalSMTP]"
     echo "Description:"
-    echo "WebDomain,web端的域名.(必填)"
-    echo "DNSLogDomain,DNSLog域名.(必填)"
+    echo "WebDomain,web端的域名."
+    echo "DNSLogDomain,DNSLog域名."
     echo "LocalSMTP,自建SMTP服务器."
-    echo "ThirdPartySMTP,第三方smtp服务器."
-    echo "ThirdPartyName,第三方smtp服务器账号."
-    echo "ThirdPartyKey,第三方smtp服务器秘钥."
     exit -1
 }
-while getopts 'u:d:s:m:n:k:h' OPT; do
+while getopts 'u:d:s:h' OPT; do
     case $OPT in
         u) cross_site_script_uses_domain_names="$OPTARG";;#web端的域名
         d) domain_name_system_address="$OPTARG";;#DNSLog域名
         s) local_mail_host="$OPTARG";;#自建SMTP服务器
-        m) third_party_mail_host="$OPTARG";;#第三方smtp服务器
-        n) third_party_mail_user="$OPTARG";;#第三方smtp服务器账号
-        k) third_party_mail_pass="$OPTARG";;#第三方smtp服务器秘钥
+#        m) third_party_mail_host="$OPTARG";;#第三方smtp服务器
+#        n) third_party_mail_user="$OPTARG";;#第三方smtp服务器账号
+#        k) third_party_mail_pass="$OPTARG";;#第三方smtp服务器秘钥
         h) func;;
     esac
 done
@@ -61,27 +58,27 @@ if [[ `uname` == 'Linux' ]]; then
     sed -i "s/this_is_your_dnslog_name/$domain_name_system_address/g" Dockerfile
     echo -e "\033[31m modify dnslog domain name \033[35m--->\033[0m\033[0m$domain_name_system_address"
 
-    if [ "$third_party_mail_host" = "" ]  ;then
-        echo -e "\033[32m Unwave to modify a third-party SMTP server, mail sending function is not available !\033[0m"
-    else
-        #修改第三smtp服务器
-        sed -i "s/smtp.163.com/$third_party_mail_host/g" config.py
-        echo -e "\033[31m modify third-party SMTP server \033[35m--->\033[0m\033[0m$third_party_mail_host"
-    fi
-    if [ "$third_party_mail_user" = "" ]  ;then
-        echo -e "\033[32m Unavigified third-party mail server account, mail sending function is not available ~ \033[0m"
-    else
-        #修改第三方邮件服务器账号
-        sed -i "s/ascotbe@163.com/$third_party_mail_user/g" config.py
-        echo -e "\033[31m modify a third-party mail server account \033[35m--->\033[0m\033[0m$third_party_mail_user"
-    fi
-    if [ "$third_party_mail_pass" = "" ]  ;then
-        echo -e "\033[32m Unwind to the third-party mail server secret key, mail delivery function is not available !\033[0m"
-    else
-        #修改第三方邮件服务器秘钥
-        sed -i "s/hello_medusa/$third_party_mail_pass/g" config.py
-        echo -e "\033[31m modify the secret key of third-party mail server \033[35m--->\033[0m\033[0m$third_party_mail_pass"
-    fi
+#    if [ "$third_party_mail_host" = "" ]  ;then
+#        echo -e "\033[32m Unwave to modify a third-party SMTP server, mail sending function is not available !\033[0m"
+#    else
+#        #修改第三smtp服务器
+#        sed -i "s/smtp.163.com/$third_party_mail_host/g" config.py
+#        echo -e "\033[31m modify third-party SMTP server \033[35m--->\033[0m\033[0m$third_party_mail_host"
+#    fi
+#    if [ "$third_party_mail_user" = "" ]  ;then
+#        echo -e "\033[32m Unavigified third-party mail server account, mail sending function is not available ~ \033[0m"
+#    else
+#        #修改第三方邮件服务器账号
+#        sed -i "s/ascotbe@163.com/$third_party_mail_user/g" config.py
+#        echo -e "\033[31m modify a third-party mail server account \033[35m--->\033[0m\033[0m$third_party_mail_user"
+#    fi
+#    if [ "$third_party_mail_pass" = "" ]  ;then
+#        echo -e "\033[32m Unwind to the third-party mail server secret key, mail delivery function is not available !\033[0m"
+#    else
+#        #修改第三方邮件服务器秘钥
+#        sed -i "s/hello_medusa/$third_party_mail_pass/g" config.py
+#        echo -e "\033[31m modify the secret key of third-party mail server \033[35m--->\033[0m\033[0m$third_party_mail_pass"
+#    fi
     if [ "$local_mail_host" = "" ]  ;then
         echo -e "\033[32m no self-built SMTP server is modified, causing this feature unavailable ! \033[0m"
     else
@@ -109,8 +106,8 @@ if [[ `uname` == 'Linux' ]]; then
     sudo docker build -t medusa_web .
     sudo docker run -d -i -t --name  medusa --net=host medusa_web
     sleep 2
-    echo -e "\033[31m[ + ] redis password change to \033[35m--->\033[0m\033[0m$redis_password"
-    echo -e "\033[31m[ + ] modify registration required key \033[35m--->\033[0m\033[0m$secret_key_required_for_account_registration"
-    echo -e "\033[31m[ + ] modify the secret required for forgot password \033[35m--->\033[0m\033[0m$forget_password_key"
+    echo -e "\033[31m[ + ] redis password change to \033[35m--->  \033[0m\033[0m$redis_password"
+    echo -e "\033[31m[ + ] modify registration required key \033[35m--->  \033[0m\033[0m$secret_key_required_for_account_registration"
+    echo -e "\033[31m[ + ] modify the secret required for forgot password \033[35m--->  \033[0m\033[0m$forget_password_key"
 
 fi

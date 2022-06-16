@@ -59,7 +59,6 @@ def Creation(request):#创建生成项目
 		"大数据": ["ascotbe@qq.com"],
 		"客服": ["1099482542@qq.com"]
 	},
-	"third_party": "0",
 	"forged_address": "helpdesk@ascotbe.com",
 	"interval": "0.1"
 }

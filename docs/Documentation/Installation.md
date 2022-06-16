@@ -307,9 +307,6 @@ nohup ./run.sh &
 
 1. Web端域名（必填
 2. 接收DNSLOG所需要的域名（必填
-3. 第三方SMTP服务器
-4. 第三方SMTP账号
-5. 第三方SMTP秘钥
 6. 自建SMTP服务器（只能传入域名，邮箱@后面的值
 
 ```bash
@@ -317,7 +314,7 @@ nohup ./run.sh &
 git clone https://github.com/Ascotbe/Medusa.git
 cd Medusa
 sudo chmod +x install.sh
-./install.sh -u medusa.test.ascotbe.com -d dnslog.test.ascotbe.com -s ascotbe.com -m smtp.163.com -n ascotbe@163.com -k third_party_mail_pass
+./install.sh -u medusa.test.ascotbe.com -d dnslog.test.ascotbe.com -s ascotbe.com
 ```
 
 ## 配置DNSLOG域名

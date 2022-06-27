@@ -19,7 +19,7 @@
 >
 > `Web`  Alpha Ver. Online
 >
-> Please download the Releases version, the Master branch is reconstructing the front end
+> Please download the Releases version, the Master branch is reconstructing the front end（Expected to go online by the end of 2022）
 
 
 #### **[中文文档](https://github.com/Ascotbe/Medusa/blob/master/README.CN.md) | EnglishDocumentation**
@@ -33,7 +33,7 @@ http://medusa.ascotbe.com
 ### :clipboard:`Web` Ver. installation instructions
 
 ```
-http://medusa.ascotbe.com/Documentation/#/WebVersionInstallation
+https://medusa.ascotbe.com/Documentation/#/Installation
 ```
 
 ### :space_invader:Web interface

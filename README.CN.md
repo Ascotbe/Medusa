@@ -20,7 +20,7 @@
 >
 >`Web`  **Alpha**版本已上线
 >
->请下载releases版本使用，master分支正在重构前端
+>请下载releases版本使用，master分支正在重构前端（预计2022年底上线）
 
 #### **中文文档 |[EnglishDocumentation](https://github.com/Ascotbe/Medusa/blob/master/README.md)**
 
@@ -33,7 +33,7 @@ http://medusa.ascotbe.com
 ### :clipboard:安装说明
 
 ```bash
-http://medusa.ascotbe.com/Documentation/#/WebVersionInstallation
+https://medusa.ascotbe.com/Documentation/#/Installation
 ```
 
 ### :space_invader:Web界面

@@ -3,7 +3,7 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-from Web.DatabaseHub import Config
+from ClassCongregation import Config
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Web.settings')
     try:
@@ -73,7 +73,6 @@ def InitialConfiguration():  # 先判断是否有数据，如果没有就写入�
 
 
 if __name__ == '__main__':
-    InitialConfiguration()
     main()
 
 

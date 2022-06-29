@@ -4,8 +4,39 @@ import time
 import sys
 import sqlite3
 import json
+from fake_useragent import UserAgent
 from ClassCongregation import GetDatabaseFilePath,ErrorLog,randoms,GetRootFileLocation,GetNistDatabaseFilePath
-from config import domain_name_system_address
+from config import domain_name_system_address,user_agent_browser_type
+
+class AgentHeader:  # 使用随机头类
+    def result(self) -> str:  # 使用随机头传入传入参数
+        try:
+            self.Values = user_agent_browser_type
+            ua = UserAgent(verify_ssl=False)
+            if self.Values == None:  # 如果参数为空使用随机头
+                return (ua.random)
+            elif self.Values.lower() == "firefox":  # 如果是火狐字符串使用火狐头
+                return (ua.firefox)
+            elif self.Values.lower() == "ie":  # IE浏览器
+                return (ua.ie)
+            elif self.Values.lower() == "msie":  # msie
+                return (ua.msie)
+            elif self.Values.lower() == "opera":  # Opera Software
+                return (ua.opera)
+            elif self.Values.lower() == "chrome":  # 谷歌浏览器
+                return (ua.chrome)
+            elif self.Values.lower() == "AppleWebKit":  # AppleWebKit
+                return (ua.google)
+            elif self.Values.lower() == "Gecko":  # Gecko
+                return (ua.ff)
+            elif self.Values.lower() == "safari":  # apple safari
+                return (ua.safari)
+            else:
+                return (ua.random)  # 如果用户瞎几把乱输使用随机头
+        except Exception as e:
+            ErrorLog().Write("ClassCongregation_AgentHeader(class)_result(def)", e)
+            return "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.2117.157 Safari/537.36"  # 报错使用随机头
+
 
 class UserInfo:#用户表
     def __init__(self):
@@ -3158,81 +3189,3 @@ class FileAcquisitionPack:  # 打包接收函数
         except Exception as e:
             ErrorLog().Write("Web_DatabaseHub_FileAcquisitionPack(class)_Quantity(def)", e)
             return None
-class Config:  # 配置数据表
-    def __init__(self):
-        self.con = sqlite3.connect(GetDatabaseFilePath().result())
-        # 获取所创建数据的游标
-        self.cur = self.con.cursor()
-        # 创建表
-        try:
-            self.cur.execute("CREATE TABLE Config\
-                                (config_id INTEGER PRIMARY KEY,\
-                                fixed_data TEXT NOT NULL,\
-                                data TEXT NOT NULL,\
-                                update_time TEXT NOT NULL,\
-                                creation_time TEXT NOT NULL)")
-        except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_Config(class)_init(def)", e)
-
-    def Write(self, **kwargs) -> bool or None:  # 写入相关信息
-        CreationTime = str(int(time.time()))  # 创建时间
-        Data= kwargs.get("data")
-        FixedData = kwargs.get("fixed_data")
-
-
-        try:
-            self.cur.execute("INSERT INTO Config(data,fixed_data,update_time,creation_time)\
-                VALUES (?,?,?,?)", (Data,FixedData,CreationTime,CreationTime,))
-            # 提交
-            self.con.commit()
-            self.con.close()
-            return True
-        except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_Config(class)_Write(def)", e)
-            return False
-    def Query(self):
-        try:
-            self.cur.execute("select data,fixed_data,update_time,creation_time  from Config WHERE config_id=?", (1,))#查询用户相关信息
-            result_list = []
-            for i in self.cur.fetchall():
-                JsonValues = {}
-                JsonValues["data"] = i[0]
-                JsonValues["fixed_data"] = i[1]
-                JsonValues["update_time"] = i[2]
-                JsonValues["creation_time"] = i[3]
-                result_list.append(JsonValues)
-            self.con.close()
-            return result_list
-        except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_Config(class)_Query(def)", e)
-            return None
-    def Update(self,**kwargs):
-        UpdateTime=str(int(time.time()))
-        FixedData = kwargs.get("fixed_data")
-        try:
-            self.cur.execute(
-                """UPDATE Config SET fixed_data = ?,update_time=? WHERE config_id = ?""",
-                (FixedData ,UpdateTime,1,))
-            # 提交
-            if self.cur.rowcount < 1:  # 用来判断是否更新成功
-                self.con.commit()
-                self.con.close()
-                return False
-            else:
-                self.con.commit()
-                self.con.close()
-                return True
-
-        except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_Config(class)_Update(def)", e)
-    def Statistics(self):  # 统计数据
-        try:
-            self.cur.execute("SELECT COUNT(1)  FROM Config ",)
-            if self.cur.fetchall()[0][0]==0 :#获取数据个数
-                self.con.close()
-                return True
-            else:
-                return False
-        except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_Config(class)_Statistics(def)", e)
-            return False

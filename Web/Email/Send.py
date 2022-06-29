@@ -10,7 +10,7 @@ from email.mime.text import MIMEText
 from email.header import Header
 import hashlib
 import shutil
-from config import email_test,third_party_mail_host,third_party_mail_user,third_party_mail_pass,local_mail_host,local_mail_user
+from config import email_debug,third_party_mail_host,third_party_mail_user,third_party_mail_pass,local_mail_host,local_mail_user
 from Web.DatabaseHub import EmailDetails,EmailProject
 from ClassCongregation import ErrorLog,GetMailUploadFilePath,GetTempFilePath
 from Web.celery import app
@@ -63,7 +63,7 @@ def SendMail(MailMessage,Attachment,Image,MailTitle,Sender,GoalMailbox,ForgedAdd
                     pic.add_header("X-Attachment-Id", "x")
                     TextMessage.attach(pic)
                 SMTP = smtplib.SMTP()
-                if email_test:  #判断是否测试用例
+                if email_debug:  #判断是否测试用例
                     SMTP.connect(third_party_mail_host, 25)  # 25 为 SMTP 端口号
                     SMTP.login(third_party_mail_user, third_party_mail_pass)
                     SMTP.sendmail(third_party_mail_user, Target, EmailBox.as_string())
@@ -75,7 +75,7 @@ def SendMail(MailMessage,Attachment,Image,MailTitle,Sender,GoalMailbox,ForgedAdd
                 SMTP.close()
                 EmailDetails().Write(email=Target,email_md5=MD5,status="1",project_key=Key,department=Department)
             except Exception as e:
-                ErrorLog().Write("Mail delivery failed->" + str(Target), e)
+                ErrorLog().Write("Web_Email_Send_SendMail(def)" + str(Target), e)
                 EmailDetails().Write(email=Target,email_md5=MD5,status="-1",project_key=Key,department=Department)
     EmailProject().ProjectCompletion(redis_id=SendMail.request.id)#修改为完工
 

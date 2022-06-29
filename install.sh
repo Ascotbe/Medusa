@@ -43,7 +43,7 @@ if [[ `uname` == 'Linux' ]]; then
     forget_password_key=`pwgen 40 -c 1 -n 5`
 
     #当前medusa搭建域名
-    sed -i "s/127.0.0.1:1234/$cross_site_script_uses_domain_names/g" config.py
+    sed -i "s/127.0.0.1:1234/$cross_site_script_uses_domain_names/g" manage.py
     #${cross_site_script_uses_domain_names//\//\/}
     #${parameter/pattern/string}
     #${parameter//pattern/string}
@@ -54,7 +54,7 @@ if [[ `uname` == 'Linux' ]]; then
     sed -i "s/http:\/\/127.0.0.1:9999/https:\/\/$cross_site_script_uses_domain_names/g" Vue/faceConfig.js
     echo -e "\033[31m current MEDUSA builds domain name \033[35m--->\033[0m\033[0m$cross_site_script_uses_domain_names"
     #DNSLOG接收域名
-    sed -i "s/dnslog.ascotbe.com/$domain_name_system_address/g" config.py
+    sed -i "s/dnslog.ascotbe.com/$domain_name_system_address/g" manage.py
     sed -i "s/this_is_your_dnslog_name/$domain_name_system_address/g" Dockerfile
     echo -e "\033[31m modify dnslog domain name \033[35m--->\033[0m\033[0m$domain_name_system_address"
 
@@ -83,23 +83,23 @@ if [[ `uname` == 'Linux' ]]; then
         echo -e "\033[32m no self-built SMTP server is modified, causing this feature unavailable ! \033[0m"
     else
         #修改自建SMTP服务器,只能传入域名，邮箱@后面的值
-        sed -i "s/smtp.ascotbe.com/smtp.$local_mail_host/g" config.py
+        sed -i "s/smtp.ascotbe.com/smtp.$local_mail_host/g" manage.py
         sed -i "s/this_is_your_mail_server_domain_name/$local_mail_host/g" Dockerfile
         echo -e "\033[31m modify self-built SMTP server \033[35m--->\033[0m\033[0m smtp.$local_mail_host"
     fi
 
     #本机服务器代码
-    sed -i "s/192.168.1.1/$server_ip/g" config.py
+    sed -i "s/192.168.1.1/$server_ip/g" manage.py
     echo -e "\033[31m This machine IP has been set to \033[35m--->\033[0m\033[0m$server_ip"
     #修改自建服务器邮箱
-    sed -i "s/ascotbe@ascotbe.com/test@$local_mail_host/g" config.py
+    sed -i "s/ascotbe@ascotbe.com/test@$local_mail_host/g" manage.py
     #注册密码key
-    sed -i "s/I_will_always_like_SoryuAsukaLangley/$secret_key_required_for_account_registration/g" config.py
+    sed -i "s/I_will_always_like_SoryuAsukaLangley/$secret_key_required_for_account_registration/g" manage.py
     #redis密码
-    sed -i "s/I_will_always_like_AyanamiRei/$redis_password/g" config.py
+    sed -i "s/I_will_always_like_AyanamiRei/$redis_password/g" manage.py
     sed -i "s/redis_passwd123/$redis_password/g" Dockerfile
     #忘记密码key
-    sed -i "s/I_will_always_like_KatsuragiMisato/$forget_password_key/g" config.py
+    sed -i "s/I_will_always_like_KatsuragiMisato/$forget_password_key/g" manage.py
 
     sleep 3
     tar zcvf Medusa.tat.gz *

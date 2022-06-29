@@ -2,24 +2,19 @@
 # _*_ coding: utf-8 _*_
 from fake_useragent import UserAgent
 import urllib.parse
-import requests
 import sqlite3
-from tqdm import tqdm
 import logging
 import os
 import re
-import socket
 import base64
 import random
 import sys
 import time
-import multiprocessing
 from typing import List, Tuple
-import threading
 import subprocess
 import hashlib
 from Crypto.Cipher import AES
-from config import debug_mode,dnslog_name,port_threads_number,port_timeout_period,thread_timeout_number,user_agent_browser_type
+from config import user_agent_browser_type
 import ast
 ############################################
 #这里面的关于数据库的表都是没用的后续会慢慢移除重写#
@@ -85,143 +80,143 @@ class GetDatabaseFilePath:  # 主数据库文件路径返回值
             DatabaseFilePath = GetRootFileLocation().Result() + "/Medusa.db"
             return DatabaseFilePath
 
-
-class PortScan:  # 扫描端口类
-    def __init__(self):
-        try:
-
-            self.CustomizePortList =[] # 用户输入处理后的列表
-            self.DefaultPortList = [20, 21, 22, 23, 53,80, 161, 389, 443, 873, 1025, 1099, 2222, 2601, 2604, 3312, 3311, 4440, 5900, 5901,
-                       5902, 7002, 9000, 9200, 10000, 50000, 50060, 50030, 8080, 139, 445, 3389, 13389, 7001, 1521, 3306,
-                       1433, 5000, 5432, 27017, 6379, 11211]  # 常用端口扫描列表
-            self.OpenPorts=[]
-        except Exception as e:
-            ErrorLog().Write("ClassCongregation_PortScan(class)___init__(def)", e)
-
-
-    def PortTest(self,**kwargs):
-        port = int(kwargs.get("port"))
-
-        try:
-            sk = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            sk.connect((self.Ip, port))
-            sk.settimeout(port_timeout_period)
-            sk.close()
-            self.OpenPorts.append(str(port))  # 传入列表中
-            #成功直接调用写入端口函数
-
-        except Exception as e:
-            pass
-    def Start(self,**kwargs):
-        #传入端口列表，主函数中写入
-        PortInformation = kwargs.get("PortInformation")
-        PortType = kwargs.get("PortType")
-        Uid=kwargs.get("Uid")
-        Url = kwargs.get("Url")
-        self.Host = IpProcess(Url)  # 调用IP处理函数,获取URL或者IP
-        self.Ip = socket.gethostbyname(self.Host)  # 如果是URL会进行二次处理获取到IP
-        ActiveScanId=kwargs.get("ActiveScanId")
-        self.PortHandling(PortInformation,PortType)
-        try:
-            Pool = ThreadPool()
-            for Port in self.CustomizePortList:
-                Pool.Append(self.PortTest, port=Port)
-
-            Pool.Start(port_threads_number)  # 启动线程池
-            #print(self.OpenPorts)
-            #调用写入数据库函数和调用写入文件函数
-            CreationTime=str(int(time.time()))
-            for i in self.OpenPorts:#循环写入到数据库中
-                PortDB(uid=Uid,active_scan_id=ActiveScanId,ip=self.Ip,domain=self.Host,creation_time=CreationTime,port=i).Write()#写到数据库中
-        except Exception as e:
-            ErrorLog().Write("ClassCongregation_PortScan(class)_Start(def)", e)
-
-
-    def PortHandling(self,PortInformation,PortType):  # 进行正则匹配处理
-        try:
-            Pattern = re.compile(r'\d*')  # 查找数字
-            RegularResult = Pattern.findall(PortInformation)
-            if PortType == 1:  # 处理为范围类型数据
-                ExtractContent = []  # 剔除空字节内容和超过最大端口数据
-                for i in RegularResult:
-                    if i != "" and int(i) <= 65535:
-                        ExtractContent.append(i)
-                PortStart = int(ExtractContent[0])  # 起始端口
-                PortEnd = int(ExtractContent[1])  # 起始端口
-                if PortEnd < PortStart:  # 如果用户输入错误为大的在前面小的在后面的话
-                    tmp = PortEnd
-                    PortEnd = PortStart
-                    PortStart = tmp
-                for Port in range(PortStart, PortEnd + 1):
-                    self.CustomizePortList.append(Port)
-            if PortType == 2:  # 处理为字典类型数据
-                for Port in RegularResult:
-                    if Port != "" and int(Port) <= 65535:
-                        self.CustomizePortList.append(Port)
-            if PortType == 3:  # 使用默认字典
-                self.CustomizePortList=self.DefaultPortList
-        except Exception as e:
-            self.CustomizePortList = self.DefaultPortList#如果报错直接使用默认端口进行扫描
-            ErrorLog().Write("ClassCongregation_PortScan(class)_PortHandling(def)", e)
-
-
-
-
-class PortDB:  # 端口数据表
-    def __init__(self,**kwargs):
-        self.uid = kwargs.get("uid") # 用户UID
-        self.active_scan_id = kwargs.get("active_scan_id")  # 扫描active_scan_id
-        self.port = kwargs.get("port")  # 开放端口
-        self.ip = kwargs.get("ip")  # 目标IP
-        self.domain = kwargs.get("domain") # 目标域名
-        self.creation_time=kwargs.get("creation_time") # 创建时间
-        # 如果数据库不存在的话，将会自动创建一个 数据库
-        self.con = sqlite3.connect(GetDatabaseFilePath().result())
-        # 获取所创建数据的游标
-        self.cur = self.con.cursor()
-        # 创建表
-        try:
-            self.cur.execute("CREATE TABLE PortInfo\
-                            (port_info_id INTEGER PRIMARY KEY,\
-                            uid TEXT NOT NULL,\
-                            active_scan_id TEXT NOT NULL,\
-                            port TEXT NOT NULL,\
-                            ip TEXT NOT NULL,\
-                            domain TEXT NOT NULL,\
-                            creation_time TEXT NOT NULL)")
-        except Exception as e:
-            ErrorLog().Write("ClassCongregation_PortDB(class)_init(def)", e)
-
-    def Write(self):
-        try:
-            self.cur.execute(
-                """INSERT INTO PortInfo (uid,active_scan_id,port,ip,domain,creation_time) VALUES (?,?,?,?,?,?)""",
-                (self.uid, self.active_scan_id,self.port, self.ip, self.domain, self.creation_time,))
-            # 提交
-            self.con.commit()
-            self.con.close()
-        except Exception as e:
-            ErrorLog().Write("ClassCongregation_PortDB(class)_Write(def)", e)
-
-    def Query(self, **kwargs):
-            Uid = kwargs.get("uid")
-            ActiveScanId = kwargs.get("active_scan_id")
-            try:
-                self.cur.execute("select * from PortInfo where active_scan_id =? and uid=?", (ActiveScanId, Uid,))
-                result_list = []  # 存放json的返回结果列表用
-                for i in self.cur.fetchall():
-                    JsonValues = {}
-                    # JsonValues["active_scan_id"] = i[2]
-                    JsonValues["port"] = i[3]
-                    JsonValues["ip"] = i[4]
-                    JsonValues["domain"] = i[5]
-                    JsonValues["creation_time"] = i[6]
-                    result_list.append(JsonValues)
-                self.con.close()
-                return result_list
-            except Exception as e:
-                ErrorLog().Write("Web_WebClassCongregation_ReportGenerationList(class)_QueryTokenValidity(def)", e)
-                return None
+#
+# class PortScan:  # 扫描端口类
+#     def __init__(self):
+#         try:
+#
+#             self.CustomizePortList =[] # 用户输入处理后的列表
+#             self.DefaultPortList = [20, 21, 22, 23, 53,80, 161, 389, 443, 873, 1025, 1099, 2222, 2601, 2604, 3312, 3311, 4440, 5900, 5901,
+#                        5902, 7002, 9000, 9200, 10000, 50000, 50060, 50030, 8080, 139, 445, 3389, 13389, 7001, 1521, 3306,
+#                        1433, 5000, 5432, 27017, 6379, 11211]  # 常用端口扫描列表
+#             self.OpenPorts=[]
+#         except Exception as e:
+#             ErrorLog().Write("ClassCongregation_PortScan(class)___init__(def)", e)
+#
+#
+#     def PortTest(self,**kwargs):
+#         port = int(kwargs.get("port"))
+#
+#         try:
+#             sk = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+#             sk.connect((self.Ip, port))
+#             sk.settimeout(port_timeout_period)
+#             sk.close()
+#             self.OpenPorts.append(str(port))  # 传入列表中
+#             #成功直接调用写入端口函数
+#
+#         except Exception as e:
+#             pass
+#     def Start(self,**kwargs):
+#         #传入端口列表，主函数中写入
+#         PortInformation = kwargs.get("PortInformation")
+#         PortType = kwargs.get("PortType")
+#         Uid=kwargs.get("Uid")
+#         Url = kwargs.get("Url")
+#         self.Host = IpProcess(Url)  # 调用IP处理函数,获取URL或者IP
+#         self.Ip = socket.gethostbyname(self.Host)  # 如果是URL会进行二次处理获取到IP
+#         ActiveScanId=kwargs.get("ActiveScanId")
+#         self.PortHandling(PortInformation,PortType)
+#         try:
+#             Pool = ThreadPool()
+#             for Port in self.CustomizePortList:
+#                 Pool.Append(self.PortTest, port=Port)
+#
+#             Pool.Start(port_threads_number)  # 启动线程池
+#             #print(self.OpenPorts)
+#             #调用写入数据库函数和调用写入文件函数
+#             CreationTime=str(int(time.time()))
+#             for i in self.OpenPorts:#循环写入到数据库中
+#                 PortDB(uid=Uid,active_scan_id=ActiveScanId,ip=self.Ip,domain=self.Host,creation_time=CreationTime,port=i).Write()#写到数据库中
+#         except Exception as e:
+#             ErrorLog().Write("ClassCongregation_PortScan(class)_Start(def)", e)
+#
+#
+#     def PortHandling(self,PortInformation,PortType):  # 进行正则匹配处理
+#         try:
+#             Pattern = re.compile(r'\d*')  # 查找数字
+#             RegularResult = Pattern.findall(PortInformation)
+#             if PortType == 1:  # 处理为范围类型数据
+#                 ExtractContent = []  # 剔除空字节内容和超过最大端口数据
+#                 for i in RegularResult:
+#                     if i != "" and int(i) <= 65535:
+#                         ExtractContent.append(i)
+#                 PortStart = int(ExtractContent[0])  # 起始端口
+#                 PortEnd = int(ExtractContent[1])  # 起始端口
+#                 if PortEnd < PortStart:  # 如果用户输入错误为大的在前面小的在后面的话
+#                     tmp = PortEnd
+#                     PortEnd = PortStart
+#                     PortStart = tmp
+#                 for Port in range(PortStart, PortEnd + 1):
+#                     self.CustomizePortList.append(Port)
+#             if PortType == 2:  # 处理为字典类型数据
+#                 for Port in RegularResult:
+#                     if Port != "" and int(Port) <= 65535:
+#                         self.CustomizePortList.append(Port)
+#             if PortType == 3:  # 使用默认字典
+#                 self.CustomizePortList=self.DefaultPortList
+#         except Exception as e:
+#             self.CustomizePortList = self.DefaultPortList#如果报错直接使用默认端口进行扫描
+#             ErrorLog().Write("ClassCongregation_PortScan(class)_PortHandling(def)", e)
+#
+#
+#
+#
+# class PortDB:  # 端口数据表
+#     def __init__(self,**kwargs):
+#         self.uid = kwargs.get("uid") # 用户UID
+#         self.active_scan_id = kwargs.get("active_scan_id")  # 扫描active_scan_id
+#         self.port = kwargs.get("port")  # 开放端口
+#         self.ip = kwargs.get("ip")  # 目标IP
+#         self.domain = kwargs.get("domain") # 目标域名
+#         self.creation_time=kwargs.get("creation_time") # 创建时间
+#         # 如果数据库不存在的话，将会自动创建一个 数据库
+#         self.con = sqlite3.connect(GetDatabaseFilePath().result())
+#         # 获取所创建数据的游标
+#         self.cur = self.con.cursor()
+#         # 创建表
+#         try:
+#             self.cur.execute("CREATE TABLE PortInfo\
+#                             (port_info_id INTEGER PRIMARY KEY,\
+#                             uid TEXT NOT NULL,\
+#                             active_scan_id TEXT NOT NULL,\
+#                             port TEXT NOT NULL,\
+#                             ip TEXT NOT NULL,\
+#                             domain TEXT NOT NULL,\
+#                             creation_time TEXT NOT NULL)")
+#         except Exception as e:
+#             ErrorLog().Write("ClassCongregation_PortDB(class)_init(def)", e)
+#
+#     def Write(self):
+#         try:
+#             self.cur.execute(
+#                 """INSERT INTO PortInfo (uid,active_scan_id,port,ip,domain,creation_time) VALUES (?,?,?,?,?,?)""",
+#                 (self.uid, self.active_scan_id,self.port, self.ip, self.domain, self.creation_time,))
+#             # 提交
+#             self.con.commit()
+#             self.con.close()
+#         except Exception as e:
+#             ErrorLog().Write("ClassCongregation_PortDB(class)_Write(def)", e)
+#
+#     def Query(self, **kwargs):
+#             Uid = kwargs.get("uid")
+#             ActiveScanId = kwargs.get("active_scan_id")
+#             try:
+#                 self.cur.execute("select * from PortInfo where active_scan_id =? and uid=?", (ActiveScanId, Uid,))
+#                 result_list = []  # 存放json的返回结果列表用
+#                 for i in self.cur.fetchall():
+#                     JsonValues = {}
+#                     # JsonValues["active_scan_id"] = i[2]
+#                     JsonValues["port"] = i[3]
+#                     JsonValues["ip"] = i[4]
+#                     JsonValues["domain"] = i[5]
+#                     JsonValues["creation_time"] = i[6]
+#                     result_list.append(JsonValues)
+#                 self.con.close()
+#                 return result_list
+#             except Exception as e:
+#                 ErrorLog().Write("Web_WebClassCongregation_ReportGenerationList(class)_QueryTokenValidity(def)", e)
+#                 return None
 
 
 
@@ -338,59 +333,59 @@ class ErrorLog:  # 报错写入日志
         logging.shutdown()#通过刷新和关闭所有处理程序来通知日志记录系统执行有序的关闭。
 
 
-class Dnslog:  # Dnslog判断
-    def __init__(self):
-        #该网站是通过PHPSESSID来判断dns归属谁的所有可以随机一个这个
-        h = "abcdefghijklmnopqrstuvwxyz0123456789"
-        salt_cookie = ""
-        for i in range(26):
-            salt_cookie += random.choice(h)
-        self.headers = {
-            "Cookie": "PHPSESSID="+salt_cookie
-        }
-        H = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-        salt = ""
-        for i in range(15):
-            salt += random.choice(H)
-        try:
-            self.host = str(salt + "." + self.get_dnslog_url())
-        except Exception as e:
-            print("\033[31m[ ! ] Unable to get dnslog, please replace ceye! \033[0m")
-            self.host=""
-            ErrorLog().Write("ClassCongregation_Dnslog(class)_init_(def)", e)
-
-    def dns_host(self) -> str:
-        return str(self.host)
-
-    def get_dnslog_url(self):
-        if dnslog_name=="dnslog.cn":
-            try:
-                self.dnslog_cn=requests.get("http://www.dnslog.cn/getdomain.php",headers=self.headers,timeout=6).text
-                return self.dnslog_cn
-            except Exception as e:
-                ErrorLog().Write("ClassCongregation_Dnslog(class)_get_dns_log_url(def)", e)
-
-    def result(self) -> bool:
-        # DNS判断后续会有更多的DNS判断，保持准确性
-        if dnslog_name=="dnslog.cn":
-            return self.dnslog_cn_dns()
-
-
-
-    def dnslog_cn_dns(self) -> bool:
-        try:
-            status = requests.get("http://www.dnslog.cn/getrecords.php?t="+self.dnslog_cn,headers=self.headers,  timeout=6)
-            self.dnslog_cn_text = status.text
-            if self.dnslog_cn_text.find(self.host) != -1:  # 如果找到Key
-                return True
-            else:
-                return False
-        except Exception as e:
-            ErrorLog().Write(self.host + "|| dnslog_cn_dns", e)
-
-    def dns_text(self):
-        if dnslog_name=="dnslog.cn":
-            return self.dnslog_cn_text
+# class Dnslog:  # Dnslog判断
+#     def __init__(self):
+#         #该网站是通过PHPSESSID来判断dns归属谁的所有可以随机一个这个
+#         h = "abcdefghijklmnopqrstuvwxyz0123456789"
+#         salt_cookie = ""
+#         for i in range(26):
+#             salt_cookie += random.choice(h)
+#         self.headers = {
+#             "Cookie": "PHPSESSID="+salt_cookie
+#         }
+#         H = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+#         salt = ""
+#         for i in range(15):
+#             salt += random.choice(H)
+#         try:
+#             self.host = str(salt + "." + self.get_dnslog_url())
+#         except Exception as e:
+#             print("\033[31m[ ! ] Unable to get dnslog, please replace ceye! \033[0m")
+#             self.host=""
+#             ErrorLog().Write("ClassCongregation_Dnslog(class)_init_(def)", e)
+#
+#     def dns_host(self) -> str:
+#         return str(self.host)
+#
+#     def get_dnslog_url(self):
+#         if dnslog_name=="dnslog.cn":
+#             try:
+#                 self.dnslog_cn=requests.get("http://www.dnslog.cn/getdomain.php",headers=self.headers,timeout=6).text
+#                 return self.dnslog_cn
+#             except Exception as e:
+#                 ErrorLog().Write("ClassCongregation_Dnslog(class)_get_dns_log_url(def)", e)
+#
+#     def result(self) -> bool:
+#         # DNS判断后续会有更多的DNS判断，保持准确性
+#         if dnslog_name=="dnslog.cn":
+#             return self.dnslog_cn_dns()
+#
+#
+#
+#     def dnslog_cn_dns(self) -> bool:
+#         try:
+#             status = requests.get("http://www.dnslog.cn/getrecords.php?t="+self.dnslog_cn,headers=self.headers,  timeout=6)
+#             self.dnslog_cn_text = status.text
+#             if self.dnslog_cn_text.find(self.host) != -1:  # 如果找到Key
+#                 return True
+#             else:
+#                 return False
+#         except Exception as e:
+#             ErrorLog().Write(self.host + "|| dnslog_cn_dns", e)
+#
+#     def dns_text(self):
+#         if dnslog_name=="dnslog.cn":
+#             return self.dnslog_cn_text
 
 
 class randoms:  # 生成随机数
@@ -436,68 +431,68 @@ class UrlProcessing:  # URL处理函数
             res = urllib.parse.urlparse('http://%s' % url)
         return res.scheme, res.hostname, res.port
 
-
-class ThreadPool:  # 线程池，适用于单个插件
-    def __init__(self):
-        self.ThreaList = []  # 存放线程列表
-        self.text = 0  # 统计线程数
-
-    def Append(self, plugin,**kwargs):
-        self.text += 1
-        self.ThreaList.append(threading.Thread(target=plugin,kwargs=kwargs))
-
-    def Start(self,ThreadNumber):
-        for t in self.ThreaList:  # 开启列表中的多线程
-            t.start()
-            while True:
-                # 判断正在运行的线程数量,如果小于5则退出while循环,
-                # 进入for循环启动新的进程.否则就一直在while循环进入死循环
-                if (len(threading.enumerate()) < ThreadNumber):
-                    break
-        for p in self.ThreaList:
-            p.join(thread_timeout_number)
-        self.ThreaList.clear()  # 清空列表，防止多次调用导致重复使用
-
-class ProcessPool:  # 进程池，解决pythonGIL锁问题，单核跳舞实在难受
-    def __init__(self):
-        self.ProcessList=[]#创建进程列表
-        self.CountList = []  # 用来计数判断进程数
-
-    def Append(self, Plugin,**kwargs):
-
-
-        # Uid=kwargs.get("Uid")
-        # Sid=kwargs.get("Sid")
-        self.ProcessList.append(multiprocessing.Process(target=Plugin,kwargs=kwargs))
-
-    def PortAppend(self, Plugin, **kwargs):
-        self.ProcessList.append(multiprocessing.Process(target=Plugin, kwargs=kwargs))
-
-    def Start(self, ProcessNumber):
-        if debug_mode:  # 如果开了debug模式就不显示进度条
-            for t in self.ProcessList:  # 开启列表中的多进程
-                t.start()
-                self.CountList.append(t)#发送到容器中用于判断
-                while True:
-                    # 判断正在运行的线程数量,如果小于5则退出while循环,
-                    # 进入for循环启动新的进程.否则就一直在while循环进入死循环
-                    if len([p for p in self.CountList if p.exitcode is None])<ProcessNumber:
-                        break
-            for p in self.ProcessList:
-                p.join()
-        else:  # 如果没开Debug就改成进度条形式
-            for t in tqdm(self.ProcessList, ascii=True,
-                          desc="\033[32m[ + ] Medusa scan progress bar\033[0m"):  # 开启列表中的多线程
-                t.start()
-                while True:
-                    # 判断正在运行的线程数量,如果小于5则退出while循环,
-                    # 进入for循环启动新的进程.否则就一直在while循环进入死循环
-                    if len([p for p in self.CountList if p.exitcode is None]) < ProcessNumber:
-                        break
-            for p in tqdm(self.ProcessList, ascii=True, desc="\033[32m[ + ] Medusa cleanup thread progress\033[0m"):
-                p.join()
-        self.ProcessList.clear()  # 清空列表，防止多次调用导致重复使用
-
+#
+# class ThreadPool:  # 线程池，适用于单个插件
+#     def __init__(self):
+#         self.ThreaList = []  # 存放线程列表
+#         self.text = 0  # 统计线程数
+#
+#     def Append(self, plugin,**kwargs):
+#         self.text += 1
+#         self.ThreaList.append(threading.Thread(target=plugin,kwargs=kwargs))
+#
+#     def Start(self,ThreadNumber):
+#         for t in self.ThreaList:  # 开启列表中的多线程
+#             t.start()
+#             while True:
+#                 # 判断正在运行的线程数量,如果小于5则退出while循环,
+#                 # 进入for循环启动新的进程.否则就一直在while循环进入死循环
+#                 if (len(threading.enumerate()) < ThreadNumber):
+#                     break
+#         for p in self.ThreaList:
+#             p.join(thread_timeout_number)
+#         self.ThreaList.clear()  # 清空列表，防止多次调用导致重复使用
+#
+# class ProcessPool:  # 进程池，解决pythonGIL锁问题，单核跳舞实在难受
+#     def __init__(self):
+#         self.ProcessList=[]#创建进程列表
+#         self.CountList = []  # 用来计数判断进程数
+#
+#     def Append(self, Plugin,**kwargs):
+#
+#
+#         # Uid=kwargs.get("Uid")
+#         # Sid=kwargs.get("Sid")
+#         self.ProcessList.append(multiprocessing.Process(target=Plugin,kwargs=kwargs))
+#
+#     def PortAppend(self, Plugin, **kwargs):
+#         self.ProcessList.append(multiprocessing.Process(target=Plugin, kwargs=kwargs))
+#
+#     def Start(self, ProcessNumber):
+#         if debug_mode:  # 如果开了debug模式就不显示进度条
+#             for t in self.ProcessList:  # 开启列表中的多进程
+#                 t.start()
+#                 self.CountList.append(t)#发送到容器中用于判断
+#                 while True:
+#                     # 判断正在运行的线程数量,如果小于5则退出while循环,
+#                     # 进入for循环启动新的进程.否则就一直在while循环进入死循环
+#                     if len([p for p in self.CountList if p.exitcode is None])<ProcessNumber:
+#                         break
+#             for p in self.ProcessList:
+#                 p.join()
+#         else:  # 如果没开Debug就改成进度条形式
+#             for t in tqdm(self.ProcessList, ascii=True,
+#                           desc="\033[32m[ + ] Medusa scan progress bar\033[0m"):  # 开启列表中的多线程
+#                 t.start()
+#                 while True:
+#                     # 判断正在运行的线程数量,如果小于5则退出while循环,
+#                     # 进入for循环启动新的进程.否则就一直在while循环进入死循环
+#                     if len([p for p in self.CountList if p.exitcode is None]) < ProcessNumber:
+#                         break
+#             for p in tqdm(self.ProcessList, ascii=True, desc="\033[32m[ + ] Medusa cleanup thread progress\033[0m"):
+#                 p.join()
+#         self.ProcessList.clear()  # 清空列表，防止多次调用导致重复使用
+#
 
 
 #

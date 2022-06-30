@@ -26,7 +26,7 @@ def Linux(request):  # 用于提取保存文件后调用相应的处理函数
                 PictureData = request.FILES.get('file', None)  # 获取文件数据
                 if 0>=PictureData.size:#判断是不是空文件
                     return JsonResponse({'message': "宝贝数据这么小的嘛？", 'code': 400, })
-                elif portable_execute_file_size < PictureData.size:  #和配置文件中做对比
+                elif int(portable_execute_file_size) < PictureData.size:  #和配置文件中做对比
                     SaveFileName = str(int(time.time()))   # 重命名文件
                     SaveRoute = GetAnalysisFileStoragePath().Result() + SaveFileName  # 获得保存路径
                     with open(SaveRoute, 'wb') as f:

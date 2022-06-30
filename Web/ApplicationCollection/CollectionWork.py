@@ -25,10 +25,16 @@ from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
 from bs4 import BeautifulSoup
 from urllib import parse
 import requests
-from config import headers
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-
+headers={
+    "Connection": "close",
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_0_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36",
+    "Accept": "*/*",
+    "Accept-Encoding": "gzip, deflate",
+    "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
+    "dnt": "1"
+}
 
 """apple_app_collection
 {

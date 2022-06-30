@@ -3,7 +3,7 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-from ClassCongregation import Config
+from ClassCongregation import Config,ConfigPath
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Web.settings')
     try:
@@ -44,7 +44,7 @@ def InitialConfiguration():  # 先判断是否有数据，如果没有就写入�
             "third_party_mail_host": "smtp.163.com",  # 设置第三方服务器
             "third_party_mail_user": "ascotbe@163.com",  # 第三方用户名
             "third_party_mail_pass": "hello_medusa",  # 第三方口令
-            "bot_email": "",  # 消息推送邮件
+            "email_bot": "",  # 消息推送邮件
             "ding_talk_bot_token": ""  # 消息推送，钉钉密钥
         }
         fixed_data = {  # 禁止修改
@@ -57,7 +57,7 @@ def InitialConfiguration():  # 先判断是否有数据，如果没有就写入�
             "local_mail_host": "smtp.ascotbe.com",  # 设本地的邮件服务器
             "local_mail_user": "ascotbe@ascotbe.com",  # 设本地的邮件用户名
         }
-        Config().Write(fixed_data=fixed_data,data=data)
+        Config().Write(fixed_data=str(fixed_data),data=str(data))
         all_data = dict(data, **fixed_data)#合并数据
         file_data = ""
         for x in all_data:
@@ -67,7 +67,7 @@ def InitialConfiguration():  # 先判断是否有数据，如果没有就写入�
             elif isinstance(all_data[x], str):
                 #print(x + " = " + "\"" + all_data[x] + "\"\n")
                 file_data +=x + " = " + "\"" + all_data[x] + "\"\n"
-        f=open("config.py","w+")
+        f=open(ConfigPath().Result()+"config.py","w+")
         f.write(file_data)
         f.close()
 

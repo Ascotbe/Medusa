@@ -25,7 +25,7 @@ from Web.CVE.GithubMonitoring import Github
 from Web.CVE.NistMonitoring import Nist
 from Web.ToolsUtility.AntivirusSoftwareMatching import AntivirusSoftware
 from Web.ToolsUtility.BinaryAnalysis import PortableExecute
-from Web.ApplicationCollection import CollectionWork
+#from Web.ApplicationCollection import CollectionWork
 from Web.CollaborationPlatform import Markdown
 from Web.DomainNameSystemLog import Data
 from Web.TrojanOrVirus import TrojanInterface
@@ -81,8 +81,8 @@ urlpatterns = [
     path('api/windows_portable_execute_analysis/', PortableExecute.Windows),  # windows文件上传后进行结构处理
     # path('api/linux_executable_linkable_format_analysis/', ExecutableLinkableFormat.Linux),# Linux文件上传后进行结构处理
     #APP收集相关
-    path('api/apple_app_collection/', CollectionWork.AppleAppCollection),  # IOS搜集下发接口
-    path('api/application_collection_query/', CollectionWork.ApplicationCollectionQuery),  # 应用收集统一查询接口
+    # path('api/apple_app_collection/', CollectionWork.AppleAppCollection),  # IOS搜集下发接口
+    # path('api/application_collection_query/', CollectionWork.ApplicationCollectionQuery),  # 应用收集统一查询接口
     #协同作战相关
     path('api/create_markdown_project/', Markdown.CreateMarkdownProject),#创建协同作战项目
     path('api/join_markdown_project/', Markdown.JoinMarkdownProject),#加入协同作战项目
@@ -137,8 +137,9 @@ urlpatterns = [
     path('api/email_data_graph_query/', Graph.Query),  # 数据表格查询
 
     #项目相关信息
-    path('api/medusa_info/', Information.Config),  # 获取项目相关数据
-    #path('api/medusa_update/', Information.Update),  # test网站
+    path('api/medusa_config_info/', Information.ConfigInfo),  # 获取项目相关数据
+    path('api/medusa_config_update/', Information.ConfigUpdate),  # 更新项目相关数据
+    #path(api/medusa_update/', Information.Update),  # test网站
 
     #数据接收相关
     path('api/file_acquisition_receive/', Receive.Upload),  # 获取其他地方上传的数据

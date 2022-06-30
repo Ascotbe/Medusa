@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # _*_ coding: utf-8 _*_
+import json
 import urllib.parse
 import sqlite3
 import logging
@@ -1036,7 +1037,14 @@ class PE2ShellcodeFilePath:  #  获取PE2SHELLCODE路径
         elif sys.platform == "linux" or sys.platform == "darwin":
             Path = GetRootFileLocation().Result() + "/Web/TrojanOrVirus/"
             return Path
-
+class ConfigPath:  #  获取配置文件路径
+    def Result(self) -> str:
+        if sys.platform == "win32" or sys.platform == "cygwin":
+            Path = GetRootFileLocation().Result() + "\\"
+            return Path
+        elif sys.platform == "linux" or sys.platform == "darwin":
+            Path = GetRootFileLocation().Result() + "/"
+            return Path
 class Config:  # 配置数据表
     def __init__(self):
         self.con = sqlite3.connect(GetDatabaseFilePath().result())
@@ -1072,25 +1080,23 @@ class Config:  # 配置数据表
     def Query(self):
         try:
             self.cur.execute("select data,fixed_data,update_time,creation_time  from Config WHERE config_id=?", (1,))#查询用户相关信息
-            result_list = []
             for i in self.cur.fetchall():
                 JsonValues = {}
-                JsonValues["data"] = i[0]
-                JsonValues["fixed_data"] = i[1]
+                JsonValues["data"] = ast.literal_eval(i[0])
+                JsonValues["fixed_data"] = ast.literal_eval(i[1])
                 JsonValues["update_time"] = i[2]
                 JsonValues["creation_time"] = i[3]
-                result_list.append(JsonValues)
-            self.con.close()
-            return result_list
+                self.con.close()
+                return JsonValues
         except Exception as e:
             ErrorLog().Write("Web_ClassCongregation_Config(class)_Query(def)", e)
             return None
     def Update(self,**kwargs):
         UpdateTime=str(int(time.time()))
-        FixedData = kwargs.get("fixed_data")
+        FixedData = kwargs.get("data")
         try:
             self.cur.execute(
-                """UPDATE Config SET fixed_data = ?,update_time=? WHERE config_id = ?""",
+                """UPDATE Config SET data = ?,update_time=? WHERE config_id = ?""",
                 (FixedData ,UpdateTime,1,))
             # 提交
             if self.cur.rowcount < 1:  # 用来判断是否更新成功

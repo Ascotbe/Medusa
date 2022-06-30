@@ -29,15 +29,15 @@ app.autodiscover_tasks({"Web.ApplicationCollection.CollectionWork.AppleCollectio
 app.conf.beat_schedule = {
         'HardwareInfoMonitor': {
             'task': 'Web.SystemInfo.HardwareInfo.Monitor',
-            'schedule': timedelta(seconds=hardware_info_monitor_job_time),
+            'schedule': timedelta(seconds=int(hardware_info_monitor_job_time)),
         },
         'GithubCveMonitor': {
             'task': 'Web.CVE.GithubMonitoring.Github.Monitor',
-            'schedule': timedelta(seconds=github_cve_monitor_job_time),
+            'schedule': timedelta(seconds=int(github_cve_monitor_job_time)),
         },
         'NistMonitor': {
             'task': 'Web.CVE.NistMonitoring.Update.Download',
-            'schedule': timedelta(seconds=nist_update_job_time),
+            'schedule': timedelta(seconds=int(nist_update_job_time)),
         }
 
 }

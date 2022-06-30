@@ -66,7 +66,7 @@ def Upload(request):#接收所需数据文件
                 UserOperationLogRecord(request, request_api="file_acquisition_receive", uid=Uid)  # 查询到了在计入
                 ReceiveData = request.FILES.get('file', None)#获取文件数据
                 ReceiveName = ReceiveData.name # 获取文件名
-                if 0<ReceiveData.size<=file_acquisition_size_max:#内容不能为空,且不能操过最大值
+                if 0<ReceiveData.size<=int(file_acquisition_size_max):#内容不能为空,且不能操过最大值
 
                     SaveFileName=randoms().result(10)+str(int(time.time()))#重命名文件
                     SaveRoute=FileAcquisitionPath().Result()+SaveFileName#获得保存路径

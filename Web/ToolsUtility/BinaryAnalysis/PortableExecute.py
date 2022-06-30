@@ -26,7 +26,7 @@ def Windows(request):  # 用于提取保存文件后调用相应的处理函数
                 PictureData = request.FILES.get('file', None)  # 获取文件数据
                 if 0>=PictureData.size:#判断是不是空文件
                     return JsonResponse({'message': "宝贝数据这么小的嘛？", 'code': 400, })
-                elif portable_execute_file_size < PictureData.size:  #和配置文件中做对比
+                elif int(portable_execute_file_size) < PictureData.size:  #和配置文件中做对比
                     FileMd5 = hashlib.md5(PictureData).hexdigest()  # 文件的MD5加密
                     FileSha1 = hashlib.sha1(PictureData).hexdigest()  # 文件的sha1加密
                     FileSha256 = hashlib.sha256(PictureData).hexdigest()  # 文件的sha256加密

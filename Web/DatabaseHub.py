@@ -2873,6 +2873,83 @@ class EmailGraph:  # 邮件数据接收
             ErrorLog().Write("Web_DatabaseHub_EmailGraph(class)_Verification(def)", e)
             return None
 
+class EmailInfo:  # 邮件列表
+    def __init__(self):
+        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        # 获取所创建数据的游标
+        self.cur = self.con.cursor()
+        # 创建表
+        try:
+            self.cur.execute("CREATE TABLE EmailInfo\
+                                (email_info_id INTEGER PRIMARY KEY,\
+                                uid TEXT NOT NULL,\
+                                email_list TEXT NOT NULL,\
+                                project_key TEXT NOT NULL,\
+                                another_name TEXT NOT NULL,\
+                                creation_time TEXT NOT NULL)")
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_EmailInfo(class)_init(def)", e)
+
+    def Write(self, **kwargs) -> bool or None:  # 写入相关信息
+        CreationTime = str(int(time.time()))  # 创建时间
+        Uid = kwargs.get("uid")  # 用户值
+        EmailList= kwargs.get("email_list")#邮件
+        ProjectKey = kwargs.get("project_key")  # 邮件key
+        AnotherName= kwargs.get("another_name")#项目别名
+
+        try:
+
+            self.cur.execute("INSERT INTO EmailInfo(uid,email_list,project_key,another_name,creation_time)\
+                VALUES (?,?,?,?,?)", (Uid,EmailList,ProjectKey,AnotherName,CreationTime,))
+            # 提交
+            self.con.commit()
+            self.con.close()
+            return True
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_EmailInfo(class)_Write(def)", e)
+            return False
+    def Query(self, **kwargs):#全量数据查询
+        try:
+            Uid = kwargs.get("uid") # 用户ID
+            ProjectKey = kwargs.get("project_key")  # 项目key
+            self.cur.execute("select email_list from EmailInfo WHERE project_key=? and uid=?", (ProjectKey,Uid,))#查询用户相关信息
+            for i in self.cur.fetchall():
+                self.con.close()
+                return i[0]
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_EmailInfo(class)_Query(def)", e)
+            return None
+    def ProjectQuery(self, **kwargs):#项目查询
+        try:
+            Uid = kwargs.get("uid")  # 用户ID
+            NumberOfSinglePages=100#单页数量
+            NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
+            self.cur.execute("select project_key,another_name,creation_time from EmailInfo WHERE uid=? limit ? offset ?", (Uid,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询用户相关信息
+            result_list = []
+            for i in self.cur.fetchall():
+                JsonValues = {}
+                JsonValues["project_key"] = i[0]
+                JsonValues["another_name"] = i[1]
+                JsonValues["creation_time"] = i[2]
+                result_list.append(JsonValues)
+            self.con.close()
+            return result_list
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_EmailInfo(class)_ProjectQuery(def)", e)
+            return None
+    def Statistics(self,**kwargs):  # 项目统计
+        try:
+            Uid = kwargs.get("uid")  # 用户ID
+            self.cur.execute("SELECT COUNT(1)  FROM EmailInfo WHERE uid=?", (Uid,))
+            Result=self.cur.fetchall()[0][0]#获取数据个数
+            self.con.close()
+            return Result
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_EmailInfo(class)_Statistics(def)", e)
+            return None
+
+
+
 class GithubCve:  # GitHub的CVE监控写入表
     def __init__(self,**kwargs):
         try:

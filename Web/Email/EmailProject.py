@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from Web.DatabaseHub import UserInfo,EmailProject
+from Web.DatabaseHub import UserInfo,EmailProject,EmailInfo
 from django.http import JsonResponse
 from ClassCongregation import ErrorLog,randoms
 import json
@@ -59,6 +59,7 @@ def Creation(request):#创建生成项目
 		"大数据": ["ascotbe@qq.com"],
 		"客服": ["1099482542@qq.com"]
 	},
+	"email_list_key": "Sp7odgjo78xTh7zfQhUV",
 	"forged_address": "helpdesk@ascotbe.com",
 	"interval": "0.1"
 }
@@ -77,11 +78,19 @@ def Updata(request):#更新项目数据
             MailTitle = json.loads(request.body)["mail_title"]  # 邮件标题
             Sender = json.loads(request.body)["sender"]  # 发送人姓名
             GoalMailbox = json.loads(request.body)["goal_mailbox"]  # 目标邮箱
+            EmailListKey = json.loads(request.body)["email_list_key"]  # 邮箱列表数据库Key，和goal_mailbox只能选一个
             ForgedAddress = json.loads(request.body)["forged_address"]  # 伪造发件人
             Interval = json.loads(request.body)["interval"]  # 邮件发送间隔
             Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
             if Uid != None:  # 查到了UID
                 UserOperationLogRecord(request, request_api="updata_email_project", uid=Uid)  # 查询到了在计入
+                if EmailListKey != "":
+                    EmailList = EmailInfo().Query(uid=Uid,project_key=EmailListKey)#查询获取EmailList数据
+                    if EmailList != None:
+                        if len(ast.literal_eval(EmailList))<=0 and len(GoalMailbox)<=0:#如果EmailList为空，且GoalMailbox为空
+                            return JsonResponse({'message': "未传入收件人数据！请检查Key是否有用", 'code': 505, })
+                        else:
+                            GoalMailbox = ast.literal_eval(EmailList)
                 if len(GoalMailbox)<=0 and type(GoalMailbox)==dict:
                     return JsonResponse({'message': "未传入邮件接收人！", 'code': 414, })
                 if type(Attachment)!=dict or type(Image)!=dict:

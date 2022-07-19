@@ -44,6 +44,7 @@
 		"大数据": ["ascotbe@qq.com"],
 		"客服": ["12345@qq.com"]
 	},
+  "email_list_key": "Sp7odgjo78xTh7zfQhUV",
 	"third_party": "0",
 	"forged_address": "helpdesk@ascotbe.com",
 	"interval": "0.1"
@@ -62,6 +63,7 @@
 - `mail_title`邮件标题
 - `sender`发件人名称
 - `goal_mailbox`发送到哪些邮箱中，必须是字典类型，并且不能为空
+- `email_list_key`邮箱列表中获取数据根据接口，query_email_list_key能够查询到相关的key，该值优先级大于`goal_mailbox`参数，所以有数据会进行覆盖
 - `interval`邮件发送的间隔
 - `forged_address`发送的邮件服务器（可以伪造
 
@@ -76,6 +78,7 @@
 - 414：未传入邮件接收人！
 - 415：附件或者图片必须传入字典类型，不可置空！
 - 500：请使用Post请求
+- 505：未传入收件人数据！请检查Key是否有用
 - 506：时间间隔太长了！
 - 507：更新失败！
 

@@ -29,7 +29,7 @@ from Web.ToolsUtility.BinaryAnalysis import PortableExecute
 from Web.CollaborationPlatform import Markdown
 from Web.DomainNameSystemLog import Data
 from Web.TrojanOrVirus import TrojanInterface
-from Web.Email import EmailProject,Attachment,ReceiveData,Graph
+from Web.Email import EmailProject,Attachment,ReceiveData,Graph,EmailList
 from Web.FileAcquisition import Receive,Query
 
 urlpatterns = [
@@ -135,6 +135,10 @@ urlpatterns = [
     path('api/email_receive_data_search_quantity/', ReceiveData.SearchQuantity),  # 接收数据模糊查询统计
     path('api/email_data_graph_statistics/', Graph.Statistics),  # 数据表格统计
     path('api/email_data_graph_query/', Graph.Query),  # 数据表格查询
+    path('api/upload_email_list/',EmailList.Upload ),  # 上传数据
+    path('api/statistics_email_list_key/', EmailList.Statistics),  # 统计精简数据
+    path('api/query_email_list_key/', EmailList.QueryKey),  # 查询精简数据
+    path('api/query_email_list/', EmailList.Query),  # 查询全量的数据
 
     #项目相关信息
     path('api/medusa_config_info/', Information.ConfigInfo),  # 获取项目相关数据

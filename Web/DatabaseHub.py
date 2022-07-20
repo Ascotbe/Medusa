@@ -2561,7 +2561,122 @@ class EmailDetails:  # 邮件详情，发送状态
         except Exception as e:
             ErrorLog().Write("Web_DatabaseHub_EmailDetails(class)_EmailQuery(def)", e)
             return None
+    def Query(self, **kwargs):#查询邮件发送状态，全量数据
+        try:
+            ProjectKey = kwargs.get("project_key")  # 项目唯一关键字，用于判断接收数据所属
+            FullData = kwargs.get("full_data")  # 是否是全量数据
+            Status = kwargs.get("status")  # 如果不是全量数据进行筛选状态
+            NumberOfSinglePages=100#单页数量
+            NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
+            if FullData:
+                self.cur.execute("select email,email_md5,status,department,creation_time  from EmailDetails WHERE project_key=? limit ? offset ?", (ProjectKey,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询用户相关信息
+                result_list = []
+                for i in self.cur.fetchall():
+                    JsonValues = {}
+                    JsonValues["email"] = i[0]
+                    JsonValues["email_md5"] = i[1]
+                    JsonValues["status"] = i[2]
+                    JsonValues["department"] = i[3]
+                    JsonValues["creation_time"] = i[4]
+                    result_list.append(JsonValues)
+                self.con.close()
+                return result_list
+            else:
+                self.cur.execute("select email,email_md5,status,department,creation_time  from EmailDetails WHERE project_key=? and status=? limit ? offset ?", (ProjectKey,Status,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询用户相关信息
+                result_list = []
+                for i in self.cur.fetchall():
+                    JsonValues = {}
+                    JsonValues["email"] = i[0]
+                    JsonValues["email_md5"] = i[1]
+                    JsonValues["status"] = i[2]
+                    JsonValues["department"] = i[3]
+                    JsonValues["creation_time"] = i[4]
+                    result_list.append(JsonValues)
+                self.con.close()
+                return result_list
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_EmailDetails(class)_Query(def)", e)
+            return None
+    def Statistics(self,**kwargs):  # 统计项目数量
+        ProjectKey = kwargs.get("project_key")  # 项目唯一关键字，用于判断接收数据所属
+        FullData = kwargs.get("full_data")  # 是否是全量数据
+        Status = kwargs.get("status")  # 如果不是全量数据进行筛选状态
+        try:
+            if FullData:
+                self.cur.execute("select count(*) from EmailDetails WHERE project_key=?", (ProjectKey,))
+                Result = self.cur.fetchall()[0][0]  # 获取数据个数
+                self.con.close()
+                return Result
+            else:
+                self.cur.execute("SELECT COUNT(1)  FROM EmailDetails  WHERE project_key=? and status=? ", (ProjectKey,Status,))
+                Result = self.cur.fetchall()[0][0]  # 获取数据个数
+                self.con.close()
+                return Result
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_EmailDetails(class)_Statistics(def)", e)
+            return None
 
+    def Verification(self, **kwargs):  # 验证是否有数据
+        try:
+            Email = kwargs.get("email")  # 目标
+            Department = kwargs.get("department")  # 部门
+            ProjectKey = kwargs.get("project_key")  # 项目key
+            self.cur.execute("SELECT COUNT(1)  FROM EmailDetails WHERE project_key=? and email=? and department=?",(ProjectKey, Email,Department))  # 查询相关信息
+            Result=self.cur.fetchall()[0][0]#获取数据个数
+            if Result==0:
+                self.con.close()
+                return False
+            else:
+                self.con.close()
+                return True
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_EmailDetails(class)_Verification(def)", e)
+            return None
+
+    def Update(self,**kwargs)->bool:#利用主键ID来判断后更新数据
+        CreationTime = str(int(time.time()))  # 创建时间
+        Email = kwargs.get("email") #目标
+        Department=kwargs.get("department") #部门
+        Status= kwargs.get("status")#邮件是否发送成功1是成功，0是失败
+        ProjectKey = kwargs.get("project_key")  # 项目key
+        try:
+            self.cur.execute("""UPDATE EmailDetails SET status=?,creation_time=? WHERE department= ? and project_key=? and email=?""",(Status,CreationTime,Department,ProjectKey,Email,))
+            # 提交
+            if self.cur.rowcount < 1:  # 用来判断是否更新成功
+                self.con.commit()
+                self.con.close()
+                return False
+            else:
+                self.con.commit()
+                self.con.close()
+                return True
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_EmailDetails(class)_Updata(def)", e)
+            return False
+
+    def ResendQuery(self, **kwargs):#重发邮件查询
+        try:
+            ProjectKey = kwargs.get("project_key")  # 项目唯一关键字，用于判断接收数据所属
+            Status = kwargs.get("status")  # 如果不是全量数据进行筛选状态
+            self.cur.execute("select email,department from EmailDetails WHERE project_key=? and status=?", (ProjectKey,Status,))#查询用户相关信息
+            result_list = {}
+
+            for i in self.cur.fetchall():
+                Department = str(i[1])  # 部门
+                Value = i[0]  # 目标
+                # print(type(Value))
+                if type(Value) == bytes:
+                    Value = Value.decode("utf-8")   # 如果是bytes类型转换为str
+                if Department in result_list.keys():  # 判断部门是否在键中
+                    if Value not in result_list[Department]:#判断值是否在部门中
+                        result_list[Department].append(Value)
+                else:
+                    result_list[Department] = [Value]
+            self.con.close()
+            return result_list
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_EmailDetails(class)_Query(def)", e)
+            return None
 class MailAttachment:  # 所有钓鱼的上传文件都在这里
     def __init__(self):
         self.con = sqlite3.connect(GetDatabaseFilePath().result())

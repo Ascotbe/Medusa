@@ -22,8 +22,17 @@ from Web.celery import app
 
 
 @app.task
-def SendMail(MailMessage,Attachment,Image,MailTitle,Sender,GoalMailbox,ForgedAddress,Interval,Key):
-
+def SendMail(**kwargs):
+    MailMessage=kwargs.get('mail_message') #邮件内容
+    Attachment=kwargs.get('attachment')#附件
+    Image=kwargs.get('image')#图片
+    MailTitle=kwargs.get('mail_title')#邮件标题
+    Sender=kwargs.get('sender')#发件人
+    GoalMailbox=kwargs.get('goal_mailbox')#收件人
+    ForgedAddress=kwargs.get('forged_address')#伪造邮件地址
+    Interval=kwargs.get('interval')#发送间隔
+    Key=kwargs.get('key')#邮件key
+    TaskStatus=kwargs.get('task_status')#任务状态,如果任务状态是真，表示是统一的发送逻辑，其余的都是再发送或者测试发送
     # 邮件内容
     TempFilePath = GetTempFilePath().Result()
     MailUploadFilePath = GetMailUploadFilePath().Result()  # 本地文件路径
@@ -73,11 +82,21 @@ def SendMail(MailMessage,Attachment,Image,MailTitle,Sender,GoalMailbox,ForgedAdd
                     SMTP.sendmail(local_mail_user, Target, EmailBox.as_string())
                 SMTP.quit()
                 SMTP.close()
-                EmailDetails().Write(email=Target,email_md5=MD5,status="1",project_key=Key,department=Department)
+
+                Result=EmailDetails().Verification(email=Target, project_key=Key,department=Department)#验证数据是否存在
+                if Result:#如果有数据
+                    EmailDetails().Update(email=Target, project_key=Key,department=Department,status="1")#更新数据
+                else:
+                    EmailDetails().Write(email=Target,email_md5=MD5,status="1",project_key=Key,department=Department)
             except Exception as e:
                 ErrorLog().Write("Web_Email_Send_SendMail(def)" + str(Target), e)
-                EmailDetails().Write(email=Target,email_md5=MD5,status="-1",project_key=Key,department=Department)
-    EmailProject().ProjectCompletion(redis_id=SendMail.request.id)#修改为完工
+                Result=EmailDetails().Verification(email=Target, project_key=Key,department=Department)#验证数据是否存在
+                if Result:#如果有数据
+                    EmailDetails().Update(email=Target, project_key=Key,department=Department,status="-1")#更新数据
+                else:
+                    EmailDetails().Write(email=Target,email_md5=MD5,status="-1",project_key=Key,department=Department)
+    if TaskStatus:
+        EmailProject().ProjectCompletion(redis_id=SendMail.request.id)#修改为完工
 
 
 

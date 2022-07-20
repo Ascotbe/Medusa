@@ -125,6 +125,10 @@ urlpatterns = [
     path('api/email_project_details/', EmailProject.Details),  # 邮件内容详情
     path('api/email_project_summary/', EmailProject.Summary),  # 邮件项目内容摘要查询
     re_path(r'^b/().*?/$', ReceiveData.Monitor),  # 邮件接收数据监控
+    path('api/email_sending_status/', EmailProject.Status),  # 查询邮件发送状态，是否发送成功，可查全量以及不同状态
+    path('api/email_sending_status_statistics/', EmailProject.StatusStatistics),  # 邮件发送状态统计数量
+    path('api/resend_failure_email/', EmailProject.Resend),  # 重新发送发送失败邮件
+    path('api/send_test_email/', EmailProject.Test),  # 发送测试邮件
     path('api/email_file_upload/', Attachment.UploadFiles),  # 文件上传
     path('api/email_attachment_statistical/', Attachment.StatisticalMailAttachment),  # 统计当前用户邮件附件个数
     path('api/email_attachment_details/', Attachment.EmailAttachmentQuery),  # 邮件附件详情
@@ -138,7 +142,7 @@ urlpatterns = [
     path('api/upload_email_list/',EmailList.Upload ),  # 上传数据
     path('api/statistics_email_list_key/', EmailList.Statistics),  # 统计精简数据
     path('api/query_email_list_key/', EmailList.QueryKey),  # 查询精简数据
-    path('api/query_email_list/', EmailList.Query),  # 查询全量的数据
+    path('api/query_email_list/', EmailList.Query),  # 查询全量需要发送的邮箱数据
 
     #项目相关信息
     path('api/medusa_config_info/', Information.ConfigInfo),  # 获取项目相关数据

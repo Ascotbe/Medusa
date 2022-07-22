@@ -29,3 +29,4 @@ Web/FileAcquisition/Zip/*
 Nist.db-journal
 old_config.py
 config.py
+celery.log

@@ -336,7 +336,7 @@ def Status(request):#查询单封邮件状态
                     Result=EmailProject().Query(uid=Uid,project_key=ProjectKey)#验证project_key是否归该用户所属
                     if Result!=None:
                         EmailData=EmailDetails().Query(project_key=ProjectKey,full_data=FullData,status=int(Status),number_of_pages=int(NumberOfPages))
-                        return JsonResponse({'message': str(EmailData), 'code': 200, })
+                        return JsonResponse({'message': EmailData, 'code': 200, })
                     else:
                         return JsonResponse({'message': "该项目不属于你不要瞎请求！", 'code': 405, })
                 else:
@@ -344,7 +344,7 @@ def Status(request):#查询单封邮件状态
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_Email_EmailProject_Summary(def)", e)
+            ErrorLog().Write("Web_Email_EmailProject_Status(def)", e)
             return JsonResponse({'message': "未知错误，请查看日志(๑•̀ㅂ•́)و✧", 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
@@ -355,7 +355,6 @@ def Status(request):#查询单封邮件状态
 	"project_key":"1",
     "full_data":true,
 	"status":"1",
-	
 }
 """
 def StatusStatistics(request):#查询单封邮件状态统计
@@ -378,7 +377,7 @@ def StatusStatistics(request):#查询单封邮件状态统计
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_Email_EmailProject_Summary(def)", e)
+            ErrorLog().Write("Web_Email_EmailProject_StatusStatistics(def)", e)
             return JsonResponse({'message': "未知错误，请查看日志(๑•̀ㅂ•́)و✧", 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
@@ -428,7 +427,7 @@ def Resend(request):  # 重发未发送成功的邮件
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_Email_EmailProject_Summary(def)", e)
+            ErrorLog().Write("Web_Email_EmailProject_Resend(def)", e)
             return JsonResponse({'message': "未知错误，请查看日志(๑•̀ㅂ•́)و✧", 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
@@ -489,7 +488,7 @@ def Test(request):#发送测试邮件
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_Email_EmailProject_Updata(def)", e)
+            ErrorLog().Write("Web_Email_EmailProject_Test(def)", e)
             return JsonResponse({'message': "未知错误(๑•̀ㅂ•́)و✧", 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })

@@ -971,9 +971,9 @@ XXXXXXXXXXXXXXX
 
   > 参数解释
 
-  - `another_name`邮件列表别名
+  - `another_name`邮件列表名称
 
-  - `project_key`项目唯一关键字，用于判断接收数据所属
+  - `project_key`邮件列表项目关键字
 
   - `creation_time `项目创建时间
 
@@ -999,7 +999,7 @@ XXXXXXXXXXXXXXX
 > 参数解释
 
 - `token`登录后返回的**token**
-- `number_of_pages`页数
+- `project_key`邮件列表项目key
 
 > 返回状态码
 
@@ -1020,8 +1020,6 @@ XXXXXXXXXXXXXXX
   > 参数解释
 
   - 每个参数开头是部门，后面跟的是邮箱内容
-
-- 400：你家页数是负数的？？？？
 
 - 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
 

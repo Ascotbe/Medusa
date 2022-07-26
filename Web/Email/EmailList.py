@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from Web.DatabaseHub import UserInfo,EmailInfo
-from django.http import JsonResponse
-from ClassCongregation import ErrorLog,randoms,GetTempFilePath
+from django.http import JsonResponse,FileResponse
+from ClassCongregation import ErrorLog,randoms,GetTempFilePath,TemplatePath
 from openpyxl import load_workbook
 import json
 import time
@@ -65,6 +65,25 @@ def Upload(request):#上传表格，提取相关数据
             return JsonResponse({'message': "出错了请看报错日志(๑•̀ㅂ•́)و✧", 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
+
+def Download(request):#下载模版
+    RequestLogRecord(request, request_api="download_email_list_template")
+    if request.method == "GET":
+        try:
+            Template=TemplatePath().Result()+"EmailListTemplate.xlsx"#获取邮件地址
+            TemplateFlow = open(Template, 'rb')
+            Result=FileResponse(TemplateFlow)#把图片比特流复制给返回包
+            Result['Content-Type'] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            Result['Content-Disposition'] = 'form-data;filename="EmailListTemplate.xlsx"'
+            return Result
+        except Exception as e:
+            ErrorLog().Write("Web_Email_EmailList_Download(def)", e)
+            return JsonResponse({'message': '呐呐呐！莎酱被玩坏啦(>^ω^<)', 'code': 169, })
+    else:
+        return JsonResponse({'message': '请使用GET请求', 'code': 500, })
+
+
+
 
 """statistics_email_list_key
 {

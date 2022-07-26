@@ -1037,6 +1037,14 @@ class PE2ShellcodeFilePath:  #  获取PE2SHELLCODE路径
         elif sys.platform == "linux" or sys.platform == "darwin":
             Path = GetRootFileLocation().Result() + "/Web/TrojanOrVirus/"
             return Path
+class TemplatePath:  #  获取模版路径
+    def Result(self) -> str:
+        if sys.platform == "win32" or sys.platform == "cygwin":
+            Path = GetRootFileLocation().Result() + "\\Web\\Template\\"
+            return Path
+        elif sys.platform == "linux" or sys.platform == "darwin":
+            Path = GetRootFileLocation().Result() + "/Web/Template/"
+            return Path
 class ConfigPath:  #  获取配置文件路径
     def Result(self) -> str:
         if sys.platform == "win32" or sys.platform == "cygwin":

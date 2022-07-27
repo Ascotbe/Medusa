@@ -28,12 +28,12 @@ def Upload(request):#上传表格，提取相关数据
     if request.method == "POST":
         try:
             Token = request.headers["token"]
-            AnotherName = request.headers["another_name"]
             Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
             if Uid != None:  # 查到了UID
                 UserOperationLogRecord(request, request_api="upload_email_list", uid=Uid)  # 查询到了在计入
                 SaveRoute=""
                 PictureData = request.FILES.get('file', None)#获取文件数据
+                AnotherName = PictureData.name#文件名称
                 if 0<PictureData.size:#内容不能为空
                     SaveFileName=randoms().result(50)+str(int(time.time()))#重命名文件
                     SaveRoute=GetTempFilePath().Result()+SaveFileName+".xlsx"#获得保存路径

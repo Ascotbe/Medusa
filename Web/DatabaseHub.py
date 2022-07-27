@@ -2699,7 +2699,7 @@ class MailAttachment:  # 所有钓鱼的上传文件都在这里
         Uid = kwargs.get("uid")
         FileName= kwargs.get("file_name")#文件名
         FileSize = kwargs.get("file_size")  # 文件大小
-        DocumentRealName= kwargs.get("document_real_name")#真实的文件名
+        DocumentRealName= kwargs.get("document_real_name")#本地保存的文件名
         try:
             self.cur.execute("INSERT INTO MailAttachment(uid,file_name,file_size,document_real_name,creation_time)\
                 VALUES (?,?,?,?,?)", (Uid, FileName, FileSize,DocumentRealName,CreationTime,))
@@ -2742,6 +2742,20 @@ class MailAttachment:  # 所有钓鱼的上传文件都在这里
             return None
 
     def Verify(self,**kwargs):  # 验证图片是否为真的
+        Uid = kwargs.get("uid")
+        DocumentRealName = kwargs.get("document_real_name")  # 真实的文件名
+
+        try:
+            self.cur.execute("select *  from MailAttachment WHERE uid=? and document_real_name=?", (Uid,DocumentRealName,))#查询用户相关信息
+            if self.cur.fetchall():  # 判断是否有数据
+                self.con.close()
+                return True
+            else:
+                return False
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_MailAttachment(class)_Verify(def)", e)
+            return False
+    def Verification(self,**kwargs):  # 验证文件名是否冲突
         Uid = kwargs.get("uid")
         DocumentRealName = kwargs.get("document_real_name")  # 真实的文件名
 

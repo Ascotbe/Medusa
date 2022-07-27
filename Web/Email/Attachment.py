@@ -27,18 +27,23 @@ def UploadFiles (request):#上传文件
             Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
             if Uid != None:  # 查到了UID
                 UserOperationLogRecord(request, request_api="email_file_upload", uid=Uid)  # 查询到了在计入
+
                 PictureData = request.FILES.get('file', None)#获取文件数据
                 PictureName = PictureData.name # 获取文件名
-                if 0<PictureData.size:#内容不能为空
-                    SaveFileName=randoms().result(50)+str(int(time.time()))#重命名文件
-                    SaveRoute=GetMailUploadFilePath().Result()+SaveFileName#获得保存路径
-                    with open(SaveRoute, 'wb') as f:
-                        for line in PictureData:
-                            f.write(line)
-                    MailAttachment().Write(uid=Uid,file_name=base64.b64encode(str(PictureName).encode('utf-8')).decode('utf-8'),file_size=PictureData.size,document_real_name=SaveFileName)
-                    return JsonResponse({'message': "上传成功~", 'code': 200,})#返回上传图片名称
+                Result = MailAttachment().Verification(uid=Uid, file_name=base64.b64encode(str(PictureName).encode('utf-8')).decode('utf-8'))#验证图片名字是否冲突
+                if Result:
+                    return JsonResponse({'message': '文件名称冲突啦，请修改后上传o(TヘTo)', 'code': 604, })
                 else:
-                    return JsonResponse({'message': '它实在是太小了，莎酱真的一点感觉都没有o(TヘTo)',  'code': 603,})
+                    if 0<PictureData.size:#内容不能为空
+                        SaveFileName=randoms().result(50)+str(int(time.time()))#重命名文件
+                        SaveRoute=GetMailUploadFilePath().Result()+SaveFileName#获得保存路径
+                        with open(SaveRoute, 'wb') as f:
+                            for line in PictureData:
+                                f.write(line)
+                        MailAttachment().Write(uid=Uid,file_name=base64.b64encode(str(PictureName).encode('utf-8')).decode('utf-8'),file_size=PictureData.size,document_real_name=SaveFileName)
+                        return JsonResponse({'message': "上传成功~", 'code': 200,})#返回上传图片名称
+                    else:
+                        return JsonResponse({'message': '它实在是太小了，莎酱真的一点感觉都没有o(TヘTo)',  'code': 603,})
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:

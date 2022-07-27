@@ -255,7 +255,7 @@ def Details(request):#查询邮件详情
                 UserOperationLogRecord(request, request_api="email_project_details", uid=Uid)  # 查询到了在计入
                 Result=EmailProject().Query(uid=Uid,project_key=Key)
                 JsonValues={}
-                JsonValues["goal_mailbox"] = ast.literal_eval(Result[2])
+                #JsonValues["goal_mailbox"] = ast.literal_eval(Result[2]) #先注释了，几万封邮件会导致很卡
                 JsonValues["end_time"] = Result[3]
                 JsonValues["project_key"] = Result[4]
                 JsonValues["project_name"] = Result[5]

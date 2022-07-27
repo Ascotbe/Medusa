@@ -177,11 +177,6 @@
   ```json
   {
   	"message": {
-  		"goal_mailbox": {
-  			"\u4fe1\u606f\u5b89\u5168": ["ascotbe@gmail.com", "ascotbe@163.com"],
-  			"\u5927\u6570\u636e": ["ascotbe@qq.com"],
-  			"\u5ba2\u670d": ["1099482542@qq.com"]
-  		},
   		"end_time": "1659557858",
   		"project_key": "wAmDVUCHev",
       "project_name": "my_name",
@@ -200,41 +195,41 @@
   	"code": 200
   }
   ```
-
+  
   > 参数解释
-
-  - `goal_mailbox`目标邮箱列表
-
+  
+  - ~~`goal_mailbox`目标邮箱列表~~，由于会有巨量数据，不再能查询
+  
   - `end_time`项目结束时间，结束后不再接受任何数据
-
+  
   - `project_key`项目唯一关键字，用于判断接收数据所属
-
+  
   - `project_name`邮件的名称
-
+  
   - `mail_message`邮件正文，需要base64解密
-
+  
   - `attachment`附件文件
-
+  
   - `image` 图片文件
-
+  
   - `mail_title`邮件头，需要base64解密
-
+  
   - `sender`发送人名称，需要base64解密
-
+  
   - `forged_address`伪造的发件人地址，需要base64解密
-
+  
   - `redis_id`Redis值
-
+  
   - `compilation_status`任务状态，0表示未完成，1表示完成，如果值为1那么就不再能够更新项目内容
-
+  
   - `interval`间隔
-
+  
   - `project_status`项目状态，0表示未运行，1表示运行完毕
-
+  
   - `creation_time `项目创建时间
-
+  
     
-
+  
 - 400：你家页数是负数的？？？？
 
 - 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
@@ -329,6 +324,7 @@ XXXXXXXXXXXXXXX
 - 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
 - 500：请使用Post请求
 - 603：它实在是太小了，莎酱真的一点感觉都没有o(TヘTo)
+- 604：文件名称冲突啦，请修改后上传o(TヘTo)
 
 ### 邮件附件个数统计
 
@@ -884,7 +880,7 @@ XXXXXXXXXXXXXXX
 POST /api/upload_email_list/ HTTP/1.1
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryaFtQbWz7pBzNgCOv
 token:XXXXXXXXXXXXXXXX
-Another-Name:\u5403\u996d
+
 
 ------WebKitFormBoundaryaFtQbWz7pBzNgCOv
 Content-Disposition: form-data; name="file"; filename="test.xlsx"
@@ -897,7 +893,6 @@ XXXXXXXXXXXXXXX
 > 参数解释
 
 - `token`登录后返回的**token**
-- `Another-Name`项目别名
 
 > 返回状态码
 

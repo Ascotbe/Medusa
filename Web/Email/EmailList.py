@@ -44,7 +44,7 @@ def Upload(request):#上传表格，提取相关数据
                 ExcelData = ReadExcel[ReadExcel.sheetnames[0]]  # 获取第一个sheet
                 # 按行读取 工作表的内容
                 Excel = {}  # 创建一个空字典,存储表格数据
-                for row in ExcelData.rows:
+                for row in [row for row in ExcelData.rows][1:]:#删除了第一行数据
                     # print(row[0].value, row[1].value)
                     Department = str(row[0].value).replace("\n", "")  # 部门
                     Value = str(row[1].value).replace("\n", "")  # 值

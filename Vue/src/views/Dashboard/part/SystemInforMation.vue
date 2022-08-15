@@ -1,6 +1,6 @@
 <template>
   <div class="systemInformation">
-    <a-descriptions :column="NumberColumn" :size="'small'" bordered>
+    <a-descriptions :column="NumberColumn" bordered>
       <a-descriptions-item
         v-for="(item, i) in systemInformation"
         :key="i"
@@ -54,14 +54,14 @@ export default {
               span: 1,
             },
             {
-              label: "内存大小",
-              data: this.QJMemorySize(res.message.memory_total) + "Gb",
-              span: 1,
-            },
-            {
               label: "系统启动时间",
               data: this.moment(res.message.server_start_time, "X"),
               span: 2,
+            },
+            {
+              label: "内存大小",
+              data: this.QJMemorySize(res.message.memory_total) + "Gb",
+              span: 1,
             },
             {
               label: "系统信息",

@@ -8,7 +8,7 @@
     ]"
   >
     <a-col :span="24">
-      <!-- <Card :name="'跨站脚本钓鱼项目列表'" :bodyStyle="bodyStyle"> -->
+      <Card :name="'跨站脚本钓鱼项目列表'" :bodyStyle="bodyStyle">
         <Tables
           :columns="columns"
           :tableData="data"
@@ -17,7 +17,7 @@
           :total="total"
           @change="handleChange"
         ></Tables>
-      <!-- </Card> -->
+      </Card>
     </a-col>
   </a-row>
 </template>
@@ -156,7 +156,7 @@ export default {
     handleDetails (record) {//进入项目修改页面
       const _this = this
       // _this.$store.dispatch('CrossSiteScriptStore/setProjectAssociatedFileName', record.file_name)
-      _this.$router.push({path:"/layout/ModifyProject",query: {name: record.file_name}})
+      _this.$router.push({ path: "/layout/ModifyProject", query: { name: record.file_name } })
     },
     handleDelete (record) {//项目删除
       const _this = this

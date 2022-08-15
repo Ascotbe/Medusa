@@ -191,7 +191,7 @@ export default {
           type: _this.yAxis[0].type,
           splitNumber: _this.yAxis[0]?.splitNumber ? _this.yAxis[0].splitNumber : '',
           minInterval: _this.yAxis[0]?.minInterval ? _this.yAxis[0].minInterval : '',
-          max: _this.yAxis[0]?.max ? _this.yAxis[0].max : '',
+          max: _this.yAxis[0]?.max ? _this.yAxis[0].max : 'dataMax',
           axisLabel: _this.yAxis[0]?.axisLabel ? _this.yAxis[0].axisLabel : {}
         }
         return yAxis
@@ -204,7 +204,7 @@ export default {
             splitNumber: item.splitNumber ? item.splitNumber : '',
             minInterval: item.minInterval ? item.minInterval : '',
             interval: item.interval || '',
-            max: item.max ? item.max : '',
+            max: item.max ? item.max : 'dataMax',
             axisLabel: item.axisLabel ? item.axisLabel : {}
           }
           return menu
@@ -235,7 +235,7 @@ export default {
     handleBar (flag, data, universalTransition) {
       const _this = this
       //flag 是否渲染多个
-      //echartsSeries series配置项
+      //echartsSeries series 配置项
       if (!flag) {//渲染一个
         const series = [
           {

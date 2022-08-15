@@ -1,6 +1,6 @@
 <template>
   <a-row type="flex" justify="center" style="height:100%" :gutter="[
-     16,  16
+     0, 32
     ]">
     <a-col :xs="24" :lg="12">
       <Card :name="''" class="layout">
@@ -19,6 +19,7 @@
     justify-content:center;
     align-items: flex-end;"
         >
+          <a-button type="primary" @click="handleRevisePassWord" class="headPortrait">修改密码</a-button>
           <a-upload
             name="file"
             @change="handleHeaderPhoto"
@@ -29,7 +30,6 @@
               <a-icon type="upload" />修改头像
             </a-button>
           </a-upload>
-          <a-button type="primary" @click="handleRevisePassWord" class="headPortrait">修改密码</a-button>
         </a-col>
         <a-col :xs="{span:24}" :lg="{offset:4,span:16}">
           <div class="profile-deadline"></div>
@@ -44,10 +44,10 @@
             style="height: 40px; width: 40px; fontsize: 0.15rem; lineheight: 47px"
           />Profile
         </div>
-        <a-descriptions :column="1">
+        <a-descriptions :column="1" style="padding-top: 20px;">
           <a-descriptions-item v-for="item in personalInformationList" :key="item.title">
             <template slot="label">
-              <span class="personalInformationList">
+              <span class="personalInformationList" style="font-weight: 800;">
                 <a-icon :type="item.type" />
                 {{item.title}}
               </span>
@@ -224,15 +224,16 @@ export default {
   font-size: 24px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  // justify-content: center;
+  padding-top: 100px;
 }
 .profile-deadline {
-  height: 54px;
+  height: 46px;
   border-bottom: 4px solid #9ca4bf;
   padding: 0;
 }
 .headPortrait {
-  margin-left: 10px;
+  margin-right: 25px;
 }
 
 .profile-deadline::after {

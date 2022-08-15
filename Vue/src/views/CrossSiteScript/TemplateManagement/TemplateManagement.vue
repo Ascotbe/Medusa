@@ -8,34 +8,36 @@
     ]"
   >
     <a-col :xs="{ span: 24 }" :lg="{ span: 8 }">
-      <Card name="">
-        <!-- <a-tabs v-model="activeKey" @change="handleTemplate">
-          <a-tab-pane :key="items.key" :tab="items.tab" v-for="items in tabs"> -->
-            <a-list item-layout="horizontal" :data-source="templateList" v-for="items in tabs" :key="items.key">
-              <a-list-item slot="renderItem" slot-scope="item" style="cursor: pointer;" @click="handleClick(items.key,item)" :class="{active: activeName === item.file_name}">
+      <Card name>
+        <a-tabs v-model="activeKey" @change="handleTemplate">
+          <a-tab-pane :key="items.key" :tab="items.tab" v-for="items in tabs">
+            <a-list item-layout="horizontal" :data-source="templateList">
+              <a-list-item
+                slot="renderItem"
+                slot-scope="item"
+                style="cursor: pointer;"
+                @click="handleClick(items.key,item)"
+                :class="{active: activeName === item.file_name}"
+              >
                 <a-list-item-meta>
                   <a
                     slot="title"
                     style="font-size: 16px;"
                   >{{items.key == 'public'?item.file_name :item.template_name}}</a>
-                  <!-- <a-col
+                  <a-col
                     slot="description"
                     class="description"
-                  >{{items.key == 'public'?item.file_data:item.template_data}}</a-col>-->
+                  >{{items.key == 'public'?item.file_data:item.template_data}}</a-col>
                   <MyIcon type="icon-js" slot="avatar" style="font-size: 24px;" />
                 </a-list-item-meta>
               </a-list-item>
             </a-list>
-          <!-- </a-tab-pane>
-        </a-tabs> -->
+          </a-tab-pane>
+        </a-tabs>
       </Card>
     </a-col>
     <a-col :xs="{ span: 24 }" :lg="{ span: 16 }">
-      <Card name="">
-        <!-- <template slot="extraCard" v-if="!disabled">
-          <a-button type="danger" style="margin-right:2px" @click="handleDelete">删除模板</a-button>
-          <a-button type="primary" @click="handleSave">保存修改</a-button>
-        </template> -->
+      <Card name>
         <a-form
           :form="templateForm"
           :layout="`vertical`"
@@ -63,9 +65,16 @@
                 :autoSave="false"
                 :toolbars="toolbars"
                 v-else
-              /> -->
-               <codemirror v-model="templateCode" :options="{mode: 'text/javascript',lineNumbers: true,theme:'base16-light'}"></codemirror>
+              />-->
+              <codemirror
+                v-model="templateCode"
+                :options="{mode: 'text/javascript',lineNumbers: true,theme:'base16-light'}"
+              ></codemirror>
             </a-form-item>
+          </a-col>
+          <a-col :span="24" v-if="!disabled" style="display:flex;justify-content: center;">
+            <a-button type="danger" style="margin-right:2px" @click="handleDelete">删除模板</a-button>
+            <a-button type="primary" @click="handleSave">保存修改</a-button>
           </a-col>
         </a-form>
       </Card>
@@ -102,7 +111,7 @@ export default {
   components: { MyIcon, Card, codemirror },
   data () {
     return {
-      activeName:'',
+      activeName: '',
       bodyStyle: {
         borderTop: '3px solid #51c51a',
         borderBottom: '0px'
@@ -112,138 +121,109 @@ export default {
           key: "public",
           tab: "公共模板"
         },
-        // {
-        //   key: "private",
-        //   tab: "个人模板"
-        // },
+        {
+          key: "private",
+          tab: "个人模板"
+        },
       ],
       activeKey: 'public',
       templateList: [],
       templateForm: this.$form.createForm(this, { name: 'templateForm' }),
       templateCode: '',
       disabled: false,
-      toolbars: {
-        importmd: false,
-        exportmd: false,
-        fullscreen: false,
-        theme: false,
-        split: false,
-        strong: false,
-        overline: false,
-        italic: false,
-        h1: false,
-        h2: false,
-        h3: false,
-        h4: false,
-        h5: false,
-        h6: false,
-        hr: false,
-        quote: false,
-        ul: false,
-        ol: false,
-        pl: false,
-        link: false,
-        image: false,
-        table: false,
-        checked: false,
-        notChecked: false,
-        code: false,
-        preview: false
-      },
     }
   },
   mounted () {
-    const _this = this
-    _this.handleTemplate("public")
-    // _this.$refs.MarkdownPro.split = false
+    this.handleTemplate("public")
+    // this.$refs.MarkdownPro.split = false
   },
   methods: {
     handleTemplate (key) {//查询模板
-      const _this = this
+
       const params = {
-        token: _this.token,
+        token: this.token,
       };
-      _this.templateList = []
+      this.templateList = []
       if (key == "public") {
-        _this.$api.read_default_script_template(params).then((res) => {
+        this.$api.read_default_script_template(params).then((res) => {
           if (res.code == 200) {
-            res.message.map((item) => item.file_data = _this.QJBase64Decode(item.file_data))
-            _this.templateList = res.message
+            res.message.map((item) => item.file_data = this.QJBase64Decode(item.file_data))
+            this.templateList = res.message
           }
-          else _this.$message.error(res.message);
+          else this.$message.error(res.message);
         })
       }
       else if (key == "private") {
-        _this.$api.read_script_template(params)
+        this.$api.read_script_template(params)
           .then((res) => {
             if (res.code == 200) {
-              res.message.map((item) => item.template_data = _this.QJBase64Decode(item.template_data))
-              _this.templateList = res.message
+              res.message.map((item) => item.template_data = this.QJBase64Decode(item.template_data))
+              this.templateList = res.message
             }
-            else _this.$message.error(res.message);
+            else this.$message.error(res.message);
           })
       }
     },
     handleClick (key, item) {//选中模板渲染
       this.activeName = item.file_name
-      const _this = this
+
       if (key == 'public') {
-        _this.disabled = true
-        _this.templateForm.setFieldsValue({ template_name: item.file_name })
-        // _this.templateCode = "```" + `\n${item.file_data}\n` + "```"
-        _this.templateCode = item.file_data
+        this.disabled = true
+        this.templateForm.setFieldsValue({ template_name: item.file_name })
+        // this.templateCode = "```" + `\n${item.file_data}\n` + "```"
+        this.templateCode = item.file_data
       }
       else {
-        _this.disabled = false
-        _this.templateForm.setFieldsValue({ template_name: item.template_name })
-        _this.$nextTick(() => {
-          _this.templateCode = item.template_data
-          // _this.$refs.MarkdownPro.split = false
+        this.disabled = false
+        this.templateForm.setFieldsValue({ template_name: item.template_name })
+        this.$nextTick(() => {
+          this.templateCode = item.template_data
+          // this.$refs.MarkdownPro.split = false
         })
       }
     },
     handleSave () {//保存模板修改
-      const _this = this
-      // if (_this.templateCode.indexOf("```\n") != 0 || _this.templateCode.indexOf("\n```") != _this.templateCode.length - 4) {
-      //   _this.$message.warn('```\n您没有在添加代码\n```')
+
+      // if (this.templateCode.indexOf("```\n") != 0 || this.templateCode.indexOf("\n```") != this.templateCode.length - 4) {
+      //   this.$message.warn('```\n您没有在添加代码\n```')
       //   return
       // }
-      if (!_this.templateForm.getFieldsValue().template_name) {
-        _this.$message.warn('请先选择模板')
+      if (!this.templateForm.getFieldsValue().template_name) {
+        this.$message.warn('请先选择模板')
         return
       }
-      // const templateCode = _this.templateCode.replace(/```\n/g, "").replace(/\n```/g, "")
+      // const templateCode = this.templateCode.replace(/```\n/g, "").replace(/\n```/g, "")
       const params = {
-        template_name: _this.templateForm.getFieldsValue().template_name,
-        template_data: _this.templateCode,
-        token: _this.token
+        template_name: this.templateForm.getFieldsValue().template_name,
+        template_data: this.templateCode,
+        token: this.token
       };
-      _this.$api.modify_cross_site_script_template(params).then((res) => {
+      this.$api.modify_cross_site_script_template(params).then((res) => {
         if (res.code == 200) {
-          _this.$message.success("模板修改成功");
-          _this.handleTemplate("private");
+          this.$message.success("模板修改成功");
+          this.handleTemplate("private");
         } else {
-          _this.$message.error(res.message);
+          this.$message.error(res.message);
         }
       });
     },
     handleDelete () {//删除模板
-      const _this = this
-      if (!_this.templateForm.getFieldsValue().template_name) {
-        _this.$message.warn('请先选择模板')
+
+      if (!this.templateForm.getFieldsValue().template_name) {
+        this.$message.warn('请先选择模板')
         return
       }
       const params = {
-        template_name: _this.templateForm.getFieldsValue().template_name,
-        token: _this.token
+        template_name: this.templateForm.getFieldsValue().template_name,
+        token: this.token
       };
-      _this.$api.delete_cross_site_script_template(params).then((res) => {
+      this.$api.delete_cross_site_script_template(params).then((res) => {
         if (res.code == 200) {
-          _this.$message.success("模板删除成功");
-          _this.templateForm.resetFields()
-          _this.handleTemplate("private");
+          this.$message.success("模板删除成功");
+          this.templateForm.resetFields()
+          this.handleTemplate("private");
         } else {
-          _this.$message.error(res.message);
+          this.$message.error(res.message);
         }
       });
     }
@@ -261,5 +241,38 @@ export default {
 }
 .active a {
   color: #51c51a;
+}
+/*定义整体的宽度*/
+::v-deep .CodeMirror-hscrollbar::-webkit-scrollbar {
+  height: 5px;
+  width: 5px;
+}
+
+/*定义滚动条轨道*/
+::v-deep .CodeMirror-hscrollbar::-webkit-scrollbar-track {
+  border-radius: 2px;
+}
+
+/*定义滑块*/
+::v-deep .CodeMirror-hscrollbar::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  background: rgba(0, 255, 42, 0.5);
+}
+
+/*定义整体的宽度*/
+::v-deep .CodeMirror-vscrollbar::-webkit-scrollbar {
+  height: 5px;
+  width: 5px;
+}
+
+/*定义滚动条轨道*/
+::v-deep .CodeMirror-vscrollbar::-webkit-scrollbar-track {
+  border-radius: 2px;
+}
+
+/*定义滑块*/
+::v-deep .CodeMirror-vscrollbar::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  background: rgba(0, 255, 42, 0.5);
 }
 </style>

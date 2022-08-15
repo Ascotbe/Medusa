@@ -16,13 +16,14 @@
           <a-form-item label="项目名称">
             <a-input
               clearable
-              v-decorator="['shellcode_name',{ rules: [{ required: true, message: 'ShellcodeName Cannot be empty' }] }]">
-            </a-input>
+              v-decorator="['shellcode_name',{ rules: [{ required: true, message: 'ShellcodeName Cannot be empty' }] }]"
+            ></a-input>
           </a-form-item>
           <a-form-item label="插件名称">
             <a-select
               :options="pluginOptions"
-              v-decorator="['plugin',{ rules: [{ required: true, message: 'Plugin Cannot be empty' }] }]"></a-select>
+              v-decorator="['plugin',{ rules: [{ required: true, message: 'Plugin Cannot be empty' }] }]"
+            ></a-select>
           </a-form-item>
           <a-form-item label="生成类型">
             <a-select
@@ -98,7 +99,12 @@
           :showTotalDIY="handleShowTotal"
         >
           <template slot="btn">
-            <a-button @click="handleTrojan(current)" type="primary" size='small' style="margin-left: 5px;">刷新</a-button>
+            <a-button
+              @click="handleTrojan(current)"
+              type="primary"
+              size="small"
+              style="margin-left: 5px;"
+            >刷新</a-button>
           </template>
         </Tables>
       </Card>
@@ -325,7 +331,7 @@ export default {
     handleChange (pagination) {
       const _this = this
       _this.current = pagination.current
-      _this.handleQueryScriptProject()
+      _this.handleTrojan(_this.current)
     },
     //下载
     handleEXE (record) {

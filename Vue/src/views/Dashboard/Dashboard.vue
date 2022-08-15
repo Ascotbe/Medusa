@@ -91,7 +91,7 @@
         />
       </a-col>
     </a-col>
-    <a-col span='24' class="Itemized">
+    <a-col span="24" class="Itemized">
       <a-col :xs="{ span: 24 }" class="Itemized-name">
         <a-col :xs="{ span: 24}">CPU监控</a-col>
       </a-col>
@@ -105,7 +105,7 @@
         />
       </a-col>
     </a-col>
-    <a-col span='24' class="Itemized">
+    <a-col span="24" class="Itemized">
       <a-col :xs="{ span: 24 }" class="Itemized-name">
         <a-col :xs="{ span: 24}">内存监控</a-col>
       </a-col>
@@ -226,7 +226,7 @@ export default {
       },
       gitHubYAxis: [{
         type: 'value',
-        splitNumber:5
+        splitNumber: 5
       }],
       gitHubEchartsSeries: {
         name: ["gitHub"],
@@ -363,9 +363,9 @@ export default {
         }
       ],
       memoryEchartsSeries: {
-        name: ["内存占用率","内存未使用" ],
+        name: ["内存占用率", "内存未使用"],
         yAxisIndex: [0, 1],
-        color: ['#f00','#00f']
+        color: ['#f00', '#00f']
       },
       memoryEchartsData: [],//内存监控的数据
       // memoryDeploy: { //内存监控的参数
@@ -434,7 +434,7 @@ export default {
       const params = {
         token: _this.token,
         start_time: _this.moment(dateArr[0]).unix(),
-        end_time: _this.moment(dateArr[1]).unix()+24*60*60,
+        end_time: _this.moment(dateArr[1]).unix() + 24 * 60 * 60,
       }
       _this.$api.homepage_github_monitor_data(params)
         .then(async (res) => {
@@ -454,10 +454,10 @@ export default {
               if (i == res.message.length - 1) {
                 itemVal += item[1]
                 Arr.push([now, itemVal])
-              }else {
+              } else {
                 itemVal += item[1]
               }
-            }else {
+            } else {
               if (i == res.message.length - 1) {
                 Arr.push([old, itemVal])
                 itemVal = 0
@@ -537,7 +537,7 @@ export default {
       let daysList = [];
       const start = _this.moment(startDate)
       const end = _this.moment(endDate)
-      const day = end.diff(start, "days")+1;
+      const day = end.diff(start, "days") + 1;
       for (let i = 0; i < day; i++) {
         let flag = 0
         Array.map((item) => {
@@ -567,7 +567,7 @@ export default {
           _this.cpuEchartsSeries.name = ['核心']
           for (let i = 0; i < thread.length; i++) {
             thread[i] = []
-            _this.cpuEchartsSeries.name.push('cpu'+i)
+            _this.cpuEchartsSeries.name.push('cpu' + i)
           }
           for (let i = 0; i < res.message.length; i++) {
             // cpu 核心 和 线程 格式调整
@@ -616,6 +616,9 @@ export default {
   }
   .syntheticalVal {
     font-size: 25px;
+    line-height: 25px;
+    flex: 2;
+    padding-left: 10px;
     // position: absolute;
     // left: 50%;
     // top: 50%;

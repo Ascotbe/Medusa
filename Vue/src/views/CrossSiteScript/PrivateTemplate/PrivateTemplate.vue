@@ -36,8 +36,11 @@
                 :autoSave="false"
                 :toolbars="toolbars"
                 ref="MarkdownPro"
-              /> -->
-              <codemirror v-model="templateCode" :options="{mode: 'text/javascript',lineNumbers: true,theme:'base16-light'}"></codemirror>
+              />-->
+              <codemirror
+                v-model="templateCode"
+                :options="{mode: 'text/javascript',lineNumbers: true,theme:'base16-light'}"
+              ></codemirror>
             </a-form-item>
           </a-col>
         </a-form>
@@ -74,68 +77,71 @@ export default {
       },
       templateForm: this.$form.createForm(this, { name: 'templateForm' }),
       templateCode: '',//脚本数据,
-      toolbars: {
-        importmd: false,
-        exportmd: false,
-        fullscreen: false,
-        theme: false,
-        split: false,
-        strong: false,
-        overline: false,
-        italic: false,
-        h1: false,
-        h2: false,
-        h3: false,
-        h4: false,
-        h5: false,
-        h6: false,
-        hr: false,
-        quote: false,
-        ul: false,
-        ol: false,
-        pl: false,
-        link: false,
-        image: false,
-        table: false,
-        checked: false,
-        notChecked: false,
-        code: false,
-        preview: false
-      },
     }
   },
   mounted () {
-    const _this = this
-    _this.$refs.MarkdownPro.split = false
+    this.$refs.MarkdownPro.split = false
   },
   methods: {
     handleSave () {//创建模板
-      const _this = this
-      // if (_this.templateCode.indexOf("```\n") != 0 || _this.templateCode.indexOf("\n```") != _this.templateCode.length - 4) {
-      //   _this.$message.warn('```\n您没有在添加代码\n```')
+      // if (this.templateCode.indexOf("```\n") != 0 || this.templateCode.indexOf("\n```") != this.templateCode.length - 4) {
+      //   this.$message.warn('```\n您没有在添加代码\n```')
       //   return
       // }
-      if (!_this.templateForm.getFieldsValue().template_name) {
-        _this.$message.warn('请先输入模板名')
+      if (!this.templateForm.getFieldsValue().template_name) {
+        this.$message.warn('请先输入模板名')
         return
       }
-      // const templateCode = _this.templateCode.replace(/```\n/g, "").replace(/\n```/g, "")
+      // const templateCode = this.templateCode.replace(/```\n/g, "").replace(/\n```/g, "")
       const params = {
-        token: _this.token,
-        template_name: _this.templateForm.getFieldsValue().template_name,
-        template_data: _this.templateCode,
+        token: this.token,
+        template_name: this.templateForm.getFieldsValue().template_name,
+        template_data: this.templateCode,
       };
       this.$api.save_cross_site_script_template(params).then((res) => {
         if (res.code) {
-          _this.$message.success('创建成功')
-          _this.templateForm.resetFields()
+          this.$message.success('创建成功')
+          this.templateForm.resetFields()
         }
-        else _this.$message.success(res.message)
+        else this.$message.success(res.message)
       })
     },
   }
 }
 </script>
 
-<style>
+<style lang="less" scoped>
+/*定义整体的宽度*/
+::v-deep .CodeMirror-hscrollbar::-webkit-scrollbar {
+  height: 5px;
+  width: 5px;
+}
+
+/*定义滚动条轨道*/
+::v-deep .CodeMirror-hscrollbar::-webkit-scrollbar-track {
+  border-radius: 2px;
+}
+
+/*定义滑块*/
+::v-deep .CodeMirror-hscrollbar::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  background: rgba(0, 255, 42, 0.5);
+}
+
+/*定义整体的宽度*/
+::v-deep .CodeMirror-vscrollbar::-webkit-scrollbar {
+  height: 5px;
+  width: 5px;
+}
+
+/*定义滚动条轨道*/
+::v-deep .CodeMirror-vscrollbar::-webkit-scrollbar-track {
+  border-radius: 2px;
+}
+
+/*定义滑块*/
+::v-deep .CodeMirror-vscrollbar::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  background: rgba(0, 255, 42, 0.5);
+}
 </style>

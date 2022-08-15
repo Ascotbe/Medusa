@@ -1,27 +1,45 @@
 <template>
   <div style="text-align: left;">
     <a-form>
-      <a-form-item label='项目代码'>
-        <codemirror  v-model='projectCode' :options="{mode: 'text/javascript',lineNumbers: true,theme:'base16-light'}"></codemirror>
+      <a-form-item label="项目代码">
+        <codemirror
+          v-model="projectCode"
+          :options="{mode: 'text/javascript',lineNumbers: true,theme:'base16-light'}"
+        ></codemirror>
       </a-form-item>
-      <a-form-item label='将如下代码植入怀疑出现xss的地方' class="code">
-        <codemirror v-model='markdownData.the_first_use' :options="{mode: 'text/javascript',lineNumbers: false,theme:'base16-light'}"></codemirror>
+      <a-form-item label="将如下代码植入怀疑出现xss的地方" class="code">
+        <codemirror
+          v-model="markdownData.the_first_use"
+          :options="{mode: 'text/javascript',lineNumbers: false,theme:'base16-light'}"
+        ></codemirror>
       </a-form-item>
-       <a-form-item label='再或者以你任何想要的方式插入' class="code">
-        <codemirror v-model='markdownData.exploit_path' :options="{mode: 'text/javascript',lineNumbers: false,theme:'base16-light'}"></codemirror>
+      <a-form-item label="再或者以你任何想要的方式插入" class="code">
+        <codemirror
+          v-model="markdownData.exploit_path"
+          :options="{mode: 'text/javascript',lineNumbers: false,theme:'base16-light'}"
+        ></codemirror>
       </a-form-item>
-       <a-form-item label='极限代码~！：' class="code">
-        <codemirror v-model='markdownData.the_second_use' :options="{mode: 'text/javascript',lineNumbers: false,theme:'base16-light'}"></codemirror>
+      <a-form-item label="极限代码~！：" class="code">
+        <codemirror
+          v-model="markdownData.the_second_use"
+          :options="{mode: 'text/javascript',lineNumbers: false,theme:'base16-light'}"
+        ></codemirror>
       </a-form-item>
-      <a-form-item label='图片插件' class="code">
-        <codemirror v-model='markdownData.the_third_use' :options="{mode: 'text/javascript',lineNumbers: false,theme:'base16-light'}"></codemirror>
+      <a-form-item label="图片插件" class="code">
+        <codemirror
+          v-model="markdownData.the_third_use"
+          :options="{mode: 'text/javascript',lineNumbers: false,theme:'base16-light'}"
+        ></codemirror>
       </a-form-item>
-      <a-form-item label='编码poc' class="code">
-        <codemirror v-model='markdownData.coding_exploit' :options="{mode: 'text/javascript',lineNumbers: false,theme:'base16-light'}"></codemirror>
+      <a-form-item label="编码poc" class="code">
+        <codemirror
+          v-model="markdownData.coding_exploit"
+          :options="{mode: 'text/javascript',lineNumbers: false,theme:'base16-light'}"
+        ></codemirror>
       </a-form-item>
       <a-form-item style="text-align: center;">
-        <a-button type='primary' @click="reset">重置</a-button>
-        <a-button type='primary' style="margin-left: 10px;" @click="handleSave">保存修改</a-button>
+        <a-button type="primary" @click="reset">重置</a-button>
+        <a-button type="primary" style="margin-left: 10px;" @click="handleSave">保存修改</a-button>
       </a-form-item>
     </a-form>
   </div>
@@ -50,7 +68,7 @@ export default {
       projectCodeOrigin: '',
       markdownData: {},
       markdownDataOrigin: {},
-      projectAssociatedFileName:''
+      projectAssociatedFileName: ''
     }
   },
   mounted () {
@@ -58,7 +76,7 @@ export default {
     if (this.projectAssociatedFileName == '' || this.projectAssociatedFileName == undefined || this.projectAssociatedFileName == null) {
       this.$message.warn('请从项目管理进入')
       this.$router.push('ProjectManagement')
-    }else {
+    } else {
       this.handleQueeryProjectInfo()
     }
   },
@@ -84,7 +102,7 @@ export default {
         else _this.$message.warn(res.message)
       })
     },
-    reset() {
+    reset () {
       this.markdownData = { ...this.markdownDataOrigin }
       this.projectCode = this.projectCodeOrigin
     },
@@ -104,16 +122,50 @@ export default {
         if (res.code) {
           _this.$message.success(res.message)
           _this.handleQueeryProjectInfo()
-        }else _this.$message.success(res.message)
+        } else _this.$message.success(res.message)
       })
     }
   }
 }
 </script>
 
-<style>
-.code  .CodeMirror {
+<style lang="scss" scoped>
+.code .CodeMirror {
   height: auto !important;
   max-height: 300px;
+}
+
+/*定义整体的宽度*/
+::v-deep .CodeMirror-hscrollbar::-webkit-scrollbar {
+  height: 5px;
+  width: 5px;
+}
+
+/*定义滚动条轨道*/
+::v-deep .CodeMirror-hscrollbar::-webkit-scrollbar-track {
+  border-radius: 2px;
+}
+
+/*定义滑块*/
+::v-deep .CodeMirror-hscrollbar::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  background: rgba(0, 255, 42, 0.5);
+}
+
+/*定义整体的宽度*/
+::v-deep .CodeMirror-vscrollbar::-webkit-scrollbar {
+  height: 5px;
+  width: 5px;
+}
+
+/*定义滚动条轨道*/
+::v-deep .CodeMirror-vscrollbar::-webkit-scrollbar-track {
+  border-radius: 2px;
+}
+
+/*定义滑块*/
+::v-deep .CodeMirror-vscrollbar::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  background: rgba(0, 255, 42, 0.5);
 }
 </style>

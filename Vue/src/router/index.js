@@ -1,50 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import Login from '../views/Login/Login.vue'
-// import Register from '../views/Register/Register.vue'
-// import ForgetPassWord from '../views/ForgetPassWord/ForgetPassWord.vue'
-// import RevisePassWord from '../views/RevisePassWord/RevisePassWord.vue'
-// import Layout from '../views/Layout/Layout.vue'
-//仪表盘首页
-// import Dashboard from '../views/Dashboard/Dashboard.vue'
-//个人信息
-// import PersonalSettings from '../views/PersonalSettings/PersonalSettings.vue'
-//主动扫描
-// import IssueTask from '../views/ActiveScanning/IssueTask/IssueTask.vue'
-// import SiteInforMation from '../views/ActiveScanning/SiteInforMation/SiteInforMation.vue'
-//监控
-// import GitHubMonitor from '../views/Monitor/GitHubMonitor/GitHubMonitor.vue'
-// import VulnerabilitiesMonitor from '../views/Monitor/VulnerabilitiesMonitor/VulnerabilitiesMonitor.vue'
-// import VulnerabilitiesMonitorDetailed from '../views/Monitor/VulnerabilitiesMonitor/part/VulnerabilitiesMonitorDetailed.vue'
-//协同
-// import CreateCombine from '../views/Combine/CreateCombine/CreateCombine.vue'
-// import CombineList from '../views/Combine/CombineList/CombineList.vue'
-// import MarkdownData from '../views/Combine/CombineList/part/MarkdownData.vue'
-// import DataComparison from '../views/Combine/CombineList/part/DataComparison.vue'
-//XSS
-// import CreateCrossSiteScript from '../views/CrossSiteScript/CreateCrossSiteScript/CreateCrossSiteScript.vue'
-// import ProjectManagement from '../views/CrossSiteScript/ProjectManagement/ProjectManagement.vue'
-// import QueryProject from '../views/CrossSiteScript/ProjectManagement/part/QueryProject.vue'
-// import ModifyProject from '../views/CrossSiteScript/ProjectManagement/part/ModifyProject.vue'
-// import TemplateManagement from '../views/CrossSiteScript/TemplateManagement/TemplateManagement.vue'
-// import PrivateTemplate from '../views/CrossSiteScript/PrivateTemplate/PrivateTemplate.vue'
-//DNSLOG
-// import DNS from '../views/DNSLOG/DNS/DNS.vue'
-// import HTTP from '../views/DNSLOG/HTTP/HTTP.vue'
-
-
-//ShellCode
-// import ShellCodeToTrojan from '../views/ShellCode/ShellCodeToTrojan/ShellCodeToTrojan.vue'
-//关于
-// import About from '../views/About/About.vue'
-//邮件
-// import SendMail from '../views/Mail/SendMail/SendMail.vue'
-
-
 import { message } from 'ant-design-vue'
 import store from '@/store'
 
-// import { mapGetters } from "vuex";
 
 Vue.use(VueRouter)
 
@@ -76,14 +34,14 @@ const routes = [
     path: '/ForgetPassWord',
     name: 'ForgetPassWord',
     // component: ForgetPassWord
-    component:  () => import('@/views/ForgetPassWord/ForgetPassWord')
+    component: () => import('@/views/ForgetPassWord/ForgetPassWord')
   },
   //修改密码
   {
     path: '/RevisePassWord',
     name: 'RevisePassWord',
     // component: RevisePassWord,
-    component:  () => import('@/views/RevisePassWord/RevisePassWord'),
+    component: () => import('@/views/RevisePassWord/RevisePassWord'),
     meta: {
       isLogin: true
     },
@@ -263,11 +221,12 @@ const routes = [
     ]
   },
   // 最后是404页面
-  // {
-  //   path: '*',
-  //   meta: { requireAuth: true },
-  //   component: Notfound
-  // }
+  {
+    path: '*',
+    name: '404',
+    // meta: { requireAuth: true },
+    component: () => import('@/views/404/404'),
+  }
 ]
 
 const originalPush = VueRouter.prototype.push
@@ -279,11 +238,24 @@ const router = new VueRouter({
   routes
 })
 
+//引入目录
+import menuList from '../../MenuConfig'
 router.beforeEach(async (to, from, next) => {
+  const itemList = menuList.filter(item => item.key === to.name)
+  if (itemList.length > 0 && !itemList[0]?.show) {
+    next({
+      path: "404",
+    });
+    return
+  }
+
+  // console.log(itemList)
   if (to.name == from.name) {
     next(false)
     return
   }
+
+  console.log(to, from)
   if (to.matched[0]?.meta.isLogin) {
     if (localStorage.getItem('token')) {
       await store.dispatch("UserStore/setUserinfo", localStorage.getItem('token'))

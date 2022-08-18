@@ -23,7 +23,7 @@ const MenuConfig = () => {
       key: "ActiveScanning",
       iconType: "icon-saomiao1",
       msg: "主动扫描",
-      show: true,
+      show: false,
       children: [
         {
           key: "issueTasks",
@@ -41,14 +41,14 @@ const MenuConfig = () => {
       key: "sub2",
       iconType: "icon-saomiao2",
       msg: "被动扫描",
-      show: true,
+      show: false,
       children: [],
     },
     {
       key: "Monitor",
       iconType: "icon-jiankong",
       msg: "监控页面",
-      show: true,
+      show: false,
       children: [
         {
           key: "GitHubMonitor",
@@ -94,7 +94,7 @@ const MenuConfig = () => {
       key: "Combine",
       iconType: "icon-xietong",
       msg: "协同作战",
-      show: true,
+      show: false,
       children: [
         {
           key: "CreateCombine",
@@ -112,7 +112,7 @@ const MenuConfig = () => {
       key: "ShellCodeToTrojan",
       iconType: "icon-heike",
       msg: "免杀生成",
-      show: true,
+      show: false,
       // children: [
       //   {
       //     key: "ShellCodeToTrojan",
@@ -124,7 +124,7 @@ const MenuConfig = () => {
       key: "Toolbar",
       iconType: "icon-gongju",
       msg: "工具栏",
-      show: true,
+      show: false,
       children: [
         {
           key: "antivirusSoftwareCompared",
@@ -155,7 +155,7 @@ const MenuConfig = () => {
       key: "Mail",
       iconType: "icon-saomiao2",
       msg: "邮件",
-      show: true,
+      show: false,
       children: [
         {
           key: "SendMail",
@@ -173,7 +173,7 @@ const MenuConfig = () => {
       key: "About",
       iconType: "icon-Serviceusers",
       msg: "关于我们",
-      show: true,
+      show: false,
     },
   ]
 }

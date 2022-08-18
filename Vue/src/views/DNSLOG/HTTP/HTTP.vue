@@ -9,55 +9,66 @@
     ]"
   >
     <a-col :xs="24" :md="8" :xxl="6" style="height: 100%;overflow-y: auto;">
-      <!-- <Card :name="``" :bodyStyle="bodyStyle"> -->
-         <!-- :scrollTable="{ x: '100%', y: 700 }" -->
+      <Card :name="``" :bodyStyle="bodyStyle">
+        <!-- :scrollTable="{ x: '100%', y: 700 }" -->
         <Tables
           :customRow="handleCustomRow"
-         :scrollTable="{ x: '100%', y: '100%' }"
+          :scrollTable="{ x: '100%', y: '100%' }"
           :columns="columns"
           :tableData="data"
           :total="total"
           :rowKey="(record,index)=>index"
           @change="handleChange"
         />
-      <!-- </Card> -->
+      </Card>
     </a-col>
     <a-col :xs="24" :md="16" :xxl="18" style="height: 100%;">
       <!-- <Card :name="``" :bodyStyle="bodyStyle2"> -->
-        <a-col :xs="24" :md="12" v-for="(value,key) in record" :key="key" style="padding-top: 0;padding-bottom: 0;height: 100%;">
-          <!-- <a-col class="title">{{key}}</a-col> -->
-          <a-col :xs="24" class="border" @click="handleCopy(value)" style="height: 100%;">
-            <!-- <div class="copy">
+      <a-col
+        :xs="24"
+        :md="12"
+        v-for="(value,key) in record"
+        :key="key"
+        style="padding-top: 0;padding-bottom: 0;height: 100%;"
+      >
+        <!-- <a-col class="title">{{key}}</a-col> -->
+        <a-col :xs="24" class="border" @click="handleCopy(value)" style="height: 100%;">
+          <!-- <div class="copy">
               COPY
               <a-icon type="copy" />
-            </div> -->
-            <a-col style="display: flex;padding-left: 0;">
-              <div style="flex: 1;font-size: 24px;text-align: left;">{{key}}</div>
-              <div class="copy">
-                COPY
+          </div>-->
+          <a-col style="display: flex;padding-left: 0;">
+            <div style="flex: 1;font-size: 24px;text-align: left;">{{key}}</div>
+            <div class="copy">
+              COPY
               <a-icon type="copy" />
-              </div>
-            </a-col>
-            <a-empty v-if="!value" :description="`未选择表格项`" />
-            <!-- <MarkdownPreview
+            </div>
+          </a-col>
+          <a-empty v-if="!value" :description="`未选择表格项`" />
+          <!-- <MarkdownPreview
               class="pre"
               v-else
               theme="oneDark"
               :initialValue="'```' + `\n${value}\n` + '```'"
-            /> -->
-             <codemirror style="text-align: left;" v-else :value="value" :options="{mode: 'message/http',lineNumbers: false,theme:'default'}"></codemirror>
-            <!-- <pre v-else class="pre" style="color: #666;font-size: 14px;">
+          />-->
+          <codemirror
+            style="text-align: left;"
+            v-else
+            :value="value"
+            :options="{mode: 'message/http',lineNumbers: false,theme:'default'}"
+          ></codemirror>
+          <!-- <pre v-else class="pre" style="color: #666;font-size: 14px;">
               {{value}}
-            </pre> -->
-          </a-col>
+          </pre>-->
         </a-col>
+      </a-col>
       <!-- </Card> -->
     </a-col>
   </a-row>
 </template>
 
 <script>
-// import Card from '@/components/Card/Card.vue'
+import Card from '@/components/Card/Card.vue'
 import Tables from '@/components/Tables/Tables.vue'
 import { mapGetters } from "vuex";
 import { OverallMixins } from '@/js/Mixins/OverallMixins.js'
@@ -72,7 +83,7 @@ import 'codemirror/mode/http/http.js'
 export default {
   mixins: [OverallMixins],
   components: {
-    // Card,
+    Card,
     Tables,
     // MarkdownPreview,
     codemirror

@@ -10,18 +10,18 @@
     @click="handleGoTo"
   >
     <template v-for="(item) in menuList">
-      <a-sub-menu :key="item.key" v-if="item.children">
+      <a-sub-menu :key="item.key" v-if="item.children &&item.show">
         <span slot="title">
           <MyIcon :type="item.iconType" />
           <span>{{ item.msg }}</span>
         </span>
         <template v-for="i in item.children">
-          <a-menu-item :key="i.key">
+          <a-menu-item :key="i.key" v-if="i.show">
             <span>{{ i.msg }}</span>
           </a-menu-item>
         </template>
       </a-sub-menu>
-      <a-menu-item :key="item.key" v-else>
+      <a-menu-item :key="item.key" v-if="!item.children && item.show">
         <MyIcon :type="item.iconType" />
         <span>{{ item.msg }}</span>
       </a-menu-item>

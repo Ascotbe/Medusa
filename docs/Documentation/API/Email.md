@@ -1,3 +1,5 @@
+## 项目管理
+
 ### 创建邮件项目
 
 `/api/create_email_project/`
@@ -294,7 +296,171 @@
 
 - 500：请使用Post请求
 
+### 查询邮件发送状态
 
+`/api/email_sending_status/`
+
+```json
+{
+	"token": "xxx",
+	"number_of_pages":"1",
+	"full_data":true,
+	"status":"1",
+	"project_key":"1"
+}
+```
+
+> 参数解释
+
+- `token`登录后返回的**token**
+- `number_of_pages`页数
+- `full_data`是否是全量数据，如果值为true那么会忽略`status`参数的值，如果是false那么会响应`status`参数的值
+- `status`邮件状态
+- `project_key`项目key
+
+> 返回状态码
+
+- 169：未知错误，请查看日志(๑•̀ㅂ•́)و✧
+
+- 200：返回详情内容，**会有多个数组的集合**
+
+  ```json
+  {
+  	"message": [{
+  		"email": "ascotbe@163.com",
+  		"email_md5": "4abb04869146ae77f2dcf1bad67dab37",
+  		"status": "1",
+  		"department": "\u4fe1\u606f\u5b89\u5168",
+  		"creation_time": "1655202052"
+  	}, {
+  		"email": "123456@qq.com",
+  		"email_md5": "35de170fc7836ea645e1a7d7b307ff6e",
+  		"status": "-1",
+  		"department": "\u5ba2\u670d",
+  		"creation_time": "1658298090"
+  	}],
+  	"code": 200
+  }
+  ```
+
+  > 参数解释
+
+  - `email`邮件
+  - `email_md5`邮件的md5值
+  - `status`邮件状态，1表示发送成功，-1表示发送失败
+  - `department`当前邮件所属部门
+  - `creation_time `项目创建时间
+
+- 400：你家页数是负数的？？？？
+
+- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+
+- 405：该项目不属于你不要瞎请求！
+
+- 500：请使用Post请求
+
+### 邮件发送状态统计数量
+
+`/api/email_sending_status_statistics/`
+
+```json
+{
+	"token": "xxx",
+	"project_key":"1",
+  "full_data":true,
+	"status":"1",
+}
+```
+
+> 参数解释
+
+- `token`登录后返回的**token**
+- `full_data`是否是全量数据，如果值为true那么会忽略`status`参数的值，如果是false那么会响应`status`参数的值
+- `status`邮件状态
+- `project_key`项目key
+
+> 返回状态码
+
+- 169：未知错误，请查看日志(๑•̀ㅂ•́)و✧
+- 200：返回个数是多少
+- 400：你家页数是负数的？？？？
+- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+- 405：该项目不属于你不要瞎请求！
+- 500：请使用Post请求
+
+### 重发未发送成功的邮件
+
+`/api/resend_failure_email/`
+
+```json
+{
+	"token": "xxx",
+	"project_key":"1"
+}
+```
+
+> 参数解释
+
+- `token`登录后返回的**token**
+- `project_key`项目key
+
+> 返回状态码
+
+- 169：未知错误，请查看日志(๑•̀ㅂ•́)و✧
+- 200：任务下发成功
+- 400：你家页数是负数的？？？？
+- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+- 405：该项目不属于你不要瞎请求！
+- 500：请使用Post请求
+
+### 发送测试邮件
+
+`/api/send_test_email/`
+
+```json
+{
+	"token": "xxxx",
+	"mail_message": "<p>警戒警戒！莎莎检测到有人入侵！数据以保存喵~</p>\n<p><img src=\"cid:Medusa.jpg\"></p><p>快快看看这个<a target=\"_blank\" rel=\"noopener\" href=\"http://baidu.com/{{ md5 }}\">数据</a></p>",
+	"attachment": {
+		"Medusa.txt": "AeId9BrGeELFRudpjb7wG22LidVLlJuGgepkJb3pK7CXZCvmM51628131056"
+	},
+	"image": {
+		"Medusa.jpg": "5x8SfyxamrejUHa6sBMztSUxH2skl6yBZ81lDDhj96264YLiRb1655199840"
+	},
+	"mail_title": "测试邮件",
+	"sender": "瓜皮大笨蛋",
+	"goal_mailbox": {
+		"信息安全": ["ascotbe@163.com"],
+		"大数据": ["ascotbe@qq.com"]
+	},
+	"forged_address": "helpdesk@test.com",
+	"interval": "0.1"
+}
+```
+
+> 参数解释
+
+- `token`登录后返回的**token**
+- `mail_message` 支持HTML格式，在引入的页面添加占位符`{{ md5 }}`参考上面数据，如果是还需要统计点开邮件用户可以再最下面添加一个图片标签，只发送请求到接收数据接口，不发送数据的那种，同样需要占位符
+- `attachment`使用本地附件，通过email_attachment_query这个api接口获取相关信息，如果为空也必须传入`{}`符号
+- `image`邮件中插入的图片，通过email_attachment_query这个api接口获取相关信息，如果为空也必须传入`{}`符号
+- `mail_title`邮件标题
+- `sender`发件人名称
+- `goal_mailbox`发送到哪些邮箱中，必须是字典类型，并且不能为空
+- `interval`邮件发送的间隔
+- `forged_address`发送的邮件服务器（可以伪造
+
+> 返回状态码
+
+- 169：未知错误(๑•̀ㅂ•́)و✧
+- 200：测试邮件任务下发成功！
+- 400：你家页数是负数的？？？？
+- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+- 414：未传入邮件接收人！
+- 415：附件或者图片必须传入字典类型，不可置空！
+- 500：请使用Post请求
+
+## 文件管理
 
 ### 文件上传
 
@@ -415,7 +581,7 @@ XXXXXXXXXXXXXXX
 - 500：请使用Post请求
 - 603：没有这个文件~
 
-
+## 数据统计
 
 ### 接收数据全量数据统计
 
@@ -708,169 +874,7 @@ XXXXXXXXXXXXXXX
 
 - 500：请使用Post请求
 
-### 查询邮件发送状态
-
-`/api/email_sending_status/`
-
-```json
-{
-	"token": "xxx",
-	"number_of_pages":"1",
-	"full_data":true,
-	"status":"1",
-	"project_key":"1"
-}
-```
-
-> 参数解释
-
-- `token`登录后返回的**token**
-- `number_of_pages`页数
-- `full_data`是否是全量数据，如果值为true那么会忽略`status`参数的值，如果是false那么会响应`status`参数的值
-- `status`邮件状态
-- `project_key`项目key
-
-> 返回状态码
-
-- 169：未知错误，请查看日志(๑•̀ㅂ•́)و✧
-
-- 200：返回详情内容，**会有多个数组的集合**
-
-  ```json
-  {
-  	"message": [{
-  		"email": "ascotbe@163.com",
-  		"email_md5": "4abb04869146ae77f2dcf1bad67dab37",
-  		"status": "1",
-  		"department": "\u4fe1\u606f\u5b89\u5168",
-  		"creation_time": "1655202052"
-  	}, {
-  		"email": "123456@qq.com",
-  		"email_md5": "35de170fc7836ea645e1a7d7b307ff6e",
-  		"status": "-1",
-  		"department": "\u5ba2\u670d",
-  		"creation_time": "1658298090"
-  	}],
-  	"code": 200
-  }
-  ```
-
-  > 参数解释
-
-  - `email`邮件
-  - `email_md5`邮件的md5值
-  - `status`邮件状态，1表示发送成功，-1表示发送失败
-  - `department`当前邮件所属部门
-  - `creation_time `项目创建时间
-
-- 400：你家页数是负数的？？？？
-
-- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
-
-- 405：该项目不属于你不要瞎请求！
-
-- 500：请使用Post请求
-
-### 邮件发送状态统计数量
-
-`/api/email_sending_status_statistics/`
-
-```json
-{
-	"token": "xxx",
-	"project_key":"1",
-  "full_data":true,
-	"status":"1",
-}
-```
-
-> 参数解释
-
-- `token`登录后返回的**token**
-- `full_data`是否是全量数据，如果值为true那么会忽略`status`参数的值，如果是false那么会响应`status`参数的值
-- `status`邮件状态
-- `project_key`项目key
-
-> 返回状态码
-
-- 169：未知错误，请查看日志(๑•̀ㅂ•́)و✧
-- 200：返回个数是多少
-- 400：你家页数是负数的？？？？
-- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
-- 405：该项目不属于你不要瞎请求！
-- 500：请使用Post请求
-
-### 重发未发送成功的邮件
-
-`/api/resend_failure_email/`
-
-```json
-{
-	"token": "xxx",
-	"project_key":"1"
-}
-```
-
-> 参数解释
-
-- `token`登录后返回的**token**
-- `project_key`项目key
-
-> 返回状态码
-
-- 169：未知错误，请查看日志(๑•̀ㅂ•́)و✧
-- 200：任务下发成功
-- 400：你家页数是负数的？？？？
-- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
-- 405：该项目不属于你不要瞎请求！
-- 500：请使用Post请求
-
-### 发送测试邮件
-
-`/api/send_test_email/`
-
-```json
-{
-	"token": "xxxx",
-	"mail_message": "<p>警戒警戒！莎莎检测到有人入侵！数据以保存喵~</p>\n<p><img src=\"cid:Medusa.jpg\"></p><p>快快看看这个<a target=\"_blank\" rel=\"noopener\" href=\"http://baidu.com/{{ md5 }}\">数据</a></p>",
-	"attachment": {
-		"Medusa.txt": "AeId9BrGeELFRudpjb7wG22LidVLlJuGgepkJb3pK7CXZCvmM51628131056"
-	},
-	"image": {
-		"Medusa.jpg": "5x8SfyxamrejUHa6sBMztSUxH2skl6yBZ81lDDhj96264YLiRb1655199840"
-	},
-	"mail_title": "测试邮件",
-	"sender": "瓜皮大笨蛋",
-	"goal_mailbox": {
-		"信息安全": ["ascotbe@163.com"],
-		"大数据": ["ascotbe@qq.com"]
-	},
-	"forged_address": "helpdesk@test.com",
-	"interval": "0.1"
-}
-```
-
-> 参数解释
-
-- `token`登录后返回的**token**
-- `mail_message` 支持HTML格式，在引入的页面添加占位符`{{ md5 }}`参考上面数据，如果是还需要统计点开邮件用户可以再最下面添加一个图片标签，只发送请求到接收数据接口，不发送数据的那种，同样需要占位符
-- `attachment`使用本地附件，通过email_attachment_query这个api接口获取相关信息，如果为空也必须传入`{}`符号
-- `image`邮件中插入的图片，通过email_attachment_query这个api接口获取相关信息，如果为空也必须传入`{}`符号
-- `mail_title`邮件标题
-- `sender`发件人名称
-- `goal_mailbox`发送到哪些邮箱中，必须是字典类型，并且不能为空
-- `interval`邮件发送的间隔
-- `forged_address`发送的邮件服务器（可以伪造
-
-> 返回状态码
-
-- 169：未知错误(๑•̀ㅂ•́)و✧
-- 200：测试邮件任务下发成功！
-- 400：你家页数是负数的？？？？
-- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
-- 414：未传入邮件接收人！
-- 415：附件或者图片必须传入字典类型，不可置空！
-- 500：请使用Post请求
+## 邮箱管理
 
 ### 上传表格提取相关数据
 
@@ -903,9 +907,9 @@ XXXXXXXXXXXXXXX
 - 500：请使用Post请求
 - 501：写入失败！
 
-### 统计邮件列表个数数据
+### 统计邮件管理项目
 
-`/api/statistics_email_list_key/`
+`/api/statistics_email_project_list/`
 
 ```json
 {
@@ -927,9 +931,9 @@ XXXXXXXXXXXXXXX
 
 - 500：请使用Post请求
 
-### 查询邮件列表Key
+### 查询邮件管理项目
 
-`/api/query_email_list_key/`
+`/api/query_email_project_list/`
 
 ```json
 {
@@ -980,14 +984,67 @@ XXXXXXXXXXXXXXX
 
 - 500：请使用Post请求
 
-### 查询邮件列表全量的数据
+### 查询邮件管理中的邮箱数据
 
 `/api/query_email_list/`
 
 ```json
 {
 	"token": "xxx",
-	"project_key":"Sp7odgjo78xTh7zfQhUV"
+	"project_key":"Sp7odgjo78xTh7zfQhUV",
+  "number_of_pages": "1"
+}
+```
+
+> 参数解释
+
+- `token`登录后返回的**token**
+- `project_key`邮件列表项目key
+- `number_of_pages`页面页码
+
+> 返回状态码
+
+- 169：未知错误，请查看日志(๑•̀ㅂ•́)و✧
+
+- 200：返回详情内容，**会有多个数组的集合**
+
+  ```json
+  {
+  	"message": [{
+  			"email": "123@qq.com",
+  			"department": "\u6570\u636e\u5e93"
+  		}, {
+  			"email": "12345@qq.com",
+  			"department": "\u6572\u626e\u5e93"
+  		},
+  		{
+  			"email": "99999@qq.com",
+  			"department": "\u6572\u626e\u5e93"
+  		}
+  	],
+  	"code": 200
+  }
+  ```
+
+  > 参数解释
+
+  - `email`是邮件
+  - `department`是部门
+
+- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+
+- 500：请使用Post请求
+
+- 505：项目不属于你！
+
+### 统计邮件管理中的邮箱个数
+
+`/api/statistics_email_list/`
+
+```json
+{
+	"token": "xxxx",
+	"project_key": "xxxx"
 }
 ```
 
@@ -999,24 +1056,7 @@ XXXXXXXXXXXXXXX
 > 返回状态码
 
 - 169：未知错误，请查看日志(๑•̀ㅂ•́)و✧
-
-- 200：返回详情内容，**会有多个数组的集合**
-
-  ```json
-  {
-  	"message": {
-  		"\u6570\u636e\u5e93": ["ascotbe@qq.com", "123@qq.com"],
-  		"\u6572\u626e\u5e93": ["12345@qq.com"]
-  	},
-  	"code": 200
-  }
-  ```
-
-  > 参数解释
-
-  - 每个参数开头是部门，后面跟的是邮箱内容
-
+- 200：返回个数
 - 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
-
 - 500：请使用Post请求
-
+- 505：项目不属于你！

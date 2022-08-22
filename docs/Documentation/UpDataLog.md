@@ -3822,4 +3822,6 @@ v1.0.170🌴
 重写EmailInfo表和新增EmailData表
 新增1个API
 修改3个API
+v1.0.171🌴
+修改关于邮件的API说明文档
 ```

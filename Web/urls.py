@@ -141,9 +141,10 @@ urlpatterns = [
     path('api/email_data_graph_query/', Graph.Query),  # 数据表格查询
     path('api/upload_email_list/',EmailList.Upload ),  # 上传邮件列表数据
     path('api/download_email_list_template/', EmailList.Download),  # 下载邮件列表模板
-    path('api/statistics_email_list_key/', EmailList.Statistics),  # 统计精简数据
-    path('api/query_email_list_key/', EmailList.QueryKey),  # 查询精简数据
-    path('api/query_email_list/', EmailList.Query),  # 查询全量需要发送的邮箱数据
+    path('api/statistics_email_project_list/', EmailList.StatisticsProject),  # 统计邮件管理项目
+    path('api/query_email_project_list/', EmailList.QueryProject),  # 查询邮件管理项目
+    path('api/query_email_list/', EmailList.Query),  # 查询邮件管理中全量需要发送的邮箱数据
+    path('api/statistics_email_list/', EmailList.Statistics),  # 统计邮件管理项目
 
     #项目相关信息
     path('api/medusa_config_info/', Information.ConfigInfo),  # 获取项目相关数据

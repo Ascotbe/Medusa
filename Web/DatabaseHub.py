@@ -3002,7 +3002,7 @@ class EmailGraph:  # 邮件数据接收
             ErrorLog().Write("Web_DatabaseHub_EmailGraph(class)_Verification(def)", e)
             return None
 
-class EmailInfo:  # 邮件列表
+class EmailInfo:  # 邮件管理详情
     def __init__(self):
         self.con = sqlite3.connect(GetDatabaseFilePath().result())
         # 获取所创建数据的游标
@@ -3012,7 +3012,6 @@ class EmailInfo:  # 邮件列表
             self.cur.execute("CREATE TABLE EmailInfo\
                                 (email_info_id INTEGER PRIMARY KEY,\
                                 uid TEXT NOT NULL,\
-                                email_list TEXT NOT NULL,\
                                 project_key TEXT NOT NULL,\
                                 another_name TEXT NOT NULL,\
                                 creation_time TEXT NOT NULL)")
@@ -3022,14 +3021,13 @@ class EmailInfo:  # 邮件列表
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
         CreationTime = str(int(time.time()))  # 创建时间
         Uid = kwargs.get("uid")  # 用户值
-        EmailList= kwargs.get("email_list")#邮件
         ProjectKey = kwargs.get("project_key")  # 邮件key
         AnotherName= kwargs.get("another_name")#项目别名
 
         try:
 
-            self.cur.execute("INSERT INTO EmailInfo(uid,email_list,project_key,another_name,creation_time)\
-                VALUES (?,?,?,?,?)", (Uid,EmailList,ProjectKey,AnotherName,CreationTime,))
+            self.cur.execute("INSERT INTO EmailInfo(uid,project_key,another_name,creation_time)\
+                VALUES (?,?,?,?)", (Uid,ProjectKey,AnotherName,CreationTime,))
             # 提交
             self.con.commit()
             self.con.close()
@@ -3037,18 +3035,7 @@ class EmailInfo:  # 邮件列表
         except Exception as e:
             ErrorLog().Write("Web_DatabaseHub_EmailInfo(class)_Write(def)", e)
             return False
-    def Query(self, **kwargs):#全量数据查询
-        try:
-            Uid = kwargs.get("uid") # 用户ID
-            ProjectKey = kwargs.get("project_key")  # 项目key
-            self.cur.execute("select email_list from EmailInfo WHERE project_key=? and uid=?", (ProjectKey,Uid,))#查询用户相关信息
-            for i in self.cur.fetchall():
-                self.con.close()
-                return i[0]
-        except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailInfo(class)_Query(def)", e)
-            return None
-    def ProjectQuery(self, **kwargs):#项目查询
+    def Query(self, **kwargs):#项目查询
         try:
             Uid = kwargs.get("uid")  # 用户ID
             NumberOfSinglePages=100#单页数量
@@ -3064,7 +3051,18 @@ class EmailInfo:  # 邮件列表
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailInfo(class)_ProjectQuery(def)", e)
+            ErrorLog().Write("Web_DatabaseHub_EmailInfo(class)_Query(def)", e)
+            return None
+    def Verification(self,**kwargs):  #验证所有者
+        try:
+            ProjectKey = kwargs.get("project_key")  # 邮件key
+            Uid = kwargs.get("uid")  # 用户ID
+            self.cur.execute("SELECT COUNT(1)  FROM EmailInfo WHERE uid=? and project_key= ?", (Uid,ProjectKey,))
+            Result=self.cur.fetchall()[0][0]#获取数据个数
+            self.con.close()
+            return Result
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_EmailInfo(class)_Verification(def)", e)
             return None
     def Statistics(self,**kwargs):  # 项目统计
         try:
@@ -3077,8 +3075,77 @@ class EmailInfo:  # 邮件列表
             ErrorLog().Write("Web_DatabaseHub_EmailInfo(class)_Statistics(def)", e)
             return None
 
+class EmailData:  # 邮件管理中的邮箱数据
+    def __init__(self):
+        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        # 获取所创建数据的游标
+        self.cur = self.con.cursor()
+        # 创建表
+        try:
+            self.cur.execute("CREATE TABLE EmailData\
+                                (email_info_id INTEGER PRIMARY KEY,\
+                                project_key TEXT NOT NULL,\
+                                email TEXT NOT NULL,\
+                                department TEXT NOT NULL)")
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_EmailData(class)_init(def)", e)
 
+    def Write(self, DataSet) -> bool or None:  # 写入相关信息
+        try:
+            self.cur.executemany("INSERT INTO EmailData(project_key,email,department)\
+                VALUES (?,?,?)", DataSet)
+            # 提交
+            self.con.commit()
+            self.con.close()
+            return True
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_EmailData(class)_Write(def)", e)
+            return False
+    def Query(self, **kwargs):#项目查询
+        try:
+            ProjectKey = kwargs.get("project_key")  # 用户ID
+            NumberOfSinglePages=100#单页数量
+            NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
+            self.cur.execute("select email,department from EmailData WHERE project_key=? limit ? offset ?", (ProjectKey,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询用户相关信息
+            result_list = []
+            for i in self.cur.fetchall():
+                JsonValues = {}
+                JsonValues["email"] = i[0]
+                JsonValues["department"] = i[1]
+                result_list.append(JsonValues)
+            self.con.close()
+            return result_list
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_EmailData(class)_Query(def)", e)
+            return None
+    def Statistics(self,**kwargs):  # 项目统计
+        try:
+            ProjectKey = kwargs.get("project_key")  # 用户ID
+            self.cur.execute("SELECT COUNT(1)  FROM EmailData WHERE project_key=?", (ProjectKey,))
+            Result=self.cur.fetchall()[0][0]#获取数据个数
+            self.con.close()
+            return Result
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_EmailData(class)_Statistics(def)", e)
+            return None
+    def QueryAll(self, **kwargs):#拉取全量数据
+        try:
+            ProjectKey = kwargs.get("project_key")  # 用户ID
 
+            self.cur.execute("select email,department from EmailData WHERE project_key=?", (ProjectKey,))#查询用户相关信息
+            Excel = {}  # 创建一个空字典,存储表格数据
+            for i in self.cur.fetchall():
+                Department=i[1]
+                Value=i[0]
+                if Department in Excel.keys():  # 判断部门是否在键中
+                    Excel[Department].append(Value)
+                else:
+                    Excel[Department] = [Value]
+            self.con.close()
+            return Excel
+        except Exception as e:
+            ErrorLog().Write("Web_DatabaseHub_EmailData(class)_QueryAll(def)", e)
+            return None
 class GithubCve:  # GitHub的CVE监控写入表
     def __init__(self,**kwargs):
         try:

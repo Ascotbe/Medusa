@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from Web.DatabaseHub import UserInfo,EmailInfo
+from Web.DatabaseHub import UserInfo,EmailInfo,EmailData
 from django.http import JsonResponse,FileResponse
 from ClassCongregation import ErrorLog,randoms,GetTempFilePath,TemplatePath
 from openpyxl import load_workbook
@@ -13,7 +13,6 @@ from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
 POST /api/upload_email_list/ HTTP/1.1
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryaFtQbWz7pBzNgCOv
 token:XXXXXXXXXXXXXXXX
-Another-Name:\u5403\u996d
 
 ------WebKitFormBoundaryaFtQbWz7pBzNgCOv
 Content-Disposition: form-data; name="file"; filename="test.xlsx"
@@ -40,24 +39,33 @@ def Upload(request):#上传表格，提取相关数据
                     with open(SaveRoute, 'wb') as f:
                         for line in PictureData:
                             f.write(line)
-                ReadExcel = load_workbook(SaveRoute) #读取上传的文件
-                ExcelData = ReadExcel[ReadExcel.sheetnames[0]]  # 获取第一个sheet
-                # 按行读取 工作表的内容
-                Excel = {}  # 创建一个空字典,存储表格数据
-                for row in [row for row in ExcelData.rows][1:]:#删除了第一行数据
-                    # print(row[0].value, row[1].value)
-                    Department = str(row[0].value).replace("\n", "")  # 部门
-                    Value = str(row[1].value).replace("\n", "")  # 值
-                    if Department != "None" and Value != "None":  # 过滤空值
-                        if Department in Excel.keys():  # 判断部门是否在键中
-                            Excel[Department].append(Value)
-                        else:
-                            Excel[Department] = [Value]
-                Result=EmailInfo().Write(uid=Uid,email_list=str(Excel),another_name=AnotherName,project_key=randoms().result(20))#写入数据库
+                ProjectKey=randoms().result(20)
+                Result=EmailInfo().Write(uid=Uid, another_name=AnotherName, project_key=ProjectKey)  # 创建邮件管理项目
                 if Result:
+                    ReadExcel = load_workbook(SaveRoute) #读取上传的文件
+                    ExcelData = ReadExcel[ReadExcel.sheetnames[0]]  # 获取第一个sheet
+                    # 按行读取 工作表的内容
+                    # Excel = {}  # 创建一个空字典,存储表格数据
+                    DataSet=[]
+                    for row in [row for row in ExcelData.rows][1:]:#删除了第一行数据
+                        # print(row[0].value, row[1].value)
+                        Department = str(row[0].value).replace("\n", "")  # 部门
+                        Value = str(row[1].value).replace("\n", "")  # 值
+                        if Department != "None" and Value != "None":  # 过滤空值
+                            # if Department in Excel.keys():  # 判断部门是否在键中
+                            #     Excel[Department].append(Value)
+                            # else:
+                            #     Excel[Department] = [Value]
+                            DataSet.append((str(ProjectKey),str(Value),str(Department)))
+                        if len(DataSet) == 500:  # 500写入一次数据库
+                            EmailData().Write(DataSet)
+                            DataSet.clear()  # 写入后清空数据库
+                    EmailData().Write(DataSet)  # 函数循环结束后也写入一次数据库，防止不足500的数据没写入
                     return JsonResponse({'message': "写入成功！", 'code': 200, })
                 else:
                     return JsonResponse({'message': "写入失败！", 'code': 501, })
+
+
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
@@ -85,52 +93,52 @@ def Download(request):#下载模版
 
 
 
-"""statistics_email_list_key
+"""statistics_email_project_list
 {
 
 	"token": "xxxx"
 }
 """
-def Statistics(request):#统计邮件列表个数数据
-    RequestLogRecord(request, request_api="statistics_email_list_key")
+def StatisticsProject(request):#统计邮件列表个数数据
+    RequestLogRecord(request, request_api="statistics_email_project_list")
     if request.method == "POST":
         try:
             Token=json.loads(request.body)["token"]
             Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
             if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="statistics_email_list_key", uid=Uid)  # 查询到了在计入
+                UserOperationLogRecord(request, request_api="statistics_email_project_list", uid=Uid)  # 查询到了在计入
                 Result=EmailInfo().Statistics(uid=Uid)
                 return JsonResponse({'message': Result, 'code': 200, })
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_Email_EmailList_Statistics(def)", e)
+            ErrorLog().Write("Web_Email_EmailList_StatisticsProject(def)", e)
             return JsonResponse({'message': "出错了请看报错日志(๑•̀ㅂ•́)و✧", 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
-"""query_email_list_key
+"""query_email_project_list
 {
 
 	"token": "xxxx",
 	"number_of_pages": "1"
 }
 """
-def QueryKey(request):  # 查询邮件Key
-    RequestLogRecord(request, request_api="query_email_list_key")
+def QueryProject(request):  # 查询邮件管理项目
+    RequestLogRecord(request, request_api="query_email_project_list")
     if request.method == "POST":
         try:
             Token=json.loads(request.body)["token"]
             NumberOfPages = json.loads(request.body)["number_of_pages"]
             Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
             if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="query_email_list_key", uid=Uid)  # 查询到了在计入
-                Result=EmailInfo().ProjectQuery(uid=Uid,number_of_pages=int(NumberOfPages))
+                UserOperationLogRecord(request, request_api="query_email_project_list", uid=Uid)  # 查询到了在计入
+                Result=EmailInfo().Query(uid=Uid,number_of_pages=int(NumberOfPages))
                 return JsonResponse({'message': Result, 'code': 200, })
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_Email_EmailList_QueryKey(def)", e)
+            ErrorLog().Write("Web_Email_EmailList_QueryProject(def)", e)
             return JsonResponse({'message': "出错了请看报错日志(๑•̀ㅂ•́)و✧", 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
@@ -139,7 +147,8 @@ def QueryKey(request):  # 查询邮件Key
 {
 
 	"token": "xxxx",
-	"project_key": "xxxx"
+	"project_key": "xxxx",
+	"number_of_pages": "1"
 }
 """
 def Query(request):  # 查询邮件全量的数据
@@ -148,15 +157,50 @@ def Query(request):  # 查询邮件全量的数据
         try:
             Token=json.loads(request.body)["token"]
             ProjectKey = json.loads(request.body)["project_key"]
+            NumberOfPages = json.loads(request.body)["number_of_pages"]
             Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
             if Uid != None:  # 查到了UID
                 UserOperationLogRecord(request, request_api="query_email_list", uid=Uid)  # 查询到了在计入
-                Result=EmailInfo().Query(uid=Uid,project_key=ProjectKey)
-                return JsonResponse({'message': ast.literal_eval(Result), 'code': 200, })
+                V=EmailInfo().Verification(uid=Uid,project_key=ProjectKey)
+                if V>0:#验证权限
+                    Result=EmailData().Query(project_key=ProjectKey,number_of_pages=int(NumberOfPages))
+                    return JsonResponse({'message': Result, 'code': 200, })
+                else:
+                    return JsonResponse({'message': "项目不属于你！", 'code': 505, })
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
             ErrorLog().Write("Web_Email_EmailList_Query(def)", e)
+            return JsonResponse({'message': "出错了请看报错日志(๑•̀ㅂ•́)و✧", 'code': 169, })
+    else:
+        return JsonResponse({'message': '请使用Post请求', 'code': 500, })
+
+"""statistics_email_list
+{
+
+	"token": "xxxx",
+	"project_key": "xxxx"
+}
+"""
+def Statistics(request):#统计邮件列表个数数据
+    RequestLogRecord(request, request_api="statistics_email_list")
+    if request.method == "POST":
+        try:
+            Token=json.loads(request.body)["token"]
+            ProjectKey = json.loads(request.body)["project_key"]
+            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
+            if Uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="statistics_email_list", uid=Uid)  # 查询到了在计入
+                V = EmailInfo().Verification(uid=Uid, project_key=ProjectKey)
+                if V > 0:  # 验证权限
+                    Result = EmailData().Statistics(project_key=ProjectKey)
+                    return JsonResponse({'message': Result, 'code': 200, })
+                else:
+                    return JsonResponse({'message': "项目不属于你！", 'code': 505, })
+            else:
+                return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
+        except Exception as e:
+            ErrorLog().Write("Web_Email_EmailList_Statistics(def)", e)
             return JsonResponse({'message': "出错了请看报错日志(๑•̀ㅂ•́)و✧", 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from Web.DatabaseHub import UserInfo,EmailProject,EmailInfo,EmailDetails
+from Web.DatabaseHub import UserInfo,EmailProject,EmailInfo,EmailDetails,EmailData
 from django.http import JsonResponse
 from ClassCongregation import ErrorLog,randoms
 import json
@@ -85,12 +85,13 @@ def Updata(request):#更新项目数据
             if Uid != None:  # 查到了UID
                 UserOperationLogRecord(request, request_api="updata_email_project", uid=Uid)  # 查询到了在计入
                 if EmailListKey != "":
-                    EmailList = EmailInfo().Query(uid=Uid,project_key=EmailListKey)#查询获取EmailList数据
-                    if EmailList != None:
-                        if len(ast.literal_eval(EmailList))<=0 and len(GoalMailbox)<=0:#如果EmailList为空，且GoalMailbox为空
+                    Re = EmailInfo().Verification(uid=Uid,project_key=EmailListKey)#查询获取EmailList数据
+                    if int(Re) > 0:
+                        EmailList=EmailData().QueryAll(project_key=EmailListKey)
+                        if len(EmailList)<=0 :#如果EmailList为空，且GoalMailbox为空
                             return JsonResponse({'message': "未传入收件人数据！请检查Key是否有用", 'code': 505, })
                         else:
-                            GoalMailbox = ast.literal_eval(EmailList)
+                            GoalMailbox = EmailList
                 if len(GoalMailbox)<=0 and type(GoalMailbox)==dict:
                     return JsonResponse({'message': "未传入邮件接收人！", 'code': 414, })
                 if type(Attachment)!=dict or type(Image)!=dict:

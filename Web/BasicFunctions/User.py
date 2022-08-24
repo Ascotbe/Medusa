@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from Web.DatabaseHub import UserInfo,VerificationCode
 from django.http import JsonResponse
-from ClassCongregation import ErrorLog,randoms,Md5Encryption,GetImageFilePath
+from ClassCongregation import ErrorLog,randoms,Md5Encryption,GetPath
 import json
 import time
 from config import forget_password_key,forgot_password_function_status
@@ -212,7 +212,7 @@ def UploadAvatar(request):#文件上传功能
                 PictureData = request.FILES.get('file', None)#获取文件数据
                 if 10240<PictureData.size:#最大值10MB，最小值10KB
                     SaveFileName=randoms().result(10)+str(int(time.time()))+".jpg"#重命名文件
-                    SaveRoute=GetImageFilePath().Result()+SaveFileName#获得保存路径
+                    SaveRoute=GetPath().ImageFilePath()+SaveFileName#获得保存路径
                     with open(SaveRoute, 'wb') as f:
                         for line in PictureData:
                             f.write(line)

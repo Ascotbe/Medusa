@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from Web.DatabaseHub import UserInfo,EmailInfo,EmailData
 from django.http import JsonResponse,FileResponse
-from ClassCongregation import ErrorLog,randoms,GetTempFilePath,TemplatePath
+from ClassCongregation import ErrorLog,randoms,GetPath
 from openpyxl import load_workbook
 import json
 import time
@@ -22,7 +22,7 @@ XXXXXXXXXXXXXXX
 ------WebKitFormBoundaryaFtQbWz7pBzNgCOv--
 }
 """
-def Upload(request):#上传表格，提取相关数据
+def Upload(request):#上传表格，提取相关数据，测试3W条数据1秒左右
     RequestLogRecord(request, request_api="upload_email_list")
     if request.method == "POST":
         try:
@@ -35,7 +35,7 @@ def Upload(request):#上传表格，提取相关数据
                 AnotherName = PictureData.name#文件名称
                 if 0<PictureData.size:#内容不能为空
                     SaveFileName=randoms().result(50)+str(int(time.time()))#重命名文件
-                    SaveRoute=GetTempFilePath().Result()+SaveFileName+".xlsx"#获得保存路径
+                    SaveRoute=GetPath().TempFilePath()+SaveFileName+".xlsx"#获得保存路径
                     with open(SaveRoute, 'wb') as f:
                         for line in PictureData:
                             f.write(line)
@@ -78,7 +78,7 @@ def Download(request):#下载模版
     RequestLogRecord(request, request_api="download_email_list_template")
     if request.method == "GET":
         try:
-            Template=TemplatePath().Result()+"EmailListTemplate.xlsx"#获取邮件地址
+            Template=GetPath().TemplatePath()+"EmailListTemplate.xlsx"#获取邮件地址
             TemplateFlow = open(Template, 'rb')
             Result=FileResponse(TemplateFlow)#把图片比特流复制给返回包
             Result['Content-Type'] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'

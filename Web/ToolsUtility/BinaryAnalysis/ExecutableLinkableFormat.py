@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from Web.DatabaseHub import UserInfo
 from django.http import JsonResponse
-from ClassCongregation import ErrorLog,randoms,GetAnalysisFileStoragePath
+from ClassCongregation import ErrorLog,randoms,GetPath
 import time
 from config import portable_execute_file_size
 from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
@@ -28,7 +28,7 @@ def Linux(request):  # 用于提取保存文件后调用相应的处理函数
                     return JsonResponse({'message': "宝贝数据这么小的嘛？", 'code': 400, })
                 elif int(portable_execute_file_size) < PictureData.size:  #和配置文件中做对比
                     SaveFileName = str(int(time.time()))   # 重命名文件
-                    SaveRoute = GetAnalysisFileStoragePath().Result() + SaveFileName  # 获得保存路径
+                    SaveRoute = GetPath().AnalysisFileStoragePath() + SaveFileName  # 获得保存路径
                     with open(SaveRoute, 'wb') as f:
                         for line in PictureData:
                             f.write(line)

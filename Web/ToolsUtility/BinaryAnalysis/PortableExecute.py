@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from Web.DatabaseHub import UserInfo,PortableExecutableAnalyticalData
 from django.http import JsonResponse
-from ClassCongregation import ErrorLog,GetAnalysisFileStoragePath
+from ClassCongregation import ErrorLog,GetPath
 import time
 from config import portable_execute_file_size
 from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
@@ -31,7 +31,7 @@ def Windows(request):  # 用于提取保存文件后调用相应的处理函数
                     FileSha1 = hashlib.sha1(PictureData).hexdigest()  # 文件的sha1加密
                     FileSha256 = hashlib.sha256(PictureData).hexdigest()  # 文件的sha256加密
                     SaveFileName = str(FileSha256)+"-"+str(int(time.time()))   # 重命名文件
-                    SaveRoute = GetAnalysisFileStoragePath().Result() + SaveFileName  # 获得保存路径
+                    SaveRoute = GetPath().AnalysisFileStoragePath() + SaveFileName  # 获得保存路径
                     with open(SaveRoute, 'wb') as f:
                         for line in PictureData:
                             f.write(line)
@@ -268,7 +268,7 @@ class PortableExecute:
 #     FileSha1 = hashlib.sha1(PictureData).hexdigest()  # 文件的sha1加密
 #     FileSha256 = hashlib.sha256(PictureData).hexdigest()  # 文件的sha256加密
 #     SaveFileName = str(FileSha256) + "-" + str(int(time.time()))  # 重命名文件
-#     SaveRoute = GetAnalysisFileStoragePath().Result() + SaveFileName  # 获得保存路径
+#     SaveRoute = GetPath().AnalysisFileStoragePath() + SaveFileName  # 获得保存路径
 #     with open(SaveRoute, 'wb') as f:
 #             f.write(PictureData)
 #     PortableExecute().Run(uid="dadss", md5=FileMd5, save_file_name=SaveFileName, sha1=FileSha1, sha256=FileSha256,

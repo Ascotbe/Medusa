@@ -12,7 +12,7 @@ import hashlib
 import shutil
 from config import email_debug,third_party_mail_host,third_party_mail_user,third_party_mail_pass,local_mail_host,local_mail_user
 from Web.DatabaseHub import EmailDetails,EmailProject
-from ClassCongregation import ErrorLog,GetMailUploadFilePath,GetTempFilePath
+from ClassCongregation import ErrorLog,GetPath,GetTempFilePath
 from Web.celery import app
 @app.task
 def Send(**kwargs):

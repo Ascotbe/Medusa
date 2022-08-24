@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from Web.DatabaseHub import UserInfo
-from ClassCongregation import ErrorLog,Config,ConfigPath
+from ClassCongregation import ErrorLog,Config,GetPath
 from django.http import JsonResponse
 import json
 from Web.Workbench.LogRelated import RequestLogRecord,UserOperationLogRecord
@@ -141,7 +141,7 @@ def ConfigUpdate(request):#更新数据
                         elif isinstance(all_data[x], str):
                             # print(x + " = " + "\"" + all_data[x] + "\"\n")
                             file_data += x + " = " + "\"" + all_data[x] + "\"\n"
-                    f = open(ConfigPath().Result() + "config.py", "w+")
+                    f = open(GetPath().ConfigPath() + "config.py", "w+")
                     f.write(file_data)
                     f.close()
                     return JsonResponse({'message': "更新成功", 'code': 200, })

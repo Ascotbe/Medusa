@@ -5,7 +5,7 @@ import sys
 import sqlite3
 import json
 from fake_useragent import UserAgent
-from ClassCongregation import GetDatabaseFilePath,ErrorLog,randoms,GetRootFileLocation,GetNistDatabaseFilePath
+from ClassCongregation import GetPath,ErrorLog,randoms
 from config import domain_name_system_address,user_agent_browser_type
 
 class AgentHeader:  # 使用随机头类
@@ -40,7 +40,7 @@ class AgentHeader:  # 使用随机头类
 
 class UserInfo:#用户表
     def __init__(self):
-        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        self.con = sqlite3.connect(GetPath().DatabaseFile())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表
@@ -348,7 +348,7 @@ class UserInfo:#用户表
 
 class ActiveScanList:#用户主动扫描网站信息列表,写入父表中的SID
     def __init__(self):
-        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        self.con = sqlite3.connect(GetPath().DatabaseFile())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表
@@ -447,7 +447,7 @@ class ActiveScanList:#用户主动扫描网站信息列表,写入父表中的SID
 #通过scan_info_id和uid来查询
 class MedusaQuery:#单个漏洞的详细内容查询表，具体写入表在ClassCongregation文件中，该表是个查询数据表
     def __init__(self):
-        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        self.con = sqlite3.connect(GetPath().DatabaseFile())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
     def Query(self, **kwargs)->None or list:
@@ -513,7 +513,7 @@ class MedusaQuery:#单个漏洞的详细内容查询表，具体写入表在Clas
 
 class RequestLog:#操作日志
     def __init__(self):
-        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        self.con = sqlite3.connect(GetPath().DatabaseFile())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表
@@ -550,7 +550,7 @@ class RequestLog:#操作日志
 
 class UserOperationLog:#用户操作日志
     def __init__(self):
-        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        self.con = sqlite3.connect(GetPath().DatabaseFile())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表
@@ -589,7 +589,7 @@ class UserOperationLog:#用户操作日志
 
 class ReportGenerationList:#报告生成相关表
     def __init__(self):
-        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        self.con = sqlite3.connect(GetPath().DatabaseFile())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表
@@ -656,7 +656,7 @@ class GetDownloadFolderLocation:
 
 class ProxyScanList:#代理列表，一个代理项目一条数据
     def __init__(self):
-        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        self.con = sqlite3.connect(GetPath().DatabaseFile())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表
@@ -740,7 +740,7 @@ class ProxyScanList:#代理列表，一个代理项目一条数据
 
 class OriginalProxyData:#从代理中获取数据包进行存储
     def __init__(self):
-        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        self.con = sqlite3.connect(GetPath().DatabaseFile())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表
@@ -822,7 +822,7 @@ class OriginalProxyData:#从代理中获取数据包进行存储
     #         return None
 class HomeInfo:#查询首页信息表
     def __init__(self):
-        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        self.con = sqlite3.connect(GetPath().DatabaseFile())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         self.info={}#用来存数据
@@ -929,7 +929,7 @@ class HomeInfo:#查询首页信息表
 
 class ProxyTempUrl:#代理转储数据,为了防止重复下发任务做的
     def __init__(self):
-        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        self.con = sqlite3.connect(GetPath().DatabaseFile())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表
@@ -975,7 +975,7 @@ class ProxyTempUrl:#代理转储数据,为了防止重复下发任务做的
 
 class CrossSiteScriptInfo:#XSS钓鱼接收数据库
     def __init__(self):
-        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        self.con = sqlite3.connect(GetPath().DatabaseFile())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表
@@ -1047,7 +1047,7 @@ class CrossSiteScriptInfo:#XSS钓鱼接收数据库
 
 class CrossSiteScriptProject:#XSS钓鱼项目信息数据库
     def __init__(self):
-        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        self.con = sqlite3.connect(GetPath().DatabaseFile())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表
@@ -1151,7 +1151,7 @@ class CrossSiteScriptProject:#XSS钓鱼项目信息数据库
             return None
 class CrossSiteScriptTemplate:  # XSS钓鱼模板存放
     def __init__(self):
-        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        self.con = sqlite3.connect(GetPath().DatabaseFile())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表
@@ -1254,7 +1254,7 @@ class CrossSiteScriptTemplate:  # XSS钓鱼模板存放
 
 class HardwareUsageRateInfo:  # 获取硬件中CPU和内存的使用情况
     def __init__(self):
-        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        self.con = sqlite3.connect(GetPath().DatabaseFile())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表
@@ -1311,7 +1311,7 @@ class HardwareUsageRateInfo:  # 获取硬件中CPU和内存的使用情况
 
 class PortableExecutableAnalyticalData:  # PE文件分析后数据存储
     def __init__(self):
-        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        self.con = sqlite3.connect(GetPath().DatabaseFile())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表
@@ -1393,7 +1393,7 @@ class PortableExecutableAnalyticalData:  # PE文件分析后数据存储
 
 class VerificationCode:#验证码相关数据库，用来验证验证码合法性
     def __init__(self):
-        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        self.con = sqlite3.connect(GetPath().DatabaseFile())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表
@@ -1449,7 +1449,7 @@ class VerificationCode:#验证码相关数据库，用来验证验证码合法�
 
 class MarkdownInfo:#存放markdown文档的所有数据
     def __init__(self):
-        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        self.con = sqlite3.connect(GetPath().DatabaseFile())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表
@@ -1555,7 +1555,7 @@ class MarkdownInfo:#存放markdown文档的所有数据
 
 class MarkdownRelationship:#markdown文档和用户相关的数据表
     def __init__(self):
-        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        self.con = sqlite3.connect(GetPath().DatabaseFile())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表
@@ -1725,7 +1725,7 @@ class MarkdownRelationship:#markdown文档和用户相关的数据表
             return None
 class ApplicationCollection:#存放收集到的应用所有数据
     def __init__(self):
-        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        self.con = sqlite3.connect(GetPath().DatabaseFile())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表
@@ -1810,7 +1810,7 @@ class ApplicationCollection:#存放收集到的应用所有数据
 
 class NistData:#存放Nist发布的CVE数据
     def __init__(self):
-        self.con = sqlite3.connect(GetNistDatabaseFilePath().result())
+        self.con = sqlite3.connect(GetPath().NistDatabase())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表
@@ -1955,7 +1955,7 @@ class NistData:#存放Nist发布的CVE数据
 
 class DomainNameSystemLog:  # 存放DNSLOG数据
     def __init__(self):
-        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        self.con = sqlite3.connect(GetPath().DatabaseFile())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表
@@ -2068,7 +2068,7 @@ class DomainNameSystemLog:  # 存放DNSLOG数据
 
 class DomainNameSystemLogKeyword(object):
     def __init__(self):
-        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        self.con = sqlite3.connect(GetPath().DatabaseFile())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表
@@ -2111,7 +2111,7 @@ class DomainNameSystemLogKeyword(object):
 
 class TrojanData:#免杀木马相关数据库
     def __init__(self):
-        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        self.con = sqlite3.connect(GetPath().DatabaseFile())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表
@@ -2222,7 +2222,7 @@ class TrojanData:#免杀木马相关数据库
 
 class PortableExecutable2Shellcode:  # PE文件转换为shellcode表
     def __init__(self):
-        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        self.con = sqlite3.connect(GetPath().DatabaseFile())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表
@@ -2279,7 +2279,7 @@ class PortableExecutable2Shellcode:  # PE文件转换为shellcode表
 
 class EmailProject:  # 邮件项目
     def __init__(self):
-        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        self.con = sqlite3.connect(GetPath().DatabaseFile())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表
@@ -2517,7 +2517,7 @@ class EmailProject:  # 邮件项目
 
 class EmailDetails:  # 邮件详情，发送状态
     def __init__(self):
-        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        self.con = sqlite3.connect(GetPath().DatabaseFile())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表
@@ -2679,7 +2679,7 @@ class EmailDetails:  # 邮件详情，发送状态
             return None
 class MailAttachment:  # 所有钓鱼的上传文件都在这里
     def __init__(self):
-        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        self.con = sqlite3.connect(GetPath().DatabaseFile())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表
@@ -2773,7 +2773,7 @@ class MailAttachment:  # 所有钓鱼的上传文件都在这里
 
 class EmailReceiveData:  # 邮件数据接收
     def __init__(self):
-        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        self.con = sqlite3.connect(GetPath().DatabaseFile())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表
@@ -2927,7 +2927,7 @@ class EmailReceiveData:  # 邮件数据接收
 
 class EmailGraph:  # 邮件数据接收
     def __init__(self):
-        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        self.con = sqlite3.connect(GetPath().DatabaseFile())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表
@@ -3004,7 +3004,7 @@ class EmailGraph:  # 邮件数据接收
 
 class EmailInfo:  # 邮件管理详情
     def __init__(self):
-        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        self.con = sqlite3.connect(GetPath().DatabaseFile())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表
@@ -3077,7 +3077,7 @@ class EmailInfo:  # 邮件管理详情
 
 class EmailData:  # 邮件管理中的邮箱数据
     def __init__(self):
-        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        self.con = sqlite3.connect(GetPath().DatabaseFile())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表
@@ -3159,7 +3159,7 @@ class GithubCve:  # GitHub的CVE监控写入表
             self.cve_watchers_count =kwargs.get("watchers_count")  # star人数
             self.cve_write_time = str(int(time.time()))  # 写入时间
             # 如果数据库不存在的话，将会自动创建一个 数据库
-            self.con = sqlite3.connect(GetDatabaseFilePath().result())
+            self.con = sqlite3.connect(GetPath().DatabaseFile())
             # 获取所创建数据的游标
             self.cur = self.con.cursor()
             # 创建表
@@ -3282,7 +3282,7 @@ class GithubCve:  # GitHub的CVE监控写入表
 
 class FileAcquisitionData:  # 文件接收数据库
     def __init__(self):
-        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        self.con = sqlite3.connect(GetPath().DatabaseFile())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表
@@ -3368,7 +3368,7 @@ class FileAcquisitionData:  # 文件接收数据库
 
 class FileAcquisitionPack:  # 打包接收函数
     def __init__(self):
-        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        self.con = sqlite3.connect(GetPath().DatabaseFile())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表

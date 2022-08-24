@@ -6,7 +6,7 @@ import json
 import sys
 import os
 import yaml
-from ClassCongregation import ErrorLog,GetTempFilePath,GetTrojanFilePath,GetTrojanModulesFilePath,randoms,GetTrojanPluginsPath,PortableExecutableFilePath,ShellcodeFilePath,PE2ShellcodeFilePath
+from ClassCongregation import ErrorLog,GetPath,randoms
 from Web.DatabaseHub import UserInfo,TrojanData,PortableExecutable2Shellcode
 from django.http import JsonResponse,FileResponse
 from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
@@ -96,9 +96,9 @@ def CompilePortableExecutableFile(**kwargs):#编译处理PE文件
         FileName = kwargs.get("file_name")  # pe文件
         Command=""
         if sys.platform == "win32" or sys.platform == "cygwin":
-            Command =PE2ShellcodeFilePath().Result() + "pe2shc.exe " + PortableExecutableFilePath().Result()+FileName + " " + ShellcodeFilePath().Result()+ShellcodeFileName
+            Command = GetPath().PE2ShellcodeFilePath() + "pe2shc.exe " + GetPath().PortableExecutableFilePath()+FileName + " " + GetPath().ShellcodeFilePath()+ShellcodeFileName
         elif sys.platform == "linux" or sys.platform == "darwin":
-            Command = "wine " + PE2ShellcodeFilePath().Result() + "pe2shc.exe " + PortableExecutableFilePath().Result()+FileName + " " + ShellcodeFilePath().Result()+ShellcodeFileName
+            Command = "wine " + GetPath().PE2ShellcodeFilePath() + "pe2shc.exe " + GetPath().PortableExecutableFilePath()+FileName + " " + GetPath().ShellcodeFilePath()+ShellcodeFileName
         p = subprocess.run(Command, shell=True, timeout=30, check=True)  # 执行生成命令
         p.check_returncode()
         PortableExecutable2Shellcode().UpdateStatus(status="1", redis_id=CompilePortableExecutableFile.request.id)  # 任务结束后更新状态
@@ -126,11 +126,11 @@ def GetTrojanPlugins(request):#获取用户当前木马插件
             if Uid != None:  # 查到了UID
                 ModulesResult={}#存放全部插件数据
                 UserOperationLogRecord(request, request_api="get_trojan_plugins", uid=Uid)
-                TrojanModulesFilePath=GetTrojanModulesFilePath().Result()
+                TrojanModulesFilePath=GetPath().TrojanModulesPath()
                 PluginList = os.listdir(TrojanModulesFilePath)#获取文件夹中全部文件
                 for Plugin in PluginList:#清洗不相关文件
                     if Plugin.endswith(".yaml"):
-                        TrojanPluginsPath = GetTrojanPluginsPath().Result()  # 获取插件路径
+                        TrojanPluginsPath = GetPath().TrojanPluginsPath()  # 获取插件路径
                         YamlRawData = yaml.safe_load(open(TrojanPluginsPath + Plugin,'r',encoding='utf-8'))  # 读取yaml文件
                         ModulesResult[Plugin]=YamlRawData.get('name')# 获取插件名
                 return JsonResponse({'message': ModulesResult, 'code': 200, })
@@ -169,7 +169,7 @@ def ShellcodeToTrojan(request):##shellcode转换生成病毒
             Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
             if Uid != None:  # 查到了UID
                 UserOperationLogRecord(request, request_api="shellcode_to_trojan", uid=Uid)
-                TrojanModulesFilePath=GetTrojanModulesFilePath().Result()#获取插件文件夹
+                TrojanModulesFilePath=GetPath().TrojanModulesPath()#获取插件文件夹
                 PluginList = os.listdir(TrojanModulesFilePath)#获取文件夹中全部文件
                 try:
                     if ShellcodeName=="":#判断是否有名字
@@ -177,16 +177,16 @@ def ShellcodeToTrojan(request):##shellcode转换生成病毒
                     else:
                         if Plugin in PluginList:#判断传入的是否是python插件，并且插件名称是否在列表中
                             try:
-                                TrojanPluginsPath = GetTrojanPluginsPath().Result()  # 获取插件路径
+                                TrojanPluginsPath = GetPath().TrojanPluginsPath()  # 获取插件路径
                                 YamlRawData = yaml.safe_load(open(TrojanPluginsPath+Plugin)) # 读取yaml文件
-                                TempFilePath = GetTempFilePath().Result()  # temp文件路径
+                                TempFilePath = GetPath().TempFilePath()  # temp文件路径
                                 RandomName = randoms().EnglishAlphabet(5) + str(int(time.time()))  # 随机名称
                                 SourceFileSuffix=YamlRawData.get('language')  #获取源文件后缀
                                 GenerateFileSuffix=YamlRawData.get('process')   #获取生成文件后缀
                                 BuildCommand= YamlRawData.get('build')  # 获取自定义新增编译命令
                                 TrojanPluginsName = YamlRawData.get('name')  # 获取插件名
                                 VirusOriginalFilePath = TempFilePath + RandomName + "." +SourceFileSuffix  # 病毒原始文件名，后缀从插件中获取
-                                VirusFileStoragePath = GetTrojanFilePath().Result()  # 病毒文件存放路径
+                                VirusFileStoragePath = GetPath().TrojanFilePath()  # 病毒文件存放路径
                                 VirusFileGenerationPath = VirusFileStoragePath + RandomName + "." +GenerateFileSuffix  # 病毒文件生成路径
                                 #需要判断语言类型然后对应不同的生成方式
                                 if sys.platform == "win32":
@@ -321,7 +321,7 @@ def TrojanFileDownloadVerification(request):#木马文件下载验证接口
                 UserOperationLogRecord(request, request_api="trojan_file_download_verification", uid=Uid)
                 Result=TrojanData().DownloadVerification(uid=Uid,trojan_id=TrojanId,trojan_generate_file_name=TrojanGenerateFileName)#数据验证
                 if Result:
-                    VirusFileStoragePath = GetTrojanFilePath().Result()  # 病毒文件存放路径
+                    VirusFileStoragePath =  GetPath().TrojanFilePath()  # 病毒文件存放路径
                     File=open(VirusFileStoragePath+TrojanGenerateFileName,'rb')
                     Response = FileResponse(File)
                     return Response
@@ -360,7 +360,7 @@ def PE2Shellcode(request):#PE文件转换成Shellcode
                 PictureName = PictureData.name # 获取文件名
                 if 0<PictureData.size:#内容不能为空
                     SaveFileName=randoms().result(5)+str(int(time.time()))#重命名文件
-                    SaveRoute=PortableExecutableFilePath().Result()+SaveFileName#获得保存路径
+                    SaveRoute=GetPath().PortableExecutableFilePath()+SaveFileName#获得保存路径
                     ShellcodeFileName=randoms().result(5)+str(int(time.time()))#获取shellcode文件随机名
                     with open(SaveRoute, 'wb') as f:
                         for line in PictureData:

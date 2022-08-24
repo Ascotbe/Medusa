@@ -107,6 +107,9 @@ class GetPath:  # 获取文件路径
     def NistDatabase(self) -> str: # Nist数据库文件路径返回值
         directory = ['']  # 路径
         return self.DataProcess(directory)+"Nist.db"
+    def DownloadFilePath(self) -> str:
+        directory = ['Web', 'Download']  # 路径
+        return self.DataProcess(directory)
 
 
 

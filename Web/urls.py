@@ -17,8 +17,8 @@ Including another URLconf
 """
 from django.urls import path,re_path
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-#from Web.BasicFunctions import VulnerabilityScanning,VulnerabilityQuery,GenerateReport
-from Web.BasicFunctions import Registered,User,ProxyScan,Home,VerificationCode,Information
+#from Web.BasicFunctions import VulnerabilityScanning,VulnerabilityQuery,GenerateReport,ProxyScan
+from Web.BasicFunctions import Registered,User,Home,VerificationCode,Information
 from Web.CrossSiteScriptHub import CrossSiteScript,TemplateManagement
 from Web.SystemInfo import HardwareInfo
 from Web.CVE.GithubMonitoring import Github
@@ -57,7 +57,7 @@ urlpatterns = [
     # path('api/download_word/', GenerateReport.DownloadWord),  # 美杜莎报告下载接口
     # path('api/actively_scan_port_information/', VulnerabilityQuery.ActivelyScanPortInformation),  # 主动扫描中端口信息查询模块
     #被动扫描相关
-    path('api/create_proxy_scan_project/', ProxyScan.CreateProxyScanProject),  # 创建代理扫描项目
+    #path('api/create_proxy_scan_project/', ProxyScan.CreateProxyScanProject),  # 创建代理扫描项目
     #监控相关
     path('api/system_hardware_usage_query/', HardwareInfo.UsageQuery),  # 获取当前机器cpu和内存使用情况
     path('api/system_hardware_initialization/', HardwareInfo.Initialization),  # 获取当前机器基础信息

@@ -1,15 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from Web.DatabaseHub import GetTemplateFolderLocation,GetDownloadFolderLocation
 from docxtpl import DocxTemplate,InlineImage
 import time
 import base64
-from ClassCongregation import ErrorLog,UrlProcessing
+from ClassCongregation import ErrorLog,UrlProcessing,GetPath
 from docx.shared import Mm
 def GenerateWordReport(VulnerabilityDataList,**kwargs):
     #读取模板文档
     try:
-        tpl = DocxTemplate(GetTemplateFolderLocation().Result()+'WordTemplate.docx')
+        tpl = DocxTemplate(GetPath().TemplatePath()+'WordTemplate.docx')
         Vulnerabulity=[]
         scheme, url, port = UrlProcessing().result(kwargs.get("target_url"))
 
@@ -27,13 +26,13 @@ def GenerateWordReport(VulnerabilityDataList,**kwargs):
         context = {
             'target_url':scheme + "://" + url,#传入处理过的URL
             'number_of_vulnerabilities_in_the_target_website':VulnerabilityNumber,
-            'home_picture':InlineImage(tpl,GetTemplateFolderLocation().Result()+"home_picture.jpg",width=Mm(120)),
+            'home_picture':InlineImage(tpl,GetPath().TemplatePath()+"home_picture.jpg",width=Mm(120)),
             'vulnerability' : Vulnerabulity,
             'report_export_time':int(time.time()),
         }
         tpl.render(context)
         WordName=str(int(time.time()))+"_"+url+'.docx'#生成报告名字，这边经过处理不然Windows报错
-        tpl.save(GetDownloadFolderLocation().Result()+WordName)
+        tpl.save(GetPath().DownloadFilePath()+WordName)
         VulnerabilityNumber=0
         return WordName#返回模板名字
     except Exception as e:

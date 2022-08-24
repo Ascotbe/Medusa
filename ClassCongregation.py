@@ -26,6 +26,88 @@ def IpProcess(Url: str) -> str:
     return (res.hostname)
 
 
+class GetPath:  # 获取文件路径
+    def __init__(self):
+        system_type = sys.platform
+        if system_type == "win32" or system_type == "cygwin":
+            self.path = os.path.split(os.path.realpath(__file__))[0]+"\\"
+            self.splicer="\\"
+        elif system_type == "linux" or system_type == "darwin":
+            self.path = os.path.split(os.path.realpath(__file__))[0]+"/"
+            self.splicer = "/"
+
+    def DataProcess(self,directory) -> str: #路径加工
+        tmp=self.path
+        for i in directory:
+            if i is not "":
+                tmp += i+self.splicer
+        return tmp
+
+    def DatabaseFile(self) -> str: # 主数据库文件路径返回值
+        directory=['']#路径
+        return self.DataProcess(directory) + "Medusa.db"
+    def Customize(self,directory:List) -> str:
+        return self.DataProcess(directory)
+    def ToolFilePath(self) -> str: # 获取TOOL文件路径类
+        directory=['Tool']#路径
+        return self.DataProcess(directory)
+    def TempFilePath(self) -> str:# 获取Temp文件路径类
+        directory=['Temp']#路径
+        return self.DataProcess(directory)
+    def PluginsFilePath(self) -> str:  #  插件文件路径  X
+        directory = ['Plugins']  # 路径
+        return self.DataProcess(directory)
+    def TrojanModulesPath(self) -> str:   #  木马插件模块位置  X
+        directory = ['Web','TrojanOrVirus','Modules']  # 路径
+        return self.DataProcess(directory)
+    def EmailUploadFilePath(self) -> str:  #  邮件附件位置
+        directory = ['Web','Email','UploadFiles']  # 路径
+        return self.DataProcess(directory)
+    def FileAcquisitionPath(self) -> str:  #  文件采集器文件路径
+        directory = ['Web','FileAcquisition','File']  # 路径
+        return self.DataProcess(directory)
+    def FileAcquisitionZipPath(self) -> str:  #   文件打包下载路径
+        directory = ['Web','FileAcquisition','Zip']  # 路径
+        return self.DataProcess(directory)
+    def PortableExecutableFilePath(self) -> str:  #   上传的PE文件路径
+        directory = ['Web','TrojanOrVirus','PE']  # 路径
+        return self.DataProcess(directory)
+    def ShellcodeFilePath(self) -> str:  #  生成的shellcode文件路径
+        directory = ['Web','TrojanOrVirus','Shellcode']  # 路径
+        return self.DataProcess(directory)
+
+    def PE2ShellcodeFilePath(self) -> str:  #  获取PE2SHELLCODE路径
+        directory = ['Web', 'TrojanOrVirus']  # 路径
+        return self.DataProcess(directory)
+    def TemplatePath(self) -> str:  #  获取模版路径
+        directory = ['Web', 'Template']  # 路径
+        return self.DataProcess(directory)
+    def ConfigPath(self) -> str:  #  获取配置文件路径
+        directory = ['']  # 路径
+        return self.DataProcess(directory)
+
+    def ImageFilePath(self) -> str:  #  获取Image文件路径类
+        directory = ['Web', 'Image']  # 路径
+        return self.DataProcess(directory)
+    def JavaScriptFilePath(self) -> str:  #  获取JavaScript文件路径类
+        directory = ['Web', 'CrossSiteScriptHub','CrossSiteScriptProject']  # 路径
+        return self.DataProcess(directory)
+    def XSSTemplatePath(self) -> str: # 获取CrossSiteScriptTemplate文件路径类
+        directory = ['Web', 'CrossSiteScriptHub','CrossSiteScriptTemplate']  # 路径
+        return self.DataProcess(directory)
+    def AnalysisFileStoragePath(self) -> str: # 获取分析文件存储路径类
+        directory = ['Web', 'ToolsUtility','BinaryAnalysis','AnalysisFileStorage']  # 路径
+        return self.DataProcess(directory)
+    def TrojanPluginsPath(self) -> str: # 获取木马插件名称
+        directory = ['Web', 'TrojanOrVirus','Modules']  # 路径
+        return self.DataProcess(directory)
+    def TrojanFilePath(self) -> str: # 获取生成好的病毒文件路径
+        directory = ['Web', 'TrojanOrVirus','TrojanFile']  # 路径
+        return self.DataProcess(directory)
+    def NistDatabase(self) -> str: # Nist数据库文件路径返回值
+        directory = ['']  # 路径
+        return self.DataProcess(directory)+"Nist.db"
+
 
 
 class Proxies:  # 代理处理函数
@@ -42,14 +124,6 @@ class Proxies:  # 代理处理函数
 
 
 
-class GetDatabaseFilePath:  # 主数据库文件路径返回值
-    def result(self) -> str:
-        if sys.platform == "win32" or sys.platform == "cygwin":
-            DatabaseFilePath = GetRootFileLocation().Result() + "\\Medusa.db"
-            return DatabaseFilePath
-        elif sys.platform == "linux" or sys.platform == "darwin":
-            DatabaseFilePath = GetRootFileLocation().Result() + "/Medusa.db"
-            return DatabaseFilePath
 
 #
 # class PortScan:  # 扫描端口类
@@ -142,7 +216,7 @@ class GetDatabaseFilePath:  # 主数据库文件路径返回值
 #         self.domain = kwargs.get("domain") # 目标域名
 #         self.creation_time=kwargs.get("creation_time") # 创建时间
 #         # 如果数据库不存在的话，将会自动创建一个 数据库
-#         self.con = sqlite3.connect(GetDatabaseFilePath().result())
+#         self.con = sqlite3.connect(GetPath().DatabaseFile())
 #         # 获取所创建数据的游标
 #         self.cur = self.con.cursor()
 #         # 创建表
@@ -232,7 +306,7 @@ class VulnerabilityDetails:  # 所有数据库写入都是用同一个类
                 self.request_headers = ""
 
             # 如果数据库不存在的话，将会自动创建一个 数据库
-            self.con = sqlite3.connect(GetDatabaseFilePath().result())
+            self.con = sqlite3.connect(GetPath().DatabaseFile())
             # 获取所创建数据的游标
             self.cur = self.con.cursor()
             # 创建表
@@ -550,35 +624,7 @@ class UrlProcessing:  # URL处理函数
 
 
 
-class GetRootFileLocation:  # 获取当前文件路径类
-    def Result(self) -> str:
-        system_type = sys.platform
-        if system_type == "win32" or system_type == "cygwin":
-            Path = os.path.split(os.path.realpath(__file__))[0]
-            return Path
-        elif system_type == "linux" or system_type == "darwin":
-            Path = os.path.split(os.path.realpath(__file__))[0]
-            return Path
 
-class GetToolFilePath:  # 获取TOOL文件路径类
-    def Result(self) -> str:
-        system_type = sys.platform
-        if system_type == "win32" or system_type == "cygwin":
-            Path = GetRootFileLocation().Result()+"\\Tool\\"
-            return Path
-        elif system_type == "linux" or system_type == "darwin":
-            Path = GetRootFileLocation().Result()+"/Tool/"
-            return Path
-
-class GetTempFilePath:  # 获取Temp文件路径类
-    def Result(self) -> str:
-        system_type = sys.platform
-        if system_type == "win32" or system_type == "cygwin":
-            Path = GetRootFileLocation().Result()+"\\Temp\\"
-            return Path
-        elif system_type == "linux" or system_type == "darwin":
-            Path = GetRootFileLocation().Result()+"/Temp/"
-            return Path
 
 class ExecuteChildprocess:  # 执行子进程类
     def Execute(self, command: List[str]) -> None:
@@ -591,7 +637,7 @@ class ExecuteChildprocess:  # 执行子进程类
 #这个是web的类先这这边，有点小BUG
 class ScanInformation:#ActiveScanList的子表，单个URL相关漏洞表,写入父表中的SID和UID,以及子表中的SSID，使他们相关连，这个就是一个关系表，关联MEDUSA表和ActiveScanList表
     def __init__(self):
-        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        self.con = sqlite3.connect(GetPath().DatabaseFile())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表
@@ -655,7 +701,7 @@ class SubdomainTable:  # 这是一个子域名表
             self.uid = kwargs.get("Uid")  # 传入的用户ID
             self.active_scan_id=kwargs.get("ActiveScanId")# 传入的父表SID
             # 如果数据库不存在的话，将会自动创建一个 数据库
-            self.con = sqlite3.connect(GetDatabaseFilePath().result())
+            self.con = sqlite3.connect(GetPath().DatabaseFile())
             # 获取所创建数据的游标
             self.cur = self.con.cursor()
             # 创建表
@@ -695,65 +741,6 @@ class Md5Encryption:#加密类
         self.Md5.update(str.encode("gb2312"))
         return self.Md5.hexdigest()
 
-class GetImageFilePath:  # 获取Image文件路径类
-    def Result(self) -> str:
-        system_type = sys.platform
-        if system_type == "win32" or system_type == "cygwin":
-            Path = GetRootFileLocation().Result()+"\\Web\\Image\\"
-            return Path
-        elif system_type == "linux" or system_type == "darwin":
-            Path = GetRootFileLocation().Result()+"/Web/Image/"
-            return Path
-
-class GetJavaScriptFilePath:  # 获取JavaScript文件路径类
-    def Result(self) -> str:
-        system_type = sys.platform
-        if system_type == "win32" or system_type == "cygwin":
-            Path = GetRootFileLocation().Result()+"\\Web\\CrossSiteScriptHub\\CrossSiteScriptProject\\"
-            return Path
-        elif system_type == "linux" or system_type == "darwin":
-            Path = GetRootFileLocation().Result()+"/Web/CrossSiteScriptHub/CrossSiteScriptProject/"
-            return Path
-
-class GetCrossSiteScriptTemplateFilePath:  # 获取CrossSiteScriptTemplate文件路径类
-    def Result(self) -> str:
-        system_type = sys.platform
-        if system_type == "win32" or system_type == "cygwin":
-            Path = GetRootFileLocation().Result()+"\\Web\\CrossSiteScriptHub\\CrossSiteScriptTemplate\\"
-            return Path
-        elif system_type == "linux" or system_type == "darwin":
-            Path = GetRootFileLocation().Result()+"/Web/CrossSiteScriptHub/CrossSiteScriptTemplate/"
-            return Path
-
-class GetAnalysisFileStoragePath:  # 获取分析文件存储路径类
-    def Result(self) -> str:
-        system_type = sys.platform
-        if system_type == "win32" or system_type == "cygwin":
-            Path = GetRootFileLocation().Result()+"\\Web\\ToolsUtility\\BinaryAnalysis\\AnalysisFileStorage\\"
-            return Path
-        elif system_type == "linux" or system_type == "darwin":
-            Path = GetRootFileLocation().Result()+"/Web/ToolsUtility/BinaryAnalysis/AnalysisFileStorage/"
-            return Path
-class GetTrojanPluginsPath:  # 获取木马插件名称
-    def Result(self) -> str:
-        system_type = sys.platform
-        if system_type == "win32" or system_type == "cygwin":
-            Path = GetRootFileLocation().Result()+"\\Web\\TrojanOrVirus\\Modules\\"
-            return Path
-        elif system_type == "linux" or system_type == "darwin":
-            Path = GetRootFileLocation().Result()+"/Web/TrojanOrVirus/Modules/"
-            return Path
-
-class GetTrojanFilePath:  # 获取生成好的病毒文件路径
-    def Result(self) -> str:
-        system_type = sys.platform
-        if system_type == "win32" or system_type == "cygwin":
-            Path = GetRootFileLocation().Result()+"\\Web\\TrojanOrVirus\\TrojanFile\\"
-            return Path
-        elif system_type == "linux" or system_type == "darwin":
-            Path = GetRootFileLocation().Result()+"/Web/TrojanOrVirus/TrojanFile/"
-            return Path
-
 def PortReplacement(Url,Prot):#替换URL里面的端口
     try:
         Result = re.sub(r':(6[0-5]{2}[0-3][0-5]|[1-5]\d{4}|[1-9]\d{1,3}|[0-9])', ":"+str(Prot), Url)
@@ -762,14 +749,6 @@ def PortReplacement(Url,Prot):#替换URL里面的端口
         ErrorLog().Write("ClassCongregation_PortReplacement(def)", e)
 
 
-class GetNistDatabaseFilePath:  #  Nist数据库文件路径返回值
-    def result(self) -> str:
-        if sys.platform == "win32" or sys.platform == "cygwin":
-            Path = GetRootFileLocation().Result() + "\\Nist.db"
-            return Path
-        elif sys.platform == "linux" or sys.platform == "darwin":
-            Path = GetRootFileLocation().Result() + "/Nist.db"
-            return Path
 
 
 class Binary:#对于原始二进制数据的类型转换
@@ -915,18 +894,10 @@ class ShellCode:#shellcode的加解密函数
             ErrorLog().Write("ClassCongregation_ShellCode(class)_AESEncode(def)", e)
             return None
 
-class GetPluginsFilePath:  #  插件文件路径
-    def Result(self) -> str:
-        if sys.platform == "win32" or sys.platform == "cygwin":
-            Path = GetRootFileLocation().Result() + "\\Plugins\\"
-            return Path
-        elif sys.platform == "linux" or sys.platform == "darwin":
-            Path = GetRootFileLocation().Result() + "/Plugins/"
-            return Path
 
 class Plugins:#扫描插件相关数据库,里面存放yml插件
     def __init__(self):
-        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        self.con = sqlite3.connect(GetPath().DatabaseFile())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表
@@ -978,84 +949,9 @@ class Plugins:#扫描插件相关数据库,里面存放yml插件
             ErrorLog().Write("Web_ClassCongregation_Plugins(class)_Initialization(def)", e)
             return False
 
-class GetTrojanModulesFilePath:  #  木马插件模块位置
-    def Result(self) -> str:
-        if sys.platform == "win32" or sys.platform == "cygwin":
-            Path = GetRootFileLocation().Result() + "\\Web\\TrojanOrVirus\\Modules\\"
-            return Path
-        elif sys.platform == "linux" or sys.platform == "darwin":
-            Path = GetRootFileLocation().Result() + "/Web/TrojanOrVirus/Modules/"
-            return Path
-
-class GetMailUploadFilePath:  #  邮件附件位置
-    def Result(self) -> str:
-        if sys.platform == "win32" or sys.platform == "cygwin":
-            Path = GetRootFileLocation().Result() + "\\Web\\Email\\UploadFiles\\"
-            return Path
-        elif sys.platform == "linux" or sys.platform == "darwin":
-            Path = GetRootFileLocation().Result() + "/Web/Email/UploadFiles/"
-            return Path
-
-
-class FileAcquisitionPath:  #  文件采集器文件路径
-    def Result(self) -> str:
-        if sys.platform == "win32" or sys.platform == "cygwin":
-            Path = GetRootFileLocation().Result() + "\\Web\\FileAcquisition\\File\\"
-            return Path
-        elif sys.platform == "linux" or sys.platform == "darwin":
-            Path = GetRootFileLocation().Result() + "/Web/FileAcquisition/File/"
-            return Path
-class FileAcquisitionZipPath:  #  文件打包下载路径
-    def Result(self) -> str:
-        if sys.platform == "win32" or sys.platform == "cygwin":
-            Path = GetRootFileLocation().Result() + "\\Web\\FileAcquisition\\Zip\\"
-            return Path
-        elif sys.platform == "linux" or sys.platform == "darwin":
-            Path = GetRootFileLocation().Result() + "/Web/FileAcquisition/Zip/"
-            return Path
-class PortableExecutableFilePath:  # 上传的PE文件路径
-    def Result(self) -> str:
-        if sys.platform == "win32" or sys.platform == "cygwin":
-            Path = GetRootFileLocation().Result() + "\\Web\\TrojanOrVirus\\PE\\"
-            return Path
-        elif sys.platform == "linux" or sys.platform == "darwin":
-            Path = GetRootFileLocation().Result() + "/Web/TrojanOrVirus/PE/"
-            return Path
-class ShellcodeFilePath:  #  生成的shellcode文件路径
-    def Result(self) -> str:
-        if sys.platform == "win32" or sys.platform == "cygwin":
-            Path = GetRootFileLocation().Result() + "\\Web\\TrojanOrVirus\\Shellcode\\"
-            return Path
-        elif sys.platform == "linux" or sys.platform == "darwin":
-            Path = GetRootFileLocation().Result() + "/Web/TrojanOrVirus/Shellcode/"
-            return Path
-class PE2ShellcodeFilePath:  #  获取PE2SHELLCODE路径
-    def Result(self) -> str:
-        if sys.platform == "win32" or sys.platform == "cygwin":
-            Path = GetRootFileLocation().Result() + "\\Web\\TrojanOrVirus\\"
-            return Path
-        elif sys.platform == "linux" or sys.platform == "darwin":
-            Path = GetRootFileLocation().Result() + "/Web/TrojanOrVirus/"
-            return Path
-class TemplatePath:  #  获取模版路径
-    def Result(self) -> str:
-        if sys.platform == "win32" or sys.platform == "cygwin":
-            Path = GetRootFileLocation().Result() + "\\Web\\Template\\"
-            return Path
-        elif sys.platform == "linux" or sys.platform == "darwin":
-            Path = GetRootFileLocation().Result() + "/Web/Template/"
-            return Path
-class ConfigPath:  #  获取配置文件路径
-    def Result(self) -> str:
-        if sys.platform == "win32" or sys.platform == "cygwin":
-            Path = GetRootFileLocation().Result() + "\\"
-            return Path
-        elif sys.platform == "linux" or sys.platform == "darwin":
-            Path = GetRootFileLocation().Result() + "/"
-            return Path
 class Config:  # 配置数据表
     def __init__(self):
-        self.con = sqlite3.connect(GetDatabaseFilePath().result())
+        self.con = sqlite3.connect(GetPath().DatabaseFile())
         # 获取所创建数据的游标
         self.cur = self.con.cursor()
         # 创建表

@@ -3,7 +3,7 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-from ClassCongregation import Config,ConfigPath
+from ClassCongregation import Config,GetPath
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Web.settings')
     try:
@@ -67,7 +67,7 @@ def InitialConfiguration():  # 先判断是否有数据，如果没有就写入�
             elif isinstance(all_data[x], str):
                 #print(x + " = " + "\"" + all_data[x] + "\"\n")
                 file_data +=x + " = " + "\"" + all_data[x] + "\"\n"
-        f=open(ConfigPath().Result()+"config.py","w+")
+        f=open(GetPath().ConfigPath()+"config.py","w+")
         f.write(file_data)
         f.close()
 

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from Web.DatabaseHub import UserInfo,MailAttachment
 from django.http import JsonResponse,HttpResponse
-from ClassCongregation import ErrorLog,randoms,GetMailUploadFilePath
+from ClassCongregation import ErrorLog,randoms,GetPath
 from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
 import time
 import base64
@@ -36,7 +36,7 @@ def UploadFiles (request):#上传文件
                 else:
                     if 0<PictureData.size:#内容不能为空
                         SaveFileName=randoms().result(50)+str(int(time.time()))#重命名文件
-                        SaveRoute=GetMailUploadFilePath().Result()+SaveFileName#获得保存路径
+                        SaveRoute=GetPath().EmailUploadFilePath()+SaveFileName#获得保存路径
                         with open(SaveRoute, 'wb') as f:
                             for line in PictureData:
                                 f.write(line)
@@ -70,7 +70,7 @@ def EmailImagePreview (request):#查询加载的文件
                 UserOperationLogRecord(request, request_api="email_image_preview", uid=Uid)  # 查询到了在计入
                 Result = MailAttachment().Verify(uid=Uid,document_real_name=DocumentRealName)
                 if Result:#如果存在
-                    PictureBitstream=open(GetMailUploadFilePath().Result()+DocumentRealName,'rb').read()
+                    PictureBitstream=open(GetPath().EmailUploadFilePath()+DocumentRealName,'rb').read()
                     return HttpResponse(PictureBitstream)  # 把图片比特流复制给返回包
                 else:
                     return JsonResponse({'message': '没有这个文件~',  'code': 603, })

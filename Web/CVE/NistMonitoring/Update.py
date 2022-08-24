@@ -4,14 +4,14 @@ import zipfile
 import json
 from Web.DatabaseHub import NistData
 import urllib3
-from ClassCongregation import GetTempFilePath,ErrorLog
+from ClassCongregation import GetPath,ErrorLog
 from config import nist_update_banner
 import time
 import requests
 from celery import shared_task
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-TempFilePath = GetTempFilePath().Result()  # 获取TMP文件路径
+TempFilePath = GetPath().TempFilePath()  # 获取TMP文件路径
 headers={
     "Connection": "close",
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_0_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36",

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from ClassCongregation import Plugins,GetTempFilePath,GetPluginsFilePath
+from ClassCongregation import Plugins,GetPath
 import os
 
 def InitialVerification(TempFilePath):#验证是否初始化
@@ -15,8 +15,8 @@ def InitialVerification(TempFilePath):#验证是否初始化
 
 
 def Run():
-    TempFilePath = GetTempFilePath().Result()  # 获取TMP文件路径
-    PluginsFilePath=GetPluginsFilePath().Result()#获取插件文件路径
+    TempFilePath = GetPath().TempFilePath()  # 获取TMP文件路径
+    PluginsFilePath=GetPath().PluginsFilePath()#获取插件文件路径
     PluginsDB = Plugins()  # 初始化连接
     FileNameList=[]#文件名列表
     if not InitialVerification(TempFilePath):#如果不存在初始化

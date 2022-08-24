@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from Web.DatabaseHub import UserInfo,MarkdownRelationship,MarkdownInfo
 from django.http import JsonResponse
-from ClassCongregation import ErrorLog,randoms,GetImageFilePath
+from ClassCongregation import ErrorLog,randoms,GetPath
 import json
 import base64
 import difflib
@@ -232,7 +232,7 @@ def MarkdownImageUpload (request):#md文档专有上传位置
                 PictureData = request.FILES.get('file', None)#获取文件数据
                 if 1024<PictureData.size:#最小值1KB
                     SaveFileName=randoms().result(50)+str(int(time.time()))+".jpg"#重命名文件
-                    SaveRoute=GetImageFilePath().Result()+SaveFileName#获得保存路径
+                    SaveRoute=GetPath().ImageFilePath()+SaveFileName#获得保存路径
                     with open(SaveRoute, 'wb') as f:
                         for line in PictureData:
                             f.write(line)

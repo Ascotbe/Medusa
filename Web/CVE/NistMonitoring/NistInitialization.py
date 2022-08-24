@@ -4,7 +4,7 @@ import zipfile
 import json
 from Web.DatabaseHub import NistData
 import urllib3
-from ClassCongregation import GetTempFilePath,ErrorLog
+from ClassCongregation import GetPath,ErrorLog
 import datetime
 import time
 import aiohttp
@@ -145,7 +145,7 @@ def InitialVerification(TempFilePath):#验证是否初始化
     except:
         return False
 def NistInitialization():#进行初始化处理
-    TempFilePath = GetTempFilePath().Result()  # 获取TMP文件路径
+    TempFilePath = GetPath().TempFilePath()  # 获取TMP文件路径
     if not InitialVerification(TempFilePath):#如果不存在初始化
         print("[ + ]正在初始化CVE数据库，请不要结束进程，强制结束会导致CVE数据库数据不全")
         Loop = asyncio.get_event_loop()

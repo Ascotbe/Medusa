@@ -12,7 +12,7 @@ import hashlib
 import shutil
 from config import email_debug,third_party_mail_host,third_party_mail_user,third_party_mail_pass,local_mail_host,local_mail_user
 from Web.DatabaseHub import EmailDetails,EmailProject
-from ClassCongregation import ErrorLog,GetMailUploadFilePath,GetTempFilePath
+from ClassCongregation import ErrorLog,GetPath
 from Web.celery import app
 """
 <p>这是一段文字</p>
@@ -34,8 +34,8 @@ def SendMail(**kwargs):
     Key=kwargs.get('key')#邮件key
     TaskStatus=kwargs.get('task_status')#任务状态,如果任务状态是真，表示是统一的发送逻辑，其余的都是再发送或者测试发送
     # 邮件内容
-    TempFilePath = GetTempFilePath().Result()
-    MailUploadFilePath = GetMailUploadFilePath().Result()  # 本地文件路径
+    TempFilePath = GetPath().TempFilePath()
+    MailUploadFilePath = GetPath().EmailUploadFilePath()  # 本地文件路径
     for Department in GoalMailbox:#循环获取部门
         for Target in GoalMailbox[Department]:# 向多个目标发送
             time.sleep(float(Interval))#邮件发送间隔

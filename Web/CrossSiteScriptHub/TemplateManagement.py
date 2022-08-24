@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from Web.DatabaseHub import UserInfo,CrossSiteScriptTemplate
 from django.http import JsonResponse
-from ClassCongregation import ErrorLog,GetCrossSiteScriptTemplateFilePath
+from ClassCongregation import ErrorLog,GetPath
 import json
 import base64
 from Web.Workbench.LogRelated import UserOperationLogRecord,RequestLogRecord
@@ -21,7 +21,7 @@ def ReadDefaultTemplate(request):#用读取默认的模板文件
             if Uid != None:  # 查到了UID
                 UserOperationLogRecord(request, request_api="read_default_cross_site_script_template", uid=Uid)
                 DefaultTemplateFileData=[]#用来存放默认模板数据
-                CrossSiteScriptTemplateFilePath=GetCrossSiteScriptTemplateFilePath().Result()#获取模板文件路径
+                CrossSiteScriptTemplateFilePath=GetPath().XSSTemplatePath()#获取模板文件路径
                 DefaultTemplateFileList = os.listdir(CrossSiteScriptTemplateFilePath)  # 获取文件夹中全部文件
                 for DefaultTemplateFile in DefaultTemplateFileList:  # 清洗不相关文件
                     if DefaultTemplateFile.endswith(".js"):

@@ -25,7 +25,7 @@ def ConfigInfo(request):#获取版本等信息
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_BasicFunctions_Information_ConfigInfo(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '呐呐呐！莎酱被玩坏啦(>^ω^<)', 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
@@ -150,7 +150,7 @@ def ConfigUpdate(request):#更新数据
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_BasicFunctions_Information_Config(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '呐呐呐！莎酱被玩坏啦(>^ω^<)', 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
@@ -174,7 +174,7 @@ def Update(request):#更新版本
             return JsonResponse({'message': "已经是最新版本了！", 'code': 200, })
 
     except Exception as e:
-        ErrorLog().Write("Web_CVE_GithubMonitoring_Github_Monitor(def)", e)
+        ErrorLog().Write(e)
         return JsonResponse({'message': '自己去看报错日志！', 'code': 169, })
 
 

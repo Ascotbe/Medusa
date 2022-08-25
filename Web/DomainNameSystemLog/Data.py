@@ -31,7 +31,7 @@ def DNSQuery(request):  # 用于DNS类型的DNSLOG数据查询
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_DomainNameSystemLog_Data_DNSQuery(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': "呐呐呐！莎酱被玩坏啦(>^ω^<)", 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
@@ -59,7 +59,7 @@ def HTTPQuery(request):  # 用于HTTP类型的DNSLOG数据查询
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_DomainNameSystemLog_Data_HTTPQuery(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': "呐呐呐！莎酱被玩坏啦(>^ω^<)", 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
@@ -90,7 +90,7 @@ def DNSStatistics(request):#对DNS类型数据进行统计
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_DomainNameSystemLog_Data_DNSStatistics(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': "呐呐呐！莎酱被玩坏啦(>^ω^<)", 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
@@ -116,7 +116,7 @@ def HTTPStatistics(request):#对DNS类型数据进行统计
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_DomainNameSystemLog_Data_HTTPStatistics(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': "呐呐呐！莎酱被玩坏啦(>^ω^<)", 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
@@ -144,7 +144,7 @@ def GetDNSLog(request):#获取用户的DNSLOG
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_DomainNameSystemLog_Data_GetDNSLog(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': "呐呐呐！莎酱被玩坏啦(>^ω^<)", 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })

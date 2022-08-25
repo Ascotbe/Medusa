@@ -80,7 +80,7 @@ def Upload(request):#接收所需数据文件
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_FileAcquisition_Receive_Upload(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '你不对劲！为什么报错了？',  'code': 169,})
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
@@ -107,7 +107,7 @@ def FilePack(request): # 下载所需文件打包
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_FileAcquisition_Receive_FilePack(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '你不对劲！为什么报错了？',  'code': 169,})
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
@@ -137,7 +137,7 @@ def Download(request): # 下载打包文件
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_FileAcquisition_Receive_Download(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '你不对劲！为什么报错了？',  'code': 169,})
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })

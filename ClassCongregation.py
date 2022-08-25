@@ -6,6 +6,7 @@ import sqlite3
 import logging
 import os
 import re
+import traceback
 import base64
 import random
 import sys
@@ -39,7 +40,7 @@ class GetPath:  # 获取文件路径
     def DataProcess(self,directory) -> str: #路径加工
         tmp=self.path
         for i in directory:
-            if i is not "":
+            if i != "":
                 tmp += i+self.splicer
         return tmp
 
@@ -121,7 +122,7 @@ class Proxies:  # 代理处理函数
             else:
                 return {"http": "http://{}".format(proxies_ip), "https": "https://{}".format(proxies_ip)}
         except Exception as e:
-            ErrorLog().Write("ClassCongregation_Proxies(class)_result(def)", e)
+            ErrorLog().Write(e)
             return None#报错就返回空
 
 
@@ -139,7 +140,7 @@ class Proxies:  # 代理处理函数
 #                        1433, 5000, 5432, 27017, 6379, 11211]  # 常用端口扫描列表
 #             self.OpenPorts=[]
 #         except Exception as e:
-#             ErrorLog().Write("ClassCongregation_PortScan(class)___init__(def)", e)
+#             ErrorLog().Write(e)
 #
 #
 #     def PortTest(self,**kwargs):
@@ -177,7 +178,7 @@ class Proxies:  # 代理处理函数
 #             for i in self.OpenPorts:#循环写入到数据库中
 #                 PortDB(uid=Uid,active_scan_id=ActiveScanId,ip=self.Ip,domain=self.Host,creation_time=CreationTime,port=i).Write()#写到数据库中
 #         except Exception as e:
-#             ErrorLog().Write("ClassCongregation_PortScan(class)_Start(def)", e)
+#             ErrorLog().Write(e)
 #
 #
 #     def PortHandling(self,PortInformation,PortType):  # 进行正则匹配处理
@@ -205,7 +206,7 @@ class Proxies:  # 代理处理函数
 #                 self.CustomizePortList=self.DefaultPortList
 #         except Exception as e:
 #             self.CustomizePortList = self.DefaultPortList#如果报错直接使用默认端口进行扫描
-#             ErrorLog().Write("ClassCongregation_PortScan(class)_PortHandling(def)", e)
+#             ErrorLog().Write(e)
 #
 #
 #
@@ -233,7 +234,7 @@ class Proxies:  # 代理处理函数
 #                             domain TEXT NOT NULL,\
 #                             creation_time TEXT NOT NULL)")
 #         except Exception as e:
-#             ErrorLog().Write("ClassCongregation_PortDB(class)_init(def)", e)
+#             ErrorLog().Write(e)
 #
 #     def Write(self):
 #         try:
@@ -244,7 +245,7 @@ class Proxies:  # 代理处理函数
 #             self.con.commit()
 #             self.con.close()
 #         except Exception as e:
-#             ErrorLog().Write("ClassCongregation_PortDB(class)_Write(def)", e)
+#             ErrorLog().Write(e)
 #
 #     def Query(self, **kwargs):
 #             Uid = kwargs.get("uid")
@@ -263,124 +264,125 @@ class Proxies:  # 代理处理函数
 #                 self.con.close()
 #                 return result_list
 #             except Exception as e:
-#                 ErrorLog().Write("Web_WebClassCongregation_ReportGenerationList(class)_QueryTokenValidity(def)", e)
+#                 ErrorLog().Write(e)
 #                 return None
 
 
-
-
-class VulnerabilityDetails:  # 所有数据库写入都是用同一个类
-    def __init__(self, medusa,request, **kwargs):
-        try:
-            self.url = str(kwargs.get("Url"))  # 目标域名，如果是代理扫描会有完整的路径
-            self.timestamp = str(int(time.time()))  # 获取时间戳
-            self.name = medusa['name']  # 漏洞名称
-            self.number = medusa['number']  # CVE编号
-            self.author = medusa['author']  # 插件作者
-            self.create_date = medusa['create_date']  # 插件创建时间
-            self.algroup = medusa['algroup']  # 插件名称
-            self.rank = medusa['rank']  # 漏洞等级
-            self.disclosure = medusa['disclosure']  # 漏洞披露时间，如果不知道就写编写插件的时间
-            self.details = base64.b64encode(medusa['details'].encode(encoding="utf-8")).decode('utf-8')  # 对结果进行编码写入数据库，鬼知道数据里面有什么玩意
-            self.affects = medusa['affects']  # 漏洞组件
-            self.desc_content = medusa['desc_content']  # 漏洞描述
-            self.suggest = medusa['suggest']  # 修复建议
-            self.version = medusa['version']  # 漏洞影响的版本
-            self.uid = kwargs.get("Uid")  # 传入的用户ID
-            self.active_scan_id = kwargs.get("ActiveScanId")  # 传入的父表SID
-            try:
-                self.response_headers=base64.b64encode(str(request.headers).encode(encoding="utf-8")).decode(encoding="utf-8") # 响应头base64加密后数据
-                self.response_text=base64.b64encode(str(request.text).encode(encoding="utf-8")).decode(encoding="utf-8")  # 响应返回数据包
-                self.response_byte=base64.b64encode(request.content).decode(encoding="utf-8")#响应返回byte类型数据包
-                self.response_status_code=str(request.status_code) # 响应状态码
-                self.request_path_url=str(request.request.path_url)  # 请求路径
-                self.request_body=base64.b64encode(str(request.request.body).encode(encoding="utf-8")).decode(encoding="utf-8")  # 请求的POST请求数据
-                self.request_method=str(request.request.method)  # 请求方式
-                self.request_headers=base64.b64encode(str(request.request.headers).encode(encoding="utf-8")).decode(encoding="utf-8")  # 请求头
-            except:
-                #如果报错就爆数据全部置空
-                self.response_headers = ""
-                self.response_text = ""
-                self.response_byte = ""
-                self.response_status_code = ""
-                self.request_path_url = ""
-                self.request_body = ""
-                self.request_method = ""
-                self.request_headers = ""
-
-            # 如果数据库不存在的话，将会自动创建一个 数据库
-            self.con = sqlite3.connect(GetPath().DatabaseFile())
-            # 获取所创建数据的游标
-            self.cur = self.con.cursor()
-            # 创建表
-            try:
-                # 如果设置了主键那么就导致主健值不能相同，如果相同就写入报错
-                self.cur.execute("CREATE TABLE Medusa\
-                            (scan_info_id INTEGER PRIMARY KEY,\
-                            url TEXT NOT NULL,\
-                            name TEXT NOT NULL,\
-                            affects TEXT NOT NULL,\
-                            rank TEXT NOT NULL,\
-                            suggest TEXT NOT NULL,\
-                            desc_content TEXT NOT NULL,\
-                            details TEXT NOT NULL,\
-                            number TEXT NOT NULL,\
-                            author TEXT NOT NULL,\
-                            create_date TEXT NOT NULL,\
-                            disclosure TEXT NOT NULL,\
-                            algroup TEXT NOT NULL,\
-                            version TEXT NOT NULL,\
-                            timestamp TEXT NOT NULL,\
-                            active_scan_id TEXT NOT NULL,\
-                            uid TEXT NOT NULL,\
-                            response_headers TEXT NOT NULL,\
-                            response_text TEXT NOT NULL,\
-                            response_byte TEXT NOT NULL,\
-                            response_status_code TEXT NOT NULL,\
-                            request_path_url TEXT NOT NULL,\
-                            request_body TEXT NOT NULL,\
-                            request_method TEXT NOT NULL,\
-                            request_headers TEXT NOT NULL)")
-            except Exception as e:
-                ErrorLog().Write("ClassCongregation_VulnerabilityDetails(class)_init(def)_CREATETABLE", e)
-        except Exception as e:
-            ErrorLog().Write("ClassCongregation_VulnerabilityDetails(class)_init(def)", e)
-
-    def Write(self):  # 统一写入
-        try:
-            self.cur.execute("""INSERT INTO Medusa (url,name,affects,rank,suggest,desc_content,details,number,author,create_date,disclosure,algroup,version,timestamp,active_scan_id,uid,response_headers,response_text,response_byte,response_status_code,request_path_url,request_body,request_method,request_headers) \
-            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", (
-                self.url, self.name, self.affects, self.rank, self.suggest, self.desc_content, self.details,
-                self.number,
-                self.author, self.create_date, self.disclosure, self.algroup, self.version, self.timestamp,
-                self.active_scan_id,self.uid,self.response_headers,self.response_text,self.response_byte,self.response_status_code,self.request_path_url,self.request_body,self.request_method,self.request_headers,))
-            # 提交
-            GetSsid = self.cur.lastrowid
-            self.con.commit()
-            self.con.close()
-            ScanInformation().Write(scan_info_id=GetSsid,url=self.url,active_scan_id=self.active_scan_id,rank=self.rank,uid=self.uid,name=self.name)#调用web版数据表，写入ScanInformation关系表
-        except Exception as e:
-            ErrorLog().Write("ClassCongregation_VulnerabilityDetails(class)_Write(def)", e)
+#
+#
+# class VulnerabilityDetails:  # 所有数据库写入都是用同一个类
+#     def __init__(self, medusa,request, **kwargs):
+#         try:
+#             self.url = str(kwargs.get("Url"))  # 目标域名，如果是代理扫描会有完整的路径
+#             self.timestamp = str(int(time.time()))  # 获取时间戳
+#             self.name = medusa['name']  # 漏洞名称
+#             self.number = medusa['number']  # CVE编号
+#             self.author = medusa['author']  # 插件作者
+#             self.create_date = medusa['create_date']  # 插件创建时间
+#             self.algroup = medusa['algroup']  # 插件名称
+#             self.rank = medusa['rank']  # 漏洞等级
+#             self.disclosure = medusa['disclosure']  # 漏洞披露时间，如果不知道就写编写插件的时间
+#             self.details = base64.b64encode(medusa['details'].encode(encoding="utf-8")).decode('utf-8')  # 对结果进行编码写入数据库，鬼知道数据里面有什么玩意
+#             self.affects = medusa['affects']  # 漏洞组件
+#             self.desc_content = medusa['desc_content']  # 漏洞描述
+#             self.suggest = medusa['suggest']  # 修复建议
+#             self.version = medusa['version']  # 漏洞影响的版本
+#             self.uid = kwargs.get("Uid")  # 传入的用户ID
+#             self.active_scan_id = kwargs.get("ActiveScanId")  # 传入的父表SID
+#             try:
+#                 self.response_headers=base64.b64encode(str(request.headers).encode(encoding="utf-8")).decode(encoding="utf-8") # 响应头base64加密后数据
+#                 self.response_text=base64.b64encode(str(request.text).encode(encoding="utf-8")).decode(encoding="utf-8")  # 响应返回数据包
+#                 self.response_byte=base64.b64encode(request.content).decode(encoding="utf-8")#响应返回byte类型数据包
+#                 self.response_status_code=str(request.status_code) # 响应状态码
+#                 self.request_path_url=str(request.request.path_url)  # 请求路径
+#                 self.request_body=base64.b64encode(str(request.request.body).encode(encoding="utf-8")).decode(encoding="utf-8")  # 请求的POST请求数据
+#                 self.request_method=str(request.request.method)  # 请求方式
+#                 self.request_headers=base64.b64encode(str(request.request.headers).encode(encoding="utf-8")).decode(encoding="utf-8")  # 请求头
+#             except:
+#                 #如果报错就爆数据全部置空
+#                 self.response_headers = ""
+#                 self.response_text = ""
+#                 self.response_byte = ""
+#                 self.response_status_code = ""
+#                 self.request_path_url = ""
+#                 self.request_body = ""
+#                 self.request_method = ""
+#                 self.request_headers = ""
+#
+#             # 如果数据库不存在的话，将会自动创建一个 数据库
+#             self.con = sqlite3.connect(GetPath().DatabaseFile())
+#             # 获取所创建数据的游标
+#             self.cur = self.con.cursor()
+#             # 创建表
+#             try:
+#                 # 如果设置了主键那么就导致主健值不能相同，如果相同就写入报错
+#                 self.cur.execute("CREATE TABLE Medusa\
+#                             (scan_info_id INTEGER PRIMARY KEY,\
+#                             url TEXT NOT NULL,\
+#                             name TEXT NOT NULL,\
+#                             affects TEXT NOT NULL,\
+#                             rank TEXT NOT NULL,\
+#                             suggest TEXT NOT NULL,\
+#                             desc_content TEXT NOT NULL,\
+#                             details TEXT NOT NULL,\
+#                             number TEXT NOT NULL,\
+#                             author TEXT NOT NULL,\
+#                             create_date TEXT NOT NULL,\
+#                             disclosure TEXT NOT NULL,\
+#                             algroup TEXT NOT NULL,\
+#                             version TEXT NOT NULL,\
+#                             timestamp TEXT NOT NULL,\
+#                             active_scan_id TEXT NOT NULL,\
+#                             uid TEXT NOT NULL,\
+#                             response_headers TEXT NOT NULL,\
+#                             response_text TEXT NOT NULL,\
+#                             response_byte TEXT NOT NULL,\
+#                             response_status_code TEXT NOT NULL,\
+#                             request_path_url TEXT NOT NULL,\
+#                             request_body TEXT NOT NULL,\
+#                             request_method TEXT NOT NULL,\
+#                             request_headers TEXT NOT NULL)")
+#             except Exception as e:
+#                 ErrorLog().Write(e)
+#         except Exception as e:
+#             ErrorLog().Write(e)
+#
+#     def Write(self):  # 统一写入
+#         try:
+#             self.cur.execute("""INSERT INTO Medusa (url,name,affects,rank,suggest,desc_content,details,number,author,create_date,disclosure,algroup,version,timestamp,active_scan_id,uid,response_headers,response_text,response_byte,response_status_code,request_path_url,request_body,request_method,request_headers) \
+#             VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", (
+#                 self.url, self.name, self.affects, self.rank, self.suggest, self.desc_content, self.details,
+#                 self.number,
+#                 self.author, self.create_date, self.disclosure, self.algroup, self.version, self.timestamp,
+#                 self.active_scan_id,self.uid,self.response_headers,self.response_text,self.response_byte,self.response_status_code,self.request_path_url,self.request_body,self.request_method,self.request_headers,))
+#             # 提交
+#             GetSsid = self.cur.lastrowid
+#             self.con.commit()
+#             self.con.close()
+#             ScanInformation().Write(scan_info_id=GetSsid,url=self.url,active_scan_id=self.active_scan_id,rank=self.rank,uid=self.uid,name=self.name)#调用web版数据表，写入ScanInformation关系表
+#         except Exception as e:
+#             ErrorLog().Write(e)
 
 class ErrorLog:  # 报错写入日志
-    def __init__(self):
-        global filename
-        LogDate=time.strftime("%Y-%m-%d", time.localtime())
-        if sys.platform == "win32" or sys.platform == "cygwin":
-            filename = os.path.split(os.path.realpath(__file__))[0] + '\\Log\\'+LogDate+'.log'  # 获取当前文件所在的目录，即父目录
-        elif sys.platform == "linux" or sys.platform == "darwin":
-            filename = os.path.split(os.path.realpath(__file__))[0] + '/Log/'+LogDate+'.log'  # 获取当前文件所在的目录，即父目录
-
-
-    def Write(self, Name, ErrorInfo):
-        log_format = '%(asctime)s - %(processName)s[%(process)d] - %(levelname)s: %(message)s'
-        logging.basicConfig(filename=filename, filemode='a', level=logging.INFO,
+    def CallInformation(self):#获取调用堆栈信息
+        information = traceback.extract_stack()[-3]# 第一层是本函数，上一次是Write调用的这个函数，在上一层才是我们要的
+        return information
+    def Write(self, error_info):
+        try:
+            info=self.CallInformation()
+            file_path=info[0] #文件完整路径
+            line_number=info[1] #调用的行号
+            function_name = info[2] #调用函数名
+        except Exception as e:
+            file_path=""
+            line_number=""
+            function_name=""
+        file_name=GetPath().Customize(["Log",time.strftime("%Y-%m-%d", time.localtime())+".log"])
+        log_format = '%(asctime)s - '+file_path+' - ['+function_name+']('+str(line_number)+') - %(levelname)s: %(message)s'
+        logging.basicConfig(filename=file_name, filemode='a', level=logging.INFO,
                             format=log_format)  # 初始化配置信息
-        logging.info(Name)
-        logging.warning(ErrorInfo)
+        logging.warning(error_info)
         logging.shutdown()#通过刷新和关闭所有处理程序来通知日志记录系统执行有序的关闭。
-
-
 # class Dnslog:  # Dnslog判断
 #     def __init__(self):
 #         #该网站是通过PHPSESSID来判断dns归属谁的所有可以随机一个这个
@@ -400,7 +402,7 @@ class ErrorLog:  # 报错写入日志
 #         except Exception as e:
 #             print("\033[31m[ ! ] Unable to get dnslog, please replace ceye! \033[0m")
 #             self.host=""
-#             ErrorLog().Write("ClassCongregation_Dnslog(class)_init_(def)", e)
+#             ErrorLog().Write(e)
 #
 #     def dns_host(self) -> str:
 #         return str(self.host)
@@ -411,7 +413,7 @@ class ErrorLog:  # 报错写入日志
 #                 self.dnslog_cn=requests.get("http://www.dnslog.cn/getdomain.php",headers=self.headers,timeout=6).text
 #                 return self.dnslog_cn
 #             except Exception as e:
-#                 ErrorLog().Write("ClassCongregation_Dnslog(class)_get_dns_log_url(def)", e)
+#                 ErrorLog().Write(e)
 #
 #     def result(self) -> bool:
 #         # DNS判断后续会有更多的DNS判断，保持准确性
@@ -629,155 +631,155 @@ class UrlProcessing:  # URL处理函数
 
 
 
-class ExecuteChildprocess:  # 执行子进程类
-    def Execute(self, command: List[str]) -> None:
-        self.cmd = subprocess.Popen(command, stdout=subprocess.PIPE)
-
-    def Read(self) -> bytes:
-        text = self.cmd.stdout.read()
-        return text
+# class ExecuteChildprocess:  # 执行子进程类
+#     def Execute(self, command: List[str]) -> None:
+#         self.cmd = subprocess.Popen(command, stdout=subprocess.PIPE)
+#
+#     def Read(self) -> bytes:
+#         text = self.cmd.stdout.read()
+#         return text
 
 #这个是web的类先这这边，有点小BUG
-class ScanInformation:#ActiveScanList的子表，单个URL相关漏洞表,写入父表中的SID和UID,以及子表中的SSID，使他们相关连，这个就是一个关系表，关联MEDUSA表和ActiveScanList表
-    def __init__(self):
-        self.con = sqlite3.connect(GetPath().DatabaseFile())
-        # 获取所创建数据的游标
-        self.cur = self.con.cursor()
-        # 创建表
-        try:
-            self.cur.execute("CREATE TABLE ScanInformation\
-                            (id INTEGER PRIMARY KEY,\
-                            active_scan_id TEXT NOT NULL,\
-                            url TEXT NOT NULL,\
-                            rank TEXT NOT NULL,\
-                            scan_info_id TEXT NOT NULL,\
-                            uid TEXT NOT NULL,\
-                            name TEXT NOT NULL,\
-                            creation_time TEXT NOT NULL)")
-        except Exception as e:
-            ErrorLog().Write("ClassCongregation_ScanInformation(class)_init(def)", e)
-    def Write(self,**kwargs)->bool:#写入相关信息
-        CreationTime = str(int(time.time())) # 创建时间
-        Url=kwargs.get("url")
-        ScanInfoId=kwargs.get("scan_info_id")
-        Uid = kwargs.get("uid")
-        ActiveScanId = kwargs.get("active_scan_id")
-        Rank = kwargs.get("rank")
-        Name= kwargs.get("name")
-        try:
-            self.cur.execute("INSERT INTO ScanInformation(active_scan_id,url,rank,scan_info_id,uid,name,creation_time)\
-            VALUES (?,?,?,?,?,?,?)",(ActiveScanId,Url,Rank,ScanInfoId,Uid,Name,CreationTime,))
-            # 提交
-            self.con.commit()
-            self.con.close()
-            return True#获取主键的ID值，也就是sid的值
-        except Exception as e:
-            ErrorLog().Write("ClassCongregation_ScanInformation(class)_Write(def)", e)
-            return False
-    def Query(self,**kwargs)->str or None:#查询相关表内容
-
-        Uid=kwargs.get("uid")
-        ActiveScanId = kwargs.get("active_scan_id")
-        try:
-            self.cur.execute("select * from ScanInformation where uid =? and active_scan_id = ?", (Uid,ActiveScanId,))
-            result_list = []  # 存放json的返回结果列表用
-            for i in self.cur.fetchall():
-                JsonValues = {}
-                JsonValues["url"] = i[2]
-                JsonValues["scan_info_id"] = i[4]
-                JsonValues["rank"] = i[3]
-                JsonValues["name"] = i[6]
-                result_list.append(JsonValues)
-            self.con.close()
-            return result_list
-        except Exception as e:
-            ErrorLog().Write("ClassCongregation_ScanInformation(class)_Query(def)", e)
-            return None
-
-
-class SubdomainTable:  # 这是一个子域名表
-    def __init__(self,Subdomain:str,url: str, **kwargs):
-        try:
-            self.url = str(url)  # 目标域名
-            self.timestamp = str(int(time.time()))  # 获取时间戳
-            self.subdomain=Subdomain#获取的子域名
-            self.uid = kwargs.get("Uid")  # 传入的用户ID
-            self.active_scan_id=kwargs.get("ActiveScanId")# 传入的父表SID
-            # 如果数据库不存在的话，将会自动创建一个 数据库
-            self.con = sqlite3.connect(GetPath().DatabaseFile())
-            # 获取所创建数据的游标
-            self.cur = self.con.cursor()
-            # 创建表
-            try:
-                # 如果设置了主键那么就导致主健值不能相同，如果相同就写入报错
-                self.cur.execute("CREATE TABLE Subdomain\
-                            (id INTEGER PRIMARY KEY,\
-                            url TEXT NOT NULL,\
-                            subdomain TEXT NOT NULL,\
-                            timestamp TEXT NOT NULL,\
-                            active_scan_id TEXT NOT NULL,\
-                            uid TEXT NOT NULL)")
-            except Exception as e:
-                ErrorLog().Write("ClassCongregation_SubdomainTable(class)_init(def)_CREATETABLE", e)
-        except Exception as e:
-            ErrorLog().Write("ClassCongregation_SubdomainTable(class)_init(def)", e)
-
-    def Write(self):  # 统一写入
-        try:
-            self.cur.execute("""INSERT INTO Subdomain (url,subdomain,timestamp,active_scan_id,uid) \
-            VALUES (?,?,?,?,?)""", (self.url, self.subdomain,self.timestamp,self.active_scan_id,self.uid,))
-            # 提交
-            self.con.commit()
-            self.con.close()
-        except Exception as e:
-            ErrorLog().Write("ClassCongregation_SubdomainTable(class)_Write(def)", e)
+# class ScanInformation:#ActiveScanList的子表，单个URL相关漏洞表,写入父表中的SID和UID,以及子表中的SSID，使他们相关连，这个就是一个关系表，关联MEDUSA表和ActiveScanList表
+#     def __init__(self):
+#         self.con = sqlite3.connect(GetPath().DatabaseFile())
+#         # 获取所创建数据的游标
+#         self.cur = self.con.cursor()
+#         # 创建表
+#         try:
+#             self.cur.execute("CREATE TABLE ScanInformation\
+#                             (id INTEGER PRIMARY KEY,\
+#                             active_scan_id TEXT NOT NULL,\
+#                             url TEXT NOT NULL,\
+#                             rank TEXT NOT NULL,\
+#                             scan_info_id TEXT NOT NULL,\
+#                             uid TEXT NOT NULL,\
+#                             name TEXT NOT NULL,\
+#                             creation_time TEXT NOT NULL)")
+#         except Exception as e:
+#             ErrorLog().Write(e)
+#     def Write(self,**kwargs)->bool:#写入相关信息
+#         CreationTime = str(int(time.time())) # 创建时间
+#         Url=kwargs.get("url")
+#         ScanInfoId=kwargs.get("scan_info_id")
+#         Uid = kwargs.get("uid")
+#         ActiveScanId = kwargs.get("active_scan_id")
+#         Rank = kwargs.get("rank")
+#         Name= kwargs.get("name")
+#         try:
+#             self.cur.execute("INSERT INTO ScanInformation(active_scan_id,url,rank,scan_info_id,uid,name,creation_time)\
+#             VALUES (?,?,?,?,?,?,?)",(ActiveScanId,Url,Rank,ScanInfoId,Uid,Name,CreationTime,))
+#             # 提交
+#             self.con.commit()
+#             self.con.close()
+#             return True#获取主键的ID值，也就是sid的值
+#         except Exception as e:
+#             ErrorLog().Write(e)
+#             return False
+#     def Query(self,**kwargs)->str or None:#查询相关表内容
+#
+#         Uid=kwargs.get("uid")
+#         ActiveScanId = kwargs.get("active_scan_id")
+#         try:
+#             self.cur.execute("select * from ScanInformation where uid =? and active_scan_id = ?", (Uid,ActiveScanId,))
+#             result_list = []  # 存放json的返回结果列表用
+#             for i in self.cur.fetchall():
+#                 JsonValues = {}
+#                 JsonValues["url"] = i[2]
+#                 JsonValues["scan_info_id"] = i[4]
+#                 JsonValues["rank"] = i[3]
+#                 JsonValues["name"] = i[6]
+#                 result_list.append(JsonValues)
+#             self.con.close()
+#             return result_list
+#         except Exception as e:
+#             ErrorLog().Write(e)
+#             return None
+#
+#
+# class SubdomainTable:  # 这是一个子域名表
+#     def __init__(self,Subdomain:str,url: str, **kwargs):
+#         try:
+#             self.url = str(url)  # 目标域名
+#             self.timestamp = str(int(time.time()))  # 获取时间戳
+#             self.subdomain=Subdomain#获取的子域名
+#             self.uid = kwargs.get("Uid")  # 传入的用户ID
+#             self.active_scan_id=kwargs.get("ActiveScanId")# 传入的父表SID
+#             # 如果数据库不存在的话，将会自动创建一个 数据库
+#             self.con = sqlite3.connect(GetPath().DatabaseFile())
+#             # 获取所创建数据的游标
+#             self.cur = self.con.cursor()
+#             # 创建表
+#             try:
+#                 # 如果设置了主键那么就导致主健值不能相同，如果相同就写入报错
+#                 self.cur.execute("CREATE TABLE Subdomain\
+#                             (id INTEGER PRIMARY KEY,\
+#                             url TEXT NOT NULL,\
+#                             subdomain TEXT NOT NULL,\
+#                             timestamp TEXT NOT NULL,\
+#                             active_scan_id TEXT NOT NULL,\
+#                             uid TEXT NOT NULL)")
+#             except Exception as e:
+#                 ErrorLog().Write(e)
+#         except Exception as e:
+#             ErrorLog().Write(e)
+#
+#     def Write(self):  # 统一写入
+#         try:
+#             self.cur.execute("""INSERT INTO Subdomain (url,subdomain,timestamp,active_scan_id,uid) \
+#             VALUES (?,?,?,?,?)""", (self.url, self.subdomain,self.timestamp,self.active_scan_id,self.uid,))
+#             # 提交
+#             self.con.commit()
+#             self.con.close()
+#         except Exception as e:
+#             ErrorLog().Write(e)
 
 class Md5Encryption:#加密类
     def __init__(self):
-        self.Md5=hashlib.md5()
+        self.md5=hashlib.md5()
 
     def Md5Result(self,str):
-        self.Md5.update(str.encode("utf8"))
-        return self.Md5.hexdigest()
+        self.md5.update(str.encode("utf8"))
+        return self.md5.hexdigest()
 
     def Md5GbkResult(self,str):
-        self.Md5.update(str.encode("gb2312"))
-        return self.Md5.hexdigest()
+        self.md5.update(str.encode("gb2312"))
+        return self.md5.hexdigest()
 
-def PortReplacement(Url,Prot):#替换URL里面的端口
-    try:
-        Result = re.sub(r':(6[0-5]{2}[0-3][0-5]|[1-5]\d{4}|[1-9]\d{1,3}|[0-9])', ":"+str(Prot), Url)
-        return Result
-    except Exception as e:
-        ErrorLog().Write("ClassCongregation_PortReplacement(def)", e)
+# def PortReplacement(url,prot):#替换URL里面的端口
+#     try:
+#         result = re.sub(r':(6[0-5]{2}[0-3][0-5]|[1-5]\d{4}|[1-9]\d{1,3}|[0-9])', ":"+str(prot), url)
+#         return result
+#     except Exception as e:
+#         ErrorLog().Write(e)
 
 
 
 
 class Binary:#对于原始二进制数据的类型转换
-    def Bytes2String(self,BytesTypeData: bytes):  # 类型转换
+    def Bytes2String(self,bytes_type_data: bytes):  # 类型转换
         """
         只允许传入一下类型字符串
         字符串样式1:b'\xff'
         返回字符串格式
         '\\xff'
         """
-        BytesTypeData=ast.literal_eval(repr(BytesTypeData).replace( "\\","\\\\"))
+        bytes_type_data=ast.literal_eval(repr(bytes_type_data).replace( "\\","\\\\"))
         try:
-            BinaryData = ""
-            for i in BytesTypeData:
+            binary_data = ""
+            for i in bytes_type_data:
                 # 如果是bytes类型的字符串，for循环会读取单个16进制然后转换成10进制
-                Data = hex(i)  # 转换会16进制
-                Data = Data.replace('0x', '')
-                if (len(Data) == 1):
-                    Data = '0' + Data  # 位数补全
-                BinaryData += '\\x' + Data
+                data = hex(i)  # 转换会16进制
+                data = data.replace('0x', '')
+                if (len(data) == 1):
+                    data = '0' + data  # 位数补全
+                binary_data += '\\x' + data
 
-            return ast.literal_eval(repr(BinaryData).replace('\\\\', '\\'))#先repr将字符串转为python原生字符串，然后替换双斜杠，最后eval转回正常字符串
+            return ast.literal_eval(repr(binary_data).replace('\\\\', '\\'))#先repr将字符串转为python原生字符串，然后替换双斜杠，最后eval转回正常字符串
         except Exception as e:
-            ErrorLog().Write("ClassCongregation_Binary(class)_Bytes2String(def)", e)
+            ErrorLog().Write(e)
 
-    def String2Bytes(self,StringTypeData: str):# 类型转换，一般用在需要对shellcode进行处理的时候，比如加密，异或之类的
+    def String2Bytes(self,string_type_data: str):# 类型转换，一般用在需要对shellcode进行处理的时候，比如加密，异或之类的
         """
         支持一下两种字符串格式
         字符串样式1:'\xff'
@@ -785,35 +787,35 @@ class Binary:#对于原始二进制数据的类型转换
         返回字符串格式
         b'\xff'
         """
-        StringTypeData=ast.literal_eval(repr(StringTypeData).replace("\\\\", "\\"))
+        string_type_data=ast.literal_eval(repr(string_type_data).replace("\\\\", "\\"))
         try:
-            BinaryData = b""
-            for i in StringTypeData:
-                Code = hex(ord(i))
-                Code = bytes(Code.replace('0x', ''), encoding="utf-8")
-                if (len(Code) == 1):
-                    Code = b'0' + Code  # 位数补全
-                BinaryData += b'\\x' + Code
+            binary_data = b""
+            for i in string_type_data:
+                code = hex(ord(i))
+                code = bytes(code.replace('0x', ''), encoding="utf-8")
+                if (len(code) == 1):
+                    code = b'0' + code  # 位数补全
+                binary_data += b'\\x' + code
 
-            return ast.literal_eval(repr(BinaryData).replace('\\\\', '\\'))
+            return ast.literal_eval(repr(binary_data).replace('\\\\', '\\'))
 
         except Exception as e:
-            ErrorLog().Write("ClassCongregation_Binary(class)_String2Bytes(def)", e)
+            ErrorLog().Write(e)
 
-    def String2Nim(self,StringTypeData: str):
+    def String2Nim(self,string_type_data: str):
         """字符串转换成nim语言类型的shellcode
         样例：var shellcode: array[519, byte] = [ byte 72, 49]"""
         try:
-            BinaryData = []
-            for i in StringTypeData:
-                Code = ord(i)
-                BinaryData.append(Code)
+            binary_data = []
+            for i in string_type_data:
+                code = ord(i)
+                binary_data.append(code)
 
-            return str(len(BinaryData)),str(BinaryData).replace("[","[ byte ")#返回容器个数，和shellcode内容
+            return str(len(binary_data)),str(binary_data).replace("[","[ byte ")#返回容器个数，和shellcode内容
         except Exception as e:
-            ErrorLog().Write("ClassCongregation_Binary(class)_String2Nim(def)", e)
+            ErrorLog().Write(e)
 
-    def String2GoArray(self,StringTypeData: str):
+    def String2GoArray(self,string_type_data: str):
         """
         支持一下两种字符串格式
         字符串样式1:'\xff\xfa\xfb\xfc\xfd\xfe\xff'
@@ -821,14 +823,14 @@ class Binary:#对于原始二进制数据的类型转换
         返回字符串格式: 0xff,0xfa,0xfb,0xfc,0xfd,0xfe,0xff
         """
         try:
-            StringTypeData = ast.literal_eval(repr(StringTypeData).replace("\\\\", "\\"))
-            Shellcode = ""
-            for i in StringTypeData:
-                Shellcode+= hex(ord(i))+","
-            return Shellcode[:-1]
+            string_type_data = ast.literal_eval(repr(string_type_data).replace("\\\\", "\\"))
+            shellcode = ""
+            for i in string_type_data:
+                shellcode+= hex(ord(i))+","
+            return shellcode[:-1]
         except Exception as e:
-            ErrorLog().Write("ClassCongregation_Binary(class)_String2GoArray(def)", e)
-    def String2GoHex(self,StringTypeData: str):
+            ErrorLog().Write(e)
+    def String2GoHex(self,string_type_data: str):
         """
         支持一下两种字符串格式
         字符串样式1:'\xff\xfa\xfb\xfc\xfd\xfe\xff'
@@ -836,36 +838,36 @@ class Binary:#对于原始二进制数据的类型转换
         返回字符串格式: fffafbfcfdfeff
         """
         try:
-            StringTypeData = ast.literal_eval(repr(StringTypeData).replace("\\\\", "\\"))
-            BinaryData = ""
-            for i in StringTypeData:
-                BinaryData += hex(ord(i)).replace("0x", "")
-            return BinaryData
+            string_type_data = ast.literal_eval(repr(string_type_data).replace("\\\\", "\\"))
+            binary_data = ""
+            for i in string_type_data:
+                binary_data += hex(ord(i)).replace("0x", "")
+            return binary_data
         except Exception as e:
-            ErrorLog().Write("ClassCongregation_Binary(class)_String2GoHex(def)", e)
+            ErrorLog().Write(e)
 
 
 class ShellCode:#shellcode的加解密函数
-    def XOR(self,Value:int, RawShellcode:bytes):
+    def XOR(self,value:int, raw_shellcode:bytes):
         """
         只支持\xff格式的16进制
         """
         # #逐字节读取，二进制文件数据，单个字节为16进制
         # f=open("payload.bin","rb")
         # code = f.read(1)
-        Shellcode = ''#Value的最大值为0XFF，也就是int值255
+        shellcode = ''#Value的最大值为0XFF，也就是int值255
         try:
-            for SingleByte in RawShellcode:
+            for single_byte in raw_shellcode:
                 #如果是bytes类型的字符串，for循环会读取单个16进制然后转换成10进制
-                XORValue = SingleByte ^ Value#进行xor操作
-                Code = hex(XORValue)#转换会16进制
-                Code = Code.replace('0x','')
-                if(len(Code) == 1):
-                    Code = '0' + Code#位数补全
-                Shellcode += '\\x' + Code
-            return Shellcode
+                XOR_value = single_byte ^ value#进行xor操作
+                code = hex(XOR_value)#转换会16进制
+                code = code.replace('0x','')
+                if(len(code) == 1):
+                    code = '0' + code#位数补全
+                shellcode += '\\x' + code
+            return shellcode
         except Exception as e:
-            ErrorLog().Write("ClassCongregation_ShellCode(class)_XOR(def)", e)
+            ErrorLog().Write(e)
             return None
     def AESDecode(self,data, key):
         """
@@ -878,7 +880,7 @@ class ShellCode:#shellcode的加解密函数
             decrypted_text = decrypted_text[:-ord(decrypted_text[-1])]  # 去除多余补位
             return decrypted_text
         except Exception as e:
-            ErrorLog().Write("ClassCongregation_ShellCode(class)_AESDecode(def)", e)
+            ErrorLog().Write(e)
             return None
     def AESEncode(self,data, key):
         """
@@ -894,7 +896,7 @@ class ShellCode:#shellcode的加解密函数
             aes = AES.new(str.encode(key), AES.MODE_ECB)  # 初始化加密器
             return str(base64.encodebytes(aes.encrypt(data)), encoding='utf8').replace('\n', '')  # 加密
         except Exception as e:
-            ErrorLog().Write("ClassCongregation_ShellCode(class)_AESEncode(def)", e)
+            ErrorLog().Write(e)
             return None
 
 
@@ -909,7 +911,7 @@ class Plugins:#扫描插件相关数据库,里面存放yml插件
                                 (plugins_id INTEGER PRIMARY KEY,\
                                 plugins_name TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_ClassCongregation_Plugins(class)_init(def)", e)
+            ErrorLog().Write(e)
     def Write(self, DataSet:list) -> bool or None:  # 写入相关信息
         try:
             self.cur.executemany("INSERT INTO Plugins(plugins_name)\
@@ -918,20 +920,20 @@ class Plugins:#扫描插件相关数据库,里面存放yml插件
             self.con.commit()#只发送数据不结束
             return True
         except Exception as e:
-            ErrorLog().Write("Web_ClassCongregation_Plugins(class)_Write(def)", e)
+            ErrorLog().Write(e)
             return False
 
     def Query(self, **kwargs):  #查询单个插件
-        PluginsName=kwargs.get("plugins_name")
+        plugins_name=kwargs.get("plugins_name")
         try:
             self.cur.execute("select * from Plugins where plugins_name =? ",
-                             (PluginsName,))
+                             (plugins_name,))
 
             for i in self.cur.fetchall():
                 self.con.close()
                 return i[1]#返回单个插件结果
         except Exception as e:
-            ErrorLog().Write("Web_ClassCongregation_Plugins(class)_Query(def)", e)
+            ErrorLog().Write(e)
             return None
     def Read(self):#读取全部插件
         try:
@@ -942,14 +944,14 @@ class Plugins:#扫描插件相关数据库,里面存放yml插件
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_ClassCongregation_Plugins(class)_Read(def)", e)
+            ErrorLog().Write(e)
             return None
     def Initialization(self):#初始化表格 清空表中的全部数据
         try:
             self.cur.execute("DELETE FROM Plugins",)
             return True
         except Exception as e:
-            ErrorLog().Write("Web_ClassCongregation_Plugins(class)_Initialization(def)", e)
+            ErrorLog().Write(e)
             return False
 
 class Config:  # 配置数据表
@@ -966,45 +968,45 @@ class Config:  # 配置数据表
                                 update_time TEXT NOT NULL,\
                                 creation_time TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_ClassCongregation_Config(class)_init(def)", e)
+            ErrorLog().Write(e)
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
-        CreationTime = str(int(time.time()))  # 创建时间
-        Data= kwargs.get("data")
-        FixedData = kwargs.get("fixed_data")
+        creation_time = str(int(time.time()))  # 创建时间
+        data= kwargs.get("data")
+        fixed_data = kwargs.get("fixed_data")
 
 
         try:
             self.cur.execute("INSERT INTO Config(data,fixed_data,update_time,creation_time)\
-                VALUES (?,?,?,?)", (Data,FixedData,CreationTime,CreationTime,))
+                VALUES (?,?,?,?)", (data,fixed_data,creation_time,creation_time,))
             # 提交
             self.con.commit()
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_ClassCongregation_Config(class)_Write(def)", e)
+            ErrorLog().Write(e)
             return False
     def Query(self):
         try:
             self.cur.execute("select data,fixed_data,update_time,creation_time  from Config WHERE config_id=?", (1,))#查询用户相关信息
             for i in self.cur.fetchall():
-                JsonValues = {}
-                JsonValues["data"] = ast.literal_eval(i[0])
-                JsonValues["fixed_data"] = ast.literal_eval(i[1])
-                JsonValues["update_time"] = i[2]
-                JsonValues["creation_time"] = i[3]
+                json_values = {}
+                json_values["data"] = ast.literal_eval(i[0])
+                json_values["fixed_data"] = ast.literal_eval(i[1])
+                json_values["update_time"] = i[2]
+                json_values["creation_time"] = i[3]
                 self.con.close()
-                return JsonValues
+                return json_values
         except Exception as e:
-            ErrorLog().Write("Web_ClassCongregation_Config(class)_Query(def)", e)
+            ErrorLog().Write(e)
             return None
     def Update(self,**kwargs):
-        UpdateTime=str(int(time.time()))
-        FixedData = kwargs.get("data")
+        update_time=str(int(time.time()))
+        data = kwargs.get("data")
         try:
             self.cur.execute(
                 """UPDATE Config SET data = ?,update_time=? WHERE config_id = ?""",
-                (FixedData ,UpdateTime,1,))
+                (data ,update_time,1,))
             # 提交
             if self.cur.rowcount < 1:  # 用来判断是否更新成功
                 self.con.commit()
@@ -1016,7 +1018,7 @@ class Config:  # 配置数据表
                 return True
 
         except Exception as e:
-            ErrorLog().Write("Web_ClassCongregation_Config(class)_Update(def)", e)
+            ErrorLog().Write(e)
     def Statistics(self):  # 统计数据
         try:
             self.cur.execute("SELECT COUNT(1)  FROM Config ",)
@@ -1026,5 +1028,8 @@ class Config:  # 配置数据表
             else:
                 return False
         except Exception as e:
-            ErrorLog().Write("Web_ClassCongregation_Config(class)_Statistics(def)", e)
+            ErrorLog().Write(e)
             return False
+
+
+

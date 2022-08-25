@@ -36,6 +36,6 @@ def GenerateWordReport(VulnerabilityDataList,**kwargs):
         VulnerabilityNumber=0
         return WordName#返回模板名字
     except Exception as e:
-        ErrorLog().Write("Web_Api_ProcessingReport_GenerateWordReport(def)", e)
+        ErrorLog().Write(e)
         return None
 

@@ -20,7 +20,7 @@ def GenerateVerificationCode(request):#生成验证码函数
             Result['Access-Control-Expose-Headers']="VerificationCodeKey"#添加头内容保证前端能够获取到值
             return Result
         except Exception as e:
-            ErrorLog().Write("Web_BasicFunctions_VerificationCode_GenerateVerificationCode(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '呐呐呐！莎酱被玩坏啦(>^ω^<)', 'code': 169, })
     else:
         return JsonResponse({'message': '请使用GET请求', 'code': 500, })

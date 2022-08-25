@@ -14,7 +14,7 @@ class Server(BaseHTTPRequestHandler):
                 self.response_headers+=str(i.decode("utf-8"))
             self.end_headers()
         except Exception as e:
-            ErrorLog().Write("HTTPServer_Server(Class)_Response(def)", e)
+            ErrorLog().Write(e)
 
     def do_GET(self):
         try:
@@ -23,7 +23,7 @@ class Server(BaseHTTPRequestHandler):
             DomainNameSystemLog().Write(ip="", domain_name="", type="http", response=base64.b64encode(self.response_headers.encode('utf-8')), request=base64.b64encode(Request.encode('utf-8')))
             #self.wfile.write("GET request for {}".format(self.path).encode('utf-8'))
         except Exception as e:
-            ErrorLog().Write("HTTPServer_Server(Class)_GET(def)", e)
+            ErrorLog().Write(e)
     def do_POST(self):
         try:
             ContentLength = int(self.headers['Content-Length'])  # <--- Gets the size of data
@@ -33,7 +33,7 @@ class Server(BaseHTTPRequestHandler):
             DomainNameSystemLog().Write(ip="", domain_name="", type="http", response=base64.b64encode(self.response_headers.encode('utf-8')), request=base64.b64encode(Request.encode('utf-8')))
             #self.wfile.write("POST request for {}".format(self.path).encode('utf-8'))
         except Exception as e:
-            ErrorLog().Write("HTTPServer_Server(Class)_POST(def)", e)
+            ErrorLog().Write(e)
 
 
 if __name__ == '__main__':
@@ -42,4 +42,4 @@ if __name__ == '__main__':
         Httpd = HTTPServer(ServerAddress, Server)
         Httpd.serve_forever()
     except Exception as e:
-        ErrorLog().Write("HTTPServer_main(def)", e)
+        ErrorLog().Write(e)

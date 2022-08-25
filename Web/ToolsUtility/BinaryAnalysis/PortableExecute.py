@@ -43,7 +43,7 @@ def Windows(request):  # 用于提取保存文件后调用相应的处理函数
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_ToolsUtility_PortableExecute_Windows(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '自己去看报错日志！', 'code': 169, })
 
     else:
@@ -93,9 +93,7 @@ class PortableExecute:
                 IMAGE_SECTION_HEADER_TMP["physical_size"] = hex(i.SizeOfRawData)  # 物理大小
                 self.IMAGE_SECTION_HEADER.append(IMAGE_SECTION_HEADER_TMP)
             except Exception as e:
-                ErrorLog().Write(
-                    "Web_ToolsUtility_PortableExecute_PortableExecute(class)_SECTION(def)",
-                    e)
+                ErrorLog().Write(e)
     def CA(self):#对证书进行处理
         try:  # 获取证书资源段
             CertificateListAddress = self.PE.OPTIONAL_HEADER.DATA_DIRECTORY[
@@ -128,8 +126,7 @@ class PortableExecute:
                 except:
                     pass
         except Exception as e:
-            ErrorLog().Write(
-                "Web_ToolsUtility_PortableExecute_PortableExecute(class)_CA(def)", e)
+            ErrorLog().Write(e)
     def IMPORT(self):#对导入表进行处理
         try:
             _IMAGE_IMPORT_DESCRIPTOR = self.PE.DIRECTORY_ENTRY_IMPORT  # 导入表
@@ -149,9 +146,7 @@ class PortableExecute:
                 except:
                     pass
         except Exception as e:
-            ErrorLog().Write(
-                "Web_ToolsUtility_PortableExecute_PortableExecute(class)_IMPORT(def)",
-                e)
+            ErrorLog().Write(e)
 
     def EXPORT(self):#对导出表数据进行处理
         try:
@@ -167,9 +162,7 @@ class PortableExecute:
                 except:
                     pass
         except Exception as e:
-            ErrorLog().Write(
-                    "Web_ToolsUtility_PortableExecute_PortableExecute(class)-EXPORT(def)",
-                    e)
+            ErrorLog().Write(e)
 
     def RESOURCE(self):#对资源文件进行处理
         try:
@@ -201,22 +194,14 @@ class PortableExecute:
                                     # TMP["reserved"]=ResourceThree.data.struct.Reserved#保留字段
                                     TMP["resource_sublanguage"] = str(ResourceThree.data.sublang)  # 资源子语言
                                 except Exception as e:
-                                    ErrorLog().Write(
-                                        "Web_ToolsUtility_PortableExecute_PortableExecute(class)_RESOURCE(def)_ResourceThree",
-                                        e)
+                                    ErrorLog().Write(e)
                         except Exception as e:
-                            ErrorLog().Write(
-                                "Web_ToolsUtility_PortableExecute_PortableExecute(class)_RESOURCE(def)_ResourceTwo",
-                                e)
+                            ErrorLog().Write(e)
                     self.IMAGE_RESOURCE_DIRECTORY.append(TMP)  # 发送数据到容器中
                 except Exception as e:
-                    ErrorLog().Write(
-                        "Web_ToolsUtility_PortableExecute_PortableExecute(class)_RESOURCE(def)_ResourceOne",
-                        e)
+                    ErrorLog().Write(e)
         except Exception as e:
-            ErrorLog().Write(
-                "Web_ToolsUtility_PortableExecute_PortableExecute(class)_RESOURCE(def)",
-                e)
+            ErrorLog().Write(e)
     def TLS(self):#对节表数据进行清洗
         try:
             _IMAGE_TLS_DIRECTORY = str(self.PE.DIRECTORY_ENTRY_TLS.struct)  # tls表
@@ -226,14 +211,10 @@ class PortableExecute:
                     Address = re.findall(r':\s*?(0x\w*)', i, re.I)#清洗出来的地址
                     self.IMAGE_TLS_DIRECTORY.append({Name[0]:Address[0]})#把数据拼接后发送到容器中
                 except Exception as e:
-                    ErrorLog().Write(
-                        "Web_ToolsUtility_PortableExecute_PortableExecute(class)_TLS(def)",
-                        e)
+                    ErrorLog().Write(e)
 
         except Exception as e:
-            ErrorLog().Write(
-                "Web_ToolsUtility_PortableExecute_PortableExecute(class)_TLS(def)",
-                e)
+            ErrorLog().Write(e)
     def Run(self,**kwargs):
         self.FilePath = kwargs.get("path")  # 传入的文件路径
         self.MD5 = kwargs.get("md5")  # 传入MD5

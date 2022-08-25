@@ -47,7 +47,7 @@ def Login(request):#用户登录，每次登录成功都会刷新一次Token
             else:
                 return JsonResponse({'message': "验证码或者验证码秘钥不能为空！", 'code': 504, })
         except Exception as e:
-            ErrorLog().Write("Web_BasicFunctions_User_Login(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '自己去看报错日志！', 'code': 169, })
 
     else:
@@ -89,7 +89,7 @@ def UpdatePassword(request):#更新密码
             else:
                 return JsonResponse({'message': "验证码或者验证码秘钥不能为空！", 'code': 504, })
         except Exception as e:
-            ErrorLog().Write("Web_BasicFunctions_User_UpdatePassword(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '自己去看报错日志！', 'code': 169, })
 
     else:
@@ -118,7 +118,7 @@ def UpdateShowName(request):#更新显示名字
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_BasicFunctions_User_UpdateShowName(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '自己去看报错日志！', 'code': 169, })
 
     else:
@@ -146,7 +146,7 @@ def UpdateKey(request):#更新Key
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_BasicFunctions_User_UpdateKey(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '自己去看报错日志！', 'code': 169, })
 
     else:
@@ -183,7 +183,7 @@ def PersonalInformation(request):#用户个人信息
 
 
         except Exception as e:
-            ErrorLog().Write("Web_BasicFunctions_User_PersonalInformation(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '自己去看报错日志！', 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
@@ -223,7 +223,7 @@ def UploadAvatar(request):#文件上传功能
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_BasicFunctions_User_UploadAvatar(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '你不对劲！为什么报错了？',  'code': 169,})
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
@@ -269,7 +269,7 @@ def ForgetPassword(request):#忘记密码接口
             else:
                 return JsonResponse({'message': "验证码或者验证码秘钥不能为空！", 'code': 504, })
         except Exception as e:
-            ErrorLog().Write("Web_BasicFunctions_User_ForgetPassword(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '自己去看报错日志！', 'code': 169, })
 
     else:

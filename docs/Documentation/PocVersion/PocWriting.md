@@ -492,7 +492,7 @@ def task(**kwargs):
     except Exception as e:
         _ = VulnerabilityInfo('').info.get('algroup')
         ErrorHandling().Outlier(e, _)
-        ErrorLog().Write("Plugin Name:" + _ + " || Target Url:" + url, e)  # 调用写入类传入URL和错误插件名
+        ErrorLog().Write(e)  # 调用写入类传入URL和错误插件名
 ```
 
 ### medusa函数
@@ -557,7 +557,7 @@ def task(**kwargs):
     except Exception as e:
         _ = VulnerabilityInfo('').info.get('algroup')
         ErrorHandling().Outlier(e, _)
-        ErrorLog().Write("Plugin Name:" + _ + " || Target Url:" + url, e)  # 调用写入类传入URL和错误插件名
+        ErrorLog().Write(e)  # 调用写入类传入URL和错误插件名
 ```
 
 这个函数把之前**常规插件模板**中的`medusa`函数的核心请求调用到这边

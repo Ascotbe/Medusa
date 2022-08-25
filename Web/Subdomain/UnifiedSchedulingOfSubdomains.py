@@ -28,7 +28,7 @@ def SubdomainSearch(request):  # 子域名搜索函数
             else:
                 return JsonResponse({'message': "小宝贝这是非法请求哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_Subdomain_UnifiedSchedulingOfSubdomains_SubdomainSearch(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': "出现未知错误，详情看日志文件", 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })

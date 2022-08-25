@@ -595,7 +595,7 @@ def Compared(request):  # 用于对比进程中是否有杀毒软件
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_ToolsUtility_AntivirusSoftware_Compared(def)", e)
+            ErrorLog().Write(e)
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 

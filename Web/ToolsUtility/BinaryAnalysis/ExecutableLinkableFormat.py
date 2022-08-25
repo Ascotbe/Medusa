@@ -39,6 +39,6 @@ def Linux(request):  # 用于提取保存文件后调用相应的处理函数
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_ToolsUtility_ExecutableLinkableFormat_Linux(def)", e)
+            ErrorLog().Write(e)
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })

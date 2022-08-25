@@ -36,7 +36,7 @@ async def NistFirstRunDownload(Year,TempFilePath):#第一次运行下载数据
 
         except Exception as e:
             print("[ ! ]"+str(Year) + "年数据下载出错 报错信息：" + str(e))
-            ErrorLog().Write("Web_CVE_NistMonitoring_NistInitialization_FirstRunDownload(def)", e)
+            ErrorLog().Write(e)
 
 
 def ReportAnErrorAndRestartTheDownload(Year,TempFilePath):#报错下载，由于数据可能未下载成功重复运行
@@ -53,7 +53,7 @@ def ReportAnErrorAndRestartTheDownload(Year,TempFilePath):#报错下载，由于
         NistFirsRunProcessing(TempFilePath+FileName,FileName[:-4])#调用数据处理函数，传入文件路径和提取文件名
     except Exception as e:
         ReportAnErrorAndRestartTheDownload(Year, TempFilePath)#如果还是报错就再次循环自身
-        ErrorLog().Write("Web_CVE_NistMonitoring_NistInitialization_FirstRunDownload(def)", e)
+        ErrorLog().Write(e)
 
 
 
@@ -132,8 +132,7 @@ def NistFirsRunProcessing(ZipFilePath,ZipFileData):#第一次运行数据处理
 
     except Exception as e:
         ReportAnErrorAndRestartTheDownload(ZipFilePath[-13:-9], ZipFilePath[:-24])#如果文件不是zip文件，就是表明可能下载错误了
-        ErrorLog().Write(
-            "Web_CVE_NistMonitoring_NistInitialization_FirsRunProcessing(def)", e)
+        ErrorLog().Write(e)
 
 def InitialVerification(TempFilePath):#验证是否初始化
     try:
@@ -159,9 +158,7 @@ def NistInitialization():#进行初始化处理
                 FileName = "nvdcve-1.1-" + str(Year) + ".json.zip"  # 下载文件名
                 NistFirsRunProcessing(TempFilePath + FileName, FileName[:-4])  # 调用数据处理函数，传入文件路径和提取文件名
             except Exception as e:
-                ErrorLog().Write(
-                    "Web_CVE_NistMonitoring_NistInitialization_NistInitialization(def)",
-                    e)
+                ErrorLog().Write(e)
 
         open(TempFilePath + "initialization.lock", 'w+').write("Super Invincible Cute Pieck Finger")#初始化后写入初始化锁
         print("CVE数据库初始化成功~")

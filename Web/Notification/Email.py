@@ -60,6 +60,6 @@ def Send(**kwargs):
             SMTP.quit()
             SMTP.close()
         except Exception as e:
-            ErrorLog().Write("Web_Notification_Email_Send(def)" + str(Target), e)
+            ErrorLog().Write(e)
 
 

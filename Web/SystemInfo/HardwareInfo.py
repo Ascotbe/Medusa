@@ -26,7 +26,7 @@ def Monitor():#用于监控系统信息
                                       per_core_central_processing_unit_usage_rate=str(PerCoreCentralProcessingUnitUsageRate))#数据写到数据库中
 
     except Exception as e:
-        ErrorLog().Write("Web_SystemInfo_HardwareInfo_Monitor(def)", e)
+        ErrorLog().Write(e)
 
 
 
@@ -63,7 +63,7 @@ def Initialization(request):#用于初始化获取基础信息
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_SystemInfo_HardwareInfo_Initialization(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '自己去看报错日志！', 'code': 169, })
 
     else:
@@ -89,7 +89,7 @@ def UsageQuery(request):  # 用于查询CPU和硬件的使用情况
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_SystemInfo_HardwareInfo_UsageQuery(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '自己去看报错日志！', 'code': 169, })
 
     else:

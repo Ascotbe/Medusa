@@ -47,7 +47,7 @@ def JoinMarkdownProject(request):#通过邀请码加入项目
             else:
                 return JsonResponse({'message': "小宝贝邀请码的长度不合规哦Σ(っ °Д °;)っ", 'code': 501, })
         except Exception as e:
-            ErrorLog().Write("Web_CollaborationPlatform_Markdown_JoinMarkdownProject(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '呐呐呐！莎酱被玩坏啦(>^ω^<)', 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
@@ -82,7 +82,7 @@ def CreateMarkdownProject(request):#用来创建markdown项目,目前只支持�
             else:
                 return JsonResponse({'message': "小宝贝这是非法操作哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_CollaborationPlatform_Markdown_CreateMarkdownProject(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '呐呐呐！莎酱被玩坏啦(>^ω^<)', 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
@@ -108,7 +108,7 @@ def QueryMarkdownProject(request):#用来查询用户所有的项目信息
             else:
                 return JsonResponse({'message': "小宝贝这是非操作哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_CollaborationPlatform_Markdown_QueryMarkdownProject(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '呐呐呐！莎酱被玩坏啦(>^ω^<)', 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
@@ -133,7 +133,7 @@ def MarkdownProjectStatistical(request):#统计文档数据
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_CollaborationPlatform_Markdown_MarkdownProjectStatistical(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': "呐呐呐！莎酱被玩坏啦(>^ω^<)", 'code': 169, })
 
     else:
@@ -170,7 +170,7 @@ def SaveMarkdownData(request):#用来保存协同作战数据
             else:
                 return JsonResponse({'message': "小宝贝这是非法操作哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_CollaborationPlatform_Markdown_SaveMarkdownData(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '呐呐呐！莎酱被玩坏啦(>^ω^<)', 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
@@ -204,7 +204,7 @@ def QueryMarkdownData(request):#用来查询协同作战数据
             else:
                 return JsonResponse({'message': "小宝贝这是非法操作哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_CollaborationPlatform_Markdown_QueryMarkdownData(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '呐呐呐！莎酱被玩坏啦(>^ω^<)', 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
@@ -242,7 +242,7 @@ def MarkdownImageUpload (request):#md文档专有上传位置
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_CollaborationPlatform_Markdown_MarkdownImageUpload(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '你不对劲！为什么报错了？',  'code': 169,})
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
@@ -280,7 +280,7 @@ def MarkdownDataComparison (request):#md文档数据对比
             else:
                 return JsonResponse({'message': "小宝贝这是非法操作哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_CollaborationPlatform_Markdown_MarkdownDataComparison(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '呐呐呐！莎酱被玩坏啦(>^ω^<)', 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
@@ -315,7 +315,7 @@ def DeleteMarkdown (request):#删除文档项目
             else:
                 return JsonResponse({'message': "小宝贝这是非法操作哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_CollaborationPlatform_Markdown_DeleteMarkdown(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '呐呐呐！莎酱被玩坏啦(>^ω^<)', 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })

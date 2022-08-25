@@ -47,7 +47,7 @@ def UploadFiles (request):#上传文件
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_Email_Attachment_UploadMailAttachment(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '你不对劲！为什么报错了？',  'code': 169,})
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
@@ -77,7 +77,7 @@ def EmailImagePreview (request):#查询加载的文件
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_Email_Attachment_EmailImagePreview(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '你不对劲！为什么报错了？',  'code': 169,})
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
@@ -101,7 +101,7 @@ def StatisticalMailAttachment(request):#统计邮件附件个数
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_Email_Attachment_StatisticalMailAttachment(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '自己去看报错日志！', 'code': 169, })
 
     else:
@@ -130,7 +130,7 @@ def EmailAttachmentQuery(request):#查询附件文件
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_Email_Attachment_EmailAttachmentQuery(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '自己去看报错日志！', 'code': 169, })
 
     else:

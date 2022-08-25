@@ -25,7 +25,7 @@ def Monitor(request,data):#用于接收信息的监控
         GetRequestFragment = re.search(r'/[a-zA-Z0-9]{5}', str(request.get_full_path), re.I).group(0)  # 对URL进行提取处理
         #print(GetRequestFragment[1:6])
     except Exception as e:
-        ErrorLog().Write("Web_CrossSiteScriptHub_CrossSiteScript_Monitor(def)-GetRequestFragment", e)
+        ErrorLog().Write(e)
 
     if request.method == "POST":
         try:
@@ -42,7 +42,7 @@ def Monitor(request,data):#用于接收信息的监控
                                         project_associated_file_name=GetRequestFragment[1:6],#获取请求的文件，并且删除字符串/符号
                                         data_pack=base64.b64encode(DataPackInfo))#写入信息到数据库
         except Exception as e:
-            ErrorLog().Write("Web_CrossSiteScriptHub_CrossSiteScript_Monitor(def)-POST", e)
+            ErrorLog().Write(e)
     elif request.method == "GET":
         try:
             ParameterInfo=str(request.GET.dict()).encode('utf-8')#获取参数信息
@@ -55,7 +55,7 @@ def Monitor(request,data):#用于接收信息的监控
                                         data_pack=base64.b64encode(ParameterInfo))  # 写入信息到数据库
 
         except Exception as e:
-            ErrorLog().Write("Web_CrossSiteScriptHub_CrossSiteScript_Monitor(def)-GET", e)
+            ErrorLog().Write(e)
 
     return HttpResponse("")
 
@@ -91,7 +91,7 @@ def GenerateProject(request):#用来生成项目，并且生成文件和用户�
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_CrossSiteScriptHub_CrossSiteScript_GenerateProject(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '呐呐呐！莎酱被玩坏啦(>^ω^<)', 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
@@ -118,7 +118,7 @@ def QueryProject(request):#用来查看用户的XSS项目
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_CrossSiteScriptHub_CrossSiteScript_QueryProject(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '呐呐呐！莎酱被玩坏啦(>^ω^<)', 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
@@ -141,7 +141,7 @@ def StatisticalCrossSiteScriptProject(request):#统计项目个数
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_CrossSiteScriptHub_CrossSiteScript_StatisticalCrossSiteScriptProject(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': "呐呐呐！莎酱被玩坏啦(>^ω^<)", 'code': 169, })
 
     else:
@@ -173,7 +173,7 @@ def QueryProjectData(request):  # 用来查看用户的XSS项目中接收的数�
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_CrossSiteScriptHub_CrossSiteScript_QueryProjectData(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '呐呐呐！莎酱被玩坏啦(>^ω^<)', 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
@@ -202,7 +202,7 @@ def StatisticalCrossSiteScriptProjectData(request):#统计项目个数
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_CrossSiteScriptHub_CrossSiteScript_StatisticalCrossSiteScriptProjectData(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': "呐呐呐！莎酱被玩坏啦(>^ω^<)", 'code': 169, })
 
     else:
@@ -237,7 +237,7 @@ def ModifyProject(request):  # 用来修改XSS项目中的数据
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_CrossSiteScriptHub_CrossSiteScript_ModifyProject(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '呐呐呐！莎酱被玩坏啦(>^ω^<)', 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
@@ -272,7 +272,7 @@ def QueryProjectInfo(request):  # 查询项目中详细信息
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_CrossSiteScriptHub_CrossSiteScript_QueryProjectInfo(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '呐呐呐！莎酱被玩坏啦(>^ω^<)', 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
@@ -301,7 +301,7 @@ def DeleteProject(request):#用来删除用户的XSS项目
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_CrossSiteScriptHub_CrossSiteScript_DeleteProject(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '呐呐呐！莎酱被玩坏啦(>^ω^<)', 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })

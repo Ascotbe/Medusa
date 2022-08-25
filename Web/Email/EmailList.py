@@ -69,7 +69,7 @@ def Upload(request):#上传表格，提取相关数据，测试3W条数据1秒�
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_Email_EmailList_Upload(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': "出错了请看报错日志(๑•̀ㅂ•́)و✧", 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
@@ -85,7 +85,7 @@ def Download(request):#下载模版
             Result['Content-Disposition'] = 'form-data;filename="EmailListTemplate.xlsx"'
             return Result
         except Exception as e:
-            ErrorLog().Write("Web_Email_EmailList_Download(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '呐呐呐！莎酱被玩坏啦(>^ω^<)', 'code': 169, })
     else:
         return JsonResponse({'message': '请使用GET请求', 'code': 500, })
@@ -112,7 +112,7 @@ def StatisticsProject(request):#统计邮件列表个数数据
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_Email_EmailList_StatisticsProject(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': "出错了请看报错日志(๑•̀ㅂ•́)و✧", 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
@@ -138,7 +138,7 @@ def QueryProject(request):  # 查询邮件管理项目
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_Email_EmailList_QueryProject(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': "出错了请看报错日志(๑•̀ㅂ•́)و✧", 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
@@ -170,7 +170,7 @@ def Query(request):  # 查询邮件全量的数据
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_Email_EmailList_Query(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': "出错了请看报错日志(๑•̀ㅂ•́)و✧", 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
@@ -200,7 +200,7 @@ def Statistics(request):#统计邮件列表个数数据
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_Email_EmailList_Statistics(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': "出错了请看报错日志(๑•̀ㅂ•́)و✧", 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })

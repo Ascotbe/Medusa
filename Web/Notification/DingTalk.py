@@ -28,7 +28,7 @@ def Send(**kwargs):
     try:
         requests.post(Url,json=Json,headers=Headers, timeout=10)
     except Exception as e:
-        ErrorLog().Write("Web_Notification_DingTalk_Send(def)", e)
+        ErrorLog().Write(e)
 
 
 

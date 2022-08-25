@@ -30,7 +30,7 @@ def PockQuery(request):
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_FileAcquisition_Query_PockQuery(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '你不对劲！为什么报错了？',  'code': 169,})
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
@@ -53,7 +53,7 @@ def PackAttachment(request):#统计打包文件个数
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_FileAcquisition_Query_PackAttachment(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '自己去看报错日志！', 'code': 169, })
 
     else:
@@ -83,7 +83,7 @@ def Query(request):  #文件接收查询
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_FileAcquisition_Query_Query(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '你不对劲！为什么报错了？',  'code': 169,})
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
@@ -107,7 +107,7 @@ def Attachment(request):#接收文件个数
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_FileAcquisition_Query_Attachment(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '自己去看报错日志！', 'code': 169, })
 
     else:

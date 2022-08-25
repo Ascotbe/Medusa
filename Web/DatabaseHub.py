@@ -34,7 +34,7 @@ class AgentHeader:  # 使用随机头类
             else:
                 return (ua.random)  # 如果用户瞎几把乱输使用随机头
         except Exception as e:
-            ErrorLog().Write("ClassCongregation_AgentHeader(class)_result(def)", e)
+            ErrorLog().Write(e)
             return "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.2117.157 Safari/537.36"  # 报错使用随机头
 
 
@@ -63,7 +63,7 @@ class UserInfo:#用户表
                             token_update_time TEXT NOT NULL,\
                             creation_time TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_UserInfo(class)_init(def)",e)
+            ErrorLog().Write(e)
     def VerifyUsername(self,name:str)->bool or None:#查询用户名是否存在，True表示有数据，False只表示用户不存在，None表示报错
         try:
             self.cur.execute("select * from UserInfo where name =? ", (name,))
@@ -73,7 +73,7 @@ class UserInfo:#用户表
             else:
                 return False
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_UserInfo(class)_VerifyUsername(def)", e)
+            ErrorLog().Write(e)
             return None
     def VerifyEmail(self,email:str)->bool or None:#查询邮箱是否存在，True表示有数据，False表示邮箱不存在，None表示报错
         try:
@@ -84,7 +84,7 @@ class UserInfo:#用户表
             else:
                 return False
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_UserInfo(class)_VerifyEmail(def)", e)
+            ErrorLog().Write(e)
             return None
     def UserLogin(self,username,passwd)->str or None:#用户登录，如果登录成功返回Token，如果失败返回None
         try:
@@ -93,7 +93,7 @@ class UserInfo:#用户表
                 return tuple[4] # 返回Token
             return None
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_UserInfo(class)_UserLogin(def)", e)
+            ErrorLog().Write(e)
             return None
     def WhetherTheKeyConflicts(self,key:str)->bool:#查询用户kEY是否存在，True表示有数据，False表示各种问题
         try:
@@ -104,7 +104,7 @@ class UserInfo:#用户表
             else:
                 return False
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_UserInfo(class)_WhetherTheKeyConflicts(def)", e)
+            ErrorLog().Write(e)
             return False
     def Write(self,**kwargs:str)->bool or None:#写入新用户，True表示成功，False表示用户已存在，None表示报错
         creation_time = str(int(time.time())) # 创建时间
@@ -128,7 +128,7 @@ class UserInfo:#用户表
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_UserInfo(class)_Write(def)", e)
+            ErrorLog().Write(e)
             return None
     def UpdatePasswd(self,**kwargs:str)->bool:#更新用户密码，True表示成功，False表示失败
         name = kwargs.get("name")
@@ -151,12 +151,12 @@ class UserInfo:#用户表
                             self.con.close()
                             return True
                     except Exception as e:
-                        ErrorLog().Write("Web_DatabaseHub_UserInfo(class)_UpdatePasswd(def)ChangePassword", e)
+                        ErrorLog().Write(e)
                         return False
                 else:
                     return False
             except Exception as e:
-                ErrorLog().Write("Web_DatabaseHub_UserInfo(class)_UpdatePasswd(def)QueryPassword", e)
+                ErrorLog().Write(e)
                 return False
         else:return False
     def UpdateShowName(self,**kwargs:str)->bool:#更新用户显示名字，True表示成功，False表示失败
@@ -176,7 +176,7 @@ class UserInfo:#用户表
                     self.con.close()
                     return True
             except Exception as e:
-                ErrorLog().Write("Web_DatabaseHub_UserInfo(class)_UpdateShowName(def)", e)
+                ErrorLog().Write(e)
                 return False
         else:return False
     def UpdateEmail(self,**kwargs:str)->bool:#更新用户邮箱，True表示成功，False表示失败
@@ -196,7 +196,7 @@ class UserInfo:#用户表
                     self.con.close()
                     return True
             except Exception as e:
-                ErrorLog().Write("Web_DatabaseHub_UserInfo(class)_UpdateEmail(def)", e)
+                ErrorLog().Write(e)
                 return False
         else:return False
     def UpdateAvatar(self,**kwargs:str)->bool:#更新用户头像路径，True表示成功，False表示各失败
@@ -216,7 +216,7 @@ class UserInfo:#用户表
                     self.con.close()
                     return True
             except Exception as e:
-                ErrorLog().Write("Web_DatabaseHub_UserInfo(class)_UpdateImgPath(def)", e)
+                ErrorLog().Write(e)
                 return False
         else:return False
     def UpdateKey(self,**kwargs:str)->bool:#更新用户Key，True表示成功，False表示失败
@@ -236,7 +236,7 @@ class UserInfo:#用户表
                     self.con.close()
                     return True
             except Exception as e:
-                ErrorLog().Write("Web_DatabaseHub_UserInfo(class)_UpdateKey(def)", e)
+                ErrorLog().Write(e)
                 return False
         else:return False
     def UpdateToken(self,**kwargs:str)->bool:#更新用户Token，True表示成功，False表示失败
@@ -256,7 +256,7 @@ class UserInfo:#用户表
                     self.con.close()
                     return True
             except Exception as e:
-                ErrorLog().Write("Web_DatabaseHub_UserInfo(class)_UpdateToken(def)", e)
+                ErrorLog().Write(e)
                 return False
         else:return False
     def QueryTokenCreationTime(self,**kwargs:str)->bool or None:#查询用户Token创建时间，True表示Token不能用，False表示Token还能用
@@ -273,7 +273,7 @@ class UserInfo:#用户表
 
                 return True#如果为找到数据，返回True，表示需要重新写入或者登录
             except Exception as e:
-                ErrorLog().Write("Web_DatabaseHub_UserInfo(class)_QueryTokenCreationTime(def)", e)
+                ErrorLog().Write(e)
                 return None
         else:return True#报错返回True
     def QueryTokenValidity(self,token:str)->bool or None:#用来查询Token是否重复了
@@ -285,7 +285,7 @@ class UserInfo:#用户表
             else:
                 return False
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_UserInfo(class)_QueryTokenValidity(def)", e)
+            ErrorLog().Write(e)
             return None
     def QueryUidWithToken(self,token:str):#利用Token反向查唯一的UID
         try:
@@ -294,7 +294,7 @@ class UserInfo:#用户表
                 return tuple[1]
             return None
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_UserInfo(class)_QueryUidWithToken(def)", e)
+            ErrorLog().Write(e)
             return None
     def QueryUserInfo(self,token:str):#利用Token,查询完整的用户信息，除了更新时间都有
         try:
@@ -313,7 +313,7 @@ class UserInfo:#用户表
                 return json_values#由于用户信息不可能有多个的所有这边直接返回
             return None#如果没查到数据就返回空
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_UserInfo(class)_QueryUserInfo(def)", e)
+            ErrorLog().Write(e)
             return None
     def ForgetPassword(self,**kwargs):#忘记密码函数
         name = kwargs.get("name")
@@ -333,7 +333,7 @@ class UserInfo:#用户表
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_UserInfo(class)_ForgetPassword(def)", e)
+            ErrorLog().Write(e)
             return False
     def QueryUidWithKey(self,key:str):#利用Key反向查唯一的UID
         try:
@@ -342,7 +342,7 @@ class UserInfo:#用户表
                 return tuple[1]
             return None
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_UserInfo(class)_QueryUidWithToken(def)", e)
+            ErrorLog().Write(e)
             return None
 
 
@@ -364,7 +364,7 @@ class ActiveScanList:#用户主动扫描网站信息列表,写入父表中的SID
                             module TEXT NOT NULL,\
                             redis_id TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_ActiveScanList(class)_init(def)", e)
+            ErrorLog().Write(e)
     def Write(self,**kwargs):#写入相关信息,如果写入成功返回Sid值，如果失败返回None
         creation_time = str(int(time.time())) # 创建时间
         uid=kwargs.get("uid")
@@ -383,7 +383,7 @@ class ActiveScanList:#用户主动扫描网站信息列表,写入父表中的SID
             self.con.close()
             return get_active_scan_id#获取主键的ID值，也就是sid的值
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_ActiveScanList(class)_Write(def)", e)
+            ErrorLog().Write(e)
             return None
     def Query(self,**kwargs):#通过UID来查询信息
         uid = kwargs.get("uid")
@@ -403,7 +403,7 @@ class ActiveScanList:#用户主动扫描网站信息列表,写入父表中的SID
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_ActiveScanList(class)_Query(def)", e)
+            ErrorLog().Write(e)
             return None
 
     def UpdateRedisId(self,**kwargs):#更新redis id的值后面用来更新扫描状态
@@ -422,7 +422,7 @@ class ActiveScanList:#用户主动扫描网站信息列表,写入父表中的SID
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_ActiveScanList(class)_UpdateRedisId(def)", e)
+            ErrorLog().Write(e)
             return False
 
     def UpdateStatus(self,**kwargs)->bool:#利用主键ID来判断后更新数据
@@ -439,7 +439,7 @@ class ActiveScanList:#用户主动扫描网站信息列表,写入父表中的SID
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_ActiveScanList(class)_UpdateStatus(def)", e)
+            ErrorLog().Write(e)
             return False
 
 
@@ -486,7 +486,7 @@ class ActiveScanList:#用户主动扫描网站信息列表,写入父表中的SID
 #             self.con.close()
 #             return result_list
 #         except Exception as e:
-#             ErrorLog().Write("Web_DatabaseHub_MedusaQuery(class)_Query(def)", e)
+#             ErrorLog().Write(e)
 #             return None
 #     def QueryBySid(self, **kwargs):#生成word文档数据查询
 #         try:
@@ -508,7 +508,7 @@ class ActiveScanList:#用户主动扫描网站信息列表,写入父表中的SID
 #             self.con.close()
 #             return result_list,url
 #         except Exception as e:
-#             ErrorLog().Write("Web_DatabaseHub_MedusaQuery(class)_QueryBySid(def)", e)
+#             ErrorLog().Write(e)
 #             return None
 
 class RequestLog:#操作日志
@@ -528,7 +528,7 @@ class RequestLog:#操作日志
                             request_url TEXT NOT NULL,\
                             post_date TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_RequestRecord(class)_init(def)", e)
+            ErrorLog().Write(e)
     def Write(self,**kwargs)->bool or None:#写入相关信息,如果写入成功返回Sid值，如果失败返回None
         creation_time = str(int(time.time())) # 创建时间
         request_api=kwargs.get("request_api")
@@ -545,7 +545,7 @@ class RequestLog:#操作日志
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_RequestRecord(class)_Write(def)", e)
+            ErrorLog().Write(e)
             return None
 
 class UserOperationLog:#用户操作日志
@@ -566,7 +566,7 @@ class UserOperationLog:#用户操作日志
                             request_url TEXT NOT NULL,\
                             post_date TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_UserOperationRecord(class)_init(def)", e)
+            ErrorLog().Write(e)
     def Write(self,**kwargs)->bool or None:#写入相关信息,如果写入成功返回Sid值，如果失败返回None
         creation_time = str(int(time.time())) # 创建时间
         uid=kwargs.get("uid")
@@ -584,7 +584,7 @@ class UserOperationLog:#用户操作日志
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_UserOperationRecord(class)_Write(def)", e)
+            ErrorLog().Write(e)
             return None
 #
 # class ReportGenerationList:#报告生成相关表
@@ -601,7 +601,7 @@ class UserOperationLog:#用户操作日志
 #                             creation_time TEXT NOT NULL,\
 #                             active_scan_id TEXT NOT NULL)")
 #         except Exception as e:
-#             ErrorLog().Write("Web_DatabaseHub_ReportGenerationList(class)_init(def)", e)
+#             ErrorLog().Write(e)
 #
 #     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
 #         CreationTime = str(int(time.time()))  # 创建时间
@@ -616,7 +616,7 @@ class UserOperationLog:#用户操作日志
 #             self.con.close()
 #             return True
 #         except Exception as e:
-#             ErrorLog().Write("Web_DatabaseHub_ReportGenerationList(class)_Write(def)", e)
+#             ErrorLog().Write(e)
 #             return None
 #     def Query(self,**kwargs)->bool or None:#查询该文件是否是该用户所有
 #         Uid = kwargs.get("uid")
@@ -629,7 +629,7 @@ class UserOperationLog:#用户操作日志
 #             else:
 #                 return False
 #         except Exception as e:
-#             ErrorLog().Write("Web_DatabaseHub_ReportGenerationList(class)_Query(def)", e)
+#             ErrorLog().Write(e)
 #             return None
 
 #
@@ -650,7 +650,7 @@ class UserOperationLog:#用户操作日志
 #                                 proxy_username TEXT NOT NULL,\
 #                                 proxy_project_name TEXT NOT NULL)")
 #         except Exception as e:
-#             ErrorLog().Write("Web_DatabaseHub_ProxyScanList(class)_init(def)", e)
+#             ErrorLog().Write(e)
 #
 #     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
 #         CreationTime = str(int(time.time()))  # 创建时间
@@ -671,7 +671,7 @@ class UserOperationLog:#用户操作日志
 #             self.con.close()
 #             return True
 #         except Exception as e:
-#             ErrorLog().Write("Web_DatabaseHub_ProxyScanList(class)_Write(def)", e)
+#             ErrorLog().Write(e)
 #             return None
 #
 #     def QueryProxyProjectName(self,**kwargs)->bool or None:#查询扫描项目是否冲突,一个项目不能存在相同的项目名和用户名
@@ -686,7 +686,7 @@ class UserOperationLog:#用户操作日志
 #             else:
 #                 return False
 #         except Exception as e:
-#             ErrorLog().Write("Web_DatabaseHub_ProxyScanList(class)_QueryScanProjectName(def)", e)
+#             ErrorLog().Write(e)
 #             return None
 #     def ProxyAuthentication(self,**kwargs)->bool or None:#查询用来认证用户的账号和密码是否复核UID
 #         ProxyUsername = kwargs.get("proxy_username")
@@ -699,7 +699,7 @@ class UserOperationLog:#用户操作日志
 #                 JsonValues["uid"] = i[1]
 #                 return JsonValues
 #         except Exception as e:
-#             ErrorLog().Write("Web_DatabaseHub_ProxyScanList(class)_ProxyAuthentication(def)", e)
+#             ErrorLog().Write(e)
 #             return None
 #
 #     # def Query(self,**kwargs)->bool or None:#查询该文件是否是该用户所有
@@ -713,7 +713,7 @@ class UserOperationLog:#用户操作日志
 #     #         else:
 #     #             return False
 #     #     except Exception as e:
-#     #         ErrorLog().Write("Web_DatabaseHub_ProxyScanList(class)_Query(def)", e)
+#     #         ErrorLog().Write(e)
 #     #         return None
 #
 
@@ -740,7 +740,7 @@ class UserOperationLog:#用户操作日志
 #                                 issue_task_status TEXT NOT NULL,\
 #                                 redis_id TEXT NOT NULL)")
 #         except Exception as e:
-#             ErrorLog().Write("Web_DatabaseHub_OriginalProxyData(class)_init(def)", e)
+#             ErrorLog().Write(e)
 #
 #     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
 #         CreationTime = str(int(time.time()))  # 创建时间
@@ -765,7 +765,7 @@ class UserOperationLog:#用户操作日志
 #             self.con.close()
 #             return True
 #         except Exception as e:
-#             ErrorLog().Write("Web_DatabaseHub_OriginalProxyData(class)_Write(def)", e)
+#             ErrorLog().Write(e)
 #             return None
 #     def UpdateScanStatus(self, **kwargs) -> bool or None:#更新扫描状态
 #         Uid = kwargs.get("uid")
@@ -783,7 +783,7 @@ class UserOperationLog:#用户操作日志
 #                 self.con.close()
 #                 return True
 #         except Exception as e:
-#             ErrorLog().Write("Web_DatabaseHub_ReportGenerationList(class)_QueryTokenValidity(def)", e)
+#             ErrorLog().Write(e)
 #             return False
 #查询暂时无
     # def Query(self, **kwargs) -> bool or None:
@@ -797,7 +797,7 @@ class UserOperationLog:#用户操作日志
     #         else:
     #             return False
     #     except Exception as e:
-    #         ErrorLog().Write("Web_DatabaseHub_ReportGenerationList(class)_QueryTokenValidity(def)", e)
+    #         ErrorLog().Write(e)
     #         return None
 class HomeInfo:#查询首页信息表
     def __init__(self):
@@ -821,7 +821,7 @@ class HomeInfo:#查询首页信息表
             self.cur.execute("select scan_info_id from Medusa where uid =? and rank='低危'", (uid,))
             self.info["low_risk_number"] = str(len(self.cur.fetchall()))
         except Exception as e:#设置默认值
-            ErrorLog().Write("Web_DatabaseHub_HomeInfo(class)_NumberOfVulnerabilities(def)", e)
+            ErrorLog().Write(e)
             self.info["number_of_vulnerabilities"]="0"
             self.info["high_risk_number"] ="0"
             self.info["mid_risk_number"] ="0"
@@ -837,7 +837,7 @@ class HomeInfo:#查询首页信息表
             self.info["number_of_websites"]=str(len(self.cur.fetchall()))
 
         except Exception as e:#设置默认值
-            ErrorLog().Write("Web_DatabaseHub_HomeInfo(class)_NumberOfWebsites(def)", e)
+            ErrorLog().Write(e)
             self.info["number_of_websites"]="0"
     def NumberOfPorts(self, uid):#查询全部端口发现数量，通过PortInfo表查询
         try:
@@ -845,14 +845,14 @@ class HomeInfo:#查询首页信息表
             self.cur.execute("select * from PortInfo where uid=?", (uid,))
             self.info["number_of_port"]=str(len(self.cur.fetchall()))
         except Exception as e:#设置默认值
-            ErrorLog().Write("Web_DatabaseHub_HomeInfo(class)_NumberOfPorts(def)", e)
+            ErrorLog().Write(e)
             self.info["number_of_port"] ="0"
 
     def NumberOfAgentTasks(self,uid):  # 查询代理扫描数量，暂无模块,所有返回值直接为0
         try:
             self.info["number_of_agent_tasks"] = "0"
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_HomeInfo(class)_GithubMonitorDate(def)", e)
+            ErrorLog().Write(e)
             self.info["number_of_agent_tasks"] = "0"
     def GithubMonitor(self, **kwargs):#查询GitHub监控数据
         start_time = kwargs.get("start_time")
@@ -870,7 +870,7 @@ class HomeInfo:#查询首页信息表
             sort_result = sorted(count_dict.items(), key=lambda item: item[0])
             return sort_result#直接返回数据
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_HomeInfo(class)_GithubMonitor(def)", e)
+            ErrorLog().Write(e)
             return None
 
     def VulnerabilityDistribution(self, **kwargs):#查询时间段中，漏洞分布，通过查询medusa表来获取所有个数
@@ -891,7 +891,7 @@ class HomeInfo:#查询首页信息表
             sort_result = sorted(count_dict.items(), key=lambda item: item[0])
             return sort_result#直接返回数据
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_HomeInfo(class)_TimeDistribution(def)", e)
+            ErrorLog().Write(e)
             return None
 
     def DefaultData(self,**kwargs):#返回默认数据，该数据恒定不变
@@ -921,7 +921,7 @@ class HomeInfo:#查询首页信息表
 #                                 proxy_id TEXT NOT NULL,\
 #                                 redis_id TEXT NOT NULL)")
 #         except Exception as e:
-#             ErrorLog().Write("Web_DatabaseHub_ProxyTempUrl(class)_init(def)", e)
+#             ErrorLog().Write(e)
 #
 #     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
 #         CreationTime = str(int(time.time()))  # 创建时间
@@ -937,7 +937,7 @@ class HomeInfo:#查询首页信息表
 #             self.con.close()
 #             return True
 #         except Exception as e:
-#             ErrorLog().Write("Web_DatabaseHub_ProxyTempUrl(class)_Write(def)", e)
+#             ErrorLog().Write(e)
 #             return False
 #
 #     def Query(self, **kwargs):  # 查询查看url的创建时间
@@ -949,7 +949,7 @@ class HomeInfo:#查询首页信息表
 #             #self.cur.execute("select * from ProxyTempUrl where uid =? ", (Uid,))
 #             return self.cur.fetchall()[-1][0]#返回最新的一条数据
 #         except Exception as e:
-#             ErrorLog().Write("Web_DatabaseHub_ProxyTempUrl(class)_Query(def)", e)
+#             ErrorLog().Write(e)
 #             return None
 
 class CrossSiteScriptInfo:#XSS钓鱼接收数据库
@@ -969,7 +969,7 @@ class CrossSiteScriptInfo:#XSS钓鱼接收数据库
                                 request_method TEXT NOT NULL,\
                                 data_pack TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_CrossSiteScriptInfo(class)_init(def)", e)
+            ErrorLog().Write(e)
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
         creation_time = str(int(time.time()))  # 创建时间
@@ -987,7 +987,7 @@ class CrossSiteScriptInfo:#XSS钓鱼接收数据库
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_CrossSiteScriptInfo(class)_Write(def)", e)
+            ErrorLog().Write(e)
             return False
 
     def Query(self, **kwargs):  # 查询查看XSS项目数据
@@ -1011,7 +1011,7 @@ class CrossSiteScriptInfo:#XSS钓鱼接收数据库
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_CrossSiteScript(class)_Query(def)", e)
+            ErrorLog().Write(e)
             return None
     def QueryStatistics(self, **kwargs):  #用来统计接收数据个数
         project_associated_file_name = kwargs.get("project_associated_file_name")
@@ -1021,7 +1021,7 @@ class CrossSiteScriptInfo:#XSS钓鱼接收数据库
             self.con.close()
             return result
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_CrossSiteScript(class)_QueryStatistics(def)", e)
+            ErrorLog().Write(e)
             return None
 
 class CrossSiteScriptProject:#XSS钓鱼项目信息数据库
@@ -1038,7 +1038,7 @@ class CrossSiteScriptProject:#XSS钓鱼项目信息数据库
                                 file_name TEXT NOT NULL,\
                                 creation_time TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_CrossSiteScriptProject(class)_init(def)", e)
+            ErrorLog().Write(e)
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
         creation_time = str(int(time.time()))  # 创建时间
@@ -1053,7 +1053,7 @@ class CrossSiteScriptProject:#XSS钓鱼项目信息数据库
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_CrossSiteScriptProject(class)_Write(def)", e)
+            ErrorLog().Write(e)
             return False
     def Query(self, **kwargs):  # 查询查看XSS项目信息
         try:
@@ -1072,7 +1072,7 @@ class CrossSiteScriptProject:#XSS钓鱼项目信息数据库
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_CrossSiteScriptProject(class)_Query(def)", e)
+            ErrorLog().Write(e)
             return None
     def QueryStatistics(self, **kwargs):  #用来项目个数
         uid = kwargs.get("uid")
@@ -1082,7 +1082,7 @@ class CrossSiteScriptProject:#XSS钓鱼项目信息数据库
             self.con.close()
             return result
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_CrossSiteScriptProject(class)_QueryStatistics(def)", e)
+            ErrorLog().Write(e)
             return None
     def RepeatInvestigation(self,**kwargs):#用来排查file_name是否重复
 
@@ -1095,7 +1095,7 @@ class CrossSiteScriptProject:#XSS钓鱼项目信息数据库
             else:
                 return False
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_CrossSiteScriptProject(class)_RepeatInvestigation(def)", e)
+            ErrorLog().Write(e)
             return False
 
     def AuthorityCheck(self,**kwargs):#用来校检CrossSiteScript数据库中文件名和UID相对应
@@ -1110,7 +1110,7 @@ class CrossSiteScriptProject:#XSS钓鱼项目信息数据库
             else:
                 return False
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_CrossSiteScriptProject(class)_AuthorityCheck(def)", e)
+            ErrorLog().Write(e)
             return False
     def Delete(self,**kwargs):#删除项目
         try:
@@ -1126,7 +1126,7 @@ class CrossSiteScriptProject:#XSS钓鱼项目信息数据库
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_CrossSiteScriptProject(class)_Delete(def)", e)
+            ErrorLog().Write(e)
             return None
 class CrossSiteScriptTemplate:  # XSS钓鱼模板存放
     def __init__(self):
@@ -1143,7 +1143,7 @@ class CrossSiteScriptTemplate:  # XSS钓鱼模板存放
                                 creation_time TEXT NOT NULL,\
                                 update_time TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_CrossSiteScriptProject(class)_init(def)", e)
+            ErrorLog().Write(e)
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
         creation_time = str(int(time.time()))  # 创建时间
@@ -1159,7 +1159,7 @@ class CrossSiteScriptTemplate:  # XSS钓鱼模板存放
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_CrossSiteScriptTemplate(class)_Write(def)", e)
+            ErrorLog().Write(e)
             return False
 
     def Query(self, **kwargs):  # 查询查看XSS项目信息
@@ -1177,7 +1177,7 @@ class CrossSiteScriptTemplate:  # XSS钓鱼模板存放
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_CrossSiteScriptTemplate(class)_Query(def)", e)
+            ErrorLog().Write(e)
             return None
     def RepeatInvestigation(self,**kwargs):#用来排查template_name是否重复
 
@@ -1191,7 +1191,7 @@ class CrossSiteScriptTemplate:  # XSS钓鱼模板存放
             else:
                 return False
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_CrossSiteScriptTemplate(class)_RepeatInvestigation(def)", e)
+            ErrorLog().Write(e)
             return False
     def Update(self,**kwargs):
         update_time=str(int(time.time()))
@@ -1213,7 +1213,7 @@ class CrossSiteScriptTemplate:  # XSS钓鱼模板存放
                 return True
 
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_CrossSiteScriptTemplate(class)_Update(def)", e)
+            ErrorLog().Write(e)
     def Delete(self,**kwargs):#删除项目
         try:
             template_name = kwargs.get("template_name")
@@ -1228,7 +1228,7 @@ class CrossSiteScriptTemplate:  # XSS钓鱼模板存放
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_CrossSiteScriptTemplate(class)_Delete(def)", e)
+            ErrorLog().Write(e)
             return None
 
 class HardwareUsageRateInfo:  # 获取硬件中CPU和内存的使用情况
@@ -1247,7 +1247,7 @@ class HardwareUsageRateInfo:  # 获取硬件中CPU和内存的使用情况
                                 central_processing_unit_usage_rate TEXT NOT NULL,\
                                 per_core_central_processing_unit_usage_rate TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_HardwareUsageRateInfo(class)_init(def)", e)
+            ErrorLog().Write(e)
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
         creation_time = str(int(time.time()))  # 创建时间
@@ -1264,7 +1264,7 @@ class HardwareUsageRateInfo:  # 获取硬件中CPU和内存的使用情况
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_HardwareUsageRateInfo(class)_Write(def)", e)
+            ErrorLog().Write(e)
             return False
 
     def Query(self):  # 查询查看CPU和内存使用信息
@@ -1285,7 +1285,7 @@ class HardwareUsageRateInfo:  # 获取硬件中CPU和内存的使用情况
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_HardwareUsageRateInfo(class)_Query(def)", e)
+            ErrorLog().Write(e)
             return None
 
 class PortableExecutableAnalyticalData:  # PE文件分析后数据存储
@@ -1316,7 +1316,7 @@ class PortableExecutableAnalyticalData:  # PE文件分析后数据存储
                                 image_resource_directory TEXT NOT NULL,\
                                 image_tls_directory TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_PortableExecutableAnalyticalData(class)_init(def)", e)
+            ErrorLog().Write(e)
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
         creation_time = str(int(time.time()))  # 创建时间
@@ -1346,7 +1346,7 @@ class PortableExecutableAnalyticalData:  # PE文件分析后数据存储
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_PortableExecutableAnalyticalData(class)_Write(def)", e)
+            ErrorLog().Write(e)
             return False
 
     # def Query(self):
@@ -1366,7 +1366,7 @@ class PortableExecutableAnalyticalData:  # PE文件分析后数据存储
     #         self.con.close()
     #         return result_list
     #     except Exception as e:
-    #         ErrorLog().Write("Web_DatabaseHub_PortableExecutableAnalyticalData(class)_Query(def)", e)
+    #         ErrorLog().Write(e)
     #         return None
 
 
@@ -1384,7 +1384,7 @@ class VerificationCode:#验证码相关数据库，用来验证验证码合法�
                                 creation_time TEXT NOT NULL,\
                                 verification_code_status TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_VerificationCode(class)_init(def)", e)
+            ErrorLog().Write(e)
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
         creation_time = str(int(time.time()))  # 创建时间
@@ -1399,7 +1399,7 @@ class VerificationCode:#验证码相关数据库，用来验证验证码合法�
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_VerificationCode(class)_Write(def)", e)
+            ErrorLog().Write(e)
             return False
 
     def Query(self, **kwargs):  #查询验证码是否正确
@@ -1423,7 +1423,7 @@ class VerificationCode:#验证码相关数据库，用来验证验证码合法�
                     return True
 
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_VerificationCode(class)_Query(def)", e)
+            ErrorLog().Write(e)
             return None
 
 class MarkdownInfo:#存放markdown文档的所有数据
@@ -1440,7 +1440,7 @@ class MarkdownInfo:#存放markdown文档的所有数据
                                 creation_time TEXT NOT NULL,\
                                 update_time TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_MarkdownInfo(class)_init(def)", e)
+            ErrorLog().Write(e)
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
         creation_time = str(int(time.time()))  # 创建时间
@@ -1455,7 +1455,7 @@ class MarkdownInfo:#存放markdown文档的所有数据
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_MarkdownInfo(class)_Write(def)", e)
+            ErrorLog().Write(e)
             return False
     def CheckConflict(self,**kwargs):#检查name是否会冲突
         try:
@@ -1467,7 +1467,7 @@ class MarkdownInfo:#存放markdown文档的所有数据
             else:
                 return False
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_MarkdownInfo(class)_CheckConflict(def)", e)
+            ErrorLog().Write(e)
             return None
     def Update(self, **kwargs) -> bool or None:  # 如果存在就进行更新
         update_time = str(int(time.time()))  # 当前时间
@@ -1487,7 +1487,7 @@ class MarkdownInfo:#存放markdown文档的所有数据
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_MarkdownInfo(class)_Write(def)", e)
+            ErrorLog().Write(e)
             return None
     def Query(self,**kwargs):  # 文本具体数据
         try:
@@ -1504,7 +1504,7 @@ class MarkdownInfo:#存放markdown文档的所有数据
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_MarkdownInfo(class)_Query(def)", e)
+            ErrorLog().Write(e)
             return None
     def QueryMarkdownData(self,**kwargs):  # 只查询docker 数据
         try:
@@ -1514,7 +1514,7 @@ class MarkdownInfo:#存放markdown文档的所有数据
                 self.con.close()
                 return i[2]#直接返回数据
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_MarkdownInfo(class)_Query(def)", e)
+            ErrorLog().Write(e)
             return None
     def Delete(self,**kwargs):#删除项目
         try:
@@ -1529,7 +1529,7 @@ class MarkdownInfo:#存放markdown文档的所有数据
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_MarkdownInfo(class)_Delete(def)", e)
+            ErrorLog().Write(e)
             return None
 
 class MarkdownRelationship:#markdown文档和用户相关的数据表
@@ -1548,7 +1548,7 @@ class MarkdownRelationship:#markdown文档和用户相关的数据表
                                 markdown_name TEXT NOT NULL,\
                                 creation_time TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_MarkdownRelationship(class)_init(def)", e)
+            ErrorLog().Write(e)
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
         creation_time = str(int(time.time()))  # 创建时间
@@ -1565,7 +1565,7 @@ class MarkdownRelationship:#markdown文档和用户相关的数据表
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_MarkdownRelationship(class)_Write(def)", e)
+            ErrorLog().Write(e)
             return False
     def CheckInvitationCode(self,**kwargs):#检查邀请码是否会冲突
         try:
@@ -1577,7 +1577,7 @@ class MarkdownRelationship:#markdown文档和用户相关的数据表
             else:
                 return False
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_MarkdownRelationship(class)_CheckInvitationCode(def)", e)
+            ErrorLog().Write(e)
             return None
     def InvitationCodeToQueryProjectInformation(self,**kwargs):#通过验证码查询项目信息，用来加入项目使用
         try:
@@ -1596,7 +1596,7 @@ class MarkdownRelationship:#markdown文档和用户相关的数据表
             else:
                 return result_list
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_MarkdownRelationship(class)_InvitationCodeToQueryProjectInformation(def)", e)
+            ErrorLog().Write(e)
             return None
     def DetectionOfRepeatedAddition(self,**kwargs):#检测是否重复加入
         try:
@@ -1609,7 +1609,7 @@ class MarkdownRelationship:#markdown文档和用户相关的数据表
             else:
                 return False
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_MarkdownRelationship(class)_InvitationCodeToQueryProjectInformation(def)", e)
+            ErrorLog().Write(e)
             return None
     def CheckConflict(self,**kwargs):#检查name是否会冲突
         try:
@@ -1621,7 +1621,7 @@ class MarkdownRelationship:#markdown文档和用户相关的数据表
             else:
                 return False
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_MarkdownRelationship(class)_CheckConflict(def)", e)
+            ErrorLog().Write(e)
             return None
     def CheckPermissions(self,**kwargs):#检测用户是否有该项目的权限
 
@@ -1635,7 +1635,7 @@ class MarkdownRelationship:#markdown文档和用户相关的数据表
             else:
                 return False
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_MarkdownRelationship(class)_CheckPermissions(def)", e)
+            ErrorLog().Write(e)
             return None
 
     def Query(self, **kwargs):  #用来查询用户所属项目的全部信息
@@ -1660,7 +1660,7 @@ class MarkdownRelationship:#markdown文档和用户相关的数据表
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_MarkdownRelationship(class)_Query(def)", e)
+            ErrorLog().Write(e)
             return None
     def QueryStatistics(self, **kwargs):  #用来统计用户所属项目个数
         uid = kwargs.get("uid")
@@ -1670,7 +1670,7 @@ class MarkdownRelationship:#markdown文档和用户相关的数据表
             self.con.close()
             return result
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_MarkdownRelationship(class)_QueryStatistics(def)", e)
+            ErrorLog().Write(e)
             return None
     def ProjectBelongs(self,**kwargs):#检测项目是否属于该用户
         try:
@@ -1684,7 +1684,7 @@ class MarkdownRelationship:#markdown文档和用户相关的数据表
             else:
                 return False
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_MarkdownRelationship(class)_ProjectBelongs(def)", e)
+            ErrorLog().Write(e)
             return None
     def Delete(self,**kwargs):#删除项目
         try:
@@ -1700,7 +1700,7 @@ class MarkdownRelationship:#markdown文档和用户相关的数据表
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_MarkdownRelationship(class)_Delete(def)", e)
+            ErrorLog().Write(e)
             return None
 class ApplicationCollection:#存放收集到的应用所有数据
     def __init__(self):
@@ -1721,7 +1721,7 @@ class ApplicationCollection:#存放收集到的应用所有数据
                                 total_number_of_applications TEXT NOT NULL,\
                                 number_of_failures TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_ApplicationCollection(class)_init(def)", e)
+            ErrorLog().Write(e)
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
         CreationTime = str(int(time.time()))  # 创建时间
         uid = kwargs.get("uid")  # 用户id
@@ -1740,7 +1740,7 @@ class ApplicationCollection:#存放收集到的应用所有数据
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_ApplicationCollection(class)_Write(def)", e)
+            ErrorLog().Write(e)
             return False
     def Update(self, **kwargs) -> bool or None:  # 对数据进行更新
         uid = kwargs.get("uid")  # 用户id
@@ -1764,7 +1764,7 @@ class ApplicationCollection:#存放收集到的应用所有数据
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_ApplicationCollection(class)_Update(def)", e)
+            ErrorLog().Write(e)
             return None
     def Query(self, **kwargs):  #用来查询用户的项目
         try:
@@ -1784,7 +1784,7 @@ class ApplicationCollection:#存放收集到的应用所有数据
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_ApplicationCollection(class)_Query(def)", e)
+            ErrorLog().Write(e)
             return None
 
 class NistData:#存放Nist发布的CVE数据
@@ -1809,82 +1809,82 @@ class NistData:#存放Nist发布的CVE数据
 
 
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_NistData(class)_init(def)", e)
-    def Write(self, DataSet:list) -> bool or None:  # 写入相关信息
+            ErrorLog().Write(e)
+    def Write(self, data_set:list) -> bool or None:  # 写入相关信息
 
         try:
             self.cur.executemany("INSERT INTO CommonVulnerabilitiesAndExposures(vulnerability_number,v3_base_score,v3_base_severity,v2_base_score,v2_base_severity,last_up_date,vulnerability_description,vendors,products,raw_data)\
-                VALUES (?,?,?,?,?,?,?,?,?,?)", DataSet)
+                VALUES (?,?,?,?,?,?,?,?,?,?)", data_set)
             # 提交
             self.con.commit()#只发送数据不结束
             return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_NistData(class)_Write(def)", e)
+            ErrorLog().Write(e)
             return False
 
     def BulkQuery(self, **kwargs):  #分页查询数据内容
         try:
-            NumberOfSinglePages=100#单页数量
-            NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
-            self.cur.execute("select vulnerability_number,v3_base_score,v3_base_severity,v2_base_score,v2_base_severity,last_up_date,vulnerability_description,vendors,products  from CommonVulnerabilitiesAndExposures ORDER BY common_vulnerabilities_and_exposures_id DESC limit ? offset ?", (NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询用户相关信息
+            number_of_single_pages=100#单页数量
+            number_of_pages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
+            self.cur.execute("select vulnerability_number,v3_base_score,v3_base_severity,v2_base_score,v2_base_severity,last_up_date,vulnerability_description,vendors,products  from CommonVulnerabilitiesAndExposures ORDER BY common_vulnerabilities_and_exposures_id DESC limit ? offset ?", (number_of_single_pages,number_of_pages*number_of_single_pages,))#查询用户相关信息
 
             result_list = []
             for i in self.cur.fetchall():
-                JsonValues = {}
-                JsonValues["vulnerability_number"] = i[0]
-                JsonValues["v3_base_score"] = i[1]
-                JsonValues["v3_base_severity"] = i[2]
-                JsonValues["v2_base_score"] = i[3]
-                JsonValues["v2_base_severity"] = i[4]
-                JsonValues["last_up_date"] = i[5]
-                JsonValues["vulnerability_description"] = i[6]
-                JsonValues["vendors"] = i[7]
-                JsonValues["products"] = i[8]
-                result_list.append(JsonValues)
+                json_values = {}
+                json_values["vulnerability_number"] = i[0]
+                json_values["v3_base_score"] = i[1]
+                json_values["v3_base_severity"] = i[2]
+                json_values["v2_base_score"] = i[3]
+                json_values["v2_base_severity"] = i[4]
+                json_values["last_up_date"] = i[5]
+                json_values["vulnerability_description"] = i[6]
+                json_values["vendors"] = i[7]
+                json_values["products"] = i[8]
+                result_list.append(json_values)
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_NistData(class)_BulkQuery(def)", e)
+            ErrorLog().Write(e)
             return None
 
     def StatisticalData(self):  # 整体个数统计
         try:
             self.cur.execute("SELECT COUNT(1)  FROM CommonVulnerabilitiesAndExposures",)  # 查询用户相关信息
-            Result=self.cur.fetchall()[0][0]#获取数据个数
+            result=self.cur.fetchall()[0][0]#获取数据个数
             self.con.close()
-            return Result
+            return result
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_NistData(class)_StatisticalData(def)", e)
+            ErrorLog().Write(e)
             return None
     def DetailedQuery(self, **kwargs):  #单个CVE数据具体内容查询
         try:
-            CommonVulnerabilitiesAndExposures=kwargs.get("common_vulnerabilities_and_exposures")#查询第几页
-            self.cur.execute("select raw_data from CommonVulnerabilitiesAndExposures where vulnerability_number=? ORDER BY common_vulnerabilities_and_exposures_id DESC ", (CommonVulnerabilitiesAndExposures,))
-            Result=self.cur.fetchall()[0][0]
+            common_vulnerabilities_and_exposures=kwargs.get("common_vulnerabilities_and_exposures")#查询第几页
+            self.cur.execute("select raw_data from CommonVulnerabilitiesAndExposures where vulnerability_number=? ORDER BY common_vulnerabilities_and_exposures_id DESC ", (common_vulnerabilities_and_exposures,))
+            result=self.cur.fetchall()[0][0]
             self.con.close()
-            return Result#返回原始数据
+            return result#返回原始数据
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_NistData(class)_DetailedQuery(def)", e)
+            ErrorLog().Write(e)
             return None
 
     def SearchStatistics(self,**kwargs):  #模糊查询统计个数
         try:
-            Severity=kwargs.get("severity")#严重程度
-            Key = "%" + kwargs.get("key") + "%"  # 查询字段
-            self.cur.execute("select COUNT(1) from CommonVulnerabilitiesAndExposures WHERE v3_base_severity=? and (vulnerability_number LIKE ? OR vendors LIKE ? OR products LIKE ? OR vulnerability_description LIKE ?)", (Severity,Key,Key,Key,Key,))
-            Result=self.cur.fetchall()[0][0]#获取数据个数
+            severity=kwargs.get("severity")#严重程度
+            key = "%" + kwargs.get("key") + "%"  # 查询字段
+            self.cur.execute("select COUNT(1) from CommonVulnerabilitiesAndExposures WHERE v3_base_severity=? and (vulnerability_number LIKE ? OR vendors LIKE ? OR products LIKE ? OR vulnerability_description LIKE ?)", (severity,key,key,key,key,))
+            result=self.cur.fetchall()[0][0]#获取数据个数
             self.con.close()
-            return Result
+            return result
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_NistData(class)_SearchStatistics(def)", e)
+            ErrorLog().Write(e)
             return None
 
-    def Update(self, UpdateData) -> bool or None:  # 对数据进行更新
+    def Update(self, update) -> bool or None:  # 对数据进行更新
 
         try:
             self.cur.executemany(
                 """UPDATE CommonVulnerabilitiesAndExposures SET vulnerability_number = ?,v3_base_score=?,v3_base_severity=?,v2_base_score=?,v2_base_severity=?,last_up_date=?,vulnerability_description=?,vendors=?,products=?,raw_data=? WHERE vulnerability_number=? """,
-                UpdateData)
+                update)
             if self.cur.rowcount < 1:  # 用来判断是否更新成功
                 self.con.commit()
                 return False
@@ -1892,44 +1892,44 @@ class NistData:#存放Nist发布的CVE数据
                 self.con.commit()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_NistData(class)_Update(def)", e)
+            ErrorLog().Write(e)
             return False
     def UniqueInquiry(self, **kwargs) -> bool or None:  # 对更新的数据进行检查，判断数据库中是否是唯一的
         try:
-            VulnerabilityNumber=kwargs.get("vulnerability_number")
-            self.cur.execute("select vulnerability_number  from CommonVulnerabilitiesAndExposures where vulnerability_number=?", (VulnerabilityNumber,))
+            vulnerability_number=kwargs.get("vulnerability_number")
+            self.cur.execute("select vulnerability_number  from CommonVulnerabilitiesAndExposures where vulnerability_number=?", (vulnerability_number,))
             if self.cur.fetchall():  # 判断是否有数据
                 return True
             else:
                 return False
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_NistData(class)_UniqueInquiry(def)", e)
+            ErrorLog().Write(e)
             return None
     def Search(self,**kwargs):  #模糊查询
         try:
-            NumberOfSinglePages=100#单页数量
-            NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页
-            Severity=kwargs.get("severity")#严重程度
-            Key = "%"+kwargs.get("key")+"%"  # 查询字段
-            self.cur.execute("select vulnerability_number,v3_base_score,v3_base_severity,v2_base_score,v2_base_severity,last_up_date,vulnerability_description,vendors,products  from CommonVulnerabilitiesAndExposures WHERE v3_base_severity=? and (vulnerability_number LIKE ? OR vendors LIKE ? OR products LIKE ? OR vulnerability_description LIKE ?) limit ? offset ?", (Severity,Key,Key,Key,Key,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))
+            number_of_single_pages=100#单页数量
+            number_of_pages=kwargs.get("number_of_pages")-1#查询第几页
+            severity=kwargs.get("severity")#严重程度
+            key = "%"+kwargs.get("key")+"%"  # 查询字段
+            self.cur.execute("select vulnerability_number,v3_base_score,v3_base_severity,v2_base_score,v2_base_severity,last_up_date,vulnerability_description,vendors,products  from CommonVulnerabilitiesAndExposures WHERE v3_base_severity=? and (vulnerability_number LIKE ? OR vendors LIKE ? OR products LIKE ? OR vulnerability_description LIKE ?) limit ? offset ?", (severity,key,key,key,key,number_of_single_pages,number_of_pages*number_of_single_pages,))
 
             result_list = []
             for i in self.cur.fetchall():
-                JsonValues = {}
-                JsonValues["vulnerability_number"] = i[0]
-                JsonValues["v3_base_score"] = i[1]
-                JsonValues["v3_base_severity"] = i[2]
-                JsonValues["v2_base_score"] = i[3]
-                JsonValues["v2_base_severity"] = i[4]
-                JsonValues["last_up_date"] = i[5]
-                JsonValues["vulnerability_description"] = i[6]
-                JsonValues["vendors"] = i[7]
-                JsonValues["products"] = i[8]
-                result_list.append(JsonValues)
+                json_values = {}
+                json_values["vulnerability_number"] = i[0]
+                json_values["v3_base_score"] = i[1]
+                json_values["v3_base_severity"] = i[2]
+                json_values["v2_base_score"] = i[3]
+                json_values["v2_base_severity"] = i[4]
+                json_values["last_up_date"] = i[5]
+                json_values["vulnerability_description"] = i[6]
+                json_values["vendors"] = i[7]
+                json_values["products"] = i[8]
+                result_list.append(json_values)
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_NistData(class)_Search(def)", e)
+            ErrorLog().Write(e)
             return None
 
 class DomainNameSystemLog:  # 存放DNSLOG数据
@@ -1950,98 +1950,98 @@ class DomainNameSystemLog:  # 存放DNSLOG数据
 
 
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_DomainNameSystemLog(class)_init(def)", e)
+            ErrorLog().Write(e)
 
     def Write(self,**kwargs) -> bool or None:  # 写入相关信息
-        CreationTime = str(int(time.time()))  # 创建时间
-        Ip = kwargs.get("ip")  # 请求IP不一定准确
-        DomainName = kwargs.get("domain_name")  # 获取解析域名
-        Type= kwargs.get("type")  # 获取解析类型
-        Request= kwargs.get("request")  # 获取请求完整数据包
-        Response= kwargs.get("response")  # 获取返回完整数据包
+        creation_time = str(int(time.time()))  # 创建时间
+        ip = kwargs.get("ip")  # 请求IP不一定准确
+        domain_name = kwargs.get("domain_name")  # 获取解析域名
+        type= kwargs.get("type")  # 获取解析类型
+        request= kwargs.get("request")  # 获取请求完整数据包
+        response= kwargs.get("response")  # 获取返回完整数据包
         try:
-            if Type=="dns":
+            if type=="dns":
                 DomainNameSystemAddressLength=len("."+domain_name_system_address)#获取长度，加点是为了截断域名
-                TreatmentDomainName=DomainName[-DomainNameSystemAddressLength:]#进行截断处理
+                TreatmentDomainName=domain_name[-DomainNameSystemAddressLength:]#进行截断处理
                 if TreatmentDomainName=="."+domain_name_system_address:
                     try:
                         self.cur.execute("INSERT INTO DomainNameSystemLog(domain_name,ip,type,request,response,creation_time)\
-                            VALUES (?,?,?,?,?,?)",(DomainName,Ip,Type,Request,Response,CreationTime,))
+                            VALUES (?,?,?,?,?,?)",(domain_name,ip,type,request,response,creation_time,))
                         # 提交
                         self.con.commit()  # 只发送数据不结束
                         self.con.close()
                         return True
                     except Exception as e:
-                        ErrorLog().Write("Web_DatabaseHub_DomainNameSystemLog(class)_Write(def)", e)
+                        ErrorLog().Write(e)
                         return False
-            elif Type=="http":
+            elif type=="http":
                 try:
                     self.cur.execute("INSERT INTO DomainNameSystemLog(domain_name,ip,type,request,response,creation_time)\
-                        VALUES (?,?,?,?,?,?)", (DomainName, Ip, Type, Request, Response, CreationTime,))
+                        VALUES (?,?,?,?,?,?)", (domain_name, ip, type, request, response, creation_time,))
                     # 提交
                     self.con.commit()  # 只发送数据不结束
                     self.con.close()
                     return True
                 except Exception as e:
-                    ErrorLog().Write("Web_DatabaseHub_DomainNameSystemLog(class)_Write(def)", e)
+                    ErrorLog().Write(e)
                     return False
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_DomainNameSystemLog(class)_Write(def)-TreatmentDomainName", e)
+            ErrorLog().Write(e)
             return None
     def Query2DNS(self, **kwargs):  #用来DNS类型查询数据
         try:
-            NumberOfSinglePages=100#单页数量
-            Key="%."+kwargs.get("key")
-            NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
-            self.cur.execute("select domain_name,ip,creation_time  from DomainNameSystemLog WHERE domain_name Like ? ORDER BY dnslog_id DESC limit ? offset ?", (Key,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询相关信息,倒叙查询
+            number_of_single_pages=100#单页数量
+            key="%."+kwargs.get("key")
+            number_of_pages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
+            self.cur.execute("select domain_name,ip,creation_time  from DomainNameSystemLog WHERE domain_name Like ? ORDER BY dnslog_id DESC limit ? offset ?", (key,number_of_single_pages,number_of_pages*number_of_single_pages,))#查询相关信息,倒叙查询
             result_list = []
             for i in self.cur.fetchall():
-                JsonValues = {}
-                JsonValues["domain_name"] = i[0]
-                JsonValues["ip"] = i[1]
-                JsonValues["creation_time"] = i[2]
-                result_list.append(JsonValues)
+                json_values = {}
+                json_values["domain_name"] = i[0]
+                json_values["ip"] = i[1]
+                json_values["creation_time"] = i[2]
+                result_list.append(json_values)
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_DomainNameSystemLog(class)_Query2DNS(def)", e)
+            ErrorLog().Write(e)
             return None
     def Statistical2DNS(self, **kwargs):  # 统计DNS类型的数量
-        Key = "%." + kwargs.get("key")
+        key = "%." + kwargs.get("key")
         try:
-            self.cur.execute("SELECT COUNT(1)  FROM DomainNameSystemLog WHERE domain_name Like ?",(Key,))  # 查询用户相关信息
-            Result=self.cur.fetchall()[0][0]#获取数据个数
+            self.cur.execute("SELECT COUNT(1)  FROM DomainNameSystemLog WHERE domain_name Like ?",(key,))  # 查询用户相关信息
+            result=self.cur.fetchall()[0][0]#获取数据个数
             self.con.close()
-            return Result
+            return result
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_DomainNameSystemLog(class)_Statistical2DNS(def)", e)
+            ErrorLog().Write(e)
             return None
     def Query2HTTP(self, **kwargs):  #用来查询HTTP类型数据
         try:
-            NumberOfSinglePages=100#单页数量
-            NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
-            self.cur.execute("select request,response,creation_time  from DomainNameSystemLog WHERE type= ? ORDER BY dnslog_id DESC limit ? offset ?", ("http",NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询相关信息,倒叙查询
+            number_of_single_pages=100#单页数量
+            number_of_pages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
+            self.cur.execute("select request,response,creation_time  from DomainNameSystemLog WHERE type= ? ORDER BY dnslog_id DESC limit ? offset ?", ("http",number_of_single_pages,number_of_pages*number_of_single_pages,))#查询相关信息,倒叙查询
             result_list = []
             for i in self.cur.fetchall():
-                JsonValues = {}
-                JsonValues["request"] = i[0].decode()
-                JsonValues["response"] = i[1].decode()
-                JsonValues["creation_time"] = i[2]
-                result_list.append(JsonValues)
+                json_values = {}
+                json_values["request"] = i[0].decode()
+                json_values["response"] = i[1].decode()
+                json_values["creation_time"] = i[2]
+                result_list.append(json_values)
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_DomainNameSystemLog(class)_Query2HTTP(def)", e)
+            ErrorLog().Write(e)
             return None
     def Statistical2HTTP(self):  # 统计http类型的数量
 
         try:
             self.cur.execute("SELECT COUNT(1)  FROM DomainNameSystemLog WHERE type= ?",("http",))  # 查询用户相关信息
-            Result=self.cur.fetchall()[0][0]#获取数据个数
+            result=self.cur.fetchall()[0][0]#获取数据个数
             self.con.close()
-            return Result
+            return result
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_DomainNameSystemLog(class)_Statistical2HTTP(def)", e)
+            ErrorLog().Write(e)
             return None
 
 
@@ -2060,31 +2060,31 @@ class DomainNameSystemLogKeyword(object):
 
 
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_DomainNameSystemLogKeyword(class)_init(def)", e)
+            ErrorLog().Write(e)
 
     def Write(self,**kwargs) -> bool or None:  # 写入相关信息
-        CreationTime = str(int(time.time()))  # 创建时间
-        Uid = kwargs.get("uid")  # 用户UID
-        Key = kwargs.get("key")  # 生成的key，值为5位
+        creation_time = str(int(time.time()))  # 创建时间
+        uid = kwargs.get("uid")  # 用户UID
+        key = kwargs.get("key")  # 生成的key，值为5位
         try:
             self.cur.execute("INSERT INTO DomainNameSystemLogKeyword(uid,key,creation_time)\
-                VALUES (?,?,?)", (Uid, Key, CreationTime,))
+                VALUES (?,?,?)", (uid, key, creation_time,))
             # 提交
             self.con.commit()
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_DomainNameSystemLogKeyword(class)_Write(def)", e)
+            ErrorLog().Write(e)
             return False
 
     def Query(self, **kwargs):  #用来查询数据
         try:
-            Uid = kwargs.get("uid")  # 用户UID
-            self.cur.execute("select * from DomainNameSystemLogKeyword WHERE uid=?", (Uid,))
+            uid = kwargs.get("uid")  # 用户UID
+            self.cur.execute("select * from DomainNameSystemLogKeyword WHERE uid=?", (uid,))
             for i in self.cur.fetchall():
                 return i[2]
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_DomainNameSystemLogKeyword(class)_Query(def)", e)
+            ErrorLog().Write(e)
             return None
 
 
@@ -2110,42 +2110,42 @@ class TrojanData:#免杀木马相关数据库
 
 
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_TrojanData(class)_init(def)", e)
+            ErrorLog().Write(e)
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
-        Uid = kwargs.get("uid")
-        TrojanOriginalFileName=kwargs.get("trojan_original_file_name")
-        ShellcodeName = kwargs.get("shellcode_name")#项目名称
-        ShellcodeType = kwargs.get("shellcode_type")#1为MSF类型的，2为CS类型的
-        TrojanGenerateFileName = kwargs.get("trojan_generate_file_name")
-        CompilationStatus = kwargs.get("compilation_status")#状态0为未完成，1完成，-1出错
-        RedisId = kwargs.get("redis_id")
-        CreationTime = str(int(time.time()))  # 创建时间
-        ShellcodeArchitecture = kwargs.get("shellcode_architecture")#shellcode的架构类型 x86 或者x64
-        Plugin = kwargs.get("plugin")#当前使用的插件名称
+        uid = kwargs.get("uid")
+        trojan_original_file_name=kwargs.get("trojan_original_file_name")
+        shellcode_name = kwargs.get("shellcode_name")#项目名称
+        shellcode_type = kwargs.get("shellcode_type")#1为MSF类型的，2为CS类型的
+        trojan_generate_file_name = kwargs.get("trojan_generate_file_name")
+        compilation_status = kwargs.get("compilation_status")#状态0为未完成，1完成，-1出错
+        redis_id = kwargs.get("redis_id")
+        creation_time = str(int(time.time()))  # 创建时间
+        shellcode_architecture = kwargs.get("shellcode_architecture")#shellcode的架构类型 x86 或者x64
+        plugin = kwargs.get("plugin")#当前使用的插件名称
         try:
             self.cur.execute("INSERT INTO TrojanData(uid,shellcode_name,shellcode_type,trojan_original_file_name,trojan_generate_file_name,compilation_status,redis_id,creation_time,shellcode_architecture,plugin)\
-                VALUES (?,?,?,?,?,?,?,?,?,?)", (Uid,ShellcodeName,ShellcodeType,TrojanOriginalFileName, TrojanGenerateFileName,CompilationStatus,RedisId, CreationTime,ShellcodeArchitecture,Plugin,))
+                VALUES (?,?,?,?,?,?,?,?,?,?)", (uid,shellcode_name,shellcode_type,trojan_original_file_name, trojan_generate_file_name,compilation_status,redis_id, creation_time,shellcode_architecture,plugin,))
             self.con.commit()  # 只发送数据不结束
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_TrojanData(class)_Write(def)", e)
+            ErrorLog().Write(e)
             return False
     def StatisticalData(self,**kwargs):  # 当前用户个数统计
-        Uid = kwargs.get("uid")
+        uid = kwargs.get("uid")
         try:
-            self.cur.execute("SELECT COUNT(1)  FROM TrojanData WHERE uid=?",(Uid,))
-            Result=self.cur.fetchall()[0][0]#获取数据个数
+            self.cur.execute("SELECT COUNT(1)  FROM TrojanData WHERE uid=?",(uid,))
+            result=self.cur.fetchall()[0][0]#获取数据个数
             self.con.close()
-            return Result
+            return result
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_TrojanData(class)_StatisticalData(def)", e)
+            ErrorLog().Write(e)
             return None
     def UpdateStatus(self,**kwargs)->bool:#利用主键ID来判断后更新数据
-        RedisId = kwargs.get("redis_id")
-        CompilationStatus = kwargs.get("compilation_status")
+        redis_id = kwargs.get("redis_id")
+        compilation_status = kwargs.get("compilation_status")
         try:
-            self.cur.execute("""UPDATE TrojanData SET compilation_status = ? WHERE redis_id= ?""",(CompilationStatus, RedisId,))
+            self.cur.execute("""UPDATE TrojanData SET compilation_status = ? WHERE redis_id= ?""",(compilation_status, redis_id,))
             # 提交
             if self.cur.rowcount < 1:  # 用来判断是否更新成功
                 self.con.commit()
@@ -2156,47 +2156,47 @@ class TrojanData:#免杀木马相关数据库
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_TrojanData(class)_UpdateStatus(def)", e)
+            ErrorLog().Write(e)
             return False
     def Query(self, **kwargs):  #用来查询数据
         try:
-            Uid = kwargs.get("uid")
-            NumberOfSinglePages=100#单页数量
-            NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
-            self.cur.execute("select * from TrojanData WHERE uid=? limit ? offset ? ", (Uid,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询相关信息
+            uid = kwargs.get("uid")
+            number_of_single_pages=100#单页数量
+            number_of_pages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
+            self.cur.execute("select * from TrojanData WHERE uid=? limit ? offset ? ", (uid,number_of_single_pages,number_of_pages*number_of_single_pages,))#查询相关信息
             result_list = []
             for i in self.cur.fetchall():
-                JsonValues = {}
-                JsonValues["trojan_id"] = i[0]
-                JsonValues["shellcode_name"] = i[2]
-                JsonValues["shellcode_type"] = i[3]
-                JsonValues["trojan_original_file_name"] = i[4]
-                JsonValues["trojan_generate_file_name"] = i[5]
-                JsonValues["compilation_status"] = i[6]
-                JsonValues["creation_time"] = i[8]
-                JsonValues["shellcode_architecture"] = i[9]
-                JsonValues["plugin"] = i[10]
-                result_list.append(JsonValues)
+                json_values = {}
+                json_values["trojan_id"] = i[0]
+                json_values["shellcode_name"] = i[2]
+                json_values["shellcode_type"] = i[3]
+                json_values["trojan_original_file_name"] = i[4]
+                json_values["trojan_generate_file_name"] = i[5]
+                json_values["compilation_status"] = i[6]
+                json_values["creation_time"] = i[8]
+                json_values["shellcode_architecture"] = i[9]
+                json_values["plugin"] = i[10]
+                result_list.append(json_values)
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_TrojanData(class)_Query(def)", e)
+            ErrorLog().Write(e)
             return None
     def DownloadVerification(self, **kwargs):  # 用来验证下载数据是否属于用户
         try:
-            Uid = kwargs.get("uid")
-            TrojanId = kwargs.get("trojan_id")
-            TrojanGenerateFileName = kwargs.get("trojan_generate_file_name")
-            self.cur.execute("SELECT COUNT(1)  FROM TrojanData WHERE uid=? and trojan_id=? and trojan_generate_file_name=?",(Uid, TrojanId,TrojanGenerateFileName))  # 查询相关信息
-            Result=self.cur.fetchall()[0][0]#获取数据个数
-            if Result==0:
+            uid = kwargs.get("uid")
+            trojan_id = kwargs.get("trojan_id")
+            trojan_generate_file_name = kwargs.get("trojan_generate_file_name")
+            self.cur.execute("SELECT COUNT(1)  FROM TrojanData WHERE uid=? and trojan_id=? and trojan_generate_file_name=?",(uid, trojan_id,trojan_generate_file_name))  # 查询相关信息
+            result=self.cur.fetchall()[0][0]#获取数据个数
+            if result==0:
                 self.con.close()
                 return False
             else:
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_TrojanData(class)_DownloadVerification(def)", e)
+            ErrorLog().Write(e)
             return None
 
 class PortableExecutable2Shellcode:  # PE文件转换为shellcode表
@@ -2216,33 +2216,33 @@ class PortableExecutable2Shellcode:  # PE文件转换为shellcode表
                                 redis_id TEXT NOT NULL,\
                                 creation_time TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_PortableExecutable2Shellcode(class)_init(def)", e)
+            ErrorLog().Write(e)
 
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
-        CreationTime = str(int(time.time()))  # 创建时间
-        Uid = kwargs.get("uid")
-        OriginalFileName= kwargs.get("original_file_name")#原始文件名
-        FileName = kwargs.get("file_name")  # pe文件
-        ShellcodeFileName= kwargs.get("shellcode_file_name")#shellcode文件名
-        Status= 0 #状态
-        RedisId= kwargs.get("redis_id")
+        creation_time = str(int(time.time()))  # 创建时间
+        uid = kwargs.get("uid")
+        original_file_name= kwargs.get("original_file_name")#原始文件名
+        file_name = kwargs.get("file_name")  # pe文件
+        shellcode_file_name= kwargs.get("shellcode_file_name")#shellcode文件名
+        status= 0 #状态
+        redis_id= kwargs.get("redis_id")
 
         try:
             self.cur.execute("INSERT INTO PortableExecutable2Shellcode(uid,original_file_name,file_name,shellcode_file_name,status,redis_id,creation_time)\
-                VALUES (?,?,?,?,?,?,?)", (Uid,OriginalFileName, FileName, ShellcodeFileName, Status,RedisId,CreationTime,))
+                VALUES (?,?,?,?,?,?,?)", (uid,original_file_name, file_name, shellcode_file_name, status,redis_id,creation_time,))
             # 提交
             self.con.commit()
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_PortableExecutable2Shellcode(class)_Write(def)", e)
+            ErrorLog().Write(e)
             return False
     def UpdateStatus(self,**kwargs)->bool:#利用主键ID来判断后更新数据
-        RedisId = kwargs.get("redis_id")
-        Status = kwargs.get("status")
+        redis_id = kwargs.get("redis_id")
+        status = kwargs.get("status")
         try:
-            self.cur.execute("""UPDATE PortableExecutable2Shellcode SET status = ? WHERE redis_id= ?""",(Status, RedisId,))
+            self.cur.execute("""UPDATE PortableExecutable2Shellcode SET status = ? WHERE redis_id= ?""",(status, redis_id,))
             # 提交
             if self.cur.rowcount < 1:  # 用来判断是否更新成功
                 self.con.commit()
@@ -2253,7 +2253,7 @@ class PortableExecutable2Shellcode:  # PE文件转换为shellcode表
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_PortableExecutable2Shellcode(class)_UpdateStatus(def)", e)
+            ErrorLog().Write(e)
             return False
 
 class EmailProject:  # 邮件项目
@@ -2282,51 +2282,52 @@ class EmailProject:  # 邮件项目
                                 project_status TEXT NOT NULL,\
                                 creation_time TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailProject(class)_init(def)", e)
+            ErrorLog().Write(e)
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
-        CreationTime = str(int(time.time()))  # 创建时间
-        Uid = kwargs.get("uid")
-        EndTime= ""#项目结束时间，结束后不再接受任何数据
-        ProjectKey= kwargs.get("project_key")#项目唯一关键字，用于判断接收数据所属
-        ProjectName= ""#项目名称
-        MailMessage= ""#正文内容，需要用base64加密
-        Attachment= ""#附件文件，需要传入json格式，使用的是本地名称
-        Image = ""  # 图片文件，使用列表形式窜入
-        MailTitle= ""#邮件头
-        Sender= ""#发送人名称
-        GoalMailbox =""# 目标邮箱列表
-        ForgedAddress = ""# 伪造的发件人地址
-        RedisId ="" # id值
-        CompilationStatus = "0"  # 状态0表示未完成，1表示完成，如果值为1那么就不再能够更新项目内容
-        Interval ="" # 邮件发送间隔
-        ProjectStatus="0"#项目状态，0表示未启动，1表示启动，启动中无法修改项目
+        creation_time = str(int(time.time()))  # 创建时间
+        uid = kwargs.get("uid")
+        end_time= ""#项目结束时间，结束后不再接受任何数据
+        project_key= kwargs.get("project_key")#项目唯一关键字，用于判断接收数据所属
+        project_name= ""#项目名称
+        mail_message= ""#正文内容，需要用base64加密
+        attachment= ""#附件文件，需要传入json格式，使用的是本地名称
+        image = ""  # 图片文件，使用列表形式窜入
+        mail_title= ""#邮件头
+        sender= ""#发送人名称
+        goal_mailbox =""# 目标邮箱列表
+        forged_address = ""# 伪造的发件人地址
+        redis_id ="" # id值
+        compilation_status = "0"  # 状态0表示未完成，1表示完成，如果值为1那么就不再能够更新项目内容
+        interval ="" # 邮件发送间隔
+        project_status="0"#项目状态，0表示未启动，1表示启动，启动中无法修改项目
 
         try:
             self.cur.execute("INSERT INTO EmailProject(uid,goal_mailbox,end_time,project_key,project_name,mail_message,attachment,image,mail_title,sender,forged_address,redis_id,compilation_status,interval,project_status,creation_time)\
-                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (Uid,str(GoalMailbox),str(EndTime), str(ProjectKey),str(ProjectName),MailMessage, str(Attachment), str(Image),MailTitle,Sender,str(ForgedAddress),RedisId,CompilationStatus,Interval,ProjectStatus,CreationTime,))
+                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (uid,str(goal_mailbox),str(end_time), str(project_key),str(project_name),mail_message, str(attachment), str(image),mail_title,sender,str(forged_address),redis_id,compilation_status,interval,project_status,creation_time,))
             # 提交
             self.con.commit()
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailProject(class)_Write(def)", e)
+            ErrorLog().Write(e)
             return False
     def Updata(self,**kwargs)->bool:#利用主键ID来判断后更新数据
-        Uid = kwargs.get("uid")
-        ProjectKey= kwargs.get("project_key")#项目唯一关键字，用于判断接收数据所属
-        ProjectName= kwargs.get("project_name")#项目名称
-        EndTime= kwargs.get("end_time")#项目结束时间，结束后不再接受任何数据
-        MailMessage= kwargs.get("mail_message")#正文内容，需要用base64加密
-        Attachment= kwargs.get("attachment")#附件文件，需要传入json格式，使用的是本地名称
-        Image = kwargs.get("image")  # 图片文件，使用列表形式窜入
-        MailTitle= kwargs.get("mail_title")#邮件头
-        Sender= kwargs.get("sender")#发送人名称
-        GoalMailbox = kwargs.get("goal_mailbox") # 目标邮箱列表
-        ForgedAddress = kwargs.get("forged_address")  # 伪造的发件人地址
-        Interval = kwargs.get("interval")  # 邮件发送间隔
+        uid = kwargs.get("uid")
+        project_key= kwargs.get("project_key")#项目唯一关键字，用于判断接收数据所属
+        project_name= kwargs.get("project_name")#项目名称
+        end_time= kwargs.get("end_time")#项目结束时间，结束后不再接受任何数据
+        mail_message= kwargs.get("mail_message")#正文内容，需要用base64加密
+        attachment= kwargs.get("attachment")#附件文件，需要传入json格式，使用的是本地名称
+        image = kwargs.get("image")  # 图片文件，使用列表形式窜入
+        mail_title= kwargs.get("mail_title")#邮件头
+        sender= kwargs.get("sender")#发送人名称
+        goal_mailbox = kwargs.get("goal_mailbox") # 目标邮箱列表
+        forged_address = kwargs.get("forged_address")  # 伪造的发件人地址
+        interval = kwargs.get("interval")  # 邮件发送间隔
         try:
-            self.cur.execute("""UPDATE EmailProject SET end_time=?,project_name=?,mail_message=?,attachment=?,image=?,mail_title=?,sender=?,goal_mailbox=?,forged_address=?,interval=? WHERE uid= ? and project_key=?""",(str(EndTime),str(ProjectName),str(MailMessage),str(Attachment),str(Image) ,MailTitle,Sender,str(GoalMailbox),ForgedAddress ,Interval,Uid ,ProjectKey,))
+            self.cur.execute("""UPDATE EmailProject SET end_time=?,project_name=?,mail_message=?,attachment=?,image=?,mail_title=?,sender=?,goal_mailbox=?,forged_address=?,interval=? WHERE uid= ? and project_key=?""",
+                             (str(end_time),str(project_name),str(mail_message),str(attachment),str(image) ,mail_title,sender,str(goal_mailbox),forged_address ,interval,uid ,project_key,))
             # 提交
             if self.cur.rowcount < 1:  # 用来判断是否更新成功
                 self.con.commit()
@@ -2337,13 +2338,13 @@ class EmailProject:  # 邮件项目
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailProject(class)_Updata(def)", e)
+            ErrorLog().Write(e)
             return False
     def ProjectStatus(self, **kwargs):#用来验证项目状态
         try:
-            Uid = kwargs.get("uid")
-            ProjectKey = kwargs.get("project_key")  # 项目唯一关键字，用于判断接收数据所属
-            self.cur.execute("select project_status  from EmailProject WHERE uid=? and project_key=?", (Uid,ProjectKey,))
+            uid = kwargs.get("uid")
+            project_key = kwargs.get("project_key")  # 项目唯一关键字，用于判断接收数据所属
+            self.cur.execute("select project_status  from EmailProject WHERE uid=? and project_key=?", (uid,project_key,))
             for i in self.cur.fetchall():
                 if i[0]=="1":
                     self.con.close()
@@ -2352,15 +2353,15 @@ class EmailProject:  # 邮件项目
                     self.con.close()
                     return False
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailProject(class)_ProjectStatus(def)", e)
+            ErrorLog().Write(e)
             return None
 
     def ModifyProjectStatus(self, **kwargs):#修改项目的状态
-        Uid = kwargs.get("uid")
-        ProjectKey= kwargs.get("project_key")#项目唯一关键字，用于判断接收数据所属
-        ProjectStatus= kwargs.get("project_status")#项目状态，0表示未启动，1表示启动，启动中无法修改项目
+        uid = kwargs.get("uid")
+        project_key= kwargs.get("project_key")#项目唯一关键字，用于判断接收数据所属
+        project_status= kwargs.get("project_status")#项目状态，0表示未启动，1表示启动，启动中无法修改项目
         try:
-            self.cur.execute("""UPDATE EmailProject SET project_status=? WHERE uid= ? and project_key=?""",(ProjectStatus,Uid ,ProjectKey,))
+            self.cur.execute("""UPDATE EmailProject SET project_status=? WHERE uid= ? and project_key=?""",(project_status,uid ,project_key,))
             # 提交
             if self.cur.rowcount < 1:  # 用来判断是否更新成功
                 self.con.commit()
@@ -2371,13 +2372,13 @@ class EmailProject:  # 邮件项目
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailProject(class)_ModifyProjectStatus(def)", e)
+            ErrorLog().Write(e)
             return False
     def CompilationStatus(self, **kwargs):#用来验证项目是否完成
         try:
-            Uid = kwargs.get("uid")
-            ProjectKey = kwargs.get("project_key")  # 项目唯一关键字，用于判断接收数据所属
-            self.cur.execute("select compilation_status  from EmailProject WHERE uid=? and project_key=?", (Uid,ProjectKey,))
+            uid = kwargs.get("uid")
+            project_key = kwargs.get("project_key")  # 项目唯一关键字，用于判断接收数据所属
+            self.cur.execute("select compilation_status  from EmailProject WHERE uid=? and project_key=?", (uid,project_key,))
             for i in self.cur.fetchall():
                 if i[0]=="1":
                     self.con.close()
@@ -2386,14 +2387,14 @@ class EmailProject:  # 邮件项目
                     self.con.close()
                     return False
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailProject(class)_CompilationStatus(def)", e)
+            ErrorLog().Write(e)
             return None
     def ModifyCompilationStatus(self, **kwargs):#修改项目是否完成
-        Uid = kwargs.get("uid")
-        ProjectKey= kwargs.get("project_key")#项目唯一关键字，用于判断接收数据所属
-        CompilationStatus= kwargs.get("compilation_status")# 状态0表示未完成，1表示完成，如果值为1那么久不再能够更新项目内容
+        uid = kwargs.get("uid")
+        project_key= kwargs.get("project_key")#项目唯一关键字，用于判断接收数据所属
+        compilation_status= kwargs.get("compilation_status")# 状态0表示未完成，1表示完成，如果值为1那么久不再能够更新项目内容
         try:
-            self.cur.execute("""UPDATE EmailProject SET compilation_status=? WHERE uid= ? and project_key=?""",(CompilationStatus,Uid ,ProjectKey,))
+            self.cur.execute("""UPDATE EmailProject SET compilation_status=? WHERE uid= ? and project_key=?""",(compilation_status,uid ,project_key,))
             # 提交
             if self.cur.rowcount < 1:  # 用来判断是否更新成功
                 self.con.commit()
@@ -2404,12 +2405,12 @@ class EmailProject:  # 邮件项目
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailProject(class)_ModifyCompilationStatus(def)", e)
+            ErrorLog().Write(e)
             return False
     def ProjectCompletion(self, **kwargs):#通过redis值改把任务改为完工
-        RedisId= kwargs.get("redis_id")#项目唯一关键字，用于判断接收数据所属
+        redis_id= kwargs.get("redis_id")#项目唯一关键字，用于判断接收数据所属
         try:
-            self.cur.execute("""UPDATE EmailProject SET compilation_status=? WHERE redis_id=?""",("1",RedisId,))
+            self.cur.execute("""UPDATE EmailProject SET compilation_status=? WHERE redis_id=?""",("1",redis_id,))
             # 提交
             if self.cur.rowcount < 1:  # 用来判断是否更新成功
                 self.con.commit()
@@ -2420,15 +2421,15 @@ class EmailProject:  # 邮件项目
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailProject(class)_ProjectCompletion(def)", e)
+            ErrorLog().Write(e)
             return False
     def UpdataRedis(self,**kwargs)->bool:#更新redis id值
-        Uid = kwargs.get("uid")
-        ProjectKey= kwargs.get("project_key")#项目唯一关键字，用于判断接收数据所属
-        RedisId= kwargs.get("redis_id")
+        uid = kwargs.get("uid")
+        project_key= kwargs.get("project_key")#项目唯一关键字，用于判断接收数据所属
+        redis_id= kwargs.get("redis_id")
 
         try:
-            self.cur.execute("""UPDATE EmailProject SET redis_id=? WHERE uid= ? and project_key=?""",(RedisId,Uid ,ProjectKey,))
+            self.cur.execute("""UPDATE EmailProject SET redis_id=? WHERE uid= ? and project_key=?""",(redis_id,uid ,project_key,))
             # 提交
             if self.cur.rowcount < 1:  # 用来判断是否更新成功
                 self.con.commit()
@@ -2439,58 +2440,58 @@ class EmailProject:  # 邮件项目
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailProject(class)_UpdataRedis(def)", e)
+            ErrorLog().Write(e)
             return False
     def Summary(self, **kwargs):#邮件项目摘要
         try:
-            Uid = kwargs.get("uid")
-            NumberOfSinglePages=100#单页数量
-            NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
-            self.cur.execute("select end_time,project_key,project_status,interval,compilation_status,creation_time,project_name  from EmailProject WHERE uid=? limit ? offset ?", (Uid,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询用户相关信息
+            uid = kwargs.get("uid")
+            number_of_single_pages=100#单页数量
+            number_of_pages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
+            self.cur.execute("select end_time,project_key,project_status,interval,compilation_status,creation_time,project_name  from EmailProject WHERE uid=? limit ? offset ?", (uid,number_of_single_pages,number_of_pages*number_of_single_pages,))#查询用户相关信息
             result_list = []
             for i in self.cur.fetchall():
-                JsonValues = {}
-                JsonValues["end_time"] = i[0]
-                JsonValues["project_key"] = i[1]
-                JsonValues["project_status"] = i[2]
-                JsonValues["interval"] = i[3]
-                JsonValues["compilation_status"] = i[4]
-                JsonValues["creation_time"] = i[5]
-                JsonValues["project_name"] = i[6]
-                result_list.append(JsonValues)
+                json_values = {}
+                json_values["end_time"] = i[0]
+                json_values["project_key"] = i[1]
+                json_values["project_status"] = i[2]
+                json_values["interval"] = i[3]
+                json_values["compilation_status"] = i[4]
+                json_values["creation_time"] = i[5]
+                json_values["project_name"] = i[6]
+                result_list.append(json_values)
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailProject(class)_Summary(def)", e)
+            ErrorLog().Write(e)
             return None
     def Query(self, **kwargs):#详情查询
         try:
-            Uid = kwargs.get("uid")
-            ProjectKey = kwargs.get("project_key")  # 项目唯一关键字，用于判断接收数据所属
-            self.cur.execute("select * from EmailProject WHERE uid=? and project_key=?", (Uid,ProjectKey,))#查询用户相关信息
+            uid = kwargs.get("uid")
+            project_key = kwargs.get("project_key")  # 项目唯一关键字，用于判断接收数据所属
+            self.cur.execute("select * from EmailProject WHERE uid=? and project_key=?", (uid,project_key,))#查询用户相关信息
             for i in self.cur.fetchall():
                 return i
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailProject(class)_Query(def)", e)
+            ErrorLog().Write(e)
             return None
     def MonitorQuery(self, **kwargs):#用于查询监控数据
         try:
-            ProjectKey = kwargs.get("project_key")  # 项目唯一关键字，用于判断接收数据所属
-            self.cur.execute("select end_time from EmailProject WHERE project_key=?", (ProjectKey,))#查询用户相关信息
+            project_key = kwargs.get("project_key")  # 项目唯一关键字，用于判断接收数据所属
+            self.cur.execute("select end_time from EmailProject WHERE project_key=?", (project_key,))#查询用户相关信息
             for i in self.cur.fetchall():
                 return i[0]
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailProject(class)_Query(def)", e)
+            ErrorLog().Write(e)
             return None
     def Statistics(self,**kwargs):  # 统计项目数量
-        Uid = kwargs.get("uid")
+        uid = kwargs.get("uid")
         try:
-            self.cur.execute("SELECT COUNT(1)  FROM EmailProject  WHERE uid=?", (Uid,))
-            Result=self.cur.fetchall()[0][0]#获取数据个数
+            self.cur.execute("SELECT COUNT(1)  FROM EmailProject  WHERE uid=?", (uid,))
+            result=self.cur.fetchall()[0][0]#获取数据个数
             self.con.close()
-            return Result
+            return result
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailProject(class)_Statistics(def)", e)
+            ErrorLog().Write(e)
             return None
 
 
@@ -2510,116 +2511,118 @@ class EmailDetails:  # 邮件详情，发送状态
                                 department  TEXT NOT NULL,\
                                 creation_time TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailDetails(class)_init(def)", e)
+            ErrorLog().Write(e)
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
-        CreationTime = str(int(time.time()))  # 创建时间
-        Email = kwargs.get("email") #目标
-        Department=kwargs.get("department") #部门
-        MD5= kwargs.get("email_md5")#目标的md5值
-        Status= kwargs.get("status")#邮件是否发送成功1是成功，0是失败
-        ProjectKey = kwargs.get("project_key")  # 项目key
+        creation_time = str(int(time.time()))  # 创建时间
+        email = kwargs.get("email") #目标
+        department=kwargs.get("department") #部门
+        email_md5= kwargs.get("email_md5")#目标的md5值
+        status= kwargs.get("status")#邮件是否发送成功1是成功，0是失败
+        project_key = kwargs.get("project_key")  # 项目key
         try:
             self.cur.execute("INSERT INTO EmailDetails(email,email_md5,status,project_key,department,creation_time)\
-                VALUES (?,?,?,?,?,?)", (Email, MD5, Status, ProjectKey,Department,CreationTime,))
+                VALUES (?,?,?,?,?,?)", (email, email_md5, status, project_key,department,creation_time,))
             # 提交
             self.con.commit()
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailDetails(class)_Write(def)", e)
+            ErrorLog().Write(e)
             return False
     def EmailAndDepartment(self, **kwargs) -> bool or None:  # 通过MD5和项目key查询email和部门
-        MD5= kwargs.get("email_md5")#目标的md5值
-        ProjectKey = kwargs.get("project_key")  # 项目key
+        email_md5= kwargs.get("email_md5")#目标的md5值
+        project_key = kwargs.get("project_key")  # 项目key
         try:
-            self.cur.execute("select email,department from EmailDetails WHERE email_md5=? and project_key=?", (MD5,ProjectKey,))#查询用户相关信息
+            self.cur.execute("select email,department from EmailDetails WHERE email_md5=? and project_key=?", (email_md5,project_key,))#查询用户相关信息
             for i in self.cur.fetchall():
                 return i
 
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailDetails(class)_EmailQuery(def)", e)
+            ErrorLog().Write(e)
             return None
     def Query(self, **kwargs):#查询邮件发送状态，全量数据
         try:
-            ProjectKey = kwargs.get("project_key")  # 项目唯一关键字，用于判断接收数据所属
-            FullData = kwargs.get("full_data")  # 是否是全量数据
-            Status = kwargs.get("status")  # 如果不是全量数据进行筛选状态
-            NumberOfSinglePages=100#单页数量
-            NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
-            if FullData:
-                self.cur.execute("select email,email_md5,status,department,creation_time  from EmailDetails WHERE project_key=? limit ? offset ?", (ProjectKey,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询用户相关信息
+            project_key = kwargs.get("project_key")  # 项目唯一关键字，用于判断接收数据所属
+            full_data = kwargs.get("full_data")  # 是否是全量数据
+            status = kwargs.get("status")  # 如果不是全量数据进行筛选状态
+            number_of_single_pages=100#单页数量
+            number_of_pages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
+            if full_data:
+                self.cur.execute("select email,email_md5,status,department,creation_time  from EmailDetails WHERE project_key=? limit ? offset ?", (project_key,number_of_single_pages,number_of_pages*number_of_single_pages,))#查询用户相关信息
                 result_list = []
                 for i in self.cur.fetchall():
-                    JsonValues = {}
-                    JsonValues["email"] = i[0]
-                    JsonValues["email_md5"] = i[1]
-                    JsonValues["status"] = i[2]
-                    JsonValues["department"] = i[3]
-                    JsonValues["creation_time"] = i[4]
-                    result_list.append(JsonValues)
+                    json_values = {}
+                    json_values["email"] = i[0]
+                    json_values["email_md5"] = i[1]
+                    json_values["status"] = i[2]
+                    json_values["department"] = i[3]
+                    json_values["creation_time"] = i[4]
+                    result_list.append(json_values)
                 self.con.close()
                 return result_list
             else:
-                self.cur.execute("select email,email_md5,status,department,creation_time  from EmailDetails WHERE project_key=? and status=? limit ? offset ?", (ProjectKey,Status,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询用户相关信息
+                self.cur.execute("select email,email_md5,status,department,creation_time  from EmailDetails WHERE project_key=? and status=? limit ? offset ?", (project_key,status,number_of_single_pages,number_of_pages*number_of_single_pages,))#查询用户相关信息
                 result_list = []
                 for i in self.cur.fetchall():
-                    JsonValues = {}
-                    JsonValues["email"] = i[0]
-                    JsonValues["email_md5"] = i[1]
-                    JsonValues["status"] = i[2]
-                    JsonValues["department"] = i[3]
-                    JsonValues["creation_time"] = i[4]
-                    result_list.append(JsonValues)
+                    json_values = {}
+                    json_values["email"] = i[0]
+                    json_values["email_md5"] = i[1]
+                    json_values["status"] = i[2]
+                    json_values["department"] = i[3]
+                    json_values["creation_time"] = i[4]
+                    result_list.append(json_values)
                 self.con.close()
                 return result_list
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailDetails(class)_Query(def)", e)
+            ErrorLog().Write(e)
             return None
     def Statistics(self,**kwargs):  # 统计项目数量
-        ProjectKey = kwargs.get("project_key")  # 项目唯一关键字，用于判断接收数据所属
-        FullData = kwargs.get("full_data")  # 是否是全量数据
-        Status = kwargs.get("status")  # 如果不是全量数据进行筛选状态
+        project_key = kwargs.get("project_key")  # 项目唯一关键字，用于判断接收数据所属
+        full_data = kwargs.get("full_data")  # 是否是全量数据
+        status = kwargs.get("status")  # 如果不是全量数据进行筛选状态
         try:
-            if FullData:
-                self.cur.execute("select count(*) from EmailDetails WHERE project_key=?", (ProjectKey,))
-                Result = self.cur.fetchall()[0][0]  # 获取数据个数
+            if full_data:
+                self.cur.execute("select count(*) from EmailDetails WHERE project_key=?", (project_key,))
+                result = self.cur.fetchall()[0][0]  # 获取数据个数
                 self.con.close()
-                return Result
+                return result
             else:
-                self.cur.execute("SELECT COUNT(1)  FROM EmailDetails  WHERE project_key=? and status=? ", (ProjectKey,Status,))
-                Result = self.cur.fetchall()[0][0]  # 获取数据个数
+                self.cur.execute("SELECT COUNT(1)  FROM EmailDetails  WHERE project_key=? and status=? ", (project_key,status,))
+                result = self.cur.fetchall()[0][0]  # 获取数据个数
                 self.con.close()
-                return Result
+                return result
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailDetails(class)_Statistics(def)", e)
+            ErrorLog().Write(e)
             return None
 
     def Verification(self, **kwargs):  # 验证是否有数据
         try:
-            Email = kwargs.get("email")  # 目标
-            Department = kwargs.get("department")  # 部门
-            ProjectKey = kwargs.get("project_key")  # 项目key
-            self.cur.execute("SELECT COUNT(1)  FROM EmailDetails WHERE project_key=? and email=? and department=?",(ProjectKey, Email,Department))  # 查询相关信息
-            Result=self.cur.fetchall()[0][0]#获取数据个数
-            if Result==0:
+            email = kwargs.get("email")  # 目标
+            department = kwargs.get("department")  # 部门
+            project_key = kwargs.get("project_key")  # 项目key
+            self.cur.execute("SELECT COUNT(1)  FROM EmailDetails WHERE project_key=? and email=? and department=?",
+                             (project_key, email,department,))  # 查询相关信息
+            result=self.cur.fetchall()[0][0]#获取数据个数
+            if result==0:
                 self.con.close()
                 return False
             else:
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailDetails(class)_Verification(def)", e)
+            ErrorLog().Write(e)
             return None
 
     def Update(self,**kwargs)->bool:#利用主键ID来判断后更新数据
-        CreationTime = str(int(time.time()))  # 创建时间
-        Email = kwargs.get("email") #目标
-        Department=kwargs.get("department") #部门
-        Status= kwargs.get("status")#邮件是否发送成功1是成功，0是失败
-        ProjectKey = kwargs.get("project_key")  # 项目key
+        creation_time = str(int(time.time()))  # 创建时间
+        email = kwargs.get("email") #目标
+        department=kwargs.get("department") #部门
+        status= kwargs.get("status")#邮件是否发送成功1是成功，0是失败
+        project_key = kwargs.get("project_key")  # 项目key
         try:
-            self.cur.execute("""UPDATE EmailDetails SET status=?,creation_time=? WHERE department= ? and project_key=? and email=?""",(Status,CreationTime,Department,ProjectKey,Email,))
+            self.cur.execute("""UPDATE EmailDetails SET status=?,creation_time=? WHERE department= ? and project_key=? and email=?""",
+                             (status,creation_time,department,project_key,email,))
             # 提交
             if self.cur.rowcount < 1:  # 用来判断是否更新成功
                 self.con.commit()
@@ -2630,31 +2633,32 @@ class EmailDetails:  # 邮件详情，发送状态
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailDetails(class)_Updata(def)", e)
+            ErrorLog().Write(e)
             return False
 
     def ResendQuery(self, **kwargs):#重发邮件查询
         try:
-            ProjectKey = kwargs.get("project_key")  # 项目唯一关键字，用于判断接收数据所属
-            Status = kwargs.get("status")  # 如果不是全量数据进行筛选状态
-            self.cur.execute("select email,department from EmailDetails WHERE project_key=? and status=?", (ProjectKey,Status,))#查询用户相关信息
+            project_key = kwargs.get("project_key")  # 项目唯一关键字，用于判断接收数据所属
+            status = kwargs.get("status")  # 如果不是全量数据进行筛选状态
+            self.cur.execute("select email,department from EmailDetails WHERE project_key=? and status=?",
+                             (project_key,status,))#查询用户相关信息
             result_list = {}
 
             for i in self.cur.fetchall():
-                Department = str(i[1])  # 部门
-                Value = i[0]  # 目标
+                department = str(i[1])  # 部门
+                value = i[0]  # 目标
                 # print(type(Value))
-                if type(Value) == bytes:
-                    Value = Value.decode("utf-8")   # 如果是bytes类型转换为str
-                if Department in result_list.keys():  # 判断部门是否在键中
-                    if Value not in result_list[Department]:#判断值是否在部门中
-                        result_list[Department].append(Value)
+                if type(value) == bytes:
+                    value = value.decode("utf-8")   # 如果是bytes类型转换为str
+                if department in result_list.keys():  # 判断部门是否在键中
+                    if value not in result_list[department]:#判断值是否在部门中
+                        result_list[department].append(value)
                 else:
-                    result_list[Department] = [Value]
+                    result_list[department] = [value]
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailDetails(class)_Query(def)", e)
+            ErrorLog().Write(e)
             return None
 class MailAttachment:  # 所有钓鱼的上传文件都在这里
     def __init__(self):
@@ -2671,82 +2675,85 @@ class MailAttachment:  # 所有钓鱼的上传文件都在这里
                                 document_real_name TEXT NOT NULL,\
                                 creation_time TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_MailAttachment(class)_init(def)", e)
+            ErrorLog().Write(e)
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
-        CreationTime = str(int(time.time()))  # 创建时间
-        Uid = kwargs.get("uid")
-        FileName= kwargs.get("file_name")#文件名
-        FileSize = kwargs.get("file_size")  # 文件大小
-        DocumentRealName= kwargs.get("document_real_name")#本地保存的文件名
+        creation_time = str(int(time.time()))  # 创建时间
+        uid = kwargs.get("uid")
+        file_name= kwargs.get("file_name")#文件名
+        file_size = kwargs.get("file_size")  # 文件大小
+        document_real_name= kwargs.get("document_real_name")#本地保存的文件名
         try:
             self.cur.execute("INSERT INTO MailAttachment(uid,file_name,file_size,document_real_name,creation_time)\
-                VALUES (?,?,?,?,?)", (Uid, FileName, FileSize,DocumentRealName,CreationTime,))
+                VALUES (?,?,?,?,?)", (uid, file_name, file_size,document_real_name,creation_time,))
             # 提交
             self.con.commit()
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_MailAttachment(class)_Write(def)", e)
+            ErrorLog().Write(e)
             return False
 
     def Query(self, **kwargs):
         try:
-            Uid = kwargs.get("uid")
-            NumberOfSinglePages=100#单页数量
-            NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
-            self.cur.execute("select file_name,file_size,document_real_name,creation_time  from MailAttachment WHERE uid=? limit ? offset ?", (Uid,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询用户相关信息
+            uid = kwargs.get("uid")
+            number_of_single_pages=100#单页数量
+            number_of_pages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
+            self.cur.execute("select file_name,file_size,document_real_name,creation_time  from MailAttachment WHERE uid=? limit ? offset ?",
+                             (uid,number_of_single_pages,number_of_pages*number_of_single_pages,))#查询用户相关信息
             result_list = []
             for i in self.cur.fetchall():
-                JsonValues = {}
-                JsonValues["file_name"] = i[0]
-                JsonValues["file_size"] = i[1]
-                JsonValues["document_real_name"] = i[2]
-                JsonValues["creation_time"] = i[3]
-                result_list.append(JsonValues)
+                json_values = {}
+                json_values["file_name"] = i[0]
+                json_values["file_size"] = i[1]
+                json_values["document_real_name"] = i[2]
+                json_values["creation_time"] = i[3]
+                result_list.append(json_values)
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_MailAttachment(class)_Query(def)", e)
+            ErrorLog().Write(e)
             return None
     def Quantity(self,**kwargs):  # 查看数量有哪些
-        Uid = kwargs.get("uid")
+        uid = kwargs.get("uid")
         try:
-            self.cur.execute("SELECT COUNT(1)  FROM MailAttachment  WHERE uid=?", (Uid,))
-            Result=self.cur.fetchall()[0][0]#获取数据个数
+            self.cur.execute("SELECT COUNT(1)  FROM MailAttachment  WHERE uid=?", (uid,))
+            result=self.cur.fetchall()[0][0]#获取数据个数
             self.con.close()
-            return Result
+            return result
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_MailAttachment(class)_Quantity(def)", e)
+            ErrorLog().Write(e)
             return None
 
     def Verify(self,**kwargs):  # 验证图片是否为真的
-        Uid = kwargs.get("uid")
-        DocumentRealName = kwargs.get("document_real_name")  # 真实的文件名
+        uid = kwargs.get("uid")
+        document_real_name = kwargs.get("document_real_name")  # 真实的文件名
 
         try:
-            self.cur.execute("select *  from MailAttachment WHERE uid=? and document_real_name=?", (Uid,DocumentRealName,))#查询用户相关信息
+            self.cur.execute("select *  from MailAttachment WHERE uid=? and document_real_name=?",
+                             (uid,document_real_name,))#查询用户相关信息
             if self.cur.fetchall():  # 判断是否有数据
                 self.con.close()
                 return True
             else:
                 return False
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_MailAttachment(class)_Verify(def)", e)
+            ErrorLog().Write(e)
             return False
     def Verification(self,**kwargs):  # 验证文件名是否冲突
-        Uid = kwargs.get("uid")
-        DocumentRealName = kwargs.get("document_real_name")  # 真实的文件名
+        uid = kwargs.get("uid")
+        document_real_name = kwargs.get("document_real_name")  # 真实的文件名
 
         try:
-            self.cur.execute("select *  from MailAttachment WHERE uid=? and document_real_name=?", (Uid,DocumentRealName,))#查询用户相关信息
+            self.cur.execute("select *  from MailAttachment WHERE uid=? and document_real_name=?",
+                             (uid,document_real_name,))#查询用户相关信息
             if self.cur.fetchall():  # 判断是否有数据
                 self.con.close()
                 return True
             else:
                 return False
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_MailAttachment(class)_Verify(def)", e)
+            ErrorLog().Write(e)
             return False
 
 
@@ -2769,139 +2776,141 @@ class EmailReceiveData:  # 邮件数据接收
                                 incidental_data TEXT NOT NULL,\
                                 creation_time TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailReceiveData(class)_init(def)", e)
+            ErrorLog().Write(e)
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
-        CreationTime = str(int(time.time()))  # 创建时间
-        Email= kwargs.get("email")#邮件
-        Department = kwargs.get("department")  # 部门
-        ProjectKey= kwargs.get("project_key")#项目key
-        Target = kwargs.get("target")  # 目标，用来定位人
-        FullUrl= kwargs.get("full_url")  # 完整的路径
-        RequestMethod = kwargs.get("request_method")  # 请求模式
-        DataPackInfo= kwargs.get("data_pack_info")# 完整数据内容
-        IncidentalData = kwargs.get("incidental_data")  # 除了target以外附带的数据
+        creation_time = str(int(time.time()))  # 创建时间
+        email= kwargs.get("email")#邮件
+        department = kwargs.get("department")  # 部门
+        project_key= kwargs.get("project_key")#项目key
+        target = kwargs.get("target")  # 目标，用来定位人
+        full_url= kwargs.get("full_url")  # 完整的路径
+        request_method = kwargs.get("request_method")  # 请求模式
+        data_pack_info= kwargs.get("data_pack_info")# 完整数据内容
+        incidental_data = kwargs.get("incidental_data")  # 除了target以外附带的数据
         try:
             self.cur.execute("INSERT INTO EmailReceiveData(email,department,project_key,full_url,request_method,target,data_pack_info,incidental_data,creation_time)\
-                VALUES (?,?,?,?,?,?,?,?,?)", (Email,Department,ProjectKey,FullUrl,RequestMethod, Target, DataPackInfo,IncidentalData,CreationTime,))
+                VALUES (?,?,?,?,?,?,?,?,?)", (email,department,project_key,full_url,request_method, target, data_pack_info,incidental_data,creation_time,))
             # 提交
             self.con.commit()
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailReceiveData(class)_Write(def)", e)
+            ErrorLog().Write(e)
             return False
     def Query(self, **kwargs):#全量数据查询
         try:
-            ProjectKey = kwargs.get("project_key")  # 项目key
-            NumberOfSinglePages=100#单页数量
-            NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
-            self.cur.execute("select * from EmailReceiveData WHERE project_key=? limit ? offset ?", (ProjectKey,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询用户相关信息
+            project_key = kwargs.get("project_key")  # 项目key
+            number_of_single_pages=100#单页数量
+            number_of_pages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
+            self.cur.execute("select * from EmailReceiveData WHERE project_key=? limit ? offset ?",
+                             (project_key,number_of_single_pages,number_of_pages*number_of_single_pages,))#查询用户相关信息
             result_list = []
             for i in self.cur.fetchall():
-                JsonValues = {}
-                JsonValues["email"] = i[1]
-                JsonValues["department"] = i[2]
-                JsonValues["full_url"] = i[4]
-                JsonValues["request_method"] = i[5]
-                JsonValues["data_pack_info"] = i[7]
-                JsonValues["incidental_data"] = i[8]
-                JsonValues["creation_time"] = i[9]
-                result_list.append(JsonValues)
+                json_values = {}
+                json_values["email"] = i[1]
+                json_values["department"] = i[2]
+                json_values["full_url"] = i[4]
+                json_values["request_method"] = i[5]
+                json_values["data_pack_info"] = i[7]
+                json_values["incidental_data"] = i[8]
+                json_values["creation_time"] = i[9]
+                result_list.append(json_values)
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailReceiveData(class)_Query(def)", e)
+            ErrorLog().Write(e)
             return None
     def Statistics(self,**kwargs):  # 全量数据统计
-        ProjectKey= kwargs.get("project_key")#项目key
+        project_key= kwargs.get("project_key")#项目key
         try:
-            self.cur.execute("SELECT COUNT(1)  FROM EmailReceiveData  WHERE project_key=?", (ProjectKey,))
-            Result=self.cur.fetchall()[0][0]#获取数据个数
+            self.cur.execute("SELECT COUNT(1)  FROM EmailReceiveData  WHERE project_key=?", (project_key,))
+            result=self.cur.fetchall()[0][0]#获取数据个数
             self.con.close()
-            return Result
+            return result
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailReceiveData(class)_Statistics(def)", e)
+            ErrorLog().Write(e)
             return None
 
     def Search(self,**kwargs):  #模糊查询
         try:
-            NumberOfSinglePages=100#单页数量
-            NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页
-            ProjectKey = kwargs.get("project_key")
-            StartTime = kwargs.get("start_time")#开始时间
-            EndTime = kwargs.get("end_time")#结束时间
-            Email = "%"+kwargs.get("email")+"%"
-            Department = "%"+kwargs.get("department")+"%"
+            number_of_single_pages=100#单页数量
+            number_of_pages=kwargs.get("number_of_pages")-1#查询第几页
+            project_key = kwargs.get("project_key")
+            start_time = kwargs.get("start_time")#开始时间
+            end_time = kwargs.get("end_time")#结束时间
+            email = "%"+kwargs.get("email")+"%"
+            department = "%"+kwargs.get("department")+"%"
 
-            self.cur.execute("select * from EmailReceiveData WHERE project_key=? and creation_time<=? and creation_time>=? and email LIKE ? and department LIKE ? limit ? offset ?", (ProjectKey,EndTime,StartTime,Email,Department,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))
+            self.cur.execute("select * from EmailReceiveData WHERE project_key=? and creation_time<=? and creation_time>=? and email LIKE ? and department LIKE ? limit ? offset ?",
+                             (project_key,end_time,start_time,email,department,number_of_single_pages,number_of_pages*number_of_single_pages,))
             result_list = []
             for i in self.cur.fetchall():
-                JsonValues = {}
-                JsonValues["email"] = i[1]
-                JsonValues["department"] = i[2]
-                JsonValues["full_url"] = i[4]
-                JsonValues["request_method"] = i[5]
-                JsonValues["data_pack_info"] = i[7]
-                JsonValues["incidental_data"] = i[8]
-                JsonValues["creation_time"] = i[9]
-                result_list.append(JsonValues)
+                json_values = {}
+                json_values["email"] = i[1]
+                json_values["department"] = i[2]
+                json_values["full_url"] = i[4]
+                json_values["request_method"] = i[5]
+                json_values["data_pack_info"] = i[7]
+                json_values["incidental_data"] = i[8]
+                json_values["creation_time"] = i[9]
+                result_list.append(json_values)
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailReceiveData(class)_Search(def)", e)
+            ErrorLog().Write(e)
             return None
 
     def SearchQuantity(self, **kwargs):  # 模糊查询统计数量
         try:
-            ProjectKey = kwargs.get("project_key")
-            StartTime = kwargs.get("start_time")#开始时间
-            EndTime = kwargs.get("end_time")#结束时间
-            Email = "%" + kwargs.get("email") + "%"
-            Department = "%" + kwargs.get("department") + "%"
+            project_key = kwargs.get("project_key")
+            start_time = kwargs.get("start_time")#开始时间
+            end_time = kwargs.get("end_time")#结束时间
+            email = "%" + kwargs.get("email") + "%"
+            department = "%" + kwargs.get("department") + "%"
             self.cur.execute(
                 "select COUNT(1) from EmailReceiveData WHERE project_key=? and creation_time<=? and creation_time>=? and email LIKE ? and department LIKE ?",
-                (ProjectKey, EndTime,StartTime,Email, Department,))
-            Result=self.cur.fetchall()[0][0]#获取数据个数
+                (project_key, end_time,start_time,email, department,))
+            result=self.cur.fetchall()[0][0]#获取数据个数
             self.con.close()
-            return Result
+            return result
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailReceiveData(class)_SearchQuantity(def)", e)
+            ErrorLog().Write(e)
             return None
 
     def NotNull(self, **kwargs):  # 查询不为空的字段
         try:
-            ProjectKey = kwargs.get("project_key")
+            project_key = kwargs.get("project_key")
             self.cur.execute(
                 "select email,department from EmailReceiveData where trim(incidental_data) !='' AND project_key=?",
-                (ProjectKey,))
+                (project_key,))
             result_list = []
             for i in self.cur.fetchall():
-                JsonValues = {}
-                JsonValues["email"] = i[0]
-                JsonValues["department"] = i[1]
-                result_list.append(JsonValues)
+                json_values = {}
+                json_values["email"] = i[0]
+                json_values["department"] = i[1]
+                result_list.append(json_values)
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailReceiveData(class)_NotNull(def)", e)
+            ErrorLog().Write(e)
             return None
     def IsNull(self, **kwargs):  # 查询为空的字段
         try:
-            ProjectKey = kwargs.get("project_key")
+            project_key = kwargs.get("project_key")
             self.cur.execute(
                 "select email,department from EmailReceiveData where trim(incidental_data) ='' AND project_key=?",
-                (ProjectKey,))
+                (project_key,))
             result_list = []
             for i in self.cur.fetchall():
-                JsonValues = {}
-                JsonValues["email"] = i[0]
-                JsonValues["department"] = i[1]
-                result_list.append(JsonValues)
+                json_values = {}
+                json_values["email"] = i[0]
+                json_values["department"] = i[1]
+                result_list.append(json_values)
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailReceiveData(class)_IsNull(def)", e)
+            ErrorLog().Write(e)
             return None
 
 class EmailGraph:  # 邮件数据接收
@@ -2919,42 +2928,42 @@ class EmailGraph:  # 邮件数据接收
                                 status TEXT NOT NULL,\
                                 creation_time TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailGraph(class)_init(def)", e)
+            ErrorLog().Write(e)
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
-        CreationTime = str(int(time.time()))  # 创建时间
-        Uid= kwargs.get("uid")#用户ID
-        ProjectKey= kwargs.get("project_key")#项目key
-        GraphData = kwargs.get("graph_data")  # 数据内容
-        Status="0"#0表示未完成 1表示完成
+        creation_time = str(int(time.time()))  # 创建时间
+        uid= kwargs.get("uid")#用户ID
+        project_key= kwargs.get("project_key")#项目key
+        graph_data = kwargs.get("graph_data")  # 数据内容
+        status="0"#0表示未完成 1表示完成
 
         try:
             self.cur.execute("INSERT INTO EmailGraph(uid,project_key,graph_data,status,creation_time)\
-                VALUES (?,?,?,?,?)", (Uid,ProjectKey,GraphData,Status,CreationTime,))
+                VALUES (?,?,?,?,?)", (uid,project_key,graph_data,status,creation_time,))
             # 提交
             self.con.commit()
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailGraph(class)_Write(def)", e)
+            ErrorLog().Write(e)
             return False
     def Query(self, **kwargs):#全量数据查询
         try:
-            Uid = kwargs.get("uid")  # 用户ID
-            ProjectKey = kwargs.get("project_key")  #项目key
-            self.cur.execute("select graph_data from EmailGraph WHERE project_key=? and uid=?", (ProjectKey,Uid,))#查询用户相关信息
+            uid = kwargs.get("uid")  # 用户ID
+            project_key = kwargs.get("project_key")  #项目key
+            self.cur.execute("select graph_data from EmailGraph WHERE project_key=? and uid=?", (project_key,uid,))#查询用户相关信息
             for i in self.cur.fetchall():
                 return i[0]
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailGraph(class)_Query(def)", e)
+            ErrorLog().Write(e)
             return None
     def Updata(self, **kwargs):#更新数据
         try:
-            Uid = kwargs.get("uid")  # 用户ID
-            ProjectKey = kwargs.get("project_key")  #项目key
-            GraphData = kwargs.get("graph_data")  # 数据内容
+            uid = kwargs.get("uid")  # 用户ID
+            project_key = kwargs.get("project_key")  #项目key
+            graph_data = kwargs.get("graph_data")  # 数据内容
             self.cur.execute("""UPDATE EmailGraph SET graph_data=?,status=? WHERE uid= ? and project_key=?""",
-                                 (GraphData,"1",Uid, ProjectKey,))
+                                 (graph_data,"1",uid, project_key,))
             # 提交
             if self.cur.rowcount < 1:  # 用来判断是否更新成功
                 self.con.commit()
@@ -2965,20 +2974,20 @@ class EmailGraph:  # 邮件数据接收
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailGraph(class)_Updata(def)", e)
+            ErrorLog().Write(e)
             return None
     def Verification(self, **kwargs):#查询数据是否存在
         try:
-            Uid = kwargs.get("uid")  # 用户ID
-            ProjectKey = kwargs.get("project_key")  #项目key
-            self.cur.execute("select COUNT(1) from EmailGraph WHERE project_key=? and uid=?", (ProjectKey,Uid,))#查询用户相关信息
-            Result=self.cur.fetchall()[0][0]#获取数据个数
-            if int(Result)==0:
+            uid = kwargs.get("uid")  # 用户ID
+            project_key = kwargs.get("project_key")  #项目key
+            self.cur.execute("select COUNT(1) from EmailGraph WHERE project_key=? and uid=?", (project_key,uid,))#查询用户相关信息
+            result=self.cur.fetchall()[0][0]#获取数据个数
+            if int(result)==0:
                 return False
             else:
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailGraph(class)_Verification(def)", e)
+            ErrorLog().Write(e)
             return None
 
 class EmailInfo:  # 邮件管理详情
@@ -2995,63 +3004,64 @@ class EmailInfo:  # 邮件管理详情
                                 another_name TEXT NOT NULL,\
                                 creation_time TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailInfo(class)_init(def)", e)
+            ErrorLog().Write(e)
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
-        CreationTime = str(int(time.time()))  # 创建时间
-        Uid = kwargs.get("uid")  # 用户值
-        ProjectKey = kwargs.get("project_key")  # 邮件key
-        AnotherName= kwargs.get("another_name")#项目别名
+        creation_time = str(int(time.time()))  # 创建时间
+        uid = kwargs.get("uid")  # 用户值
+        project_key = kwargs.get("project_key")  # 邮件key
+        another_name= kwargs.get("another_name")#项目别名
 
         try:
 
             self.cur.execute("INSERT INTO EmailInfo(uid,project_key,another_name,creation_time)\
-                VALUES (?,?,?,?)", (Uid,ProjectKey,AnotherName,CreationTime,))
+                VALUES (?,?,?,?)", (uid,project_key,another_name,creation_time,))
             # 提交
             self.con.commit()
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailInfo(class)_Write(def)", e)
+            ErrorLog().Write(e)
             return False
     def Query(self, **kwargs):#项目查询
         try:
-            Uid = kwargs.get("uid")  # 用户ID
-            NumberOfSinglePages=100#单页数量
-            NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
-            self.cur.execute("select project_key,another_name,creation_time from EmailInfo WHERE uid=? limit ? offset ?", (Uid,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询用户相关信息
+            uid = kwargs.get("uid")  # 用户ID
+            number_of_single_pages=100#单页数量
+            number_of_pages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
+            self.cur.execute("select project_key,another_name,creation_time from EmailInfo WHERE uid=? limit ? offset ?",
+                             (uid,number_of_single_pages,number_of_pages*number_of_single_pages,))#查询用户相关信息
             result_list = []
             for i in self.cur.fetchall():
-                JsonValues = {}
-                JsonValues["project_key"] = i[0]
-                JsonValues["another_name"] = i[1]
-                JsonValues["creation_time"] = i[2]
-                result_list.append(JsonValues)
+                json_values = {}
+                json_values["project_key"] = i[0]
+                json_values["another_name"] = i[1]
+                json_values["creation_time"] = i[2]
+                result_list.append(json_values)
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailInfo(class)_Query(def)", e)
+            ErrorLog().Write(e)
             return None
     def Verification(self,**kwargs):  #验证所有者
         try:
-            ProjectKey = kwargs.get("project_key")  # 邮件key
-            Uid = kwargs.get("uid")  # 用户ID
-            self.cur.execute("SELECT COUNT(1)  FROM EmailInfo WHERE uid=? and project_key= ?", (Uid,ProjectKey,))
-            Result=self.cur.fetchall()[0][0]#获取数据个数
+            project_key = kwargs.get("project_key")  # 邮件key
+            uid = kwargs.get("uid")  # 用户ID
+            self.cur.execute("SELECT COUNT(1)  FROM EmailInfo WHERE uid=? and project_key= ?", (uid,project_key,))
+            result=self.cur.fetchall()[0][0]#获取数据个数
             self.con.close()
-            return Result
+            return result
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailInfo(class)_Verification(def)", e)
+            ErrorLog().Write(e)
             return None
     def Statistics(self,**kwargs):  # 项目统计
         try:
-            Uid = kwargs.get("uid")  # 用户ID
-            self.cur.execute("SELECT COUNT(1)  FROM EmailInfo WHERE uid=?", (Uid,))
-            Result=self.cur.fetchall()[0][0]#获取数据个数
+            uid = kwargs.get("uid")  # 用户ID
+            self.cur.execute("SELECT COUNT(1)  FROM EmailInfo WHERE uid=?", (uid,))
+            result=self.cur.fetchall()[0][0]#获取数据个数
             self.con.close()
-            return Result
+            return result
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailInfo(class)_Statistics(def)", e)
+            ErrorLog().Write(e)
             return None
 
 class EmailData:  # 邮件管理中的邮箱数据
@@ -3067,63 +3077,64 @@ class EmailData:  # 邮件管理中的邮箱数据
                                 email TEXT NOT NULL,\
                                 department TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailData(class)_init(def)", e)
+            ErrorLog().Write(e)
 
-    def Write(self, DataSet) -> bool or None:  # 写入相关信息
+    def Write(self, data_set) -> bool or None:  # 写入相关信息
         try:
             self.cur.executemany("INSERT INTO EmailData(project_key,email,department)\
-                VALUES (?,?,?)", DataSet)
+                VALUES (?,?,?)", data_set)
             # 提交
             self.con.commit()
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailData(class)_Write(def)", e)
+            ErrorLog().Write(e)
             return False
     def Query(self, **kwargs):#项目查询
         try:
-            ProjectKey = kwargs.get("project_key")  # 用户ID
-            NumberOfSinglePages=100#单页数量
-            NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
-            self.cur.execute("select email,department from EmailData WHERE project_key=? limit ? offset ?", (ProjectKey,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询用户相关信息
+            project_key = kwargs.get("project_key")  # 用户ID
+            number_of_single_pages=100#单页数量
+            number_of_pages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
+            self.cur.execute("select email,department from EmailData WHERE project_key=? limit ? offset ?",
+                             (project_key,number_of_single_pages,number_of_pages*number_of_single_pages,))#查询用户相关信息
             result_list = []
             for i in self.cur.fetchall():
-                JsonValues = {}
-                JsonValues["email"] = i[0]
-                JsonValues["department"] = i[1]
-                result_list.append(JsonValues)
+                json_values = {}
+                json_values["email"] = i[0]
+                json_values["department"] = i[1]
+                result_list.append(json_values)
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailData(class)_Query(def)", e)
+            ErrorLog().Write(e)
             return None
     def Statistics(self,**kwargs):  # 项目统计
         try:
-            ProjectKey = kwargs.get("project_key")  # 用户ID
-            self.cur.execute("SELECT COUNT(1)  FROM EmailData WHERE project_key=?", (ProjectKey,))
-            Result=self.cur.fetchall()[0][0]#获取数据个数
+            project_key = kwargs.get("project_key")  # 用户ID
+            self.cur.execute("SELECT COUNT(1)  FROM EmailData WHERE project_key=?", (project_key,))
+            result=self.cur.fetchall()[0][0]#获取数据个数
             self.con.close()
-            return Result
+            return result
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailData(class)_Statistics(def)", e)
+            ErrorLog().Write(e)
             return None
     def QueryAll(self, **kwargs):#拉取全量数据
         try:
-            ProjectKey = kwargs.get("project_key")  # 用户ID
+            project_key = kwargs.get("project_key")  # 用户ID
 
-            self.cur.execute("select email,department from EmailData WHERE project_key=?", (ProjectKey,))#查询用户相关信息
-            Excel = {}  # 创建一个空字典,存储表格数据
+            self.cur.execute("select email,department from EmailData WHERE project_key=?", (project_key,))#查询用户相关信息
+            excel = {}  # 创建一个空字典,存储表格数据
             for i in self.cur.fetchall():
-                Department=i[1]
-                Value=i[0]
-                if Department in Excel.keys():  # 判断部门是否在键中
-                    Excel[Department].append(Value)
+                department=i[1]
+                value=i[0]
+                if department in excel.keys():  # 判断部门是否在键中
+                    excel[department].append(value)
                 else:
-                    Excel[Department] = [Value]
+                    excel[department] = [value]
             self.con.close()
-            return Excel
+            return excel
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_EmailData(class)_QueryAll(def)", e)
+            ErrorLog().Write(e)
             return None
 class GithubCve:  # GitHub的CVE监控写入表
     def __init__(self,**kwargs):
@@ -3169,20 +3180,20 @@ class GithubCve:  # GitHub的CVE监控写入表
             self.con.commit()
             self.con.close()
         except Exception as e:
-                ErrorLog().Write("Web_DatabaseHub_GithubCve(class)_Write(def)", e)
+                ErrorLog().Write(e)
 
     def Update(self):
-        UpdateTime=str(int(time.time()))
+        update_write_time=str(int(time.time()))
         try:
             self.cur.execute(
                 """UPDATE GithubMonitor SET forks_count = ?,updated_at=?,pushed_at=?,watchers_count=?,update_write_time=?  WHERE github_id = ?""",
                 (self.cve_forks_count, self.cve_updated_at, self.cve_pushed_at, self.cve_watchers_count,
-                 UpdateTime, self.cve_id,))
+                 update_write_time, self.cve_id,))
             # 提交
             self.con.commit()
             self.con.close()
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_GithubCve(class)_Update(def)", e)
+            ErrorLog().Write(e)
 
     def Judgment(self) -> bool:#用于判断是否更新
         try:
@@ -3199,65 +3210,65 @@ class GithubCve:  # GitHub的CVE监控写入表
             self.con.close()
             return cve_query_results
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_GithubCve(class)_Judgment(def)", e)
+            ErrorLog().Write(e)
     def StatisticalData(self,**kwargs):  # 整体个数统计
         try:
-            StatementProcessing = ""
-            TupleContainer = ()  # 存放处理后的数据
+            statement_processing = ""
+            tuple_container = ()  # 存放处理后的数据
             for x, i in enumerate(kwargs):
                 if i == "number_of_pages":
                     continue
                 if x == len(kwargs) - 1:  # 判断是不是最后一个参数
-                    StatementProcessing += i + " like ? "
+                    statement_processing += i + " like ? "
                 else:
-                    StatementProcessing += i + " like ? and "
-                TupleContainer += (str(kwargs.get(i)),)
-            if StatementProcessing!="":
-                StatementProcessing=" WHERE "+StatementProcessing
-            self.cur.execute("SELECT COUNT(1)  FROM GithubMonitor"+StatementProcessing,TupleContainer)
-            Result=self.cur.fetchall()[0][0]#获取数据个数
+                    statement_processing += i + " like ? and "
+                tuple_container += (str(kwargs.get(i)),)
+            if statement_processing!="":
+                statement_processing=" WHERE "+statement_processing
+            self.cur.execute("SELECT COUNT(1)  FROM GithubMonitor"+statement_processing,tuple_container)
+            result=self.cur.fetchall()[0][0]#获取数据个数
             self.con.close()
-            return Result
+            return result
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_GithubCve(class)_StatisticalData(def)", e)
+            ErrorLog().Write(e)
             return None
 
     def Query(self,**kwargs):#查询函数，可以进行联合查询
-        NumberOfSinglePages = 100  # 单页数量
-        NumberOfPages = kwargs.get(
+        number_of_single_pages = 100  # 单页数量
+        number_of_pages = kwargs.get(
             "number_of_pages") - 1  # 查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
-        StatementProcessing = ""
-        TupleContainer = ()#存放处理后的数据
+        statement_processing = ""
+        tuple_container = ()#存放处理后的数据
         for x,i in enumerate(kwargs):
             if i=="number_of_pages":
                 continue
             if x==len(kwargs)-1:#判断是不是最后一个参数
-                StatementProcessing += i + " like ? "
+                statement_processing += i + " like ? "
             else:
-                StatementProcessing += i + " like ? and "
-            TupleContainer += (str(kwargs.get(i)),)
+                statement_processing += i + " like ? and "
+            tuple_container += (str(kwargs.get(i)),)
         try:
-            ProcessedData=[]
-            if StatementProcessing!="":
-                StatementProcessing=" WHERE "+StatementProcessing
+            processed_data=[]
+            if statement_processing!="":
+                statement_processing=" WHERE "+statement_processing
             self.cur.execute(
-                "select *  from GithubMonitor "+StatementProcessing+" ORDER BY created_at DESC  limit ? offset ?",TupleContainer+(NumberOfSinglePages,NumberOfSinglePages*NumberOfPages,))  # 查询用户相关信息
+                "select *  from GithubMonitor "+statement_processing+" ORDER BY created_at DESC  limit ? offset ?",tuple_container+(number_of_single_pages,number_of_single_pages*number_of_pages,))  # 查询用户相关信息
 
             for i in self.cur.fetchall():
-                JsonValues = {}
-                JsonValues["github_id"]= i[1]
-                JsonValues["name"]= i[2]
-                JsonValues["html_url"]= i[3]
-                JsonValues["created_at"]= i[4]
-                JsonValues["updated_at"]= i[5]
-                JsonValues["pushed_at"]= i[6]
-                JsonValues["forks_count"]= i[7]
-                JsonValues["watchers_count"]= i[8]
-                ProcessedData.append(JsonValues)
+                json_values = {}
+                json_values["github_id"]= i[1]
+                json_values["name"]= i[2]
+                json_values["html_url"]= i[3]
+                json_values["created_at"]= i[4]
+                json_values["updated_at"]= i[5]
+                json_values["pushed_at"]= i[6]
+                json_values["forks_count"]= i[7]
+                json_values["watchers_count"]= i[8]
+                processed_data.append(json_values)
 
-            return ProcessedData
+            return processed_data
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_GithubCve(class)_Query(def)", e)
+            ErrorLog().Write(e)
 
 class FileAcquisitionData:  # 文件接收数据库
     def __init__(self):
@@ -3276,73 +3287,74 @@ class FileAcquisitionData:  # 文件接收数据库
                                 target_machine TEXT NOT NULL,\
                                 creation_time TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_FishingData(class)_init(def)", e)
+            ErrorLog().Write(e)
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
-        CreationTime = str(int(time.time()))  # 创建时间
-        Uid= kwargs.get("uid")
-        FileFullPath= kwargs.get("file_full_path")  # 该文件在目标机器完整的路径
-        OldFileName = kwargs.get("old_file_name")  # 该文件在目标机器的文件名
-        FileSize= kwargs.get("file_size")   # 文件大小
-        NewFileName = kwargs.get("new_file_name")  # 重命名后存储在本地的文件名
-        TargetMachine = kwargs.get("target_machine")  # 目标值，来确认机器是那一台
+        creation_time = str(int(time.time()))  # 创建时间
+        uid= kwargs.get("uid")
+        file_full_path= kwargs.get("file_full_path")  # 该文件在目标机器完整的路径
+        old_file_name = kwargs.get("old_file_name")  # 该文件在目标机器的文件名
+        file_size= kwargs.get("file_size")   # 文件大小
+        new_file_name = kwargs.get("new_file_name")  # 重命名后存储在本地的文件名
+        target_machine = kwargs.get("target_machine")  # 目标值，来确认机器是那一台
 
         try:
             self.cur.execute("INSERT INTO FileAcquisition(uid,file_full_path,old_file_name,file_size,new_file_name,target_machine,creation_time)\
-                VALUES (?,?,?,?,?,?,?)", (Uid,FileFullPath, OldFileName, FileSize,NewFileName,TargetMachine,CreationTime,))
+                VALUES (?,?,?,?,?,?,?)", (uid,file_full_path, old_file_name, file_size,new_file_name,target_machine,creation_time,))
             # 提交
             self.con.commit()
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_FileAcquisition(class)_Write(def)", e)
+            ErrorLog().Write(e)
             return False
     def DocumentAuthentication(self,Data) -> bool or None:  # 文件鉴权
-        ReturnList=[]
+        return_list=[]
         try:
             for i in Data:
                 self.cur.execute("select * from FileAcquisition WHERE uid=? and new_file_name=?", i)#查询用户相关信息
-                ReturnData=self.cur.fetchone()
-                if ReturnData is None:#判断是否有空数据
+                return_data=self.cur.fetchone()
+                if return_data is None:#判断是否有空数据
                     return False
                 else:
-                    tmp=(ReturnData[3],ReturnData[5])
-                    ReturnList.append(tmp)
+                    tmp=(return_data[3],return_data[5])
+                    return_list.append(tmp)
             self.con.close()
-            return ReturnList
+            return return_list
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_FileAcquisition(class)_Write(def)", e)
+            ErrorLog().Write(e)
             return False
     def Query(self, **kwargs):
         try:
-            Uid = kwargs.get("uid")
-            NumberOfSinglePages=100#单页数量
-            NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
-            self.cur.execute("select file_full_path,old_file_name,file_size,new_file_name,target_machine,creation_time  from FileAcquisition WHERE uid=? limit ? offset ?", (Uid,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询用户相关信息
+            uid = kwargs.get("uid")
+            number_of_single_pages=100#单页数量
+            number_of_pages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
+            self.cur.execute("select file_full_path,old_file_name,file_size,new_file_name,target_machine,creation_time  from FileAcquisition WHERE uid=? limit ? offset ?",
+                             (uid,number_of_single_pages,number_of_pages*number_of_single_pages,))#查询用户相关信息
             result_list = []
             for i in self.cur.fetchall():
-                JsonValues = {}
-                JsonValues["file_full_path"] = i[0]
-                JsonValues["old_file_name"] = i[1]
-                JsonValues["file_size"] = i[2]
-                JsonValues["new_file_name"] = i[3]
-                JsonValues["target_machine"] = i[4]
-                JsonValues["creation_time"] = i[5]
-                result_list.append(JsonValues)
+                json_values = {}
+                json_values["file_full_path"] = i[0]
+                json_values["old_file_name"] = i[1]
+                json_values["file_size"] = i[2]
+                json_values["new_file_name"] = i[3]
+                json_values["target_machine"] = i[4]
+                json_values["creation_time"] = i[5]
+                result_list.append(json_values)
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_FileAcquisition(class)_Query(def)", e)
+            ErrorLog().Write(e)
             return None
     def Quantity(self,**kwargs):  # 查看数量有哪些
-        Uid = kwargs.get("uid")
+        uid = kwargs.get("uid")
         try:
-            self.cur.execute("SELECT COUNT(1)  FROM FileAcquisition  WHERE uid=?", (Uid,))
-            Result=self.cur.fetchall()[0][0]#获取数据个数
+            self.cur.execute("SELECT COUNT(1)  FROM FileAcquisition  WHERE uid=?", (uid,))
+            result=self.cur.fetchall()[0][0]#获取数据个数
             self.con.close()
-            return Result
+            return result
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_FileAcquisition(class)_Quantity(def)", e)
+            ErrorLog().Write(e)
             return None
 
 class FileAcquisitionPack:  # 打包接收函数
@@ -3360,32 +3372,32 @@ class FileAcquisitionPack:  # 打包接收函数
                                 redis_id TEXT NOT NULL,\
                                 creation_time TEXT NOT NULL)")
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_FileAcquisitionPack(class)_init(def)", e)
+            ErrorLog().Write(e)
 
     def Write(self, **kwargs) -> bool or None:  # 写入相关信息
-        CreationTime = str(int(time.time()))  # 创建时间
-        Uid= kwargs.get("uid")
-        FileName = kwargs.get("file_name")  # 存储在本地的文件名
-        State = kwargs.get("state")  # 获取文件状态,1表示成功，0表示正在执行，-1表示失败
-        RedisId = kwargs.get("redis_id")  # 获取redis值
+        creation_time = str(int(time.time()))  # 创建时间
+        uid= kwargs.get("uid")
+        file_name = kwargs.get("file_name")  # 存储在本地的文件名
+        state = kwargs.get("state")  # 获取文件状态,1表示成功，0表示正在执行，-1表示失败
+        redis_id = kwargs.get("redis_id")  # 获取redis值
 
 
         try:
             self.cur.execute("INSERT INTO FileAcquisitionPack(uid,file_name,state,redis_id,creation_time)\
-                VALUES (?,?,?,?,?)", (Uid,FileName,State,RedisId,CreationTime,))
+                VALUES (?,?,?,?,?)", (uid,file_name,state,redis_id,creation_time,))
             # 提交
             self.con.commit()
             self.con.close()
             return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_FileAcquisitionPack(class)_Write(def)", e)
+            ErrorLog().Write(e)
             return False
     def UpdateStatus(self,**kwargs)->bool:#利用主键ID来判断后更新数据
-        RedisId = kwargs.get("redis_id")
-        FileName = kwargs.get("file_name")
-        State = kwargs.get("state")
+        redis_id = kwargs.get("redis_id")
+        file_name = kwargs.get("file_name")
+        state = kwargs.get("state")
         try:
-            self.cur.execute("""UPDATE FileAcquisitionPack SET state = ?,file_name=? WHERE redis_id= ?""",(State,FileName, RedisId,))
+            self.cur.execute("""UPDATE FileAcquisitionPack SET state = ?,file_name=? WHERE redis_id= ?""",(state,file_name, redis_id,))
             # 提交
             if self.cur.rowcount < 1:  # 用来判断是否更新成功
                 self.con.commit()
@@ -3396,13 +3408,13 @@ class FileAcquisitionPack:  # 打包接收函数
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_FileAcquisitionPack(class)_UpdateStatus(def)", e)
+            ErrorLog().Write(e)
             return False
     def DownloadAuthentication(self,**kwargs)->bool:#下载鉴权
-        Uid = kwargs.get("uid")
-        FileName = kwargs.get("file_name")
+        uid = kwargs.get("uid")
+        file_name = kwargs.get("file_name")
         try:
-            self.cur.execute("select *  from FileAcquisitionPack WHERE uid=? and file_name=?", (Uid,FileName,))
+            self.cur.execute("select *  from FileAcquisitionPack WHERE uid=? and file_name=?", (uid,file_name,))
 
             if self.cur.fetchone() is None:  # 判断是否有空数据
                 self.con.close()
@@ -3411,33 +3423,34 @@ class FileAcquisitionPack:  # 打包接收函数
                 self.con.close()
                 return True
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_FileAcquisitionPack(class)_DownloadAuthentication(def)", e)
+            ErrorLog().Write(e)
             return False
     def Query(self, **kwargs):
         try:
-            Uid = kwargs.get("uid")
-            NumberOfSinglePages=100#单页数量
-            NumberOfPages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
-            self.cur.execute("select file_name,state,creation_time  from FileAcquisitionPack WHERE uid=? limit ? offset ?", (Uid,NumberOfSinglePages,NumberOfPages*NumberOfSinglePages,))#查询用户相关信息
+            uid = kwargs.get("uid")
+            number_of_single_pages=100#单页数量
+            number_of_pages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
+            self.cur.execute("select file_name,state,creation_time  from FileAcquisitionPack WHERE uid=? limit ? offset ?",
+                             (uid,number_of_single_pages,number_of_pages*number_of_single_pages,))#查询用户相关信息
             result_list = []
             for i in self.cur.fetchall():
-                JsonValues = {}
-                JsonValues["file_name"] = i[0]
-                JsonValues["state"] = i[1]
-                JsonValues["creation_time"] = i[2]
-                result_list.append(JsonValues)
+                json_values = {}
+                json_values["file_name"] = i[0]
+                json_values["state"] = i[1]
+                json_values["creation_time"] = i[2]
+                result_list.append(json_values)
             self.con.close()
             return result_list
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_FileAcquisitionPack(class)_Query(def)", e)
+            ErrorLog().Write(e)
             return None
     def Quantity(self,**kwargs):  # 查看数量有哪些
-        Uid = kwargs.get("uid")
+        uid = kwargs.get("uid")
         try:
-            self.cur.execute("SELECT COUNT(1)  FROM FileAcquisitionPack  WHERE uid=?", (Uid,))
-            Result=self.cur.fetchall()[0][0]#获取数据个数
+            self.cur.execute("SELECT COUNT(1)  FROM FileAcquisitionPack  WHERE uid=?", (uid,))
+            result=self.cur.fetchall()[0][0]#获取数据个数
             self.con.close()
-            return Result
+            return result
         except Exception as e:
-            ErrorLog().Write("Web_DatabaseHub_FileAcquisitionPack(class)_Quantity(def)", e)
+            ErrorLog().Write(e)
             return None

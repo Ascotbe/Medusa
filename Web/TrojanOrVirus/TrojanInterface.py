@@ -87,7 +87,7 @@ def CompileCode(Command):#代码编译处理函数
         TrojanData().UpdateStatus(compilation_status="1", redis_id=CompileCode.request.id)  # 任务结束后更新状态
     except subprocess.CalledProcessError as e:
         TrojanData().UpdateStatus(compilation_status="-1", redis_id=CompileCode.request.id)  # 任务结束后更新状态
-        ErrorLog().Write("Web_TrojanOrVirus_TrojanInterface_CompileCode(def)", e)
+        ErrorLog().Write(e)
 
 @app.task
 def CompilePortableExecutableFile(**kwargs):#编译处理PE文件
@@ -104,7 +104,7 @@ def CompilePortableExecutableFile(**kwargs):#编译处理PE文件
         PortableExecutable2Shellcode().UpdateStatus(status="1", redis_id=CompilePortableExecutableFile.request.id)  # 任务结束后更新状态
     except subprocess.CalledProcessError as e:
         PortableExecutable2Shellcode().UpdateStatus(status="-1", redis_id=CompilePortableExecutableFile.request.id)  # 任务结束后更新状态
-        ErrorLog().Write("Web_TrojanOrVirus_TrojanInterface_CompilePortableExecutableFile(def)", e)
+        ErrorLog().Write(e)
 
 
 
@@ -137,7 +137,7 @@ def GetTrojanPlugins(request):#获取用户当前木马插件
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_TrojanOrVirus_TrojanInterface_GetTrojanPlugins(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': "呐呐呐！莎酱被玩坏啦(>^ω^<)", 'code': 169, })
 
     else:
@@ -231,18 +231,18 @@ def ShellcodeToTrojan(request):##shellcode转换生成病毒
                                 else:
                                     return JsonResponse({'message': "你的电脑不是Mac或者Linux无法使用该功能ლ(•̀ _ •́ ლ)", 'code': 600, })
                             except Exception as e:
-                                ErrorLog().Write("Web_TrojanOrVirus_TrojanInterface_ShellcodeToTrojan(def)-Plugin", e)
+                                ErrorLog().Write(e)
                                 return JsonResponse({'message': "呐呐呐！你这插件有问题呀！快上服务器看看是不是写错了", 'code': 197, })
                         else:
                             return JsonResponse({'message': "小伙子不要搞事情嗷，你不看看插件是否传入正确ლ(•̀ _ •́ ლ)", 'code': 430, })
 
                 except Exception as e:
-                    ErrorLog().Write("Web_TrojanOrVirus_TrojanInterface_ShellcodeToTrojan(def)-TrojanClass", e)
+                    ErrorLog().Write(e)
                     return JsonResponse({'message': "呐呐呐！未知错误內~", 'code': 161, })
             else:
                 return JsonResponse({'message': "小宝贝这是非法请求哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_TrojanOrVirus_TrojanInterface_ShellcodeToTrojan(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': "呐呐呐！莎酱被玩坏啦(>^ω^<)", 'code': 169, })
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
@@ -269,7 +269,7 @@ def TrojanDataQuery(request):#个人用户免杀数据查询
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_TrojanOrVirus_TrojanInterface_TrojanDataQuery(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': "呐呐呐！莎酱被玩坏啦(>^ω^<)", 'code': 169, })
 
     else:
@@ -295,7 +295,7 @@ def TrojanDataStatistical(request):#个人用户数据统计
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_TrojanOrVirus_TrojanInterface_TrojanDataStatistical(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': "呐呐呐！莎酱被玩坏啦(>^ω^<)", 'code': 169, })
 
     else:
@@ -330,7 +330,7 @@ def TrojanFileDownloadVerification(request):#木马文件下载验证接口
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_TrojanOrVirus_TrojanInterface_TrojanDataStatistical(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': "呐呐呐！莎酱被玩坏啦(>^ω^<)", 'code': 169, })
 
     else:
@@ -371,7 +371,7 @@ def PE2Shellcode(request):#PE文件转换成Shellcode
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_TrojanOrVirus_TrojanInterface_PE2Shellcode(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': "呐呐呐！莎酱被玩坏啦(>^ω^<)", 'code': 169, })
 
     else:
@@ -395,7 +395,7 @@ def PE2Shellcode(request):#PE文件转换成Shellcode
 #             else:
 #                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
 #         except Exception as e:
-#             ErrorLog().Write("Web_TrojanOrVirus_TrojanInterface_GetAntiSandbox(def)", e)
+#             ErrorLog().Write(e)
 #             return JsonResponse({'message': "呐呐呐！莎酱被玩坏啦(>^ω^<)", 'code': 169, })
 #
 #     else:
@@ -418,7 +418,7 @@ def PE2Shellcode(request):#PE文件转换成Shellcode
 #             else:
 #                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
 #         except Exception as e:
-#             ErrorLog().Write("Web_TrojanOrVirus_TrojanInterface_GetAutoStart(def)", e)
+#             ErrorLog().Write(e)
 #             return JsonResponse({'message': "呐呐呐！莎酱被玩坏啦(>^ω^<)", 'code': 169, })
 #
 #     else:
@@ -530,18 +530,18 @@ def PE2Shellcode(request):#PE文件转换成Shellcode
 #                                 else:
 #                                     return JsonResponse({'message': "你的电脑不是Mac或者Linux无法使用该功能ლ(•̀ _ •́ ლ)", 'code': 600, })
 #                             except Exception as e:
-#                                 ErrorLog().Write("Web_TrojanOrVirus_TrojanInterface_ShellcodeToTrojan(def)-Plugin", e)
+#                                 ErrorLog().Write(e)
 #                                 return JsonResponse({'message': "呐呐呐！你这插件有问题呀！快上服务器看看是不是写错了", 'code': 197, })
 #                         else:
 #                             return JsonResponse({'message': "小伙子不要搞事情嗷，你不看看插件是否传入正确ლ(•̀ _ •́ ლ)", 'code': 430, })
 #
 #                 except Exception as e:
-#                     ErrorLog().Write("Web_TrojanOrVirus_TrojanInterface_ShellcodeToTrojan(def)-TrojanClass", e)
+#                     ErrorLog().Write(e)
 #                     return JsonResponse({'message': "呐呐呐！未知错误內~", 'code': 161, })
 #             else:
 #                 return JsonResponse({'message': "小宝贝这是非法请求哦(๑•̀ㅂ•́)و✧", 'code': 403, })
 #         except Exception as e:
-#             ErrorLog().Write("Web_TrojanOrVirus_TrojanInterface_ShellcodeToTrojan(def)", e)
+#             ErrorLog().Write(e)
 #             return JsonResponse({'message': "呐呐呐！莎酱被玩坏啦(>^ω^<)", 'code': 169, })
 #     else:
 #         return JsonResponse({'message': '请使用Post请求', 'code': 500, })

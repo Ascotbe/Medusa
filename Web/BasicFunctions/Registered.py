@@ -71,7 +71,7 @@ def Registered(request):
             else:
                 return JsonResponse({'message': "验证码或者验证码秘钥不能为空！", 'code': 505, })
         except Exception as e:
-            ErrorLog().Write("Web_BasicFunctions_Registered_Registered(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '自己去看报错日志！', 'code': 169, })
 
     else:

@@ -89,7 +89,7 @@ def SendMail(**kwargs):
                 else:
                     EmailDetails().Write(email=Target,email_md5=MD5,status="1",project_key=Key,department=Department)
             except Exception as e:
-                ErrorLog().Write("Web_Email_Send_SendMail(def)" + str(Target), e)
+                ErrorLog().Write(e)
                 Result=EmailDetails().Verification(email=Target, project_key=Key,department=Department)#验证数据是否存在
                 if Result:#如果有数据
                     EmailDetails().Update(email=Target, project_key=Key,department=Department,status="-1")#更新数据

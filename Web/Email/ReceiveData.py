@@ -26,7 +26,7 @@ def Monitor(request,data):#用于接收信息的监控
         GetRequestFragment = re.search(r'/[a-zA-Z0-9]{10}', str(request.get_full_path), re.I).group(0)[1:11]
         #print(GetRequestFragment[1:11])
     except Exception as e:
-        ErrorLog().Write("Web_Email_ReceiveData_Monitor(def)-GetRequestFragment", e)
+        ErrorLog().Write(e)
     EndTime=EmailProject().MonitorQuery(project_key=GetRequestFragment)#查询项目接受数据时间
     if EndTime!=None and int(EndTime)>int(time.time()):#判断项目是否结束
         if request.method == "POST":
@@ -56,7 +56,7 @@ def Monitor(request,data):#用于接收信息的监控
                                              data_pack_info=base64.b64encode(DataPackInfo).decode('utf-8'),
                                              incidental_data=base64.b64encode(str(IncidentalData).encode('utf-8')).decode('utf-8'))
             except Exception as e:
-                ErrorLog().Write("Web_Email_ReceiveData_Monitor(def)-POST", e)
+                ErrorLog().Write(e)
         elif request.method == "GET":
             try:
 
@@ -78,7 +78,7 @@ def Monitor(request,data):#用于接收信息的监控
                                              incidental_data=base64.b64encode(str(IncidentalData).encode('utf-8')).decode('utf-8'))
 
             except Exception as e:
-                ErrorLog().Write("Web_Email_ReceiveData_Monitor(def)-GET", e)
+                ErrorLog().Write(e)
 
     return HttpResponse("")
 
@@ -103,7 +103,7 @@ def Statistics(request):#统计邮件获取到的数据
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_Email_ReceiveData_Statistics(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '自己去看报错日志！', 'code': 169, })
 
     else:
@@ -134,7 +134,7 @@ def Details(request):#邮件获取的数据详情
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_Email_ReceiveData_Details(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '自己去看报错日志！', 'code': 169, })
 
     else:
@@ -179,7 +179,7 @@ def Search(request):#条件查询
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_Email_ReceiveData_Details(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '自己去看报错日志！', 'code': 169, })
 
     else:
@@ -217,7 +217,7 @@ def SearchQuantity(request):#搜索数量
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
-            ErrorLog().Write("Web_Email_ReceiveData_SearchQuantity(def)", e)
+            ErrorLog().Write(e)
             return JsonResponse({'message': '自己去看报错日志！', 'code': 169, })
 
     else:

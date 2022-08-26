@@ -9,6 +9,7 @@
   >
     <a-col :xs="{ span: 24 }" :lg="{ span: 12 }">
       <Card name>
+        <div style="font-size: 16px; color: #000;margin-bottom: 10px;">模板信息</div>
         <a-form layout="vertical">
           <a-form-item label="选择模板:">
             <a-select
@@ -19,8 +20,9 @@
           </a-form-item>
           <a-form-item label="模板内容:">
             <codemirror
+              ref="codemirror_read_only"
               :value="templateData"
-              :options="{mode: 'text/javascript',lineNumbers: true,theme:'base16-light'}"
+              :options="{mode: 'text/javascript',lineNumbers: true,theme:'base16-light',lineWrapping:'true'}"
             ></codemirror>
           </a-form-item>
         </a-form>
@@ -30,14 +32,14 @@
       <Card name>
         <div style="font-size: 16px; color: #000;margin-bottom: 10px;">填写基本信息</div>
         <a-form :form="XSSForm" layout="vertical">
-          <a-form-item label="项目名：" style="margin-bottom: 5px;">
+          <a-form-item label="项目名：">
             <a-input v-decorator="['projectName',{ rules: [{ required: true, message: '请输入项目名'}]}]"></a-input>
           </a-form-item>
           <a-form-item label="脚本数据：">
             <codemirror
               ref="codemirror"
               v-decorator="['scriptData',{ rules: [{ required: true, message: '请输入脚本数据'}]}]"
-              :options="{mode: 'text/javascript',lineNumbers: true,theme:'base16-light'}"
+              :options="{mode: 'text/javascript',lineNumbers: true,theme:'base16-light',lineWrapping:'true'}"
               @input="handleCodeMirrorChange"
             ></codemirror>
           </a-form-item>
@@ -79,6 +81,10 @@ export default {
   components: { Card, codemirror },
   mounted () {
     this.handleTemplateOption()
+    // console.log()
+
+    this.$refs.codemirror_read_only.codemirror.setSize('auto', 600)
+    this.$refs.codemirror.codemirror.setSize('auto', 600)
   },
   methods: {
     handleTemplateOption () {//查询模板信息

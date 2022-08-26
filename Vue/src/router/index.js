@@ -61,6 +61,9 @@ const routes = [
       {
         path: 'dashboard',
         name: 'dashboard',
+        meta: {
+          collapsed: true
+        },
         // component: Dashboard,
         component: () => import('@/views/Dashboard/Dashboard'),
       },
@@ -248,14 +251,17 @@ router.beforeEach(async (to, from, next) => {
     });
     return
   }
-
-  // console.log(itemList)
   if (to.name == from.name) {
     next(false)
     return
   }
-
-  console.log(to, from)
+  // console.log(to, from)
+  // if (to.meta.collapsed) {
+  //   store.commit("StateStore/setCollapsed", false)
+  // }
+  // else {
+  //   store.commit("StateStore/setCollapsed", true)
+  // }
   if (to.matched[0]?.meta.isLogin) {
     if (localStorage.getItem('token')) {
       await store.dispatch("UserStore/setUserinfo", localStorage.getItem('token'))

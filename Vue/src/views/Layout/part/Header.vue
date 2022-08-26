@@ -2,17 +2,18 @@
   <!-- <a-icon class="trigger" :type="collapsed ? 'menu-unfold' : 'menu-fold'" @click="handleCollapsed" /> -->
   <a-dropdown class="dropdown">
     <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
-      <a-avatar :src="headerImg" :loadError="handleLoadError" />
+      <a-avatar class="avatar" :src="headerImg" :loadError="handleLoadError" />
       <span class="user_name">{{ username }}</span>
     </a>
-    <a-menu slot="overlay" @click="handleMenuClick">
+
+    <!-- <a-menu slot="overlay" @click="handleMenuClick">
       <a-menu-item key="user">
         <a-icon type="setting" />个人中心
       </a-menu-item>
       <a-menu-item key="logOut">
         <a-icon type="poweroff" />退出登录
       </a-menu-item>
-    </a-menu>
+    </a-menu>-->
   </a-dropdown>
 </template>
 
@@ -20,6 +21,12 @@
 import { mapGetters } from "vuex";
 const config = require("../../../../faceConfig");
 export default {
+  props: {
+    collapsed: {
+      type: Boolean,
+      defaule: () => false
+    }
+  },
   data () {
     return {
       headerImg: '',
@@ -72,11 +79,18 @@ export default {
 
 <style lang="scss" scoped>
 .dropdown {
-  position: absolute;
-  right: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .avatar {
+    border: 1px solid #ccc;
+  }
+  // display: inline;
+  // position: absolute;
+  // right: 60px;
   .user_name {
     color: aliceblue;
-    padding: 10px;
+    // padding: 10px;
   }
 }
 </style>

@@ -1,6 +1,7 @@
 <template>
   <a-menu
     class="menu"
+    :class="collapsed?'shrinkState':''"
     mode="inline"
     theme="dark"
     v-model="selectedKeys"
@@ -43,7 +44,7 @@ export default {
   data () {
     return {
       menuList,
-      selectedKeys: ['dashboard']
+      selectedKeys: ['dashboard'],
     }
   },
   props: {
@@ -53,6 +54,18 @@ export default {
         return [];
       },
     },
+    inlineCollapsed: {
+      type: Boolean,
+      default: () => false
+    },
+    inlineIndent: {
+      type: Number,
+      default: () => 24
+    },
+    collapsed: {
+      type: Boolean,
+      default: () => false
+    }
   },
   computed: {
     ...mapGetters({
@@ -60,26 +73,46 @@ export default {
     }),
   },
   mounted () {
-    const _this = this
-    _this.StarSelectedKeys != [] ? _this.selectedKeys = _this.StarSelectedKeys : ''
+    this.StarSelectedKeys != [] ? this.selectedKeys = this.StarSelectedKeys : ''
   },
   methods: {
     handleSetSelectedKeys (selectedKeys) {
-      const _this = this
-      _this.selectedKeys = selectedKeys
+      this.selectedKeys = selectedKeys
     },
     handleGoTo ({ item, key, keyPath }) {
-      const _this = this
-      _this.$router.push(key)
+      this.$router.push(key)
     }
   },
+  watch: {
+    collapsed: {
+      handler: function (val) {
+        //是否收缩菜单 false展开 true 收缩
+        if (val) {
+
+        }
+      }
+    }
+  }
+
 }
 </script>
 
 <style lang="scss" scoped>
+.shrinkState {
+  width: 40px;
+  li {
+    padding: 0 0 !important;
+    text-align: center;
+    ::v-deep .ant-menu-submenu-title {
+      padding: 0 0 !important;
+      text-align: center;
+    }
+  }
+}
+
 .menu {
   text-align: left;
-  height: calc(100% - 60px);
+  height: calc(100% - 120px);
   min-height: 540px;
   overflow-y: scroll;
 }

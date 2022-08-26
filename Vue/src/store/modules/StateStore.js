@@ -5,12 +5,16 @@
 const state = {
   namespaced: true,
   state: {
-    starSelectedKeys: []
+    starSelectedKeys: [],//当前选定菜单
+    collapsed: false,//是否收缩菜单 false展开 true 收缩
   },
   mutations: {
     setStarSelectedKeys (state, val) {
       localStorage.setItem('starSelectedKeys', val.toString());
       state.starSelectedKeys = [val]
+    },
+    setCollapsed (state, val) {
+      state.collapsed = val
     }
   },
   actions: {
@@ -22,6 +26,9 @@ const state = {
       state.starSelectedKeys = [localStorage.getItem('starSelectedKeys')];
       return state.starSelectedKeys
     },
+    collapsed: (state) => {
+      return state.collapsed
+    }
   }
 }
 

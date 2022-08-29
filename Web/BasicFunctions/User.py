@@ -19,29 +19,29 @@ def Login(request):#用户登录，每次登录成功都会刷新一次Token
     RequestLogRecord(request, request_api="login")
     if request.method == "POST":
         try:
-            Username=json.loads(request.body)["username"]
-            Passwd=json.loads(request.body)["passwd"]
-            VerificationCodeKey = json.loads(request.body)["verification_code_key"]#获取验证码关联的KEY
-            Code = json.loads(request.body)["verification_code"].lower()#获取验证码,把验证码全部转换成小写
-            Md5Passwd=Md5Encryption().Md5Result(Passwd)#对密码加密
-            if VerificationCodeKey!=None and Code!=None:#判断传入数据不为空
-                VerificationCodeResult=VerificationCode().Query(code=Code,verification_code_key=VerificationCodeKey)#获取判断
-                if VerificationCodeResult:#如果为真,进行登录验证
-                    UserLogin=UserInfo().UserLogin(Username,Md5Passwd)
-                    if UserLogin is None:
+            username=json.loads(request.body)["username"]
+            passwd=json.loads(request.body)["passwd"]
+            verification_code_key = json.loads(request.body)["verification_code_key"]#获取验证码关联的KEY
+            verification_code = json.loads(request.body)["verification_code"].lower()#获取验证码,把验证码全部转换成小写
+            md5_passwd=Md5Encryption().Md5Result(passwd)#对密码加密
+            if verification_code_key!=None and verification_code!=None:#判断传入数据不为空
+                verification_code_result=VerificationCode().Query(code=verification_code,verification_code_key=verification_code_key)#获取判断
+                if verification_code_result:#如果为真,进行登录验证
+                    user_login=UserInfo().UserLogin(username,md5_passwd)
+                    if user_login is None:
                         return JsonResponse({'message': '账号或密码错误', 'code': 604, })
 
                     else:
                         while True:#如果查询确实冲突了
-                            Token = randoms().result(250)
-                            QueryTokenValidity = UserInfo().QueryTokenValidity(Token)#用来查询Token是否冲突了
-                            if not QueryTokenValidity:#如果不冲突的话跳出循环
+                            token = randoms().result(250)
+                            query_token_validity = UserInfo().QueryTokenValidity(token)#用来查询Token是否冲突了
+                            if not query_token_validity:#如果不冲突的话跳出循环
                                 break
-                        UpdateToken=UserInfo().UpdateToken(name=Username, token=Token)#接着更新Token
-                        if UpdateToken:#如果更新成功了
-                            Uid = UserInfo().QueryUidWithToken(Token)  # 查询UID
-                            UserOperationLogRecord(request, request_api="login", uid=Uid)
-                            return JsonResponse({'message': Token, 'code': 200, })
+                        update_token=UserInfo().UpdateToken(name=username, token=token)#接着更新Token
+                        if update_token:#如果更新成功了
+                            uid = UserInfo().QueryUidWithToken(token)  # 查询UID
+                            UserOperationLogRecord(request, request_api="login", uid=uid)
+                            return JsonResponse({'message': token, 'code': 200, })
                 else:
                     return JsonResponse({'message': "验证码错误或者过期！", 'code': 503, })
             else:
@@ -67,20 +67,20 @@ def UpdatePassword(request):#更新密码
     RequestLogRecord(request, request_api="update_password")
     if request.method == "POST":
         try:
-            UserName=json.loads(request.body)["username"]
-            OldPasswd=json.loads(request.body)["old_passwd"]
-            NewPasswd = json.loads(request.body)["new_passwd"]
-            VerificationCodeKey = json.loads(request.body)["verification_code_key"]#获取验证码关联的KEY
-            Code = json.loads(request.body)["verification_code"].lower()#获取验证码
+            username=json.loads(request.body)["username"]
+            old_passwd=json.loads(request.body)["old_passwd"]
+            new_passwd = json.loads(request.body)["new_passwd"]
+            verification_code_key = json.loads(request.body)["verification_code_key"]#获取验证码关联的KEY
+            verification_code = json.loads(request.body)["verification_code"].lower()#获取验证码
 
-            if VerificationCodeKey!=None and Code!=None:#判断传入数据不为空
-                VerificationCodeResult=VerificationCode().Query(code=Code,verification_code_key=VerificationCodeKey)#获取判断
-                if VerificationCodeResult:#如果为真,进行登录验证
-                    Md5NewPasswd = Md5Encryption().Md5Result(NewPasswd)  # 对新密码加密
-                    Md5OldPasswd = Md5Encryption().Md5Result(OldPasswd)  # 对旧密码加密
-                    UpdatePassword=UserInfo().UpdatePasswd(name=UserName,old_passwd=Md5OldPasswd,new_passwd=Md5NewPasswd)
-                    if UpdatePassword:
-                        UserOperationLogRecord(request, request_api="update_password", uid=UserName)#如果修改成功写入数据库中
+            if verification_code_key!=None and verification_code!=None:#判断传入数据不为空
+                verification_code_result=VerificationCode().Query(code=verification_code,verification_code_key=verification_code_key)#获取判断
+                if verification_code_result:#如果为真,进行登录验证
+                    md5_new_passwd = Md5Encryption().Md5Result(new_passwd)  # 对新密码加密
+                    md5_old_passwd = Md5Encryption().Md5Result(old_passwd)  # 对旧密码加密
+                    update_password=UserInfo().UpdatePasswd(name=username,old_passwd=md5_old_passwd,new_passwd=md5_new_passwd)
+                    if update_password:
+                        UserOperationLogRecord(request, request_api="update_password", uid=username)#如果修改成功写入数据库中
                         return JsonResponse({'message': '好耶！修改成功~', 'code': 200, })
                     else:
                         return JsonResponse({'message': "输入信息有误重新输入", 'code': 404, })
@@ -105,13 +105,13 @@ def UpdateShowName(request):#更新显示名字
     RequestLogRecord(request, request_api="update_show_name")
     if request.method == "POST":
         try:
-            Token=json.loads(request.body)["token"]
-            NewShowName= json.loads(request.body)["new_show_name"]
-            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
-            if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="update_show_name", uid=Uid)  # 查询到了在计入
-                UpdateShowNameResult=UserInfo().UpdateShowName(uid=Uid,show_name=NewShowName)#获取值查看是否成功
-                if UpdateShowNameResult:
+            token=json.loads(request.body)["token"]
+            new_show_name= json.loads(request.body)["new_show_name"]
+            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询UID
+            if uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="update_show_name", uid=uid)  # 查询到了在计入
+                result=UserInfo().UpdateShowName(uid=uid,show_name=new_show_name)#获取值查看是否成功
+                if result:
                     return JsonResponse({'message': '好诶！修改成功~', 'code': 200, })
                 else:
                     return JsonResponse({'message': "输入信息有误重新输入", 'code': 404, })
@@ -133,13 +133,13 @@ def UpdateKey(request):#更新Key
     RequestLogRecord(request, request_api="update_key")
     if request.method == "POST":
         try:
-            Token=json.loads(request.body)["token"]
-            NewKey= randoms().result(40)#生成随机的key,有可能会重复，这边先暂时不管了，这概论太j8低了
-            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
-            if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="update_key", uid=Uid)  # 查询到了在计入
-                UpdateKeyResult=UserInfo().UpdateKey(uid=Uid,key=NewKey)#获取值查看是否成功
-                if UpdateKeyResult:
+            token=json.loads(request.body)["token"]
+            new_key= randoms().result(40)#生成随机的key,有可能会重复，这边先暂时不管了，这概论太j8低了
+            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询UID
+            if uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="update_key", uid=uid)  # 查询到了在计入
+                result=UserInfo().UpdateKey(uid=uid,key=new_key)#获取值查看是否成功
+                if result:
                     return JsonResponse({'message': '呐呐呐呐！修改成功了呢~', 'code': 200, })
                 else:
                     return JsonResponse({'message': "输入信息有误重新输入", 'code': 404, })
@@ -162,22 +162,22 @@ def PersonalInformation(request):#用户个人信息
     RequestLogRecord(request, request_api="user_info")
     if request.method == "POST":
         try:
-            Token=json.loads(request.body)["token"]
-            Info=UserInfo().QueryUserInfo(Token)
-            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询用户名
-            if Info is None:
+            token=json.loads(request.body)["token"]
+            info=UserInfo().QueryUserInfo(token)
+            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询用户名
+            if info is None:
                 return JsonResponse({'message': '搁着闹呢？', 'code': 404, })
-            elif Info != None and Uid!=None:
-                UserOperationLogRecord(request, request_api="user_info", uid=Uid)
-                JsonValues = {}#对数据进行二次处理
-                JsonValues["id"] = Info["id"]
-                JsonValues["key"] = Info["key"]
-                JsonValues["name"] = Info["name"]
-                JsonValues["token"] = Info["token"]
-                JsonValues["show_name"] = Info["show_name"]
-                JsonValues["email"] = Info["email"]
-                JsonValues["avatar"] = Info["avatar"]
-                return JsonResponse({'message': JsonValues, 'code': 200, })
+            elif info != None and uid!=None:
+                UserOperationLogRecord(request, request_api="user_info", uid=uid)
+                json_values = {}#对数据进行二次处理
+                json_values["id"] = info["id"]
+                json_values["key"] = info["key"]
+                json_values["name"] = info["name"]
+                json_values["token"] = info["token"]
+                json_values["show_name"] = info["show_name"]
+                json_values["email"] = info["email"]
+                json_values["avatar"] = info["avatar"]
+                return JsonResponse({'message': json_values, 'code': 200, })
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
 
@@ -203,21 +203,21 @@ XXXXXXXXXXXXXXX
 """
 def UploadAvatar(request):#文件上传功能
     RequestLogRecord(request, request_api="upload_avatar")
-    Token =request.headers["token"]
+    token =request.headers["token"]
     if request.method == "POST":
         try:
-            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
-            if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="upload_avatar", uid=Uid)  # 查询到了在计入
-                PictureData = request.FILES.get('file', None)#获取文件数据
-                if 10240<PictureData.size:#最大值10MB，最小值10KB
-                    SaveFileName=randoms().result(10)+str(int(time.time()))+".jpg"#重命名文件
-                    SaveRoute=GetPath().ImageFilePath()+SaveFileName#获得保存路径
-                    with open(SaveRoute, 'wb') as f:
-                        for line in PictureData:
+            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询UID
+            if uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="upload_avatar", uid=uid)  # 查询到了在计入
+                picture_data = request.FILES.get('file', None)#获取文件数据
+                if 10240<picture_data.size:#最大值10MB，最小值10KB
+                    save_file_name=randoms().result(10)+str(int(time.time()))+".jpg"#重命名文件
+                    save_route=GetPath().ImageFilePath()+save_file_name#获得保存路径
+                    with open(save_route, 'wb') as f:
+                        for line in picture_data:
                             f.write(line)
-                    UserInfo().UpdateAvatar(avatar=SaveFileName,uid=Uid)#图片写到本地后更新用户头像
-                    return JsonResponse({'message': SaveFileName, 'code': 200,})#返回上传图片名称
+                    UserInfo().UpdateAvatar(avatar=save_file_name,uid=uid)#图片写到本地后更新用户头像
+                    return JsonResponse({'message': save_file_name, 'code': 200,})#返回上传图片名称
                 else:
                     return JsonResponse({'message': '它实在是太小了，莎酱真的一点感觉都没有o(TヘTo)',  'code': 603,})
             else:
@@ -242,21 +242,21 @@ def ForgetPassword(request):#忘记密码接口
     RequestLogRecord(request, request_api="forget_password")
     if request.method == "POST":
         try:
-            Key = json.loads(request.body)["key"]
-            Name = json.loads(request.body).get("name")
-            NewPasswd = json.loads(request.body).get("new_passwd")
-            Email = json.loads(request.body).get("email")
-            VerificationCodeKey = json.loads(request.body)["verification_code_key"]#获取验证码关联的KEY
-            Code = json.loads(request.body)["verification_code"].lower()#获取验证码
+            key = json.loads(request.body)["key"]
+            name = json.loads(request.body).get("name")
+            new_passwd = json.loads(request.body).get("new_passwd")
+            email = json.loads(request.body).get("email")
+            verification_code_key = json.loads(request.body)["verification_code_key"]#获取验证码关联的KEY
+            verification_code = json.loads(request.body)["verification_code"].lower()#获取验证码
 
-            if VerificationCodeKey!=None and Code!=None:#判断传入数据不为空
-                VerificationCodeResult=VerificationCode().Query(code=Code,verification_code_key=VerificationCodeKey)#获取判断
-                if VerificationCodeResult:#如果为真,进行登录验证
+            if verification_code_key!=None and verification_code!=None:#判断传入数据不为空
+                verification_code_result=VerificationCode().Query(code=verification_code,verification_code_key=verification_code_key)#获取判断
+                if verification_code_result:#如果为真,进行登录验证
                     if forgot_password_function_status:  # 查看状态是否关闭
-                        if Key==forget_password_key:#如果传入的key相等
-                            Md5Passwd = Md5Encryption().Md5Result(NewPasswd)  # 进行加密
-                            ChangePasswordResult=UserInfo().ForgetPassword(name=Name,new_passwd=Md5Passwd,email=Email)#进行修改密码
-                            if ChangePasswordResult:#如果修改成功
+                        if key==forget_password_key:#如果传入的key相等
+                            md5_passwd = Md5Encryption().Md5Result(new_passwd)  # 进行加密
+                            result=UserInfo().ForgetPassword(name=name,new_passwd=md5_passwd,email=email)#进行修改密码
+                            if result:#如果修改成功
                                 return JsonResponse({'message': "修改成功啦~建议去配置文件中关闭忘记密码功能哦~", 'code': 200, })
                             else:
                                 return JsonResponse({'message': "这个数据你是认真的嘛(。﹏。)", 'code': 501, })

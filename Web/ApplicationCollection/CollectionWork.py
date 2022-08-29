@@ -46,17 +46,17 @@ def AppleAppCollection(request):  # IOS的程序收集
     RequestLogRecord(request, request_api="apple_app_collection")
     if request.method == "POST":
         try:
-            Token = json.loads(request.body)["token"]
-            AppName=json.loads(request.body)["app_name"]
-            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
-            if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="apple_app_collection", uid=Uid)  # 查询到了在计入
-                RedisId = AppleCollectionWork.delay(AppName,Uid)
-                ApplicationCollection().Write(uid=Uid,
+            token = json.loads(request.body)["token"]
+            app_name=json.loads(request.body)["app_name"]
+            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询UID
+            if uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="apple_app_collection", uid=uid)  # 查询到了在计入
+                redis_id = AppleCollectionWork.delay(app_name,uid)
+                ApplicationCollection().Write(uid=uid,
                                             program_type="Apple",
                                             status="0",
                                             application_data="",
-                                            redis_id=str(RedisId),
+                                            redis_id=str(redis_id),
                                             request_failed_application_name="",
                                             total_number_of_applications="",number_of_failures="")
 
@@ -79,12 +79,12 @@ def ApplicationCollectionQuery(request):#APP收集统一查询接口
     RequestLogRecord(request, request_api="application_collection_query")
     if request.method == "POST":
         try:
-            Token = json.loads(request.body)["token"]
-            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
-            if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="application_collection_query", uid=Uid)  # 查询到了在计入
-                ApplicationCollectionResult=ApplicationCollection().Query(uid=Uid)#获取查询结果
-                return JsonResponse({'message': ApplicationCollectionResult, 'code': 200, })
+            token = json.loads(request.body)["token"]
+            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询UID
+            if uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="application_collection_query", uid=uid)  # 查询到了在计入
+                result=ApplicationCollection().Query(uid=uid)#获取查询结果
+                return JsonResponse({'message': result, 'code': 200, })
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
@@ -94,74 +94,73 @@ def ApplicationCollectionQuery(request):#APP收集统一查询接口
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
 @app.task
-def AppleCollectionWork(AppName,Uid):#ios收集工作程序
-    ApplicationNameList=[]#存放应用名
-    IdList=[]#存放APP id的列表
-    ApplicationResultsList=[]#存放处理好的应用数据
-    RequestFailedApplicationName=[]#存放请求失败文件名
-    Headers=headers#获取配置文件中的头
-    Headers["User-Agent"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"
-    Headers["Accept"] = "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
-    Headers["Referer"]= "https://apps.apple.com/"
+def AppleCollectionWork(app_name,uid):#ios收集工作程序
+    application_name_list=[]#存放应用名
+    id_list=[]#存放APP id的列表
+    application_results_list=[]#存放处理好的应用数据
+    request_failed_application_name=[]#存放请求失败文件名
+    headers["User-Agent"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"
+    headers["Accept"] = "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
+    headers["Referer"]= "https://apps.apple.com/"
 
     try:
-        InterfaceSplicing="https://itunes.apple.com/search?term="+parse.quote(AppName)+"&country=cn&media=software&entity=software&genreId=&limit=20&offset=0"#对API接口进行拼接
+        interface_splicing="https://itunes.apple.com/search?term="+parse.quote(app_name)+"&country=cn&media=software&entity=software&genreId=&limit=20&offset=0"#对API接口进行拼接
 
-        GetDeveloperPage=requests.get(InterfaceSplicing,headers=Headers,timeout=3,verify=False)#获取API中的信息
+        get_developer_page=requests.get(interface_splicing,headers=headers,timeout=3,verify=False)#获取API中的信息
 
-        DeveloperPage=GetDeveloperPage.json()["results"][0]["artistViewUrl"]#获取开发者页面信息
+        developer_page=get_developer_page.json()["results"][0]["artistViewUrl"]#获取开发者页面信息
 
-        GetAllApps=requests.get(DeveloperPage,headers=Headers,timeout=3,verify=False)#获取所有应用
-        GetAllApplicationFormattedData=BeautifulSoup(GetAllApps.text, 'lxml')#对结果进行格式化
-        ExtractValidData=json.loads(GetAllApplicationFormattedData.find('script', id='shoebox-ember-data-store').text)#提取带有全部ID的json数据
-        AllAppsData = [ExtractValidData['data']['relationships']['macApps'],ExtractValidData['data']['relationships']['iPhoneApps'],
-                       ExtractValidData['data']['relationships']['iPhoneiPadApps'] ]
-        for Apps in AllAppsData:#提取ID值
-            if Apps['data'] == []:
+        get_all_apps=requests.get(developer_page,headers=headers,timeout=3,verify=False)#获取所有应用
+        get_all_application_formatted_data=BeautifulSoup(get_all_apps.text, 'lxml')#对结果进行格式化
+        extract_valid_data=json.loads(get_all_application_formatted_data.find('script', id='shoebox-ember-data-store').text)#提取带有全部ID的json数据
+        all_apps_data = [extract_valid_data['data']['relationships']['macApps'],extract_valid_data['data']['relationships']['iPhoneApps'],
+                       extract_valid_data['data']['relationships']['iPhoneiPadApps'] ]
+        for apps in all_apps_data:#提取ID值
+            if apps['data'] == []:
                 continue
-            for apps in Apps['data']:
-                if apps['id'] not in IdList:
-                    IdList.append(apps['id'])
+            for app in apps['data']:
+                if app['id'] not in id_list:
+                    id_list.append(app['id'])
     except Exception as e:
         ErrorLog().Write(e)
 
-    DataAddress='https://uclient-api.itunes.apple.com/WebObjects/MZStorePlatform.woa/wa/lookup?version=2&caller=webExp&p=lockup&useSsl=true&cc=CN&id=' + ','.join(IdList)
+    data_address='https://uclient-api.itunes.apple.com/WebObjects/MZStorePlatform.woa/wa/lookup?version=2&caller=webExp&p=lockup&useSsl=true&cc=CN&id=' + ','.join(id_list)
     try:
-        GetCompleteData=requests.get(DataAddress,headers=Headers,timeout=30,verify=False)
-        for key in json.loads(GetCompleteData.text)['results']:
-            ApplicationNameList.append(json.loads(GetCompleteData.text)['results'][key]['name'])  # 获取APP名字
+        get_complete_data=requests.get(data_address,headers=headers,timeout=30,verify=False)
+        for key in json.loads(get_complete_data.text)['results']:
+            application_name_list.append(json.loads(get_complete_data.text)['results'][key]['name'])  # 获取APP名字
     except Exception as e:
         ErrorLog().Write(e)
 
 
-    for Name in ApplicationNameList:
+    for name in application_name_list:
         try:
-            ApplyCompleteData = requests.get("https://itunes.apple.com/search?term=" + parse.quote(
-                Name) + "&country=cn&media=software&entity=software&genreId=&limit=20&offset=0",headers=Headers,timeout=30,verify=False)  # 获取单个应用的数据
-            TemporaryData = {}
-            if (ApplyCompleteData != None) and (ApplyCompleteData.status_code != 200):
-                if ApplyCompleteData.status_code == 403:
-                    RequestFailedApplicationName.append(Name)#请求失败
+            apply_complete_data = requests.get("https://itunes.apple.com/search?term=" + parse.quote(
+                name) + "&country=cn&media=software&entity=software&genreId=&limit=20&offset=0",headers=headers,timeout=30,verify=False)  # 获取单个应用的数据
+            temporary_data = {}
+            if (apply_complete_data != None) and (apply_complete_data.status_code != 200):
+                if apply_complete_data.status_code == 403:
+                    request_failed_application_name.append(name)#请求失败
                 continue
-            _=json.loads(ApplyCompleteData.text)#json格式化
+            _=json.loads(apply_complete_data.text)#json格式化
             if _['resultCount'] == 0:
                 continue
             _ = _['results'][0]
-            TemporaryData['Icon'] = _['artworkUrl100']
-            TemporaryData['AppName'] = _['trackName']
-            TemporaryData['Description'] = _['description']
-            TemporaryData['FileSizeBytes'] = _['fileSizeBytes']
-            TemporaryData['SellerName'] = _['sellerName']
-            TemporaryData['Advisories'] = _['advisories']
-            TemporaryData['ReleaseDate'] = _['releaseDate']
-            TemporaryData['Screenshot'] = _['screenshotUrls']
-            TemporaryData['ArtistName'] = _['artistName']
-            TemporaryData['ArtistViewUrl'] = _['artistViewUrl']
-            TemporaryData['DownloadLink'] = _['trackViewUrl']
-            ApplicationResultsList.append(TemporaryData)
+            temporary_data['Icon'] = _['artworkUrl100']
+            temporary_data['AppName'] = _['trackName']
+            temporary_data['Description'] = _['description']
+            temporary_data['FileSizeBytes'] = _['fileSizeBytes']
+            temporary_data['SellerName'] = _['sellerName']
+            temporary_data['Advisories'] = _['advisories']
+            temporary_data['ReleaseDate'] = _['releaseDate']
+            temporary_data['Screenshot'] = _['screenshotUrls']
+            temporary_data['ArtistName'] = _['artistName']
+            temporary_data['ArtistViewUrl'] = _['artistViewUrl']
+            temporary_data['DownloadLink'] = _['trackViewUrl']
+            application_results_list.append(temporary_data)
             #time.sleep(3)#暂停3秒防止被封
         except Exception as e:
-            RequestFailedApplicationName.append(Name)#请求超时
+            request_failed_application_name.append(name)#请求超时
             ErrorLog().Write(e)
     # FinalResults["FinalResults"]=json.dumps(ApplicationResultsList)#对提取的数据进行json化
     # FinalResults["RequestFailedApplicationName"] =json.dumps(RequestFailedApplicationName)#请求失败数据
@@ -171,7 +170,11 @@ def AppleCollectionWork(AppName,Uid):#ios收集工作程序
     # print(IdList)
     # print(ApplicationResultsList)
     # print(FinalResults)
-    ApplicationCollection().Update(uid=Uid,redis_id=AppleCollectionWork.request.id,application_data=str(json.dumps(ApplicationResultsList)),request_failed_application_name=str(RequestFailedApplicationName),total_number_of_applications=str(len(ApplicationNameList)),number_of_failures=str(len(RequestFailedApplicationName)))  # 收集结束更新任务
+    ApplicationCollection().Update(uid=uid,redis_id=AppleCollectionWork.request.id,
+                                   application_data=str(json.dumps(application_results_list)),
+                                   request_failed_application_name=str(request_failed_application_name),
+                                   total_number_of_applications=str(len(application_name_list)),
+                                   number_of_failures=str(len(request_failed_application_name)))  # 收集结束更新任务
 
 
 

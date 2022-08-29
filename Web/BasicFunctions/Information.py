@@ -16,12 +16,12 @@ def ConfigInfo(request):#获取版本等信息
     RequestLogRecord(request, request_api="medusa_config_info")
     if request.method == "POST":
         try:
-            UserToken = json.loads(request.body)["token"]
-            Uid = UserInfo().QueryUidWithToken(UserToken)  # 如果登录成功后就来查询用户名
-            if Uid != None :  # 查到了UID
-                UserOperationLogRecord(request, request_api="medusa_config_info", uid=Uid)
-                Info=Config().Query()
-                return JsonResponse({'message': Info, 'code': 200, })
+            token = json.loads(request.body)["token"]
+            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询用户名
+            if uid != None :  # 查到了UID
+                UserOperationLogRecord(request, request_api="medusa_config_info", uid=uid)
+                info=Config().Query()
+                return JsonResponse({'message': info, 'code': 200, })
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
@@ -60,7 +60,7 @@ def ConfigUpdate(request):#更新数据
     RequestLogRecord(request, request_api="medusa_config_update")
     if request.method == "POST":
         try:
-            UserToken = json.loads(request.body)["token"]
+            token = json.loads(request.body)["token"]
             github_cve_monitor_job_time = json.loads(request.body)["github_cve_monitor_job_time"]
             github_cve_monitor_key = json.loads(request.body)["github_cve_monitor_key"]
             registration_function_status = json.loads(request.body)["registration_function_status"]
@@ -82,9 +82,9 @@ def ConfigUpdate(request):#更新数据
             third_party_mail_pass = json.loads(request.body)["third_party_mail_pass"]
             email_bot = json.loads(request.body)["email_bot"]
             ding_talk_bot_token = json.loads(request.body)["ding_talk_bot_token"]
-            Uid = UserInfo().QueryUidWithToken(UserToken)  # 如果登录成功后就来查询用户名
-            if Uid != None :  # 查到了UID
-                UserOperationLogRecord(request, request_api="medusa_config_update", uid=Uid)
+            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询用户名
+            if uid != None :  # 查到了UID
+                UserOperationLogRecord(request, request_api="medusa_config_update", uid=uid)
                 for i in [github_cve_monitor_job_time,hardware_info_monitor_job_time,portable_execute_file_size,nist_update_job_time,file_acquisition_size_max]:#判断数字类型数据
                     if isinstance(i, int) and (i is not None):
                         pass
@@ -129,10 +129,10 @@ def ConfigUpdate(request):#更新数据
                     "email_bot": email_bot,  # 消息推送邮件
                     "ding_talk_bot_token": ding_talk_bot_token  # 消息推送，钉钉密钥
                 }
-                Re=Config().Update(data=str(data))
-                if Re:
-                    ConfigData=Config().Query()
-                    all_data = dict(ConfigData["data"], **ConfigData["fixed_data"])  # 合并数据
+                result=Config().Update(data=str(data))
+                if result:
+                    config_data=Config().Query()
+                    all_data = dict(config_data["data"], **config_data["fixed_data"])  # 合并数据
                     file_data = ""
                     for x in all_data:
                         if isinstance(all_data[x], int) or isinstance(all_data[x], bool):
@@ -163,12 +163,12 @@ def Update(request):#更新版本
             'Accept': '*/*',
             'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36",
         }
-        GitApi = requests.get("https://api.github.com/repos/ascotbe/medusa/releases/latest",
+        github_api = requests.get("https://api.github.com/repos/ascotbe/medusa/releases/latest",
             headers=headers, timeout=10)
-        GitApiJson = json.loads(GitApi.text)
-        LatestVersion = GitApiJson["tag_name"]
+        github_api_json = json.loads(github_api.text)
+        latest_version = github_api_json["tag_name"]
         #不用类型转换，字符串就能毕竟大小，离谱
-        if config.version[1:]<LatestVersion[1:]:
+        if config.version[1:]<latest_version[1:]:
             return JsonResponse({'message': "发现最新版本！", 'code': 200, })
         else:
             return JsonResponse({'message': "已经是最新版本了！", 'code': 200, })

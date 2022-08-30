@@ -18,23 +18,23 @@ def JoinMarkdownProject(request):#通过邀请码加入项目
     RequestLogRecord(request, request_api="join_markdown_project")
     if request.method == "POST":
         try:
-            UserToken = json.loads(request.body)["token"]
-            MarkdownProjectInvitationCode = json.loads(request.body)["markdown_project_invitation_code"]#传入邀请码
-            Uid = UserInfo().QueryUidWithToken(UserToken)  # 如果登录成功后就来查询用户名
-            if len(MarkdownProjectInvitationCode)==50:#判断邀请码的长度是否为50
-                if Uid != None:  # 查到了UID
-                    UserOperationLogRecord(request, request_api="join_markdown_project", uid=Uid)
+            token = json.loads(request.body)["token"]
+            markdown_project_invitation_code = json.loads(request.body)["markdown_project_invitation_code"]#传入邀请码
+            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询用户名
+            if len(markdown_project_invitation_code)==50:#判断邀请码的长度是否为50
+                if uid != None:  # 查到了UID
+                    UserOperationLogRecord(request, request_api="join_markdown_project", uid=uid)
                     #通过邀请码查询信息后写入到数据库中
-                    ProjectInformation=MarkdownRelationship().InvitationCodeToQueryProjectInformation(markdown_project_invitation_code=MarkdownProjectInvitationCode)[0]#返回项目信息
-                    if ProjectInformation!=None:#判断是否为空，也就是说查不到内容，或者报错了
-                        if Uid!=ProjectInformation["uid"]:#判断是否是自己邀请自己
+                    project_information=MarkdownRelationship().InvitationCodeToQueryProjectInformation(markdown_project_invitation_code=markdown_project_invitation_code)[0]#返回项目信息
+                    if project_information!=None:#判断是否为空，也就是说查不到内容，或者报错了
+                        if uid!=project_information["uid"]:#判断是否是自己邀请自己
                             #还需要一个判断是否已经加入项目
-                            if MarkdownRelationship().DetectionOfRepeatedAddition(markdown_name=ProjectInformation["markdown_name"],uid=Uid):#判断是否已经加入了
+                            if MarkdownRelationship().DetectionOfRepeatedAddition(markdown_name=project_information["markdown_name"],uid=uid):#判断是否已经加入了
 
                                 return JsonResponse({'message': "你已经加入过项目啦~拉卡拉卡~", 'code': 502, })
                             else:
-                                MarkdownRelationship().Write(markdown_name=ProjectInformation["markdown_name"], uid=Uid,
-                                                         markdown_project_name=ProjectInformation["markdown_project_name"],
+                                MarkdownRelationship().Write(markdown_name=project_information["markdown_name"], uid=uid,
+                                                         markdown_project_name=project_information["markdown_project_name"],
                                                          markdown_project_owner="0",
                                                          markdown_project_invitation_code="")
                             return JsonResponse({'message': "加入项目成功啦~咕噜咕噜~", 'code': 200, })
@@ -62,22 +62,26 @@ def CreateMarkdownProject(request):#用来创建markdown项目,目前只支持�
     RequestLogRecord(request, request_api="create_markdown_project")
     if request.method == "POST":
         try:
-            UserToken = json.loads(request.body)["token"]
-            MarkdownProjectName = json.loads(request.body)["markdown_project_name"]#传入项目名称
-            Uid = UserInfo().QueryUidWithToken(UserToken)  # 如果登录成功后就来查询用户名
-            if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="create_markdown_project", uid=Uid)
+            token = json.loads(request.body)["token"]
+            markdown_project_name = json.loads(request.body)["markdown_project_name"]#传入项目名称
+            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询用户名
+            if uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="create_markdown_project", uid=uid)
                 while True:  # 用来生成markdown文件名，防止重复
-                    MarkdownName=randoms().result(250)#markdown文件名，随机生成
-                    CheckName=MarkdownRelationship().CheckConflict(markdown_name=MarkdownName)
-                    if not CheckName:  # 如果不冲突的话跳出循环
+                    markdown_name=randoms().result(250)#markdown文件名，随机生成
+                    check_name=MarkdownRelationship().CheckConflict(markdown_name=markdown_name)
+                    if not check_name:  # 如果不冲突的话跳出循环
                         break
                 while True: # 用来生成邀请码，防止重复
-                    MarkdownProjectInvitationCode=randoms().result(50)#邀请码
-                    CheckInvitationCode=MarkdownRelationship().CheckInvitationCode(MarkdownProjectInvitationCode=MarkdownProjectInvitationCode)
-                    if not CheckInvitationCode:  # 如果不冲突的话跳出循环
+                    markdown_project_invitation_code=randoms().result(50)#邀请码
+                    check_invitation_ode=MarkdownRelationship().CheckInvitationCode(MarkdownProjectInvitationCode=markdown_project_invitation_code)
+                    if not check_invitation_ode:  # 如果不冲突的话跳出循环
                         break
-                MarkdownRelationship().Write(markdown_name=MarkdownName,uid=Uid,markdown_project_name=MarkdownProjectName,markdown_project_owner="1",markdown_project_invitation_code=MarkdownProjectInvitationCode)
+                MarkdownRelationship().Write(markdown_name=markdown_name,
+                                             uid=uid,
+                                             markdown_project_name=markdown_project_name,
+                                             markdown_project_owner="1",
+                                             markdown_project_invitation_code=markdown_project_invitation_code)
                 return JsonResponse({'message': "创建成功啦~玛卡玛卡~", 'code': 200, })
             else:
                 return JsonResponse({'message': "小宝贝这是非法操作哦(๑•̀ㅂ•́)و✧", 'code': 403, })
@@ -97,14 +101,14 @@ def QueryMarkdownProject(request):#用来查询用户所有的项目信息
     RequestLogRecord(request, request_api="query_markdown_project")
     if request.method == "POST":
         try:
-            UserToken = json.loads(request.body)["token"]
-            NumberOfPages = json.loads(request.body)["number_of_pages"]
-            Uid = UserInfo().QueryUidWithToken(UserToken)  # 如果登录成功后就来查询用户名
-            if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="query_markdown_project", uid=Uid)
+            token = json.loads(request.body)["token"]
+            number_of_pages = json.loads(request.body)["number_of_pages"]
+            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询用户名
+            if uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="query_markdown_project", uid=uid)
 
-                QueryResult=MarkdownRelationship().Query(uid=Uid,number_of_pages=int(NumberOfPages))#查询的结果返回
-                return JsonResponse({'message': QueryResult, 'code': 200, })
+                result=MarkdownRelationship().Query(uid=uid,number_of_pages=int(number_of_pages))#查询的结果返回
+                return JsonResponse({'message': result, 'code': 200, })
             else:
                 return JsonResponse({'message': "小宝贝这是非操作哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
@@ -124,12 +128,12 @@ def MarkdownProjectStatistical(request):#统计文档数据
     RequestLogRecord(request, request_api="markdown_project_statistical")
     if request.method == "POST":
         try:
-            Token=json.loads(request.body)["token"]
-            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
-            if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="markdown_project_statistical", uid=Uid)
-                Number=MarkdownRelationship().QueryStatistics(uid=Uid)#获取当前用户的个数
-                return JsonResponse({'message': Number, 'code': 200, })
+            token=json.loads(request.body)["token"]
+            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询UID
+            if uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="markdown_project_statistical", uid=uid)
+                number=MarkdownRelationship().QueryStatistics(uid=uid)#获取当前用户的个数
+                return JsonResponse({'message': number, 'code': 200, })
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
@@ -149,21 +153,21 @@ def SaveMarkdownData(request):#用来保存协同作战数据
     RequestLogRecord(request, request_api="save_markdown_data")
     if request.method == "POST":
         try:
-            UserToken = json.loads(request.body)["token"]
-            MarkdownData = json.loads(request.body)["markdown_data"]#传入保存的数据
-            MarkdownName = json.loads(request.body)["markdown_name"]#传入文档名称
-            MarkdownDataToBast64=base64.b64encode(str(MarkdownData).encode('utf-8')).decode('utf-8')#转换成base64的数据
-            Uid = UserInfo().QueryUidWithToken(UserToken)  # 如果登录成功后就来查询用户名
-            if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="save_markdown_data", uid=Uid)
-                CheckPermissionsResult=MarkdownRelationship().CheckPermissions(markdown_name=MarkdownName,uid=Uid)#检查是否有权限，也就是说这个项目是否属于该用户
+            token = json.loads(request.body)["token"]
+            markdown_data = json.loads(request.body)["markdown_data"]#传入保存的数据
+            markdown_name = json.loads(request.body)["markdown_name"]#传入文档名称
+            bast64_data=base64.b64encode(str(markdown_data).encode('utf-8')).decode('utf-8')#转换成base64的数据
+            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询用户名
+            if uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="save_markdown_data", uid=uid)
+                CheckPermissionsResult=MarkdownRelationship().CheckPermissions(markdown_name=markdown_name,uid=uid)#检查是否有权限，也就是说这个项目是否属于该用户
                 if CheckPermissionsResult:#如果属于该用户
-                    CheckConflictResult=MarkdownInfo().CheckConflict(markdown_name=MarkdownName)#检查数据库这个文件是否存在
+                    CheckConflictResult=MarkdownInfo().CheckConflict(markdown_name=markdown_name)#检查数据库这个文件是否存在
                     if CheckConflictResult:#如果文件已经有数据了
-                        if not MarkdownInfo().Update(markdown_name=MarkdownName,markdown_data=MarkdownDataToBast64):#就对数据进行更新，接着判断更新返回值
+                        if not MarkdownInfo().Update(markdown_name=markdown_name,markdown_data=bast64_data):#就对数据进行更新，接着判断更新返回值
                             return JsonResponse({'message': "保存失败~玛卡巴卡~~", 'code': 503, })
                     else:#如果没有数据
-                        MarkdownInfo().Write(markdown_name=MarkdownName,markdown_data=MarkdownDataToBast64)#就对数据进行写入
+                        MarkdownInfo().Write(markdown_name=markdown_name,markdown_data=bast64_data)#就对数据进行写入
                     return JsonResponse({'message': "保存成功啦~阿巴阿巴~", 'code': 200, })
                 else:
                     return JsonResponse({'message': "小朋友不是你的东西别乱动哦~~", 'code': 404, })
@@ -185,16 +189,16 @@ def QueryMarkdownData(request):#用来查询协同作战数据
     RequestLogRecord(request, request_api="query_markdown_data")
     if request.method == "POST":
         try:
-            UserToken = json.loads(request.body)["token"]
-            MarkdownName = json.loads(request.body)["markdown_name"]#传入文档名称
-            Uid = UserInfo().QueryUidWithToken(UserToken)  # 如果登录成功后就来查询用户名
-            if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="query_markdown_data", uid=Uid)
-                CheckPermissionsResult=MarkdownRelationship().CheckPermissions(markdown_name=MarkdownName,uid=Uid)#检查是否有权限，也就是说这个项目是否属于该用户
+            token = json.loads(request.body)["token"]
+            markdown_name = json.loads(request.body)["markdown_name"]#传入文档名称
+            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询用户名
+            if uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="query_markdown_data", uid=uid)
+                CheckPermissionsResult=MarkdownRelationship().CheckPermissions(markdown_name=markdown_name,uid=uid)#检查是否有权限，也就是说这个项目是否属于该用户
                 if CheckPermissionsResult:#如果属于该用户
-                    CheckConflictResult=MarkdownInfo().CheckConflict(markdown_name=MarkdownName)#检查数据库这个文件是否存在
+                    CheckConflictResult=MarkdownInfo().CheckConflict(markdown_name=markdown_name)#检查数据库这个文件是否存在
                     if CheckConflictResult:#如果文件已经有数据了
-                        MarkdownInfoResult=MarkdownInfo().Query(markdown_name=MarkdownName)#文件数据查询
+                        MarkdownInfoResult=MarkdownInfo().Query(markdown_name=markdown_name)#文件数据查询
                         return JsonResponse({'message': MarkdownInfoResult, 'code': 200, })
                     else:#如果没有数据
 
@@ -223,20 +227,20 @@ XXXXXXXXXXXXXXX
 """
 def MarkdownImageUpload (request):#md文档专有上传位置
     RequestLogRecord(request, request_api="markdown_image_upload")
-    Token =request.headers["token"]
+    token =request.headers["token"]
     if request.method == "POST":
         try:
-            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
-            if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="markdown_image_upload", uid=Uid)  # 查询到了在计入
-                PictureData = request.FILES.get('file', None)#获取文件数据
-                if 1024<PictureData.size:#最小值1KB
-                    SaveFileName=randoms().result(50)+str(int(time.time()))+".jpg"#重命名文件
-                    SaveRoute=GetPath().ImageFilePath()+SaveFileName#获得保存路径
-                    with open(SaveRoute, 'wb') as f:
-                        for line in PictureData:
+            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询UID
+            if uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="markdown_image_upload", uid=uid)  # 查询到了在计入
+                picture_data = request.FILES.get('file', None)#获取文件数据
+                if 1024<picture_data.size:#最小值1KB
+                    save_file_name=randoms().result(50)+str(int(time.time()))+".jpg"#重命名文件
+                    save_route=GetPath().ImageFilePath()+save_file_name#获得保存路径
+                    with open(save_route, 'wb') as f:
+                        for line in picture_data:
                             f.write(line)
-                    return JsonResponse({'message': SaveFileName, 'code': 200,})#返回上传图片名称
+                    return JsonResponse({'message': save_file_name, 'code': 200,})#返回上传图片名称
                 else:
                     return JsonResponse({'message': '它实在是太小了，莎酱真的一点感觉都没有o(TヘTo)',  'code': 603,})
             else:
@@ -258,22 +262,22 @@ def MarkdownDataComparison (request):#md文档数据对比
     RequestLogRecord(request, request_api="markdown_data_comparison")
     if request.method == "POST":
         try:
-            UserToken = json.loads(request.body)["token"]
-            MarkdownData = json.loads(request.body)["new_markdown_data"]#传入新文本数据
-            MarkdownName = json.loads(request.body)["markdown_name"]  # 传入文档名称
-            Uid = UserInfo().QueryUidWithToken(UserToken)  # 如果登录成功后就来查询用户名
-            if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="markdown_data_comparison", uid=Uid)
-                CheckPermissionsResult=MarkdownRelationship().CheckPermissions(markdown_name=MarkdownName,uid=Uid)#检查是否有权限，也就是说这个项目是否属于该用户
-                if CheckPermissionsResult:#如果属于该用户
+            token = json.loads(request.body)["token"]
+            new_markdown_data = json.loads(request.body)["new_markdown_data"]#传入新文本数据
+            markdown_name = json.loads(request.body)["markdown_name"]  # 传入文档名称
+            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询用户名
+            if uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="markdown_data_comparison", uid=uid)
+                permissions_result=MarkdownRelationship().CheckPermissions(markdown_name=markdown_name,uid=uid)#检查是否有权限，也就是说这个项目是否属于该用户
+                if permissions_result:#如果属于该用户
 
-                    MarkdownDataResult=MarkdownInfo().QueryMarkdownData(markdown_name=MarkdownName)#文件数据查询
-                    if MarkdownDataResult==None:
-                        MarkdownDataResult=""#如果数据库中无数据
-                    OldMarkdownData=base64.b64decode(str(MarkdownDataResult).encode('utf-8')).decode('utf-8').splitlines()
-                    NewMarkdownData=MarkdownData.splitlines()
-                    ComparisonResult=difflib.HtmlDiff().make_file(OldMarkdownData,NewMarkdownData)#对比结果
-                    return JsonResponse({'message': ComparisonResult, 'code': 200, })
+                    result=MarkdownInfo().QueryMarkdownData(markdown_name=markdown_name)#文件数据查询
+                    if result==None:
+                        result=""#如果数据库中无数据
+                    old_data=base64.b64decode(str(result).encode('utf-8')).decode('utf-8').splitlines()
+                    new_data=new_markdown_data.splitlines()
+                    comparison_result=difflib.HtmlDiff().make_file(old_data,new_data)#对比结果
+                    return JsonResponse({'message': comparison_result, 'code': 200, })
 
                 else:
                     return JsonResponse({'message': "小朋友不是你的东西别乱动哦~~", 'code': 404, })
@@ -297,18 +301,18 @@ def DeleteMarkdown (request):#删除文档项目
     RequestLogRecord(request, request_api="delete_markdown")
     if request.method == "POST":
         try:
-            UserToken = json.loads(request.body)["token"]
-            MarkdownName = json.loads(request.body)["markdown_name"]  # 传入文档名称
-            Uid = UserInfo().QueryUidWithToken(UserToken)  # 如果登录成功后就来查询用户名
-            if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="delete_markdown", uid=Uid)
-                ProjectBelongsResult=MarkdownRelationship().ProjectBelongs(markdown_name=MarkdownName,uid=Uid)#检查是否有权限，也就是说这个项目是否属于该用户
-                if ProjectBelongsResult:#检查项目所属
-                    DeleteResult=MarkdownRelationship().Delete(markdown_name=MarkdownName,uid=Uid)#删除表格
-                    if not DeleteResult:
+            token = json.loads(request.body)["token"]
+            markdown_name = json.loads(request.body)["markdown_name"]  # 传入文档名称
+            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询用户名
+            if uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="delete_markdown", uid=uid)
+                project_belongs_result=MarkdownRelationship().ProjectBelongs(markdown_name=markdown_name,uid=uid)#检查是否有权限，也就是说这个项目是否属于该用户
+                if project_belongs_result:#检查项目所属
+                    result=MarkdownRelationship().Delete(markdown_name=markdown_name,uid=uid)#删除表格
+                    if not result:
                         return JsonResponse({'message': "项目删除错误", 'code': 171, })
                     else:
-                        MarkdownInfo().Delete(markdown_name=MarkdownName)  # 删除数据，有可能会有空数据的情况
+                        MarkdownInfo().Delete(markdown_name=markdown_name)  # 删除数据，有可能会有空数据的情况
                         return JsonResponse({'message': "项目删除成功~", 'code': 200, })
                 else:
                     return JsonResponse({'message': "小朋友不是你的东西别乱动哦~~", 'code': 404, })

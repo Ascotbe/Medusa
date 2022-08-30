@@ -20,14 +20,14 @@ def Creation(request):#创建生成项目
     RequestLogRecord(request, request_api="create_email_project")
     if request.method == "POST":
         try:
-            Token=json.loads(request.body)["token"]
-            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
-            if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="create_email_project", uid=Uid)  # 查询到了在计入
-                Key=randoms().result(10)#生成Key
-                Result=EmailProject().Write(uid=Uid,project_key=Key)
-                if Result:
-                    return JsonResponse({'message': Key, 'code': 200, })
+            token=json.loads(request.body)["token"]
+            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询UID
+            if uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="create_email_project", uid=uid)  # 查询到了在计入
+                key=randoms().result(10)#生成Key
+                result=EmailProject().Write(uid=uid,project_key=key)
+                if result:
+                    return JsonResponse({'message': key, 'code': 200, })
                 else:
                     return JsonResponse({'message': "创建失败！", 'code': 505, })
             else:
@@ -68,58 +68,58 @@ def Updata(request):#更新项目数据
     RequestLogRecord(request, request_api="updata_email_project")
     if request.method == "POST":
         try:
-            EndTime = json.loads(request.body)["end_time"]
-            Token = json.loads(request.body)["token"]
-            Key = json.loads(request.body)["project_key"]  # 项目Key
-            Name = json.loads(request.body)["project_name"]  # 项目名称
-            MailMessage = json.loads(request.body)["mail_message"]  # 文本内容
-            Attachment = json.loads(request.body)["attachment"]  # 附件列表
-            Image = json.loads(request.body)["image"]  # 获取内容图片
-            MailTitle = json.loads(request.body)["mail_title"]  # 邮件标题
-            Sender = json.loads(request.body)["sender"]  # 发送人姓名
-            GoalMailbox = json.loads(request.body)["goal_mailbox"]  # 目标邮箱
-            EmailListKey = json.loads(request.body)["email_list_key"]  # 邮箱列表数据库Key，和goal_mailbox只能选一个
-            ForgedAddress = json.loads(request.body)["forged_address"]  # 伪造发件人
-            Interval = json.loads(request.body)["interval"]  # 邮件发送间隔
-            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
-            if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="updata_email_project", uid=Uid)  # 查询到了在计入
-                if EmailListKey != "":
-                    Re = EmailInfo().Verification(uid=Uid,project_key=EmailListKey)#查询获取EmailList数据
-                    if int(Re) > 0:
-                        EmailList=EmailData().QueryAll(project_key=EmailListKey)
-                        if len(EmailList)<=0 :#如果EmailList为空，且GoalMailbox为空
+            end_time = json.loads(request.body)["end_time"]
+            token = json.loads(request.body)["token"]
+            project_key = json.loads(request.body)["project_key"]  # 项目Key
+            project_name = json.loads(request.body)["project_name"]  # 项目名称
+            mail_message = json.loads(request.body)["mail_message"]  # 文本内容
+            attachment = json.loads(request.body)["attachment"]  # 附件列表
+            image = json.loads(request.body)["image"]  # 获取内容图片
+            mail_title = json.loads(request.body)["mail_title"]  # 邮件标题
+            sender = json.loads(request.body)["sender"]  # 发送人姓名
+            goal_mailbox = json.loads(request.body)["goal_mailbox"]  # 目标邮箱
+            email_list_key = json.loads(request.body)["email_list_key"]  # 邮箱列表数据库Key，和goal_mailbox只能选一个
+            forged_address = json.loads(request.body)["forged_address"]  # 伪造发件人
+            interval = json.loads(request.body)["interval"]  # 邮件发送间隔
+            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询UID
+            if uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="updata_email_project", uid=uid)  # 查询到了在计入
+                if email_list_key != "":
+                    tmp = EmailInfo().Verification(uid=uid,project_key=email_list_key)#查询获取EmailList数据
+                    if int(tmp) > 0:
+                        email_list=EmailData().QueryAll(project_key=email_list_key)
+                        if len(email_list)<=0 :#如果EmailList为空，且GoalMailbox为空
                             return JsonResponse({'message': "未传入收件人数据！请检查Key是否有用", 'code': 505, })
                         else:
-                            GoalMailbox = EmailList
-                if len(GoalMailbox)<=0 and type(GoalMailbox)==dict:
+                            goal_mailbox = email_list
+                if len(goal_mailbox)<=0 and type(goal_mailbox)==dict:
                     return JsonResponse({'message': "未传入邮件接收人！", 'code': 414, })
-                if type(Attachment)!=dict or type(Image)!=dict:
+                if type(attachment)!=dict or type(image)!=dict:
                     return JsonResponse({'message': "附件或者图片必须传入字典类型，不可置空！", 'code': 415, })
-                if len(Name)==0:
+                if len(project_name)==0:
                     return JsonResponse({'message': "项目名称必须填入参数！", 'code': 416, })
-                if int(EndTime)-int(time.time())<10000000:
-                    ProjectStatus= EmailProject().ProjectStatus(uid=Uid,project_key=Key)#查看项目是否启动
-                    CompilationStatus = EmailProject().CompilationStatus(uid=Uid, project_key=Key)#查看项目是否完成
-                    if CompilationStatus:
+                if int(end_time)-int(time.time())<10000000:
+                    project_status= EmailProject().ProjectStatus(uid=uid,project_key=project_key)#查看项目是否启动
+                    compilation_status = EmailProject().CompilationStatus(uid=uid, project_key=project_key)#查看项目是否完成
+                    if compilation_status:
                         return JsonResponse({'message': "项目已经运行结束禁止修改其中内容！", 'code': 409, })
-                    if ProjectStatus:
+                    if project_status:
                         return JsonResponse({'message': "项目已经开启禁止修改，如需修改请停止运行！", 'code': 406, })
                     else:
-                        Result=EmailProject().Updata(uid=Uid,
-                                                    mail_message=base64.b64encode(str(MailMessage).encode('utf-8')).decode('utf-8'),
-                                                    attachment=Attachment,
-                                                    project_name=Name,
-                                                    image=Image,
-                                                    mail_title=base64.b64encode(str(MailTitle).encode('utf-8')).decode('utf-8'),
-                                                    sender=base64.b64encode(str(Sender).encode('utf-8')).decode('utf-8'),
-                                                    forged_address=base64.b64encode(str(ForgedAddress).encode('utf-8')).decode('utf-8'),
+                        result=EmailProject().Updata(uid=uid,
+                                                    mail_message=base64.b64encode(str(mail_message).encode('utf-8')).decode('utf-8'),
+                                                    attachment=attachment,
+                                                    project_name=project_name,
+                                                    image=image,
+                                                    mail_title=base64.b64encode(str(mail_title).encode('utf-8')).decode('utf-8'),
+                                                    sender=base64.b64encode(str(sender).encode('utf-8')).decode('utf-8'),
+                                                    forged_address=base64.b64encode(str(forged_address).encode('utf-8')).decode('utf-8'),
                                                     redis_id="",
-                                                    project_key=Key,
-                                                    end_time=EndTime,
-                                                    goal_mailbox=GoalMailbox,#list(set(GoalMailbox)),#去重数据
-                                                    interval=Interval)
-                        if Result:
+                                                    project_key=project_key,
+                                                    end_time=end_time,
+                                                    goal_mailbox=goal_mailbox,#list(set(GoalMailbox)),#去重数据
+                                                    interval=interval)
+                        if result:
                             return JsonResponse({'message': "更新成功！", 'code': 200, })
                         else:
                             return JsonResponse({'message': "更新失败！", 'code': 507, })
@@ -145,31 +145,36 @@ def Run(request):#运行项目
     RequestLogRecord(request, request_api="run_email_project")
     if request.method == "POST":
         try:
-            Token=json.loads(request.body)["token"]
-            Key = json.loads(request.body)["project_key"]
-            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
-            if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="run_email_project", uid=Uid)  # 查询到了在计入
+            token=json.loads(request.body)["token"]
+            project_key = json.loads(request.body)["project_key"]
+            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询UID
+            if uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="run_email_project", uid=uid)  # 查询到了在计入
                 #下发任务后修改项目状态（下发任务留空），任务完成后项目就不可修改
-                ProjectResult=EmailProject().Query(uid=Uid,project_key=Key)#获取目标
-                if ProjectResult[13]=="0" and ProjectResult[15]=="0":
+                result=EmailProject().Query(uid=uid,project_key=project_key)#获取目标
+                if result[13]=="0" and result[15]=="0":
 
-                    TargetList=ast.literal_eval(ProjectResult[2])#目标
-                    MailMessage = base64.b64decode(str(ProjectResult[6]).encode('utf-8')).decode('utf-8')  # 正文内容，需要用base64加密
-                    Attachment = ast.literal_eval(ProjectResult[7])  # 附件文件，需要传入json格式，使用的是本地名称
-                    Image = ast.literal_eval(ProjectResult[8])  # 图片文件，使用列表形式窜入
-                    MailTitle =base64.b64decode(str(ProjectResult[9]).encode('utf-8')).decode('utf-8')  # 邮件头
-                    Sender = base64.b64decode(str(ProjectResult[10]).encode('utf-8')).decode('utf-8')  # 发送人名称
-                    ForgedAddress = base64.b64decode(str(ProjectResult[11]).encode('utf-8')).decode('utf-8')   # 伪造的发件人地址
-                    Interval = ProjectResult[14]  # 邮件发送间隔
-                    if TargetList!=0:
+                    target_list=ast.literal_eval(result[2])#目标
+                    mail_message = base64.b64decode(str(result[6]).encode('utf-8')).decode('utf-8')  # 正文内容，需要用base64加密
+                    attachment = ast.literal_eval(result[7])  # 附件文件，需要传入json格式，使用的是本地名称
+                    image = ast.literal_eval(result[8])  # 图片文件，使用列表形式窜入
+                    mail_title = base64.b64decode(str(result[9]).encode('utf-8')).decode('utf-8')  # 邮件头
+                    sender = base64.b64decode(str(result[10]).encode('utf-8')).decode('utf-8')  # 发送人名称
+                    forged_address = base64.b64decode(str(result[11]).encode('utf-8')).decode('utf-8')   # 伪造的发件人地址
+                    interval = result[14]  # 邮件发送间隔
+                    if target_list != 0:
 
-                        SendMailForRedis = SendMail.delay(mail_message=MailMessage, attachment=Attachment, image=Image, mail_title=MailTitle, sender=Sender, goal_mailbox=TargetList,
-                                                         forged_address=ForgedAddress,interval=Interval,key=Key,task_status=True)  # 调用下发任务
-                        EmailProject().UpdataRedis(uid=Uid, project_key=Key, redis_id = SendMailForRedis.task_id)
-                        Result = EmailProject().ModifyProjectStatus(uid=Uid, project_key=Key, project_status="1")
+                        redis_task = SendMail.delay(mail_message=mail_message, attachment=attachment,
+                                                          image=image, mail_title=mail_title,
+                                                          sender=sender, goal_mailbox=target_list,
+                                                          forged_address=forged_address,
+                                                          interval=interval,
+                                                          key=project_key,
+                                                          task_status=True)  # 调用下发任务
+                        EmailProject().UpdataRedis(uid=uid, project_key=project_key, redis_id = redis_task.task_id)
+                        tmp = EmailProject().ModifyProjectStatus(uid=uid, project_key=project_key, project_status="1")
 
-                        if Result:
+                        if tmp:
                             return JsonResponse({'message': "项目启动成功！", 'code': 200, })
                         else:
                             return JsonResponse({'message': "项目启动失败！", 'code': 505, })
@@ -196,14 +201,14 @@ def Stop(request):#运行项目
     RequestLogRecord(request, request_api="stop_email_project")
     if request.method == "POST":
         try:
-            Token=json.loads(request.body)["token"]
-            Key = json.loads(request.body)["project_key"]
-            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
-            if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="stop_email_project", uid=Uid)  # 查询到了在计入
+            token=json.loads(request.body)["token"]
+            project_key = json.loads(request.body)["project_key"]
+            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询UID
+            if uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="stop_email_project", uid=uid)  # 查询到了在计入
                 #结束任务后修改项目状态（结束任务留空）
-                Result=EmailProject().ModifyProjectStatus(uid=Uid,project_key=Key,project_status="0")
-                if Result:
+                result=EmailProject().ModifyProjectStatus(uid=uid,project_key=project_key,project_status="0")
+                if result:
                     return JsonResponse({'message': "项目停止成功！", 'code': 200, })
                 else:
                     return JsonResponse({'message': "项目停止失败！", 'code': 505, })
@@ -225,12 +230,12 @@ def Statistics(request):#统计项目个数
     RequestLogRecord(request, request_api="mail_project_statistics")
     if request.method == "POST":
         try:
-            Token=json.loads(request.body)["token"]
-            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
-            if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="mail_project_statistics", uid=Uid)  # 查询到了在计入
-                Result=EmailProject().Statistics(uid=Uid)
-                return JsonResponse({'message': Result, 'code': 200, })
+            token=json.loads(request.body)["token"]
+            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询UID
+            if uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="mail_project_statistics", uid=uid)  # 查询到了在计入
+                result=EmailProject().Statistics(uid=uid)
+                return JsonResponse({'message': result, 'code': 200, })
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
@@ -249,30 +254,30 @@ def Details(request):#查询邮件详情
     RequestLogRecord(request, request_api="email_project_details")
     if request.method == "POST":
         try:
-            Token=json.loads(request.body)["token"]
-            Key = json.loads(request.body)["project_key"]
-            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
-            if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="email_project_details", uid=Uid)  # 查询到了在计入
-                Result=EmailProject().Query(uid=Uid,project_key=Key)
-                JsonValues={}
+            token=json.loads(request.body)["token"]
+            project_key = json.loads(request.body)["project_key"]
+            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询UID
+            if uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="email_project_details", uid=uid)  # 查询到了在计入
+                result=EmailProject().Query(uid=uid,project_key=project_key)
+                json_values={}
                 #JsonValues["goal_mailbox"] = ast.literal_eval(Result[2]) #先注释了，几万封邮件会导致很卡
-                JsonValues["end_time"] = Result[3]
-                JsonValues["project_key"] = Result[4]
-                JsonValues["project_name"] = Result[5]
-                JsonValues["mail_message"] = Result[6]
-                JsonValues["attachment"] = ast.literal_eval(Result[7])
-                JsonValues["image"] = ast.literal_eval(Result[8])
-                JsonValues["mail_title"] = Result[9]
-                JsonValues["sender"] = Result[10]
-                JsonValues["forged_address"] = Result[11]
-                JsonValues["redis_id"] = Result[12]
-                JsonValues["compilation_status"] = Result[13]
-                JsonValues["interval"] = Result[14]
-                JsonValues["project_status"] = Result[15]
-                JsonValues["creation_time "] = Result[16]
+                json_values["end_time"] = result[3]
+                json_values["project_key"] = result[4]
+                json_values["project_name"] = result[5]
+                json_values["mail_message"] = result[6]
+                json_values["attachment"] = ast.literal_eval(result[7])
+                json_values["image"] = ast.literal_eval(result[8])
+                json_values["mail_title"] = result[9]
+                json_values["sender"] = result[10]
+                json_values["forged_address"] = result[11]
+                json_values["redis_id"] = result[12]
+                json_values["compilation_status"] = result[13]
+                json_values["interval"] = result[14]
+                json_values["project_status"] = result[15]
+                json_values["creation_time "] = result[16]
 
-                return JsonResponse({'message': JsonValues, 'code': 200, })
+                return JsonResponse({'message': json_values, 'code': 200, })
 
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
@@ -293,14 +298,14 @@ def Summary(request):#查询邮件摘要详情
     RequestLogRecord(request, request_api="email_project_summary")
     if request.method == "POST":
         try:
-            Token=json.loads(request.body)["token"]
-            NumberOfPages=json.loads(request.body)["number_of_pages"]
-            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
-            if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="email_project_summary", uid=Uid)  # 查询到了在计入
-                if int(NumberOfPages)>0:
-                    Result=EmailProject().Summary(uid=Uid,number_of_pages=int(NumberOfPages))
-                    return JsonResponse({'message': Result, 'code': 200, })
+            token=json.loads(request.body)["token"]
+            number_of_pages=json.loads(request.body)["number_of_pages"]
+            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询UID
+            if uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="email_project_summary", uid=uid)  # 查询到了在计入
+                if int(number_of_pages)>0:
+                    result=EmailProject().Summary(uid=uid,number_of_pages=int(number_of_pages))
+                    return JsonResponse({'message': result, 'code': 200, })
                 else:
                     return JsonResponse({'message': "你家页数是负数的？？？？", 'code': 400, })
             else:
@@ -325,19 +330,22 @@ def Status(request):#查询单封邮件状态
     RequestLogRecord(request, request_api="email_sending_status")
     if request.method == "POST":
         try:
-            Token=json.loads(request.body)["token"]
-            NumberOfPages=json.loads(request.body)["number_of_pages"]
-            ProjectKey = json.loads(request.body)["project_key"]
-            FullData = json.loads(request.body)["full_data"]
-            Status = json.loads(request.body)["status"]
-            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
-            if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="email_sending_status", uid=Uid)  # 查询到了在计入
-                if int(NumberOfPages)>0:
-                    Result=EmailProject().Query(uid=Uid,project_key=ProjectKey)#验证project_key是否归该用户所属
-                    if Result!=None:
-                        EmailData=EmailDetails().Query(project_key=ProjectKey,full_data=FullData,status=int(Status),number_of_pages=int(NumberOfPages))
-                        return JsonResponse({'message': EmailData, 'code': 200, })
+            token=json.loads(request.body)["token"]
+            number_of_pages=json.loads(request.body)["number_of_pages"]
+            project_key = json.loads(request.body)["project_key"]
+            full_data = json.loads(request.body)["full_data"]
+            status = json.loads(request.body)["status"]
+            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询UID
+            if uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="email_sending_status", uid=uid)  # 查询到了在计入
+                if int(number_of_pages)>0:
+                    result=EmailProject().Query(uid=uid,project_key=project_key)#验证project_key是否归该用户所属
+                    if result!=None:
+                        email_data=EmailDetails().Query(project_key=project_key,
+                                                       full_data=full_data,
+                                                       status=int(status),
+                                                       number_of_pages=int(number_of_pages))
+                        return JsonResponse({'message': email_data, 'code': 200, })
                     else:
                         return JsonResponse({'message': "该项目不属于你不要瞎请求！", 'code': 405, })
                 else:
@@ -362,17 +370,19 @@ def StatusStatistics(request):#查询单封邮件状态统计
     RequestLogRecord(request, request_api="email_sending_status_statistics")
     if request.method == "POST":
         try:
-            Token=json.loads(request.body)["token"]
-            ProjectKey = json.loads(request.body)["project_key"]
-            FullData = json.loads(request.body)["full_data"]
-            Status = json.loads(request.body)["status"]
-            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
-            if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="email_sending_status_statistics", uid=Uid)  # 查询到了在计入
-                Result=EmailProject().Query(uid=Uid,project_key=ProjectKey)#验证project_key是否归该用户所属
-                if Result!=None:
-                    EmailData=EmailDetails().Statistics(project_key=ProjectKey,full_data=FullData,status=int(Status))
-                    return JsonResponse({'message': EmailData, 'code': 200, })
+            token=json.loads(request.body)["token"]
+            project_key = json.loads(request.body)["project_key"]
+            full_data = json.loads(request.body)["full_data"]
+            status = json.loads(request.body)["status"]
+            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询UID
+            if uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="email_sending_status_statistics", uid=uid)  # 查询到了在计入
+                result=EmailProject().Query(uid=uid,project_key=project_key)#验证project_key是否归该用户所属
+                if result!=None:
+                    email_data=EmailDetails().Statistics(project_key=project_key,
+                                                        full_data=full_data,
+                                                        status=int(status))
+                    return JsonResponse({'message': email_data, 'code': 200, })
                 else:
                     return JsonResponse({'message': "该项目不属于你不要瞎请求！", 'code': 405, })
             else:
@@ -396,29 +406,29 @@ def Resend(request):  # 重发未发送成功的邮件
     RequestLogRecord(request, request_api="resend_failure_email")
     if request.method == "POST":
         try:
-            Token = json.loads(request.body)["token"]
-            ProjectKey = json.loads(request.body)["project_key"]
-            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
-            if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="resend_failure_email", uid=Uid)  # 查询到了在计入
-                ProjectResult = EmailProject().Query(uid=Uid, project_key=ProjectKey)  # 验证project_key是否归该用户所属，并获取目标内容
-                if ProjectResult != None:
-                    TargetList = EmailDetails().ResendQuery(project_key=ProjectKey, status=-1)  # 目标
-                    MailMessage = base64.b64decode(str(ProjectResult[6]).encode('utf-8')).decode(
+            token = json.loads(request.body)["token"]
+            project_key = json.loads(request.body)["project_key"]
+            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询UID
+            if uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="resend_failure_email", uid=uid)  # 查询到了在计入
+                project_result = EmailProject().Query(uid=uid, project_key=project_key)  # 验证project_key是否归该用户所属，并获取目标内容
+                if project_result != None:
+                    target_list = EmailDetails().ResendQuery(project_key=project_key, status=-1)  # 目标
+                    mail_message = base64.b64decode(str(project_result[6]).encode('utf-8')).decode(
                         'utf-8')  # 正文内容，需要用base64加密
-                    Attachment = ast.literal_eval(ProjectResult[7])  # 附件文件，需要传入json格式，使用的是本地名称
-                    Image = ast.literal_eval(ProjectResult[8])  # 图片文件，使用列表形式窜入
-                    MailTitle = base64.b64decode(str(ProjectResult[9]).encode('utf-8')).decode('utf-8')  # 邮件头
-                    Sender = base64.b64decode(str(ProjectResult[10]).encode('utf-8')).decode('utf-8')  # 发送人名称
-                    ForgedAddress = base64.b64decode(str(ProjectResult[11]).encode('utf-8')).decode(
+                    attachment = ast.literal_eval(project_result[7])  # 附件文件，需要传入json格式，使用的是本地名称
+                    image = ast.literal_eval(project_result[8])  # 图片文件，使用列表形式窜入
+                    mail_title = base64.b64decode(str(project_result[9]).encode('utf-8')).decode('utf-8')  # 邮件头
+                    sender = base64.b64decode(str(project_result[10]).encode('utf-8')).decode('utf-8')  # 发送人名称
+                    forged_address = base64.b64decode(str(project_result[11]).encode('utf-8')).decode(
                         'utf-8')  # 伪造的发件人地址
-                    Interval = ProjectResult[14]  # 邮件发送间隔
-                    if TargetList != 0:
+                    interval = project_result[14]  # 邮件发送间隔
+                    if target_list != 0:
                         #后续要对是否多次点击做校检
-                        Redis = SendMail.delay(mail_message=MailMessage, attachment=Attachment,
-                                              image=Image, mail_title=MailTitle, sender=Sender,
-                                              goal_mailbox=TargetList,
-                                              forged_address=ForgedAddress, interval=Interval, key=ProjectKey,
+                        Redis = SendMail.delay(mail_message=mail_message, attachment=attachment,
+                                              image=image, mail_title=mail_title, sender=sender,
+                                              goal_mailbox=target_list,
+                                              forged_address=forged_address, interval=interval, key=project_key,
                                               task_status=False)  # 调用下发任务
                         return JsonResponse({'message': "任务下发成功！", 'code': 200, })
                     else:
@@ -460,29 +470,29 @@ def Test(request):#发送测试邮件
     RequestLogRecord(request, request_api="send_test_email")
     if request.method == "POST":
         try:
-            Token = json.loads(request.body)["token"]
-            MailMessage = json.loads(request.body)["mail_message"]  # 文本内容
-            Attachment = json.loads(request.body)["attachment"]  # 附件列表
-            Image = json.loads(request.body)["image"]  # 获取内容图片
-            MailTitle = json.loads(request.body)["mail_title"]  # 邮件标题
-            Sender = json.loads(request.body)["sender"]  # 发送人姓名
-            GoalMailbox = json.loads(request.body)["goal_mailbox"]  # 目标邮箱
-            ForgedAddress = json.loads(request.body)["forged_address"]  # 伪造发件人
-            Interval = json.loads(request.body)["interval"]  # 邮件发送间隔
-            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
-            if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="send_test_email", uid=Uid)  # 查询到了在计入
-                if len(GoalMailbox)<=0 and type(GoalMailbox)==dict:
+            token = json.loads(request.body)["token"]
+            mail_message = json.loads(request.body)["mail_message"]  # 文本内容
+            attachment = json.loads(request.body)["attachment"]  # 附件列表
+            image = json.loads(request.body)["image"]  # 获取内容图片
+            mail_title = json.loads(request.body)["mail_title"]  # 邮件标题
+            sender = json.loads(request.body)["sender"]  # 发送人姓名
+            goal_mailbox = json.loads(request.body)["goal_mailbox"]  # 目标邮箱
+            forged_address = json.loads(request.body)["forged_address"]  # 伪造发件人
+            interval = json.loads(request.body)["interval"]  # 邮件发送间隔
+            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询UID
+            if uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="send_test_email", uid=uid)  # 查询到了在计入
+                if len(goal_mailbox)<=0 and type(goal_mailbox)==dict:
                     return JsonResponse({'message': "未传入邮件接收人！", 'code': 414, })
-                if type(Attachment)!=dict or type(Image)!=dict:
+                if type(attachment)!=dict or type(image)!=dict:
                     return JsonResponse({'message': "附件或者图片必须传入字典类型，不可置空！", 'code': 415, })
                 else:
 
                         # 后续要对是否多次点击做校检
-                    SendMail.delay(mail_message=MailMessage, attachment=Attachment,
-                                           image=Image, mail_title=MailTitle, sender=Sender,
-                                           goal_mailbox=GoalMailbox,
-                                           forged_address=ForgedAddress, interval=Interval, key="this_is_a_test_mail",
+                    SendMail.delay(mail_message=mail_message, attachment=attachment,
+                                           image=image, mail_title=mail_title, sender=sender,
+                                           goal_mailbox=goal_mailbox,
+                                           forged_address=forged_address, interval=interval, key="this_is_a_test_mail",
                                            task_status=False)  # 调用下发任务
 
                     return JsonResponse({'message': "测试邮件任务下发成功！", 'code': 200, })

@@ -16,17 +16,17 @@ def DNSQuery(request):  # 用于DNS类型的DNSLOG数据查询
     RequestLogRecord(request, request_api="domain_name_system_log")
     if request.method == "POST":
         try:
-            Key = json.loads(request.body)["key"]
-            NumberOfPages = json.loads(request.body)["number_of_pages"]
-            Uid = UserInfo().QueryUidWithKey(Key)  # 如果登录成功后就来查询UID
-            if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="domain_name_system_log", uid=Uid)  # 查询到了在计入
+            key = json.loads(request.body)["key"]
+            number_of_pages = json.loads(request.body)["number_of_pages"]
+            uid = UserInfo().QueryUidWithKey(key)  # 如果登录成功后就来查询UID
+            if uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="domain_name_system_log", uid=uid)  # 查询到了在计入
                 #通过UID进行获取key
-                DomainNameSystemLogKey=DomainNameSystemLogKeyword().Query(uid=Uid)#获取key
-                DNSKey=DomainNameSystemLogKey+"."+domain_name_system_address#拼接获取该用户的DNSLOG完整值
-                DomainNameSystemLogResult = DomainNameSystemLog().Query2DNS(key=DNSKey,
-                    number_of_pages=int(NumberOfPages))  # 对解析记录进行查询
-                return JsonResponse({'message': DomainNameSystemLogResult, 'code': 200, })
+                log_key=DomainNameSystemLogKeyword().Query(uid=uid)#获取key
+                DNSKey=log_key+"."+domain_name_system_address#拼接获取该用户的DNSLOG完整值
+                result = DomainNameSystemLog().Query2DNS(key=DNSKey,
+                    number_of_pages=int(number_of_pages))  # 对解析记录进行查询
+                return JsonResponse({'message': result, 'code': 200, })
 
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
@@ -46,14 +46,14 @@ def HTTPQuery(request):  # 用于HTTP类型的DNSLOG数据查询
     RequestLogRecord(request, request_api="http_domain_name_system_log")
     if request.method == "POST":
         try:
-            Token = json.loads(request.body)["token"]
-            NumberOfPages = json.loads(request.body)["number_of_pages"]
-            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
-            if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="http_domain_name_system_log", uid=Uid)  # 查询到了在计入
-                DomainNameSystemLogResult = DomainNameSystemLog().Query2HTTP(
-                    number_of_pages=int(NumberOfPages))  # 对解析记录进行查询
-                return JsonResponse({'message': DomainNameSystemLogResult, 'code': 200, })
+            token = json.loads(request.body)["token"]
+            number_of_pages = json.loads(request.body)["number_of_pages"]
+            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询UID
+            if uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="http_domain_name_system_log", uid=uid)  # 查询到了在计入
+                result = DomainNameSystemLog().Query2HTTP(
+                    number_of_pages=int(number_of_pages))  # 对解析记录进行查询
+                return JsonResponse({'message': result, 'code': 200, })
 
 
             else:
@@ -73,17 +73,17 @@ def DNSStatistics(request):#对DNS类型数据进行统计
     RequestLogRecord(request, request_api="domain_name_system_log_statistics")
     if request.method == "POST":
         try:
-            Token=json.loads(request.body)["token"]
-            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
-            if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="domain_name_system_log_statistics", uid=Uid)  # 查询到了在计入
-                DomainNameSystemLogKey = DomainNameSystemLogKeyword().Query(uid=Uid)  # 获取key
-                if DomainNameSystemLogKey is not None:
+            token=json.loads(request.body)["token"]
+            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询UID
+            if uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="domain_name_system_log_statistics", uid=uid)  # 查询到了在计入
+                log_key = DomainNameSystemLogKeyword().Query(uid=uid)  # 获取key
+                if log_key != None:
 
-                    Key=DomainNameSystemLogKey+"."+domain_name_system_address#拼接获取该用户的DNSLOG完整值
+                    key=log_key+"."+domain_name_system_address#拼接获取该用户的DNSLOG完整值
 
-                    Result = DomainNameSystemLog().Statistical2DNS(key=Key)  # 统计的个数
-                    return JsonResponse({'message': Result, 'code': 200, })
+                    result = DomainNameSystemLog().Statistical2DNS(key=key)  # 统计的个数
+                    return JsonResponse({'message': result, 'code': 200, })
                 else:
                     return JsonResponse({'message': "小宝贝找不到你的key呢(๑•̀ㅂ•́)و✧", 'code': 501, })
 
@@ -104,13 +104,13 @@ def HTTPStatistics(request):#对DNS类型数据进行统计
     RequestLogRecord(request, request_api="http_domain_name_system_log_statistics")
     if request.method == "POST":
         try:
-            Token=json.loads(request.body)["token"]
-            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
-            if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="http_domain_name_system_log_statistics", uid=Uid)  # 查询到了在计入
+            token=json.loads(request.body)["token"]
+            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询UID
+            if uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="http_domain_name_system_log_statistics", uid=uid)  # 查询到了在计入
 
-                Result = DomainNameSystemLog().Statistical2HTTP()  # 统计的个数
-                return JsonResponse({'message': Result, 'code': 200, })
+                result = DomainNameSystemLog().Statistical2HTTP()  # 统计的个数
+                return JsonResponse({'message': result, 'code': 200, })
 
 
             else:
@@ -130,14 +130,14 @@ def GetDNSLog(request):#获取用户的DNSLOG
     RequestLogRecord(request, request_api="get_domain_name_system_log")
     if request.method == "POST":
         try:
-            Key = json.loads(request.body)["key"]
-            Uid = UserInfo().QueryUidWithKey(Key)  # 如果登录成功后就来查询UID
-            if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="get_domain_name_system_log", uid=Uid)  # 查询到了在计入
+            key = json.loads(request.body)["key"]
+            uid = UserInfo().QueryUidWithKey(key)  # 如果登录成功后就来查询UID
+            if uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="get_domain_name_system_log", uid=uid)  # 查询到了在计入
                 #通过UID进行获取key
-                DomainNameSystemLogKey=DomainNameSystemLogKeyword().Query(uid=Uid)#获取key
-                if DomainNameSystemLogKey is not None:
-                    DNSKey=DomainNameSystemLogKey+"."+domain_name_system_address#拼接获取该用户的DNSLOG完整值
+                log_key=DomainNameSystemLogKeyword().Query(uid=uid)#获取key
+                if log_key is not None:
+                    DNSKey=log_key+"."+domain_name_system_address#拼接获取该用户的DNSLOG完整值
                     return JsonResponse({'message': DNSKey, 'code': 200, })
                 else:
                     return JsonResponse({'message': "小宝贝获取失败啦(๑•̀ㅂ•́)و✧", 'code': 503, })

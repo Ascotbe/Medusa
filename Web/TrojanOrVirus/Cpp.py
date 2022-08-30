@@ -2,41 +2,41 @@ from jinja2 import Template
 from ClassCongregation import randoms,Binary,ShellCode
 def Run(**kwargs):
 
-    RawData = kwargs.get("yaml_raw_data") #获取yaml的原始数据
-    Include = RawData.get('include')  # 插件依赖
-    Function=RawData.get('function') #插件函数
+    yaml_raw_data = kwargs.get("yaml_raw_data") #获取yaml的原始数据
+    include = yaml_raw_data.get('include')  # 插件依赖
+    function=yaml_raw_data.get('function') #插件函数
     #上述是必须使用的参数
-    Expression=RawData.get('set') #插件表达式，内涵执行函数，会造成命令执行漏洞（
-    State=RawData.get('state') #获取声明值
-    Define=RawData.get('define') #插件额外定义
-    Class=RawData.get('class') #插件的类
+    expression=yaml_raw_data.get('set') #插件表达式，内涵执行函数，会造成命令执行漏洞（
+    state=yaml_raw_data.get('state') #获取声明值
+    define=yaml_raw_data.get('define') #插件额外定义
+    class_type=yaml_raw_data.get('class') #插件的类
 
-    if Expression is not None:
-        Placeholder = {}
-        TreatedFunction = []
-        TreatedClass = []
-        for i in Expression:
-            Tmp = Template(Expression[i])#进行模板替换表达式中的占位符
-            Replace=Tmp.render(Placeholder)#尝试进行替换，如果没有的占位符的话，就继续下一部
-            Placeholder[i] = eval(Replace)
-        for x in Function:
-            Tmp = Template(x)
-            TreatedFunction.append(Tmp.render(Placeholder)) #处理占位符
-        Function=TreatedFunction
-        if Class is not None:
-            for a in Class:
-                Tmp = Template(a)
-                TreatedClass.append(Tmp.render(Placeholder))  # 处理占位符
-            Class= TreatedClass
+    if expression is not None:
+        placeholder = {}
+        treated_function = []
+        treated_class = []
+        for i in expression:
+            tmp = Template(expression[i])#进行模板替换表达式中的占位符
+            replace=tmp.render(placeholder)#尝试进行替换，如果没有的占位符的话，就继续下一部
+            placeholder[i] = eval(replace)
+        for x in function:
+            tmp = Template(x)
+            treated_function.append(tmp.render(placeholder)) #处理占位符
+        function=treated_function
+        if class_type is not None:
+            for a in class_type:
+                tmp = Template(a)
+                treated_class.append(tmp.render(placeholder))  # 处理占位符
+            class_type= treated_class
 
     #函数拼接
-    SourceCode =r""
-    for xx in Define,Include,State,Class,Function:
+    source_code =r""
+    for xx in define,include,state,class_type,function:
         if xx is not None:
             for x in xx:
-                SourceCode += x+"\n"
+                source_code += x+"\n"
 
-    return SourceCode
+    return source_code
 
 
 # import yaml

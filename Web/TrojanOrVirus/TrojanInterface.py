@@ -92,14 +92,14 @@ def CompileCode(Command):#代码编译处理函数
 @app.task
 def CompilePortableExecutableFile(**kwargs):#编译处理PE文件
     try:
-        ShellcodeFileName = kwargs.get("shellcode_file_name")
-        FileName = kwargs.get("file_name")  # pe文件
-        Command=""
+        shellcode_file_name = kwargs.get("shellcode_file_name")
+        file_name = kwargs.get("file_name")  # pe文件
+        command=""
         if sys.platform == "win32" or sys.platform == "cygwin":
-            Command = GetPath().PE2ShellcodeFilePath() + "pe2shc.exe " + GetPath().PortableExecutableFilePath()+FileName + " " + GetPath().ShellcodeFilePath()+ShellcodeFileName
+            command = GetPath().PE2ShellcodeFilePath() + "pe2shc.exe " + GetPath().PortableExecutableFilePath()+file_name + " " + GetPath().ShellcodeFilePath()+shellcode_file_name
         elif sys.platform == "linux" or sys.platform == "darwin":
-            Command = "wine " + GetPath().PE2ShellcodeFilePath() + "pe2shc.exe " + GetPath().PortableExecutableFilePath()+FileName + " " + GetPath().ShellcodeFilePath()+ShellcodeFileName
-        p = subprocess.run(Command, shell=True, timeout=30, check=True)  # 执行生成命令
+            command = "wine " + GetPath().PE2ShellcodeFilePath() + "pe2shc.exe " + GetPath().PortableExecutableFilePath()+file_name + " " + GetPath().ShellcodeFilePath()+shellcode_file_name
+        p = subprocess.run(command, shell=True, timeout=30, check=True)  # 执行生成命令
         p.check_returncode()
         PortableExecutable2Shellcode().UpdateStatus(status="1", redis_id=CompilePortableExecutableFile.request.id)  # 任务结束后更新状态
     except subprocess.CalledProcessError as e:
@@ -121,19 +121,19 @@ def GetTrojanPlugins(request):#获取用户当前木马插件
     RequestLogRecord(request, request_api="get_trojan_plugins")
     if request.method == "POST":
         try:
-            Token=json.loads(request.body)["token"]
-            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
-            if Uid != None:  # 查到了UID
-                ModulesResult={}#存放全部插件数据
-                UserOperationLogRecord(request, request_api="get_trojan_plugins", uid=Uid)
-                TrojanModulesFilePath=GetPath().TrojanModulesPath()
-                PluginList = os.listdir(TrojanModulesFilePath)#获取文件夹中全部文件
-                for Plugin in PluginList:#清洗不相关文件
-                    if Plugin.endswith(".yaml"):
-                        TrojanPluginsPath = GetPath().TrojanPluginsPath()  # 获取插件路径
-                        YamlRawData = yaml.safe_load(open(TrojanPluginsPath + Plugin,'r',encoding='utf-8'))  # 读取yaml文件
-                        ModulesResult[Plugin]=YamlRawData.get('name')# 获取插件名
-                return JsonResponse({'message': ModulesResult, 'code': 200, })
+            token=json.loads(request.body)["token"]
+            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询UID
+            if uid != None:  # 查到了UID
+                modules_result={}#存放全部插件数据
+                UserOperationLogRecord(request, request_api="get_trojan_plugins", uid=uid)
+                trojan_modules_file_path=GetPath().TrojanModulesPath()
+                plugin_list = os.listdir(trojan_modules_file_path)#获取文件夹中全部文件
+                for plugin in plugin_list:#清洗不相关文件
+                    if plugin.endswith(".yaml"):
+                        trojan_plugins_path = GetPath().TrojanPluginsPath()  # 获取插件路径
+                        yaml_raw_data = yaml.safe_load(open(trojan_plugins_path + plugin,'r',encoding='utf-8'))  # 读取yaml文件
+                        modules_result[plugin]=yaml_raw_data.get('name')# 获取插件名
+                return JsonResponse({'message': modules_result, 'code': 200, })
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
@@ -160,72 +160,72 @@ def ShellcodeToTrojan(request):##shellcode转换生成病毒
     RequestLogRecord(request, request_api="shellcode_to_trojan")
     if request.method == "POST":
         try:
-            Token=json.loads(request.body)["token"]
-            ShellcodeName = json.loads(request.body)["shellcode_name"]  # 项目名字
-            Shellcode = json.loads(request.body)["shellcode"]#shellcode字符串
-            ShellcodeType = json.loads(request.body)["shellcode_type"] #用来辨别MSF 还是CS
-            ShellcodeArchitecture = json.loads(request.body)["shellcode_architecture"]  # 架构类型 X86或者X64
-            Plugin = json.loads(request.body)["plugin"]  # 当前shellcode使用的插件
-            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
-            if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="shellcode_to_trojan", uid=Uid)
-                TrojanModulesFilePath=GetPath().TrojanModulesPath()#获取插件文件夹
-                PluginList = os.listdir(TrojanModulesFilePath)#获取文件夹中全部文件
+            token=json.loads(request.body)["token"]
+            shellcode_name = json.loads(request.body)["shellcode_name"]  # 项目名字
+            shellcode = json.loads(request.body)["shellcode"]#shellcode字符串
+            shellcode_type = json.loads(request.body)["shellcode_type"] #用来辨别MSF 还是CS
+            shellcode_architecture = json.loads(request.body)["shellcode_architecture"]  # 架构类型 X86或者X64
+            plugin = json.loads(request.body)["plugin"]  # 当前shellcode使用的插件
+            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询UID
+            if uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="shellcode_to_trojan", uid=uid)
+                trojan_modules_file_path=GetPath().TrojanModulesPath()#获取插件文件夹
+                plugin_list = os.listdir(trojan_modules_file_path)#获取文件夹中全部文件
                 try:
-                    if ShellcodeName=="":#判断是否有名字
+                    if shellcode_name=="":#判断是否有名字
                         return JsonResponse({'message': "未传入项目名称！", 'code': 410, })
                     else:
-                        if Plugin in PluginList:#判断传入的是否是python插件，并且插件名称是否在列表中
+                        if plugin in plugin_list:#判断传入的是否是python插件，并且插件名称是否在列表中
                             try:
-                                TrojanPluginsPath = GetPath().TrojanPluginsPath()  # 获取插件路径
-                                YamlRawData = yaml.safe_load(open(TrojanPluginsPath+Plugin)) # 读取yaml文件
-                                TempFilePath = GetPath().TempFilePath()  # temp文件路径
-                                RandomName = randoms().EnglishAlphabet(5) + str(int(time.time()))  # 随机名称
-                                SourceFileSuffix=YamlRawData.get('language')  #获取源文件后缀
-                                GenerateFileSuffix=YamlRawData.get('process')   #获取生成文件后缀
-                                BuildCommand= YamlRawData.get('build')  # 获取自定义新增编译命令
-                                TrojanPluginsName = YamlRawData.get('name')  # 获取插件名
-                                VirusOriginalFilePath = TempFilePath + RandomName + "." +SourceFileSuffix  # 病毒原始文件名，后缀从插件中获取
-                                VirusFileStoragePath = GetPath().TrojanFilePath()  # 病毒文件存放路径
-                                VirusFileGenerationPath = VirusFileStoragePath + RandomName + "." +GenerateFileSuffix  # 病毒文件生成路径
+                                trojan_plugins_path = GetPath().TrojanPluginsPath()  # 获取插件路径
+                                yaml_raw_data = yaml.safe_load(open(trojan_plugins_path+plugin)) # 读取yaml文件
+                                temp_path = GetPath().TempFilePath()  # temp文件路径
+                                random_name = randoms().EnglishAlphabet(5) + str(int(time.time()))  # 随机名称
+                                source_file_suffix=yaml_raw_data.get('language')  #获取源文件后缀
+                                generate_file_suffix=yaml_raw_data.get('process')   #获取生成文件后缀
+                                build_command= yaml_raw_data.get('build')  # 获取自定义新增编译命令
+                                trojan_plugins_name = yaml_raw_data.get('name')  # 获取插件名
+                                virus_original_file_path = temp_path + random_name + "." +source_file_suffix  # 病毒原始文件名，后缀从插件中获取
+                                virus_file_storage_path = GetPath().TrojanFilePath()  # 病毒文件存放路径
+                                virus_file_generation_path = virus_file_storage_path + random_name + "." +generate_file_suffix  # 病毒文件生成路径
                                 #需要判断语言类型然后对应不同的生成方式
                                 if sys.platform == "win32":
                                     # windows的暂时没测试
                                     return JsonResponse({'message': "暂不支持Windows免杀方式~敬请关注后续更新", 'code': 601, })
                                 elif sys.platform == "darwin" or sys.platform == "linux":#判断当前运行的机器类型
-                                    File = open(VirusOriginalFilePath, "w+")
+                                    file = open(virus_original_file_path, "w+")
                                     #需要判断插件语言类型，进行针对处理
-                                    if SourceFileSuffix.lower()=="c" or SourceFileSuffix.lower()=="cpp":#如果是c或者cpp
-                                        File.write(Cpp.Run(shellcode=Shellcode,
-                                                           yaml_raw_data=YamlRawData))  # 获取shellcode传入动态调用函数中，然后写入本地文件
-                                    elif SourceFileSuffix.lower()=="go":#如果是go
-                                        File.write(Go.Run(shellcode=Shellcode,
-                                                           yaml_raw_data=YamlRawData))
+                                    if source_file_suffix.lower()=="c" or source_file_suffix.lower()=="cpp":#如果是c或者cpp
+                                        file.write(Cpp.Run(shellcode=shellcode,
+                                                           yaml_raw_data=yaml_raw_data))  # 获取shellcode传入动态调用函数中，然后写入本地文件
+                                    elif source_file_suffix.lower()=="go":#如果是go
+                                        file.write(Go.Run(shellcode=shellcode,
+                                                           yaml_raw_data=yaml_raw_data))
                                     else:
                                         return JsonResponse({'message': "插件语言不在支持列表中", 'code': 490, })
-                                    File.close()
-                                    if ShellcodeArchitecture!="x86" and ShellcodeArchitecture!="x64":#判断对应架构
+                                    file.close()
+                                    if shellcode_architecture!="x86" and shellcode_architecture!="x64":#判断对应架构
                                         return JsonResponse({'message': "暂不支持其他架构~", 'code': 440, })
 
-                                    elif ShellcodeArchitecture=="x86" or ShellcodeArchitecture=="x64":
-                                        Command=Language2Command["linux"][SourceFileSuffix][ShellcodeArchitecture][GenerateFileSuffix]#通过文件中的语言类型和生成文件进行提取命令
-                                        if Command==None:
+                                    elif shellcode_architecture=="x86" or shellcode_architecture=="x64":
+                                        command=Language2Command["linux"][source_file_suffix][shellcode_architecture][generate_file_suffix]#通过文件中的语言类型和生成文件进行提取命令
+                                        if command==None:
                                             return JsonResponse({'message': "呐呐呐！该种组合无法进行编译，请使用其他插件~", 'code': 450, })
-                                        elif BuildCommand is not None:#判断有没有在原始编译命令上新增的编译操作
+                                        elif build_command is not None:#判断有没有在原始编译命令上新增的编译操作
 
-                                            if Command.find(" -o ")!=-1:#提取输出命令
-                                                Command=Command.replace(" -o "," "+BuildCommand+" -o ")
-                                            elif Command.find(" --out:")!=-1:#提取输出命令
-                                                Command = Command.replace(" --out:", " " + BuildCommand + " --out:")
+                                            if command.find(" -o ")!=-1:#提取输出命令
+                                                command=command.replace(" -o "," "+build_command+" -o ")
+                                            elif command.find(" --out:")!=-1:#提取输出命令
+                                                command = command.replace(" --out:", " " + build_command + " --out:")
 
-                                        CompleteCommand=Command + VirusFileGenerationPath +" "+VirusOriginalFilePath #进行命令拼接
-                                        RedisCompileCodeTask=CompileCode.delay(CompleteCommand)
-                                        TrojanData().Write(uid=Uid, shellcode_type=ShellcodeType,shellcode_name=ShellcodeName,
-                                                               trojan_original_file_name=RandomName +"."+ SourceFileSuffix,
-                                                               trojan_generate_file_name=RandomName +"."+ GenerateFileSuffix, compilation_status="0",
-                                                               redis_id=RedisCompileCodeTask.task_id,
-                                                               shellcode_architecture=ShellcodeArchitecture,
-                                                               plugin=TrojanPluginsName)
+                                        complete_command=command + virus_file_generation_path +" "+virus_original_file_path #进行命令拼接
+                                        redis_task=CompileCode.delay(complete_command)
+                                        TrojanData().Write(uid=uid, shellcode_type=shellcode_type,shellcode_name=shellcode_name,
+                                                               trojan_original_file_name=random_name +"."+ source_file_suffix,
+                                                               trojan_generate_file_name=random_name +"."+ generate_file_suffix, compilation_status="0",
+                                                               redis_id=redis_task.task_id,
+                                                               shellcode_architecture=shellcode_architecture,
+                                                               plugin=trojan_plugins_name)
 
                                         return JsonResponse({'message': "宝贝任务已下发~", 'code': 200, })
                                 else:
@@ -259,13 +259,13 @@ def TrojanDataQuery(request):#个人用户免杀数据查询
     RequestLogRecord(request, request_api="trojan_data_query")
     if request.method == "POST":
         try:
-            Token=json.loads(request.body)["token"]
-            NumberOfPages = json.loads(request.body)["number_of_pages"]  # 页数
-            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
-            if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="trojan_data_query", uid=Uid)
-                AntiAntiVirusDataResult = TrojanData().Query(uid=Uid,number_of_pages=int(NumberOfPages))  # 获取当前用户的个数
-                return JsonResponse({'message': AntiAntiVirusDataResult, 'code': 200, })
+            token=json.loads(request.body)["token"]
+            number_of_pages = json.loads(request.body)["number_of_pages"]  # 页数
+            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询UID
+            if uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="trojan_data_query", uid=uid)
+                result = TrojanData().Query(uid=uid,number_of_pages=int(number_of_pages))  # 获取当前用户的个数
+                return JsonResponse({'message': result, 'code': 200, })
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
@@ -286,12 +286,12 @@ def TrojanDataStatistical(request):#个人用户数据统计
     RequestLogRecord(request, request_api="trojan_data_statistical")
     if request.method == "POST":
         try:
-            Token=json.loads(request.body)["token"]
-            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
-            if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="trojan_data_statistical", uid=Uid)
-                Number=TrojanData().StatisticalData(uid=Uid)#获取当前用户的个数
-                return JsonResponse({'message': Number, 'code': 200, })
+            token=json.loads(request.body)["token"]
+            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询UID
+            if uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="trojan_data_statistical", uid=uid)
+                result=TrojanData().StatisticalData(uid=uid)#获取当前用户的个数
+                return JsonResponse({'message': result, 'code': 200, })
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:
@@ -313,18 +313,18 @@ def TrojanFileDownloadVerification(request):#木马文件下载验证接口
     RequestLogRecord(request, request_api="trojan_file_download_verification")
     if request.method == "GET":
         try:
-            Token = request.headers["Token"]
-            TrojanId = request.headers["TrojanId"]
-            TrojanGenerateFileName = request.headers["TrojanGenerateFileName"]
-            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
-            if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="trojan_file_download_verification", uid=Uid)
-                Result=TrojanData().DownloadVerification(uid=Uid,trojan_id=TrojanId,trojan_generate_file_name=TrojanGenerateFileName)#数据验证
-                if Result:
-                    VirusFileStoragePath =  GetPath().TrojanFilePath()  # 病毒文件存放路径
-                    File=open(VirusFileStoragePath+TrojanGenerateFileName,'rb')
-                    Response = FileResponse(File)
-                    return Response
+            token = request.headers["token"]
+            trojan_id = request.headers["trojan_id"]
+            trojan_generate_file_name = request.headers["trojan_generate_file_name"]
+            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询UID
+            if uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="trojan_file_download_verification", uid=uid)
+                result=TrojanData().DownloadVerification(uid=uid,trojan_id=trojan_id,trojan_generate_file_name=trojan_generate_file_name)#数据验证
+                if result:
+                    virus_path =  GetPath().TrojanFilePath()  # 病毒文件存放路径
+                    file=open(virus_path+trojan_generate_file_name,'rb')
+                    response = FileResponse(file)
+                    return response
                 else:
                     return JsonResponse({'message': "该文件不是你的，别瞎请求(๑•̀ㅂ•́)و✧", 'code': 402, })
             else:
@@ -352,21 +352,21 @@ def PE2Shellcode(request):#PE文件转换成Shellcode
     RequestLogRecord(request, request_api="pe2shellcode")
     if request.method == "POST":
         try:
-            Token = request.headers["token"]
-            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
-            if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="pe2shellcode", uid=Uid)
-                PictureData = request.FILES.get('file', None)#获取文件数据
-                PictureName = PictureData.name # 获取文件名
-                if 0<PictureData.size:#内容不能为空
-                    SaveFileName=randoms().result(5)+str(int(time.time()))#重命名文件
-                    SaveRoute=GetPath().PortableExecutableFilePath()+SaveFileName#获得保存路径
-                    ShellcodeFileName=randoms().result(5)+str(int(time.time()))#获取shellcode文件随机名
-                    with open(SaveRoute, 'wb') as f:
-                        for line in PictureData:
+            token = request.headers["token"]
+            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询UID
+            if uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="pe2shellcode", uid=uid)
+                picture_data = request.FILES.get('file', None)#获取文件数据
+                picture_name = picture_data.name # 获取文件名
+                if 0<picture_data.size:#内容不能为空
+                    save_name=randoms().result(5)+str(int(time.time()))#重命名文件
+                    save_route=GetPath().PortableExecutableFilePath()+save_name#获得保存路径
+                    shellcode_name=randoms().result(5)+str(int(time.time()))#获取shellcode文件随机名
+                    with open(save_route, 'wb') as f:
+                        for line in picture_data:
                             f.write(line)
-                    RedisTask = CompilePortableExecutableFile.delay(shellcode_file_name=ShellcodeFileName,file_name=SaveFileName)#异步执行
-                    PortableExecutable2Shellcode().Write(original_file_name=PictureName,shellcode_file_name=ShellcodeFileName,redis_id=RedisTask.task_id,file_name=SaveFileName,uid=Uid)
+                    redis_task = CompilePortableExecutableFile.delay(shellcode_file_name=shellcode_name,file_name=save_name)#异步执行
+                    PortableExecutable2Shellcode().Write(original_file_name=picture_name,shellcode_file_name=shellcode_name,redis_id=redis_task.task_id,file_name=save_name,uid=uid)
                 return JsonResponse({'message': "任务下发成功(๑•̀ㅂ•́)و✧", 'code': 200, })
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })

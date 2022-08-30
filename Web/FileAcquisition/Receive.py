@@ -123,15 +123,15 @@ def Download(request): # 下载打包文件
     RequestLogRecord(request, request_api="file_acquisition_pack_download")
     if request.method == "POST":
         try:
-            FileName = json.loads(request.body)["file_name"]  # 文件名
-            UserToken = json.loads(request.body)["token"]
-            Uid = UserInfo().QueryUidWithToken(UserToken)  # 如果登录成功后就来查询用户名
-            if Uid != None:  # 查到了UID
-                Return=FileAcquisitionPack().DownloadAuthentication(uid=Uid, file_name=FileName)
-                if Return:#如果为真
-                    File = open(GetPath().FileAcquisitionZipPath()+FileName, 'rb')
-                    Response = FileResponse(File)
-                    return Response
+            file_name = json.loads(request.body)["file_name"]  # 文件名
+            token = json.loads(request.body)["token"]
+            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询用户名
+            if uid != None:  # 查到了UID
+                result=FileAcquisitionPack().DownloadAuthentication(uid=uid, file_name=file_name)
+                if result:#如果为真
+                    file = open(GetPath().FileAcquisitionZipPath()+file_name, 'rb')
+                    response = FileResponse(file)
+                    return response
                 else:
                     return JsonResponse({'message': "宝,这文件不是你的哦(๑•̀ㅂ•́)و✧", 'code': 405, })
             else:

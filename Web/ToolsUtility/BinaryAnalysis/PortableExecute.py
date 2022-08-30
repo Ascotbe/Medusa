@@ -19,23 +19,23 @@ def Windows(request):  # 用于提取保存文件后调用相应的处理函数
     RequestLogRecord(request, request_api="windows_portable_execute_analysis")
     if request.method == "POST":
         try:
-            Token =request.headers["token"]
-            Uid = UserInfo().QueryUidWithToken(Token)  # 如果登录成功后就来查询UID
-            if Uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="windows_portable_execute_analysis", uid=Uid)  # 查询到了在计入
-                PictureData = request.FILES.get('file', None)  # 获取文件数据
-                if 0>=PictureData.size:#判断是不是空文件
+            token =request.headers["token"]
+            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询UID
+            if uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="windows_portable_execute_analysis", uid=uid)  # 查询到了在计入
+                picture_data = request.FILES.get('file', None)  # 获取文件数据
+                if 0>=picture_data.size:#判断是不是空文件
                     return JsonResponse({'message': "宝贝数据这么小的嘛？", 'code': 400, })
-                elif int(portable_execute_file_size) < PictureData.size:  #和配置文件中做对比
-                    FileMd5 = hashlib.md5(PictureData).hexdigest()  # 文件的MD5加密
-                    FileSha1 = hashlib.sha1(PictureData).hexdigest()  # 文件的sha1加密
-                    FileSha256 = hashlib.sha256(PictureData).hexdigest()  # 文件的sha256加密
-                    SaveFileName = str(FileSha256)+"-"+str(int(time.time()))   # 重命名文件
-                    SaveRoute = GetPath().AnalysisFileStoragePath() + SaveFileName  # 获得保存路径
-                    with open(SaveRoute, 'wb') as f:
-                        for line in PictureData:
+                elif int(portable_execute_file_size) < picture_data.size:  #和配置文件中做对比
+                    md5 = hashlib.md5(picture_data).hexdigest()  # 文件的MD5加密
+                    sha1 = hashlib.sha1(picture_data).hexdigest()  # 文件的sha1加密
+                    sha256 = hashlib.sha256(picture_data).hexdigest()  # 文件的sha256加密
+                    save_file_name = str(sha256)+"-"+str(int(time.time()))   # 重命名文件
+                    save_route = GetPath().AnalysisFileStoragePath() + save_file_name  # 获得保存路径
+                    with open(save_route, 'wb') as f:
+                        for line in picture_data:
                             f.write(line)
-                    PortableExecute().Run(uid=Uid,md5=FileMd5,save_file_name=SaveFileName,sha1=FileSha1,sha256=FileSha256,path=SaveRoute)
+                    PortableExecute().Run(uid=uid,md5=md5,save_file_name=save_file_name,sha1=sha1,sha256=sha256,path=save_route)
                     #接下来调用处理函数，接着再调用删除函数
                     return JsonResponse({'message': "成功了", 'code': 200, })
                 else:
@@ -96,33 +96,33 @@ class PortableExecute:
                 ErrorLog().Write(e)
     def CA(self):#对证书进行处理
         try:  # 获取证书资源段
-            CertificateListAddress = self.PE.OPTIONAL_HEADER.DATA_DIRECTORY[
+            certificate_list_address = self.PE.OPTIONAL_HEADER.DATA_DIRECTORY[
                 pefile.DIRECTORY_ENTRY["IMAGE_DIRECTORY_ENTRY_SECURITY"]].VirtualAddress
-            CertificateListSize = self.PE.OPTIONAL_HEADER.DATA_DIRECTORY[
+            certificate_list_size = self.PE.OPTIONAL_HEADER.DATA_DIRECTORY[
                 pefile.DIRECTORY_ENTRY["IMAGE_DIRECTORY_ENTRY_SECURITY"]].Size
             with open(self.FilePath, 'rb') as f:  # 读取进程中证书的完整数据
-                f.seek(CertificateListAddress)
-                CertificateListRawData = f.read(CertificateListSize)
+                f.seek(certificate_list_address)
+                certificate_list_raw_data = f.read(certificate_list_size)
 
-            CertificateList = cms.ContentInfo.load(CertificateListRawData[8:])
+            certificate_list = cms.ContentInfo.load(certificate_list_raw_data[8:])
 
-            for Certificate in CertificateList["content"]["certificates"]:
+            for certificate in certificate_list["content"]["certificates"]:
                 try:
-                    TMP = {}  # 存放临时数据的容器
-                    ParsedCertificate = x509.load_der_x509_certificate(Certificate.dump(), default_backend())
-                    TMP["valid_to"] = str(int(time.mktime(ParsedCertificate.not_valid_after.timetuple())))  # valid to#结束时间#需要处理成Unix的样式
-                    TMP["valid_from"] = str(int(time.mktime(ParsedCertificate.not_valid_before.timetuple())))  # valid from#开始时间
-                    TMP["version"] = ParsedCertificate.version.name  # 版本
-                    TMP["algorithm"] = ParsedCertificate.signature_hash_algorithm.name  # algorithm #加密方式
-                    TMP["serial_number"] = hex(ParsedCertificate.serial_number)  # serial number #需要转16禁止
+                    tmp = {}  # 存放临时数据的容器
+                    ParsedCertificate = x509.load_der_x509_certificate(certificate.dump(), default_backend())
+                    tmp["valid_to"] = str(int(time.mktime(ParsedCertificate.not_valid_after.timetuple())))  # valid to#结束时间#需要处理成Unix的样式
+                    tmp["valid_from"] = str(int(time.mktime(ParsedCertificate.not_valid_before.timetuple())))  # valid from#开始时间
+                    tmp["version"] = ParsedCertificate.version.name  # 版本
+                    tmp["algorithm"] = ParsedCertificate.signature_hash_algorithm.name  # algorithm #加密方式
+                    tmp["serial_number"] = hex(ParsedCertificate.serial_number)  # serial number #需要转16禁止
                     # cert status 利用创建时间是否在证书区间来判断
-                    TMP["thumbprint"] = Certificate.chosen.sha1_fingerprint  # thumbprint
+                    tmp["thumbprint"] = certificate.chosen.sha1_fingerprint  # thumbprint
                     try:  # 正则匹配问题
-                        TMP["cert_issuer"] = re.findall(r'CN=(.*?)\)', str(ParsedCertificate.subject.rdns), re.I)[
+                        tmp["cert_issuer"] = re.findall(r'CN=(.*?)\)', str(ParsedCertificate.subject.rdns), re.I)[
                             0]  # cert issuer
                     except:
-                        TMP["cert_issuer"] = None
-                    self.CertificateDataContainer.append(TMP)  # 存放证书数据
+                        tmp["cert_issuer"] = None
+                    self.CertificateDataContainer.append(tmp)  # 存放证书数据
                 except:
                     pass
         except Exception as e:
@@ -135,13 +135,13 @@ class PortableExecute:
                 try:
                     IMAGE_IMPORT_DESCRIPTOR_TMP = {}  # 存放临时导入表信息
                     IMAGE_IMPORT_DESCRIPTOR_TMP["dynamic_link_library_name"] = ENTRY_IMPORT.dll.decode('utf-8')  # DLL名字
-                    FunctionAndAddress = []  # 存放函数和地址的列表
+                    function_and_address = []  # 存放函数和地址的列表
                     for i in ENTRY_IMPORT.imports:
                         TMP = []  # 存放处理后相关数据
                         TMP.append(hex(i.address))  # 函数地址
                         TMP.append(i.name.decode('utf-8'))  # 函数名
-                        FunctionAndAddress.append(TMP)
-                    IMAGE_IMPORT_DESCRIPTOR_TMP["data"] = FunctionAndAddress  # 发送数据
+                        function_and_address.append(TMP)
+                    IMAGE_IMPORT_DESCRIPTOR_TMP["data"] = function_and_address  # 发送数据
                     self.IMAGE_IMPORT_DESCRIPTOR.append(IMAGE_IMPORT_DESCRIPTOR_TMP)  # 把最终结果发到列表里面
                 except:
                     pass
@@ -154,11 +154,11 @@ class PortableExecute:
 
             for i in _IMAGE_EXPORT_DIRECTORY.symbols:  # 对导出表信息进行提取
                 try:
-                    TMP = {}
-                    TMP["function_address"] = hex(i.address)  # 函数地址
-                    TMP["function_number"] = i.ordinal  # 函数序号
-                    TMP["name"] = i.name.decode('utf-8')  # 函数名
-                    self.IMAGE_EXPORT_DIRECTORY.append(TMP)
+                    tmp = {}
+                    tmp["function_address"] = hex(i.address)  # 函数地址
+                    tmp["function_number"] = i.ordinal  # 函数序号
+                    tmp["name"] = i.name.decode('utf-8')  # 函数名
+                    self.IMAGE_EXPORT_DIRECTORY.append(tmp)
                 except:
                     pass
         except Exception as e:
@@ -167,10 +167,10 @@ class PortableExecute:
     def RESOURCE(self):#对资源文件进行处理
         try:
             _IMAGE_RESOURCE_DIRECTORY=self.PE.DIRECTORY_ENTRY_RESOURCE#资源文件
-            for ResourceOne in _IMAGE_RESOURCE_DIRECTORY.entries:  # 根据数据资源来判断循环几次
+            for resource_one in _IMAGE_RESOURCE_DIRECTORY.entries:  # 根据数据资源来判断循环几次
                 try:
-                    TMP = {}  # 临时存储数据
-                    TMP["resource_type"] = str(ResourceOne.id) # 资源类型
+                    tmp = {}  # 临时存储数据
+                    tmp["resource_type"] = str(resource_one.id) # 资源类型
                     """资源类型表
                     0x00000001	鼠标指针（Cursor）	   0x00000008	字体（Font）
                     0x00000002	位图（Bitmap）	       0x00000009	快捷键（Accelerators）
@@ -180,24 +180,24 @@ class PortableExecute:
                     0x00000006	字符串列表（String Table）0x0000000E	图标组（Group Icon）
                     0x00000007	字体目录（Font Directory）0x00000010	版本信息（Version Information）
                     """
-                    for ResourceTwo in ResourceOne.directory.entries:
+                    for resource_two in resource_one.directory.entries:
                         try:
-                            TMP["resource_name"] = str(ResourceTwo.id)  # 资源名
-                            for ResourceThree in ResourceTwo.directory.entries:
+                            tmp["resource_name"] = str(resource_two.id)  # 资源名
+                            for resource_three in resource_two.directory.entries:
                                 try:
                                     #资源语言对照表
                                     #https://www.science.co.il/language/Locale-codes.php
-                                    TMP["resource_language"] = str(ResourceThree.id)  # 资源语言
-                                    TMP["offset_to_data"] = str(hex(ResourceThree.data.struct.OffsetToData))  # 偏移地址
-                                    TMP["size"] = str(hex(ResourceThree.data.struct.Size))  # 资源大小
-                                    TMP["code_page"] = str(ResourceThree.data.struct.CodePage)  # 代码页，暂时不需要
+                                    tmp["resource_language"] = str(resource_three.id)  # 资源语言
+                                    tmp["offset_to_data"] = str(hex(resource_three.data.struct.OffsetToData))  # 偏移地址
+                                    tmp["size"] = str(hex(resource_three.data.struct.Size))  # 资源大小
+                                    tmp["code_page"] = str(resource_three.data.struct.CodePage)  # 代码页，暂时不需要
                                     # TMP["reserved"]=ResourceThree.data.struct.Reserved#保留字段
-                                    TMP["resource_sublanguage"] = str(ResourceThree.data.sublang)  # 资源子语言
+                                    tmp["resource_sublanguage"] = str(resource_three.data.sublang)  # 资源子语言
                                 except Exception as e:
                                     ErrorLog().Write(e)
                         except Exception as e:
                             ErrorLog().Write(e)
-                    self.IMAGE_RESOURCE_DIRECTORY.append(TMP)  # 发送数据到容器中
+                    self.IMAGE_RESOURCE_DIRECTORY.append(tmp)  # 发送数据到容器中
                 except Exception as e:
                     ErrorLog().Write(e)
         except Exception as e:
@@ -207,25 +207,25 @@ class PortableExecute:
             _IMAGE_TLS_DIRECTORY = str(self.PE.DIRECTORY_ENTRY_TLS.struct)  # tls表
             for i in _IMAGE_TLS_DIRECTORY.splitlines()[1:]:  # 对TLS表数据进行清理
                 try:
-                    Name = re.findall(r'(\S*?):', i, re.I)#清洗出来的名字
-                    Address = re.findall(r':\s*?(0x\w*)', i, re.I)#清洗出来的地址
-                    self.IMAGE_TLS_DIRECTORY.append({Name[0]:Address[0]})#把数据拼接后发送到容器中
+                    name = re.findall(r'(\S*?):', i, re.I)#清洗出来的名字
+                    address = re.findall(r':\s*?(0x\w*)', i, re.I)#清洗出来的地址
+                    self.IMAGE_TLS_DIRECTORY.append({name[0]:address[0]})#把数据拼接后发送到容器中
                 except Exception as e:
                     ErrorLog().Write(e)
 
         except Exception as e:
             ErrorLog().Write(e)
     def Run(self,**kwargs):
-        self.FilePath = kwargs.get("path")  # 传入的文件路径
-        self.MD5 = kwargs.get("md5")  # 传入MD5
-        self.SHA1 = kwargs.get("sha1")  # 传入SHA1
-        self.SHA256 = kwargs.get("sha256")  # 传入SHA256
-        self.Uid = kwargs.get("uid")  # 传入用户的UID
-        self.SaveFileName = kwargs.get("save_file_name")  # 传入保存的文件名
-        self.PE = pefile.PE(self.FilePath)  # 获取路径
-        self.MIME = str(magic.from_file(self.FilePath) ) #获取文件MIME类型
-        self.FileSize =str(os.path.getsize(self.FilePath)) # 传入的文件大小
-        self.TimeDateStamp=str(self.PE.NT_HEADERS.FILE_HEADER.TimeDateStamp)#获取PE文件生成时间
+        self.file_path = kwargs.get("path")  # 传入的文件路径
+        self.md5 = kwargs.get("md5")  # 传入MD5
+        self.sha1 = kwargs.get("sha1")  # 传入SHA1
+        self.sha256 = kwargs.get("sha256")  # 传入SHA256
+        self.uid = kwargs.get("uid")  # 传入用户的UID
+        self.save_file_name = kwargs.get("save_file_name")  # 传入保存的文件名
+        self.PE = pefile.PE(self.file_path)  # 获取路径
+        self.MIME = str(magic.from_file(self.file_path) ) #获取文件MIME类型
+        self.file_size =str(os.path.getsize(self.file_path)) # 传入的文件大小
+        self.time_date_stamp=str(self.PE.NT_HEADERS.FILE_HEADER.TimeDateStamp)#获取PE文件生成时间
         self.RESOURCE()
         self.EXPORT()
         self.TLS()
@@ -234,8 +234,8 @@ class PortableExecute:
         self.SECTION()
         self.NT()
         self.DOS()
-        PortableExecutableAnalyticalData().Write(uid=self.Uid , file_size=self.FileSize, md5=self.MD5, sha1=self.SHA1, sha256=self.SHA256, save_file_name=self.SaveFileName,
-                                                 file_generation_time= self.TimeDateStamp, image_dos_header=str(self.IMAGE_DOS_HEADER),
+        PortableExecutableAnalyticalData().Write(uid=self.uid , file_size=self.file_size, md5=self.md5, sha1=self.sha1, sha256=self.sha256, save_file_name=self.save_file_name,
+                                                 file_generation_time= self.time_date_stamp, image_dos_header=str(self.IMAGE_DOS_HEADER),
                                                  image_nt_headers=str(self.IMAGE_NT_HEADERS), image_file_header= str(self.IMAGE_FILE_HEADER), image_optional_header=str(self.IMAGE_OPTIONAL_HEADER),
                                                  image_section_header=str(self.IMAGE_SECTION_HEADER), image_import_descriptor=str(self.IMAGE_IMPORT_DESCRIPTOR),
                                                  image_export_directory=str(self.IMAGE_EXPORT_DIRECTORY), certificate_data_container=str(self.CertificateDataContainer),

@@ -14,18 +14,18 @@ def GetIp(request):
 
 def UserOperationLogRecord(request,**kwargs):#用户操作写入SDK
     if request_log_record:#如果为真就写入日志，反之不写入
-        RequestApi = kwargs.get("request_api")
-        Uid = kwargs.get("uid")
-        Headers=base64.b64encode(str(request.headers).encode(encoding="utf-8"))
-        PostDate=base64.b64encode(str(request.body).encode(encoding="utf-8"))
-        UserOperationLog().Write(uid=Uid,request_ip=GetIp(request),request_url=request.get_full_path(),request_api=RequestApi,header=Headers,request_method=request.method,post_date=PostDate)
+        request_api = kwargs.get("request_api")
+        uid = kwargs.get("uid")
+        headers=base64.b64encode(str(request.headers).encode(encoding="utf-8"))
+        post_date=base64.b64encode(str(request.body).encode(encoding="utf-8"))
+        UserOperationLog().Write(uid=uid,request_ip=GetIp(request),request_url=request.get_full_path(),request_api=request_api,header=headers,request_method=request.method,post_date=post_date)
     else:
         pass
 def RequestLogRecord(request,**kwargs):#操作写入SDK
     if request_log_record:#如果为真就写入日志，反之不写入
-        RequestApi = kwargs.get("request_api")
-        Headers=base64.b64encode(str(request.headers).encode(encoding="utf-8"))
-        PostDate=base64.b64encode(str(request.body).encode(encoding="utf-8"))
-        RequestLog().Write(request_ip=GetIp(request),request_url=request.get_full_path(),request_api=RequestApi,header=Headers,request_method=request.method,post_date=PostDate)
+        request_api = kwargs.get("request_api")
+        header=base64.b64encode(str(request.headers).encode(encoding="utf-8"))
+        post_date=base64.b64encode(str(request.body).encode(encoding="utf-8"))
+        RequestLog().Write(request_ip=GetIp(request),request_url=request.get_full_path(),request_api=request_api,header=header,request_method=request.method,post_date=post_date)
     else:
         pass

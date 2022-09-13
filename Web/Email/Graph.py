@@ -32,7 +32,7 @@ def Manufacture(**kwargs):
         data_set[i]={"total_amount":total_amount,"open_hits":open_hits,"fooled_hits":fooled_hits}#统计BU的数据
     data_set["open_email_user_data"]=open_email
     data_set["hooked_email_user_data"] = fooled_email
-    EmailGraph().Updata(project_key=project_key,uid=uid,graph_data=str(data_set))
+    EmailGraph().Update(project_key=project_key,uid=uid,graph_data=str(data_set))
 
 
 """email_data_graph_statistics

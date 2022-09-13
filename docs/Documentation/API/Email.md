@@ -1011,25 +1011,34 @@ XXXXXXXXXXXXXXX
   ```json
   {
   	"message": [{
+  			"email_info_id": 1,
   			"email": "123@qq.com",
-  			"department": "\u6570\u636e\u5e93"
+  			"department": "\u6570\u636e\u5e93",
+  			"position": "\u9648\u8def"
   		}, {
+  			"email_info_id": 10,
   			"email": "12345@qq.com",
-  			"department": "\u6572\u626e\u5e93"
+  			"department": "\u6572\u626e\u5e93",
+  			"position": "\u9648\u8def"
   		},
   		{
+  			"email_info_id": 111,
   			"email": "99999@qq.com",
-  			"department": "\u6572\u626e\u5e93"
+  			"department": "\u6572\u626e\u5e93",
+  			"position": "\u623f\u8def"
   		}
   	],
+    "number": 3,
   	"code": 200
   }
   ```
 
   > 参数解释
 
-  - `email`是邮件
-  - `department`是部门
+  - `message`消息内容
+    - `email`是邮件
+    - `department`是部门
+  - `number`数量
 
 - 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
 
@@ -1059,4 +1068,131 @@ XXXXXXXXXXXXXXX
 - 200：返回个数
 - 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
 - 500：请使用Post请求
+- 505：项目不属于你！
+
+### 更新邮件管理中的某一条数据
+
+`/api/update_email_data/`
+
+```json
+{
+	"token": "xxxx",
+	"project_key": "xxxx",
+	"email_info_id": "xxxx",
+	"email": "xxxx",
+	"department": "xxxx",
+	"position": "xxxx"
+}
+```
+
+> 参数解释
+
+- `token`登录后返回的**token**
+- `project_key`邮箱管理项目key
+- `email_info_id`数据编号
+- `email` 更新后的邮箱
+- `department`更新后的部门
+- `position`更新后的职位
+
+> 返回状态码
+
+- 169：未知错误，请查看日志(๑•̀ㅂ•́)و✧
+- 200：更新成功
+- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+- 500：请使用Post请求
+- 504：更新失败
+- 505：项目不属于你！
+
+### 删除邮件管理中的某一条数据
+
+`/api/delete_email_data/`
+
+```json
+{
+	"token": "xxxx",
+	"project_key": "xxxx",
+	"email_info_id": "xxxx"
+}
+```
+
+> 参数解释
+
+- `token`登录后返回的**token**
+- `project_key`邮箱管理项目key
+- `email_info_id`数据编号
+
+> 返回状态码
+
+- 169：未知错误，请查看日志(๑•̀ㅂ•́)و✧
+- 200：删除成功
+- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+- 500：请使用Post请求
+- 504：删除失败
+- 505：项目不属于你！
+
+### 邮件管理模糊搜索数据
+
+`/api/search_email_data/`
+
+```json
+{
+
+	"token": "xxxx",
+	"number_of_pages": "xxxx",
+	"project_key": "xxxx",
+	"email": "xxxx",
+	"department": "xxxx",
+	"position": "xxxx"
+}
+```
+
+> 参数解释
+
+- `token`登录后返回的**token**
+- `number_of_pages`页数
+- `project_key`邮箱管理项目key
+- `email` 更新后的邮箱
+- `department`更新后的部门
+- `position`更新后的职位
+
+> 返回状态码
+
+- 169：未知错误，请查看日志(๑•̀ㅂ•́)و✧
+
+- 200：返回详情内容，**会有多个数组的集合**
+
+  ```json
+  {
+  	"message": [{
+  		"email_info_id": 984,
+  		"email": "jun71@so.org",
+  		"department": "\u7f51\u7edc\u7ba1\u7406(Helpdesk)",
+  		"position": "\u623f\u8def"
+  	}, {
+  		"email_info_id": 8765,
+  		"email": "jun71@xiulantao.cn",
+  		"department": "\u8239\u8236\u5de5\u7a0b\u5e08",
+  		"position": "\u9648\u8def"
+  	}],
+  	"number": 2,
+  	"code": 200
+  }
+  ```
+
+  > 参数解释
+
+  - `message`消息内容
+
+    - `email_info_id`打开邮件的用户
+
+    - `email`邮件内容
+    - `department`部门
+    - `position`职位
+
+  - `number`数量
+
+- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+
+- 500：请使用Post请求
+
 - 505：项目不属于你！

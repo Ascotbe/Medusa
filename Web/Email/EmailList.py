@@ -50,13 +50,14 @@ def Upload(request):#上传表格，提取相关数据，测试3W条数据1秒�
                     for row in [row for row in excel_data.rows][1:]:#删除了第一行数据
                         # print(row[0].value, row[1].value)
                         department = str(row[0].value).replace("\n", "")  # 部门
-                        value = str(row[1].value).replace("\n", "")  # 值
+                        position = str(row[1].value).replace("\n", "")  # 职位
+                        value = str(row[2].value).replace("\n", "")  # 值
                         if department != "None" and value != "None":  # 过滤空值
                             # if Department in Excel.keys():  # 判断部门是否在键中
                             #     Excel[Department].append(Value)
                             # else:
                             #     Excel[Department] = [Value]
-                            data_set.append((str(project_key),str(value),str(department)))
+                            data_set.append((str(project_key),str(value),str(position),str(department)))
                         if len(data_set) == 500:  # 500写入一次数据库
                             EmailData().Write(data_set)
                             data_set.clear()  # 写入后清空数据库
@@ -162,7 +163,8 @@ def Query(request):  # 查询邮件全量的数据
                 tmp=EmailInfo().Verification(uid=uid,project_key=project_key)
                 if tmp>0:#验证权限
                     result=EmailData().Query(project_key=project_key,number_of_pages=int(number_of_pages))
-                    return JsonResponse({'message': result, 'code': 200, })
+                    number = EmailData().Statistics(project_key=project_key)
+                    return JsonResponse({'message': result, 'number': number,'code': 200, })
                 else:
                     return JsonResponse({'message': "项目不属于你！", 'code': 505, })
             else:
@@ -173,26 +175,116 @@ def Query(request):  # 查询邮件全量的数据
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
-"""statistics_email_list
+
+"""update_email_data
 {
 
 	"token": "xxxx",
-	"project_key": "xxxx"
+	"project_key": "xxxx",
+	"email_info_id": "xxxx",
+	"email": "xxxx",
+	"department": "xxxx",
+	"position": "xxxx"
 }
 """
-def Statistics(request):#统计邮件列表个数数据
-    RequestLogRecord(request, request_api="statistics_email_list")
+def Update(request):#更新单条数据
+    RequestLogRecord(request, request_api="update_email_data")
     if request.method == "POST":
         try:
             token=json.loads(request.body)["token"]
             project_key = json.loads(request.body)["project_key"]
+            email_info_id = json.loads(request.body)["email_info_id"]
+            email = json.loads(request.body)["email"]
+            department = json.loads(request.body)["department"]
+            position = json.loads(request.body)["position"]
+
             uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询UID
             if uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="statistics_email_list", uid=uid)  # 查询到了在计入
+                UserOperationLogRecord(request, request_api="update_email_data", uid=uid)  # 查询到了在计入
                 tmp = EmailInfo().Verification(uid=uid, project_key=project_key)
                 if tmp > 0:  # 验证权限
-                    result = EmailData().Statistics(project_key=project_key)
-                    return JsonResponse({'message': result, 'code': 200, })
+                    result = EmailData().Update(email_info_id=email_info_id,email=email,department=department,position=position)
+                    if result:
+                        return JsonResponse({'message': "更新成功", 'code': 200, })
+                    else:
+                        return JsonResponse({'message': "更新失败", 'code': 504, })
+                else:
+                    return JsonResponse({'message': "项目不属于你！", 'code': 505, })
+            else:
+                return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
+        except Exception as e:
+            ErrorLog().Write(e)
+            return JsonResponse({'message': "出错了请看报错日志(๑•̀ㅂ•́)و✧", 'code': 169, })
+    else:
+        return JsonResponse({'message': '请使用Post请求', 'code': 500, })
+
+
+"""delete_email_data
+{
+
+	"token": "xxxx",
+	"project_key": "xxxx",
+	"email_info_id": "xxxx"
+}
+"""
+def Delete(request):#删除单条数据
+    RequestLogRecord(request, request_api="delete_email_list")
+    if request.method == "POST":
+        try:
+            token=json.loads(request.body)["token"]
+            project_key = json.loads(request.body)["project_key"]
+            email_info_id = json.loads(request.body)["email_info_id"]
+            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询UID
+            if uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="delete_email_list", uid=uid)  # 查询到了在计入
+                tmp = EmailInfo().Verification(uid=uid, project_key=project_key)
+                if tmp > 0:  # 验证权限
+                    result = EmailData().Delete(email_info_id=email_info_id)
+                    if result:
+                        return JsonResponse({'message': "删除成功", 'code': 200, })
+                    else:
+                        return JsonResponse({'message': "删除失败", 'code': 504, })
+                else:
+                    return JsonResponse({'message': "项目不属于你！", 'code': 505, })
+            else:
+                return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
+        except Exception as e:
+            ErrorLog().Write(e)
+            return JsonResponse({'message': "出错了请看报错日志(๑•̀ㅂ•́)و✧", 'code': 169, })
+    else:
+        return JsonResponse({'message': '请使用Post请求', 'code': 500, })
+
+"""search_email_data
+{
+
+	"token": "xxxx",
+	"number_of_pages": "xxxx",
+	"project_key": "xxxx",
+	"email": "xxxx",
+	"department": "xxxx",
+	"position": "xxxx"
+}
+"""
+def Search(request):#模糊搜索
+    RequestLogRecord(request, request_api="search_email_data")
+    if request.method == "POST":
+        try:
+            token=json.loads(request.body)["token"]
+            project_key = json.loads(request.body)["project_key"]
+            number_of_pages = json.loads(request.body)["number_of_pages"]
+            email = json.loads(request.body)["email"]
+            department = json.loads(request.body)["department"]
+            position = json.loads(request.body)["position"]
+            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询UID
+            if uid != None:  # 查到了UID
+                UserOperationLogRecord(request, request_api="search_email_data", uid=uid)  # 查询到了在计入
+                tmp = EmailInfo().Verification(uid=uid, project_key=project_key)
+                if tmp > 0:  # 验证权限
+                    result = EmailData().Search(project_key=project_key,email=email,department=department,position=position,number_of_pages=int(number_of_pages))
+                    number = EmailData().SearchStatistics(project_key=project_key,email=email,department=department,position=position)
+
+                    return JsonResponse({'message': result, 'number': number,'code': 200, })
+
                 else:
                     return JsonResponse({'message': "项目不属于你！", 'code': 505, })
             else:

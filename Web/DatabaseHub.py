@@ -2312,7 +2312,7 @@ class EmailProject:  # 邮件项目
         except Exception as e:
             ErrorLog().Write(e)
             return False
-    def Updata(self,**kwargs)->bool:#利用主键ID来判断后更新数据
+    def Update(self,**kwargs)->bool:#利用主键ID来判断后更新数据
         uid = kwargs.get("uid")
         project_key= kwargs.get("project_key")#项目唯一关键字，用于判断接收数据所属
         project_name= kwargs.get("project_name")#项目名称
@@ -2423,7 +2423,7 @@ class EmailProject:  # 邮件项目
         except Exception as e:
             ErrorLog().Write(e)
             return False
-    def UpdataRedis(self,**kwargs)->bool:#更新redis id值
+    def UpdateRedis(self,**kwargs)->bool:#更新redis id值
         uid = kwargs.get("uid")
         project_key= kwargs.get("project_key")#项目唯一关键字，用于判断接收数据所属
         redis_id= kwargs.get("redis_id")
@@ -2957,7 +2957,7 @@ class EmailGraph:  # 邮件数据接收
         except Exception as e:
             ErrorLog().Write(e)
             return None
-    def Updata(self, **kwargs):#更新数据
+    def Update(self, **kwargs):#更新数据
         try:
             uid = kwargs.get("uid")  # 用户ID
             project_key = kwargs.get("project_key")  #项目key
@@ -3075,14 +3075,15 @@ class EmailData:  # 邮件管理中的邮箱数据
                                 (email_info_id INTEGER PRIMARY KEY,\
                                 project_key TEXT NOT NULL,\
                                 email TEXT NOT NULL,\
+                                position TEXT NOT NULL,\
                                 department TEXT NOT NULL)")
         except Exception as e:
             ErrorLog().Write(e)
 
     def Write(self, data_set) -> bool or None:  # 写入相关信息
         try:
-            self.cur.executemany("INSERT INTO EmailData(project_key,email,department)\
-                VALUES (?,?,?)", data_set)
+            self.cur.executemany("INSERT INTO EmailData(project_key,email,position,department)\
+                VALUES (?,?,?,?)", data_set)
             # 提交
             self.con.commit()
             self.con.close()
@@ -3090,25 +3091,29 @@ class EmailData:  # 邮件管理中的邮箱数据
         except Exception as e:
             ErrorLog().Write(e)
             return False
-    def Query(self, **kwargs):#项目查询
+    def Query(self, **kwargs):#数据查询
         try:
             project_key = kwargs.get("project_key")  # 用户ID
             number_of_single_pages=100#单页数量
             number_of_pages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
-            self.cur.execute("select email,department from EmailData WHERE project_key=? limit ? offset ?",
+            self.cur.execute("select email_info_id,email,department,position from EmailData WHERE project_key=? limit ? offset ?",
                              (project_key,number_of_single_pages,number_of_pages*number_of_single_pages,))#查询用户相关信息
             result_list = []
             for i in self.cur.fetchall():
                 json_values = {}
-                json_values["email"] = i[0]
-                json_values["department"] = i[1]
+                json_values["email_info_id"] = i[0]
+                json_values["email"] = i[1]
+                json_values["department"] = i[2]
+                json_values["position"] = i[3]
                 result_list.append(json_values)
             self.con.close()
             return result_list
         except Exception as e:
             ErrorLog().Write(e)
             return None
-    def Statistics(self,**kwargs):  # 项目统计
+
+    # 项目统计
+    def Statistics(self,**kwargs):
         try:
             project_key = kwargs.get("project_key")  # 用户ID
             self.cur.execute("SELECT COUNT(1)  FROM EmailData WHERE project_key=?", (project_key,))
@@ -3118,11 +3123,13 @@ class EmailData:  # 邮件管理中的邮箱数据
         except Exception as e:
             ErrorLog().Write(e)
             return None
-    def QueryAll(self, **kwargs):#拉取全量数据
+
+    # 拉取全量数据,在发送邮件中使用，不需要进行岗位数据
+    def SendData(self, **kwargs):
         try:
             project_key = kwargs.get("project_key")  # 用户ID
 
-            self.cur.execute("select email,department from EmailData WHERE project_key=?", (project_key,))#查询用户相关信息
+            self.cur.execute("select email,department from EmailData WHERE project_key=?", (project_key,))  # 查询用户相关信息
             excel = {}  # 创建一个空字典,存储表格数据
             for i in self.cur.fetchall():
                 department=i[1]
@@ -3136,7 +3143,86 @@ class EmailData:  # 邮件管理中的邮箱数据
         except Exception as e:
             ErrorLog().Write(e)
             return None
-class GithubCve:  # GitHub的CVE监控写入表
+    # 更新单条数据
+    def Update(self,**kwargs):
+        try:
+            email_info_id = kwargs.get("email_info_id")
+            email = kwargs.get("email")
+            department = kwargs.get("department")
+            position = kwargs.get("position")
+            self.cur.execute("""UPDATE EmailData SET email=?,department=?,position=? WHERE email_info_id= ?""",
+                             (email, department, position, email_info_id,))
+            # 提交
+            if self.cur.rowcount < 1:  # 用来判断是否更新成功
+                self.con.commit()
+                self.con.close()
+                return False
+            else:
+                self.con.commit()
+                self.con.close()
+                return True
+        except Exception as e:
+            ErrorLog().Write(e)
+            return None
+    # 删除单条数据
+    def Delete(self,**kwargs):
+        try:
+            email_info_id = kwargs.get("email_info_id")
+            self.cur.execute("DELETE FROM EmailData where email_info_id=? ", (email_info_id,))
+            # 提交
+            if self.cur.rowcount < 1:  # 用来判断是否更新成功
+                self.con.commit()
+                self.con.close()
+                return False
+            else:
+                self.con.commit()
+                self.con.close()
+                return True
+        except Exception as e:
+            ErrorLog().Write(e)
+            return None
+    def Search(self,**kwargs):  #模糊查询
+        try:
+            number_of_single_pages=100#单页数量
+            number_of_pages=kwargs.get("number_of_pages")-1#查询第几页
+            project_key = kwargs.get("project_key")
+            email = "%"+kwargs.get("email")+"%"
+            department = "%"+kwargs.get("department")+"%"
+            position = "%" + kwargs.get("position") + "%"
+            self.cur.execute("select email_info_id,email,department,position from EmailData WHERE project_key=? and email LIKE ? and department LIKE ? and position LIKE ? limit ? offset ?",
+                             (project_key,email,department,position,number_of_single_pages,number_of_pages*number_of_single_pages,))
+            result_list = []
+            for i in self.cur.fetchall():
+                json_values = {}
+                json_values["email_info_id"] = i[0]
+                json_values["email"] = i[1]
+                json_values["department"] = i[2]
+                json_values["position"] = i[3]
+                result_list.append(json_values)
+            self.con.close()
+            return result_list
+        except Exception as e:
+            ErrorLog().Write(e)
+            return None
+
+    def SearchStatistics(self, **kwargs):  # 模糊查询统计数量
+        try:
+            project_key = kwargs.get("project_key")
+            email = "%"+kwargs.get("email")+"%"
+            department = "%"+kwargs.get("department")+"%"
+            position = "%" + kwargs.get("position") + "%"
+            self.cur.execute(
+                "select COUNT(1) from EmailData WHERE project_key=? and email LIKE ? and department LIKE ? and position LIKE ?",
+                (project_key,email, department,position,))
+            result=self.cur.fetchall()[0][0]#获取数据个数
+            self.con.close()
+            return result
+        except Exception as e:
+            ErrorLog().Write(e)
+            return None
+
+# GitHub的CVE监控写入表
+class GithubCve:
     def __init__(self,**kwargs):
         try:
             self.cve_id = kwargs.get("id")  # 唯一的ID

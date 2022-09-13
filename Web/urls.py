@@ -144,7 +144,9 @@ urlpatterns = [
     path('api/statistics_email_project_list/', EmailList.StatisticsProject),  # 统计邮件管理项目
     path('api/query_email_project_list/', EmailList.QueryProject),  # 查询邮件管理项目
     path('api/query_email_list/', EmailList.Query),  # 查询邮件管理中的邮箱数据
-    path('api/statistics_email_list/', EmailList.Statistics),  # 统计邮件管理中的邮箱个数
+    path('api/update_email_data/', EmailList.Update),  # 更新邮件管理中的某一条数据
+    path('api/delete_email_data/', EmailList.Delete),  # 删除邮件管理中的某一条数据
+    path('api/search_email_data/', EmailList.Search),  # 邮件管理模糊搜索数据
 
     #项目相关信息
     path('api/medusa_config_info/', Information.ConfigInfo),  # 获取项目相关数据

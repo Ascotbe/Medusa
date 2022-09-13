@@ -87,7 +87,7 @@ def Updata(request):#更新项目数据
                 if email_list_key != "":
                     tmp = EmailInfo().Verification(uid=uid,project_key=email_list_key)#查询获取EmailList数据
                     if int(tmp) > 0:
-                        email_list=EmailData().QueryAll(project_key=email_list_key)
+                        email_list=EmailData().SendData(project_key=email_list_key)
                         if len(email_list)<=0 :#如果EmailList为空，且GoalMailbox为空
                             return JsonResponse({'message': "未传入收件人数据！请检查Key是否有用", 'code': 505, })
                         else:
@@ -106,7 +106,7 @@ def Updata(request):#更新项目数据
                     if project_status:
                         return JsonResponse({'message': "项目已经开启禁止修改，如需修改请停止运行！", 'code': 406, })
                     else:
-                        result=EmailProject().Updata(uid=uid,
+                        result=EmailProject().Update(uid=uid,
                                                     mail_message=base64.b64encode(str(mail_message).encode('utf-8')).decode('utf-8'),
                                                     attachment=attachment,
                                                     project_name=project_name,
@@ -171,7 +171,7 @@ def Run(request):#运行项目
                                                           interval=interval,
                                                           key=project_key,
                                                           task_status=True)  # 调用下发任务
-                        EmailProject().UpdataRedis(uid=uid, project_key=project_key, redis_id = redis_task.task_id)
+                        EmailProject().UpdateRedis(uid=uid, project_key=project_key, redis_id = redis_task.task_id)
                         tmp = EmailProject().ModifyProjectStatus(uid=uid, project_key=project_key, project_status="1")
 
                         if tmp:

@@ -6,12 +6,6 @@
 # linux redis-server /etc/redis/redis.conf
 # git commit -m  "v1.0.0:palm_tree:"
 # pip install python-magic-bin==0.4.14
-import sys
-
-
-from ClassCongregation import fun
-def aasd():
-    myclass = fun()
-
-if __name__ == "__main__":
-    aasd()
+from Web.DatabaseHub import EmailData
+a=EmailData().QueryAll(project_key="1e8AXMAeiRBccG12wtqa")
+print(a)

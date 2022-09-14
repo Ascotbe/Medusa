@@ -134,26 +134,6 @@
 - 500：请使用Post请求
 - 505：项目停止失败！
 
-### 统计邮件项目个数
-
-`/api/email_project_statistics/`
-
-```json
-{
-	"token": "xxx"
-}
-```
-
-> 参数解释
-
-- `token`登录后返回的**token**
-
-> 返回状态码
-
-- 200：返回统计个数
-- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
-- 500：请使用Post请求
-
 ### 邮件内容详情
 
 `/api/email_project_details/`
@@ -277,18 +257,21 @@
   		"compilation_status": "1",
   		"creation_time": "1654076229"
   	}],
+    "number": 2,
   	"code": 200
   }
   ```
 
   > 参数解释
 
-  - `end_time`项目停止接收数据时间
-  - `project_key`项目的key值
-  - `project_status`项目状态，0表示未启动，1表示启动，启动中无法修改项目
-  - `interval`邮件发送间隔
-  - `compilation_status`任务状态，0表示未完成，1表示完成，-1表示运行失败，如果值为1那么就不再能够更新项目内容
-  - `creation_time`创建时间
+  - `message`消息内容
+    - `end_time`项目停止接收数据时间
+    - `project_key`项目的key值
+    - `project_status`项目状态，0表示未启动，1表示启动，启动中无法修改项目
+    - `interval`邮件发送间隔
+    - `compilation_status`任务状态，0表示未完成，1表示完成，-1表示运行失败，如果值为1那么就不再能够更新项目内容
+    - `creation_time`创建时间
+  - `number`数量
 
 - 400：你家页数是负数的？？？？
 
@@ -492,26 +475,6 @@ XXXXXXXXXXXXXXX
 - 603：它实在是太小了，莎酱真的一点感觉都没有o(TヘTo)
 - 604：文件名称冲突啦，请修改后上传o(TヘTo)
 
-### 邮件附件个数统计
-
-`/api/email_attachment_statistical/`
-
-```json
-{
-	"token": "xxx"
-}
-```
-
-> 参数解释
-
-- `token`登录后返回的**token**
-
-> 返回状态码
-
-- 200：返回统计个数
-- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
-- 500：请使用Post请求
-
 ### 邮件附件详情查询
 
 `/api/email_attachment_details/`
@@ -540,16 +503,19 @@ XXXXXXXXXXXXXXX
   		"document_real_name": "AeId9BrGeELFRudpjb7wG22LidVLlJuGgepkJb3pK7CXZCvmM51628131056",
   		"creation_time": "1628131056"
   	}],
+    "number": 1,
   	"code": 200
   }
   ```
 
   > 参数解释
 
-  - `file_name`文件上传的时候的名字，使用base64加密
-  - `file_size`文件大小
-  - `document_real_name`文件本地保存的名字
-  - `creation_time`创建时间
+  - `message`消息内容
+    - `file_name`文件上传的时候的名字，使用base64加密
+    - `file_size`文件大小
+    - `document_real_name`文件本地保存的名字
+    - `creation_time`创建时间
+  - `number`数量
 
 - 400：你家页数是负数的？？？？
 
@@ -1044,30 +1010,6 @@ XXXXXXXXXXXXXXX
 
 - 500：请使用Post请求
 
-- 505：项目不属于你！
-
-### 统计邮件管理中的邮箱个数
-
-`/api/statistics_email_list/`
-
-```json
-{
-	"token": "xxxx",
-	"project_key": "xxxx"
-}
-```
-
-> 参数解释
-
-- `token`登录后返回的**token**
-- `project_key`邮件列表项目key
-
-> 返回状态码
-
-- 169：未知错误，请查看日志(๑•̀ㅂ•́)و✧
-- 200：返回个数
-- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
-- 500：请使用Post请求
 - 505：项目不属于你！
 
 ### 更新邮件管理中的某一条数据

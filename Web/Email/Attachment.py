@@ -86,30 +86,6 @@ def EmailImagePreview (request):#查询加载的文件
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
 
-"""email_attachment_statistical
-{
-	"token": "xxx"
-}
-"""
-def StatisticalMailAttachment(request):#统计邮件附件个数
-    RequestLogRecord(request, request_api="email_attachment_statistical")
-    if request.method == "POST":
-        try:
-            token=json.loads(request.body)["token"]
-            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询UID
-            if uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="email_attachment_statistical", uid=uid)  # 查询到了在计入
-                result=MailAttachment().Quantity(uid=uid)
-                return JsonResponse({'message': result, 'code': 200, })
-            else:
-                return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
-        except Exception as e:
-            ErrorLog().Write(e)
-            return JsonResponse({'message': '自己去看报错日志！', 'code': 169, })
-
-    else:
-        return JsonResponse({'message': '请使用Post请求', 'code': 500, })
-
 """email_attachment_details
 {
 	"token": "xxx",
@@ -127,7 +103,8 @@ def EmailAttachmentQuery(request):#查询附件文件
                 UserOperationLogRecord(request, request_api="email_attachment_details", uid=uid)  # 查询到了在计入
                 if int(number_of_pages)>0:
                     result=MailAttachment().Query(uid=uid,number_of_pages=int(number_of_pages))
-                    return JsonResponse({'message': result, 'code': 200, })
+                    number = MailAttachment().Quantity(uid=uid)
+                    return JsonResponse({'message': result, 'number': number,'code': 200, })
                 else:
                     return JsonResponse({'message': "你家页数是负数的？？？？", 'code': 400, })
             else:

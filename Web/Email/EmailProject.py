@@ -220,30 +220,6 @@ def Stop(request):#运行项目
     else:
         return JsonResponse({'message': '请使用Post请求', 'code': 500, })
 
-
-"""mail_project_statistics
-{
-	"token": "xxx"
-}
-"""
-def Statistics(request):#统计项目个数
-    RequestLogRecord(request, request_api="mail_project_statistics")
-    if request.method == "POST":
-        try:
-            token=json.loads(request.body)["token"]
-            uid = UserInfo().QueryUidWithToken(token)  # 如果登录成功后就来查询UID
-            if uid != None:  # 查到了UID
-                UserOperationLogRecord(request, request_api="mail_project_statistics", uid=uid)  # 查询到了在计入
-                result=EmailProject().Statistics(uid=uid)
-                return JsonResponse({'message': result, 'code': 200, })
-            else:
-                return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
-        except Exception as e:
-            ErrorLog().Write(e)
-            return JsonResponse({'message': "未知错误，请查看日志(๑•̀ㅂ•́)و✧", 'code': 169, })
-    else:
-        return JsonResponse({'message': '请使用Post请求', 'code': 500, })
-
 """email_project_details
 {
 	"token": "xxx",
@@ -305,7 +281,8 @@ def Summary(request):#查询邮件摘要详情
                 UserOperationLogRecord(request, request_api="email_project_summary", uid=uid)  # 查询到了在计入
                 if int(number_of_pages)>0:
                     result=EmailProject().Summary(uid=uid,number_of_pages=int(number_of_pages))
-                    return JsonResponse({'message': result, 'code': 200, })
+                    number = EmailProject().Statistics(uid=uid)
+                    return JsonResponse({'message': result,'number': number, 'code': 200, })
                 else:
                     return JsonResponse({'message': "你家页数是负数的？？？？", 'code': 400, })
             else:

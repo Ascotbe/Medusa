@@ -42,10 +42,10 @@ def GithubQuery(request):#查询github监控数据
                     QueryData["github_id"] = github_id
                 if html_url!="":
                     QueryData["html_url"]=html_url
-                data = {}  # 最终包含个数和当前页数数据
-                data["amount"] =GithubCve().StatisticalData(**QueryData)  # 获取统计个数
-                data["data"] = GithubCve().Query(**QueryData)  # 获取github数据
-                return JsonResponse({'message': data, 'code': 200, })
+
+                number=GithubCve().StatisticalData(**QueryData)  # 获取统计个数
+                result = GithubCve().Query(**QueryData)  # 获取github数据
+                return JsonResponse({'message': result, 'number': number,'code': 200, })
             else:
                 return JsonResponse({'message': "小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧", 'code': 403, })
         except Exception as e:

@@ -34,8 +34,8 @@ from Web.FileAcquisition import Receive,Query
 
 urlpatterns = [
     #用户相关
-    path('api/registered/', Registered.Registered),#注册
-    path('api/login/', User.Login),#登录
+    path('api/registered/', Registered.Registered),  # 注册
+    path('api/login/', User.Login),  # 登录
     path('api/user_info/', User.PersonalInformation),  # 获取个人信息接口
     path('api/update_password/', User.UpdatePassword),  # 更新密码
     path('api/update_show_name/', User.UpdateShowName),  # 更新显示名称
@@ -67,7 +67,7 @@ urlpatterns = [
     path('api/modify_cross_site_script_project/', CrossSiteScript.ModifyProject),  # 用来修改项目生成的文件
     path('api/query_cross_site_script_project/', CrossSiteScript.QueryProject),  # 用来查询跨站脚本项目
     path('api/delete_cross_site_script_project/', CrossSiteScript.DeleteProject),  # 用来删除跨站脚本项目
-    path('api/statistical_cross_site_script_project/', CrossSiteScript.StatisticalCrossSiteScriptProject),#统计用户所有的协同作战项目
+    path('api/statistical_cross_site_script_project/', CrossSiteScript.StatisticalCrossSiteScriptProject),  # 统计用户所有的协同作战项目
     path('api/query_cross_site_script_project_data/', CrossSiteScript.QueryProjectData),  # 用来查询跨站脚本项目接收的数据
     path('api/statistical_cross_site_script_project_data/', CrossSiteScript.StatisticalCrossSiteScriptProjectData),  # 用来查询跨站脚本项目接收的数据
     path('api/query_cross_site_script_project_info/', CrossSiteScript.QueryProjectInfo),  # 用来查询跨站脚本项目详细信息
@@ -84,22 +84,20 @@ urlpatterns = [
     # path('api/apple_app_collection/', CollectionWork.AppleAppCollection),  # IOS搜集下发接口
     # path('api/application_collection_query/', CollectionWork.ApplicationCollectionQuery),  # 应用收集统一查询接口
     #协同作战相关
-    path('api/create_markdown_project/', Markdown.CreateMarkdownProject),#创建协同作战项目
-    path('api/join_markdown_project/', Markdown.JoinMarkdownProject),#加入协同作战项目
-    path('api/query_markdown_project/', Markdown.QueryMarkdownProject),#查询用户所有的协同作战项目
-    path('api/markdown_project_statistical/', Markdown.MarkdownProjectStatistical),#统计用户所有的协同作战项目
-    path('api/save_markdown_data/', Markdown.SaveMarkdownData),#保存协同作战文档
-    path('api/query_markdown_data/', Markdown.QueryMarkdownData),#查询协同作战中文档数据
-    path('api/markdown_image_upload/', Markdown.MarkdownImageUpload),#文档中的上传图片接口
-    path('api/markdown_data_comparison/', Markdown.MarkdownDataComparison),#文档中的数据对比接口
-    path('api/delete_markdown/', Markdown.DeleteMarkdown),# 删除项目使用
+    path('api/create_markdown_project/', Markdown.CreateMarkdownProject),  # 创建协同作战项目
+    path('api/join_markdown_project/', Markdown.JoinMarkdownProject),  # 加入协同作战项目
+    path('api/query_markdown_project/', Markdown.QueryMarkdownProject),  # 查询用户所有的协同作战项目
+    path('api/markdown_project_statistical/', Markdown.MarkdownProjectStatistical),  # 统计用户所有的协同作战项目
+    path('api/save_markdown_data/', Markdown.SaveMarkdownData),  # 保存协同作战文档
+    path('api/query_markdown_data/', Markdown.QueryMarkdownData),  # 查询协同作战中文档数据
+    path('api/markdown_image_upload/', Markdown.MarkdownImageUpload),  # 文档中的上传图片接口
+    path('api/markdown_data_comparison/', Markdown.MarkdownDataComparison),  # 文档中的数据对比接口
+    path('api/delete_markdown/', Markdown.DeleteMarkdown),  # 删除项目使用
     #CVE监控相关
     path('api/github_monitor_search/', Github.GithubQuery),  # GitHub漏洞利用监控数据模糊搜索功能
-    path('api/nist_data_bulk_query/', Nist.NistDataBulkQuery),  #监控首页精简数据查询
-    path('api/nist_data_detailed_query/', Nist.NistDataDetailedQuery),  #单个CVE详情查询
-    path('api/nist_statistics/', Nist.NistStatistics),  # CVE总量数据统计
-    path('api/nist_search/', Nist.NistSearch),  # 模糊搜索接口
-    path('api/nist_search_statistics/', Nist.NistSearchStatistics),  # 模糊搜索接口个数统计
+    path('api/nist_data_bulk_query/', Nist.NistDataBulkQuery),  # Nist全量数据查询
+    path('api/nist_data_detailed_query/', Nist.NistDataDetailedQuery),  # Nist数据中单个CVE详情查询
+    path('api/nist_search/', Nist.NistSearch),  # Nist模糊搜索接口
     #DNSLOG
     path('api/domain_name_system_log/', Data.DNSQuery),  # 获取DNS类型的数据
     path('api/domain_name_system_log_statistics/', Data.DNSStatistics),  # DNS类型数据统计
@@ -121,7 +119,6 @@ urlpatterns = [
     path('api/updata_email_project/', EmailProject.Updata),  # 更新项目数据
     path('api/run_email_project/', EmailProject.Run),  # 启动项目
     path('api/stop_email_project/', EmailProject.Stop),  # 停止项目
-    path('api/email_project_statistics/', EmailProject.Statistics),  # 统计邮件项目个数
     path('api/email_project_details/', EmailProject.Details),  # 邮件内容详情
     path('api/email_project_summary/', EmailProject.Summary),  # 邮件项目内容摘要查询
     re_path(r'^b/().*?/$', ReceiveData.Monitor),  # 邮件接收数据监控
@@ -130,7 +127,6 @@ urlpatterns = [
     path('api/resend_failure_email/', EmailProject.Resend),  # 重新发送发送失败邮件
     path('api/send_test_email/', EmailProject.Test),  # 发送测试邮件
     path('api/email_file_upload/', Attachment.UploadFiles),  # 文件上传
-    path('api/email_attachment_statistical/', Attachment.StatisticalMailAttachment),  # 统计当前用户邮件附件个数
     path('api/email_attachment_details/', Attachment.EmailAttachmentQuery),  # 邮件附件详情
     path('api/email_image_preview/', Attachment.EmailImagePreview),  # 加载预览图片
     path('api/email_receive_data_statistics/', ReceiveData.Statistics),  # 接收数据全量数据统计

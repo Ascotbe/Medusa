@@ -30,9 +30,7 @@
 
   ```json
   {
-  	"message": {
-  		"amount": 2,
-  		"data": [{
+  	"message":  [{
   			"github_id": "349467219",
   			"name": "CVEs",
   			"html_url": "https://github.com/s1vona/CVEs",
@@ -50,24 +48,26 @@
   			"pushed_at": "2021-07-27T23:15:44Z",
   			"forks_count": "0",
   			"watchers_count": "0"
-  		}]
-  	},
+  		}],
+    "number": 2,
   	"code": 200
   }
   ```
 
 > 返回参数解释
 
-- `amount`所有个数数量
-- `data`详细数据，**会有多个数组的集合**
-  - `github_id`任务ID
-  - `name`目标连接
-  - `html_url`项目连接
-  - `created_at`项目创建时间
-  - `updated_at`项目更新时间
-  - `pushed_at`项目推送时间
-  - `forks_count`项目fork数量
-  - `watchers_count`项目star数量
+- 200：返回多个内容
+  - `message`详细数据
+    - `github_id`任务ID
+    - `name`目标连接
+    - `html_url`项目连接
+    - `created_at`项目创建时间
+    - `updated_at`项目更新时间
+    - `pushed_at`项目推送时间
+    - `forks_count`项目fork数量
+    - `watchers_count`项目star数量
+
+  - `number`个数
 
 - 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
 - 404：非法查询哦宝贝！
@@ -75,7 +75,7 @@
 
 -----
 
-### 监控首页数据查询
+### Nist全量数据查询
 
 `/api/nist_data_bulk_query/`CVE监控首页精简数据查询
 
@@ -138,23 +138,34 @@
   		"vendors": "['Gnu', 'Debian']",
   		"products": "['Gzip', 'Debian Linux']"
   	}],
+    "number":3,
   	"code": 200
   }
   ```
 
   > 返回参数解释
 
-  **会有多个数组的集合**
+  - `number` 个数
 
-  - `vulnerability_number`漏洞编号
-  - `v3_base_score`CVSS v3 分数
-  - `v3_base_severity`CVSS v3 分级
-  - `v2_base_score`CVSS v2 分数
-  - `v2_base_severity`CVSS v2 分级
-  - `last_up_date`最后更新时间
-  - `vulnerability_description`漏洞说明
-  - `vendors`开发商名称
-  - `products`产品名称
+  - `message`**会有多个数组的集合**
+
+    - `vulnerability_number`漏洞编号
+
+    - `v3_base_score`CVSS v3 分数
+
+    - `v3_base_severity`CVSS v3 分级
+
+    - `v2_base_score`CVSS v2 分数
+
+    - `v2_base_severity`CVSS v2 分级
+
+    - `last_up_date`最后更新时间
+
+    - `vulnerability_description`漏洞说明
+
+    - `vendors`开发商名称
+
+    - `products`产品名称
 
 - 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
 
@@ -162,35 +173,7 @@
 
 - 503：你家有小于0的页码？
 
-### 首页数据查询个数统计
-
-`/api/nist_statistics/`获取CVE编号数据个数
-
-```json
-{
-	"token": "xxx"
-}
-```
-
-> 参数解释
-
-- `token`登录后返回的**token**
-
-> 返回状态码
-
-- 200：返回查询到的数据，为漏洞个数
-
-  ```json
-  {"message": 76534, "code": 200}
-  ```
-
-- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
-
-- 500：请使用Post请求
-
-
-
-### 单个CVE详情查询
+### Nist数据中单个CVE详情查询
 
 `/api/nist_data_detailed_query/`获取单个详细的CVE编号
 
@@ -453,7 +436,7 @@
 
 - 500：请使用Post请求
 
-### 模糊搜索接口
+### Nist模糊搜索接口
 
 `/api/nist_search/`对于严重性等级筛选
 
@@ -520,14 +503,15 @@
   		"vendors": "['Microsoft']",
   		"products": "['Windows 2000']"
   	}],
+    "number": 4,
   	"code": 200
   }
   ```
   
   > 返回参数解释
   
-  - `total`该等级的漏洞个数
-  - `data`里面存在当前页面100个数据，数据参数解释如下
+  - `number`该等级的漏洞个数
+  - `message`里面存在当前页面100个数据，数据参数解释如下
     - `vulnerability_number`漏洞编号
     - `v3_base_score`CVSS v3 分数
     - `v3_base_severity`CVSS v3 分级
@@ -544,30 +528,4 @@
 
 - 503：你家有小于1的页码？
 
-- 505：咋了？查询不知道传数据吗？
-
-### 模糊搜索接口个数统计
-
-`/api/nist_search_statistics/`
-
-```json
-{
-	"token": "xxx",
-	"severity":"xxxx",
-	"key":"xxxx"
-}
-```
-
-> 参数解释
-
-- `token`登录后返回的**token**
-- `severity`严重性等级，可传入参数：NONE、LOW、MEDIUM、HIGH、CRITICAL
-- `key`传入你查询的关键字
-
-> 返回状态码
-
-- 200：返回查询到的全部个数
-
-- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
-- 500：请使用Post请求
 - 505：咋了？查询不知道传数据吗？

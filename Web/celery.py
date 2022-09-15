@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
 import os
-from config import github_cve_monitor_job_time,hardware_info_monitor_job_time,nist_update_job_time
+from config import github_cve_monitor_job_time,hardware_info_monitor_job_time,nist_update_job_time,ding_talk_job_time
 from celery import Celery
 from celery.schedules import crontab,timedelta
 from django.conf import settings
@@ -38,6 +38,10 @@ app.conf.beat_schedule = {
         'NistMonitor': {
             'task': 'Web.CVE.NistMonitoring.Update.Download',
             'schedule': timedelta(seconds=int(nist_update_job_time)),
+        },
+        'DingTalkBot': {
+            'task': 'Web.Notification.DingTalk.Bot',
+            'schedule': timedelta(seconds=int(ding_talk_job_time)),
         }
 
 }

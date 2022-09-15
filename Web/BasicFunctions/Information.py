@@ -113,9 +113,7 @@ def ConfigUpdate(request):#更新数据
                     # 这边填写你当前服务器的域名，IP也行包括端口，用户生成POC使用
                     "hardware_info_monitor_job_time": hardware_info_monitor_job_time,  # 机器硬件监控配置工作间隔
                     "portable_execute_file_size": portable_execute_file_size,  # WEB工具栏配置默认20M大小
-
                     "domain_name_system_address": domain_name_system_address,  # 用户用来接收数据的DNSLOG域名
-
                     "nist_update_job_time": nist_update_job_time,  # Nist数据配置工作间隔，网站每2小时更新一次数据
                     "nist_update_banner": nist_update_banner,  # 是否开启下载横幅提示，默认关闭
                     "file_acquisition_size_max": file_acquisition_size_max,  # 文件获取相关，文件接收最大值，过大文件不接受,默认文件100M

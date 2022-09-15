@@ -15,9 +15,9 @@ def main():
             "forget to activate a virtual environment?"
         ) from exc
     execute_from_command_line(sys.argv)
-
-def InitialConfiguration():  # 先判断是否有数据，如果没有就写入并生成config文件，如果有就pass
-    if Config().Statistics():#如果没有数据
+# 先判断是否有数据，如果没有就写入并生成config文件，如果有就pass
+def InitialConfiguration():
+    if Config().Statistics():  # 如果没有数据
 
         data = {
             # 可以修改
@@ -31,9 +31,7 @@ def InitialConfiguration():  # 先判断是否有数据，如果没有就写入�
             "cross_site_script_uses_domain_names": "127.0.0.1:1234",  # 这边填写你当前服务器的域名，IP也行包括端口，用户生成POC使用
             "hardware_info_monitor_job_time": 20,  # 机器硬件监控配置工作间隔
             "portable_execute_file_size": 20480,  # WEB工具栏配置默认20M大小
-
             "domain_name_system_address": "dnslog.ascotbe.com",  # 用户用来接收数据的DNSLOG域名
-
             "nist_update_job_time": 7200,  # Nist数据配置工作间隔，网站每2小时更新一次数据
             "nist_update_banner": False,  # 是否开启下载横幅提示，默认关闭
             "file_acquisition_size_max": 10240000,  # 文件获取相关，文件接收最大值，过大文件不接受,默认文件100M
@@ -45,10 +43,11 @@ def InitialConfiguration():  # 先判断是否有数据，如果没有就写入�
             "third_party_mail_user": "ascotbe@163.com",  # 第三方用户名
             "third_party_mail_pass": "hello_medusa",  # 第三方口令
             "email_bot": "",  # 消息推送邮件
-            "ding_talk_bot_token": ""  # 消息推送，钉钉密钥
+            "ding_talk_bot_token": "",  # 消息推送，钉钉密钥
+            "ding_talk_job_time": 7200  # 消息推送，钉钉工作间隔
         }
         fixed_data = {  # 禁止修改
-            "version": "v1.0.159",  # 版本号
+            "version": "v1.0.181",  # 版本号
             "redis_host": "localhost",  # 连接redis的地址，默认本地
             "redis_port": "6379",  # redis连接端口，默认6379
             "redis_db": "6",  # 连接的数据库，默认为6
@@ -58,16 +57,14 @@ def InitialConfiguration():  # 先判断是否有数据，如果没有就写入�
             "local_mail_user": "ascotbe@ascotbe.com",  # 设本地的邮件用户名
         }
         Config().Write(fixed_data=str(fixed_data),data=str(data))
-        all_data = dict(data, **fixed_data)#合并数据
+        all_data = dict(data, **fixed_data)  # 合并数据
         file_data = ""
         for x in all_data:
             if isinstance(all_data[x], int) or isinstance(all_data[x], bool):
-                #print(x + " = " + str(all_data[x]) + "\n")
-                file_data+=x + " = " + str(all_data[x]) + "\n"
+                file_data += x + " = " + str(all_data[x]) + "\n"
             elif isinstance(all_data[x], str):
-                #print(x + " = " + "\"" + all_data[x] + "\"\n")
-                file_data +=x + " = " + "\"" + all_data[x] + "\"\n"
-        f=open(GetPath().ConfigPath()+"config.py","w+")
+                file_data += x + " = " + "\"" + all_data[x] + "\"\n"
+        f = open(GetPath().ConfigPath()+"config.py","w+")
         f.write(file_data)
         f.close()
 

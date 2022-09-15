@@ -33,7 +33,7 @@ from Web.Email import EmailProject,Attachment,ReceiveData,Graph,EmailList
 from Web.FileAcquisition import Receive,Query
 
 urlpatterns = [
-    #用户相关
+    # 用户相关
     path('api/registered/', Registered.Registered),  # 注册
     path('api/login/', User.Login),  # 登录
     path('api/user_info/', User.PersonalInformation),  # 获取个人信息接口
@@ -42,13 +42,13 @@ urlpatterns = [
     path('api/update_key/', User.UpdateKey),  # 更新Key
     path('api/forget_password/', User.ForgetPassword),  # 忘记密码API
     path('api/upload_avatar/', User.UploadAvatar),  # 上传头像接口
-    #验证码相关
+    # 验证码相关
     path('api/get_verification_code/', VerificationCode.GenerateVerificationCode),  # 获取验证码api
-    #首页相关
+    # 首页相关
     path('api/homepage_default_data/', Home.HomepageDefaultData),  # 首页默认数据
     path('api/homepage_vulnerability_distributiont_data/', Home.HomepageVulnerabilityDistributiontData),  # 首页漏洞分布数据
     path('api/homepage_github_monitor_data/', Home.HomepageGithubMonitorData),  # 首页github监控数据
-    #主动扫描相关
+    # 主动扫描相关
     # path('api/vulnerability_scanning/', VulnerabilityScanning.Scan),#扫描
     # path('api/active_scan_list_query/', VulnerabilityQuery.ActiveScanListQuery),#主动扫描列表查询
     # path('api/scan_information_query/', VulnerabilityQuery.ScanInformationQuery),  #主动扫描关系表
@@ -56,12 +56,12 @@ urlpatterns = [
     # path('api/generate_word/', GenerateReport.GenerateWord),  # 美杜莎报告生成接口
     # path('api/download_word/', GenerateReport.DownloadWord),  # 美杜莎报告下载接口
     # path('api/actively_scan_port_information/', VulnerabilityQuery.ActivelyScanPortInformation),  # 主动扫描中端口信息查询模块
-    #被动扫描相关
-    #path('api/create_proxy_scan_project/', ProxyScan.CreateProxyScanProject),  # 创建代理扫描项目
-    #监控相关
+    # 被动扫描相关
+    # path('api/create_proxy_scan_project/', ProxyScan.CreateProxyScanProject),  # 创建代理扫描项目
+    # 监控相关
     path('api/system_hardware_usage_query/', HardwareInfo.UsageQuery),  # 获取当前机器cpu和内存使用情况
     path('api/system_hardware_initialization/', HardwareInfo.Initialization),  # 获取当前机器基础信息
-    #XSS相关
+    # XSS相关
     re_path(r'^a/().*?/$', CrossSiteScript.Monitor),  # XSS钓鱼数据监控功能
     path('api/create_cross_site_script_project/', CrossSiteScript.GenerateProject),  # 用来创建跨站脚本项目
     path('api/modify_cross_site_script_project/', CrossSiteScript.ModifyProject),  # 用来修改项目生成的文件
@@ -74,14 +74,14 @@ urlpatterns = [
     path('api/save_cross_site_script_template/', TemplateManagement.SaveTemplate),  # 保存模板数据
     path('api/modify_cross_site_script_template/', TemplateManagement.ModifyTemplate),  # 修改模板数据
     path('api/delete_cross_site_script_template/', TemplateManagement.DeleteTemplate),  # 删除模板数据
-    #杂项工具相关
+    # 杂项工具相关
     path('api/antivirus_software_compared/', AntivirusSoftware.Compared),  # 通过获取数据进行对比目标机器的杀软
     path('api/windows_portable_execute_analysis/', PortableExecute.Windows),  # windows文件上传后进行结构处理
     # path('api/linux_executable_linkable_format_analysis/', ExecutableLinkableFormat.Linux),# Linux文件上传后进行结构处理
-    #APP收集相关
+    # APP收集相关
     # path('api/apple_app_collection/', CollectionWork.AppleAppCollection),  # IOS搜集下发接口
     # path('api/application_collection_query/', CollectionWork.ApplicationCollectionQuery),  # 应用收集统一查询接口
-    #协同作战相关
+    # 协同作战相关
     path('api/create_markdown_project/', Markdown.CreateMarkdownProject),  # 创建协同作战项目
     path('api/join_markdown_project/', Markdown.JoinMarkdownProject),  # 加入协同作战项目
     path('api/query_markdown_project/', Markdown.QueryMarkdownProject),  # 查询用户所有的协同作战项目
@@ -91,16 +91,16 @@ urlpatterns = [
     path('api/markdown_image_upload/', Markdown.MarkdownImageUpload),  # 文档中的上传图片接口
     path('api/markdown_data_comparison/', Markdown.MarkdownDataComparison),  # 文档中的数据对比接口
     path('api/delete_markdown/', Markdown.DeleteMarkdown),  # 删除项目使用
-    #CVE监控相关
+    # CVE监控相关
     path('api/github_monitor_search/', Github.GithubQuery),  # GitHub漏洞利用监控数据模糊搜索功能
     path('api/nist_data_bulk_query/', Nist.NistDataBulkQuery),  # Nist全量数据查询
     path('api/nist_data_detailed_query/', Nist.NistDataDetailedQuery),  # Nist数据中单个CVE详情查询
     path('api/nist_search/', Nist.NistSearch),  # Nist模糊搜索接口
-    #DNSLOG
+    # DNSLOG
     path('api/domain_name_system_log/', Data.DNSQuery),  # 获取DNS类型的数据
     path('api/http_domain_name_system_log/', Data.HTTPQuery),  # 获取HTTPS类型的数据
     path('api/get_domain_name_system_log/', Data.GetDNSLog),  # 获取当前用户的DNSLOG值
-    #免杀生成
+    # 免杀生成
     path('api/shellcode_to_trojan/', TrojanInterface.ShellcodeToTrojan),  # 通过shellcode来进行代码生成
     path('api/trojan_data_query/', TrojanInterface.TrojanDataQuery),  # 查询当前用户的数据
     path('api/trojan_data_statistical/', TrojanInterface.TrojanDataStatistical),  # 对当前用户病毒数量统计
@@ -110,7 +110,7 @@ urlpatterns = [
 
     # path('api/get_auto_start/', TrojanInterface.GetAutoStart),# 获取内置类函数中自启动的列表
     # path('api/get_anti_sandbox/', TrojanInterface.GetAntiSandbox),# 获取内置类函数中反沙箱的列表
-    #邮件相关
+    # 邮件相关
     path('api/create_email_project/', EmailProject.Creation),  # 创建邮件项目
     path('api/updata_email_project/', EmailProject.Updata),  # 更新项目数据
     path('api/run_email_project/', EmailProject.Run),  # 启动项目
@@ -140,12 +140,12 @@ urlpatterns = [
     path('api/delete_email_data/', EmailList.Delete),  # 删除邮件管理中的某一条数据
     path('api/search_email_data/', EmailList.Search),  # 邮件管理模糊搜索数据
 
-    #项目相关信息
+    # 项目相关信息
     path('api/medusa_config_info/', Information.ConfigInfo),  # 获取项目相关数据
     path('api/medusa_config_update/', Information.ConfigUpdate),  # 更新项目相关数据
-    #path(api/medusa_update/', Information.Update),  # test网站
+    # path(api/medusa_update/', Information.Update),  # test网站
 
-    #数据接收相关
+    # 数据接收相关
     path('api/file_acquisition_receive/', Receive.Upload),  # 获取其他地方上传的数据
     path('api/file_acquisition_file_pack/', Receive.FilePack),  # 下发任务打包文件
     path('api/file_acquisition_pack_download/', Receive.Download),  # 下载打包文件

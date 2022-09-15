@@ -66,47 +66,28 @@
   		"ip": "211.136.115.198",
   		"creation_time": "1639207086"
   	}],
+    "number": 2,
   	"code": 200
   }
   ```
   
   > 返回参数解释
   
-  每种类型数据独立拥有，其他的值为空
+  - `message`每种类型数据独立拥有
   
-  - `domain_name`DNS类型域名信息
-- `ip`DNS类型请求IP
-  - `creation_time`接收时间
-
+    - `domain_name`DNS类型域名信息
+  
+    - `ip`DNS类型请求IP
+  
+    - `creation_time`接收时间
+  
+  - `number`个数
+  
 - 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
 
 - 500：请使用Post请求
 
 
-
-### DNS类型的数据统计
-
-`/api/domain_name_system_log_statistics/`个数统计
-
-```json
-{
-	"token": ""
-}
-```
-
-> 参数解释
-
-- `token`登录后返回的**token**
-
-> 返回状态码
-
-- 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
-
-- 200：返回数据大小
-
-- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
-
-- 500：请使用Post请求
 
 ### HTTP类型数据查询
 
@@ -137,46 +118,25 @@
   		"response": "SFRUUC8xLjAgMjAwIE9LDQpTZXJ2ZXI6IEJhc2VIVFRQLzAuNiBQeXRob24vMy44LjEwDQpEYXRlOiBTYXQsIDExIERlYyAyMDIxIDA3OjQ0OjIxIEdNVA0KQ29udGVudC10eXBlOiB0ZXh0L2h0bWwNCg==",
   		"creation_time": "1639208661"
   	}],
+    "number": 1,
   	"code": 200
   }
   ```
 
   > 返回参数解释
 
-  每种类型数据独立拥有，其他的值为空
+  - `message`每种类型数据独立拥有
 
-  - `request`HTTP类型请求数据包
-  - `response`HTTP类型请求响应数据包
-  - `creation_time`接收时间
+    - `request`HTTP类型请求数据包
 
-- 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
+    - `response`HTTP类型请求响应数据包
 
-- 500：请使用Post请求
+    - `creation_time`接收时间
 
-
-
-### HTTP类型的数据统计
-
-`/api/http_domain_name_system_log_statistics/`个数统计
-
-```json
-{
-	"token": ""
-}
-```
-
-> 参数解释
-
-- `token`登录后返回的**token**
-
-> 返回状态码
-
-- 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
-
-- 200：返回数据大小
+  - `number`个数
 
 - 403：小宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
 
 - 500：请使用Post请求
 
-### 
+

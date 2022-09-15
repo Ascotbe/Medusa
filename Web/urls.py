@@ -67,9 +67,7 @@ urlpatterns = [
     path('api/modify_cross_site_script_project/', CrossSiteScript.ModifyProject),  # 用来修改项目生成的文件
     path('api/query_cross_site_script_project/', CrossSiteScript.QueryProject),  # 用来查询跨站脚本项目
     path('api/delete_cross_site_script_project/', CrossSiteScript.DeleteProject),  # 用来删除跨站脚本项目
-    path('api/statistical_cross_site_script_project/', CrossSiteScript.StatisticalCrossSiteScriptProject),  # 统计用户所有的协同作战项目
     path('api/query_cross_site_script_project_data/', CrossSiteScript.QueryProjectData),  # 用来查询跨站脚本项目接收的数据
-    path('api/statistical_cross_site_script_project_data/', CrossSiteScript.StatisticalCrossSiteScriptProjectData),  # 用来查询跨站脚本项目接收的数据
     path('api/query_cross_site_script_project_info/', CrossSiteScript.QueryProjectInfo),  # 用来查询跨站脚本项目详细信息
     path('api/read_default_cross_site_script_template/', TemplateManagement.ReadDefaultTemplate),  # 读取默认模板数据
     path('api/read_cross_site_script_template/', TemplateManagement.ReadTemplate),  # 读取用户自定义模板数据
@@ -100,9 +98,7 @@ urlpatterns = [
     path('api/nist_search/', Nist.NistSearch),  # Nist模糊搜索接口
     #DNSLOG
     path('api/domain_name_system_log/', Data.DNSQuery),  # 获取DNS类型的数据
-    path('api/domain_name_system_log_statistics/', Data.DNSStatistics),  # DNS类型数据统计
     path('api/http_domain_name_system_log/', Data.HTTPQuery),  # 获取HTTPS类型的数据
-    path('api/http_domain_name_system_log_statistics/', Data.HTTPStatistics),  # HTTPS类型数据统计
     path('api/get_domain_name_system_log/', Data.GetDNSLog),  # 获取当前用户的DNSLOG值
     #免杀生成
     path('api/shellcode_to_trojan/', TrojanInterface.ShellcodeToTrojan),  # 通过shellcode来进行代码生成

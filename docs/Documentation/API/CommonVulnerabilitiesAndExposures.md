@@ -105,8 +105,8 @@
   		"v2_base_severity": "MEDIUM",
   		"last_up_date": "2016-10-18",
   		"vulnerability_description": "ShowGodLog.dll in SLWebMail 3 on Windows systems allows remote attackers to read arbitrary files by directly calling ShowGodLog.dll with an argument specifying the full path of the target file.",
-  		"vendors": "['Bvrp Software']",
-  		"products": "['Slwebmail']"
+  		"vendors": ["Bvrp Software"],
+  		"products": ["Slwebmail"]
   	}, {
   		"vulnerability_number": "CVE-2003-0268",
   		"v3_base_score": "",
@@ -115,8 +115,8 @@
   		"v2_base_severity": "MEDIUM",
   		"last_up_date": "2016-10-18",
   		"vulnerability_description": "SLWebMail 3 on Windows systems allows remote attackers to identify the full path of the server via invalid requests to DLLs such as WebMailReq.dll, which reveals the path in an error message.",
-  		"vendors": "['Bvrp Software']",
-  		"products": "['Slwebmail']"
+  		"vendors": ["Bvrp Software"],
+  		"products": ["Slwebmail"]
   	}, {
   		"vulnerability_number": "CVE-2003-0269",
   		"v3_base_score": "",
@@ -125,8 +125,8 @@
   		"v2_base_severity": "HIGH",
   		"last_up_date": "2017-07-11",
   		"vulnerability_description": "Buffer overflow in youbin allows local users to gain privileges via a long HOME environment variable.",
-  		"vendors": "['Youbin']",
-  		"products": "['Youbin']"
+  		"vendors": ["Youbin"],
+  		"products": ["Youbin"]
   	}, {
   		"vulnerability_number": "CVE-2003-0367",
   		"v3_base_score": "",
@@ -135,8 +135,8 @@
   		"v2_base_severity": "LOW",
   		"last_up_date": "2019-05-23",
   		"vulnerability_description": "znew in the gzip package allows local users to overwrite arbitrary files via a symlink attack on temporary files.",
-  		"vendors": "['Gnu', 'Debian']",
-  		"products": "['Gzip', 'Debian Linux']"
+  		"vendors": ["Gnu", "Debian"],
+  		"products": ["Gzip", "Debian Linux"]
   	}],
     "number":3,
   	"code": 200
@@ -470,8 +470,8 @@
   		"v2_base_severity": "HIGH",
   		"last_up_date": "2008-09-09",
   		"vulnerability_description": "Windows NT RSHSVC program allows remote users to execute arbitrary commands.",
-  		"vendors": "['Microsoft']",
-  		"products": "['Windows 2000']"
+  		"vendors": ["Microsoft"],
+  		"products": "["Windows 2000"]
   	}, {
   		"vulnerability_number": "CVE-2000-0710",
   		"v3_base_score": "",
@@ -480,8 +480,8 @@
   		"v2_base_severity": "MEDIUM",
   		"last_up_date": "2017-07-12",
   		"vulnerability_description": "The shtml.exe component of Microsoft FrontPage 2000 Server Extensions 1.1 allows remote attackers to determine the physical path of the server components by requesting an invalid URL whose name includes a standard DOS device name.",
-  		"vendors": "['Microsoft']",
-  		"products": "['Frontpage']"
+  		"vendors": ["Microsoft"],
+  		"products": ["Frontpage"]
   	}, {
   		"vulnerability_number": "CVE-2000-0717",
   		"v3_base_score": "",
@@ -490,8 +490,8 @@
   		"v2_base_severity": "MEDIUM",
   		"last_up_date": "2017-10-10",
   		"vulnerability_description": "GoodTech FTP server allows remote attackers to cause a denial of service via a large number of RNTO commands.",
-  		"vendors": "['Goodtech']",
-  		"products": "['Ftp Server Nt 2000']"
+  		"vendors": ["Goodtech"],
+  		"products": ["Ftp Server Nt 2000"]
   	}, {
   		"vulnerability_number": "CVE-2000-0737",
   		"v3_base_score": "",
@@ -500,8 +500,8 @@
   		"v2_base_severity": "MEDIUM",
   		"last_up_date": "2018-10-12",
   		"vulnerability_description": "The Service Control Manager (SCM) in Windows 2000 creates predictable named pipes, which allows a local user with console access to gain administrator privileges, aka the \"Service Control Manager Named Pipe Impersonation\" vulnerability.",
-  		"vendors": "['Microsoft']",
-  		"products": "['Windows 2000']"
+  		"vendors": ["Microsoft"],
+  		"products": ["Windows 2000"]
   	}],
     "number": 4,
   	"code": 200

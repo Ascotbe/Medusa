@@ -3,6 +3,7 @@
 import time
 import sys
 import sqlite3
+import ast
 import json
 from fake_useragent import UserAgent
 from ClassCongregation import GetPath,ErrorLog,randoms
@@ -1802,6 +1803,7 @@ class NistData:#存放Nist发布的CVE数据
                                 v2_base_score TEXT NOT NULL,\
                                 v2_base_severity TEXT NOT NULL,\
                                 last_up_date TEXT NOT NULL,\
+                                published_date TEXT NOT NULL,\
                                 vulnerability_description TEXT NOT NULL,\
                                 vendors TEXT NOT NULL,\
                                 products TEXT NOT NULL,\
@@ -1813,8 +1815,8 @@ class NistData:#存放Nist发布的CVE数据
     def Write(self, data_set:list) -> bool or None:  # 写入相关信息
 
         try:
-            self.cur.executemany("INSERT INTO CommonVulnerabilitiesAndExposures(vulnerability_number,v3_base_score,v3_base_severity,v2_base_score,v2_base_severity,last_up_date,vulnerability_description,vendors,products,raw_data)\
-                VALUES (?,?,?,?,?,?,?,?,?,?)", data_set)
+            self.cur.executemany("INSERT INTO CommonVulnerabilitiesAndExposures(vulnerability_number,v3_base_score,v3_base_severity,v2_base_score,v2_base_severity,last_up_date,published_date,vulnerability_description,vendors,products,raw_data)\
+                VALUES (?,?,?,?,?,?,?,?,?,?,?)", data_set)
             # 提交
             self.con.commit()#只发送数据不结束
             return True
@@ -1826,7 +1828,7 @@ class NistData:#存放Nist发布的CVE数据
         try:
             number_of_single_pages=100#单页数量
             number_of_pages=kwargs.get("number_of_pages")-1#查询第几页，需要对页码进行-1操作，比如第1页的话查询语句是limit 100 offset 0，而不是limit 100 offset 100，所以还需要判断传入的数据大于0
-            self.cur.execute("select vulnerability_number,v3_base_score,v3_base_severity,v2_base_score,v2_base_severity,last_up_date,vulnerability_description,vendors,products  from CommonVulnerabilitiesAndExposures ORDER BY common_vulnerabilities_and_exposures_id DESC limit ? offset ?", (number_of_single_pages,number_of_pages*number_of_single_pages,))#查询用户相关信息
+            self.cur.execute("select vulnerability_number,v3_base_score,v3_base_severity,v2_base_score,v2_base_severity,last_up_date,published_date,vulnerability_description,vendors,products  from CommonVulnerabilitiesAndExposures ORDER BY common_vulnerabilities_and_exposures_id DESC limit ? offset ?", (number_of_single_pages,number_of_pages*number_of_single_pages,))#查询用户相关信息
 
             result_list = []
             for i in self.cur.fetchall():
@@ -1837,9 +1839,16 @@ class NistData:#存放Nist发布的CVE数据
                 json_values["v2_base_score"] = i[3]
                 json_values["v2_base_severity"] = i[4]
                 json_values["last_up_date"] = i[5]
-                json_values["vulnerability_description"] = i[6]
-                json_values["vendors"] = i[7]
-                json_values["products"] = i[8]
+                json_values["published_date"] = i[6]
+                json_values["vulnerability_description"] = i[7]
+                if i[8] != "":
+                    json_values["vendors"] =  ast.literal_eval(i[8])
+                else:
+                    json_values["vendors"] = ""
+                if i[9] != "":
+                    json_values["products"] = ast.literal_eval(i[9])
+                else:
+                    json_values["products"] = ""
                 result_list.append(json_values)
             self.con.close()
             return result_list
@@ -1858,7 +1867,7 @@ class NistData:#存放Nist发布的CVE数据
             return None
     def DetailedQuery(self, **kwargs):  #单个CVE数据具体内容查询
         try:
-            common_vulnerabilities_and_exposures=kwargs.get("common_vulnerabilities_and_exposures")#查询第几页
+            common_vulnerabilities_and_exposures=kwargs.get("common_vulnerabilities_and_exposures")
             self.cur.execute("select raw_data from CommonVulnerabilitiesAndExposures where vulnerability_number=? ORDER BY common_vulnerabilities_and_exposures_id DESC ", (common_vulnerabilities_and_exposures,))
             result=self.cur.fetchall()[0][0]
             self.con.close()
@@ -1883,7 +1892,7 @@ class NistData:#存放Nist发布的CVE数据
 
         try:
             self.cur.executemany(
-                """UPDATE CommonVulnerabilitiesAndExposures SET vulnerability_number = ?,v3_base_score=?,v3_base_severity=?,v2_base_score=?,v2_base_severity=?,last_up_date=?,vulnerability_description=?,vendors=?,products=?,raw_data=? WHERE vulnerability_number=? """,
+                """UPDATE CommonVulnerabilitiesAndExposures SET vulnerability_number = ?,v3_base_score=?,v3_base_severity=?,v2_base_score=?,v2_base_severity=?,last_up_date=?,published_date=?,vulnerability_description=?,vendors=?,products=?,raw_data=? WHERE vulnerability_number=? """,
                 update)
             if self.cur.rowcount < 1:  # 用来判断是否更新成功
                 self.con.commit()
@@ -1911,7 +1920,7 @@ class NistData:#存放Nist发布的CVE数据
             number_of_pages=kwargs.get("number_of_pages")-1#查询第几页
             severity=kwargs.get("severity")#严重程度
             key = "%"+kwargs.get("key")+"%"  # 查询字段
-            self.cur.execute("select vulnerability_number,v3_base_score,v3_base_severity,v2_base_score,v2_base_severity,last_up_date,vulnerability_description,vendors,products  from CommonVulnerabilitiesAndExposures WHERE v3_base_severity=? and (vulnerability_number LIKE ? OR vendors LIKE ? OR products LIKE ? OR vulnerability_description LIKE ?) limit ? offset ?", (severity,key,key,key,key,number_of_single_pages,number_of_pages*number_of_single_pages,))
+            self.cur.execute("select vulnerability_number,v3_base_score,v3_base_severity,v2_base_score,v2_base_severity,last_up_date,published_date,vulnerability_description,vendors,products  from CommonVulnerabilitiesAndExposures WHERE v3_base_severity=? and (vulnerability_number LIKE ? OR vendors LIKE ? OR products LIKE ? OR vulnerability_description LIKE ?) limit ? offset ?", (severity,key,key,key,key,number_of_single_pages,number_of_pages*number_of_single_pages,))
 
             result_list = []
             for i in self.cur.fetchall():
@@ -1922,16 +1931,53 @@ class NistData:#存放Nist发布的CVE数据
                 json_values["v2_base_score"] = i[3]
                 json_values["v2_base_severity"] = i[4]
                 json_values["last_up_date"] = i[5]
-                json_values["vulnerability_description"] = i[6]
-                json_values["vendors"] = i[7]
-                json_values["products"] = i[8]
+                json_values["published_date"] = i[6]
+                json_values["vulnerability_description"] = i[7]
+                if i[8] != "":
+                    json_values["vendors"] = ast.literal_eval(i[8])
+                else:
+                    json_values["vendors"] = ""
+                if i[9] != "":
+                    json_values["products"] = ast.literal_eval(i[9])
+                else:
+                    json_values["products"] = ""
                 result_list.append(json_values)
             self.con.close()
             return result_list
         except Exception as e:
             ErrorLog().Write(e)
             return None
+    def Bot(self,**kwargs):  #消息机器人使用的查询
+        try:
+            time_difference=kwargs.get("time_difference")#时间差
+            now_time=int(time.time())#当前时间
 
+            self.cur.execute("select * from CommonVulnerabilitiesAndExposures WHERE  published_date<=? and published_date>=? ",
+                             (str(now_time),str(now_time-int(time_difference)),))
+
+            result_list = []
+            for i in self.cur.fetchall():
+                json_values = {}
+                json_values["vulnerability_number"] = i[1]
+                json_values["v3_base_score"] = i[2]
+                json_values["v3_base_severity"] = i[3]
+                json_values["v2_base_score"] = i[4]
+                json_values["v2_base_severity"] = i[5]
+                json_values["vulnerability_description"] = i[8]
+                if i[9] != "":
+                    json_values["vendors"] = ast.literal_eval(i[9])
+                else:
+                    json_values["vendors"] = ""
+                if i[10] != "":
+                    json_values["products"] = ast.literal_eval(i[10])
+                else:
+                    json_values["products"] = ""
+                result_list.append(json_values)
+            self.con.close()
+            return result_list
+        except Exception as e:
+            ErrorLog().Write(e)
+            return None
 class DomainNameSystemLog:  # 存放DNSLOG数据
     def __init__(self):
         self.con = sqlite3.connect(GetPath().DatabaseFile())

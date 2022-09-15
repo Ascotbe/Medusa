@@ -1,18 +1,16 @@
 #!/usr/bin/env python
 # _*_ coding: utf-8 _*_
-import json
 import urllib.parse
 import sqlite3
 import logging
 import os
-import re
 import traceback
 import base64
 import random
 import sys
-import time
 from typing import List, Tuple
-import subprocess
+from datetime import datetime, timedelta
+import time
 import hashlib
 from Crypto.Cipher import AES
 import ast
@@ -1032,4 +1030,14 @@ class Config:  # 配置数据表
             return False
 
 
-
+#时间转换为时间戳
+class Time2Unix:
+    def __init__(self):
+        pass
+    def UTC(self,UTC:str):  # UTC时间转换为时间戳，Z代表偏移为0的时区，转换为中国时区
+        #UTC="2020-12-12T16:00:00Z"
+        utc_date = datetime.strptime(UTC, "%Y-%m-%dT%H:%MZ")  # 2020-12-01 03:21:57.330000+00:00
+        local_date = utc_date + timedelta(hours=8)  # 加上时区
+        local_date_srt = datetime.strftime(local_date, "%Y-%m-%d %H:%M")  # 2020-12-01 11:21:57.330000
+        china_time = time.mktime(time.strptime(local_date_srt, "%Y-%m-%d %H:%M"))  # 1606792917.0
+        return int(china_time)

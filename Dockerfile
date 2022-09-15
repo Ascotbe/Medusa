@@ -52,7 +52,7 @@ RUN python3 -m pip install -r Medusa.txt -i https://pypi.tuna.tsinghua.edu.cn/si
 #执行初始化函数
 RUN python3 -c 'from manage import InitialConfiguration;InitialConfiguration()'
 #生成脚本
-RUN echo "#!/bin/bash\npython3 -c 'from Web.CVE.NistMonitoring.NistInitialization import NistInitialization;from Web.ActiveScan import InitializationPlugin;InitializationPlugin.Run();NistInitialization()'\nredis-server /etc/redis/redis.conf &\nservice sendmail start &\npython3 DNSServer.py &\npython3 HTTPServer.py &\ncelery -A Web worker -B --loglevel=info --pool=solo &\nnginx &\ngunicorn Web.wsgi:application --bind 0.0.0.0:9999 --workers 6" > run.sh
+RUN echo "#!/bin/bash\npython3 -c 'from Web.CVE.NistMonitoring.Initialization import Initialization;from Web.ActiveScan import InitializationPlugin;InitializationPlugin.Run();Initialization()'\nredis-server /etc/redis/redis.conf &\nservice sendmail start &\npython3 DNSServer.py &\npython3 HTTPServer.py &\ncelery -A Web worker -B --loglevel=info --pool=solo &\nnginx &\ngunicorn Web.wsgi:application --bind 0.0.0.0:9999 --workers 6" > run.sh
 #启动运行脚本
 RUN chmod +x run.sh
 CMD ./run.sh

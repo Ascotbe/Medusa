@@ -4,7 +4,7 @@ import zipfile
 import json
 from Web.DatabaseHub import NistData
 import urllib3
-from ClassCongregation import GetPath,ErrorLog
+from ClassCongregation import GetPath,ErrorLog,Time2Unix
 from config import nist_update_banner
 import time
 import requests
@@ -80,9 +80,13 @@ def NistUpdateProcessing(zip_file_path,zip_file_data):#更新数据库处理函�
             except:
                 v2_base_severity=""
             try:
-                last_up_date= data["lastModifiedDate"].partition('T')[0]  #最后修改日期
+                last_up_date = Time2Unix().UTC(data["lastModifiedDate"])  # 最后修改日期
             except:
-                last_up_date=""
+                last_up_date = ""
+            try:
+                published_date = Time2Unix().UTC(data["publishedDate"])  # 发布日期
+            except:
+                published_date = ""
             try:
                 configurations_nodes = data["configurations"]["nodes"]
                 vendors=[]#存放供应商
@@ -110,7 +114,7 @@ def NistUpdateProcessing(zip_file_path,zip_file_data):#更新数据库处理函�
             if len(products)==0:
                 products = ""
             data_set.append((vulnerability_number, v3_base_score, v3_base_severity, v2_base_score,
-                            v2_base_severity, last_up_date, vulnerability_description, str(vendors), str(products), str(data)))
+                            v2_base_severity, str(last_up_date),str(published_date), vulnerability_description, str(vendors), str(products), str(data)))
 
         for i in data_set:
             search_result=nist.UniqueInquiry(vulnerability_number=i[0])#获取查询结果

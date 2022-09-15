@@ -4,7 +4,7 @@ import zipfile
 import json
 from Web.DatabaseHub import NistData
 import urllib3
-from ClassCongregation import GetPath, ErrorLog
+from ClassCongregation import GetPath, ErrorLog,Time2Unix
 import datetime
 import time
 import aiohttp
@@ -93,9 +93,13 @@ def NistFirsRunProcessing(zip_file_path, zip_file_data):  # 第一次运行数�
             except:
                 v2_base_severity = ""
             try:
-                last_up_date = data["lastModifiedDate"].partition('T')[0]  # 最后修改日期
+                last_up_date = Time2Unix().UTC(data["lastModifiedDate"])  # 最后修改日期
             except:
                 last_up_date = ""
+            try:
+                published_date = Time2Unix().UTC(data["publishedDate"])  # 发布日期
+            except:
+                published_date = ""
             try:
                 configurations_nodes = data["configurations"]["nodes"]
                 vendors = []  # 存放供应商
@@ -123,7 +127,7 @@ def NistFirsRunProcessing(zip_file_path, zip_file_data):  # 第一次运行数�
             if len(products) == 0:
                 products = ""
             data_set.append((vulnerability_number, v3_base_score, v3_base_severity, v2_base_score,
-                             v2_base_severity, last_up_date, vulnerability_description, str(vendors), str(products),
+                             v2_base_severity, str(last_up_date),str(published_date), vulnerability_description, str(vendors), str(products),
                              str(data)))
             if len(data_set) == 500:  # 500写入一次数据库
                 nist.Write(data_set)
@@ -150,7 +154,7 @@ def InitialVerification(temp_file_path):  # 验证是否初始化
         return False
 
 
-def NistInitialization():  # 进行初始化处理
+def Initialization():  # 进行初始化处理
     temp_file_path = GetPath().TempFilePath()  # 获取TMP文件路径
     if not InitialVerification(temp_file_path):  # 如果不存在初始化
         print("[ + ]正在初始化CVE数据库，请不要结束进程，强制结束会导致CVE数据库数据不全")

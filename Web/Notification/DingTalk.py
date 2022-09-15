@@ -6,19 +6,20 @@ def Send(**kwargs):
 
     url="https://oapi.dingtalk.com/robot/send?access_token="+ding_talk_bot_token
     data={
-    "at": {
-            "atMobiles":[
-                ""
-            ],
-            "atUserIds":[
-                ""
-            ],
-            "isAtAll": False
-        },
-        "text": {
-            "content":"消息推送：\n"+message
-        },
-        "msgtype":"text"
+            "msgtype": "markdown",
+            "markdown": {
+                "title": "消息推送",
+                "text": message
+            },
+            "at": {
+                "atMobiles": [
+                    ""
+                ],
+                "atUserIds": [
+                    ""
+                ],
+                "isAtAll": False
+            }
     }
     headers = {
             'Accept-Encoding': 'gzip, deflate',
@@ -34,9 +35,3 @@ def Send(**kwargs):
 
 
 
-
-Send(message="""
-　 ·“文本与图标” \n
-　　 顾名思义，这项是设置解压时的提醒信息与解压包图标的。“自解压文件窗口标题”将出现在解压时的标题栏中，而“显示的文本”会出现在 RAR 的解压提示处。 \n
-　　 ·“许可” 这一项就是每次安装软件都能见到的“软件许可协议”，把你需要的内容填进去就行了，要是你愿意，还可以把软件的功能介绍放在这里。 \n
-经过这么几步后，其余再按照默认设置，自动安装包就做完了。\n""")

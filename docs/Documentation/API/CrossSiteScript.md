@@ -82,17 +82,22 @@
   		"file_name": "Ks1ZM",
   		"creation_time": "1628208943"
   	}],
+    "number": 2,
   	"code": 200
   }
   ```
 
   > 返回参数解释
 
-  **会有多个数组的集合**
+  - `message` **会有多个数组的集合**
 
-  - `project_name`项目名称
-  - `file_name`文件名称
-  - `creation_time`创建时间
+    - `project_name`项目名称
+
+    - `file_name`文件名称
+
+    - `creation_time`创建时间
+
+  - `number`个数
 
 - 403：嘿~宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
 
@@ -141,21 +146,30 @@
   		"request_method": "GET",
   		"data_pack": "eydsb2NhdGlvbic6ICdmaWxlOi8vL1VzZXJzL3VzZXIvRGVza3RvcC90ZXN0Lmh0bWwnLCAndG9wbG9jYXRpb24nOiAnZmlsZTovLy9Vc2Vycy91c2VyL0Rlc2t0b3AvdGVzdC5odG1sJywgJ2Nvb2tpZSc6ICcnLCAnb3BlbmVyJzogJycsICdyZWZlcnJlcic6ICcnLCAndGl0bGUnOiAnJ30="
   	}],
+    "number": 2,
   	"code": 200
   }
   ```
 
   > 返回参数解释
 
-  **会有多个数组的集合**
+  - `message` **会有多个数组的集合**
 
-  - `headers`受害者请求头数据，需要base64解密
-  - `project_associated_file_name`文件名称
-  - `ip`受害者IP
-  - `full_url`受害者请求完整路径
-  - `creation_time`受害者请求连接
-  - `request_method`请求方式
-  - `data_pack`请求数据包，需要base64解密
+    - `headers`受害者请求头数据，需要base64解密
+
+    - `project_associated_file_name`文件名称
+
+    - `ip`受害者IP
+
+    - `full_url`受害者请求完整路径
+
+    - `creation_time`受害者请求连接
+
+    - `request_method`请求方式
+
+    - `data_pack`请求数据包，需要base64解密
+
+  - `number`个数
 
 - 403：嘿~宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
 
@@ -360,58 +374,6 @@
 - 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
 - 500：请使用Post请求
 - 501：模板更新失败
-
-### 统计跨站脚本钓鱼项目个数
-
-`/api/statistical_cross_site_script_project/`
-
-```json
-{
-	"token": "xxx"
-}
-```
-
->参数解释
-
-- `token`登录后返回的**token**
-
-> 返回状态码
-
-- 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
-
-- 200：返回个数
-
-- 403：嘿~宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
-
-- 500：请使用Post请求
-
-### 统计跨站脚本钓鱼项目中数据
-
-`/api/statistical_cross_site_script_project_data/`
-
-```json
-{
-	"token": "xxx",
-	"project_associated_file_name":""
-}
-```
-
->参数解释
-
-- `token`登录后返回的**token**
-- `project_associated_file_name`项目中生成的特殊文件名，也就是**/api/query_cross_site_scripting_project/**接口传回的**file_name**数据
-
-> 返回状态码
-
-- 169：呐呐呐！莎酱被玩坏啦(>^ω^<)
-- 200：返回个数
-- 403：嘿~宝贝这是非法查询哦(๑•̀ㅂ•́)و✧
-- 404：你没有查询这个项目的权限哦宝贝~
-- 500：请使用Post请求
-
-
-
-
 
 ### 删除用户自定义模板数据
 

@@ -356,3 +356,28 @@ imap               CNAME              默认              mail.ascotbe.com
 smtp               CNAME              默认              mail.ascotbe.com
 ```
 
+## Docker容器意外停止重启
+
+首先运行命令查看所有容器内容
+
+```
+docker container ls -a
+```
+
+然后找到名字是medusa的容器，使用CONTAINER ID 运行
+
+```
+docker container start XXXXXXXX
+```
+
+测试样例
+
+```bash
+root@medusa:~# docker container ls -a
+CONTAINER ID   IMAGE        COMMAND                 CREATED          STATUS                        PORTS     NAMES
+bf3c2e9a9234   medusa_web   "/bin/sh -c ./run.sh"   28 minutes ago   Exited (137) 10 minutes ago             medusa2
+f4effd7ce8bb   medusa_web   "/bin/sh -c ./run.sh"   5 weeks ago      Up 10 minutes                           medusa
+root@medusa:~# docker container start f4effd7ce8bb
+f4effd7ce8bb
+```
+

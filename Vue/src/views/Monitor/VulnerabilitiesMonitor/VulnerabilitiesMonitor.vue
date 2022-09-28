@@ -10,7 +10,7 @@
     </div>
    </a-col>
     <a-col :span='24'>
-      <a-col :xs="24" :lg="18" style="background: #fff;">
+      <a-col :xs="24" :lg="18" style="background: #fff;" class="cve-header">
         <a-form  class="search-form" :form="form">
           <a-col :xs="24" :lg="8">
             <a-form-item>
@@ -39,7 +39,7 @@
             <a-form-item>
               <div style="text-align:left;">
                 <a-button @click="handleReset" style="margin-right:4px">重置</a-button>
-                <a-button type="primary" @click="handleNistQuery">查询</a-button>
+                <a-button type="primary" class="cve-header-btn" @click="handleNistQuery">查询</a-button>
               </div>
             </a-form-item>
           </a-col>
@@ -60,8 +60,8 @@
     </a-col>
 
     <a-col :span="24" >
-      <Card name="">
-        <Tables
+      <Card name="" class="cve-card">
+        <Tables class="vulnerability_table"
           :loading='loading'
           :columns="columns"
           :tableData="data"
@@ -153,7 +153,7 @@ export default {
         //   dataIndex: "v2_base_score",
         //   key: "v2_base_score",
         // },
-       
+
       ],
       data: [],
       total: 0,
@@ -305,10 +305,10 @@ export default {
       return text ? <a-tag color={color}>{type === 'v2'?record.v2_base_score:record.v3_base_score}{text} </a-tag > : <a-tag color={color}>N/A</a-tag>
     },
     handleRenderVendorsAndProducts (text, record, index) {
-      let arr = text ? eval('(' + text + ')') : []
-      let dom = ''
-      if (arr.length > 0) {
-        arr = Array.from(new Set(arr))
+        let arr = text[0] ? text[0].split(',') : []
+        let dom = ''
+        if (arr.length > 0) {
+      //   arr = Array.from(new Set(arr))
         dom = arr.map((item) => {
           return <a-tag color="green" v-on:click={() => {
             this.handleClickVendorsAndProducts(item)//暂时没用
@@ -321,9 +321,9 @@ export default {
       console.log(item)
     },
     handleRenderVulnerabilityNumber (text, record, index) {
-      return <a-tag color="cyan" v-on:click={() => {
-        this.handleClickVulnerabilityNumber(text)
-      }}>{text}<br /></a-tag>
+      return <span  style=" font-weight: 700;color: #3c8dbc;cursor: pointer;"  color="cyan" v-on:click={() => {
+        this.handleClickVulnerabilityNumber(text||'')
+      }}>{text||''}<br /></span>
     },
     handleClickVulnerabilityNumber (item) {
       const _this = this
@@ -337,6 +337,50 @@ export default {
 }
 </script>
 
+<style lang="scss">
+.cve-card{
+  border-top: 3px solid #2b4049;
+  margin-bottom: 20px;
+  color: #2b4049;
+  box-shadow: 0 1px 1px rgb(0 0 0 / 10%);
+  .ant-card-body{
+    padding:0;
+  }
+
+}
+.vulnerability_table{
+  table>thead>tr>th {
+    //border-bottom: 2px solid #f4f4f4;
+    background-color: #fff;
+  }
+  tr.ant-table-expanded-row{
+    background-color: #fff;
+    td{
+      border-top: 0;
+    }
+  }
+  .ant-table-thead > tr > th, .ant-table-tbody > tr > td{
+    padding: 8px 8px;
+    color: #2b4049;
+    font-size: 14px;
+    font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif;
+    //border-top: 1px solid #e8e8e8;
+  }
+  .ant-table-row{
+     td{
+      border-bottom: 0;
+    }
+  }
+
+  .ant-table-tbody > tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td {
+    background: #fff;
+  }
+
+  .ant-table-fixed{
+    width: calc(100% - 60px)!important;
+  }
+}
+</style>
 <style lang="scss" scoped>
 .myicon {
   text-align: left;
@@ -350,4 +394,17 @@ export default {
 .search-form .ant-form-item {
   margin-bottom: 0;
 }
+.cve-header{
+  position: relative;
+  border-radius: 3px;
+  background: #ffffff;
+  border-top: 3px solid #d2d6de;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 1px rgb(0 0 0 / 10%);
+  .cve-header-btn{
+    background-color: #394d55;
+    border: 1px solid #394d55;
+  }
+}
+
 </style>

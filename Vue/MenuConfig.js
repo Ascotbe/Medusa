@@ -48,7 +48,7 @@ const MenuConfig = () => {
       key: "Monitor",
       iconType: "icon-jiankong",
       msg: "监控页面",
-      show: false,
+      show: true,
       children: [
         {
           key: "GitHubMonitor",

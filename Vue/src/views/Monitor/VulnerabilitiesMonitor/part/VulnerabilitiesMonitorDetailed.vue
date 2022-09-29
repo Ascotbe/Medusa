@@ -8,11 +8,19 @@
   >
     <a-col :xs="24" :lg="16">
       <a-col :xs="24">
-        <Card :name="vulnerabilityCode" :bodyStyle="bodyStyle">
+          <section class="content-header">
+              <h1>{{vulnerabilityCode}}</h1>
+          </section>
+        <Card :bodyStyle="bodyStyle" :showTitle="false" detailCard>
           <div style="text-align:left">
             <span style="font-size:24px; color:#51c51a">{{description.head}}</span>
             {{description.body}}
           </div>
+          </Card>
+      </a-col>
+          <a-col :xs="24">
+<!--          <Card :bodyStyle="bodyStyle" :showTitle="false" detailCard>-->
+              <div class="card-tab">
           <a-tabs @activeKey="activeKey" style="text-align:left;">
             <a-tab-pane v-for="(item,i) in tabs" :key="i">
               <span slot="tab">
@@ -44,52 +52,62 @@
               <a-col :xs="24" :lg="16">
                 <a-col :xs="24" :lg="12" v-for="(value,key,index) in (item.cvssV)" :key="index">
                   <div class="cvssV">
-                    <span>{{key}}</span>
-                    <a-tag :color="handleColor(value)">
-                      <span>{{value}}</span>
-                    </a-tag>
+                      <span class="panel">
+                          <span>{{key}}</span>
+                            <a-tag :color="handleColor(value)">
+                              <span>{{value}}</span>
+                            </a-tag>
+                      </span>
                   </div>
                 </a-col>
               </a-col>
             </a-tab-pane>
           </a-tabs>
-        </Card>
+              </div>
+<!--        </Card>-->
       </a-col>
       <a-col :xs="24">
-        <Card :name="'References'" :headStyle="bodyStyle">
+        <Card :name="'References'" :headStyle="bodyStyle" detailCard>
           <!-- <a-icon slot="extraCard"  type="minus" /> -->
           <Tables
+           bordered
+            class="references_table"
             :columns="columns"
             :tableData="data"
             :rowKey="`name`"
-            :scrollTable="{x:1000,y:400}"
             :total="total"
           />
         </Card>
       </a-col>
       <a-col :xs="24">
-        <Card :name="'Configurations'" :headStyle="bodyStyle">
+        <Card :name="'Configurations'" :headStyle="bodyStyle" detailCard>
           <Configurations :configurations="configurations" />
         </Card>
       </a-col>
     </a-col>
     <a-col :xs="24" :lg="8">
       <a-col :xs="24">
-        <Card :name="'Information'" :bodyStyle="bodyStyle" style="textAlign:left">
-          <a-col>Published :{{information.Published }}</a-col>
-          <a-col>Updated :{{information.Updated }}</a-col>
+        <Card  :bodyStyle="bodyStyle" style="textAlign:left;margin-top:44px" :showTitle="false" detailCard>
+            <div class="content-header" style="padding-left:8px">
+                <h1>Information</h1>
+            </div>
+            <a-col><span class="fontStrong">Published</span> :{{information.Published }}</a-col>
+          <a-col><span class="fontStrong">Updated</span> :{{information.Updated }}</a-col>
           <a-divider />
           <a-col>
-            <a-icon type="export" style="margin-right: 5px" />NVD link :
+            <a-icon type="export" style="margin-right: 5px" />
+              <span class="fontStrong"> NVD link :</span>
             <a :href="information.NVDLink">{{vulnerabilityCode}}</a>
           </a-col>
           <a-col>
-            <a-icon type="export" style="margin-right: 5px" />Mitre link :
+            <a-icon type="export" style="margin-right: 5px" />
+              <span class="fontStrong">Mitre link :</span>
             <a :href="information.MitreLink">{{vulnerabilityCode}}</a>
           </a-col>
           <a-divider />
           <a-col>
-            <a-icon type="unordered-list" style="margin-right: 5px" />JSON object :
+            <a-icon type="unordered-list" style="margin-right: 5px" />
+              <span class="fontStrong">JSON object :</span>
             <a @click="()=>{this.informationVisible= true}">View</a>
           </a-col>
           <a-modal v-model="informationVisible" :footer="null" width="50%">
@@ -98,7 +116,7 @@
         </Card>
       </a-col>
       <a-col :xs="24">
-        <Card :name="'Products Affected'" :bodyStyle="bodyStyle">
+        <Card :name="'Products Affected'" :bodyStyle="bodyStyle" detailCard>
           <!-- <MarkdownPreview /> -->
           <a-col v-for="(items,i) in productsAffected" :key="i" style="text-align:left">
             <a-col style="font-weight: 800">{{items.name}}</a-col>
@@ -131,7 +149,7 @@ export default {
   data () {
     return {
       bodyStyle: {
-        borderTop: '3px solid #51c51a',
+        borderTop: '3px solid #2b4049',
         borderBottom: '0px'
       },
       description: {
@@ -151,7 +169,6 @@ export default {
           title: "Resource",
           dataIndex: "tags",
           key: "tags",
-          width: 300,
           customRender: (text, record, index) => this.handleRenderTags(text, record, index)
         },
       ],
@@ -332,7 +349,61 @@ export default {
 
 }
 </script>
+
+<style lang="scss">
+.card-tab{
+  border-top: 3px solid #2b4049;
+  background-color: #fff;
+  .ant-tabs {
+    .ant-tabs-tab-active.ant-tabs-tab {
+      color: #2b4049;
+    }
+
+    .ant-tabs-ink-bar {
+      background-color: #2b4049;
+    }
+  }
+}
+.cvssV {
+  .panel{
+    color: #333;
+    background-color: #f5f5f5;
+    border-color: #ddd;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+}
+.references_table{
+  table>thead>tr>th {
+    //border-bottom: 2px solid #f4f4f4;
+    background-color: #fff;
+  }
+  .ant-table-thead > tr > th, .ant-table-tbody > tr > td{
+    padding: 8px 8px;
+    color: #2b4049;
+    font-size: 14px;
+    font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif;
+  }
+
+  .ant-table-tbody > tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td {
+    background: #fff;
+  }
+
+  .ant-table-fixed{
+    width: calc(100% - 60px)!important;
+  }
+}
+</style>
 <style lang="scss" scoped>
+a{
+  color: #3c8dbc;
+}
+.content-header{
+  position: relative;
+  text-align: left;
+  font-size: 24px
+}
 .inner {
   text-align: left;
   color: #000;
@@ -348,9 +419,17 @@ export default {
   justify-content: space-between;
   overflow: hidden;
   padding: 6px;
-  border-color: #ddd;
-  border: 1px solid;
+  //border-color: #ddd;
+  //border: 1px solid;
   border-radius: 4px;
   background: #f5f5f5;
+  border: 1px solid #ddd;
+  -webkit-box-shadow: 0 1px 1px rgb(0 0 0 / 5%);
+  box-shadow: 0 1px 1px rgb(0 0 0 / 5%)
 }
+.fontStrong{
+  font-weight: 700;
+}
+
+
 </style>

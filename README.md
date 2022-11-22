@@ -17,9 +17,10 @@
 
 > The project is licensed under `GPL`.Free for non-commercial use.
 >
-> `Web`  Alpha Ver. Online
->
-> Please download the Releases version, the Master branch is reconstructing the front end（Expected to go online by the end of 2022）
+> Due to the lack of front -end, the project restart time is unknown. If you can provide help, please submit the issue
+
+
+
 
 
 #### **[中文文档](https://github.com/Ascotbe/Medusa/blob/master/README.CN.md) | EnglishDocumentation**
